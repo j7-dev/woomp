@@ -22,6 +22,8 @@
  *
  */
 
+use \MGC\Logger\Logger;
+
 class Woomp_Setting {
 
     /**

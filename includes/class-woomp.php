@@ -104,6 +104,7 @@ class Woomp {
 		 * core plugin.
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-woomp-loader.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-woomp-logger.php';
 
 		/**
 		 * The class responsible for defining internationalization functionality
