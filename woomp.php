@@ -1,28 +1,21 @@
 <?php
 
-/**
- * The plugin bootstrap file
+ /**
+ * @link              https://morepower.club
+ * @since             1.0.6
+ * @package           woomp
  *
- * This file is read by WordPress to generate the plugin information in the plugin
- * admin area. This file also includes all of the dependencies used by the plugin,
- * registers the activation and deactivation functions, and defines a function
- * that starts the plugin.
- *
- * @link              #
- * @since             1.0.0
- * @package           Woomp
- *
- * @wordpress-plugin 
- * Plugin Name: 好用版擴充 MorePower Addon for WooCommerce
- * Plugin URI: https://morepower.club/morepower-addon/
- * Description: WooCommerce 好用版擴充，改善結帳流程與可變商品等區塊，讓WooCommerce更符合亞洲人使用習慣。
- * Version: 1.0.5
- * Author: MorePower
- * Author URI: https://morepower.club
- * License: GPL-2.0+
- * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
- * Text Domain: woomp
- * Domain Path: /languages
+ * @wordpress-plugin
+ * Plugin Name:       好用版擴充 MorePower Addon for WooCommerce
+ * Plugin URI:        https://morepower.club/morepower-addon/
+ * Description:        WooCommerce 好用版擴充，改善結帳流程與可變商品等區塊，讓WooCommerce更符合亞洲人使用習慣。
+ * Version:           1.0.6
+ * Author:            MorePower
+ * Author URI:        https://morepower.club
+ * License:           GPL-2.0+
+ * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
+ * Text Domain:       woomp
+ * Domain Path:       /languages
  */
 
 // If this file is called directly, abort.
@@ -35,7 +28,7 @@ if ( ! defined( 'WPINC' ) ) {
  * Start at version 1.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define( 'WOOMP_VERSION', '1.0.5' );
+define( 'WOOMP_VERSION', '1.0.6' );
 
 /**
  * The code that runs during plugin activation.
