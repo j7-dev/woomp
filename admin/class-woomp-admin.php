@@ -122,7 +122,7 @@ class Woomp_Admin {
 	public function add_address_meta ( $order ) {
 		if(get_option( 'wc_woomp_setting_one_line_address', 1 ) === 'yes'){
 			echo '<style>.order_data_column:nth-child(2) .address p:first-child {display: none;}</style>';
-			echo '<p style="font-size: 14px;" id="billingName"><strong>帳單姓名:<br/></strong>'. get_post_meta( $order->id, '_billing_last_name', true ) . get_post_meta( $order->id, '_billing_first_name', true ).'</p>';
+			echo '<p style="font-size: 14px;" id="billingName"><strong>帳單姓名:<br/></strong>'. get_post_meta( $order->get_id(), '_billing_last_name', true ) . get_post_meta( $order->get_id(), '_billing_first_name', true ).'</p>';
 			echo '<p style="font-size: 14px;" id="fullAddress"><strong>帳單地址:<br/></strong><span></span></p>';
 		}
 	}

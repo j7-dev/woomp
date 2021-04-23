@@ -26,6 +26,7 @@ function init_woomp_gateway_cvs() {
 			$this->method_title       = __( '超商取貨付款', 'woomp' );
 			$this->method_description = __( '可將商品送到指定的超商門市，取貨時再進行付款。', 'woomp' );
 			$this->enable_for_methods = $this->get_option( 'enable_for_methods', array() );
+			$this->enable_for_virtual = $this->get_option( 'enable_for_virtual', 'yes' ) === 'yes';
 		  
 			// Load the settings.
 			$this->init_form_fields();
