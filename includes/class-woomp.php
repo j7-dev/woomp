@@ -118,7 +118,8 @@ class Woomp {
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-woomp-admin.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-woomp-setting.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-woomp-product.php';
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-woomp-payment-cvs.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-woomp-payment-cod-clone.php';
+		//require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-woomp-payment-cvs.php';
 
 		/**
 		 * The class responsible for defining all actions that occur in the public-facing

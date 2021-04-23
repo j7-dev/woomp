@@ -1,7 +1,7 @@
 <?php
 
 /**
- * 這支暫時捨棄不用，改以 class-woomp-payment-cod-clone.php 為主
+ * 因為要能支援藍新超取，而 RY 只支援 Woo 內建的貨到付款，所以該外掛把內建的貨到付款名稱改為超商取貨，而這支 class 拿來做原本的貨到付款功能
  */
 
 use Automattic\Jetpack\Constants;
@@ -11,24 +11,24 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // 確保 Woo 外掛有啟用
-if ( ! in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) || get_option( 'wc_woomp_setting_cvs_payment', 1 ) === 'no' ) {
+if ( ! in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) || get_option( 'wc_woomp_setting_cod_payment', 1 ) === 'no' ) {
 	return;
 }
 
-add_action( 'plugins_loaded', 'init_woomp_gateway_cvs', 11 );
-function init_woomp_gateway_cvs() {
-    class WooMP_Payment_CVS extends WC_Payment_Gateway {
+add_action( 'plugins_loaded', 'init_woomp_gateway_cod', 11 );
+function init_woomp_gateway_cod() {
+    class WooMP_Payment_Cod extends WC_Payment_Gateway {
 
 		/**
 		 * Constructor for the gateway.
 		 */
 		public function __construct() {
 	  
-			$this->id                 = 'woomp_cvs_gateway';
+			$this->id                 = 'woomp_cod_gateway';
 			$this->icon               = apply_filters('woocommerce_offline_icon', '');
 			$this->has_fields         = false;
-			$this->method_title       = __( '超商取貨付款', 'woomp' );
-			$this->method_description = __( '可將商品送到指定的超商門市，取貨時再進行付款。', 'woomp' );
+			$this->method_title       = __( '貨到付款', 'woomp' );
+			$this->method_description = __( '收到貨時以現金付款。', 'woomp' );
 			$this->enable_for_methods = $this->get_option( 'enable_for_methods', array() );
 			$this->enable_for_virtual = $this->get_option( 'enable_for_virtual', 'yes' ) === 'yes';
 		  
@@ -60,7 +60,7 @@ function init_woomp_gateway_cvs() {
 				'enabled' => array(
 					'title'   => __( '啓用/停用', 'woomp' ),
 					'type'    => 'checkbox',
-					'label'   => __( '啟用超商取貨付款', 'woomp' ),
+					'label'   => __( '啟用貨到付款', 'woomp' ),
 					'default' => 'yes'
 				),
 				
@@ -68,7 +68,7 @@ function init_woomp_gateway_cvs() {
 					'title'       => __( 'Title', 'woocommerce' ),
 					'type'        => 'text',
 					'description' => __( 'This controls the title for the payment method the customer sees during checkout.', 'woocommerce' ),
-					'default'     => __( '超商取貨付款', 'woomp' ),
+					'default'     => __( '貨到付款', 'woomp' ),
 					'desc_tip'    => true,
 				),
 				
@@ -76,7 +76,7 @@ function init_woomp_gateway_cvs() {
 					'title'       => __( 'Description', 'woocommerce' ),
 					'type'        => 'textarea',
 					'description' => __( 'Payment method description that the customer will see on your checkout.', 'woocommerce' ),
-					'default'     => __( '可將商品送到指定的超商門市，取貨時再進行付款。', 'woomp' ),
+					'default'     => __( '收到貨時以現金付款。', 'woomp' ),
 					'desc_tip'    => true,
 				),
 				
@@ -84,7 +84,7 @@ function init_woomp_gateway_cvs() {
 					'title'       => __( 'Instructions', 'woocommerce' ),
 					'type'        => 'textarea',
 					'description' => __( 'Instructions that will be added to the thank you page and emails.', 'woocommerce' ),
-					'default'     => __( '可將商品送到指定的超商門市，取貨時再進行付款。', 'woomp' ),
+					'default'     => __( '收到貨時以現金付款。', 'woomp' ),
 					'desc_tip'    => true,
 				),
 
@@ -94,13 +94,8 @@ function init_woomp_gateway_cvs() {
 					'class'             => 'wc-enhanced-select',
 					'css'               => 'width: 400px;',
 					'default'           => array(
-											'ry_ecpay_shipping_cvs_711',
-											'ry_ecpay_shipping_cvs_711:3',
-											'ry_ecpay_shipping_cvs_hilife',
-											'ry_ecpay_shipping_cvs_hilife:4',
-											'ry_ecpay_shipping_cvs_family',
-											'ry_ecpay_shipping_cvs_family:5',
-											'ry_newebpay_shipping_cvs:15'
+											'ry_ecpay_shipping_home_ecan:7',
+                                            'ry_ecpay_shipping_home_tcat:6'
 										),
 					'description'       => __( 'If COD is only available for certain methods, set it up here. Leave blank to enable for all methods.', 'woocommerce' ),
 					'options'           => $this->load_shipping_method_options(),
@@ -164,7 +159,7 @@ function init_woomp_gateway_cvs() {
 		private function is_accessing_settings() {
 			if ( is_admin() ) {
 				// phpcs:disable WordPress.Security.NonceVerification
-				if ( ! isset( $_REQUEST['section'] ) || 'woomp_cvs_gateway' !== $_REQUEST['section'] ) {
+				if ( ! isset( $_REQUEST['section'] ) || 'woomp_cod_gateway' !== $_REQUEST['section'] ) {
 					return false;
 				}
 				// phpcs:enable WordPress.Security.NonceVerification
@@ -325,16 +320,24 @@ function init_woomp_gateway_cvs() {
   	}
 }
 
-add_filter( 'woocommerce_payment_gateways', 'woomp_cvs_add_to_gateways' );
-function woomp_cvs_add_to_gateways( $gateways ) {
-	$gateways[] = 'WooMP_Payment_CVS';
+add_filter( 'woocommerce_payment_gateways', 'woomp_cod_add_to_gateways' );
+function woomp_cod_add_to_gateways( $gateways ) {
+	$gateways[] = 'WooMP_Payment_Cod';
 	return $gateways;
 }
 
-add_filter( 'plugin_action_links_woomp', 'woomp_cvs_gateway_plugin_links' );
-function woomp_cvs_gateway_plugin_links( $links ) {
+add_filter( 'plugin_action_links_woomp', 'woomp_cod_gateway_plugin_links' );
+function woomp_cod_gateway_plugin_links( $links ) {
 	$plugin_links = array(
-		'<a href="' . admin_url( 'admin.php?page=wc-settings&tab=checkout&section=woomp_cvs_gateway' ) . '">' . __( '設定', 'woomp' ) . '</a>'
+		'<a href="' . admin_url( 'admin.php?page=wc-settings&tab=checkout&section=woomp_cod_gateway' ) . '">' . __( '設定', 'woomp' ) . '</a>'
 	);
 	return array_merge( $plugin_links, $links );
+}
+
+add_filter( 'woocommerce_gateway_method_title', 'change_cod_payment_gateway_title', 100, 2 );
+function change_cod_payment_gateway_title( $title, $payment ){
+    if( $payment->id === 'cod' ) {
+        $title = __("超商取貨付款", "woomp");
+    }
+    return $title;
 }

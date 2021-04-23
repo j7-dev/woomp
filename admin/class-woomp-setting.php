@@ -102,11 +102,11 @@ class Woomp_Setting {
                 'default'  => 'yes',
                 'std' => 'yes'
             ),
-            'cvs_payment' => array(
-                'name'  => __( '新增超商取貨付款方式', 'woomp' ),
+            'cod_payment' => array(
+                'name'  => __( '新增取代貨到付款方式', 'woomp' ),
                 'type'  => 'checkbox',
-                'desc'  => __( '開啟此選項以新增超商取貨付款方式', 'woomp' ),
-                'id'    => 'wc_woomp_setting_cvs_payment',
+                'desc'  => __( '開啟此選項以取代貨到付款方式', 'woomp' ),
+                'id'    => 'wc_woomp_setting_cod_payment',
                 'class' => 'toggle',
                 'desc_tip' => true,
                 'default'  => 'yes',
@@ -190,7 +190,7 @@ class Woomp_Setting {
             .form-table td fieldset label[for=wc_woomp_setting_billing_country_pos],
             .form-table td fieldset label[for=wc_woomp_setting_tw_address],
             .form-table td fieldset label[for=wc_woomp_setting_one_line_address],
-            .form-table td fieldset label[for=wc_woomp_setting_cvs_payment],
+            .form-table td fieldset label[for=wc_woomp_setting_cod_payment],
             .form-table td fieldset label[for=wc_woomp_setting_product_variations_ui] {
                 margin-top: 0!important;
                 margin-left: -10px!important;
@@ -201,7 +201,7 @@ class Woomp_Setting {
             legend + label[for=wc_woomp_setting_billing_country_pos]:after,
             legend + label[for=wc_woomp_setting_tw_address]:after,
             legend + label[for=wc_woomp_setting_one_line_address]:after,
-            legend + label[for=wc_woomp_setting_cvs_payment]:after,
+            legend + label[for=wc_woomp_setting_cod_payment]:after,
             legend + label[for=wc_woomp_setting_product_variations_ui]:after {
                 content: '停用 / 啟用';
                 margin-left: 10px;
@@ -214,7 +214,7 @@ class Woomp_Setting {
                 $('#wc_woomp_setting_billing_country_pos').after('<label for="wc_woomp_setting_billing_country_pos">Toggle</label>')
                 $('#wc_woomp_setting_tw_address').after('<label for="wc_woomp_setting_tw_address">Toggle</label>')
                 $('#wc_woomp_setting_one_line_address').after('<label for="wc_woomp_setting_one_line_address">Toggle</label>')
-                $('#wc_woomp_setting_cvs_payment').after('<label for="wc_woomp_setting_cvs_payment">Toggle</label>')
+                $('#wc_woomp_setting_cod_payment').after('<label for="wc_woomp_setting_cod_payment">Toggle</label>')
                 $('#wc_woomp_setting_product_variations_ui').after('<label for="wc_woomp_setting_product_variations_ui">Toggle</label>')
             })
         </script>
