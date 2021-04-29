@@ -252,6 +252,8 @@ if ( ! class_exists( 'WooMP_Checkout' ) ) {
 			add_action( 'wp_enqueue_scripts', array( __CLASS__, 'load_scripts' ), 20 );
 		}
 
+		
+
 		/**
 		 * 根據運送方式顯示資訊
 		 */
@@ -293,6 +295,44 @@ if ( ! class_exists( 'WooMP_Checkout' ) ) {
 			<?php
 		}
 
+		public function set_shipping_field($fields) {
+			$shipping_method = array(
+				'ry_ecpay_shipping_cvs_711:3',
+				'ry_ecpay_shipping_cvs_hilife:4',
+				'ry_ecpay_shipping_cvs_family:5',
+				'ry_newebpay_shipping_cvs:15'
+			);
+
+			foreach ( $shipping_method as $method ) {
+				global $woocommerce;
+				$chosen_methods = WC()->session->get( 'chosen_shipping_methods' );
+				$chosen_shipping = $chosen_methods[0];
+				
+				if ( $chosen_shipping == $method ) {
+					$fields['billing']['billing_postcode']['required'] = false;
+					$fields['billing']['billing_state']['required'] = false;
+					$fields['billing']['billing_city']['required'] = false;
+					$fields['billing']['billing_address_1']['required'] = false;
+					$fields['shipping']['shipping_first_name']['required'] = false;
+					$fields['shipping']['shipping_last_name']['required'] = false;
+				}
+			}
+			return $fields;
+		}
+
+		/**
+		 * 地址相關欄位取消必填
+		 */
+		public function disable_checkout_fields_required( $fields ){
+			$fields['billing']['billing_postcode']['required'] = false;
+			$fields['billing']['billing_state']['required'] = false;
+			$fields['billing']['billing_city']['required'] = false;
+			$fields['billing']['billing_address_1']['required'] = false;
+			$fields['shipping']['shipping_first_name']['required'] = false;
+			$fields['shipping']['shipping_last_name']['required'] = false;
+			return $fields;
+		}
+
 		/**
 		 * 修改購買按鈕文字
 		 */
@@ -315,6 +355,7 @@ if( 'yes' === get_option( 'wc_woomp_setting_replace', 1 ) ){
 	add_filter( 'woocommerce_after_checkout_form', array( $checkout, 'set_quantity_update_cart' ) );
 	add_filter( 'woocommerce_after_checkout_form', array( $checkout, 'set_place_button_position' ) );
 	add_filter( 'woocommerce_after_checkout_form', array( $checkout, 'set_shipping_info' ) );
+	add_filter( 'woocommerce_checkout_fields', array( $checkout, 'set_shipping_field' ) );
 }
 
 if( 'yes' === get_option( 'wc_woomp_setting_tw_address', 1 ) ){
