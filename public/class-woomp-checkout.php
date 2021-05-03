@@ -354,7 +354,7 @@ if( 'yes' === get_option( 'wc_woomp_setting_replace', 1 ) ){
 	add_action( 'woocommerce_before_checkout_form', array( $checkout, 'set_cart_in_checkout_page' ) );
 	add_filter( 'woocommerce_after_checkout_form', array( $checkout, 'set_quantity_update_cart' ) );
 	add_filter( 'woocommerce_after_checkout_form', array( $checkout, 'set_place_button_position' ) );
-	add_filter( 'woocommerce_after_checkout_form', array( $checkout, 'set_shipping_info' ) );
+	add_filter( 'woocommerce_after_checkout_form', array( $checkout, 'set_shipping_info' ),99 );
 	add_filter( 'woocommerce_checkout_fields', array( $checkout, 'set_shipping_field' ) );
 }
 
