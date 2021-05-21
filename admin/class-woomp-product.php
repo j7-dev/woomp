@@ -509,13 +509,15 @@ if ( ! class_exists( 'WooMP_Product' ) ) {
 				$attributes = $product->get_variation_attributes();
 				$options    = $attributes[ $attribute ];
 			}
-			$attribute_type = get_post_meta( $product->get_id(), 'attribute_' . strtolower( urlencode( $attribute ) ) . '_type', true );
+
+			$attribute_type = self::get_attribute_highlighted( $attribute );
 
 			if ( ! empty( $options ) && $attribute_type === 'radio' ) {
 
 				$radios = '<style>.variation-radios + select,.variation-radios + select + *{display:none!important;}.variation-radios > * {cursor: pointer;}</style><div class="variation-radios">';
 
 				if ( $product && taxonomy_exists( $attribute ) ) {
+					
 					$terms = wc_get_product_terms(
 						$product->get_id(),
 						$attribute,
@@ -538,6 +540,7 @@ if ( ! class_exists( 'WooMP_Product' ) ) {
 					}
 				}
 				$radios .= '</div>';
+				return $radios . $html;
 			} elseif ( ! empty( $options ) && $attribute_type === 'select' ) {
 				if ( $product && taxonomy_exists( $attribute ) ) {
 					$terms = wc_get_product_terms(
@@ -553,9 +556,10 @@ if ( ! class_exists( 'WooMP_Product' ) ) {
 						}
 					}
 				}
+				return $html;
 			}
 
-			return $radios . $html;
+			
 		}
 		public static function variation_check( $active, $variation ) {
 			if ( ! $variation->is_in_stock() && ! $variation->backorders_allowed() ) {
@@ -588,6 +592,7 @@ if ( ! class_exists( 'WooMP_Product' ) ) {
 				update_post_meta( $post->ID, '_is_active_woomp_ui', $_POST['woomp_ui'] );
 			}
 		}
+
 
 	}
 	WooMP_Product::init();
