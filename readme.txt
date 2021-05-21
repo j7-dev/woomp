@@ -1,4 +1,4 @@
-=== Dummy Plugin ===
+=== 好用版擴充 MorePower Addon for WooCommerce ===
 Requires at least: 4.9.8
 Tested up to: 5.7.2
 Requires PHP: 7.0
@@ -9,16 +9,12 @@ Empty plugin to demonstrate the WP Plugin Updater.
 
 == Description ==
 
-Plugin description. <strong>Basic HTML</strong> can be used in all sections.
-
-== Dummy Section ==
-
-An extra, dummy section.
+WooCommerce 好用版擴充，改善結帳流程與可變商品等區塊，讓WooCommerce更符合亞洲人使用習慣。
 
 == Installation ==
 
-Installation instructions.
+安裝說明
 
 == Changelog ==
 
-<p>This section will be displayed by default when the user clicks 'View version x.y.z details'.</p>
+<p>v1.0.12 - 整合外掛更新機制</p>
