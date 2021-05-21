@@ -2,20 +2,21 @@
 
  /**
  * @link              https://morepower.club
- * @since             1.0.12
+ * @since             1.0.13
  * @package           woomp
  *
  * @wordpress-plugin
  * Plugin Name:       好用版擴充 MorePower Addon for WooCommerce
  * Plugin URI:        https://morepower.club/morepower-addon/
  * Description:       WooCommerce 好用版擴充，改善結帳流程與可變商品等區塊，讓WooCommerce更符合亞洲人使用習慣。
- * Version:           1.0.12
+ * Version:           1.0.13
  * Author:            MorePower
  * Author URI:        https://morepower.club
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       woomp
  * Domain Path:       /languages
+ * WC tested up to:   5.3.0
  */
 
 // If this file is called directly, abort.
@@ -28,7 +29,7 @@ if ( ! defined( 'WPINC' ) ) {
  * Start at version 1.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define( 'WOOMP_VERSION', '1.0.12' );
+define( 'WOOMP_VERSION', '1.0.13' );
 
 /**
  * The code that runs during plugin activation.
