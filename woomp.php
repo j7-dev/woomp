@@ -2,14 +2,14 @@
 
  /**
  * @link              https://morepower.club
- * @since             1.0.11
+ * @since             1.0.12
  * @package           woomp
  *
  * @wordpress-plugin
  * Plugin Name:       好用版擴充 MorePower Addon for WooCommerce
  * Plugin URI:        https://morepower.club/morepower-addon/
  * Description:       WooCommerce 好用版擴充，改善結帳流程與可變商品等區塊，讓WooCommerce更符合亞洲人使用習慣。
- * Version:           1.0.11
+ * Version:           1.0.12
  * Author:            MorePower
  * Author URI:        https://morepower.club
  * License:           GPL-2.0+
@@ -28,7 +28,7 @@ if ( ! defined( 'WPINC' ) ) {
  * Start at version 1.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define( 'WOOMP_VERSION', '1.0.11' );
+define( 'WOOMP_VERSION', '1.0.12' );
 
 /**
  * The code that runs during plugin activation.
@@ -91,3 +91,14 @@ if( get_option( 'wc_woomp_setting_replace', 1 ) === 'yes' ){
 		return file_exists( $path ) ? $path : $template;
 	}
 }
+
+/**
+ * 加入更新機制
+ */
+require_once plugin_dir_path( __FILE__ ) . 'lib/wp-package-updater/class-wp-package-updater.php';
+
+$prefix_updater = new WP_Package_Updater(
+  'https://wmp.oberonlai.blog',
+  wp_normalize_path( __FILE__ ),
+  wp_normalize_path( plugin_dir_path( __FILE__ ) ),
+);
