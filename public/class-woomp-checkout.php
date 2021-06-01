@@ -48,7 +48,7 @@ if ( ! class_exists( 'WooMP_Checkout' ) ) {
 						$(".woocommerce-"+field+"-fields input[name=\'zipcode\']").appendTo($("#"+field+"_postcode_field"));
 					} 
 					$(document).ready(function($){
-						if( $('#billing_country').val() === 'TW' ){
+						if( $('#billing_country').val() === 'TW' && $('#shipping_country').val() === 'TW' ){
 							
 							$(".woocommerce-billing-fields,.woocommerce-shipping-fields").twzipcode();
 							
@@ -68,7 +68,7 @@ if ( ! class_exists( 'WooMP_Checkout' ) ) {
 							$("#billing_postcode,#billing_state,#billing_city,#shipping_postcode,#shipping_state,#shipping_city").hide();
 						}
 	
-						$('#billing_country').on('change',function(){
+						$('#billing_country, #shipping_country').on('change',function(){
 							if($(this).val() === 'TW'){
 								$(".woocommerce-billing-fields,.woocommerce-shipping-fields").twzipcode();
 								updateField("billing");
@@ -112,8 +112,22 @@ if ( ! class_exists( 'WooMP_Checkout' ) ) {
 			if ( get_option( 'wc_woomp_setting_billing_country_pos', 1 ) === 'yes' ){ ?>
 				<script>
 					jQuery(function($){
-						$('#billing_country_field').prependTo('#order_review');
-						$('#billing_country_field').css('margin-bottom','25px');
+					   $(document).ready(function(){
+							jQuery(function($){
+								$('#billing_country_field').prependTo('#order_review');
+								$('#billing_country_field').css('margin-bottom','25px');
+							})
+							jQuery(document.body).on('updated_checkout', function (e, data) {
+								if( $('#ship-to-different-address-checkbox').val() ){
+									$('#shipping_country_field').prependTo('#order_review');
+									$('#shipping_country_field').css('margin-bottom','25px');
+									$('#billing_country_field').hide()
+								} else {
+									$('#billing_country_field').show();
+									$('#shipping_country_field').show();
+								}
+							})
+					   }) 
 					})
 				</script>
 			<?php
@@ -267,10 +281,33 @@ if ( ! class_exists( 'WooMP_Checkout' ) ) {
 					 * 針對物流方式顯示帳單與運送地址欄位
 					 */
 					if( $('#shipping_method li').length > 1 ){
+						
 						if( 
 							$('#shipping_method li input:checked').val() === "ecpay_shipping" || 
 							$('#shipping_method li input:checked').val().includes('ry_ecpay_shipping_cvs') ||
 							$('#shipping_method li input:checked').val().includes('ry_newebpay_shipping_cvs') 
+						){
+							$('.woocommerce-shipping-fields').hide()
+							$('h3#ship-to-different-address input').hide()
+							$('#billing_address_1_field').hide();
+							$('#billing_address_2_field').hide();
+							$('#billing_city_field').hide();
+							$('#billing_state_field').hide();
+							$('#billing_postcode_field').hide();
+						} else {
+							$('.woocommerce-shipping-fields').show()
+							$('h3#ship-to-different-address input').show()
+							$('#billing_address_1_field').show();
+							$('#billing_address_2_field').show();
+							$('#billing_city_field').show();
+							$('#billing_state_field').show();
+							$('#billing_postcode_field').show();
+						}
+					} else if( $('#shipping_method li').length == 1 ){ // 只有一個運送方式的狀況
+						if( 
+							$('#shipping_method li input').val() === "ecpay_shipping" || 
+							$('#shipping_method li input').val().includes('ry_ecpay_shipping_cvs') ||
+							$('#shipping_method li input').val().includes('ry_newebpay_shipping_cvs') 
 						){
 							$('.woocommerce-shipping-fields').hide()
 							$('h3#ship-to-different-address input').hide()
@@ -343,7 +380,7 @@ if( 'yes' === get_option( 'wc_woomp_setting_replace', 1 ) ){
 	add_filter( 'woocommerce_after_checkout_form', array( $checkout, 'set_quantity_update_cart' ) );
 	add_filter( 'woocommerce_after_checkout_form', array( $checkout, 'set_place_button_position' ) );
 	add_filter( 'woocommerce_after_checkout_form', array( $checkout, 'set_shipping_info' ),99 );
-	add_filter( 'woocommerce_checkout_fields', array( $checkout, 'set_shipping_field' ), 99 );
+	add_filter( 'woocommerce_checkout_fields', array( $checkout, 'set_shipping_field' ), 10000 );
 }
 
 if( 'yes' === get_option( 'wc_woomp_setting_tw_address', 1 ) ){
