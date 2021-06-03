@@ -17,6 +17,8 @@ WooCommerce 好用版擴充，改善結帳流程與可變商品等區塊，讓 W
 
 == Changelog ==
 
+<p>v1.1.1</p>
+<p>除錯 - 購物車頁跳轉錯誤</p>
 <p>v1.0.15</p>
 <p>修改 - shipping country 與 billing country 連動</p>
 <p>v1.0.14</p>

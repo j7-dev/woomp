@@ -24,9 +24,9 @@ if ( ! class_exists( 'WooMP_Checkout' ) ) {
 		 * 購物車轉跳結帳頁
 		 */
 		public function redirect_cart_page_to_checkout() {
-			if ( is_cart() && WC()->cart->get_cart_contents_count() > 0 ) {
-				wp_safe_redirect( wc_get_checkout_url() );
-				exit;
+			if ( is_cart() && WC()->cart->get_cart_contents_count() > 0 ) { ?>
+			<script>window.location.href="<?php echo wc_get_checkout_url(); ?>"</script>
+			<?php
 			}
 		}
 
@@ -380,7 +380,7 @@ if ( ! class_exists( 'WooMP_Checkout' ) ) {
 $checkout = new WooMP_Checkout();
 
 if( 'yes' === get_option( 'wc_woomp_setting_replace', 1 ) ){
-	add_action( 'wp_head', array( $checkout, 'redirect_cart_page_to_checkout' ), 5 );
+	add_action( 'wp_head', array( $checkout, 'redirect_cart_page_to_checkout' ), 1 );
 	add_action( 'woocommerce_before_checkout_form', array( $checkout, 'set_cart_in_checkout_page' ) );
 	add_filter( 'woocommerce_after_checkout_form', array( $checkout, 'set_quantity_update_cart' ) );
 	add_filter( 'woocommerce_after_checkout_form', array( $checkout, 'set_place_button_position' ) );
