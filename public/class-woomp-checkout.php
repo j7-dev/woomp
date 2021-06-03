@@ -113,19 +113,25 @@ if ( ! class_exists( 'WooMP_Checkout' ) ) {
 				<script>
 					jQuery(function($){
 					   $(document).ready(function(){
-							jQuery(function($){
-								$('#billing_country_field').prependTo('#order_review');
-								$('#billing_country_field').css('margin-bottom','25px');
-							})
-							jQuery(document.body).on('updated_checkout', function (e, data) {
+							$('#billing_country_field').prependTo('#order_review');
+							$('#billing_country_field').css('margin-bottom','25px');
+							$(document.body).on('updated_checkout', function (e, data) {
 								if( $('#ship-to-different-address-checkbox').val() ){
 									$('#shipping_country_field').prependTo('#order_review');
 									$('#shipping_country_field').css('margin-bottom','25px');
-									$('#billing_country_field').hide()
+									//$('#billing_country_field').hide()
+									//alert( '#shipping_country' ).val() );
+									$('#billing_country').val( $( '#shipping_country' ).val() )
 								} else {
 									$('#billing_country_field').show();
 									$('#shipping_country_field').show();
 								}
+							})
+							// 同步 billing & shipping 國家欄位
+							$( '#shipping_country' ).change(function(){
+								alert($(this).val());
+								$( '#billing_country' ).val( $(this).val() )
+								$('#select2-billing_country-container').text($( '#shipping_country option:selected').text())
 							})
 					   }) 
 					})
