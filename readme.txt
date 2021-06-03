@@ -9,7 +9,7 @@ Empty plugin to demonstrate the WP Plugin Updater.
 
 == Description ==
 
-WooCommerce 好用版擴充，改善結帳流程與可變商品等區塊，讓WooCommerce更符合亞洲人使用習慣。
+WooCommerce 好用版擴充，改善結帳流程與可變商品等區塊，讓 WooCommerce 更符合亞洲人使用習慣。
 
 == Installation ==
 
@@ -17,6 +17,10 @@ WooCommerce 好用版擴充，改善結帳流程與可變商品等區塊，讓Wo
 
 == Changelog ==
 
+<p>v1.0.15</p>
+<p>修改 - shipping country 與 billing country 連動</p>
+<p>v1.0.14</p>
+<p>除錯 - 結帳頁必填欄位設定</p>
 <p>v1.0.13</p>
 <p>除錯 - 商品屬性有空格或是 / & 等符號時前台 UI 無法顯示單選方塊</p>
 <p>&nbsp;</p>
