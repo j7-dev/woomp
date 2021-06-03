@@ -119,8 +119,7 @@ if ( ! class_exists( 'WooMP_Checkout' ) ) {
 								if( $('#ship-to-different-address-checkbox').val() ){
 									$('#shipping_country_field').prependTo('#order_review');
 									$('#shipping_country_field').css('margin-bottom','25px');
-									//$('#billing_country_field').hide()
-									//alert( '#shipping_country' ).val() );
+									$('#billing_country_field').hide()
 									$('#billing_country').val( $( '#shipping_country' ).val() )
 								} else {
 									$('#billing_country_field').show();
@@ -129,9 +128,9 @@ if ( ! class_exists( 'WooMP_Checkout' ) ) {
 							})
 							// 同步 billing & shipping 國家欄位
 							$( '#shipping_country' ).change(function(){
-								alert($(this).val());
 								$( '#billing_country' ).val( $(this).val() )
 								$('#select2-billing_country-container').text($( '#shipping_country option:selected').text())
+								$('#select2-billing_country-container').attr('title',$( '#shipping_country option:selected').text())
 							})
 					   }) 
 					})
