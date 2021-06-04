@@ -158,4 +158,18 @@ class Woomp_Admin {
         return $_available_gateways;
     }
 
+	/**
+	 * 區域中的地區增加離島選項
+	 */
+	public function custom_woocommerce_states( $states ) {
+		$states['TW'] = array(
+			'penghu' => '澎湖', 
+			'lyudao' => '綠島',
+			'lanyu'  => '蘭嶼',
+			'XX2'    => '小琉球',
+			'kinmen' => '金門',
+			'matsu'  => '馬祖',
+		);
+	  	return $states;
+	}
 }
