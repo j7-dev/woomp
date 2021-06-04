@@ -516,7 +516,7 @@ if ( ! class_exists( 'WooMP_Product' ) ) {
 
 			if ( ! empty( $options ) && strpos( $attribute_type, 'radio' ) !== false ) {
 
-				$radios = '<style>.variation-radios + select,.variation-radios + select + *{display:none!important;}.variation-radios > * {cursor: pointer;}.radio-one,.radio-two{display:flex;flex-wrap:wrap;}.radio-one>div{width:100%}.radio-two>div{width:50%;}</style><div class="variation-radios '. $attribute_type .'">';
+				$radios = '<style>.variation-radios + select,.variation-radios + select + *{display:none!important;}.variation-radios > * {cursor: pointer;}.radio-one,.radio-two{display:flex;flex-wrap:wrap;}.radio > div{display:inline-block;}.radio-one>div{width:100%}.radio-two>div{width:50%;}</style><div class="variation-radios '. $attribute_type .'">';
 
 				if ( $product && taxonomy_exists( $attribute ) ) {
 					
