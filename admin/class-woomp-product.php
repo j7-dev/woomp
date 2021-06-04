@@ -445,7 +445,9 @@ if ( ! class_exists( 'WooMP_Product' ) ) {
 					<select name="attribute_type[<?php echo esc_attr( $i ); ?>]">
 						<option><?php _e( '設定前台變化類型介面', 'woomp' ); ?></option>
 						<option value="select" <?php echo ( 'select' === $value ) ? 'selected' : ''; ?>><?php _e( '下拉選單', 'woomp' ); ?></option>
-						<option value="radio" <?php echo ( 'radio' === $value ) ? 'selected' : ''; ?>><?php _e( '單選方塊', 'woomp' ); ?></option>
+						<option value="radio" <?php echo ( 'radio' === $value ) ? 'selected' : ''; ?>><?php _e( '單選方塊(不斷行)', 'woomp' ); ?></option>
+						<option value="radio-one" <?php echo ( 'radio-one' === $value ) ? 'selected' : ''; ?>><?php _e( '單選方塊(每行放1個選項)', 'woomp' ); ?></option>
+						<option value="radio-two" <?php echo ( 'radio-two' === $value ) ? 'selected' : ''; ?>><?php _e( '單選方塊(每行放2個選項) ', 'woomp' ); ?></option>
 					</select>
 					</div>
 				</td>
@@ -512,9 +514,9 @@ if ( ! class_exists( 'WooMP_Product' ) ) {
 
 			$attribute_type = self::get_attribute_highlighted( $attribute );
 
-			if ( ! empty( $options ) && $attribute_type === 'radio' ) {
+			if ( ! empty( $options ) && strpos( $attribute_type, 'radio' ) !== false ) {
 
-				$radios = '<style>.variation-radios + select,.variation-radios + select + *{display:none!important;}.variation-radios > * {cursor: pointer;}</style><div class="variation-radios">';
+				$radios = '<style>.variation-radios + select,.variation-radios + select + *{display:none!important;}.variation-radios > * {cursor: pointer;}.radio-one,.radio-two{display:flex;flex-wrap:wrap;}.radio-one>div{width:100%}.radio-two>div{width:50%;}</style><div class="variation-radios '. $attribute_type .'">';
 
 				if ( $product && taxonomy_exists( $attribute ) ) {
 					
@@ -529,14 +531,14 @@ if ( ! class_exists( 'WooMP_Product' ) ) {
 					foreach ( $terms as $term ) {
 						if ( in_array( $term->slug, $options, true ) ) {
 							$id      = $name . '-' . $term->slug;
-							$radios .= '<input type="radio" id="' . esc_attr( $id ) . '" name="' . esc_attr( $name ) . '" value="' . esc_attr( $term->slug ) . '" ' . checked( sanitize_title( $args['selected'] ), $term->slug, false ) . '><label style="padding-left: 5px; margin-right: 10px;" for="' . esc_attr( $id ) . '">' . esc_html( apply_filters( 'woocommerce_variation_option_name', $term->name ) ) . '</label>';
+							$radios .= '<div class="radio-list"><input type="radio" id="' . esc_attr( $id ) . '" name="' . esc_attr( $name ) . '" value="' . esc_attr( $term->slug ) . '" ' . checked( sanitize_title( $args['selected'] ), $term->slug, false ) . '><label style="cursor:pointer;padding-left: 5px; margin-right: 10px;" for="' . esc_attr( $id ) . '">' . esc_html( apply_filters( 'woocommerce_variation_option_name', $term->name ) ) . '</label></div>';
 						}
 					}
 				} else {
 					foreach ( $options as $option ) {
 						$id      = $name . '-' . $option;
 						$checked = sanitize_title( $args['selected'] ) === $args['selected'] ? checked( $args['selected'], sanitize_title( $option ), false ) : checked( $args['selected'], $option, false );
-						$radios .= '<input type="radio" id="' . esc_attr( $id ) . '" name="' . esc_attr( $name ) . '" value="' . esc_attr( $option ) . '" id="' . sanitize_title( $option ) . '" ' . $checked . '><label for="' . esc_attr( $id ) . '" style="padding-left: 5px;margin-right: 10px;">' . esc_html( apply_filters( 'woocommerce_variation_option_name', $option ) ) . '</label>';
+						$radios .= '<div class="radio-list"><input type="radio" id="' . esc_attr( $id ) . '" name="' . esc_attr( $name ) . '" value="' . esc_attr( $option ) . '" id="' . sanitize_title( $option ) . '" ' . $checked . '><label for="' . esc_attr( $id ) . '" style="padding-left: 5px;margin-right: 10px;cursor:pointer;">' . esc_html( apply_filters( 'woocommerce_variation_option_name', $option ) ) . '</label></div>';
 					}
 				}
 				$radios .= '</div>';
