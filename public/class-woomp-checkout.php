@@ -25,7 +25,9 @@ if ( ! class_exists( 'WooMP_Checkout' ) ) {
 		 */
 		public function redirect_cart_page_to_checkout() {
 			if ( is_cart() && WC()->cart->get_cart_contents_count() > 0 ) { ?>
-			<script>window.location.href="<?php echo wc_get_checkout_url(); ?>"</script>
+			<script>
+				window.location.href="<?php echo wc_get_checkout_url(); ?>"
+			</script>
 			<?php
 			}
 		}
@@ -146,13 +148,26 @@ if ( ! class_exists( 'WooMP_Checkout' ) ) {
 			?>
 			<script>
 			jQuery(function($){
+				var updateCart = false;
 				$(document).ready(function($){
 					$('.woocommerce-cart-form').attr('action','<?php echo wc_get_checkout_url(); ?>')
 					$('.woocommerce').on('change', 'input.qty', function(){
-					setTimeout(() => {
-						$("[name='update_cart']").trigger("click");
-					}, 1000);
+						setTimeout(() => {
+							$("[name='update_cart']").trigger("click");
+							updateCart = true
+						}, 1000);
 					});
+				})
+				// 處理購物車更新後，會把登入跟折價卷給吃掉
+				jQuery(document.body).on('updated_cart_totals', function (e, data) {
+					if( updateCart ){
+						<?php if( !is_user_logged_in() && 'yes' === get_option('woocommerce_enable_checkout_login_reminder', true) ): ?>
+						$('.woocommerce-form-login-toggle').append('<div class="woocommerce-message" role="alert"><?php echo esc_html__( 'Returning customer?', 'woocommerce' ) ?> <a href="#" class="showlogin"><?php echo esc_html__( 'Click here to login', 'woocommerce' ); ?></a></div>');
+						<?php endif; ?>
+						<?php if( 'yes' === get_option( 'woocommerce_enable_coupons', true ) ) : ?>
+						$('.woocommerce-form-coupon-toggle').append('<div class="woocommerce-info"><?php echo esc_html__( 'Have a coupon?', 'woocommerce' ) ?> <a href="#" class="showcoupon"><?php echo esc_html__( 'Click here to enter your code', 'woocommerce' ) ?></a></div>')
+						<?php endif; ?>
+					}
 				})
 			})
 			</script>
@@ -331,6 +346,7 @@ if ( ! class_exists( 'WooMP_Checkout' ) ) {
 							$('#billing_postcode_field').show();
 						}
 					}
+
 				});
 			})
 			</script>
