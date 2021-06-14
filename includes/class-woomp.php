@@ -168,8 +168,6 @@ class Woomp {
 		$this->loader->add_action( 'woocommerce_admin_order_data_after_billing_address', $plugin_admin, 'add_address_meta', 10, 1 );
 		$this->loader->add_filter( 'plugin_action_links_woomp/woomp.php', $plugin_admin, 'add_settings_link' );
 		$this->loader->add_filter( 'woocommerce_available_payment_gateways', $plugin_admin, 'only_newebpay_gateway', 10 );
-		$this->loader->add_filter( 'woocommerce_states', $plugin_admin, 'custom_woocommerce_states', 10 );
-
 	}
 
 	/**
