@@ -21,6 +21,7 @@ if ( ! class_exists( 'WooMP_Product' ) ) {
 			add_filter( 'admin_footer', __CLASS__ . '::enqueue_proudcts_script', 99 );
 			add_action( 'woocommerce_after_product_attribute_settings', __CLASS__ . '::wcb_add_product_attribute_is_highlighted', 10, 2 );
 			add_action( 'wp_ajax_woocommerce_save_attributes', __CLASS__ . '::wcb_ajax_woocommerce_save_attributes', 1 );
+			add_action( 'save_post', __CLASS__ . '::save_post_attribute_type', 10, 3 );
 			add_filter( 'woocommerce_dropdown_variation_attribute_options_html', __CLASS__ . '::variation_radio_buttons', 20, 2 );
 			add_filter( 'woocommerce_variation_is_active', __CLASS__ . '::variation_check', 10, 2 );
 		}
@@ -442,7 +443,7 @@ if ( ! class_exists( 'WooMP_Product' ) ) {
 			<tr>
 				<td>
 					<div class="enable_highlighted">
-					<label><?php _e( '設定前台變化類型介面', 'woomp' ); ?></label>
+					<label><?php _e( '設定前台變化類型介面:', 'woomp' ); ?></label>
 					<select name="attribute_type[<?php echo esc_attr( $i ); ?>]">
 						<option value="select" <?php echo ( 'select' === $value ) ? 'selected' : ''; ?>><?php _e( '下拉選單', 'woomp' ); ?></option>
 						<option value="radio" <?php echo ( 'radio' === $value ) ? 'selected' : ''; ?>><?php _e( '單選方塊(不斷行)', 'woomp' ); ?></option>
@@ -468,6 +469,21 @@ if ( ! class_exists( 'WooMP_Product' ) ) {
 					$attr_name = sanitize_title( $data['attribute_names'][ $i ] );
 					$attr_name = strtolower( $attr_name );
 					update_post_meta( $post_id, 'attribute_' . $attr_name . '_type', $val );
+				}
+			}
+		}
+
+		/**
+		 * 點擊更新按鈕修改 attribute_type 值
+		 */
+		public static function save_post_attribute_type( $post_id, $post, $update ){
+			if( 'product' === get_current_screen()->post_type && 'post' === get_current_screen()->base ){
+				if( is_array( $_POST['attribute_type'] ) ){
+					foreach ( $_POST['attribute_type'] as $i => $val ) {
+						$attr_name = sanitize_title( $_POST['attribute_names'][ $i ] );
+						$attr_name = strtolower( $attr_name );
+						update_post_meta( $post_id, 'attribute_' . $attr_name . '_type', $val );
+					}
 				}
 			}
 		}
@@ -560,6 +576,35 @@ if ( ! class_exists( 'WooMP_Product' ) ) {
 					}
 				}
 				return $html;
+			} elseif ( ! empty( $options ) && $attribute_type === 'tag' ) {
+				$radios = '<style>.variation-radios + select,.variation-radios + select + *{display:none!important;}.variation-radios > * {cursor: pointer;}.variation-radios.tag {display:flex; flex-wrap: wrap; margin-bottom: 1rem; } .tag-list label { display: inline-block; background:#efefef; padding: .5rem .8rem; cursor: pointer; margin: .8rem .8rem 0 0; border-radius: 3px; } .tag-list input:checked + label { background: #0170B9; color: #fff; }</style>
+				<div class="variation-radios '. $attribute_type .'">';
+
+				if ( $product && taxonomy_exists( $attribute ) ) {
+					
+					$terms = wc_get_product_terms(
+						$product->get_id(),
+						$attribute,
+						array(
+							'fields' => 'all',
+						)
+					);
+
+					foreach ( $terms as $term ) {
+						if ( in_array( $term->slug, $options, true ) ) {
+							$id      = $name . '-' . $term->slug;
+							$radios .= '<div class="tag-list"><input type="radio" style="display:none" id="' . esc_attr( $id ) . '" name="' . esc_attr( $name ) . '" value="' . esc_attr( $term->slug ) . '" ' . checked( sanitize_title( $args['selected'] ), $term->slug, false ) . '><label" for="' . esc_attr( $id ) . '">' . esc_html( apply_filters( 'woocommerce_variation_option_name', $term->name ) ) . '</label></div>';
+						}
+					}
+				} else {
+					foreach ( $options as $option ) {
+						$id      = $name . '-' . $option;
+						$checked = sanitize_title( $args['selected'] ) === $args['selected'] ? checked( $args['selected'], sanitize_title( $option ), false ) : checked( $args['selected'], $option, false );
+						$radios .= '<div class="tag-list"><input type="radio" style="display:none" id="' . esc_attr( $id ) . '" name="' . esc_attr( $name ) . '" value="' . esc_attr( $option ) . '" id="' . sanitize_title( $option ) . '" ' . $checked . '><label for="' . esc_attr( $id ) . '">' . esc_html( apply_filters( 'woocommerce_variation_option_name', $option ) ) . '</label></div>';
+					}
+				}
+				$radios .= '</div>';
+				return $radios . $html;
 			}
 
 			
