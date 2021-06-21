@@ -19,9 +19,20 @@
  * WC tested up to:   5.3.0
  */
 
-// If this file is called directly, abort.
+ // If this file is called directly, abort.
 if ( ! defined( 'WPINC' ) ) {
 	die;
+}
+
+/**
+ * Check WooCommerce is required
+ */
+if ( !in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
+	function require_woocommerce_notice(){
+		echo '<div class="error"><p>好用版擴充啟用失敗，需要安裝並啟用 WooCommerce 5.3 以上版本。</p></div>';
+	}
+    add_action('admin_notices', 'require_woocommerce_notice' );
+    return;
 }
 
 /**
