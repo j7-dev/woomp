@@ -437,17 +437,18 @@ if ( ! class_exists( 'WooMP_Product' ) ) {
 		 * 加入 attribute_type 選擇介面
 		 */
 		public static function wcb_add_product_attribute_is_highlighted( $attribute, $i = 0 ) {
-			$value = self::get_attribute_highlighted( $attribute->get_name() );
+			$value = ( self::get_attribute_highlighted( $attribute->get_name() ) ) ? self::get_attribute_highlighted( $attribute->get_name() ) : 'select';
 			?>
 			<tr>
 				<td>
 					<div class="enable_highlighted">
+					<label><?php _e( '設定前台變化類型介面', 'woomp' ); ?></label>
 					<select name="attribute_type[<?php echo esc_attr( $i ); ?>]">
-						<option><?php _e( '設定前台變化類型介面', 'woomp' ); ?></option>
 						<option value="select" <?php echo ( 'select' === $value ) ? 'selected' : ''; ?>><?php _e( '下拉選單', 'woomp' ); ?></option>
 						<option value="radio" <?php echo ( 'radio' === $value ) ? 'selected' : ''; ?>><?php _e( '單選方塊(不斷行)', 'woomp' ); ?></option>
 						<option value="radio-one" <?php echo ( 'radio-one' === $value ) ? 'selected' : ''; ?>><?php _e( '單選方塊(每行放1個選項)', 'woomp' ); ?></option>
 						<option value="radio-two" <?php echo ( 'radio-two' === $value ) ? 'selected' : ''; ?>><?php _e( '單選方塊(每行放2個選項) ', 'woomp' ); ?></option>
+						<option value="tag" <?php echo ( 'tag' === $value ) ? 'selected' : ''; ?>><?php _e( '標籤式選項', 'woomp' ); ?></option>
 					</select>
 					</div>
 				</td>
