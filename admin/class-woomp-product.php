@@ -577,7 +577,18 @@ if ( ! class_exists( 'WooMP_Product' ) ) {
 				}
 				return $html;
 			} elseif ( ! empty( $options ) && $attribute_type === 'tag' ) {
-				$radios = '<style>.variation-radios + select,.variation-radios + select + *{display:none!important;}.variation-radios > * {cursor: pointer;}.variation-radios.tag {display:flex; flex-wrap: wrap; margin-bottom: 1rem; } .tag-list label { display: inline-block; background:#efefef; padding: .5rem .8rem; cursor: pointer; margin: .8rem .8rem 0 0; border-radius: 3px; } .tag-list input:checked + label { background: #0170B9; color: #fff; }</style>
+				$radios = '<style>.variation-radios + select,.variation-radios + select + *{display:none!important;}.variation-radios > * {cursor: pointer;}.variation-radios.tag {display:flex; flex-wrap: wrap; margin-bottom: 1rem; } .tag-list label { display: inline-block; background:#efefef; padding: .1rem .8rem; cursor: pointer; margin: .8rem .8rem 0 0; border-radius: 3px; } .tag-list input:checked + label { color: #fff; }</style>
+				<script>
+				jQuery(function($){
+				   $(document).ready(function(){
+				       $(".variation-radios.tag").click(function(){
+				           mainColor = $(".woocommerce-variation-add-to-cart button").css("background-color")
+				           $(this).find("input + label").css("background-color","#efefef")
+				           $(this).find("input:checked + label").css("background-color",mainColor)
+				       })
+				   }) 
+				})
+				</script>
 				<div class="variation-radios '. $attribute_type .'">';
 
 				if ( $product && taxonomy_exists( $attribute ) ) {
