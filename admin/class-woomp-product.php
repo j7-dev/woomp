@@ -581,8 +581,9 @@ if ( ! class_exists( 'WooMP_Product' ) ) {
 				<script>
 				jQuery(function($){
 				   $(document).ready(function(){
+					   mainColor = $(".woocommerce-variation-add-to-cart button").css("background-color");
+					   $(this).find("input:checked + label").css("background-color",mainColor);
 				       $(".variation-radios.tag").click(function(){
-				           mainColor = $(".woocommerce-variation-add-to-cart button").css("background-color")
 				           $(this).find("input + label").css("background-color","#efefef")
 				           $(this).find("input:checked + label").css("background-color",mainColor)
 				       })
