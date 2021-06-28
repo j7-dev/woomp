@@ -477,7 +477,7 @@ if ( ! class_exists( 'WooMP_Product' ) ) {
 		 * 點擊更新按鈕修改 attribute_type 值
 		 */
 		public static function save_post_attribute_type( $post_id, $post, $update ){
-			if( 'product' === get_current_screen()->post_type && 'post' === get_current_screen()->base ){
+			if( 'product' === $post->post_type ){
 				if( is_array( $_POST['attribute_type'] ) ){
 					foreach ( $_POST['attribute_type'] as $i => $val ) {
 						$attr_name = sanitize_title( $_POST['attribute_names'][ $i ] );
