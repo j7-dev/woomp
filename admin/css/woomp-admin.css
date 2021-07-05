@@ -2,4 +2,13 @@
  * All of the CSS for your admin-specific functionality should be
  * included in this file.
  */
+
+#zone_postcodes {
+    width: 449px;
+    margin-bottom: 10px;
+}
+
+.wc-shipping-zone-postcodes-toggle {
+    display: none!important;
+}
  

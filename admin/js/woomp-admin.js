@@ -23,29 +23,38 @@
   	});
 
 	// 運送方式預設離島郵遞區號
-	if( $('#zone_locations').val() == 'country:TW' ){
-		$('.wc-shipping-zone-postcodes-toggle').after('<a class="wc-shipping-zone-postcodes-toggle local" href="#">設定台灣本島郵遞區號</a><a class="wc-shipping-zone-postcodes-toggle island" style="margin-bottom: 1rem;" href="#">設定台灣離島郵遞區號</a>')
-	}
-	$('.wc-shipping-zone-postcodes-toggle').click(function(){
-		if( $(this).hasClass('island') ){
-			$('#zone_postcodes').text('209...212\n880...885\n890...896')
-		} else if( $(this).hasClass('local') ){
-			$('#zone_postcodes').text('100...116\n200...208\n220...253\n260...290\n300\n302...315\n320...338\n350...369\n400...439\n500...530\n540...558\n600\n602...625\n630...655\n700...745\n800...852\n900...947\n950...966\n970...983')
-		} else {
+	$('.wc-shipping-zone-settings tr:nth-child(2)').after(`
+		<tr>
+			<th>
+				<select id="selectZonePostcodes" style="width: 200px; margin-top: -8px;">
+					<option value="zone_postcodes">限制為特定郵遞區號</option>
+					<option value="zone_postcodes_tw_local">設定台灣本島郵遞區號</option>
+					<option value="zone_postcodes_tw_island">設定台灣離島郵遞區號</option>
+				</select>
+			</th>
+			<td id="zonePostcodesTextarea"></td>
+		</tr>
+	`)
+	$('.wc-shipping-zone-postcodes').appendTo($('#zonePostcodesTextarea'))
+	$('#selectZonePostcodes').change(function(){
+		if( $(this).val() ===  'zone_postcodes'){
 			$('#zone_postcodes').text('');
 		}
-		setTimeout(() => {
-			$('.wc-shipping-zone-postcodes-toggle').show();
-			$('#zone_locations').trigger('input');
-		}, 100);
-	})
-	$('#zone_locations').change(function(){
-		if( $(this).val() === 'country:TW' ){
-			alert($(this).val());
-			$('.wc-shipping-zone-postcodes-toggle').after(' | <a class="wc-shipping-zone-postcodes-toggle island" href="#">設定離島郵遞區號</a>')
+		if( $(this).val() ===  'zone_postcodes_tw_local'){
+			$('#zone_postcodes').text('100...116\n200...208\n220...253\n260...290\n300\n302...315\n320...338\n350...369\n400...439\n500...530\n540...558\n600\n602...625\n630...655\n700...745\n800...852\n900...947\n950...966\n970...983')
 		}
+		if( $(this).val() ===  'zone_postcodes_tw_island'){
+			$('#zone_postcodes').text('209...212\n880...885\n890...896')
+		}
+		$('#zone_postcodes').trigger('input');
 	})
-	//$('.wc-shipping-zone-postcodes-toggle').click(function(){
-	//	$('#zone_postcodes').value()
-	//})
+
+	if( $('#zone_postcodes').val().includes('100...116') ){
+		$('#selectZonePostcodes option[value="zone_postcodes_tw_local"]').prop('selected',true);
+	}
+
+	if( $('#zone_postcodes').val().includes('890...896') ){
+		$('#selectZonePostcodes option[value="zone_postcodes_tw_island"]').prop('selected',true);
+	}
+
 })( jQuery );
