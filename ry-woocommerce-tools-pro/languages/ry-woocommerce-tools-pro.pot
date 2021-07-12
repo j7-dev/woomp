@@ -1,0 +1,442 @@
+# Copyright (C) 2021 Richer Yang
+# This file is distributed under the same license as the RY WooCommerce Tools Pro plugin.
+msgid ""
+msgstr ""
+"Project-Id-Version: RY WooCommerce Tools Pro 1.2.11\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/ry-woocommerce-tools-pro\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2021-07-09T11:24:47+08:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.5.0\n"
+"X-Domain: ry-woocommerce-tools-pro\n"
+
+#. Plugin Name of the plugin
+#: class.ry-wt-p.admin.php:113
+#: class.ry-wt-p.admin.php:118
+#: class.ry-wt-p.admin.php:136
+#: class.ry-wt-p.main.php:76
+#: woocommerce/admin/view/html-setting-tools.php:2
+#: woocommerce/settings/settings-pro-version.php:4
+msgid "RY WooCommerce Tools Pro"
+msgstr ""
+
+#. Plugin URI of the plugin
+msgid "https://richer.tw/ry-woocommerce-tools-pro/"
+msgstr ""
+
+#. Author of the plugin
+msgid "Richer Yang"
+msgstr ""
+
+#. Author URI of the plugin
+msgid "https://richer.tw/"
+msgstr ""
+
+#: class.ry-wt-p.admin.php:39
+#: woocommerce/settings/settings-pro-version.php:9
+msgid "License key"
+msgstr ""
+
+#. translators: %s: Expiration date of pro license
+#: class.ry-wt-p.admin.php:59
+msgid "License Expiration Date %s"
+msgstr ""
+
+#: class.ry-wt-p.admin.php:76
+msgid "version info"
+msgstr ""
+
+#: class.ry-wt-p.admin.php:79
+msgid "Now Version:"
+msgstr ""
+
+#: class.ry-wt-p.admin.php:82
+msgid "New Version:"
+msgstr ""
+
+#: class.ry-wt-p.admin.php:84
+msgid "update plugin"
+msgstr ""
+
+#: class.ry-wt-p.admin.php:114
+#: class.ry-wt-p.admin.php:137
+msgid "Connect license server failed!"
+msgstr ""
+
+#. translators: %s: Error message
+#: class.ry-wt-p.admin.php:121
+msgid "Verification error: %s"
+msgstr ""
+
+#: class.ry-wt-p.admin.php:126
+msgid "Unknown key"
+msgstr ""
+
+#: class.ry-wt-p.admin.php:127
+msgid "Locked key"
+msgstr ""
+
+#: class.ry-wt-p.admin.php:128
+msgid "Unknown target url"
+msgstr ""
+
+#: class.ry-wt-p.admin.php:129
+msgid "Used key"
+msgstr ""
+
+#: class.ry-wt-p.admin.php:130
+msgid "Is tried"
+msgstr ""
+
+#. translators: %s: Name of this plugin
+#: class.ry-wt-p.main.php:75
+msgid "<strong>%s</strong> is inactive. It require RY WooCommerce Tools."
+msgstr ""
+
+#: templates/order/order-ecpay-shipping-info.php:16
+#: templates/order/order-smilepay-shipping-info.php:16
+msgid "Shipping details"
+msgstr ""
+
+#: templates/order/order-ecpay-shipping-info.php:23
+#: templates/order/order-smilepay-shipping-info.php:23
+msgid "Shipping payment no"
+msgstr ""
+
+#: templates/order/order-ecpay-shipping-info.php:26
+#: templates/order/order-smilepay-shipping-info.php:26
+msgid "Shipping status"
+msgstr ""
+
+#: templates/order/order-ecpay-shipping-info.php:45
+#: templates/order/order-smilepay-shipping-info.php:45
+msgctxt "Shipping status"
+msgid "Wait shipment"
+msgstr ""
+
+#: templates/order/order-ecpay-shipping-info.php:47
+#: templates/order/order-smilepay-shipping-info.php:47
+msgctxt "Shipping status"
+msgid "Transporting"
+msgstr ""
+
+#: templates/order/order-ecpay-shipping-info.php:49
+#: templates/order/order-smilepay-shipping-info.php:49
+msgctxt "Shipping status"
+msgid "Waiting for pick up"
+msgstr ""
+
+#: templates/order/order-ecpay-shipping-info.php:51
+#: templates/order/order-smilepay-shipping-info.php:51
+msgctxt "Shipping status"
+msgid "Completed"
+msgstr ""
+
+#: templates/order/order-ecpay-shipping-info.php:53
+#: templates/order/order-smilepay-shipping-info.php:53
+msgctxt "Shipping status"
+msgid "Overdue return"
+msgstr ""
+
+#: templates/order/order-ecpay-shipping-info.php:55
+#: templates/order/order-smilepay-shipping-info.php:55
+msgctxt "Shipping status"
+msgid "Unknow"
+msgstr ""
+
+#: woocommerce/admin/meta-boxes/views/choose_cvs_btn.php:3
+msgid "It NOT save any change before choose cvs."
+msgstr ""
+
+#: woocommerce/admin/meta-boxes/views/choose_cvs_btn.php:4
+msgid "After choose cvs, you need save the order to keep the change info."
+msgstr ""
+
+#: woocommerce/admin/view/html-setting-tools.php:2
+msgid "Tools"
+msgstr ""
+
+#: woocommerce/gateways/ecpay/ecpay-gateway-credit-installment-3.php:7
+#: woocommerce/gateways/newebpay/newebpay-gateway-credit-installment-3.php:7
+msgid "Pay via Credit(3 installment)"
+msgstr ""
+
+#: woocommerce/gateways/ecpay/ecpay-gateway-credit-installment-3.php:8
+msgid "ECPay Credit(3 installment)"
+msgstr ""
+
+#: woocommerce/gateways/ecpay/ecpay-gateway-credit-installment-3.php:18
+msgid "Pay via ECPay Credit(3 installment)"
+msgstr ""
+
+#: woocommerce/gateways/ecpay/ecpay-gateway-credit-installment-6.php:7
+#: woocommerce/gateways/newebpay/newebpay-gateway-credit-installment-6.php:7
+msgid "Pay via Credit(6 installment)"
+msgstr ""
+
+#: woocommerce/gateways/ecpay/ecpay-gateway-credit-installment-6.php:8
+msgid "ECPay Credit(6 installment)"
+msgstr ""
+
+#: woocommerce/gateways/ecpay/ecpay-gateway-credit-installment-6.php:18
+msgid "Pay via ECPay Credit(6 installment)"
+msgstr ""
+
+#: woocommerce/gateways/ecpay/ecpay-gateway-credit-installment-12.php:7
+#: woocommerce/gateways/newebpay/newebpay-gateway-credit-installment-12.php:7
+msgid "Pay via Credit(12 installment)"
+msgstr ""
+
+#: woocommerce/gateways/ecpay/ecpay-gateway-credit-installment-12.php:8
+msgid "ECPay Credit(12 installment)"
+msgstr ""
+
+#: woocommerce/gateways/ecpay/ecpay-gateway-credit-installment-12.php:18
+msgid "Pay via ECPay Credit(12 installment)"
+msgstr ""
+
+#: woocommerce/gateways/ecpay/ecpay-gateway-credit-installment-18.php:7
+#: woocommerce/gateways/newebpay/newebpay-gateway-credit-installment-18.php:7
+msgid "Pay via Credit(18 installment)"
+msgstr ""
+
+#: woocommerce/gateways/ecpay/ecpay-gateway-credit-installment-18.php:8
+msgid "ECPay Credit(18 installment)"
+msgstr ""
+
+#: woocommerce/gateways/ecpay/ecpay-gateway-credit-installment-18.php:18
+msgid "Pay via ECPay Credit(18 installment)"
+msgstr ""
+
+#: woocommerce/gateways/ecpay/ecpay-gateway-credit-installment-24.php:7
+#: woocommerce/gateways/newebpay/newebpay-gateway-credit-installment-24.php:7
+msgid "Pay via Credit(24 installment)"
+msgstr ""
+
+#: woocommerce/gateways/ecpay/ecpay-gateway-credit-installment-24.php:8
+msgid "ECPay Credit(24 installment)"
+msgstr ""
+
+#: woocommerce/gateways/ecpay/ecpay-gateway-credit-installment-24.php:18
+msgid "Pay via ECPay Credit(24 installment)"
+msgstr ""
+
+#: woocommerce/gateways/ecpay/ecpay-gateway.php:36
+#: woocommerce/gateways/newebpay/newebpay-gateway.php:37
+#: woocommerce/gateways/smilepay/smilepay-gateway.php:25
+msgid "Gateway options"
+msgstr ""
+
+#: woocommerce/gateways/ecpay/ecpay-gateway.php:41
+#: woocommerce/gateways/newebpay/newebpay-gateway.php:42
+msgid "Credit installment"
+msgstr ""
+
+#: woocommerce/gateways/ecpay/ecpay-gateway.php:45
+#: woocommerce/gateways/newebpay/newebpay-gateway.php:46
+msgid "Add each periods of credit installment as a payment gateway."
+msgstr ""
+
+#: woocommerce/gateways/ecpay/ecpay-gateway.php:48
+#: woocommerce/gateways/newebpay/newebpay-gateway.php:49
+#: woocommerce/gateways/smilepay/smilepay-gateway.php:30
+msgid "Show payment info in email"
+msgstr ""
+
+#. translators: %s: email title
+#: woocommerce/gateways/ecpay/ecpay-gateway.php:54
+#: woocommerce/gateways/newebpay/newebpay-gateway.php:55
+#: woocommerce/gateways/smilepay/smilepay-gateway.php:36
+msgid "Add payment info in \"%s\" email."
+msgstr ""
+
+#: woocommerce/gateways/newebpay/newebpay-gateway-credit-installment-3.php:8
+msgid "NewebPay Credit(3 installment)"
+msgstr ""
+
+#: woocommerce/gateways/newebpay/newebpay-gateway-credit-installment-3.php:18
+msgid "Pay via NewebPay Credit(3 installment)"
+msgstr ""
+
+#: woocommerce/gateways/newebpay/newebpay-gateway-credit-installment-6.php:8
+msgid "NewebPay Credit(6 installment)"
+msgstr ""
+
+#: woocommerce/gateways/newebpay/newebpay-gateway-credit-installment-6.php:18
+msgid "Pay via NewebPay Credit(6 installment)"
+msgstr ""
+
+#: woocommerce/gateways/newebpay/newebpay-gateway-credit-installment-12.php:8
+msgid "NewebPay Credit(12 installment)"
+msgstr ""
+
+#: woocommerce/gateways/newebpay/newebpay-gateway-credit-installment-12.php:18
+msgid "Pay via NewebPay Credit(12 installment)"
+msgstr ""
+
+#: woocommerce/gateways/newebpay/newebpay-gateway-credit-installment-18.php:8
+msgid "NewebPay Credit(18 installment)"
+msgstr ""
+
+#: woocommerce/gateways/newebpay/newebpay-gateway-credit-installment-18.php:18
+msgid "Pay via NewebPay Credit(18 installment)"
+msgstr ""
+
+#: woocommerce/gateways/newebpay/newebpay-gateway-credit-installment-24.php:8
+msgid "NewebPay Credit(24 installment)"
+msgstr ""
+
+#: woocommerce/gateways/newebpay/newebpay-gateway-credit-installment-24.php:18
+msgid "Pay via NewebPay Credit(24 installment)"
+msgstr ""
+
+#: woocommerce/gateways/newebpay/newebpay-gateway-credit-installment-30.php:7
+msgid "Pay via Credit(30 installment)"
+msgstr ""
+
+#: woocommerce/gateways/newebpay/newebpay-gateway-credit-installment-30.php:8
+msgid "NewebPay Credit(30 installment)"
+msgstr ""
+
+#: woocommerce/gateways/newebpay/newebpay-gateway-credit-installment-30.php:18
+msgid "Pay via NewebPay Credit(30 installment)"
+msgstr ""
+
+#: woocommerce/shipping/ecpay/ecpay-shipping-cvs-711.php:12
+msgid "Off island plus cost"
+msgstr ""
+
+#: woocommerce/shipping/ecpay/ecpay-shipping-cvs-711.php:17
+msgid "The total cost is cost plus off island cost."
+msgstr ""
+
+#: woocommerce/shipping/ecpay/ecpay-shipping-cvs-711.php:23
+#: woocommerce/shipping/ecpay/ecpay-shipping-cvs-family.php:8
+#: woocommerce/shipping/ecpay/ecpay-shipping-cvs-hilife.php:8
+#: woocommerce/shipping/ecpay/ecpay-shipping-home-ecan.php:8
+#: woocommerce/shipping/ecpay/ecpay-shipping-home-tcat.php:8
+#: woocommerce/shipping/newebpay/newebpay-shipping-cvs.php:8
+#: woocommerce/shipping/smilepay/smilepay-shipping-cvs-711.php:8
+#: woocommerce/shipping/smilepay/smilepay-shipping-cvs-fami.php:8
+msgid "A minimum order amount ( except discount and tex )"
+msgstr ""
+
+#: woocommerce/shipping/ecpay/ecpay-shipping-cvs-711.php:24
+#: woocommerce/shipping/ecpay/ecpay-shipping-cvs-family.php:9
+#: woocommerce/shipping/ecpay/ecpay-shipping-cvs-hilife.php:9
+#: woocommerce/shipping/ecpay/ecpay-shipping-home-ecan.php:9
+#: woocommerce/shipping/ecpay/ecpay-shipping-home-tcat.php:9
+#: woocommerce/shipping/newebpay/newebpay-shipping-cvs.php:9
+#: woocommerce/shipping/smilepay/smilepay-shipping-cvs-711.php:9
+#: woocommerce/shipping/smilepay/smilepay-shipping-cvs-fami.php:9
+msgid "A minimum order amount OR a coupon ( except discount and tex )"
+msgstr ""
+
+#: woocommerce/shipping/ecpay/ecpay-shipping-cvs-711.php:25
+#: woocommerce/shipping/ecpay/ecpay-shipping-cvs-family.php:10
+#: woocommerce/shipping/ecpay/ecpay-shipping-cvs-hilife.php:10
+#: woocommerce/shipping/ecpay/ecpay-shipping-home-ecan.php:10
+#: woocommerce/shipping/ecpay/ecpay-shipping-home-tcat.php:10
+#: woocommerce/shipping/newebpay/newebpay-shipping-cvs.php:10
+#: woocommerce/shipping/smilepay/smilepay-shipping-cvs-711.php:10
+#: woocommerce/shipping/smilepay/smilepay-shipping-cvs-fami.php:10
+msgid "A minimum order amount AND a coupon ( except discount and tex )"
+msgstr ""
+
+#: woocommerce/shipping/ecpay/ecpay-shipping.php:60
+#: woocommerce/shipping/smilepay/smilepay-shipping.php:55
+msgid "Auto get with scheduler action"
+msgstr ""
+
+#: woocommerce/shipping/ecpay/ecpay-shipping.php:64
+#: woocommerce/shipping/smilepay/smilepay-shipping.php:59
+msgid "Get shipping payment no use scheduler action."
+msgstr ""
+
+#: woocommerce/shipping/ecpay/ecpay-shipping.php:72
+msgid "Clean up receiver name"
+msgstr ""
+
+#: woocommerce/shipping/ecpay/ecpay-shipping.php:76
+msgid "Clean up receiver name to comply with EcPay request."
+msgstr ""
+
+#: woocommerce/shipping/ecpay/ecpay-shipping.php:82
+msgctxt "Cvs type"
+msgid "B2C"
+msgstr ""
+
+#: woocommerce/shipping/ecpay/ecpay-shipping.php:88
+#: woocommerce/shipping/newebpay/newebpay-shipping.php:33
+#: woocommerce/shipping/smilepay/smilepay-shipping.php:67
+msgid "cvs remove billing address"
+msgstr ""
+
+#: woocommerce/shipping/ecpay/ecpay-shipping.php:92
+#: woocommerce/shipping/newebpay/newebpay-shipping.php:37
+#: woocommerce/shipping/smilepay/smilepay-shipping.php:71
+msgid "Remove billing address when shipping mode is cvs."
+msgstr ""
+
+#: woocommerce/shipping/ecpay/ecpay-shipping.php:93
+#: woocommerce/shipping/newebpay/newebpay-shipping.php:38
+#: woocommerce/shipping/smilepay/smilepay-shipping.php:72
+msgid "The billing address still will show in order details."
+msgstr ""
+
+#: woocommerce/shipping/ecpay/ecpay-shipping.php:101
+#: woocommerce/shipping/smilepay/smilepay-shipping.php:80
+msgid "shipping item name"
+msgstr ""
+
+#: woocommerce/shipping/ecpay/ecpay-shipping.php:105
+#: woocommerce/shipping/smilepay/smilepay-shipping.php:84
+msgid "If empty use the first product name."
+msgstr ""
+
+#: woocommerce/shipping/ecpay/ecpay-shipping.php:117
+#: woocommerce/shipping/ecpay/ecpay-shipping.php:122
+msgid "Print ECPay shipping booking note (711)"
+msgstr ""
+
+#: woocommerce/shipping/ecpay/ecpay-shipping.php:118
+#: woocommerce/shipping/ecpay/ecpay-shipping.php:123
+msgid "Print ECPay shipping booking note (family)"
+msgstr ""
+
+#: woocommerce/shipping/ecpay/ecpay-shipping.php:119
+msgid "Print ECPay shipping booking note (hilife)"
+msgstr ""
+
+#: woocommerce/shipping/ecpay/ecpay-shipping.php:127
+msgid "Print ECPay shipping booking note (tcat)"
+msgstr ""
+
+#: woocommerce/shipping/ecpay/ecpay-shipping.php:128
+msgid "Print ECPay shipping booking note (ecan)"
+msgstr ""
+
+#: woocommerce/shipping/ry-base.php:19
+#: woocommerce/shipping/ry-base.php:41
+msgctxt "Order status"
+msgid "Transporting"
+msgstr ""
+
+#. translators: %s: number of orders
+#: woocommerce/shipping/ry-base.php:47
+msgid "Transporting <span class=\"count\">(%s)</span>"
+msgid_plural "Transporting <span class=\"count\">(%s)</span>"
+msgstr[0] ""
+msgstr[1] ""
+
+#: woocommerce/shipping/smilepay/smilepay-shipping.php:94
+msgid "Print smilepay shipping booking note (711)"
+msgstr ""
+
+#: woocommerce/shipping/smilepay/smilepay-shipping.php:95
+msgid "Print SmilePay shipping booking note (family)"
+msgstr ""
