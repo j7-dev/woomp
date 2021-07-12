@@ -119,30 +119,34 @@ $prefix_updater = new WP_Package_Updater(
  * 引入 ry-woocommerce-tools
  */
 
-define('RY_WT_VERSION', '1.7.3');
-define('RY_WT_PLUGIN_URL', plugin_dir_url(__FILE__) . 'ry-woocommerce-tools/');
-define('RY_WT_PLUGIN_DIR', plugin_dir_path(__FILE__). 'ry-woocommerce-tools/');
-define('RY_WT_PLUGIN_BASENAME', plugin_basename(__FILE__). 'ry-woocommerce-tools/');
+if( !defined('RY_WT_VERSION') ){
+	define('RY_WT_VERSION', '1.7.3');
+	define('RY_WT_PLUGIN_URL', plugin_dir_url(__FILE__) . 'ry-woocommerce-tools/');
+	define('RY_WT_PLUGIN_DIR', plugin_dir_path(__FILE__). 'ry-woocommerce-tools/');
+	define('RY_WT_PLUGIN_BASENAME', plugin_basename(__FILE__). 'ry-woocommerce-tools/');
+	
+	require_once RY_WT_PLUGIN_DIR . 'class.ry-wt.main.php';
+	
+	register_activation_hook(__FILE__, ['RY_WT', 'plugin_activation']);
+	register_deactivation_hook(__FILE__, ['RY_WT', 'plugin_deactivation']);
+	
+	add_action('init', ['RY_WT', 'init'], 10);
+}
 
-require_once RY_WT_PLUGIN_DIR . 'class.ry-wt.main.php';
-
-register_activation_hook(__FILE__, ['RY_WT', 'plugin_activation']);
-register_deactivation_hook(__FILE__, ['RY_WT', 'plugin_deactivation']);
-
-add_action('init', ['RY_WT', 'init'], 10);
 
 /**
  * 引入 ry-woocommerce-tools-pro
  */
-
-define('RY_WTP_VERSION', '1.2.11');
-define('RY_WTP_PLUGIN_URL', plugin_dir_url(__FILE__) . 'ry-woocommerce-tools-pro/');
-define('RY_WTP_PLUGIN_DIR', plugin_dir_path(__FILE__)  . 'ry-woocommerce-tools-pro/');
-define('RY_WTP_PLUGIN_BASENAME', plugin_basename(__FILE__)  . 'ry-woocommerce-tools-pro/');
-
-require_once RY_WTP_PLUGIN_DIR . 'class.ry-wt-p.main.php';
-
-register_activation_hook(__FILE__, ['RY_WTP', 'plugin_activation']);
-register_deactivation_hook(__FILE__, ['RY_WTP', 'plugin_deactivation']);
-
-add_action('init', ['RY_WTP', 'init'], 11);
+if( !defined('RY_WTP_VERSION') ){
+	define('RY_WTP_VERSION', '1.2.11');
+	define('RY_WTP_PLUGIN_URL', plugin_dir_url(__FILE__) . 'ry-woocommerce-tools-pro/');
+	define('RY_WTP_PLUGIN_DIR', plugin_dir_path(__FILE__)  . 'ry-woocommerce-tools-pro/');
+	define('RY_WTP_PLUGIN_BASENAME', plugin_basename(__FILE__)  . 'ry-woocommerce-tools-pro/');
+	
+	require_once RY_WTP_PLUGIN_DIR . 'class.ry-wt-p.main.php';
+	
+	register_activation_hook(__FILE__, ['RY_WTP', 'plugin_activation']);
+	register_deactivation_hook(__FILE__, ['RY_WTP', 'plugin_deactivation']);
+	
+	add_action('init', ['RY_WTP', 'init'], 11);
+}
