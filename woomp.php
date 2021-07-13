@@ -8,7 +8,7 @@
  * @wordpress-plugin
  * Plugin Name:       好用版擴充 MorePower Addon for WooCommerce
  * Plugin URI:        https://morepower.club/morepower-addon/
- * Description:       WooCommerce 好用版擴充，改善結帳流程與可變商品等區塊，讓WooCommerce更符合亞洲人使用習慣。
+ * Description:       WooCommerce 好用版擴充，改善結帳流程與可變商品等區塊，讓 WooCommerce 更符合亞洲人使用習慣。
  * Version:           1.1.9
  * Author:            MorePower
  * Author URI:        https://morepower.club
@@ -16,7 +16,8 @@
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       woomp
  * Domain Path:       /languages
- * WC tested up to:   5.3.0
+ * WC requires at least: 5
+ * WC tested up to: 5.4.1
  */
 
  // If this file is called directly, abort.
@@ -121,9 +122,9 @@ $prefix_updater = new WP_Package_Updater(
 
 if( !defined('RY_WT_VERSION') ){
 	define('RY_WT_VERSION', '1.7.3');
-	define('RY_WT_PLUGIN_URL', plugin_dir_url(__FILE__) . 'ry-woocommerce-tools/');
-	define('RY_WT_PLUGIN_DIR', plugin_dir_path(__FILE__). 'ry-woocommerce-tools/');
-	define('RY_WT_PLUGIN_BASENAME', plugin_basename(__FILE__). 'ry-woocommerce-tools/');
+	define('RY_WT_PLUGIN_URL', plugin_dir_url(__FILE__) . 'includes/ry-woocommerce-tools/');
+	define('RY_WT_PLUGIN_DIR', plugin_dir_path(__FILE__). 'includes/ry-woocommerce-tools/');
+	define('RY_WT_PLUGIN_BASENAME', plugin_basename(__FILE__). 'includes/ry-woocommerce-tools/');
 	
 	require_once RY_WT_PLUGIN_DIR . 'class.ry-wt.main.php';
 	
@@ -139,9 +140,9 @@ if( !defined('RY_WT_VERSION') ){
  */
 if( !defined('RY_WTP_VERSION') ){
 	define('RY_WTP_VERSION', '1.2.11');
-	define('RY_WTP_PLUGIN_URL', plugin_dir_url(__FILE__) . 'ry-woocommerce-tools-pro/');
-	define('RY_WTP_PLUGIN_DIR', plugin_dir_path(__FILE__)  . 'ry-woocommerce-tools-pro/');
-	define('RY_WTP_PLUGIN_BASENAME', plugin_basename(__FILE__)  . 'ry-woocommerce-tools-pro/');
+	define('RY_WTP_PLUGIN_URL', plugin_dir_url(__FILE__) . 'includes/ry-woocommerce-tools-pro/');
+	define('RY_WTP_PLUGIN_DIR', plugin_dir_path(__FILE__)  . 'includes/ry-woocommerce-tools-pro/');
+	define('RY_WTP_PLUGIN_BASENAME', plugin_basename(__FILE__)  . 'includes/ry-woocommerce-tools-pro/');
 	
 	require_once RY_WTP_PLUGIN_DIR . 'class.ry-wt-p.main.php';
 	

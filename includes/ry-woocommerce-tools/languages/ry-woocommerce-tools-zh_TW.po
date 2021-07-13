@@ -1,0 +1,1827 @@
+# Translation of Plugins - RY WooCommerce Tools - Stable (latest release) in Chinese (Taiwan)
+# This file is distributed under the same license as the Plugins - RY WooCommerce Tools - Stable (latest release) package.
+msgid ""
+msgstr ""
+"PO-Revision-Date: 2021-07-13 16:52+0800\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 2.3\n"
+"Language: zh_TW\n"
+"Project-Id-Version: Plugins - RY WooCommerce Tools - Stable (latest release)\n"
+"POT-Creation-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+
+#: woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-barcode.php:51
+msgid "Barcode allowable payment deadline from 1 day to 60 days."
+msgstr "超商代碼允許的繳費期限為 1天到 60 天。"
+
+#: woocommerce/settings/class-settings-ry-tools.php:167
+msgid "Show not paid info at order detail payment method info."
+msgstr "於訂單明細中的付款方式提示「未付款」"
+
+#: woocommerce/settings/class-settings-ry-tools.php:166
+msgid "show not paid info at order detail"
+msgstr "於訂單明細中顯示未付款"
+
+#: woocommerce/admin/meta-boxes/smilepay-shipping-meta-box.php:99
+msgid "Get no"
+msgstr "取得編號"
+
+#: woocommerce/shipping/smilepay/includes/smilepay-shipping-admin.php:114
+msgid "Get new SmilePay shipping no with cod"
+msgstr "取得新的速買配物流編號(代收)"
+
+#: woocommerce/shipping/smilepay/includes/smilepay-shipping-admin.php:112
+msgid "Get new SmilePay shipping no"
+msgstr "取得新的速買配物流編號"
+
+#: woocommerce/admin/meta-boxes/smilepay-shipping-meta-box.php:37
+msgid "SmilePay shipping ID"
+msgstr "速買配物流ID"
+
+#: woocommerce/admin/meta-boxes/smilepay-shipping-meta-box.php:14
+msgid "SmilePay shipping info"
+msgstr "速買配物流資訊"
+
+#: woocommerce/shipping/smilepay/smilepay-shipping.php:98
+msgid "SmilePay shipping method failed to enable!"
+msgstr "速買配物流模組啟用失敗！"
+
+#: woocommerce/gateways/smilepay/smilepay-gateway.php:119
+#: woocommerce/settings/class-settings-ry-tools.php:57
+#: woocommerce/shipping/smilepay/smilepay-shipping.php:91
+msgid "SmilePay shipping method need enable SmilePay gateway."
+msgstr "速買配物流模組需要啟用速買配金流模組。"
+
+#: woocommerce/shipping/smilepay/smilepay-shipping.php:84
+msgid "SmilePay shipping method need php simplexml extension."
+msgstr "速買配物流模組需要 php simplexml 模組。"
+
+#: woocommerce/shipping/smilepay/smilepay-shipping.php:65
+msgid "SmilePay shipping options"
+msgstr "速買配物流設定"
+
+#: woocommerce/shipping/smilepay/smilepay-shipping-cvs-fami.php:10
+msgid "SmilePay shipping CVS Fami"
+msgstr "速買配物流 超商取貨 全家便利店"
+
+#: woocommerce/shipping/smilepay/smilepay-shipping-cvs-711.php:10
+msgid "SmilePay shipping CVS 711"
+msgstr "速買配物流 超商取貨 7-ELEVEN"
+
+#: woocommerce/settings/class-settings-ry-tools.php:136
+#: woocommerce/shipping/smilepay/includes/settings-smilepay-shipping.php:13
+msgid "Enable SmilePay shipping method"
+msgstr "啟用 速買配物流 模組"
+
+#: woocommerce/gateways/smilepay/smilepay-gateway.php:113
+msgid "SmilePay gateway method failed to enable!"
+msgstr "速買配金流模組啟用失敗！"
+
+#: woocommerce/gateways/smilepay/smilepay-gateway.php:93
+msgid "SmilePay gateway method need php simplexml extension."
+msgstr "速買配金流模組需要 php simplexml 模組。"
+
+#: woocommerce/gateways/smilepay/smilepay-gateway.php:59
+msgid "SmilePay gateway options"
+msgstr "速買配金流設定"
+
+#: woocommerce/gateways/smilepay/smilepay-gateway-webatm.php:50
+msgid "Pay via SmilePay WebATM"
+msgstr "透過 速買配金流網路 ATM 付款"
+
+#: woocommerce/gateways/smilepay/smilepay-gateway-webatm.php:11
+msgid "SmilePay WebATM"
+msgstr "速買配網路 ATM"
+
+#: woocommerce/gateways/smilepay/smilepay-gateway-cvs-711.php:57
+msgid "Pay via SmilePay CVS 711"
+msgstr "透過 速買配金流 7-11超商代碼 付款"
+
+#: woocommerce/gateways/smilepay/smilepay-gateway-cvs-711.php:11
+msgid "SmilePay CVS 7-11"
+msgstr "透過 7-11 超商代碼"
+
+#: woocommerce/gateways/smilepay/smilepay-gateway-cvs-711.php:10
+msgid "Pay via CVS 7-11"
+msgstr "使用 7-ELEVEN 超商代碼付款"
+
+#: woocommerce/gateways/smilepay/smilepay-gateway-cvs-fami.php:53
+msgid "Pay via SmilePay CVS Fami"
+msgstr "透過 速買配金流全家超商代碼  付款"
+
+#: woocommerce/gateways/smilepay/smilepay-gateway-cvs-fami.php:11
+msgid "SmilePay CVS Fami"
+msgstr "速買配全家超商代碼"
+
+#: woocommerce/gateways/smilepay/smilepay-gateway-cvs-fami.php:10
+msgid "Pay via CVS Fami"
+msgstr "使用全家超商代碼付款"
+
+#: woocommerce/gateways/smilepay/smilepay-gateway-atm.php:53
+msgid "Pay via SmilePay ATM"
+msgstr "透過 速買配金流 ATM 櫃員機 付款"
+
+#: woocommerce/gateways/smilepay/smilepay-gateway-atm.php:11
+msgid "SmilePay ATM"
+msgstr "速買配 ATM 櫃員機"
+
+#: woocommerce/gateways/smilepay/smilepay-gateway-credit.php:45
+msgid "Pay via SmilePay Credit"
+msgstr "透過 速買配金流信用卡 付款"
+
+#: woocommerce/gateways/smilepay/smilepay-gateway-credit.php:11
+msgid "SmilePay Credit"
+msgstr "速買配信用卡"
+
+#: woocommerce/gateways/smilepay/smilepay-gateway-barcode.php:57
+msgid "Pay via SmilePay BARCODE"
+msgstr "透過 速買配金流超商條碼 付款"
+
+#: woocommerce/gateways/smilepay/smilepay-gateway-barcode.php:11
+msgid "SmilePay BARCODE"
+msgstr "速買配超商條碼"
+
+#: woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-cvs.php:51
+msgid "CVS allowable payment deadline from 2 hours to 7 days."
+msgstr "超商代碼允許的繳費期限為 2小時到 7 天。"
+
+#. translators: %1$s Error messade, %2$d Error messade ID
+#: woocommerce/gateways/smilepay/includes/smilepay-gateway-api.php:93
+#: woocommerce/shipping/smilepay/includes/smilepay-shipping-api.php:197
+msgid "Get Smilepay code error: %1$s (%2$d)"
+msgstr "取得速買配付款資訊失敗：%1$s (%2$d)"
+
+#: woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-atm.php:51
+msgid "ATM allowable payment deadline from 1 day to 30 days."
+msgstr "ATM 櫃員機允許的繳費期限為 1 到 30 天。"
+
+#: woocommerce/gateways/smilepay/includes/settings-smilepay-gateway.php:69
+msgctxt "SmilePay"
+msgid "Rot_check"
+msgstr "驗證參數"
+
+#: woocommerce/gateways/smilepay/includes/settings-smilepay-gateway.php:63
+msgctxt "SmilePay"
+msgid "Verify_key"
+msgstr "檢查碼"
+
+#: woocommerce/gateways/smilepay/includes/settings-smilepay-gateway.php:57
+msgctxt "SmilePay"
+msgid "Rvg2c"
+msgstr "參數碼"
+
+#: woocommerce/gateways/smilepay/includes/settings-smilepay-gateway.php:51
+msgctxt "SmilePay"
+msgid "Dcvc"
+msgstr "商家代號"
+
+#: woocommerce/gateways/smilepay/includes/settings-smilepay-gateway.php:48
+msgid "Enable SmilePay gateway sandbox"
+msgstr "啟用速買配金流測試模式"
+
+#: woocommerce/gateways/smilepay/includes/settings-smilepay-gateway.php:44
+msgid "SmilePay gateway sandbox"
+msgstr "速買配金流測試模式"
+
+#. translators: %s: Path of log file
+#: woocommerce/gateways/smilepay/includes/settings-smilepay-gateway.php:23
+msgid "Log SmilePay gateway events/message, inside %s"
+msgstr "紀錄 速買配金流 事件/訊息，檔案位於 %s"
+
+#: woocommerce/gateways/smilepay/includes/smilepay-gateway-base.php:20
+msgid "SmilePay"
+msgstr "速買配"
+
+#: woocommerce/settings/class-settings-ry-tools.php:129
+#: woocommerce/settings/class-settings-ry-tools.php:137
+msgid "For correct link with SmilePay API, need enable secure checkout."
+msgstr "為了正確的連結速買配 API，請啟用安全結帳。"
+
+#: woocommerce/gateways/smilepay/includes/settings-smilepay-gateway.php:13
+#: woocommerce/settings/class-settings-ry-tools.php:128
+msgid "Enable SmilePay gateway method"
+msgstr "啟用 速買配金流 模組"
+
+#: woocommerce/settings/class-settings-ry-tools.php:122
+msgid "SmilePay support"
+msgstr "速買配支援"
+
+#: woocommerce/gateways/ecpay/includes/ecpay-gateway-api.php:88
+#: woocommerce/gateways/newebpay/includes/newebpay-gateway-api.php:89
+#: woocommerce/gateways/smilepay/includes/smilepay-gateway-base.php:52
+msgid "Please wait.<br>Getting checkout info."
+msgstr "請等待。<br>取得付款資訊中。"
+
+#: woocommerce/shipping/ecpay/includes/settings-ecpay-shipping.php:115
+msgid "Sender address"
+msgstr "寄件人地址"
+
+#: woocommerce/shipping/ecpay/includes/settings-ecpay-shipping.php:110
+msgid "Sender zipcode"
+msgstr "寄件人郵遞區號"
+
+#: woocommerce/shipping/ecpay/includes/ecpay-shipping-admin.php:127
+msgid "Get new Ecpay shipping no with cod"
+msgstr "取得新的綠界物流編號(代收)"
+
+#: woocommerce/shipping/ecpay/includes/ecpay-shipping-admin.php:125
+msgid "Get new Ecpay shipping no"
+msgstr "取得新的綠界物流編號"
+
+#: woocommerce/shipping/ecpay/ecpay-shipping-home-tcat.php:11
+msgid "ECPay shipping home Tcat"
+msgstr "綠界物流 宅配 黑貓"
+
+#: woocommerce/shipping/ecpay/ecpay-shipping-home-ecan.php:11
+msgid "ECPay shipping home Ecan"
+msgstr "綠界物流 宅配 宅配通"
+
+#: woocommerce/admin/meta-boxes/ecpay-shipping-meta-box.php:88
+msgctxt "shipping type"
+msgid "Home"
+msgstr "宅配"
+
+#: woocommerce/admin/meta-boxes/ecpay-shipping-meta-box.php:78
+msgctxt "shipping type"
+msgid "CVS"
+msgstr "超商取貨"
+
+#: woocommerce/admin/meta-boxes/ecpay-shipping-meta-box.php:43
+#: woocommerce/admin/meta-boxes/smilepay-shipping-meta-box.php:40
+msgid "Shipping no"
+msgstr "物流編號"
+
+#: woocommerce/admin/meta-boxes/ecpay-shipping-meta-box.php:40
+msgid "Shipping Type"
+msgstr "物流類型"
+
+#: woocommerce/admin/view/html-setting-tools.php:15
+msgid "Check server time"
+msgstr "檢查伺服器時間"
+
+#. translators: %d: differ time (second)
+#: woocommerce/admin/view/html-setting-tools.php:9
+msgid "Server time and Google Public NTP differ is %d second"
+msgid_plural "Server time and Google Public NTP differ is %d seconds"
+msgstr[0] "伺服器上的時間跟 Google Public NTP 相差 %d 秒"
+
+#: class.ry-wt.admin.php:38 woocommerce/admin/view/html-setting-tools.php:2
+msgid "Tools"
+msgstr "工具"
+
+#: class.ry-wt.main.php:94
+msgid "(not paid)"
+msgstr "(尚未付款)"
+
+#: woocommerce/shipping/ecpay/includes/settings-ecpay-shipping.php:46
+#: woocommerce/shipping/smilepay/includes/settings-smilepay-shipping.php:34
+msgid "Always show shipping phone field in checkout form."
+msgstr "於結帳表單中永遠顯示收件人行動電話"
+
+#: woocommerce/shipping/ecpay/includes/settings-ecpay-shipping.php:42
+#: woocommerce/shipping/smilepay/includes/settings-smilepay-shipping.php:30
+msgid "Keep shipping phone"
+msgstr "永遠顯示收件人行動電話"
+
+#. translators: 1: EcPay ID 2: Old status mag 3: Old status no 4: New status
+#. mag 5: New status no
+#: woocommerce/shipping/ecpay/includes/ecpay-shipping-response.php:133
+msgid "%1$s shipping status from %2$s(%3$d) to %4$s(%5$d)"
+msgstr "%1$s 運送狀態從 %2$s(%3$d) 變更為 %4$s(%5$d)"
+
+#: woocommerce/gateways/ecpay/ecpay-gateway-cvs.php:19
+#: woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-cvs.php:51
+msgid "CVS allowable payment deadline from 1 minute to 60 days."
+msgstr "超商代碼允許的繳費期限為 1分鐘到 60 天。"
+
+#: woocommerce/shipping/ecpay/includes/settings-ecpay-shipping-base.php:36
+#: woocommerce/shipping/newebpay/includes/settings-newebpay-shipping-cvs.php:36
+#: woocommerce/shipping/smilepay/includes/settings-smilepay-shipping-base.php:36
+msgid "A minimum order amount AND a coupon"
+msgstr "每筆訂單的最小金額以及使用折價卷"
+
+#: woocommerce/shipping/ecpay/includes/settings-ecpay-shipping-base.php:35
+#: woocommerce/shipping/newebpay/includes/settings-newebpay-shipping-cvs.php:35
+#: woocommerce/shipping/smilepay/includes/settings-smilepay-shipping-base.php:35
+msgid "A minimum order amount OR a coupon"
+msgstr "每筆訂單的最小金額或使用折價卷"
+
+#: woocommerce/shipping/ecpay/includes/settings-ecpay-shipping-base.php:33
+#: woocommerce/shipping/newebpay/includes/settings-newebpay-shipping-cvs.php:33
+#: woocommerce/shipping/smilepay/includes/settings-smilepay-shipping-base.php:33
+msgid "A valid free shipping coupon"
+msgstr "一個有效的免運費折價卷"
+
+#. translators: Error status message
+#: woocommerce/gateways/ecpay/includes/ecpay-gateway-response.php:145
+#: woocommerce/gateways/smilepay/includes/smilepay-gateway-response.php:104
+msgid "Payment failed (%s)"
+msgstr "付款失敗 (%s)"
+
+#: woocommerce/gateways/ecpay/includes/ecpay-gateway-response.php:138
+#: woocommerce/gateways/smilepay/includes/smilepay-gateway-response.php:99
+msgid "Payment failed within paid order"
+msgstr "已付款的訂單收到付款失敗訊息"
+
+#: woocommerce/emails/ecpay-shipping-customer-cvs-store.php:88
+msgid "We look forward to fulfilling your order soon."
+msgstr "我們將盡全力為你服務。"
+
+#: woocommerce/shipping/newebpay/includes/settings-newebpay-shipping.php:7
+msgid "Because NewebPay limit, the shipping note no or shipping status can not show in site admin."
+msgstr "因為藍新的限制，所以貨運單號跟貨運狀態都不會在網站後台顯示。"
+
+#: woocommerce/shipping/newebpay/newebpay-shipping.php:66
+msgid "NewebPay shipping method failed to enable!"
+msgstr "藍新物流模組啟用失敗！"
+
+#: woocommerce/gateways/newebpay/newebpay-gateway.php:96
+#: woocommerce/settings/class-settings-ry-tools.php:50
+#: woocommerce/shipping/newebpay/newebpay-shipping.php:59
+msgid "NewebPay shipping method need enable NewebPay gateway."
+msgstr "藍新物流模組需要啟用藍新金流模組。"
+
+#: woocommerce/shipping/newebpay/newebpay-shipping.php:38
+msgid "NewebPay shipping options"
+msgstr "藍新物流設定"
+
+#: woocommerce/shipping/newebpay/newebpay-shipping-cvs.php:8
+msgid "NewebPay shipping CVS"
+msgstr "藍新物流 超商取貨"
+
+#: woocommerce/settings/class-settings-ry-tools.php:111
+#: woocommerce/shipping/newebpay/includes/settings-newebpay-shipping.php:14
+msgid "Enable NewebPay shipping method"
+msgstr "啟用 藍新物流 模組"
+
+#: woocommerce/admin/meta-boxes/newebpay-shipping-meta-box.php:36
+msgid "NewebPay shipping ID"
+msgstr "藍新物流ID"
+
+#: woocommerce/admin/meta-boxes/newebpay-shipping-meta-box.php:14
+msgid "NewebPay shipping info"
+msgstr "藍新物流資訊"
+
+#: class.ry-wt.main.php:369
+msgctxt "Bank code"
+msgid "822"
+msgstr "中國信託銀行"
+
+#: class.ry-wt.main.php:368
+msgctxt "Bank code"
+msgid "816"
+msgstr "安泰銀行"
+
+#: class.ry-wt.main.php:367
+msgctxt "Bank code"
+msgid "815"
+msgstr "日盛銀行"
+
+#: class.ry-wt.main.php:366
+msgctxt "Bank code"
+msgid "812"
+msgstr "台新銀行"
+
+#: class.ry-wt.main.php:365
+msgctxt "Bank code"
+msgid "810"
+msgstr "星展(台灣)銀行"
+
+#: class.ry-wt.main.php:364
+msgctxt "Bank code"
+msgid "809"
+msgstr "凱基銀行"
+
+#: class.ry-wt.main.php:363
+msgctxt "Bank code"
+msgid "808"
+msgstr "玉山銀行"
+
+#: class.ry-wt.main.php:362
+msgctxt "Bank code"
+msgid "807"
+msgstr "永豐銀行"
+
+#: class.ry-wt.main.php:361
+msgctxt "Bank code"
+msgid "806"
+msgstr "元大銀行"
+
+#: class.ry-wt.main.php:360
+msgctxt "Bank code"
+msgid "805"
+msgstr "遠東銀行"
+
+#: class.ry-wt.main.php:359
+msgctxt "Bank code"
+msgid "803"
+msgstr "聯邦銀行"
+
+#: class.ry-wt.main.php:358
+msgctxt "Bank code"
+msgid "700"
+msgstr "中華郵政"
+
+#: class.ry-wt.main.php:357
+msgctxt "Bank code"
+msgid "147"
+msgstr "三信銀行"
+
+#: class.ry-wt.main.php:356
+msgctxt "Bank code"
+msgid "118"
+msgstr "板信銀行"
+
+#: class.ry-wt.main.php:355
+msgctxt "Bank code"
+msgid "108"
+msgstr "陽信銀行"
+
+#: class.ry-wt.main.php:354
+msgctxt "Bank code"
+msgid "103"
+msgstr "新光銀行"
+
+#: class.ry-wt.main.php:353
+msgctxt "Bank code"
+msgid "102"
+msgstr "華泰銀行"
+
+#: class.ry-wt.main.php:352
+msgctxt "Bank code"
+msgid "101"
+msgstr "瑞興銀行"
+
+#: class.ry-wt.main.php:351
+msgctxt "Bank code"
+msgid "082"
+msgstr "巴黎銀行"
+
+#: class.ry-wt.main.php:350
+msgctxt "Bank code"
+msgid "081"
+msgstr "匯豐(台灣)銀行"
+
+#: class.ry-wt.main.php:349
+msgctxt "Bank code"
+msgid "075"
+msgstr "東亞銀行"
+
+#: class.ry-wt.main.php:348
+msgctxt "Bank code"
+msgid "072"
+msgstr "德意志銀行"
+
+#: class.ry-wt.main.php:347
+msgctxt "Bank code"
+msgid "054"
+msgstr "京城銀行"
+
+#: class.ry-wt.main.php:346
+msgctxt "Bank code"
+msgid "053"
+msgstr "台中銀行"
+
+#: class.ry-wt.main.php:345
+msgctxt "Bank code"
+msgid "052"
+msgstr "渣打銀行"
+
+#: class.ry-wt.main.php:344
+msgctxt "Bank code"
+msgid "050"
+msgstr "臺灣企銀"
+
+#: class.ry-wt.main.php:343
+msgctxt "Bank code"
+msgid "048"
+msgstr "王道銀行"
+
+#: class.ry-wt.main.php:342
+msgctxt "Bank code"
+msgid "039"
+msgstr "澳商澳盛銀行"
+
+#: class.ry-wt.main.php:341
+msgctxt "Bank code"
+msgid "025"
+msgstr "首都銀行"
+
+#: class.ry-wt.main.php:340
+msgctxt "Bank code"
+msgid "022"
+msgstr "美國銀行"
+
+#: class.ry-wt.main.php:339
+msgctxt "Bank code"
+msgid "021"
+msgstr "花旗(台灣)銀行"
+
+#: class.ry-wt.main.php:338
+msgctxt "Bank code"
+msgid "018"
+msgstr "農業金庫"
+
+#: class.ry-wt.main.php:337
+msgctxt "Bank code"
+msgid "017"
+msgstr "兆豐銀行"
+
+#: class.ry-wt.main.php:336
+msgctxt "Bank code"
+msgid "016"
+msgstr "高雄銀行"
+
+#: class.ry-wt.main.php:335
+msgctxt "Bank code"
+msgid "013"
+msgstr "國泰世華銀行"
+
+#: class.ry-wt.main.php:334
+msgctxt "Bank code"
+msgid "012"
+msgstr "台北富邦銀行"
+
+#: class.ry-wt.main.php:333
+msgctxt "Bank code"
+msgid "011"
+msgstr "上海銀行"
+
+#: class.ry-wt.main.php:332
+msgctxt "Bank code"
+msgid "009"
+msgstr "彰化銀行"
+
+#: class.ry-wt.main.php:331
+msgctxt "Bank code"
+msgid "008"
+msgstr "華南銀行"
+
+#: class.ry-wt.main.php:330
+msgctxt "Bank code"
+msgid "007"
+msgstr "第一銀行"
+
+#: class.ry-wt.main.php:329
+msgctxt "Bank code"
+msgid "006"
+msgstr "合作金庫銀行"
+
+#: class.ry-wt.main.php:328
+msgctxt "Bank code"
+msgid "005"
+msgstr "土地銀行"
+
+#: class.ry-wt.main.php:327
+msgctxt "Bank code"
+msgid "004"
+msgstr "臺灣銀行"
+
+#: woocommerce/gateways/newebpay/newebpay-gateway-credit-installment.php:57
+msgid "Pay via NewebPay Credit(installment)"
+msgstr "使用 藍新金流信用卡（分期） 付款"
+
+#: woocommerce/gateways/newebpay/newebpay-gateway-credit-installment.php:11
+msgid "NewebPay Credit(installment)"
+msgstr "藍新信用卡（分期）"
+
+#: woocommerce/gateways/newebpay/newebpay-gateway-atm.php:49
+msgid "Pay via NewebPay ATM"
+msgstr "透過 藍新金流 ATM 櫃員機 付款"
+
+#: woocommerce/gateways/newebpay/newebpay-gateway-atm.php:11
+msgid "NewebPay ATM"
+msgstr "藍新 ATM 櫃員機"
+
+#: woocommerce/gateways/newebpay/newebpay-gateway-webatm.php:46
+msgid "Pay via NewebPay WebATM"
+msgstr "透過 藍新金流網路 ATM 付款"
+
+#: woocommerce/gateways/newebpay/newebpay-gateway-webatm.php:11
+msgid "NewebPay WebATM"
+msgstr "藍新網路 ATM"
+
+#: woocommerce/gateways/newebpay/newebpay-gateway-barcode.php:56
+msgid "Pay via NewebPay BARCODE"
+msgstr "透過 藍新金流超商條碼 付款"
+
+#: woocommerce/gateways/newebpay/newebpay-gateway-barcode.php:11
+msgid "NewebPay BARCODE"
+msgstr "藍新超商條碼"
+
+#. translators: %1$s: Gateway method title, %2$d normal maximum
+#: woocommerce/gateways/ecpay/ecpay-gateway-barcode.php:84
+#: woocommerce/gateways/ecpay/ecpay-gateway-cvs.php:88
+#: woocommerce/gateways/newebpay/newebpay-gateway-barcode.php:84
+#: woocommerce/gateways/newebpay/newebpay-gateway-cvs.php:80
+#: woocommerce/gateways/smilepay/smilepay-gateway-atm.php:81
+#: woocommerce/gateways/smilepay/smilepay-gateway-barcode.php:85
+#: woocommerce/gateways/smilepay/smilepay-gateway-cvs-711.php:85
+#: woocommerce/gateways/smilepay/smilepay-gateway-cvs-fami.php:81
+#: woocommerce/gateways/smilepay/smilepay-gateway-webatm.php:72
+msgid "%1$s maximum amount more then normal maximum (%2$d)."
+msgstr "%1$s 最大訂購金額超過標準的限制 (%2$d)。"
+
+#: woocommerce/gateways/newebpay/newebpay-gateway-cvs.php:52
+msgid "Pay via NewebPay CVS"
+msgstr "透過 藍新金流超商代碼 付款"
+
+#: woocommerce/gateways/newebpay/newebpay-gateway-cvs.php:11
+msgid "NewebPay CVS"
+msgstr "藍新超商代碼"
+
+#: woocommerce/gateways/newebpay/newebpay-gateway.php:90
+msgid "NewebPay gateway method failed to enable!"
+msgstr "藍新金流模組啟用失敗！"
+
+#: woocommerce/gateways/newebpay/newebpay-gateway.php:54
+msgid "NewebPay gateway options"
+msgstr "藍新金流設定"
+
+#: woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-barcode.php:51
+msgid "Barcode allowable payment deadline from 1 day to 180 days."
+msgstr "超商代碼允許的繳費期限為 1天到 180 天。"
+
+#: woocommerce/gateways/newebpay/includes/settings-newebpay-gateway.php:48
+msgid "Enable NewebPay gateway sandbox"
+msgstr "啟用藍新金流測試模式"
+
+#: woocommerce/gateways/newebpay/includes/settings-newebpay-gateway.php:44
+msgid "NewebPay gateway sandbox"
+msgstr "藍新金流測試模式"
+
+#. translators: %s: Path of log file
+#: woocommerce/gateways/newebpay/includes/settings-newebpay-gateway.php:23
+msgid "Log NewebPay gateway events/message, inside %s"
+msgstr "紀錄 藍新金流 事件/訊息，檔案位於 %s"
+
+#: woocommerce/gateways/newebpay/includes/newebpay-gateway-base.php:18
+msgid "NewebPay"
+msgstr "藍新"
+
+#: woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-atm.php:51
+msgid "ATM allowable payment deadline from 1 day to 180 days."
+msgstr "ATM 櫃員機允許的繳費期限為 1 到 180 天。"
+
+#: woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-cvs.php:51
+msgid "CVS allowable payment deadline from 1 day to 180 days."
+msgstr "超商代碼允許的繳費期限為 1天到 180 天。"
+
+#: woocommerce/gateways/newebpay/newebpay-gateway-credit.php:42
+msgid "Pay via NewebPay Credit"
+msgstr "使用 藍新金流信用卡 付款"
+
+#: woocommerce/gateways/newebpay/newebpay-gateway-credit.php:11
+msgid "NewebPay Credit"
+msgstr "藍新信用卡"
+
+#: woocommerce/settings/class-settings-ry-tools.php:104
+#: woocommerce/settings/class-settings-ry-tools.php:112
+msgid "For correct link with NewebPay API, need enable secure checkout."
+msgstr "為了正確的連結藍新 API，請啟用安全結帳。"
+
+#: woocommerce/gateways/newebpay/includes/settings-newebpay-gateway.php:13
+#: woocommerce/settings/class-settings-ry-tools.php:103
+msgid "Enable NewebPay gateway method"
+msgstr "啟用 藍新金流 模組"
+
+#: woocommerce/settings/class-settings-ry-tools.php:97
+msgid "NewebPay support"
+msgstr "藍新支援"
+
+#: templates/cart/cart-choose-cvs.php:20
+msgid "Choose convenience store"
+msgstr "選擇超商門市"
+
+#: templates/cart/cart-choose-cvs.php:19
+msgid "Choose convenience Store"
+msgstr "選擇超商門市"
+
+#: templates/cart/cart-choose-cvs.php:21
+msgid "Convenience store:"
+msgstr "超商門市："
+
+#: woocommerce/shipping/ecpay/includes/settings-ecpay-shipping.php:60
+#: woocommerce/shipping/smilepay/includes/settings-smilepay-shipping.php:48
+msgid "Shipping note options"
+msgstr "物流單設定"
+
+#: woocommerce/admin/meta-boxes/ecpay-shipping-meta-box.php:14
+msgid "ECPay shipping info"
+msgstr "綠界物流資訊"
+
+#: class.ry-wt.admin.php:39 woocommerce/settings/settings-ry-tools-pro.php:4
+msgid "Pro version"
+msgstr "專業版資訊"
+
+#: woocommerce/settings/class-settings-ry-tools.php:197
+msgid "Show address input item in zip state address"
+msgstr "以郵遞區號鄉鎮縣市地址的方式顯示輸入欄位"
+
+#: woocommerce/settings/class-settings-ry-tools.php:196
+msgid "Address zip first"
+msgstr "先顯示郵遞區號"
+
+#. translators: %s: number of orders
+#: woocommerce/shipping/ry-base.php:68
+msgid "Overdue return (cvs) <span class=\"count\">(%s)</span>"
+msgid_plural "Overdue return (cvs) <span class=\"count\">(%s)</span>"
+msgstr[0] "逾時退貨（便利商店）<span class=\"count\">(%s)</span>"
+
+#: woocommerce/shipping/ry-base.php:28 woocommerce/shipping/ry-base.php:62
+msgctxt "Order status"
+msgid "Overdue return (cvs)"
+msgstr "逾時退貨（便利商店）"
+
+#: woocommerce/settings/class-settings-ry-tools.php:79
+#: woocommerce/settings/class-settings-ry-tools.php:87
+msgid "For correct link with ECPay API, need enable secure checkout."
+msgstr "為了正確的連結綠界 API，請啟用安全結帳。"
+
+#. translators: 1: Store name 2: Store ID
+#: woocommerce/gateways/newebpay/includes/newebpay-gateway-response.php:130
+#: woocommerce/shipping/ecpay/ecpay-shipping.php:333
+msgid "CVS store %1$s (%2$s)"
+msgstr "取貨門市 %1$s (%2$s)"
+
+#: woocommerce/shipping/ecpay/includes/settings-ecpay-shipping.php:77
+#: woocommerce/shipping/smilepay/includes/settings-smilepay-shipping.php:58
+msgctxt "Cvs type"
+msgid "C2C"
+msgstr "C2C"
+
+#: woocommerce/shipping/ecpay/includes/ecpay-shipping-admin.php:108
+#: woocommerce/shipping/newebpay/includes/newebpay-shipping-admin.php:96
+#: woocommerce/shipping/smilepay/includes/smilepay-shipping-admin.php:99
+msgid "All cvs shipping methods set to disable."
+msgstr "所有超商取貨的運送方法設置為停用。"
+
+#: woocommerce/shipping/ecpay/ecpay-shipping.php:92
+#: woocommerce/shipping/newebpay/newebpay-shipping.php:48
+#: woocommerce/shipping/smilepay/smilepay-shipping.php:75
+msgid "Cvs only can enable with shipping destination not force to billing address."
+msgstr "超商取貨只可以在運送目的地不為強制至客戶帳單地址時啟用。"
+
+#: woocommerce/shipping/ecpay/ecpay-shipping.php:90
+msgctxt "Cvs type"
+msgid "Disable"
+msgstr "停用"
+
+#: woocommerce/admin/meta-boxes/ecpay-shipping-meta-box.php:46
+#: woocommerce/admin/meta-boxes/newebpay-shipping-meta-box.php:38
+#: woocommerce/admin/meta-boxes/smilepay-shipping-meta-box.php:43
+#: woocommerce/shipping/ecpay/includes/ecpay-shipping-admin.php:40
+#: woocommerce/shipping/newebpay/includes/newebpay-shipping-admin.php:40
+#: woocommerce/shipping/smilepay/includes/smilepay-shipping-admin.php:43
+msgid "Store ID"
+msgstr "門市編號"
+
+#. translators: %1$s: date %2$s: time
+#: templates/order/order-ecpay-payment-info-barcode.php:60
+#: templates/order/order-ecpay-payment-info-cvs.php:44
+#: templates/order/order-smilepay-payment-info-cvs-711.php:44
+#: templates/order/order-smilepay-payment-info-cvs-fami.php:44
+#: woocommerce/admin/meta-boxes/ecpay-shipping-meta-box.php:106
+#: woocommerce/admin/meta-boxes/ecpay-shipping-meta-box.php:109
+#: woocommerce/admin/meta-boxes/newebpay-shipping-meta-box.php:64
+#: woocommerce/admin/meta-boxes/newebpay-shipping-meta-box.php:66
+#: woocommerce/admin/meta-boxes/smilepay-shipping-meta-box.php:90
+#: woocommerce/admin/meta-boxes/smilepay-shipping-meta-box.php:94
+msgctxt "Datetime"
+msgid "%1$s %2$s"
+msgstr "%1$s %2$s"
+
+#: woocommerce/settings/class-settings-ry-tools.php:190
+msgid "Show Last name before first name input item"
+msgstr "先顯示姓氏輸入欄位"
+
+#: woocommerce/settings/class-settings-ry-tools.php:189
+msgid "Last name first"
+msgstr "先顯示姓氏"
+
+#: woocommerce/admin/meta-boxes/ecpay-shipping-meta-box.php:112
+#: woocommerce/admin/meta-boxes/smilepay-shipping-meta-box.php:103
+msgid "Print"
+msgstr "列印"
+
+#: woocommerce/admin/meta-boxes/ecpay-shipping-meta-box.php:64
+#: woocommerce/admin/meta-boxes/smilepay-shipping-meta-box.php:61
+msgid "Shipping booking note"
+msgstr "物流託運單"
+
+#: woocommerce/shipping/ecpay/includes/settings-ecpay-shipping.php:39
+#: woocommerce/shipping/smilepay/includes/settings-smilepay-shipping.php:27
+msgid "Auto get shipping payment no when order status is change to processing."
+msgstr "當訂單狀態變更為處理中時自動取得物流寄貨單號。"
+
+#: woocommerce/shipping/ecpay/includes/settings-ecpay-shipping.php:35
+#: woocommerce/shipping/smilepay/includes/settings-smilepay-shipping.php:23
+msgid "Auto get shipping payment no"
+msgstr "自動取得物流寄貨單號"
+
+#: woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-credit-installment.php:56
+#: woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-credit-installment.php:58
+msgctxt "Gateway setting"
+msgid "Number of periods"
+msgstr "分期期數"
+
+#. translators: %d number of periods
+#: woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-credit-installment.php:44
+#: woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-credit-installment.php:46
+#: woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-credit-installment.php:48
+#: woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-credit-installment.php:50
+#: woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-credit-installment.php:52
+#: woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-credit-installment.php:44
+#: woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-credit-installment.php:46
+#: woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-credit-installment.php:48
+#: woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-credit-installment.php:50
+#: woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-credit-installment.php:52
+#: woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-credit-installment.php:54
+msgid "%d periods"
+msgstr "%d 期"
+
+#: woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-credit-installment.php:36
+#: woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-credit-installment.php:36
+msgid "Enable number of periods"
+msgstr "允許的分期期數"
+
+#. translators: %d number of periods
+#: woocommerce/gateways/ecpay/includes/ecpay-gateway-api.php:125
+#: woocommerce/gateways/newebpay/includes/newebpay-gateway-api.php:137
+msgid "Credit installment to %d"
+msgstr "信用卡分期期數 %d"
+
+#: woocommerce/gateways/ecpay/ecpay-gateway-credit-installment.php:57
+msgid "Pay via ECPay Credit(installment)"
+msgstr "使用 綠界信用卡（分期） 付款"
+
+#: woocommerce/gateways/ecpay/ecpay-gateway-credit-installment.php:46
+#: woocommerce/gateways/newebpay/newebpay-gateway-credit-installment.php:46
+msgctxt "Checkout info"
+msgid "Number of periods"
+msgstr "分期期數"
+
+#: woocommerce/gateways/ecpay/ecpay-gateway-credit-installment.php:11
+msgid "ECPay Credit(installment)"
+msgstr "綠界信用卡（分期）"
+
+#: woocommerce/gateways/ecpay/ecpay-gateway-credit-installment.php:10
+#: woocommerce/gateways/newebpay/newebpay-gateway-credit-installment.php:10
+msgid "Pay via Credit(installment)"
+msgstr "使用信用卡付款（分期）"
+
+#: woocommerce/shipping/ecpay/includes/ecpay-shipping-admin.php:130
+#: woocommerce/shipping/newebpay/includes/newebpay-shipping-admin.php:110
+#: woocommerce/shipping/smilepay/includes/smilepay-shipping-admin.php:117
+msgid "Resend at cvs notification"
+msgstr "重寄超商到貨通知"
+
+#. translators: %s Error messade
+#: woocommerce/shipping/ecpay/includes/ecpay-shipping-api.php:184
+msgid "Get shipping code error: %s"
+msgstr "取得物流代碼失敗：%s"
+
+#: woocommerce/shipping/ecpay/ecpay-shipping.php:105
+msgid "Name length between 1 to 10 letter (5 if chinese)"
+msgstr "姓名長度在 1 到 10 個字中間（中文為 5 個字）"
+
+#: woocommerce/gateways/ecpay/includes/settings-ecpay-gateway.php:31
+#: woocommerce/gateways/newebpay/includes/settings-newebpay-gateway.php:31
+#: woocommerce/gateways/smilepay/includes/settings-smilepay-gateway.php:31
+#: woocommerce/shipping/ecpay/includes/settings-ecpay-shipping.php:68
+msgid "The prefix string of order no. Only letters and numbers allowed allowed."
+msgstr "訂單編號前綴字符串。只允許使用英文字母與數字。"
+
+#: woocommerce/gateways/ecpay/ecpay-gateway.php:103
+#: woocommerce/gateways/newebpay/newebpay-gateway.php:102
+#: woocommerce/gateways/smilepay/smilepay-gateway.php:125
+#: woocommerce/shipping/ecpay/ecpay-shipping.php:137
+msgid "Order no prefix only letters and numbers allowed allowed"
+msgstr "訂單編號前綴只允許使用英文字母與數字"
+
+#: woocommerce/shipping/ry-base.php:204
+msgid "Complete"
+msgstr "完成"
+
+#. translators: %s: number of orders
+#: woocommerce/shipping/ry-base.php:58
+msgid "Wait pickup (cvs) <span class=\"count\">(%s)</span>"
+msgid_plural "Wait pickup (cvs) <span class=\"count\">(%s)</span>"
+msgstr[0] "等待取貨（便利商店）<span class=\"count\">(%s)</span>"
+
+#: woocommerce/shipping/ry-base.php:27 woocommerce/shipping/ry-base.php:52
+msgctxt "Order status"
+msgid "Wait pickup (cvs)"
+msgstr "等待取貨（便利商店）"
+
+#: woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-atm.php:29
+#: woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-barcode.php:29
+#: woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-credit-installment.php:29
+#: woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-credit.php:29
+#: woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-cvs.php:29
+#: woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-webatm.php:29
+#: woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-atm.php:29
+#: woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-barcode.php:29
+#: woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-credit-installment.php:29
+#: woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-credit.php:29
+#: woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-cvs.php:29
+#: woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-webatm.php:29
+#: woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-atm.php:29
+#: woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-barcode.php:29
+#: woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-credit.php:29
+#: woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-cvs.php:29
+#: woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-webatm.php:29
+msgid "0 to disable minimum amount limit."
+msgstr "0 代表停用最小訂單金額限制。"
+
+#. translators: %s: Gateway method title
+#: woocommerce/gateways/ecpay/ecpay-gateway-atm.php:70
+#: woocommerce/gateways/ecpay/ecpay-gateway-barcode.php:78
+#: woocommerce/gateways/ecpay/ecpay-gateway-cvs.php:82
+#: woocommerce/gateways/ecpay/ecpay-gateway-webatm.php:61
+#: woocommerce/gateways/ecpay/includes/ecpay-gateway-base.php:29
+#: woocommerce/gateways/newebpay/includes/newebpay-gateway-base.php:29
+#: woocommerce/gateways/newebpay/newebpay-gateway-barcode.php:78
+#: woocommerce/gateways/newebpay/newebpay-gateway-cvs.php:74
+#: woocommerce/gateways/smilepay/includes/smilepay-gateway-base.php:31
+#: woocommerce/gateways/smilepay/smilepay-gateway-atm.php:75
+#: woocommerce/gateways/smilepay/smilepay-gateway-barcode.php:79
+#: woocommerce/gateways/smilepay/smilepay-gateway-credit.php:61
+#: woocommerce/gateways/smilepay/smilepay-gateway-cvs-711.php:79
+#: woocommerce/gateways/smilepay/smilepay-gateway-cvs-fami.php:75
+#: woocommerce/gateways/smilepay/smilepay-gateway-webatm.php:66
+msgid "%s minimum amount out of range. Set as default value."
+msgstr "%s 最小訂購金額超過限制，調整為預設值。"
+
+#: class.ry-wt.main.php:293
+msgid "Please check your server time setting. Server time is differs from Google Public NTP more than one minute."
+msgstr "請檢查伺服器的時間設定。與 Google Public NTP 的時間相差超過一分鐘。"
+
+#: woocommerce/shipping/ecpay/includes/settings-ecpay-shipping.php:53
+#: woocommerce/shipping/smilepay/includes/settings-smilepay-shipping.php:41
+msgid "Auto completed order when user getted products."
+msgstr "當使用者收到商品後自動完成訂單。"
+
+#: woocommerce/shipping/ecpay/includes/settings-ecpay-shipping.php:49
+#: woocommerce/shipping/smilepay/includes/settings-smilepay-shipping.php:37
+msgid "Auto completed order"
+msgstr "自動完成訂單"
+
+#. Author URI of the plugin
+msgid "https://richer.tw/"
+msgstr "https://richer.tw/"
+
+#. Author of the plugin
+msgid "Richer Yang"
+msgstr "Richer Yang"
+
+#. Description of the plugin
+msgid "WooCommerce Tools"
+msgstr "WooCommerce Tools"
+
+#. Plugin URI of the plugin
+msgid "https://richer.tw/ry-woocommerce-tools"
+msgstr "https://richer.tw/ry-woocommerce-tools"
+
+#: woocommerce/shipping/ecpay/includes/settings-ecpay-shipping.php:133
+msgid "Enable ECPay shipping sandbox"
+msgstr "啟用綠界物流測試模式"
+
+#: woocommerce/shipping/ecpay/includes/settings-ecpay-shipping.php:129
+msgid "ECPay shipping sandbox"
+msgstr "綠界物流測試模式"
+
+#: woocommerce/shipping/ecpay/includes/settings-ecpay-shipping.php:99
+msgid "Sender cellphone"
+msgstr "寄件人手機"
+
+#: woocommerce/shipping/ecpay/includes/settings-ecpay-shipping.php:88
+msgid "Sender phone"
+msgstr "寄件人電話"
+
+#: woocommerce/shipping/ecpay/includes/settings-ecpay-shipping.php:81
+msgid "Sender name"
+msgstr "寄件人姓名"
+
+#: woocommerce/shipping/ecpay/includes/settings-ecpay-shipping.php:72
+#: woocommerce/shipping/smilepay/includes/settings-smilepay-shipping.php:53
+msgid "Cvs shipping type"
+msgstr "超商取貨類型"
+
+#: woocommerce/shipping/ecpay/includes/settings-ecpay-shipping.php:32
+#: woocommerce/shipping/smilepay/includes/settings-smilepay-shipping.php:20
+msgid "Log status change at order notes."
+msgstr "於訂單備註中記錄狀態變更。"
+
+#: woocommerce/shipping/ecpay/includes/settings-ecpay-shipping.php:28
+#: woocommerce/shipping/smilepay/includes/settings-smilepay-shipping.php:16
+msgid "Log status change"
+msgstr "紀錄狀態變更"
+
+#. translators: %s: Path of log file
+#: woocommerce/shipping/ecpay/includes/settings-ecpay-shipping.php:23
+msgid "Log ECPay shipping events/message, inside %s"
+msgstr "紀錄 綠界物流 事件/訊息，檔案位於 %s"
+
+#. translators: %s: shipping class name
+#: woocommerce/shipping/ecpay/includes/settings-ecpay-shipping-base.php:75
+#: woocommerce/shipping/newebpay/includes/settings-newebpay-shipping-cvs.php:75
+#: woocommerce/shipping/smilepay/includes/settings-smilepay-shipping-base.php:75
+msgid "\"%s\" available"
+msgstr "\"%s\" 可運送"
+
+#. translators: %s: shipping class setting url
+#: woocommerce/shipping/ecpay/includes/settings-ecpay-shipping-base.php:67
+#: woocommerce/shipping/newebpay/includes/settings-newebpay-shipping-cvs.php:67
+#: woocommerce/shipping/smilepay/includes/settings-smilepay-shipping-base.php:67
+msgid "These shipping available based on the <a href=\"%s\">product shipping class</a>."
+msgstr "這些可否運送是基於<a href=\"%s\">商品運送類別</a>。"
+
+#: woocommerce/shipping/ecpay/includes/settings-ecpay-shipping-base.php:63
+#: woocommerce/shipping/newebpay/includes/settings-newebpay-shipping-cvs.php:63
+#: woocommerce/shipping/smilepay/includes/settings-smilepay-shipping-base.php:63
+msgid "Shipping available"
+msgstr "可否運送"
+
+#: woocommerce/shipping/ecpay/includes/settings-ecpay-shipping-base.php:54
+#: woocommerce/shipping/newebpay/includes/settings-newebpay-shipping-cvs.php:54
+#: woocommerce/shipping/smilepay/includes/settings-smilepay-shipping-base.php:54
+msgid "Calculate free shipping first. 0 to disable plus cost by weight."
+msgstr "先計算免運費。 0 代表停用運費加成計算。"
+
+#. translators: %s WooCommerce weight unit
+#: woocommerce/shipping/ecpay/includes/settings-ecpay-shipping-base.php:50
+#: woocommerce/shipping/newebpay/includes/settings-newebpay-shipping-cvs.php:50
+#: woocommerce/shipping/smilepay/includes/settings-smilepay-shipping-base.php:50
+msgid "Every weight (%s) to plus times of cost"
+msgstr "每 %s 加成計算運費"
+
+#: woocommerce/shipping/ecpay/includes/settings-ecpay-shipping-base.php:45
+#: woocommerce/shipping/newebpay/includes/settings-newebpay-shipping-cvs.php:45
+#: woocommerce/shipping/smilepay/includes/settings-smilepay-shipping-base.php:45
+msgid "Users will need to spend this amount to get free shipping (if enabled above)."
+msgstr "消費者可以獲得免運費的最低消費金額 (如果上面有啟用)"
+
+#: woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-atm.php:25
+#: woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-barcode.php:25
+#: woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-credit-installment.php:25
+#: woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-credit.php:25
+#: woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-cvs.php:25
+#: woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-webatm.php:25
+#: woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-atm.php:25
+#: woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-barcode.php:25
+#: woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-credit-installment.php:25
+#: woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-credit.php:25
+#: woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-cvs.php:25
+#: woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-webatm.php:25
+#: woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-atm.php:25
+#: woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-barcode.php:25
+#: woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-credit.php:25
+#: woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-cvs.php:25
+#: woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-webatm.php:25
+#: woocommerce/shipping/ecpay/includes/settings-ecpay-shipping-base.php:41
+#: woocommerce/shipping/newebpay/includes/settings-newebpay-shipping-cvs.php:41
+#: woocommerce/shipping/smilepay/includes/settings-smilepay-shipping-base.php:41
+msgid "Minimum order amount"
+msgstr "最小訂購金額"
+
+#: woocommerce/shipping/ecpay/includes/settings-ecpay-shipping-base.php:34
+#: woocommerce/shipping/newebpay/includes/settings-newebpay-shipping-cvs.php:34
+#: woocommerce/shipping/smilepay/includes/settings-smilepay-shipping-base.php:34
+msgid "A minimum order amount"
+msgstr "最小訂購金額"
+
+#: woocommerce/shipping/ecpay/includes/settings-ecpay-shipping-base.php:32
+#: woocommerce/shipping/newebpay/includes/settings-newebpay-shipping-cvs.php:32
+#: woocommerce/shipping/smilepay/includes/settings-smilepay-shipping-base.php:32
+msgid "N/A"
+msgstr "不提供"
+
+#: woocommerce/shipping/ecpay/includes/settings-ecpay-shipping-base.php:28
+#: woocommerce/shipping/newebpay/includes/settings-newebpay-shipping-cvs.php:28
+#: woocommerce/shipping/smilepay/includes/settings-smilepay-shipping-base.php:28
+msgid "Free shipping requires..."
+msgstr "如果要免運費的話需要…"
+
+#: woocommerce/shipping/ecpay/includes/settings-ecpay-shipping-base.php:21
+#: woocommerce/shipping/newebpay/includes/settings-newebpay-shipping-cvs.php:21
+#: woocommerce/shipping/smilepay/includes/settings-smilepay-shipping-base.php:21
+msgid "Shipping cost"
+msgstr "運費"
+
+#: woocommerce/shipping/ecpay/includes/settings-ecpay-shipping-base.php:16
+#: woocommerce/shipping/newebpay/includes/settings-newebpay-shipping-cvs.php:16
+#: woocommerce/shipping/smilepay/includes/settings-smilepay-shipping-base.php:16
+msgctxt "Tax status"
+msgid "None"
+msgstr "無"
+
+#: woocommerce/shipping/ecpay/includes/settings-ecpay-shipping-base.php:15
+#: woocommerce/shipping/newebpay/includes/settings-newebpay-shipping-cvs.php:15
+#: woocommerce/shipping/smilepay/includes/settings-smilepay-shipping-base.php:15
+msgid "Taxable"
+msgstr "應課稅"
+
+#: woocommerce/shipping/ecpay/includes/settings-ecpay-shipping-base.php:11
+#: woocommerce/shipping/newebpay/includes/settings-newebpay-shipping-cvs.php:11
+#: woocommerce/shipping/smilepay/includes/settings-smilepay-shipping-base.php:11
+msgid "Tax status"
+msgstr "稅金狀態"
+
+#. translators: 1: EcPay ID 2: Old status no 3: New status no
+#: woocommerce/shipping/smilepay/includes/smilepay-shipping-response.php:179
+msgid "%1$s shipping status from %2$s to %3$s"
+msgstr "%1$s 運送狀態從 %2$s 變更為 %3$s"
+
+#: woocommerce/shipping/ecpay/ecpay-shipping.php:246
+#: woocommerce/shipping/ecpay/includes/ecpay-shipping-admin.php:52
+msgid "Store Telephone"
+msgstr "門市電話"
+
+#: woocommerce/shipping/ecpay/ecpay-shipping.php:239
+#: woocommerce/shipping/ecpay/includes/ecpay-shipping-admin.php:48
+#: woocommerce/shipping/newebpay/includes/newebpay-shipping-admin.php:48
+#: woocommerce/shipping/smilepay/includes/smilepay-shipping-admin.php:51
+msgid "Store Address"
+msgstr "門市地址"
+
+#: woocommerce/shipping/ecpay/ecpay-shipping.php:232
+#: woocommerce/shipping/ecpay/includes/ecpay-shipping-admin.php:44
+#: woocommerce/shipping/newebpay/includes/newebpay-shipping-admin.php:44
+#: woocommerce/shipping/smilepay/includes/smilepay-shipping-admin.php:47
+msgid "Store Name"
+msgstr "門市名稱"
+
+#: woocommerce/shipping/ecpay/ecpay-shipping.php:224
+#: woocommerce/shipping/ecpay/includes/ecpay-shipping-admin.php:58
+#: woocommerce/shipping/ecpay/includes/ecpay-shipping-admin.php:62
+#: woocommerce/shipping/newebpay/includes/newebpay-shipping-admin.php:52
+#: woocommerce/shipping/smilepay/includes/smilepay-shipping-admin.php:55
+#: woocommerce/shipping/smilepay/smilepay-shipping.php:114
+msgid "Phone"
+msgstr "行動電話"
+
+#: woocommerce/shipping/ecpay/ecpay-shipping.php:132
+msgid "ECPay shipping method failed to enable!"
+msgstr "綠界物流模組啟用失敗！"
+
+#: woocommerce/shipping/ecpay/ecpay-shipping.php:117
+#: woocommerce/shipping/ecpay/includes/settings-ecpay-shipping.php:102
+msgid "Cellphone format 09xxxxxxxx"
+msgstr "手機格式  09xxxxxxxx"
+
+#: woocommerce/shipping/ecpay/ecpay-shipping.php:111
+#: woocommerce/shipping/ecpay/includes/settings-ecpay-shipping.php:91
+msgid "Phone format (0x)xxxxxxx#xx"
+msgstr "電話格式 (0x)xxxxxxx#xx"
+
+#: woocommerce/shipping/ecpay/includes/settings-ecpay-shipping.php:84
+msgid "Name length between 1 to 10 letter"
+msgstr "姓名長度在 1 到 10 個字中間"
+
+#: woocommerce/shipping/ecpay/ecpay-shipping.php:105
+#: woocommerce/shipping/ecpay/ecpay-shipping.php:111
+#: woocommerce/shipping/ecpay/ecpay-shipping.php:117
+msgid "Verification failed!"
+msgstr "驗證失敗！"
+
+#: woocommerce/shipping/ecpay/ecpay-shipping.php:78
+msgid "ECPay shipping options"
+msgstr "綠界物流設定"
+
+#: woocommerce/shipping/ecpay/ecpay-shipping-cvs-hilife.php:11
+msgid "ECPay shipping CVS Hilife"
+msgstr "綠界物流 超商取貨 萊爾富"
+
+#: woocommerce/shipping/ecpay/ecpay-shipping-cvs-family.php:11
+msgid "ECPay shipping CVS Family"
+msgstr "綠界物流 超商取貨 全家便利店"
+
+#: woocommerce/shipping/ecpay/ecpay-shipping-cvs-711.php:11
+msgid "ECPay shipping CVS 7-11"
+msgstr "綠界物流 超商取貨 7-ELEVEN"
+
+#: woocommerce/settings/class-settings-ry-tools.php:183
+msgid "Show Country select item"
+msgstr "顯示國家選項"
+
+#: woocommerce/settings/class-settings-ry-tools.php:182
+msgid "Show Country"
+msgstr "顯示國家"
+
+#: woocommerce/settings/class-settings-ry-tools.php:177
+msgid "Address options"
+msgstr "地址選項"
+
+#: woocommerce/settings/class-settings-ry-tools.php:160
+msgid "Enable the strength password check."
+msgstr "啟用強密碼檢測。"
+
+#: woocommerce/settings/class-settings-ry-tools.php:159
+msgid "strength password"
+msgstr "強密碼"
+
+#: woocommerce/settings/class-settings-ry-tools.php:153
+msgid "Enable order to change payment"
+msgstr "允許訂單變更付款方式"
+
+#: woocommerce/settings/class-settings-ry-tools.php:152
+msgid "Repay action"
+msgstr "重新付款"
+
+#: woocommerce/settings/class-settings-ry-tools.php:147
+msgid "General options"
+msgstr "一般選項"
+
+#: woocommerce/settings/class-settings-ry-tools.php:86
+#: woocommerce/shipping/ecpay/includes/settings-ecpay-shipping.php:13
+msgid "Enable ECPay shipping method"
+msgstr "啟用 綠界物流 模組"
+
+#: woocommerce/settings/class-settings-ry-tools.php:85
+#: woocommerce/settings/class-settings-ry-tools.php:110
+#: woocommerce/settings/class-settings-ry-tools.php:135
+msgid "Shipping method"
+msgstr "物流模組"
+
+#: woocommerce/settings/class-settings-ry-tools.php:77
+#: woocommerce/settings/class-settings-ry-tools.php:102
+#: woocommerce/settings/class-settings-ry-tools.php:127
+msgid "Gateway method"
+msgstr "金流模組"
+
+#: woocommerce/settings/class-settings-ry-tools.php:72
+msgid "ECPay support"
+msgstr "綠界支援"
+
+#: woocommerce/settings/class-settings-ry-tools.php:7
+msgid "RY Tools"
+msgstr "RY Tools"
+
+#: woocommerce/gateways/ecpay/includes/settings-ecpay-gateway.php:63
+#: woocommerce/gateways/newebpay/includes/settings-newebpay-gateway.php:63
+#: woocommerce/shipping/ecpay/includes/settings-ecpay-shipping.php:148
+msgid "HashIV"
+msgstr "HashIV"
+
+#: woocommerce/gateways/ecpay/includes/settings-ecpay-gateway.php:57
+#: woocommerce/gateways/newebpay/includes/settings-newebpay-gateway.php:57
+#: woocommerce/shipping/ecpay/includes/settings-ecpay-shipping.php:142
+msgid "HashKey"
+msgstr "HashKey"
+
+#: woocommerce/gateways/ecpay/includes/settings-ecpay-gateway.php:51
+#: woocommerce/gateways/newebpay/includes/settings-newebpay-gateway.php:51
+#: woocommerce/shipping/ecpay/includes/settings-ecpay-shipping.php:136
+msgid "MerchantID"
+msgstr "商店代號"
+
+#: woocommerce/gateways/ecpay/includes/settings-ecpay-gateway.php:48
+msgid "Enable ECPay gateway sandbox"
+msgstr "啟用綠界金流測試模式"
+
+#: woocommerce/gateways/ecpay/includes/settings-ecpay-gateway.php:44
+msgid "ECPay gateway sandbox"
+msgstr "綠界金流測試模式"
+
+#: woocommerce/gateways/ecpay/includes/settings-ecpay-gateway.php:39
+#: woocommerce/gateways/newebpay/includes/settings-newebpay-gateway.php:39
+#: woocommerce/gateways/smilepay/includes/settings-smilepay-gateway.php:39
+#: woocommerce/shipping/ecpay/includes/settings-ecpay-shipping.php:124
+msgid "API credentials"
+msgstr "API 憑證"
+
+#: woocommerce/gateways/ecpay/includes/settings-ecpay-gateway.php:28
+#: woocommerce/gateways/newebpay/includes/settings-newebpay-gateway.php:28
+#: woocommerce/gateways/smilepay/includes/settings-smilepay-gateway.php:28
+#: woocommerce/shipping/ecpay/includes/settings-ecpay-shipping.php:65
+msgid "Order no prefix"
+msgstr "訂單編號前綴字"
+
+#. translators: %s: Path of log file
+#: woocommerce/gateways/ecpay/includes/settings-ecpay-gateway.php:23
+msgid "Log ECPay gateway events/message, inside %s"
+msgstr "紀錄 綠界金流 事件/訊息，檔案位於 %s"
+
+#: woocommerce/gateways/ecpay/includes/settings-ecpay-gateway.php:20
+#: woocommerce/gateways/newebpay/includes/settings-newebpay-gateway.php:20
+#: woocommerce/gateways/smilepay/includes/settings-smilepay-gateway.php:20
+#: woocommerce/shipping/ecpay/includes/settings-ecpay-shipping.php:20
+msgid "Enable logging"
+msgstr "啓用記錄"
+
+#: woocommerce/gateways/ecpay/includes/settings-ecpay-gateway.php:16
+#: woocommerce/gateways/newebpay/includes/settings-newebpay-gateway.php:16
+#: woocommerce/gateways/smilepay/includes/settings-smilepay-gateway.php:16
+#: woocommerce/shipping/ecpay/includes/settings-ecpay-shipping.php:16
+msgid "Debug log"
+msgstr "除錯記錄"
+
+#: woocommerce/gateways/ecpay/includes/settings-ecpay-gateway.php:13
+#: woocommerce/settings/class-settings-ry-tools.php:78
+msgid "Enable ECPay gateway method"
+msgstr "啟用 綠界金流 模組"
+
+#: woocommerce/gateways/ecpay/includes/settings-ecpay-gateway.php:4
+#: woocommerce/gateways/newebpay/includes/settings-newebpay-gateway.php:4
+#: woocommerce/gateways/smilepay/includes/settings-smilepay-gateway.php:4
+#: woocommerce/settings/class-settings-ry-tools.php:15
+#: woocommerce/shipping/ecpay/includes/settings-ecpay-shipping.php:4
+#: woocommerce/shipping/newebpay/includes/settings-newebpay-shipping.php:4
+#: woocommerce/shipping/smilepay/includes/settings-smilepay-shipping.php:4
+msgid "Base options"
+msgstr "基本設定"
+
+#: woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-cvs.php:47
+#: woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-cvs.php:47
+msgid "Payment deadline (minutes)"
+msgstr "付款截止日 (分)"
+
+#: woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-barcode.php:51
+msgid "Barcode allowable payment deadline from 1 day to 30 days."
+msgstr "超商條碼允許的繳費期限為 1 到 30 天。"
+
+#: woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-atm.php:51
+msgid "ATM allowable payment deadline from 1 day to 60 days."
+msgstr "ATM 櫃員機允許的繳費期限為 1 到 60 天。"
+
+#: woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-atm.php:40
+#: woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-barcode.php:40
+#: woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-cvs.php:40
+#: woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-webatm.php:40
+#: woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-atm.php:40
+#: woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-barcode.php:40
+#: woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-cvs.php:40
+#: woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-webatm.php:40
+#: woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-atm.php:40
+#: woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-barcode.php:40
+#: woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-cvs.php:40
+#: woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-webatm.php:40
+msgid "0 to disable maximum amount limit."
+msgstr "0 代表停用最大訂單金額限制。"
+
+#: woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-atm.php:36
+#: woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-barcode.php:36
+#: woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-cvs.php:36
+#: woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-webatm.php:36
+#: woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-atm.php:36
+#: woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-barcode.php:36
+#: woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-cvs.php:36
+#: woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-webatm.php:36
+#: woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-atm.php:36
+#: woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-barcode.php:36
+#: woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-cvs.php:36
+#: woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-webatm.php:36
+msgid "Maximum order amount"
+msgstr "最大訂購金額"
+
+#: woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-atm.php:22
+#: woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-barcode.php:22
+#: woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-credit-installment.php:22
+#: woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-credit.php:22
+#: woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-cvs.php:22
+#: woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-webatm.php:22
+#: woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-atm.php:22
+#: woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-barcode.php:22
+#: woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-credit-installment.php:22
+#: woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-credit.php:22
+#: woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-cvs.php:22
+#: woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-webatm.php:22
+#: woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-atm.php:22
+#: woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-barcode.php:22
+#: woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-credit.php:22
+#: woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-cvs.php:22
+#: woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-webatm.php:22
+msgid "This controls the description which the user sees during checkout."
+msgstr "此項目控制使用者在結帳時會看到的說明。"
+
+#: woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-atm.php:18
+#: woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-barcode.php:18
+#: woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-credit-installment.php:18
+#: woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-credit.php:18
+#: woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-cvs.php:18
+#: woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-webatm.php:18
+#: woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-atm.php:18
+#: woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-barcode.php:18
+#: woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-credit-installment.php:18
+#: woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-credit.php:18
+#: woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-cvs.php:18
+#: woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-webatm.php:18
+#: woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-atm.php:18
+#: woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-barcode.php:18
+#: woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-credit.php:18
+#: woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-cvs.php:18
+#: woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-webatm.php:18
+msgid "Description"
+msgstr "描述"
+
+#: woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-atm.php:14
+#: woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-barcode.php:14
+#: woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-credit-installment.php:14
+#: woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-credit.php:14
+#: woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-cvs.php:14
+#: woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-webatm.php:14
+#: woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-atm.php:14
+#: woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-barcode.php:14
+#: woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-credit-installment.php:14
+#: woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-credit.php:14
+#: woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-cvs.php:14
+#: woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-webatm.php:14
+#: woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-atm.php:14
+#: woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-barcode.php:14
+#: woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-credit.php:14
+#: woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-cvs.php:14
+#: woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-webatm.php:14
+#: woocommerce/shipping/ecpay/includes/settings-ecpay-shipping-base.php:7
+#: woocommerce/shipping/newebpay/includes/settings-newebpay-shipping-cvs.php:7
+#: woocommerce/shipping/smilepay/includes/settings-smilepay-shipping-base.php:7
+msgid "This controls the title which the user sees during checkout."
+msgstr "控制使用者在結帳時所看到的標題."
+
+#: woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-atm.php:11
+#: woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-barcode.php:11
+#: woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-credit-installment.php:11
+#: woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-credit.php:11
+#: woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-cvs.php:11
+#: woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-webatm.php:11
+#: woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-atm.php:11
+#: woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-barcode.php:11
+#: woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-credit-installment.php:11
+#: woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-credit.php:11
+#: woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-cvs.php:11
+#: woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-webatm.php:11
+#: woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-atm.php:11
+#: woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-barcode.php:11
+#: woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-credit.php:11
+#: woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-cvs.php:11
+#: woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-webatm.php:11
+#: woocommerce/shipping/ecpay/includes/settings-ecpay-shipping-base.php:4
+#: woocommerce/shipping/newebpay/includes/settings-newebpay-shipping-cvs.php:4
+#: woocommerce/shipping/smilepay/includes/settings-smilepay-shipping-base.php:4
+msgid "Title"
+msgstr "標題"
+
+#. translators: %s: Gateway method title
+#: woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-atm.php:6
+#: woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-barcode.php:6
+#: woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-credit-installment.php:6
+#: woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-credit.php:6
+#: woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-cvs.php:6
+#: woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-webatm.php:6
+#: woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-atm.php:6
+#: woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-barcode.php:6
+#: woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-credit-installment.php:6
+#: woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-credit.php:6
+#: woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-cvs.php:6
+#: woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-webatm.php:6
+#: woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-atm.php:6
+#: woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-barcode.php:6
+#: woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-credit.php:6
+#: woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-cvs.php:6
+#: woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-webatm.php:6
+msgid "Enable %s"
+msgstr "啟用 %s"
+
+#: woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-atm.php:4
+#: woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-barcode.php:4
+#: woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-credit-installment.php:4
+#: woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-credit.php:4
+#: woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-cvs.php:4
+#: woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-webatm.php:4
+#: woocommerce/gateways/ecpay/includes/settings-ecpay-gateway.php:9
+#: woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-atm.php:4
+#: woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-barcode.php:4
+#: woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-credit-installment.php:4
+#: woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-credit.php:4
+#: woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-cvs.php:4
+#: woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-webatm.php:4
+#: woocommerce/gateways/newebpay/includes/settings-newebpay-gateway.php:9
+#: woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-atm.php:4
+#: woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-barcode.php:4
+#: woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-credit.php:4
+#: woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-cvs.php:4
+#: woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-webatm.php:4
+#: woocommerce/gateways/smilepay/includes/settings-smilepay-gateway.php:9
+#: woocommerce/shipping/ecpay/includes/settings-ecpay-shipping.php:9
+#: woocommerce/shipping/newebpay/includes/settings-newebpay-shipping.php:10
+#: woocommerce/shipping/smilepay/includes/settings-smilepay-shipping.php:9
+msgid "Enable/Disable"
+msgstr "啓用/停用"
+
+#. translators: 1: Error status code 2: Error status message
+#: woocommerce/gateways/newebpay/includes/newebpay-gateway-response.php:175
+msgid "Payment failed: %1$s (%2$s)"
+msgstr "付款失敗： %1$s (%2$s)"
+
+#: woocommerce/gateways/ecpay/includes/ecpay-gateway-response.php:95
+#: woocommerce/gateways/newebpay/includes/newebpay-gateway-response.php:85
+#: woocommerce/gateways/smilepay/includes/smilepay-gateway-response.php:90
+msgid "Payment completed"
+msgstr "付款完成"
+
+#: woocommerce/gateways/ecpay/includes/ecpay-gateway-base.php:18
+msgid "ECPay"
+msgstr "綠界科技"
+
+#: woocommerce/gateways/ecpay/ecpay-gateway.php:98
+msgid "ECPay gateway method failed to enable!"
+msgstr "綠界金流模組啟用失敗！"
+
+#: woocommerce/gateways/ecpay/ecpay-gateway.php:54
+msgid "ECPay gateway options"
+msgstr "綠界金流設定"
+
+#: woocommerce/gateways/ecpay/ecpay-gateway-webatm.php:46
+msgid "Pay via ECPay WebATM"
+msgstr "透過 綠界金流網路 ATM 付款"
+
+#: woocommerce/gateways/ecpay/ecpay-gateway-webatm.php:11
+msgid "ECPay WebATM"
+msgstr "綠界網路 ATM"
+
+#: woocommerce/gateways/ecpay/ecpay-gateway-webatm.php:10
+#: woocommerce/gateways/newebpay/newebpay-gateway-webatm.php:10
+#: woocommerce/gateways/smilepay/smilepay-gateway-webatm.php:10
+msgid "Pay via WebATM"
+msgstr "使用網路 ATM 付款"
+
+#: woocommerce/gateways/ecpay/ecpay-gateway-cvs.php:75
+#: woocommerce/gateways/newebpay/newebpay-gateway-cvs.php:67
+#: woocommerce/gateways/smilepay/smilepay-gateway-cvs-711.php:72
+#: woocommerce/gateways/smilepay/smilepay-gateway-cvs-fami.php:68
+msgid "CVS payment deadline out of range. Set as default value."
+msgstr "超商代碼繳費期限超過限制，調整為預設值。"
+
+#: woocommerce/gateways/ecpay/ecpay-gateway-cvs.php:60
+msgid "Pay via ECPay CVS"
+msgstr "透過 綠界金流超商代碼  付款"
+
+#: woocommerce/gateways/ecpay/ecpay-gateway-cvs.php:11
+msgid "ECPay CVS"
+msgstr "綠界超商代碼"
+
+#: woocommerce/gateways/ecpay/ecpay-gateway-cvs.php:10
+#: woocommerce/gateways/newebpay/newebpay-gateway-cvs.php:10
+msgid "Pay via CVS"
+msgstr "使用超商代碼付款"
+
+#: woocommerce/gateways/ecpay/ecpay-gateway-credit.php:42
+msgid "Pay via ECPay Credit"
+msgstr "使用 綠界信用卡 付款"
+
+#: woocommerce/gateways/ecpay/ecpay-gateway-credit.php:11
+msgid "ECPay Credit"
+msgstr "綠界信用卡"
+
+#: woocommerce/gateways/ecpay/ecpay-gateway-credit.php:10
+#: woocommerce/gateways/newebpay/newebpay-gateway-credit.php:10
+#: woocommerce/gateways/smilepay/smilepay-gateway-credit.php:10
+msgid "Pay via Credit"
+msgstr "使用信用卡付款"
+
+#: woocommerce/gateways/ecpay/ecpay-gateway-barcode.php:71
+#: woocommerce/gateways/newebpay/newebpay-gateway-barcode.php:71
+#: woocommerce/gateways/smilepay/smilepay-gateway-barcode.php:72
+msgid "BARCODE payment deadline out of range. Set as default value."
+msgstr "超商條碼繳費期限超過限制，調整為預設值。"
+
+#: woocommerce/gateways/ecpay/ecpay-gateway-barcode.php:56
+msgid "Pay via ECPay BARCODE"
+msgstr "透過 綠界金流超商條碼 付款"
+
+#: woocommerce/gateways/ecpay/ecpay-gateway-barcode.php:11
+msgid "ECPay BARCODE"
+msgstr "綠界超商條碼"
+
+#: woocommerce/gateways/ecpay/ecpay-gateway-barcode.php:10
+#: woocommerce/gateways/newebpay/newebpay-gateway-barcode.php:10
+#: woocommerce/gateways/smilepay/smilepay-gateway-barcode.php:10
+msgid "Pay via BARCODE"
+msgstr "使用超商條碼付款"
+
+#: woocommerce/gateways/ecpay/ecpay-gateway-atm.php:64
+#: woocommerce/gateways/newebpay/newebpay-gateway-atm.php:64
+#: woocommerce/gateways/smilepay/smilepay-gateway-atm.php:68
+msgid "ATM payment deadline out of range. Set as default value."
+msgstr "ATM 櫃員機繳費期限超過限制，調整為預設值。"
+
+#: woocommerce/gateways/ecpay/ecpay-gateway-atm.php:49
+msgid "Pay via ECPay ATM"
+msgstr "透過 綠界金流 ATM 櫃員機 付款"
+
+#: woocommerce/gateways/ecpay/ecpay-gateway-atm.php:11
+msgid "ECPay ATM"
+msgstr "綠界 ATM 櫃員機"
+
+#: woocommerce/gateways/ecpay/ecpay-gateway-atm.php:10
+#: woocommerce/gateways/newebpay/newebpay-gateway-atm.php:10
+#: woocommerce/gateways/smilepay/smilepay-gateway-atm.php:10
+msgid "Pay via ATM"
+msgstr "使用 ATM 櫃員機付款"
+
+#: woocommerce/emails/ecpay-shipping-customer-cvs-store.php:31
+msgid "Product Pickup Notice"
+msgstr "商品取貨通知"
+
+#: woocommerce/emails/ecpay-shipping-customer-cvs-store.php:26
+msgid "Your {site_title} order product send to CVS store"
+msgstr "你在 {site_title} 訂購的商品送達超商門市"
+
+#: woocommerce/emails/ecpay-shipping-customer-cvs-store.php:11
+msgid "This is an order notification sent to customers after the product send to CVS store with ECPay shipping."
+msgstr "這是在商品經由綠界物流送達超商門市時給通知訂購人。"
+
+#: woocommerce/emails/ecpay-shipping-customer-cvs-store.php:10
+msgid "Product sended to cvs store"
+msgstr "商品送達超商門市"
+
+#: woocommerce/admin/meta-boxes/ecpay-shipping-meta-box.php:102
+#: woocommerce/admin/meta-boxes/newebpay-shipping-meta-box.php:61
+#: woocommerce/admin/meta-boxes/smilepay-shipping-meta-box.php:86
+msgid "No"
+msgstr "否"
+
+#: woocommerce/admin/meta-boxes/ecpay-shipping-meta-box.php:102
+#: woocommerce/admin/meta-boxes/newebpay-shipping-meta-box.php:61
+#: woocommerce/admin/meta-boxes/smilepay-shipping-meta-box.php:86
+msgid "Yes"
+msgstr "是"
+
+#: woocommerce/admin/meta-boxes/ecpay-shipping-meta-box.php:61
+#: woocommerce/admin/meta-boxes/newebpay-shipping-meta-box.php:46
+#: woocommerce/admin/meta-boxes/smilepay-shipping-meta-box.php:58
+msgid "Shipping create time"
+msgstr "物流建立時間"
+
+#: woocommerce/admin/meta-boxes/ecpay-shipping-meta-box.php:58
+#: woocommerce/admin/meta-boxes/newebpay-shipping-meta-box.php:44
+#: woocommerce/admin/meta-boxes/smilepay-shipping-meta-box.php:55
+msgid "Shipping status last change time"
+msgstr "物流狀態最後變更時間"
+
+#: woocommerce/admin/meta-boxes/ecpay-shipping-meta-box.php:55
+#: woocommerce/admin/meta-boxes/newebpay-shipping-meta-box.php:42
+#: woocommerce/admin/meta-boxes/smilepay-shipping-meta-box.php:52
+msgid "Collection of money"
+msgstr "代收貨款"
+
+#: woocommerce/admin/meta-boxes/ecpay-shipping-meta-box.php:52
+#: woocommerce/admin/meta-boxes/newebpay-shipping-meta-box.php:40
+#: woocommerce/admin/meta-boxes/smilepay-shipping-meta-box.php:49
+msgid "declare amount"
+msgstr "申報金額"
+
+#: woocommerce/admin/meta-boxes/ecpay-shipping-meta-box.php:49
+#: woocommerce/admin/meta-boxes/smilepay-shipping-meta-box.php:46
+msgid "Shipping status"
+msgstr "物流狀態"
+
+#: woocommerce/admin/meta-boxes/ecpay-shipping-meta-box.php:37
+msgid "ECPay shipping ID"
+msgstr "綠界物流編號"
+
+#: templates/order/order-ecpay-payment-info-cvs.php:31
+#: templates/order/order-newebpay-payment-info-cvs.php:31
+#: templates/order/order-smilepay-payment-info-cvs-711.php:31
+#: templates/order/order-smilepay-payment-info-cvs-fami.php:31
+#: woocommerce/gateways/ecpay/ecpay-gateway-cvs.php:103
+#: woocommerce/gateways/newebpay/newebpay-gateway-cvs.php:96
+#: woocommerce/gateways/smilepay/smilepay-gateway-cvs-711.php:100
+#: woocommerce/gateways/smilepay/smilepay-gateway-cvs-fami.php:96
+msgid "CVS code"
+msgstr "繳費代碼"
+
+#: templates/order/order-ecpay-payment-info-barcode.php:47
+#: templates/order/order-newebpay-payment-info-barcode.php:47
+#: templates/order/order-smilepay-payment-info-barcode.php:47
+#: woocommerce/gateways/ecpay/ecpay-gateway-barcode.php:111
+#: woocommerce/gateways/newebpay/newebpay-gateway-barcode.php:112
+#: woocommerce/gateways/smilepay/smilepay-gateway-barcode.php:112
+msgid "Barcode 3"
+msgstr "Barcode 3"
+
+#: templates/order/order-ecpay-payment-info-barcode.php:39
+#: templates/order/order-newebpay-payment-info-barcode.php:39
+#: templates/order/order-smilepay-payment-info-barcode.php:39
+#: woocommerce/gateways/ecpay/ecpay-gateway-barcode.php:105
+#: woocommerce/gateways/newebpay/newebpay-gateway-barcode.php:106
+#: woocommerce/gateways/smilepay/smilepay-gateway-barcode.php:106
+msgid "Barcode 2"
+msgstr "Barcode 2"
+
+#: templates/order/order-ecpay-payment-info-barcode.php:31
+#: templates/order/order-newebpay-payment-info-barcode.php:31
+#: templates/order/order-smilepay-payment-info-barcode.php:31
+#: woocommerce/gateways/ecpay/ecpay-gateway-barcode.php:99
+#: woocommerce/gateways/newebpay/newebpay-gateway-barcode.php:100
+#: woocommerce/gateways/smilepay/smilepay-gateway-barcode.php:100
+msgid "Barcode 1"
+msgstr "Barcode 1"
+
+#: templates/order/order-ecpay-payment-info-atm.php:52
+#: templates/order/order-ecpay-payment-info-barcode.php:55
+#: templates/order/order-ecpay-payment-info-cvs.php:39
+#: templates/order/order-newebpay-payment-info-atm.php:55
+#: templates/order/order-newebpay-payment-info-barcode.php:55
+#: templates/order/order-newebpay-payment-info-cvs.php:39
+#: templates/order/order-smilepay-payment-info-atm.php:52
+#: templates/order/order-smilepay-payment-info-barcode.php:55
+#: templates/order/order-smilepay-payment-info-cvs-711.php:39
+#: templates/order/order-smilepay-payment-info-cvs-fami.php:39
+#: woocommerce/gateways/ecpay/ecpay-gateway-atm.php:97
+#: woocommerce/gateways/ecpay/ecpay-gateway-barcode.php:117
+#: woocommerce/gateways/ecpay/ecpay-gateway-cvs.php:109
+#: woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-atm.php:47
+#: woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-barcode.php:47
+#: woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-atm.php:47
+#: woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-barcode.php:47
+#: woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-cvs.php:47
+#: woocommerce/gateways/newebpay/newebpay-gateway-atm.php:91
+#: woocommerce/gateways/newebpay/newebpay-gateway-barcode.php:118
+#: woocommerce/gateways/newebpay/newebpay-gateway-cvs.php:102
+#: woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-atm.php:47
+#: woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-barcode.php:47
+#: woocommerce/gateways/smilepay/smilepay-gateway-atm.php:107
+#: woocommerce/gateways/smilepay/smilepay-gateway-barcode.php:118
+#: woocommerce/gateways/smilepay/smilepay-gateway-cvs-711.php:106
+#: woocommerce/gateways/smilepay/smilepay-gateway-cvs-fami.php:102
+msgid "Payment deadline"
+msgstr "付款截止日"
+
+#: templates/order/order-ecpay-payment-info-atm.php:45
+#: templates/order/order-newebpay-payment-info-atm.php:47
+#: templates/order/order-smilepay-payment-info-atm.php:45
+#: woocommerce/gateways/ecpay/ecpay-gateway-atm.php:91
+#: woocommerce/gateways/newebpay/newebpay-gateway-atm.php:85
+#: woocommerce/gateways/smilepay/smilepay-gateway-atm.php:101
+msgid "ATM Bank account"
+msgstr "ATM 繳費帳號"
+
+#: templates/order/order-ecpay-payment-info-atm.php:38
+#: templates/order/order-newebpay-payment-info-atm.php:39
+#: templates/order/order-smilepay-payment-info-atm.php:38
+msgid "Bank code"
+msgstr "銀行代碼"
+
+#: templates/order/order-ecpay-payment-info-atm.php:31
+#: templates/order/order-newebpay-payment-info-atm.php:31
+#: templates/order/order-smilepay-payment-info-atm.php:31
+#: woocommerce/gateways/ecpay/ecpay-gateway-atm.php:86
+#: woocommerce/gateways/newebpay/newebpay-gateway-atm.php:80
+#: woocommerce/gateways/smilepay/smilepay-gateway-atm.php:96
+msgid "Bank"
+msgstr "銀行"
+
+#: templates/order/order-ecpay-payment-info-atm.php:25
+#: templates/order/order-ecpay-payment-info-barcode.php:25
+#: templates/order/order-ecpay-payment-info-cvs.php:25
+#: templates/order/order-newebpay-payment-info-atm.php:25
+#: templates/order/order-newebpay-payment-info-barcode.php:25
+#: templates/order/order-newebpay-payment-info-cvs.php:25
+#: templates/order/order-smilepay-payment-info-atm.php:25
+#: templates/order/order-smilepay-payment-info-barcode.php:25
+#: templates/order/order-smilepay-payment-info-cvs-711.php:25
+#: templates/order/order-smilepay-payment-info-cvs-fami.php:25
+#: woocommerce/gateways/ecpay/ecpay-gateway-atm.php:82
+#: woocommerce/gateways/ecpay/ecpay-gateway-barcode.php:95
+#: woocommerce/gateways/ecpay/ecpay-gateway-cvs.php:99
+#: woocommerce/gateways/newebpay/newebpay-gateway-atm.php:76
+#: woocommerce/gateways/newebpay/newebpay-gateway-barcode.php:96
+#: woocommerce/gateways/newebpay/newebpay-gateway-cvs.php:92
+#: woocommerce/gateways/smilepay/smilepay-gateway-atm.php:92
+#: woocommerce/gateways/smilepay/smilepay-gateway-barcode.php:96
+#: woocommerce/gateways/smilepay/smilepay-gateway-cvs-711.php:96
+#: woocommerce/gateways/smilepay/smilepay-gateway-cvs-fami.php:92
+msgid "Payment details"
+msgstr "付款詳細資料"
+
+#: templates/emails/customer-cvs-store.php:21
+#: templates/emails/plain/customer-cvs-store.php:19
+msgid "Your order product has been sended to the convenience store."
+msgstr "你訂購的商品已經送達超商門市。"
+
+#: templates/cart/cart-choose-cvs.php:17
+msgid "Convenience store"
+msgstr "超商門市"
+
+#. Plugin Name of the plugin
+#: class.ry-wt.main.php:259 woocommerce/admin/view/html-setting-tools.php:2
+msgid "RY WooCommerce Tools"
+msgstr "RY WooCommerce Tools"
+
+#. translators: %s: Name of this plugin
+#: class.ry-wt.main.php:258
+msgid "<strong>%s</strong> is inactive. It require WooCommerce version 3.0.0 or newer."
+msgstr "<strong>%s</strong> 暫停運作。 需求 WooCommerce 3.0.0 以上版本。"
+
+#: class.ry-wt.main.php:223
+msgid "required"
+msgstr "必要欄位"
+
+#: class.ry-wt.admin.php:25
+msgid "Settings"
+msgstr "設定"

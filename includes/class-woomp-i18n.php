@@ -39,6 +39,18 @@ class Woomp_i18n {
 			false,
 			dirname( dirname( plugin_basename( __FILE__ ) ) ) . '/languages/'
 		);
+		
+		load_plugin_textdomain(
+			'ry-woocommerce-tools',
+			false,
+			dirname( dirname( plugin_basename( __FILE__ ) ) ) . '/languages/'
+		);
+
+		load_plugin_textdomain(
+			'ry-woocommerce-tools-pro',
+			false,
+			dirname( dirname( plugin_basename( __FILE__ ) ) ) . '/languages/'
+		);
 
 	}
 
