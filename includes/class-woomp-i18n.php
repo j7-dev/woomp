@@ -52,6 +52,12 @@ class Woomp_i18n {
 			dirname( dirname( plugin_basename( __FILE__ ) ) ) . '/languages/'
 		);
 
+		load_plugin_textdomain(
+			'ry-woocommerce-ecpay-invoice',
+			false,
+			dirname( dirname( plugin_basename( __FILE__ ) ) ) . '/languages/'
+		);
+
 	}
 
 

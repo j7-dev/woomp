@@ -35,7 +35,7 @@ final class RY_WT_admin
 
     public static function add_sections($sections)
     {
-        $sections['tools'] = __('Tools', 'ry-woocommerce-tools');
+        //$sections['tools'] = __('Tools', 'ry-woocommerce-tools');
         //$sections['pro_info'] = __('Pro version', 'ry-woocommerce-tools');
 
         return $sections;

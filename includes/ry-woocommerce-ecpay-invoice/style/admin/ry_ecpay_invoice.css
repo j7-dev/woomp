@@ -1,0 +1,19 @@
+#order_data .order_data_column ._invoice_carruer_type_field {
+    float: right;
+    clear: right;
+}
+
+#order_data .order_data_column .address.ivoice strong {
+    display: inline-block;
+}
+
+#order_data .ivoice_data_column {
+    float: left;
+    width: 63%;
+    padding-right: 2%;
+}
+
+#order_data .ivoice_action_column {
+    float: left;
+    width: 35%;
+}

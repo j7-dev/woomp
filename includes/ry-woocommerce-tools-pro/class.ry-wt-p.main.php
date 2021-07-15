@@ -35,7 +35,7 @@ final class RY_WTP
                 include_once RY_WTP_PLUGIN_DIR . 'class.ry-wt-p.admin.php';
             }
 
-            if (self::$activate_status) {
+            if (!self::$activate_status) {
                 include_once RY_WTP_PLUGIN_DIR . 'include/class.cron.php';
 
                 // 綠界金流

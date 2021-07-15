@@ -1,24 +1,24 @@
 <?php
 
  /**
- * @link              https://morepower.club
- * @since             1.1.9
- * @package           woomp
- *
- * @wordpress-plugin
- * Plugin Name:       好用版擴充 MorePower Addon for WooCommerce
- * Plugin URI:        https://morepower.club/morepower-addon/
- * Description:       WooCommerce 好用版擴充，改善結帳流程與可變商品等區塊，讓 WooCommerce 更符合亞洲人使用習慣。
- * Version:           1.1.9
- * Author:            MorePower
- * Author URI:        https://morepower.club
- * License:           GPL-2.0+
- * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
- * Text Domain:       woomp
- * Domain Path:       /languages
- * WC requires at least: 5
- * WC tested up to: 5.4.1
- */
+  * @link              https://morepower.club
+  * @since             1.2.0
+  * @package           woomp
+  *
+  * @wordpress-plugin
+  * Plugin Name:       好用版擴充 MorePower Addon for WooCommerce
+  * Plugin URI:        https://morepower.club/morepower-addon/
+  * Description:       WooCommerce 好用版擴充，改善結帳流程與可變商品等區塊，讓 WooCommerce 更符合亞洲人使用習慣。
+  * Version:           1.2.0
+  * Author:            MorePower
+  * Author URI:        https://morepower.club
+  * License:           GPL-2.0+
+  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
+  * Text Domain:       woomp
+  * Domain Path:       /languages
+  * WC requires at least: 5
+  * WC tested up to: 5.4.1
+  */
 
  // If this file is called directly, abort.
 if ( ! defined( 'WPINC' ) ) {
@@ -28,12 +28,12 @@ if ( ! defined( 'WPINC' ) ) {
 /**
  * Check WooCommerce is required
  */
-if ( !in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
-	function require_woocommerce_notice(){
+if ( ! in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
+	function require_woocommerce_notice() {
 		echo '<div class="error"><p>好用版擴充啟用失敗，需要安裝並啟用 WooCommerce 5.3 以上版本。</p></div>';
 	}
-    add_action('admin_notices', 'require_woocommerce_notice' );
-    return;
+	add_action( 'admin_notices', 'require_woocommerce_notice' );
+	return;
 }
 
 /**
@@ -41,7 +41,7 @@ if ( !in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', 
  * Start at version 1.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define( 'WOOMP_VERSION', '1.1.9' );
+define( 'WOOMP_VERSION', '1.2.0' );
 
 /**
  * The code that runs during plugin activation.
@@ -96,11 +96,11 @@ run_woomp();
  *
  * @return string The new Template file path.
  */
-if( get_option( 'wc_woomp_setting_replace', 1 ) === 'yes' ){
-	add_filter('wc_get_template', 'intercept_wc_template', 99, 3 );
+if ( get_option( 'wc_woomp_setting_replace', 1 ) === 'yes' ) {
+	add_filter( 'wc_get_template', 'intercept_wc_template', 99, 3 );
 	function intercept_wc_template( $template, $template_name, $template_path ) {
 		$template_directory = trailingslashit( plugin_dir_path( __FILE__ ) ) . 'woocommerce/';
-		$path = $template_directory . $template_name;
+		$path               = $template_directory . $template_name;
 		return file_exists( $path ) ? $path : $template;
 	}
 }
@@ -111,43 +111,62 @@ if( get_option( 'wc_woomp_setting_replace', 1 ) === 'yes' ){
 require_once plugin_dir_path( __FILE__ ) . 'lib/wp-package-updater/class-wp-package-updater.php';
 
 $prefix_updater = new WP_Package_Updater(
-  'https://wmp.oberonlai.blog',
-  wp_normalize_path( __FILE__ ),
-  wp_normalize_path( plugin_dir_path( __FILE__ ) ),
+	'https://wmp.oberonlai.blog',
+	wp_normalize_path( __FILE__ ),
+	wp_normalize_path( plugin_dir_path( __FILE__ ) ),
 );
 
 /**
  * 引入 ry-woocommerce-tools
  */
 
-if( !defined('RY_WT_VERSION') ){
-	define('RY_WT_VERSION', '1.7.3');
-	define('RY_WT_PLUGIN_URL', plugin_dir_url(__FILE__) . 'includes/ry-woocommerce-tools/');
-	define('RY_WT_PLUGIN_DIR', plugin_dir_path(__FILE__). 'includes/ry-woocommerce-tools/');
-	define('RY_WT_PLUGIN_BASENAME', plugin_basename(__FILE__). 'includes/ry-woocommerce-tools/');
-	
+if ( ! defined( 'RY_WT_VERSION' ) ) {
+	define( 'RY_WT_VERSION', '1.7.3' );
+	define( 'RY_WT_PLUGIN_URL', plugin_dir_url( __FILE__ ) . 'includes/ry-woocommerce-tools/' );
+	define( 'RY_WT_PLUGIN_DIR', plugin_dir_path( __FILE__ ) . 'includes/ry-woocommerce-tools/' );
+	define( 'RY_WT_PLUGIN_BASENAME', plugin_basename( __FILE__ ) . 'includes/ry-woocommerce-tools/' );
+
 	require_once RY_WT_PLUGIN_DIR . 'class.ry-wt.main.php';
-	
-	register_activation_hook(__FILE__, ['RY_WT', 'plugin_activation']);
-	register_deactivation_hook(__FILE__, ['RY_WT', 'plugin_deactivation']);
-	
-	add_action('init', ['RY_WT', 'init'], 10);
+
+	register_activation_hook( __FILE__, array( 'RY_WT', 'plugin_activation' ) );
+	register_deactivation_hook( __FILE__, array( 'RY_WT', 'plugin_deactivation' ) );
+
+	add_action( 'init', array( 'RY_WT', 'init' ), 10 );
 }
 
 
 /**
  * 引入 ry-woocommerce-tools-pro
  */
-if( !defined('RY_WTP_VERSION') ){
-	define('RY_WTP_VERSION', '1.2.11');
-	define('RY_WTP_PLUGIN_URL', plugin_dir_url(__FILE__) . 'includes/ry-woocommerce-tools-pro/');
-	define('RY_WTP_PLUGIN_DIR', plugin_dir_path(__FILE__)  . 'includes/ry-woocommerce-tools-pro/');
-	define('RY_WTP_PLUGIN_BASENAME', plugin_basename(__FILE__)  . 'includes/ry-woocommerce-tools-pro/');
-	
+if ( ! defined( 'RY_WTP_VERSION' ) ) {
+	define( 'RY_WTP_VERSION', '1.2.11' );
+	define( 'RY_WTP_PLUGIN_URL', plugin_dir_url( __FILE__ ) . 'includes/ry-woocommerce-tools-pro/' );
+	define( 'RY_WTP_PLUGIN_DIR', plugin_dir_path( __FILE__ ) . 'includes/ry-woocommerce-tools-pro/' );
+	define( 'RY_WTP_PLUGIN_BASENAME', plugin_basename( __FILE__ ) . 'includes/ry-woocommerce-tools-pro/' );
+
 	require_once RY_WTP_PLUGIN_DIR . 'class.ry-wt-p.main.php';
-	
-	register_activation_hook(__FILE__, ['RY_WTP', 'plugin_activation']);
-	register_deactivation_hook(__FILE__, ['RY_WTP', 'plugin_deactivation']);
-	
-	add_action('init', ['RY_WTP', 'init'], 11);
+
+	register_activation_hook( __FILE__, array( 'RY_WTP', 'plugin_activation' ) );
+	register_deactivation_hook( __FILE__, array( 'RY_WTP', 'plugin_deactivation' ) );
+
+	add_action( 'init', array( 'RY_WTP', 'init' ), 11 );
 }
+
+/**
+ * 引入 ry-woocommerce-ecpay-invoice
+ */
+
+if ( ! defined( 'RY_WEI_VERSION' ) ) {
+	define( 'RY_WEI_VERSION', '1.1.13' );
+	define( 'RY_WEI_PLUGIN_URL', plugin_dir_url( __FILE__ ) . 'includes/ry-woocommerce-ecpay-invoice/' );
+	define( 'RY_WEI_PLUGIN_DIR', plugin_dir_path( __FILE__ ) . 'includes/ry-woocommerce-ecpay-invoice/' );
+	define( 'RY_WEI_PLUGIN_BASENAME', plugin_basename( __FILE__ ) . 'includes/ry-woocommerce-ecpay-invoice/' );
+
+	require_once RY_WEI_PLUGIN_DIR . 'class.ry-wei.main.php';
+
+	register_activation_hook( __FILE__, array( 'RY_WEI', 'plugin_activation' ) );
+	register_deactivation_hook( __FILE__, array( 'RY_WEI', 'plugin_deactivation' ) );
+
+	add_action( 'init', array( 'RY_WEI', 'init' ), 11 );
+}
+

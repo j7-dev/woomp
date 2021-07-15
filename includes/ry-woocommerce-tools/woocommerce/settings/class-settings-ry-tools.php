@@ -4,7 +4,7 @@ class WC_Settings_RY_Tools extends WC_Settings_Page
     public function __construct()
     {
         $this->id    = 'rytools';
-        $this->label = __('綠界金物流設定', 'ry-woocommerce-tools');
+        $this->label = __('RY 設定', 'ry-woocommerce-tools');
 
         parent::__construct();
     }

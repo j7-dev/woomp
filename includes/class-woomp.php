@@ -116,9 +116,12 @@ class Woomp {
 		 * The class responsible for defining all actions that occur in the admin area.
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-woomp-admin.php';
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-woomp-setting.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-woomp-product.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-woomp-payment-cod-clone.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/settings/class-woomp-setting.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/settings/class-woomp-setting-gateway.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/settings/class-woomp-setting-shipping.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/settings/class-woomp-setting-invoice.php';
 		//require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-woomp-payment-cvs.php';
 
 		/**
