@@ -30,13 +30,11 @@ final class RY_WEI
                 include_once RY_WEI_PLUGIN_DIR . 'class.ry-wei.admin.php';
             }
 
-            if (!self::$activate_status) {
-                include_once RY_WEI_PLUGIN_DIR . 'include/class.cron.php';
-                include_once RY_WEI_PLUGIN_DIR . 'woocommerce/settings/class-settings.invoice.php';
+            include_once RY_WEI_PLUGIN_DIR . 'include/class.cron.php';
+            include_once RY_WEI_PLUGIN_DIR . 'woocommerce/settings/class-settings.invoice.php';
 
-                if ('yes' == self::get_option('enabled_invoice', 'no')) {
-                    include_once RY_WEI_PLUGIN_DIR . 'woocommerce/class.invoice.php';
-                }
+            if ('yes' == self::get_option('enabled_invoice', 'no')) {
+                include_once RY_WEI_PLUGIN_DIR . 'woocommerce/class.invoice.php';
             }
         }
     }

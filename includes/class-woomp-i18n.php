@@ -58,6 +58,23 @@ class Woomp_i18n {
 			dirname( dirname( plugin_basename( __FILE__ ) ) ) . '/languages/'
 		);
 
+		load_plugin_textdomain(
+			'paynow-payment',
+			false,
+			dirname( dirname( plugin_basename( __FILE__ ) ) ) . '/languages/'
+		);
+
+		load_plugin_textdomain(
+			'paynow-envoice',
+			false,
+			dirname( dirname( plugin_basename( __FILE__ ) ) ) . '/languages/'
+		);
+		load_plugin_textdomain(
+			'paynow-shipping',
+			false,
+			dirname( dirname( plugin_basename( __FILE__ ) ) ) . '/languages/'
+		);
+
 	}
 
 

@@ -42,6 +42,10 @@ if ( ! in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins',
  * Rename this for your plugin and update it as you release new versions.
  */
 define( 'WOOMP_VERSION', '1.2.0' );
+define( 'WOOMP_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
+define( 'WOOMP_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
+define( 'WOOMP_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
+
 
 /**
  * The code that runs during plugin activation.
@@ -170,3 +174,27 @@ if ( ! defined( 'RY_WEI_VERSION' ) ) {
 	add_action( 'init', array( 'RY_WEI', 'init' ), 11 );
 }
 
+/**
+ * 引入 paynow-payment
+ */
+if ( ! defined( 'PAYNOW_PLUGIN_URL' ) ) {
+	define( 'PAYNOW_PLUGIN_URL', plugin_dir_url( __FILE__ ) . 'includes/paynow-payment/' );
+	define( 'PAYNOW_PLUGIN_DIR', plugin_dir_path( __FILE__ ) . 'includes/paynow-payment/' );
+	define( 'PAYNOW_BASENAME', plugin_basename( __FILE__ ) . 'includes/paynow-payment/' );
+
+	/**
+	 * Run PayNow Payment plugin.
+	 *
+	 * @return void
+	 */
+	function run_paynow_payment() {
+		if ( ! class_exists( 'WC_Payment_Gateway' ) ) {
+			wp_die( 'WC_Payment_Gateway not found' );
+		}
+
+		require_once PAYNOW_PLUGIN_DIR . 'includes/class-paynow-payment.php';
+		Paynow_Payment::init();
+	}
+
+	add_action( 'plugins_loaded', 'run_paynow_payment' );
+}

@@ -1,0 +1,349 @@
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=1; plural=0;\n"
+"Project-Id-Version: PayNow Payment\n"
+"POT-Creation-Date: 2021-02-23 10:27+0800\n"
+"PO-Revision-Date: 2021-02-23 10:47+0800\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.4.2\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-Flags-xgettext: --add-comments=translators:\n"
+"X-Poedit-WPHeader: paynow-payment.php\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;"
+"esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;"
+"esc_html_x:1,2c;_n_noop:1,2;_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"Last-Translator: \n"
+"Language: zh_TW\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.min.js\n"
+
+#: includes/class-paynow-payment.php:105
+msgid "General Settings"
+msgstr "一般設定"
+
+#: includes/class-paynow-payment.php:106
+#: includes/settings/class-paynow-payment-settings-tab.php:36
+msgid "Payment Settings"
+msgstr "付款方式設定"
+
+#: includes/gateways/abstract-paynow-payment.php:24
+msgid "Proceed to PayNow"
+msgstr "前往結帳"
+
+#: includes/gateways/abstract-paynow-payment.php:56
+msgid ""
+" is a payment gateway provided by <a href=\"https://www.paynow.com.tw/\" "
+"target=\"_blank\">PayNow</a>"
+msgstr ""
+
+#: includes/gateways/abstract-paynow-payment.php:65
+#: includes/gateways/class-paynow-payment-credit.php:83
+#: includes/gateways/class-paynow-payment-ibon.php:96
+#: includes/gateways/class-paynow-payment-virtual-account.php:95
+#: includes/gateways/class-paynow-payment-webatm.php:88
+msgid "PayNow Payment Detail"
+msgstr "PayNow 付款資訊"
+
+#: includes/gateways/abstract-paynow-payment.php:115
+msgid "Paynow Payment Gateway"
+msgstr "PayNow 付款方式"
+
+#: includes/gateways/class-paynow-payment-barcode.php:32
+msgid "PayNow Barcode Payment"
+msgstr "PayNow 超商條碼付款"
+
+#: includes/gateways/class-paynow-payment-barcode.php:96
+msgid "Paynow Payment Detail"
+msgstr "PayNow 付款資訊"
+
+#: includes/gateways/class-paynow-payment-barcode.php:98
+#: includes/gateways/class-paynow-payment-barcode.php:125
+#: includes/gateways/class-paynow-payment-credit.php:85
+#: includes/gateways/class-paynow-payment-credit.php:114
+#: includes/gateways/class-paynow-payment-ibon.php:98
+#: includes/gateways/class-paynow-payment-ibon.php:128
+#: includes/gateways/class-paynow-payment-virtual-account.php:97
+#: includes/gateways/class-paynow-payment-virtual-account.php:132
+#: includes/gateways/class-paynow-payment-webatm.php:90
+#: includes/gateways/class-paynow-payment-webatm.php:128
+msgid "Transaction No"
+msgstr "PayNow 訂單編號"
+
+#: includes/gateways/class-paynow-payment-barcode.php:101
+#: includes/gateways/class-paynow-payment-ibon.php:104
+#: includes/gateways/class-paynow-payment-virtual-account.php:106
+#: includes/gateways/class-paynow-payment-virtual-account.php:136
+#: includes/gateways/class-paynow-payment-webatm.php:99
+msgid "N\bew Date"
+msgstr "產生日期"
+
+#: includes/gateways/class-paynow-payment-barcode.php:104
+#: includes/gateways/class-paynow-payment-barcode.php:128
+#: includes/gateways/class-paynow-payment-ibon.php:107
+#: includes/gateways/class-paynow-payment-virtual-account.php:109
+#: includes/gateways/class-paynow-payment-virtual-account.php:137
+#: includes/gateways/class-paynow-payment-webatm.php:102
+msgid "Due Date"
+msgstr "繳款期限"
+
+#: includes/gateways/class-paynow-payment-barcode.php:107
+#: includes/gateways/class-paynow-payment-barcode.php:133
+#: includes/gateways/class-paynow-payment-credit.php:91
+#: includes/gateways/class-paynow-payment-credit.php:117
+#: includes/gateways/class-paynow-payment-ibon.php:110
+#: includes/gateways/class-paynow-payment-ibon.php:133
+#: includes/gateways/class-paynow-payment-virtual-account.php:112
+#: includes/gateways/class-paynow-payment-virtual-account.php:142
+#: includes/gateways/class-paynow-payment-webatm.php:105
+#: includes/gateways/class-paynow-payment-webatm.php:131
+msgid "Pay Status"
+msgstr "付款狀態"
+
+#: includes/gateways/class-paynow-payment-barcode.php:109
+#: includes/gateways/class-paynow-payment-barcode.php:131
+#: includes/gateways/class-paynow-payment-ibon.php:112
+#: includes/gateways/class-paynow-payment-ibon.php:132
+#: includes/gateways/class-paynow-payment-virtual-account.php:115
+#: includes/gateways/class-paynow-payment-virtual-account.php:140
+msgid "Unpaid"
+msgstr "未付款"
+
+#: includes/gateways/class-paynow-payment-barcode.php:109
+#: includes/gateways/class-paynow-payment-barcode.php:131
+#: includes/gateways/class-paynow-payment-ibon.php:112
+#: includes/gateways/class-paynow-payment-ibon.php:132
+#: includes/gateways/class-paynow-payment-virtual-account.php:115
+#: includes/gateways/class-paynow-payment-virtual-account.php:140
+msgid "Paid"
+msgstr "已付款"
+
+#: includes/gateways/class-paynow-payment-barcode.php:127
+msgid "New Date"
+msgstr "產生日期"
+
+#: includes/gateways/class-paynow-payment-credit.php:32
+msgid "PayNow Credit Card Payment"
+msgstr "PayNow  信用卡付款"
+
+#: includes/gateways/class-paynow-payment-credit.php:88
+#: includes/gateways/class-paynow-payment-credit.php:116
+#: includes/gateways/class-paynow-payment-webatm.php:130
+msgid "Card Last 4 Num"
+msgstr "信用卡末四碼"
+
+#: includes/gateways/class-paynow-payment-credit.php:97
+#: includes/gateways/class-paynow-payment-webatm.php:111
+#: includes/gateways/class-paynow-payment-webatm.php:136
+msgid "Payment Error Description"
+msgstr "錯誤說明"
+
+#: includes/gateways/class-paynow-payment-credit.php:121
+msgid "Error Code"
+msgstr "錯誤代碼"
+
+#: includes/gateways/class-paynow-payment-credit.php:122
+msgid "Error Description"
+msgstr "錯誤訊息"
+
+#: includes/gateways/class-paynow-payment-ibon.php:32
+msgid "PayNow ibon Payment"
+msgstr "PayNow ibon  付款"
+
+#: includes/gateways/class-paynow-payment-ibon.php:101
+#: includes/gateways/class-paynow-payment-ibon.php:129
+msgid "ibon NO"
+msgstr ""
+
+#: includes/gateways/class-paynow-payment-response.php:68
+msgid "Success"
+msgstr "付款完成"
+
+#: includes/gateways/class-paynow-payment-response.php:78
+msgid "Fail"
+msgstr "失敗"
+
+#: includes/gateways/class-paynow-payment-response.php:148
+msgid "Recieved P\bayNow payment completed notification"
+msgstr "收到來自 PayNow 的付款完成通知"
+
+#: includes/gateways/class-paynow-payment-virtual-account.php:32
+msgid "PayNow Virtual Account Payment"
+msgstr "PayNow 虛擬帳號付款"
+
+#: includes/gateways/class-paynow-payment-virtual-account.php:100
+#: includes/gateways/class-paynow-payment-virtual-account.php:134
+#: includes/gateways/class-paynow-payment-webatm.php:93
+msgid "Bank Code"
+msgstr "銀行代碼"
+
+#: includes/gateways/class-paynow-payment-virtual-account.php:103
+#: includes/gateways/class-paynow-payment-virtual-account.php:135
+#: includes/gateways/class-paynow-payment-webatm.php:96
+msgid "ATM No"
+msgstr "ATM 帳號"
+
+#: includes/gateways/class-paynow-payment-webatm.php:32
+msgid "PayNow WebATM Payment"
+msgstr "PayNow WebATM 付款"
+
+#: includes/gateways/class-paynow-payment-webatm.php:135
+msgid "Payment Error Code"
+msgstr "交易錯誤代碼"
+
+#: includes/settings/class-paynow-payment-settings-tab.php:17
+msgid "PayNow"
+msgstr ""
+
+#: includes/settings/class-paynow-payment-settings-tab.php:39
+msgid "Shipping Settings"
+msgstr "物流設定"
+
+#: includes/settings/class-paynow-payment-settings-tab.php:58
+msgid "General Payment Settings"
+msgstr "一般設定"
+
+#: includes/settings/class-paynow-payment-settings-tab.php:63
+msgid "Debug Log"
+msgstr "除錯紀錄"
+
+#: includes/settings/class-paynow-payment-settings-tab.php:66
+#, php-format
+msgid "Log PayNow payment message, inside <code>%s</code>"
+msgstr "在<code>%s</code>中紀錄除錯訊息"
+
+#: includes/settings/class-paynow-payment-settings-tab.php:74
+msgid "API Settings"
+msgstr "API 設定"
+
+#: includes/settings/class-paynow-payment-settings-tab.php:76
+msgid "Enter your PayNow API credentials"
+msgstr "請輸入您的 PayNow 串接資訊"
+
+#: includes/settings/class-paynow-payment-settings-tab.php:80
+msgid "Sandbox mode"
+msgstr "測試模式"
+
+#: includes/settings/class-paynow-payment-settings-tab.php:83
+msgid "When enabled, you need to use the sandbox-only data below."
+msgstr "當啟用測試模式時，請填入測試環境的串接資料。"
+
+#: includes/settings/class-paynow-payment-settings-tab.php:87
+msgid "WebNo"
+msgstr "商家帳號"
+
+#: includes/settings/class-paynow-payment-settings-tab.php:89
+msgid "This is the WebNo when you apply PayNow API"
+msgstr "這是您申請 PayNow 時的帳號(公司統編或個人身分證字號)"
+
+#: includes/settings/class-paynow-payment-settings-tab.php:94
+msgid "Transaction Password"
+msgstr "商家交易碼"
+
+#: includes/settings/class-paynow-payment-settings-tab.php:96
+msgid "This is the Transaction Password when you apply PayNow API"
+msgstr "這是您申請 PayNow  時的商家交易碼"
+
+#: includes/settings/class-paynow-payment-settings-tab.php:101
+msgid "Merchant Name"
+msgstr "商家名稱"
+
+#: includes/settings/class-paynow-payment-settings-tab.php:103
+msgid "This is the Merchant Name when you apply PayNow API"
+msgstr "這是您在申請 PayNow 時的商家名稱"
+
+#: includes/settings/class-paynow-payment-settings-tab.php:185
+#, php-format
+msgid "Manage the \"%s\" payment method"
+msgstr ""
+
+#: includes/settings/class-paynow-payment-settings-tab.php:185
+msgid "Manage"
+msgstr "設定"
+
+#: includes/settings/settings-paynow-payment-barcode.php:13
+#: includes/settings/settings-paynow-payment-credit.php:13
+#: includes/settings/settings-paynow-payment-famiport.php:13
+#: includes/settings/settings-paynow-payment-ibon.php:13
+#: includes/settings/settings-paynow-payment-virtual-account.php:13
+#: includes/settings/settings-paynow-payment-webatm.php:13
+msgid "Enable/Disable"
+msgstr "啟用/關閉"
+
+#: includes/settings/settings-paynow-payment-barcode.php:15
+#: includes/settings/settings-paynow-payment-credit.php:15
+#: includes/settings/settings-paynow-payment-famiport.php:15
+#: includes/settings/settings-paynow-payment-ibon.php:15
+#: includes/settings/settings-paynow-payment-virtual-account.php:15
+#: includes/settings/settings-paynow-payment-webatm.php:15
+msgid "Enable"
+msgstr "啟用"
+
+#: includes/settings/settings-paynow-payment-barcode.php:19
+#: includes/settings/settings-paynow-payment-credit.php:19
+#: includes/settings/settings-paynow-payment-famiport.php:19
+#: includes/settings/settings-paynow-payment-ibon.php:19
+#: includes/settings/settings-paynow-payment-virtual-account.php:19
+#: includes/settings/settings-paynow-payment-webatm.php:19
+msgid "Title"
+msgstr "付款方式名稱"
+
+#: includes/settings/settings-paynow-payment-barcode.php:21
+#: includes/settings/settings-paynow-payment-credit.php:21
+#: includes/settings/settings-paynow-payment-famiport.php:21
+#: includes/settings/settings-paynow-payment-ibon.php:21
+#: includes/settings/settings-paynow-payment-virtual-account.php:21
+#: includes/settings/settings-paynow-payment-webatm.php:21
+msgid "This controls the title which the user sees during checkout."
+msgstr "這是使用者結帳時看到的名稱。"
+
+#: includes/settings/settings-paynow-payment-barcode.php:22
+msgid "Paynow Barcode Payment"
+msgstr "PayNow 超商條碼付款"
+
+#: includes/settings/settings-paynow-payment-barcode.php:26
+#: includes/settings/settings-paynow-payment-credit.php:26
+#: includes/settings/settings-paynow-payment-famiport.php:26
+#: includes/settings/settings-paynow-payment-ibon.php:26
+#: includes/settings/settings-paynow-payment-virtual-account.php:26
+#: includes/settings/settings-paynow-payment-webatm.php:26
+msgid "Description"
+msgstr "說明"
+
+#: includes/settings/settings-paynow-payment-barcode.php:28
+#: includes/settings/settings-paynow-payment-credit.php:28
+#: includes/settings/settings-paynow-payment-famiport.php:28
+#: includes/settings/settings-paynow-payment-ibon.php:28
+#: includes/settings/settings-paynow-payment-virtual-account.php:28
+#: includes/settings/settings-paynow-payment-webatm.php:28
+msgid "This controls the description which the user sees during checkout."
+msgstr "當使用者結帳時會看到的說明。"
+
+#: includes/settings/settings-paynow-payment-credit.php:22
+#: includes/settings/settings-paynow-payment-virtual-account.php:22
+msgid "Paynow"
+msgstr ""
+
+#: includes/settings/settings-paynow-payment-famiport.php:22
+msgid "Paynow FamiPort Payment"
+msgstr ""
+
+#: includes/settings/settings-paynow-payment-ibon.php:22
+msgid "Paynow ibon Payment"
+msgstr "Paynow ibon 付款"
+
+#: includes/settings/settings-paynow-payment-webatm.php:22
+msgid "Paynow WebATM"
+msgstr "PayNow WebATM"
+
+#. Plugin Name of the plugin/theme
+#. Description of the plugin/theme
+msgid "PayNow Payment"
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "<a href=\"https://www.paynow.com.tw/\">PayNow</a>"
+msgstr ""

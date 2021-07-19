@@ -1,17 +1,17 @@
 <?php
 return [
     [
-        'title' => __('Base options', 'ry-woocommerce-tools'),
+        'title' => __('藍新金流設定', 'ry-woocommerce-tools'),
         'id' => 'base_options',
         'type' => 'title',
     ],
-    [
-        'title' => __('Enable/Disable', 'woocommerce'),
-        'id' => RY_WT::$option_prefix . 'newebpay_gateway',
-        'type' => 'checkbox',
-        'default' => 'no',
-        'desc' => __('Enable NewebPay gateway method', 'ry-woocommerce-tools')
-    ],
+    //[
+    //    'title' => __('Enable/Disable', 'woocommerce'),
+    //    'id' => RY_WT::$option_prefix . 'newebpay_gateway',
+    //    'type' => 'checkbox',
+    //    'default' => 'no',
+    //    'desc' => __('Enable NewebPay gateway method', 'ry-woocommerce-tools')
+    //],
     [
         'title' => __('Debug log', 'woocommerce'),
         'id' => RY_WT::$option_prefix . 'newebpay_gateway_log',

@@ -12,6 +12,7 @@ class Woomp_Setting {
 		add_action( 'woocommerce_settings_tabs_woomp_setting', __CLASS__ . '::settings_tab' );
 		add_action( 'woocommerce_update_options_woomp_setting', __CLASS__ . '::update_settings' );
 		add_action( 'admin_head', __CLASS__ . '::set_checkbox_toggle' );
+		add_filter( 'woocommerce_get_settings_pages', __CLASS__ . '::set_more_tabs' );
 	}
 
 	/**
@@ -57,7 +58,7 @@ class Woomp_Setting {
 
 		$settings = array(
 			'section_title'         => array(
-				'name' => __( '好用版 Woo 設定', 'woomp' ),
+				'name' => __( '金物流與電子發票設定', 'woomp' ),
 				'type' => 'title',
 				'desc' => '',
 				'id'   => 'wc_woomp_setting_section_title',
@@ -89,24 +90,80 @@ class Woomp_Setting {
 				'default'  => 'no',
 				'desc_tip' => true,
 			),
-			//'newebpay_gateway'      => array(
-			//	'name'     => __( '啟用藍新金流', 'woomp' ),
-			//	'type'     => 'checkbox',
-			//	'desc'     => __( '', 'woomp' ),
-			//	'id'       => 'wc_woomp_setting_ecpay_shipping',
-			//	'class'    => 'toggle',
-			//	'default'  => 'yes',
-			//	'desc_tip' => true,
-			//),
-			//'newebpay_shipping'     => array(
-			//	'name'     => __( '啟用藍新物流', 'woomp' ),
-			//	'type'     => 'checkbox',
-			//	'desc'     => __( '', 'woomp' ),
-			//	'id'       => 'wc_woomp_setting_ecpay_shipping',
-			//	'class'    => 'toggle',
-			//	'default'  => 'yes',
-			//	'desc_tip' => true,
-			//),
+			'newebpay_gateway'      => array(
+				'name'     => __( '啟用藍新金流', 'woomp' ),
+				'type'     => 'checkbox',
+				'desc'     => __( 'Enable NewebPay gateway method', 'ry-woocommerce-tools' ),
+				'id'       => RY_WT::$option_prefix . 'newebpay_gateway',
+				'class'    => 'toggle',
+				'default'  => 'no',
+				'desc_tip' => true,
+			),
+			'newebpay_shipping'     => array(
+				'name'     => __( '啟用藍新物流', 'woomp' ),
+				'type'     => 'checkbox',
+				'desc'     => __( 'Enable NewebPay shipping method', 'ry-woocommerce-tools' ),
+				'id'       => RY_WT::$option_prefix . 'newebpay_shipping',
+				'class'    => 'toggle',
+				'default'  => 'no',
+				'desc_tip' => true,
+			),
+			'smilepay_gateway'      => array(
+				'name'     => __( '啟用速買配金流', 'woomp' ),
+				'type'     => 'checkbox',
+				'desc'     => __( 'Enable SmilePay gateway method', 'ry-woocommerce-tools' ),
+				'id'       => RY_WT::$option_prefix . 'smilepay_gateway',
+				'class'    => 'toggle',
+				'default'  => 'no',
+				'desc_tip' => true,
+			),
+			'smilepay_shipping'     => array(
+				'name'     => __( '啟用速買配物流', 'woomp' ),
+				'type'     => 'checkbox',
+				'desc'     => __( 'Enable SmilePay shipping method', 'ry-woocommerce-tools' ),
+				'id'       => RY_WT::$option_prefix . 'smilepay_shipping',
+				'class'    => 'toggle',
+				'default'  => 'no',
+				'desc_tip' => true,
+			),
+			'paynow_gateway'        => array(
+				'name'     => __( '啟用立吉富金流', 'woomp' ),
+				'type'     => 'checkbox',
+				'desc'     => __( '啟用 立吉富金流 模組', 'woomp' ),
+				'id'       => 'wc_woomp_setting_paynow_gateway',
+				'class'    => 'toggle',
+				'default'  => 'no',
+				'desc_tip' => true,
+			),
+			'paynow_shipping'       => array(
+				'name'     => __( '啟用立吉富物流', 'woomp' ),
+				'type'     => 'checkbox',
+				'desc'     => __( '啟用 立吉富物流 模組', 'woomp' ),
+				'id'       => 'wc_woomp_setting_paynow_shipping',
+				'class'    => 'toggle',
+				'default'  => 'no',
+				'desc_tip' => true,
+			),
+			'paynow_invoice'        => array(
+				'name'     => __( '啟用立吉富電子發票', 'woomp' ),
+				'type'     => 'checkbox',
+				'desc'     => __( '啟用 立吉富電子發票 模組', 'woomp' ),
+				'id'       => 'wc_woomp_setting_paynow_invoice',
+				'class'    => 'toggle',
+				'default'  => 'no',
+				'desc_tip' => true,
+			),
+			'section_title_end'         => array(
+				'type' => 'sectionend',
+				'desc' => '',
+				'id'   => 'wc_woomp_setting_section_title',
+			),
+			'section_checkout_title'         => array(
+				'name' => __( '結帳相關設定', 'woomp' ),
+				'type' => 'title',
+				'desc' => '',
+				'id'   => 'wc_woomp_setting_section_checkout_title',
+			),
 			'replace'               => array(
 				'name'     => __( '一頁結帳模式', 'woomp' ),
 				'type'     => 'checkbox',
@@ -177,7 +234,7 @@ class Woomp_Setting {
 			),
 			'section_end'           => array(
 				'type' => 'sectionend',
-				'id'   => 'wc_woomp_setting_section_end',
+				'id'   => 'wc_woomp_setting_section_checkout_title',
 			),
 		);
 
@@ -185,7 +242,7 @@ class Woomp_Setting {
 	}
 
 	public static function set_checkbox_toggle() {
-		if ( 'woomp_setting' === $_GET['tab'] ) { ?>
+		if ( isset( $_GET['tab'] ) && 'woomp_setting' === $_GET['tab'] ) { ?>
 		<style>
 			input.toggle[type=checkbox]{
 				height: 0;
@@ -228,9 +285,16 @@ class Woomp_Setting {
 			input.toggle + label:active:after {
 				width: 130px;
 			}
-			
+
 			.form-table td fieldset label[for=RY_WT_ecpay_gateway],
 			.form-table td fieldset label[for=RY_WT_ecpay_shipping],
+			.form-table td fieldset label[for=RY_WT_newebpay_gateway],
+			.form-table td fieldset label[for=RY_WT_newebpay_shipping],
+			.form-table td fieldset label[for=RY_WT_smilepay_gateway],
+			.form-table td fieldset label[for=RY_WT_smilepay_shipping],
+			.form-table td fieldset label[for=wc_woomp_setting_paynow_gateway],
+			.form-table td fieldset label[for=wc_woomp_setting_paynow_shipping],
+			.form-table td fieldset label[for=wc_woomp_setting_paynow_invoice],
 			.form-table td fieldset label[for=RY_WEI_enabled_invoice],
 			.form-table td fieldset label[for=wc_woomp_setting_replace],
 			.form-table td fieldset label[for=wc_woomp_setting_billing_country_pos],
@@ -245,7 +309,14 @@ class Woomp_Setting {
 
 			legend + label[for=RY_WT_ecpay_gateway]:after,
 			legend + label[for=RY_WT_ecpay_shipping]:after,
+			legend + label[for=RY_WT_newebpay_gateway]:after,
+			legend + label[for=RY_WT_newebpay_shipping]:after,
+			legend + label[for=RY_WT_smilepay_gateway]:after,
+			legend + label[for=RY_WT_smilepay_shipping]:after,
 			legend + label[for=RY_WEI_enabled_invoice]:after,
+			legend + label[for=wc_woomp_setting_paynow_gateway]:after,
+			legend + label[for=wc_woomp_setting_paynow_shipping]:after,
+			legend + label[for=wc_woomp_setting_paynow_invoice]:after,
 			legend + label[for=wc_woomp_setting_replace]:after,
 			legend + label[for=wc_woomp_setting_billing_country_pos]:after,
 			legend + label[for=wc_woomp_setting_tw_address]:after,
@@ -261,7 +332,14 @@ class Woomp_Setting {
 			$(document).ready(function(){
 				$('#RY_WT_ecpay_gateway').after('<label for="RY_WT_ecpay_gateway">Toggle</label>')
 				$('#RY_WT_ecpay_shipping').after('<label for="RY_WT_ecpay_shipping">Toggle</label>')
+				$('#RY_WT_newebpay_gateway').after('<label for="RY_WT_newebpay_gateway">Toggle</label>')
+				$('#RY_WT_newebpay_shipping').after('<label for="RY_WT_newebpay_shipping">Toggle</label>')
+				$('#RY_WT_smilepay_gateway').after('<label for="RY_WT_smilepay_gateway">Toggle</label>')
+				$('#RY_WT_smilepay_shipping').after('<label for="RY_WT_smilepay_shipping">Toggle</label>')
 				$('#RY_WEI_enabled_invoice').after('<label for="RY_WEI_enabled_invoice">Toggle</label>')
+				$('#wc_woomp_setting_paynow_gateway').after('<label for="wc_woomp_setting_paynow_gateway">Toggle</label>')
+				$('#wc_woomp_setting_paynow_shipping').after('<label for="wc_woomp_setting_paynow_shipping">Toggle</label>')
+				$('#wc_woomp_setting_paynow_invoice').after('<label for="wc_woomp_setting_paynow_invoice">Toggle</label>')
 				$('#wc_woomp_setting_replace').after('<label for="wc_woomp_setting_replace">Toggle</label>')
 				$('#wc_woomp_setting_billing_country_pos').after('<label for="wc_woomp_setting_billing_country_pos">Toggle</label>')
 				$('#wc_woomp_setting_tw_address').after('<label for="wc_woomp_setting_tw_address">Toggle</label>')
@@ -272,6 +350,13 @@ class Woomp_Setting {
 		</script>
 			<?php
 		}
+	}
+
+	public static function set_more_tabs( $settings ) {
+		$settings[] = include WOOMP_PLUGIN_DIR . 'admin/settings/class-woomp-setting-gateway.php';
+		// $settings[] = include WOOMP_PLUGIN_DIR . 'admin/settings/class-woomp-setting-shipping.php';
+		// $settings[] = include WOOMP_PLUGIN_DIR . 'admin/settings/class-woomp-setting-invoice.php';
+		return $settings;
 	}
 
 }

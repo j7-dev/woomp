@@ -1,0 +1,36 @@
+/**
+ * All of the CSS for your admin-specific functionality should be
+ * included in this file.
+ */
+#order_data .order_data_column .form-field._shipping_paynow_storename_field {
+	float: right;
+	clear: right;
+}
+#order_data .order_data_column .form-field._shipping_paynow_storeaddress_field,
+#order_data .order_data_column .form-field._shipping_phone_field {
+	width: 100%;
+	clear: both;
+}
+
+
+#paynow-shipping-info .inside {
+	padding: 0px;
+	margin: 0px;
+}
+#paynow-shipping-info th, #paynow-shipping-info td {
+	text-align: left;
+	padding: 3px;
+}
+
+#paynow-shipping-info tr:nth-child(odd):not(#paynow-action) {
+	background-color: #ccc;
+}
+
+#paynow-shipping-info #paynow-action th, #paynow-shipping-info #paynow-action td {
+	border-top: solid 1px #ccc;
+	padding: 8px 3px;
+}
+
+#paynow-shipping-info #paynow-action button {
+	margin: 3px 2px;
+}

@@ -1,0 +1,396 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"Project-Id-Version: PayNow Shipping\n"
+"POT-Creation-Date: 2021-05-31 21:07+0800\n"
+"PO-Revision-Date: 2021-05-20 18:28+0800\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.4.3\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-Flags-xgettext: --add-comments=translators:\n"
+"X-Poedit-WPHeader: paynow-shipping.php\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;"
+"_n_noop:1,2;_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.min.js\n"
+"X-Poedit-SearchPathExcluded-1: vendor\n"
+
+#: includes/admin/meta-boxes/class-paynow-shipping-order-admin.php:62
+#: includes/utils/paynow-shipping-functions.php:43
+msgid "Store ID"
+msgstr ""
+
+#: includes/admin/meta-boxes/class-paynow-shipping-order-admin.php:66
+#: includes/utils/paynow-shipping-functions.php:33
+msgid "Store Name"
+msgstr ""
+
+#: includes/admin/meta-boxes/class-paynow-shipping-order-admin.php:70
+#: includes/utils/paynow-shipping-functions.php:53
+msgid "Store Address"
+msgstr ""
+
+#: includes/admin/meta-boxes/class-paynow-shipping-order-admin.php:75
+#: includes/admin/meta-boxes/class-paynow-shipping-order-admin.php:81
+#: includes/utils/paynow-shipping-functions.php:18
+msgid "Shipping Phone"
+msgstr ""
+
+#: includes/admin/meta-boxes/class-paynow-shipping-order-admin.php:101
+msgid "Get new PayNow Logistic Number"
+msgstr ""
+
+#: includes/admin/meta-boxes/class-paynow-shipping-order-meta-box.php:31
+msgid "PayNow Shipping Info"
+msgstr ""
+
+#: includes/admin/meta-boxes/class-paynow-shipping-order-meta-box.php:53
+#: includes/class-paynow-shipping.php:612
+msgid "PayNow Logistic Number"
+msgstr ""
+
+#: includes/admin/meta-boxes/class-paynow-shipping-order-meta-box.php:55
+#: includes/class-paynow-shipping.php:615
+msgid "Logistic Service"
+msgstr ""
+
+#: includes/admin/meta-boxes/class-paynow-shipping-order-meta-box.php:82
+#: includes/class-paynow-shipping.php:624
+msgid "Payment NO"
+msgstr ""
+
+#: includes/admin/meta-boxes/class-paynow-shipping-order-meta-box.php:84
+msgid "Status"
+msgstr ""
+
+#: includes/admin/meta-boxes/class-paynow-shipping-order-meta-box.php:85
+msgid "Delivery Status"
+msgstr ""
+
+#: includes/admin/meta-boxes/class-paynow-shipping-order-meta-box.php:86
+msgid "Logistic Code"
+msgstr ""
+
+#: includes/admin/meta-boxes/class-paynow-shipping-order-meta-box.php:87
+msgid "Logistic Code Description"
+msgstr ""
+
+#: includes/admin/meta-boxes/class-paynow-shipping-order-meta-box.php:88
+msgid "Logistic Status Last Query"
+msgstr ""
+
+#: includes/class-paynow-shipping.php:302
+msgid "Please select a CVS store."
+msgstr ""
+
+#: includes/class-paynow-shipping.php:309
+msgid "Shipping Phone format is invalid"
+msgstr ""
+
+#: includes/class-paynow-shipping.php:479
+msgid "Shipping status update failed."
+msgstr ""
+
+#: includes/class-paynow-shipping.php:480
+msgid "Shipping order cancel failed."
+msgstr ""
+
+#: includes/class-paynow-shipping.php:600
+msgid "PayNow Shipping Detail"
+msgstr ""
+
+#: includes/class-paynow-shipping.php:621
+msgid "Detail Status Desc"
+msgstr ""
+
+#: includes/class-paynow-shipping.php:639
+msgid "Store Date"
+msgstr ""
+
+#: includes/class-paynow-shipping.php:643
+msgid "Store Time"
+msgstr ""
+
+#. Author of the plugin/theme
+#: includes/settings/class-paynow-shipping-settings-tab.php:22
+msgid "PayNow"
+msgstr ""
+
+#: includes/settings/class-paynow-shipping-settings-tab.php:25
+#: includes/settings/class-paynow-shipping-settings-tab.php:47
+msgid "Shipping Settings"
+msgstr ""
+
+#: includes/settings/class-paynow-shipping-settings-tab.php:80
+msgid "General Shipping Settings"
+msgstr ""
+
+#: includes/settings/class-paynow-shipping-settings-tab.php:85
+msgid "Debug Log"
+msgstr ""
+
+#: includes/settings/class-paynow-shipping-settings-tab.php:87
+msgid "Enable logging"
+msgstr ""
+
+#: includes/settings/class-paynow-shipping-settings-tab.php:89
+#, php-format
+msgid "Log PayNow Shipping message, inside <code>%s</code>"
+msgstr ""
+
+#: includes/settings/class-paynow-shipping-settings-tab.php:97
+msgid "Store Settings"
+msgstr ""
+
+#: includes/settings/class-paynow-shipping-settings-tab.php:99
+msgid "Enter your store information"
+msgstr ""
+
+#: includes/settings/class-paynow-shipping-settings-tab.php:103
+msgid "Sender Name"
+msgstr ""
+
+#: includes/settings/class-paynow-shipping-settings-tab.php:105
+msgid ""
+"Please enter the sender name. It may be used when the order is returned."
+msgstr ""
+
+#: includes/settings/class-paynow-shipping-settings-tab.php:110
+msgid "Sender Address"
+msgstr ""
+
+#: includes/settings/class-paynow-shipping-settings-tab.php:115
+msgid "Sender Phone"
+msgstr ""
+
+#: includes/settings/class-paynow-shipping-settings-tab.php:120
+msgid "Sender Email"
+msgstr ""
+
+#: includes/settings/class-paynow-shipping-settings-tab.php:129
+msgid "Shipping Order Status Settings"
+msgstr ""
+
+#: includes/settings/class-paynow-shipping-settings-tab.php:131
+msgid "Manage your shipping order status"
+msgstr ""
+
+#: includes/settings/class-paynow-shipping-settings-tab.php:135
+msgid "When products are located at sender CVS store, change order status to"
+msgstr ""
+
+#: includes/settings/class-paynow-shipping-settings-tab.php:141
+msgid ""
+"When products are at located receiver CVS store, change order status to"
+msgstr ""
+
+#: includes/settings/class-paynow-shipping-settings-tab.php:147
+msgid "When customer pickuped or received products, change order status to"
+msgstr ""
+
+#: includes/settings/class-paynow-shipping-settings-tab.php:153
+msgid ""
+"When the customer doesn't pickup products and the products are returned, "
+"change order status to"
+msgstr ""
+
+#: includes/settings/class-paynow-shipping-settings-tab.php:163
+msgid "API Settings"
+msgstr ""
+
+#: includes/settings/class-paynow-shipping-settings-tab.php:165
+msgid "Enter your PayNow shipping user account and API Code"
+msgstr ""
+
+#: includes/settings/class-paynow-shipping-settings-tab.php:169
+msgid "Test Mode"
+msgstr ""
+
+#: includes/settings/class-paynow-shipping-settings-tab.php:171
+msgid "Enable Test Mode"
+msgstr ""
+
+#: includes/settings/class-paynow-shipping-settings-tab.php:173
+msgid "When enabled, you need to use the test-only User Account and API Code."
+msgstr ""
+
+#: includes/settings/class-paynow-shipping-settings-tab.php:177
+msgid "User Account"
+msgstr ""
+
+#: includes/settings/class-paynow-shipping-settings-tab.php:179
+msgid "This is the user account when you apply PayNow shipping"
+msgstr ""
+
+#: includes/settings/class-paynow-shipping-settings-tab.php:184
+msgid "API Code"
+msgstr ""
+
+#: includes/settings/class-paynow-shipping-settings-tab.php:186
+msgid "This is the API Code when you apply PayNow shipping"
+msgstr ""
+
+#: includes/settings/class-paynow-shipping-settings-tab.php:208
+msgid "No action"
+msgstr ""
+
+#: includes/settings/settings-paynow-shipping-c2c-711.php:17
+#: includes/settings/settings-paynow-shipping-c2c-family.php:17
+#: includes/settings/settings-paynow-shipping-c2c-hilife.php:17
+#: includes/settings/settings-paynow-shipping-hd-tcat.php:17
+msgid "Title"
+msgstr ""
+
+#: includes/settings/settings-paynow-shipping-c2c-711.php:19
+#: includes/settings/settings-paynow-shipping-c2c-family.php:19
+#: includes/settings/settings-paynow-shipping-c2c-hilife.php:19
+#: includes/settings/settings-paynow-shipping-hd-tcat.php:19
+msgid "This controls the title which the user sees during checkout."
+msgstr ""
+
+#: includes/settings/settings-paynow-shipping-c2c-711.php:20
+#: includes/shippings/class-paynow-shipping-c2c-711.php:26
+#: includes/shippings/class-paynow-shipping-c2c-711.php:27
+msgid "PayNow Shipping C2C 7-11"
+msgstr ""
+
+#: includes/settings/settings-paynow-shipping-c2c-711.php:24
+#: includes/settings/settings-paynow-shipping-c2c-family.php:24
+#: includes/settings/settings-paynow-shipping-c2c-hilife.php:24
+#: includes/settings/settings-paynow-shipping-hd-tcat.php:24
+msgid "Description"
+msgstr ""
+
+#: includes/settings/settings-paynow-shipping-c2c-711.php:26
+#: includes/settings/settings-paynow-shipping-c2c-family.php:26
+#: includes/settings/settings-paynow-shipping-c2c-hilife.php:26
+#: includes/settings/settings-paynow-shipping-hd-tcat.php:26
+msgid "This controls the description which the user sees during checkout."
+msgstr ""
+
+#: includes/settings/settings-paynow-shipping-c2c-711.php:30
+#: includes/settings/settings-paynow-shipping-c2c-family.php:30
+#: includes/settings/settings-paynow-shipping-c2c-hilife.php:30
+#: includes/settings/settings-paynow-shipping-hd-tcat.php:30
+msgid "Shipping Cost"
+msgstr ""
+
+#: includes/settings/settings-paynow-shipping-c2c-711.php:37
+#: includes/settings/settings-paynow-shipping-c2c-family.php:37
+#: includes/settings/settings-paynow-shipping-c2c-hilife.php:37
+#: includes/settings/settings-paynow-shipping-hd-tcat.php:37
+msgid "Free shipping requires"
+msgstr ""
+
+#: includes/settings/settings-paynow-shipping-c2c-711.php:42
+#: includes/settings/settings-paynow-shipping-c2c-family.php:42
+#: includes/settings/settings-paynow-shipping-c2c-hilife.php:42
+#: includes/settings/settings-paynow-shipping-hd-tcat.php:42
+msgid "N/A"
+msgstr ""
+
+#: includes/settings/settings-paynow-shipping-c2c-711.php:43
+#: includes/settings/settings-paynow-shipping-c2c-family.php:43
+#: includes/settings/settings-paynow-shipping-c2c-hilife.php:43
+#: includes/settings/settings-paynow-shipping-hd-tcat.php:43
+msgid "A minimum order amount"
+msgstr ""
+
+#: includes/settings/settings-paynow-shipping-c2c-711.php:47
+#: includes/settings/settings-paynow-shipping-c2c-family.php:47
+#: includes/settings/settings-paynow-shipping-c2c-hilife.php:47
+#: includes/settings/settings-paynow-shipping-hd-tcat.php:47
+msgid "Minimum order amount for free shipping"
+msgstr ""
+
+#: includes/settings/settings-paynow-shipping-c2c-711.php:51
+#: includes/settings/settings-paynow-shipping-c2c-family.php:51
+#: includes/settings/settings-paynow-shipping-c2c-hilife.php:51
+#: includes/settings/settings-paynow-shipping-hd-tcat.php:51
+msgid "Users will need to spend this amount to get free shipping."
+msgstr ""
+
+#: includes/settings/settings-paynow-shipping-c2c-family.php:20
+#: includes/shippings/class-paynow-shipping-c2c-family.php:26
+#: includes/shippings/class-paynow-shipping-c2c-family.php:27
+msgid "PayNow Shipping C2C Family"
+msgstr ""
+
+#: includes/settings/settings-paynow-shipping-c2c-hilife.php:20
+#: includes/shippings/class-paynow-shipping-c2c-hilife.php:26
+#: includes/shippings/class-paynow-shipping-c2c-hilife.php:27
+msgid "PayNow Shipping C2C Hi-Life"
+msgstr ""
+
+#: includes/settings/settings-paynow-shipping-hd-tcat.php:20
+#: includes/shippings/class-paynow-shipping-hd-tcat.php:26
+#: includes/shippings/class-paynow-shipping-hd-tcat.php:27
+msgid "PayNow Shipping TCat"
+msgstr ""
+
+#: includes/shippings/api/class-paynow-shipping-request.php:62
+#: includes/shippings/api/class-paynow-shipping-request.php:102
+msgid "Create shipping order failed. "
+msgstr ""
+
+#: includes/shippings/api/class-paynow-shipping-request.php:91
+msgid "Create shipping order successed. LogisticNumber: "
+msgstr ""
+
+#: includes/shippings/api/class-paynow-shipping-request.php:93
+msgid "Re-Create shipping order successed. LogisticNumber: "
+msgstr ""
+
+#: includes/shippings/api/class-paynow-shipping-request.php:141
+#: includes/shippings/api/class-paynow-shipping-request.php:188
+msgid "Invalid security token sent."
+msgstr ""
+
+#: includes/shippings/api/class-paynow-shipping-request.php:148
+#: includes/shippings/api/class-paynow-shipping-request.php:195
+#: includes/shippings/api/class-paynow-shipping-request.php:239
+msgid "Missing Ajax Parameter."
+msgstr ""
+
+#: includes/shippings/api/class-paynow-shipping-request.php:255
+msgid "Unsupported shipping service."
+msgstr ""
+
+#: includes/shippings/api/class-paynow-shipping-request.php:274
+msgid "Fail to get print label"
+msgstr ""
+
+#: includes/shippings/api/class-paynow-shipping-request.php:288
+msgid "No logistic number"
+msgstr ""
+
+#: includes/utils/paynow-shipping-functions.php:27
+msgid "Service"
+msgstr ""
+
+#: paynow-shipping.php:52
+msgid "General Settings"
+msgstr ""
+
+#. Plugin Name of the plugin/theme
+msgid "PayNow Shipping"
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+msgid "https://paynow.yangsheep.art"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "PayNow Shipping for WooCommerce"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "https://www.paynow.com.tw/"
+msgstr ""
