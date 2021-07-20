@@ -1,7 +1,5 @@
 <?php
 
-use \MGC\Logger\Logger;
-
 class Woomp_Setting_Gateway extends WC_Settings_Page {
 
 	public $setting_default = array();

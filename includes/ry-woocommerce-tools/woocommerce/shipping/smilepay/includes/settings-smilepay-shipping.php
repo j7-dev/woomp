@@ -1,17 +1,17 @@
 <?php
 return [
     [
-        'title' => __('Base options', 'ry-woocommerce-tools'),
+        'title' => __('速買配物流設定', 'ry-woocommerce-tools'),
         'id' => 'base_options',
         'type' => 'title'
     ],
-    [
-        'title' => __('Enable/Disable', 'woocommerce'),
-        'id' => RY_WT::$option_prefix . 'smilepay_shipping',
-        'type' => 'checkbox',
-        'default' => 'no',
-        'desc' => __('Enable SmilePay shipping method', 'ry-woocommerce-tools')
-    ],
+    //[
+    //    'title' => __('Enable/Disable', 'woocommerce'),
+    //    'id' => RY_WT::$option_prefix . 'smilepay_shipping',
+    //    'type' => 'checkbox',
+    //    'default' => 'no',
+    //    'desc' => __('Enable SmilePay shipping method', 'ry-woocommerce-tools')
+    //],
     [
         'title' => __('Log status change', 'ry-woocommerce-tools'),
         'id' => RY_WT::$option_prefix . 'smilepay_shipping_log_status_change',

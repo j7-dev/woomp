@@ -1,17 +1,17 @@
 <?php
 return [
     [
-        'title' => __('Base options', 'ry-woocommerce-tools'),
+        'title' => __('綠界物流設定', 'ry-woocommerce-tools'),
         'id' => 'base_options',
         'type' => 'title'
     ],
-    [
-        'title' => __('Enable/Disable', 'woocommerce'),
-        'id' => RY_WT::$option_prefix . 'ecpay_shipping',
-        'type' => 'checkbox',
-        'default' => 'no',
-        'desc' => __('Enable ECPay shipping method', 'ry-woocommerce-tools')
-    ],
+    //[
+    //    'title' => __('Enable/Disable', 'woocommerce'),
+    //    'id' => RY_WT::$option_prefix . 'ecpay_shipping',
+    //    'type' => 'checkbox',
+    //    'default' => 'no',
+    //    'desc' => __('Enable ECPay shipping method', 'ry-woocommerce-tools')
+    //],
     [
         'title' => __('Debug log', 'woocommerce'),
         'id' => RY_WT::$option_prefix . 'ecpay_shipping_log',

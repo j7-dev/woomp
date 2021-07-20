@@ -1,7 +1,5 @@
 <?php
 
-use \MGC\Logger\Logger;
-
 class Woomp_Setting {
 
 	/**
@@ -354,8 +352,7 @@ class Woomp_Setting {
 
 	public static function set_more_tabs( $settings ) {
 		$settings[] = include WOOMP_PLUGIN_DIR . 'admin/settings/class-woomp-setting-gateway.php';
-		// $settings[] = include WOOMP_PLUGIN_DIR . 'admin/settings/class-woomp-setting-shipping.php';
-		// $settings[] = include WOOMP_PLUGIN_DIR . 'admin/settings/class-woomp-setting-invoice.php';
+		$settings[] = include WOOMP_PLUGIN_DIR . 'admin/settings/class-woomp-setting-shipping.php';
 		return $settings;
 	}
 

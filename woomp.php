@@ -198,3 +198,64 @@ if ( ! defined( 'PAYNOW_PLUGIN_URL' ) ) {
 
 	add_action( 'plugins_loaded', 'run_paynow_payment' );
 }
+
+/**
+ * 引入 paynow-shipping
+ */
+if( ! defined( 'PAYNOW_SHIPPING_PLUGIN_URL' )){
+
+	define( 'PAYNOW_SHIPPING_PLUGIN_URL', plugin_dir_url( __FILE__ ) . 'includes/paynow-shipping/' );
+	define( 'PAYNOW_SHIPPING_PLUGIN_DIR', plugin_dir_path( __FILE__ ) . 'includes/paynow-shipping/' );
+	define( 'PAYNOW_SHIPPING_BASENAME', plugin_basename( __FILE__ ) . 'includes/paynow-shipping/' );
+	define( 'PAYNOW_SHIPPING_TEMPLATE_DIR', plugin_dir_path( __FILE__ ) . 'includes/paynow-shipping//templates/' );
+	
+	/**
+	 * Add PayNow shipping methods.
+	 *
+	 * @param array $methods Payment methods.
+	 * @return array
+	 */
+	function add_paynow_shipping_methods( $methods ) {
+		$methods['paynow_shipping_c2c_711']    = 'PayNow_Shipping_C2C_711';
+		$methods['paynow_shipping_c2c_family'] = 'PayNow_Shipping_C2C_Family';
+		$methods['paynow_shipping_c2c_hilife'] = 'PayNow_Shipping_C2C_Hilife';
+		$methods['paynow_shipping_hd_tcat']    = 'PayNow_Shipping_HD_TCat';
+		return $methods;
+	}
+	
+	
+	/**
+	 * Initialize PayNow shipping.
+	 *
+	 * @return void
+	 */
+	function run_paynow_shipping() {
+		if ( ! class_exists( 'WC_Shipping_Method' ) ) {
+			return;
+		}
+	
+		include_once PAYNOW_SHIPPING_PLUGIN_DIR . 'includes/class-paynow-shipping.php';
+		include_once PAYNOW_SHIPPING_PLUGIN_DIR . 'includes/admin/meta-boxes/class-paynow-shipping-order-meta-box.php';
+		include_once PAYNOW_SHIPPING_PLUGIN_DIR . 'includes/admin/meta-boxes/class-paynow-shipping-order-admin.php';
+		include_once PAYNOW_SHIPPING_PLUGIN_DIR . 'includes/utils/class-paynow-shipping-logistic-service.php';
+		include_once PAYNOW_SHIPPING_PLUGIN_DIR . 'includes/utils/class-paynow-shipping-order-meta.php';
+		include_once PAYNOW_SHIPPING_PLUGIN_DIR . 'includes/utils/class-paynow-shipping-status.php';
+		include_once PAYNOW_SHIPPING_PLUGIN_DIR . 'includes/utils/paynow-shipping-functions.php';
+		include_once PAYNOW_SHIPPING_PLUGIN_DIR . 'includes/shippings/abstract-paynow-shipping.php';
+		include_once PAYNOW_SHIPPING_PLUGIN_DIR . 'includes/shippings/class-paynow-shipping-c2c-711.php';
+		include_once PAYNOW_SHIPPING_PLUGIN_DIR . 'includes/shippings/class-paynow-shipping-c2c-family.php';
+		include_once PAYNOW_SHIPPING_PLUGIN_DIR . 'includes/shippings/class-paynow-shipping-c2c-hilife.php';
+		include_once PAYNOW_SHIPPING_PLUGIN_DIR . 'includes/shippings/class-paynow-shipping-hd-tcat.php';
+		include_once PAYNOW_SHIPPING_PLUGIN_DIR . 'includes/shippings/api/class-paynow-shipping-request.php';
+		include_once PAYNOW_SHIPPING_PLUGIN_DIR . 'includes/shippings/api/class-paynow-shipping-response.php';
+	
+		add_filter( 'woocommerce_shipping_methods', 'add_paynow_shipping_methods' );
+	
+		PayNow_Shipping_Order_Admin::instance();
+		PayNow_Shipping::init();
+		PayNow_Shipping_Request::init();
+		PayNow_Shipping_Response::init();
+	
+	}
+	add_action( 'plugins_loaded', 'run_paynow_shipping' );
+}
