@@ -99,14 +99,14 @@ class Paynow_Einvoice {
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
 
-		$this->loader->add_filter( 'woocommerce_get_settings_pages', $this, 'paynow_einvoice_add_settings', 15);
+		//$this->loader->add_filter( 'woocommerce_get_settings_pages', $this, 'paynow_einvoice_add_settings', 15);
 
 
 		if (  get_option( 'wc_settings_tab_active_paynow_einvoice' ) === 'yes' ) {
 
-			if (empty($this->mem_cid) || empty($this->mem_password)) {
-				$this->loader->add_action( 'admin_notices',   $this, 'paynow_unset_credential_wanrning' );
-			}
+			//if (empty($this->mem_cid) || empty($this->mem_password)) {
+			//	$this->loader->add_action( 'admin_notices',   $this, 'paynow_unset_credential_wanrning' );
+			//}
 
 			//顯示電子發票欄位
 			$this->loader->add_action( 'woocommerce_after_order_notes', $this, 'paynow_einvoice_field' );

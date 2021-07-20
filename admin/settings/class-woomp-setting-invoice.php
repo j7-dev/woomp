@@ -1,16 +1,30 @@
 <?php
 
-use \MGC\Logger\Logger;
+class Woomp_Setting_Invoice extends WC_Settings_Page {
 
-class Woomp_Setting_Invoice {
+	public $setting_default = array();
 
 	/**
 	 * Bootstraps the class and hooks required actions & filters.
 	 */
-	public static function init() {
-		add_filter( 'woocommerce_settings_tabs_array', __CLASS__ . '::add_settings_tab', 60 );
-		add_action( 'woocommerce_settings_tabs_woomp_setting_invoice', __CLASS__ . '::settings_tab' );
-		add_action( 'woocommerce_update_options_woomp_setting_invoice', __CLASS__ . '::update_settings' );
+	public function __construct() {
+		$this->id    = 'woomp_setting_invoice';
+		$this->label = __( '電子發票設定', 'woomp' );
+		add_filter( 'woocommerce_settings_tabs_array', array( $this, 'add_settings_tab' ), 51 );
+		add_action( 'woocommerce_sections_' . $this->id, array( $this, 'output_sections' ) );
+		add_action( 'woocommerce_settings_' . $this->id, array( $this, 'output' ) );
+		add_action( 'woocommerce_settings_save_' . $this->id, array( $this, 'save' ) );
+	}
+
+	public function set_setting_default( $company ) {
+		$this->setting_default = array(
+			array(
+				'title' => '尚未啟用' . esc_html( $company ) . '電子發票',
+				'desc'  => '請前往<a href="' . admin_url( 'admin.php?page=wc-settings&tab=woomp_setting' ) . '">設定</a>',
+				'id'    => 'empty_options',
+				'type'  => 'title',
+			),
+		);
 	}
 
 	/**
@@ -19,7 +33,7 @@ class Woomp_Setting_Invoice {
 	 * @param array $settings_tabs Array of WooCommerce setting tabs & their labels, excluding the Subscription tab.
 	 * @return array $settings_tabs Array of WooCommerce setting tabs & their labels, including the Subscription tab.
 	 */
-	public static function add_settings_tab( $settings_tabs ) {
+	public function add_settings_tab( $settings_tabs ) {
 		$settings_tabs['woomp_setting_invoice'] = __( '電子發票設定', 'woomp' );
 		return $settings_tabs;
 	}
@@ -29,10 +43,10 @@ class Woomp_Setting_Invoice {
 	 * Uses the WooCommerce admin fields API to output settings via the @see woocommerce_admin_fields() function.
 	 *
 	 * @uses woocommerce_admin_fields()
-	 * @uses self::get_settings()
+	 * @uses $this->get_settings()
 	 */
-	public static function settings_tab() {
-		woocommerce_admin_fields( self::get_settings() );
+	public function settings_tab() {
+		woocommerce_admin_fields( $this->get_settings() );
 	}
 
 
@@ -40,10 +54,16 @@ class Woomp_Setting_Invoice {
 	 * Uses the WooCommerce options API to save settings via the @see woocommerce_update_options() function.
 	 *
 	 * @uses woocommerce_update_options()
-	 * @uses self::get_settings()
+	 * @uses $this->get_settings()
 	 */
-	public static function update_settings() {
-		woocommerce_update_options( self::get_settings() );
+	public function update_settings() {
+		woocommerce_update_options( $this->get_settings() );
+	}
+
+	public function get_sections() {
+		$sections['ecpay']  = __( '綠界', 'woomp' );
+		$sections['paynow'] = __( '立吉富', 'woomp' );
+		return apply_filters( 'woocommerce_get_sections_' . $this->id, $sections );
 	}
 
 
@@ -52,249 +72,197 @@ class Woomp_Setting_Invoice {
 	 *
 	 * @return array Array of settings for @see woocommerce_admin_fields() function.
 	 */
-	public static function get_settings() {
+	public function get_settings( $section = null ) {
 
-		if ( get_option( RY_WEI::$option_prefix . 'enabled_invoice', 1 ) === 'yes' ) {
-
-			$order_statuses = wc_get_order_statuses();
-			$paid_status    = array();
-			foreach ( wc_get_is_paid_statuses() as $status ) {
-				$paid_status[] = $order_statuses[ 'wc-' . $status ];
-			}
-			$paid_status = implode( ', ', $paid_status );
-
-			$settings = array(
-				array(
-					'title' => __( 'Base options', 'ry-woocommerce-ecpay-invoice' ),
-					'id'    => 'base_options',
-					'type'  => 'title',
-				),
-				array(
-					'title'   => __( 'Enable/Disable', 'ry-woocommerce-ecpay-invoice' ),
-					'id'      => RY_WEI::$option_prefix . 'enabled_invoice',
-					'type'    => 'checkbox',
-					'default' => 'no',
-					'desc'    => __( 'Enable ECPay invoice method', 'ry-woocommerce-ecpay-invoice' ),
-				),
-				array(
-					'title'   => __( 'Debug log', 'ry-woocommerce-ecpay-invoice' ),
-					'id'      => RY_WEI::$option_prefix . 'invoice_log',
-					'type'    => 'checkbox',
-					'default' => 'no',
-					'desc'    => __( 'Enable logging', 'ry-woocommerce-ecpay-invoice' ) . '<br>'
-						. sprintf(
-							/* translators: %s: Path of log file */
-							__( 'Log ECPay invoice events/message, inside %s', 'ry-woocommerce-ecpay-invoice' ),
-							'<code>' . WC_Log_Handler_File::get_log_file_path( 'ry_ecpay_invoice' ) . '</code>'
+		switch ( $section ) {
+			case 'ecpay':
+				if ( get_option( RY_WEI::$option_prefix . 'enabled_invoice', 1 ) === 'yes' ) {
+					$settings = include RY_WEI_PLUGIN_DIR . 'woocommerce/settings/settings-ecpay-invoice.php';
+					return $settings;
+				} else {
+					$this->set_setting_default( '綠界' );
+					$settings = $this->setting_default;
+					return $settings;
+				}
+				break;
+			case 'paynow':
+				if ( get_option( 'wc_settings_tab_active_paynow_einvoice', 1 ) === 'yes' ) {
+					$settings = array(
+						'section_title'           => array(
+							'name' => __( '立吉富電子發票設定', 'paynow-einvoice' ),
+							'type' => 'title',
+							'desc' => '',
+							'id'   => 'wc_settings_tab_demo_section_title',
 						),
-				),
-				array(
-					'title'    => __( 'Order no prefix', 'ry-woocommerce-ecpay-invoice' ),
-					'id'       => RY_WEI::$option_prefix . 'order_prefix',
-					'type'     => 'text',
-					'desc'     => __( 'The prefix string of order no. Only letters and numbers allowed allowed.', 'ry-woocommerce-ecpay-invoice' ),
-					'desc_tip' => true,
-				),
-				array(
-					'title'   => __( 'Show invoice number', 'ry-woocommerce-ecpay-invoice' ),
-					'id'      => RY_WEI::$option_prefix . 'show_invoice_number',
-					'type'    => 'checkbox',
-					'default' => 'no',
-					'desc'    => __( 'Show invoice number in Frontend order list', 'ry-woocommerce-ecpay-invoice' ),
-				),
-				array(
-					'title'   => __( 'Move billing company', 'ry-woocommerce-ecpay-invoice' ),
-					'id'      => RY_WEI::$option_prefix . 'move_billing_company',
-					'type'    => 'checkbox',
-					'default' => 'no',
-					'desc'    => __( 'Move billing company to invoice area', 'ry-woocommerce-ecpay-invoice' ),
-				),
-				array(
-					'id'   => 'base_options',
-					'type' => 'sectionend',
-				),
-				array(
-					'title' => __( 'Invoice options', 'ry-woocommerce-ecpay-invoice' ),
-					'id'    => 'invoice_options',
-					'type'  => 'title',
-				),
-				array(
-					'title'   => __( 'support paper type', 'ry-woocommerce-ecpay-invoice' ),
-					'id'      => RY_WEI::$option_prefix . 'support_carruer_type_none',
-					'type'    => 'checkbox',
-					'default' => 'no',
-					'desc'    => __( 'You need print invoice and seed to orderer.', 'ry-woocommerce-ecpay-invoice' ),
-				),
-				array(
-					'title'   => __( 'Get mode', 'ry-woocommerce-ecpay-invoice' ),
-					'id'      => RY_WEI::$option_prefix . 'get_mode',
-					'type'    => 'select',
-					'default' => 'manual',
-					'options' => array(
-						'manual'         => _x( 'manual', 'get mode', 'ry-woocommerce-ecpay-invoice' ),
-						'auto_paid'      => _x( 'auto ( when order paid )', 'get mode', 'ry-woocommerce-ecpay-invoice' ),
-						'auto_completed' => _x( 'auto ( when order completed )', 'get mode', 'ry-woocommerce-ecpay-invoice' ),
-					),
-					/* translators: %s: paid status */
-					'desc'    => sprintf( __( 'Order paid status: %s', 'ry-woocommerce-ecpay-invoice' ), $paid_status ),
-				),
-				array(
-					'title'   => __( 'Delay get days', 'ry-woocommerce-ecpay-invoice' ),
-					'id'      => RY_WEI::$option_prefix . 'get_delay_days',
-					'type'    => 'text',
-					'default' => '0',
-					'desc'    => '如設定為 <strong>0</strong> 天表示立即開立。<br>'
-						. '將於達成自動開立的條件下連結至綠界的系統，並設定延遲 N 天後<strong>自動完成</strong>開立發票的相關動作。<br>'
-						. '受限於綠界 API 的限制，於設定自動開立到發票完成開立的這段期間中，只能至綠界的管理後台進行待開立發票的取消動作。',
-				),
-				array(
-					'title'   => __( 'Invalid mode', 'ry-woocommerce-ecpay-invoice' ),
-					'id'      => RY_WEI::$option_prefix . 'invalid_mode',
-					'type'    => 'select',
-					'default' => 'manual',
-					'options' => array(
-						'manual'       => _x( 'manual', 'invalid mode', 'ry-woocommerce-ecpay-invoice' ),
-						'auto_cancell' => _x( 'auto ( when order status cancelled OR refunded )', 'invalid mode', 'ry-woocommerce-ecpay-invoice' ),
-					),
-				),
-				array(
-					'id'   => 'invoice_options',
-					'type' => 'sectionend',
-				),
-				array(
-					'title' => __( 'API credentials', 'ry-woocommerce-ecpay-invoice' ),
-					'id'    => 'api_options',
-					'type'  => 'title',
-				),
-				array(
-					'title'   => __( 'ECPay invoice sandbox', 'ry-woocommerce-ecpay-invoice' ),
-					'id'      => RY_WEI::$option_prefix . 'ecpay_testmode',
-					'type'    => 'checkbox',
-					'default' => 'yes',
-					'desc'    => __( 'Enable ECPay invoice sandbox', 'ry-woocommerce-ecpay-invoice' ),
-				),
-				array(
-					'title'   => __( 'MerchantID', 'ry-woocommerce-ecpay-invoice' ),
-					'id'      => RY_WEI::$option_prefix . 'ecpay_MerchantID',
-					'type'    => 'text',
-					'default' => '',
-				),
-				array(
-					'title'   => __( 'HashKey', 'ry-woocommerce-ecpay-invoice' ),
-					'id'      => RY_WEI::$option_prefix . 'ecpay_HashKey',
-					'type'    => 'text',
-					'default' => '',
-				),
-				array(
-					'title'   => __( 'HashIV', 'ry-woocommerce-ecpay-invoice' ),
-					'id'      => RY_WEI::$option_prefix . 'ecpay_HashIV',
-					'type'    => 'text',
-					'default' => '',
-				),
-				array(
-					'id'   => 'api_options',
-					'type' => 'sectionend',
-				),
-			);
+						//'active_paynow_einvoice'  => array(
+						//	'name' => __( 'Enable', 'paynow-einvoice' ),
+						//	'type' => 'checkbox',
+						//	'desc' => '',
+						//	'id'   => 'wc_settings_tab_active_paynow_einvoice',
+						//),
+						'paynow_einvoice_sandbox' => array(
+							'name' => __( 'Test Mode', 'paynow-einvoice' ),
+							'type' => 'checkbox',
+							'desc' => '',
+							'id'   => 'wc_settings_tab_paynow_einvoice_sandbox',
+						),
+						'paynow_debug_log'        => array(
+							'name'    => __( 'Debug Log', 'paynow-einvoice' ),
+							'type'    => 'checkbox',
+							'label'   => __( 'Enable Logging', 'paynow-einvoice' ),
+							'default' => 'no',
+							'desc'    => sprintf( __( 'Log PayNow E-Invoice message, inside <code>%s</code>', 'paynow-einvoice' ), wc_get_log_file_path( 'paynow-einvoice' ) ),
+							'id'      => 'paynow_einvoice_debug_log_enabled',
+						),
+						'mem_cid'                 => array(
+							'name' => __( 'Merchant ID', 'paynow-einvoice' ),
+							'type' => 'text',
+							'desc' => '',
+							'id'   => 'wc_settings_tab_mem_cid',
+						),
+						'mem_password'            => array(
+							'name' => __( 'Merchant Password', 'paynow-einvoice' ),
+							'type' => 'text',
+							'desc' => '',
+							'id'   => 'wc_settings_tab_mem_password',
+						),
+						'issue_mode'              => array(
+							'name'     => __( 'Issue Mode', 'paynow-einvoice' ),
+							'type'     => 'radio',
+							'desc'     => __( 'You can issue the e-invoice manually even if you choose Automatic mode' ),
+							'desc_tip' => true,
+							'id'       => 'wc_settings_tab_issue_mode',
+							'options'  => array(
+								'auto'   => __( 'Automatic', 'paynow-einvoice' ),
+								'manual' => __( 'Manual', 'paynow-einvoice' ),
+							),
+							'default'  => 'auto',
+						),
+						'issue_at'                => array(
+							'name'     => __( 'Allowed Order Status', 'paynow-einvoice' ),
+							'type'     => 'select',
+							'class'    => 'wc-enhanced-select',
+							'desc'     => __( 'When order status changes to the status, the e-invoice will be issued automatically.' ),
+							'id'       => 'wc_settings_tab_issue_at',
+							'desc_tip' => true,
+							'options'  => self::ww_get_order_status(),
+						),
+						'tax_type'                => array(
+							'name'     => __( 'Tax Type', 'paynow-einvoice' ),
+							'type'     => 'select',
+							'desc'     => __( 'When input the product price, please input the price with tax-included.' ),
+							'desc_tip' => true,
+							'class'    => 'wc-enhanced-select',
+							'options'  => array(
+								'1' => '應稅(5%)',
+								'2' => '零稅率(0%)',
+								'3' => '免稅(0%)',
+							),
+							'id'       => 'wc_settings_tab_tax_type',
+						),
+						'carrier_type'            => array(
+							'name'          => __( 'Carrier Type', 'paynow-einvoice' ),
+							'type'          => 'checkbox',
+							'desc'          => __( 'Mobile Code', 'paynow-einvoice' ),
+							'default'       => 'yes',
+							'id'            => 'wc_settings_tab_carrier_type_mobile_code',
+							'checkboxgroup' => 'start',
+						),
+						array(
+							'desc'          => __( 'Citizen Digital Certificate', 'paynow-einvoice' ),
+							'id'            => 'wc_settings_tab_carrier_type_cdc_code',
+							'default'       => 'yes',
+							'type'          => 'checkbox',
+							'checkboxgroup' => '',
+						),
+						array(
+							'desc'          => __( 'Easy Card', 'paynow-einvoice' ),
+							'id'            => 'wc_settings_tab_carrier_type_easycard_code',
+							'default'       => 'yes',
+							'type'          => 'checkbox',
+							'checkboxgroup' => '',
+						),
+						// array(
+						// 'desc'            => __( '捐贈發票', 'woocommerce' ),
+						// 'id'              => 'wc_settings_tab_carrier_type_donate',
+						// 'default'         => 'yes',
+						// 'type'            => 'checkbox',
+						// 'checkboxgroup'   => '',
+						// ),
+						'donate_org'              => array(
+							'name'     => __( 'Donated Organization', 'paynow-einvoice' ),
+							'type'     => 'textarea',
+							'desc'     => '輸入捐增機構(每行一筆)，格式為：愛心碼|社福團體名稱',
+							'desc_tip' => true,
+							'id'       => 'wc_settings_tab_donate_org',
+						),
+						'section_end'             => array(
+							'type' => 'sectionend',
+							'id'   => 'wc_settings_tab_demo_section_end',
+						),
+					);
+					return $settings;
+				} else {
+					$this->set_setting_default( '立吉富' );
+					$settings = $this->setting_default;
+					return $settings;
+				}
+				break;
 
-			return $settings;
+			default:
+				// code...
+				break;
 		}
-
-		$settings = array(
-			array(
-				'title' => __( '尚未啟用電子發票功能', 'woomp' ),
-				'desc'  => '請前往<a href="' . admin_url( 'admin.php?page=wc-settings&tab=woomp_setting' ) . '">設定</a>',
-				'id'    => 'empty_options',
-				'type'  => 'title',
-			),
-		);
-
-		return $settings;
-
 	}
 
-	public static function set_checkbox_toggle() {
-		global $pagenow;
-		if ( 'admin.php' === $pagenow ) { ?>
-		<style>
-			input.toggle[type=checkbox]{
-				height: 0;
-				width: 0;
-				visibility: hidden;
-			}
+	private static function ww_get_order_status() {
+		$order_statuses = array();
 
-			input.toggle + label {
-				cursor: pointer;
-				text-indent: -9999px;
-				width: 50px;
-				height: 26px;
-				background: grey;
-				display: block;
-				border-radius: 100px;
-				position: relative;
+		foreach ( wc_get_order_statuses() as $slug => $name ) {
+			if ( $slug == 'wc-cancelled' || $slug == 'wc-refunded' || $slug == 'wc-failed' ) {
+				continue;
 			}
-
-			input.toggle + label:after {
-				content: '';
-				position: absolute;
-				top: 3px;
-				left: 3px;
-				width: 20px;
-				height: 20px;
-				background: #fff;
-				border-radius: 40px;
-				transition: 0.3s;
-			}
-
-			input.toggle:checked + label {
-				background: #cc99c2;
-			}
-
-			input.toggle:checked + label:after {
-				left: calc(100% - 3px);
-				transform: translateX(-100%);
-			}
-
-			input.toggle + label:active:after {
-				width: 130px;
-			}
-
-			.form-table td fieldset label[for=wc_woomp_setting_replace],
-			.form-table td fieldset label[for=wc_woomp_setting_billing_country_pos],
-			.form-table td fieldset label[for=wc_woomp_setting_tw_address],
-			.form-table td fieldset label[for=wc_woomp_setting_one_line_address],
-			.form-table td fieldset label[for=wc_woomp_setting_cod_payment],
-			.form-table td fieldset label[for=wc_woomp_setting_product_variations_ui] {
-				margin-top: 0!important;
-				margin-left: -10px!important;
-				margin-bottom: 3px!important;
-			}
-
-			legend + label[for=wc_woomp_setting_replace]:after,
-			legend + label[for=wc_woomp_setting_billing_country_pos]:after,
-			legend + label[for=wc_woomp_setting_tw_address]:after,
-			legend + label[for=wc_woomp_setting_one_line_address]:after,
-			legend + label[for=wc_woomp_setting_cod_payment]:after,
-			legend + label[for=wc_woomp_setting_product_variations_ui]:after {
-				content: '停用 / 啟用';
-				margin-left: 10px;
-			}
-		</style>
-		<script>
-			var $ = jQuery.noConflict();
-			$(document).ready(function(){
-				$('#wc_woomp_setting_replace').after('<label for="wc_woomp_setting_replace">Toggle</label>')
-				$('#wc_woomp_setting_billing_country_pos').after('<label for="wc_woomp_setting_billing_country_pos">Toggle</label>')
-				$('#wc_woomp_setting_tw_address').after('<label for="wc_woomp_setting_tw_address">Toggle</label>')
-				$('#wc_woomp_setting_one_line_address').after('<label for="wc_woomp_setting_one_line_address">Toggle</label>')
-				$('#wc_woomp_setting_cod_payment').after('<label for="wc_woomp_setting_cod_payment">Toggle</label>')
-				$('#wc_woomp_setting_product_variations_ui').after('<label for="wc_woomp_setting_product_variations_ui">Toggle</label>')
-			})
-		</script>
-			<?php
+			$order_statuses[ str_replace( 'wc-', '', $slug ) ] = $name;
 		}
+
+		return $order_statuses;
+	}
+
+	/**
+	 * Get order status
+	 *
+	 * @return array
+	 */
+	private static function paynow_get_order_status() {
+		$order_statuses = array(
+			'' => __( 'No action', 'paynow-shipping' ),
+		);
+
+		foreach ( wc_get_order_statuses() as $slug => $name ) {
+			if ( $slug == 'wc-cancelled' || $slug == 'wc-refunded' || $slug == 'wc-failed' ) {
+				continue;
+			}
+			$order_statuses[ str_replace( 'wc-', '', $slug ) ] = $name;
+		}
+
+		return $order_statuses;
+	}
+
+	public function output() {
+		global $current_section, $hide_save_button;
+		if ( $current_section == '' ) {
+			$current_section = 'ecpay';
+		}
+		$settings = $this->get_settings( $current_section );
+		WC_Admin_Settings::output_fields( $settings );
+	}
+
+	public function save() {
+		global $current_section;
+		$settings = $this->get_settings( $current_section );
+		WC_Admin_Settings::save_fields( $settings );
 	}
 
 }
 
-Woomp_Setting_Invoice::init();
+return new Woomp_Setting_Invoice();

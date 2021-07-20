@@ -2,14 +2,14 @@
 
  /**
   * @link              https://morepower.club
-  * @since             1.2.0
+  * @since             1.3.0
   * @package           woomp
   *
   * @wordpress-plugin
   * Plugin Name:       好用版擴充 MorePower Addon for WooCommerce
   * Plugin URI:        https://morepower.club/morepower-addon/
   * Description:       WooCommerce 好用版擴充，改善結帳流程與可變商品等區塊，讓 WooCommerce 更符合亞洲人使用習慣。
-  * Version:           1.2.0
+  * Version:           1.3.0
   * Author:            MorePower
   * Author URI:        https://morepower.club
   * License:           GPL-2.0+
@@ -41,7 +41,7 @@ if ( ! in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins',
  * Start at version 1.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define( 'WOOMP_VERSION', '1.2.0' );
+define( 'WOOMP_VERSION', '1.3.0' );
 define( 'WOOMP_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'WOOMP_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'WOOMP_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
@@ -202,13 +202,13 @@ if ( ! defined( 'PAYNOW_PLUGIN_URL' ) ) {
 /**
  * 引入 paynow-shipping
  */
-if( ! defined( 'PAYNOW_SHIPPING_PLUGIN_URL' )){
+if ( ! defined( 'PAYNOW_SHIPPING_PLUGIN_URL' ) ) {
 
 	define( 'PAYNOW_SHIPPING_PLUGIN_URL', plugin_dir_url( __FILE__ ) . 'includes/paynow-shipping/' );
 	define( 'PAYNOW_SHIPPING_PLUGIN_DIR', plugin_dir_path( __FILE__ ) . 'includes/paynow-shipping/' );
 	define( 'PAYNOW_SHIPPING_BASENAME', plugin_basename( __FILE__ ) . 'includes/paynow-shipping/' );
 	define( 'PAYNOW_SHIPPING_TEMPLATE_DIR', plugin_dir_path( __FILE__ ) . 'includes/paynow-shipping//templates/' );
-	
+
 	/**
 	 * Add PayNow shipping methods.
 	 *
@@ -222,8 +222,8 @@ if( ! defined( 'PAYNOW_SHIPPING_PLUGIN_URL' )){
 		$methods['paynow_shipping_hd_tcat']    = 'PayNow_Shipping_HD_TCat';
 		return $methods;
 	}
-	
-	
+
+
 	/**
 	 * Initialize PayNow shipping.
 	 *
@@ -233,7 +233,7 @@ if( ! defined( 'PAYNOW_SHIPPING_PLUGIN_URL' )){
 		if ( ! class_exists( 'WC_Shipping_Method' ) ) {
 			return;
 		}
-	
+
 		include_once PAYNOW_SHIPPING_PLUGIN_DIR . 'includes/class-paynow-shipping.php';
 		include_once PAYNOW_SHIPPING_PLUGIN_DIR . 'includes/admin/meta-boxes/class-paynow-shipping-order-meta-box.php';
 		include_once PAYNOW_SHIPPING_PLUGIN_DIR . 'includes/admin/meta-boxes/class-paynow-shipping-order-admin.php';
@@ -248,14 +248,76 @@ if( ! defined( 'PAYNOW_SHIPPING_PLUGIN_URL' )){
 		include_once PAYNOW_SHIPPING_PLUGIN_DIR . 'includes/shippings/class-paynow-shipping-hd-tcat.php';
 		include_once PAYNOW_SHIPPING_PLUGIN_DIR . 'includes/shippings/api/class-paynow-shipping-request.php';
 		include_once PAYNOW_SHIPPING_PLUGIN_DIR . 'includes/shippings/api/class-paynow-shipping-response.php';
-	
+
 		add_filter( 'woocommerce_shipping_methods', 'add_paynow_shipping_methods' );
-	
+
 		PayNow_Shipping_Order_Admin::instance();
 		PayNow_Shipping::init();
 		PayNow_Shipping_Request::init();
 		PayNow_Shipping_Response::init();
-	
+
 	}
 	add_action( 'plugins_loaded', 'run_paynow_shipping' );
+}
+
+/**
+ * 引入 paynow-invoice
+ */
+if ( ! defined( 'PAYNOW_EINVOICE_PLUGIN_URL' ) ) {
+	define( 'PAYNOW_EINVOICE_PLUGIN_URL', plugin_dir_url( __FILE__ ) . 'includes/paynow-einvoice/' );
+	define( 'PAYNOW_EINVOICE_PLUGIN_DIR', plugin_dir_path( __FILE__ ) . 'includes/paynow-einvoice/' );
+	define( 'PAYNOW_EINVOICE_BASENAME', plugin_basename( __FILE__ ) . 'includes/paynow-einvoice/' );
+
+	/**
+	 * Currently plugin version.
+	 * Start at version 1.0.0 and use SemVer - https://semver.org
+	 * Rename this for your plugin and update it as you release new versions.
+	 */
+	define( 'PAYNOW_EINVOICE_VERSION', '1.0.0' );
+
+	/**
+	 * The code that runs during plugin activation.
+	 * This action is documented in includes/class-paynow-einvoice-activator.php
+	 */
+	function activate_paynow_einvoice() {
+		require_once PAYNOW_EINVOICE_PLUGIN_DIR . 'includes/class-paynow-einvoice-activator.php';
+		Paynow_Einvoice_Activator::activate();
+	}
+
+	/**
+	 * The code that runs during plugin deactivation.
+	 * This action is documented in includes/class-paynow-einvoice-deactivator.php
+	 */
+	function deactivate_paynow_einvoice() {
+		require_once PAYNOW_EINVOICE_PLUGIN_DIR . 'includes/class-paynow-einvoice-deactivator.php';
+		Paynow_Einvoice_Deactivator::deactivate();
+	}
+
+	register_activation_hook( __FILE__, 'activate_paynow_einvoice' );
+	register_deactivation_hook( __FILE__, 'deactivate_paynow_einvoice' );
+
+	/**
+	 * The core plugin class that is used to define internationalization,
+	 * admin-specific hooks, and public-facing site hooks.
+	 */
+	require_once PAYNOW_EINVOICE_PLUGIN_DIR . 'includes/class-paynow-einvoice.php';
+
+
+	/**
+	 * Begins execution of the plugin.
+	 *
+	 * Since everything within the plugin is registered via hooks,
+	 * then kicking off the plugin from this point in the file does
+	 * not affect the page life cycle.
+	 *
+	 * @since    1.0.0
+	 */
+	function run_paynow_einvoice() {
+
+		$plugin = new Paynow_Einvoice();
+		$plugin->run();
+
+	}
+	run_paynow_einvoice();
+
 }

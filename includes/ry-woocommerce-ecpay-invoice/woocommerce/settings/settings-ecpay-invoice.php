@@ -8,17 +8,17 @@ $paid_status = implode(', ', $paid_status);
 
 return [
     [
-        'title' => __('Base options', 'ry-woocommerce-ecpay-invoice'),
+        'title' => __('綠界電子發票設定', 'ry-woocommerce-ecpay-invoice'),
         'id' => 'base_options',
         'type' => 'title',
     ],
-    [
-        'title' => __('Enable/Disable', 'ry-woocommerce-ecpay-invoice'),
-        'id' => RY_WEI::$option_prefix . 'enabled_invoice',
-        'type' => 'checkbox',
-        'default' => 'no',
-        'desc' => __('Enable ECPay invoice method', 'ry-woocommerce-ecpay-invoice')
-    ],
+    //[
+    //    'title' => __('Enable/Disable', 'ry-woocommerce-ecpay-invoice'),
+    //    'id' => RY_WEI::$option_prefix . 'enabled_invoice',
+    //    'type' => 'checkbox',
+    //    'default' => 'no',
+    //    'desc' => __('Enable ECPay invoice method', 'ry-woocommerce-ecpay-invoice')
+    //],
     [
         'title' => __('Debug log', 'ry-woocommerce-ecpay-invoice'),
         'id' => RY_WEI::$option_prefix . 'invoice_log',

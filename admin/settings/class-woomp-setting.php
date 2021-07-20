@@ -55,13 +55,12 @@ class Woomp_Setting {
 	public static function get_settings() {
 
 		$settings = array(
-			'section_title'         => array(
-				'name' => __( '金物流與電子發票設定', 'woomp' ),
+			'section_ecpay'          => array(
+				'name' => __( '綠界設定', 'woomp' ),
 				'type' => 'title',
-				'desc' => '',
-				'id'   => 'wc_woomp_setting_section_title',
+				'id'   => 'wc_woomp_setting_ecpay',
 			),
-			'ecpay_gateway'         => array(
+			'ecpay_gateway'          => array(
 				'name'     => __( '啟用綠界金流', 'woomp' ),
 				'type'     => 'checkbox',
 				'desc'     => __( 'Enable ECPay gateway method', 'ry-woocommerce-tools' ),
@@ -70,7 +69,7 @@ class Woomp_Setting {
 				'default'  => 'no',
 				'desc_tip' => true,
 			),
-			'ecpay_shipping'        => array(
+			'ecpay_shipping'         => array(
 				'name'     => __( '啟用綠界物流', 'woomp' ),
 				'type'     => 'checkbox',
 				'desc'     => __( 'Enable ECPay shipping method', 'ry-woocommerce-tools' ),
@@ -79,7 +78,7 @@ class Woomp_Setting {
 				'default'  => 'no',
 				'desc_tip' => true,
 			),
-			'ecpay_invoice'         => array(
+			'ecpay_invoice'          => array(
 				'name'     => __( '啟用綠界電子發票', 'woomp' ),
 				'type'     => 'checkbox',
 				'desc'     => __( 'Enable ECPay invoice method', 'ry-woocommerce-ecpay-invoice' ),
@@ -88,7 +87,15 @@ class Woomp_Setting {
 				'default'  => 'no',
 				'desc_tip' => true,
 			),
-			'newebpay_gateway'      => array(
+			'section_ecpay_end'      => array(
+				'type' => 'sectionend',
+			),
+			'section_newebpay'       => array(
+				'name' => __( '藍新設定', 'woomp' ),
+				'type' => 'title',
+				'id'   => 'wc_woomp_setting_newebpay',
+			),
+			'newebpay_gateway'       => array(
 				'name'     => __( '啟用藍新金流', 'woomp' ),
 				'type'     => 'checkbox',
 				'desc'     => __( 'Enable NewebPay gateway method', 'ry-woocommerce-tools' ),
@@ -97,7 +104,7 @@ class Woomp_Setting {
 				'default'  => 'no',
 				'desc_tip' => true,
 			),
-			'newebpay_shipping'     => array(
+			'newebpay_shipping'      => array(
 				'name'     => __( '啟用藍新物流', 'woomp' ),
 				'type'     => 'checkbox',
 				'desc'     => __( 'Enable NewebPay shipping method', 'ry-woocommerce-tools' ),
@@ -106,7 +113,15 @@ class Woomp_Setting {
 				'default'  => 'no',
 				'desc_tip' => true,
 			),
-			'smilepay_gateway'      => array(
+			'section_newebpay_end'   => array(
+				'type' => 'sectionend',
+			),
+			'section_smilepay'       => array(
+				'name' => __( '速買配設定', 'woomp' ),
+				'type' => 'title',
+				'id'   => 'wc_woomp_setting_smilepay',
+			),
+			'smilepay_gateway'       => array(
 				'name'     => __( '啟用速買配金流', 'woomp' ),
 				'type'     => 'checkbox',
 				'desc'     => __( 'Enable SmilePay gateway method', 'ry-woocommerce-tools' ),
@@ -115,7 +130,7 @@ class Woomp_Setting {
 				'default'  => 'no',
 				'desc_tip' => true,
 			),
-			'smilepay_shipping'     => array(
+			'smilepay_shipping'      => array(
 				'name'     => __( '啟用速買配物流', 'woomp' ),
 				'type'     => 'checkbox',
 				'desc'     => __( 'Enable SmilePay shipping method', 'ry-woocommerce-tools' ),
@@ -124,7 +139,15 @@ class Woomp_Setting {
 				'default'  => 'no',
 				'desc_tip' => true,
 			),
-			'paynow_gateway'        => array(
+			'section_smilepay_end'   => array(
+				'type' => 'sectionend',
+			),
+			'section_paynow'         => array(
+				'name' => __( '立吉富設定', 'woomp' ),
+				'type' => 'title',
+				'id'   => 'wc_woomp_setting_paynow',
+			),
+			'paynow_gateway'         => array(
 				'name'     => __( '啟用立吉富金流', 'woomp' ),
 				'type'     => 'checkbox',
 				'desc'     => __( '啟用 立吉富金流 模組', 'woomp' ),
@@ -133,7 +156,7 @@ class Woomp_Setting {
 				'default'  => 'no',
 				'desc_tip' => true,
 			),
-			'paynow_shipping'       => array(
+			'paynow_shipping'        => array(
 				'name'     => __( '啟用立吉富物流', 'woomp' ),
 				'type'     => 'checkbox',
 				'desc'     => __( '啟用 立吉富物流 模組', 'woomp' ),
@@ -142,27 +165,25 @@ class Woomp_Setting {
 				'default'  => 'no',
 				'desc_tip' => true,
 			),
-			'paynow_invoice'        => array(
+			'paynow_invoice'         => array(
 				'name'     => __( '啟用立吉富電子發票', 'woomp' ),
 				'type'     => 'checkbox',
 				'desc'     => __( '啟用 立吉富電子發票 模組', 'woomp' ),
-				'id'       => 'wc_woomp_setting_paynow_invoice',
+				'id'       => 'wc_settings_tab_active_paynow_einvoice',
 				'class'    => 'toggle',
 				'default'  => 'no',
 				'desc_tip' => true,
 			),
-			'section_title_end'         => array(
+			'section_paynow_end'     => array(
 				'type' => 'sectionend',
-				'desc' => '',
-				'id'   => 'wc_woomp_setting_section_title',
 			),
-			'section_checkout_title'         => array(
+			'section_checkout_title' => array(
 				'name' => __( '結帳相關設定', 'woomp' ),
 				'type' => 'title',
 				'desc' => '',
 				'id'   => 'wc_woomp_setting_section_checkout_title',
 			),
-			'replace'               => array(
+			'replace'                => array(
 				'name'     => __( '一頁結帳模式', 'woomp' ),
 				'type'     => 'checkbox',
 				'desc'     => __( '將原本兩段式結帳改成一頁式結帳，並改變結帳順序為 「選物流 -> 選金流 -> 填結帳欄位」，以適應超商取貨等物流模式', 'woomp' ),
@@ -171,7 +192,7 @@ class Woomp_Setting {
 				'default'  => 'yes',
 				'desc_tip' => true,
 			),
-			'billing_country_pos'   => array(
+			'billing_country_pos'    => array(
 				'name'     => __( '結帳頁國家欄位置頂', 'woomp' ),
 				'type'     => 'checkbox',
 				'desc'     => __( '若需運送至多個國家，建議開啟此選項，將國家欄位移至物流選項之前', 'woomp' ),
@@ -181,7 +202,7 @@ class Woomp_Setting {
 				'default'  => 'yes',
 				'std'      => 'yes',
 			),
-			'tw_address'            => array(
+			'tw_address'             => array(
 				'name'     => __( '縣市/鄉鎮市下拉式選單', 'woomp' ),
 				'type'     => 'checkbox',
 				'desc'     => __( '開啟此選項套用結帳中的台灣地址下拉選單', 'woomp' ),
@@ -191,7 +212,7 @@ class Woomp_Setting {
 				'default'  => 'yes',
 				'std'      => 'yes',
 			),
-			'one_line_address'      => array(
+			'one_line_address'       => array(
 				'name'     => __( '訂單地址欄位整併', 'woomp' ),
 				'type'     => 'checkbox',
 				'desc'     => __( '開啟此選項套用後台訂單管理地址欄位整合為一行', 'woomp' ),
@@ -201,7 +222,7 @@ class Woomp_Setting {
 				'default'  => 'yes',
 				'std'      => 'yes',
 			),
-			'cod_payment'           => array(
+			'cod_payment'            => array(
 				'name'     => __( '新增取代貨到付款方式', 'woomp' ),
 				'type'     => 'checkbox',
 				'desc'     => __( '開啟此選項以取代貨到付款方式', 'woomp' ),
@@ -211,7 +232,7 @@ class Woomp_Setting {
 				'default'  => 'yes',
 				'std'      => 'yes',
 			),
-			'product_variations_ui' => array(
+			'product_variations_ui'  => array(
 				'name'     => __( '變化商品編輯介面', 'woomp' ),
 				'type'     => 'checkbox',
 				'desc'     => __( '開啟此選項以套用好用版變化商品操作介面', 'woomp' ),
@@ -221,7 +242,7 @@ class Woomp_Setting {
 				'default'  => 'yes',
 				'std'      => 'yes',
 			),
-			'place_order_text'      => array(
+			'place_order_text'       => array(
 				'name'     => __( '結帳按鈕文字設定', 'woomp' ),
 				'type'     => 'text',
 				'desc'     => __( '設定結帳頁確定購買按鈕的文字內容', 'woomp' ),
@@ -230,7 +251,7 @@ class Woomp_Setting {
 				'desc_tip' => true,
 				'default'  => '',
 			),
-			'section_end'           => array(
+			'section_end'            => array(
 				'type' => 'sectionend',
 				'id'   => 'wc_woomp_setting_section_checkout_title',
 			),
@@ -242,6 +263,26 @@ class Woomp_Setting {
 	public static function set_checkbox_toggle() {
 		if ( isset( $_GET['tab'] ) && 'woomp_setting' === $_GET['tab'] ) { ?>
 		<style>
+			h2 {
+				position: relative;
+				border-top: 1px solid #ccc;
+				padding: 2rem 0 0 1rem;
+				margin: 2rem 0 1rem 0;
+			}
+			h2:before{
+				content: '';
+				position: absolute;
+				top: 31px;
+				left: 0;
+				width: 5px;
+				height: 20px;
+				background-color: #cc99c2;
+			}
+			h1 + h2,
+			h1 + #message + h2 {
+				border-top: 0;
+				margin-top: 0;
+			}
 			input.toggle[type=checkbox]{
 				height: 0;
 				width: 0;
@@ -292,7 +333,7 @@ class Woomp_Setting {
 			.form-table td fieldset label[for=RY_WT_smilepay_shipping],
 			.form-table td fieldset label[for=wc_woomp_setting_paynow_gateway],
 			.form-table td fieldset label[for=wc_woomp_setting_paynow_shipping],
-			.form-table td fieldset label[for=wc_woomp_setting_paynow_invoice],
+			.form-table td fieldset label[for=wc_settings_tab_active_paynow_einvoice],
 			.form-table td fieldset label[for=RY_WEI_enabled_invoice],
 			.form-table td fieldset label[for=wc_woomp_setting_replace],
 			.form-table td fieldset label[for=wc_woomp_setting_billing_country_pos],
@@ -314,7 +355,7 @@ class Woomp_Setting {
 			legend + label[for=RY_WEI_enabled_invoice]:after,
 			legend + label[for=wc_woomp_setting_paynow_gateway]:after,
 			legend + label[for=wc_woomp_setting_paynow_shipping]:after,
-			legend + label[for=wc_woomp_setting_paynow_invoice]:after,
+			legend + label[for=wc_settings_tab_active_paynow_einvoice]:after,
 			legend + label[for=wc_woomp_setting_replace]:after,
 			legend + label[for=wc_woomp_setting_billing_country_pos]:after,
 			legend + label[for=wc_woomp_setting_tw_address]:after,
@@ -337,7 +378,7 @@ class Woomp_Setting {
 				$('#RY_WEI_enabled_invoice').after('<label for="RY_WEI_enabled_invoice">Toggle</label>')
 				$('#wc_woomp_setting_paynow_gateway').after('<label for="wc_woomp_setting_paynow_gateway">Toggle</label>')
 				$('#wc_woomp_setting_paynow_shipping').after('<label for="wc_woomp_setting_paynow_shipping">Toggle</label>')
-				$('#wc_woomp_setting_paynow_invoice').after('<label for="wc_woomp_setting_paynow_invoice">Toggle</label>')
+				$('#wc_settings_tab_active_paynow_einvoice').after('<label for="wc_settings_tab_active_paynow_einvoice">Toggle</label>')
 				$('#wc_woomp_setting_replace').after('<label for="wc_woomp_setting_replace">Toggle</label>')
 				$('#wc_woomp_setting_billing_country_pos').after('<label for="wc_woomp_setting_billing_country_pos">Toggle</label>')
 				$('#wc_woomp_setting_tw_address').after('<label for="wc_woomp_setting_tw_address">Toggle</label>')
@@ -353,6 +394,7 @@ class Woomp_Setting {
 	public static function set_more_tabs( $settings ) {
 		$settings[] = include WOOMP_PLUGIN_DIR . 'admin/settings/class-woomp-setting-gateway.php';
 		$settings[] = include WOOMP_PLUGIN_DIR . 'admin/settings/class-woomp-setting-shipping.php';
+		$settings[] = include WOOMP_PLUGIN_DIR . 'admin/settings/class-woomp-setting-invoice.php';
 		return $settings;
 	}
 
