@@ -72,3 +72,7 @@ fieldset.toggle label[for=TW_Island] + span {
 .zone_tw_island td input[type="checkbox"]:checked {
     width: 16px!important;
 }
+
+.zone_tw_island + .wc-shipping-zone-postcodes {
+	x-display: none;
+}

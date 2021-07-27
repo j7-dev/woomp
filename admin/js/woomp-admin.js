@@ -27,84 +27,107 @@
 
 	// 增加離島複選方塊
 	$('#zoneTwIsland').after(`
-		<table class="zone_tw_island">
+		<table class="zone_tw_island" style="display:none;">
 			<tr>
 				<th>金門縣</th>
 				<th>澎湖縣</th>
 				<th>連江縣</th>
 			</tr>
 			<tr>
-				<td><label for="group1"><input id="group1" type="checkbox" checked="checked">全選</label></td>
-				<td><label for="group2"><input id="group2" type="checkbox" checked="checked">全選</label></td>
-				<td><label for="group3"><input id="group3" type="checkbox" checked="checked">全選</label></td>
+				<td><label for="group1"><input id="group1" class="group" type="checkbox">全選</label></td>
+				<td><label for="group2"><input id="group2" class="group" type="checkbox">全選</label></td>
+				<td><label for="group3"><input id="group3" class="group" type="checkbox">全選</label></td>
 			</tr>
 			<tr>
-	  			<td><label for="island1"><input id="island1" name="island[]" type="checkbox" checked="checked" value="890">金沙鎮</label></td>
-	  			<td><label for="island3"><input id="island3" name="island[]" type="checkbox" checked="checked" value="880">馬公市</label></td>
-	  			<td><label for="island2"><input id="island2" name="island[]" type="checkbox" checked="checked" value="209">南竿鄉</label></td>
+	  			<td><label for="island1"><input id="island1" class="group1 island" name="island[]" type="checkbox" value="890">金沙鎮</label></td>
+	  			<td><label for="island3"><input id="island3" class="group2 island" name="island[]" type="checkbox" value="880">馬公市</label></td>
+	  			<td><label for="island2"><input id="island2" class="group3 island" name="island[]" type="checkbox" value="209">南竿鄉</label></td>
 			</tr>
 			<tr>
-	  			<td><label for="island4"><input id="island4" name="island[]" type="checkbox" checked="checked" value="891">金湖鎮</label></td>
-	  			<td><label for="island6"><input id="island6" name="island[]" type="checkbox" checked="checked" value="881">西嶼鄉</label></td>
-	  			<td><label for="island5"><input id="island5" name="island[]" type="checkbox" checked="checked" value="210">北竿鄉</label></td>
+	  			<td><label for="island4"><input id="island4" class="group1 island" name="island[]" type="checkbox" value="891">金湖鎮</label></td>
+	  			<td><label for="island6"><input id="island6" class="group2 island" name="island[]" type="checkbox" value="881">西嶼鄉</label></td>
+	  			<td><label for="island5"><input id="island5" class="group3 island" name="island[]" type="checkbox" value="210">北竿鄉</label></td>
 			</tr>
 			<tr>
-	  			<td><label for="island7"><input id="island7" name="island[]" type="checkbox" checked="checked" value="892">金寧鄉</label></td>
-	  			<td><label for="island9"><input id="island9" name="island[]" type="checkbox" checked="checked" value="882">望安鄉</label></td>
-	  			<td><label for="island8"><input id="island8" name="island[]" type="checkbox" checked="checked" value="211">莒光鄉</label></td>
+	  			<td><label for="island7"><input id="island7" class="group1 island" name="island[]" type="checkbox" value="892">金寧鄉</label></td>
+	  			<td><label for="island9"><input id="island9" class="group2 island" name="island[]" type="checkbox" value="882">望安鄉</label></td>
+	  			<td><label for="island8"><input id="island8" class="group3 island" name="island[]" type="checkbox" value="211">莒光鄉</label></td>
 			</tr>
 			<tr>
-	  			<td><label for="island10"><input id="island10" name="island[]" type="checkbox" checked="checked" value="893">金城鎮</label></td>
-	  			<td><label for="island12"><input id="island12" name="island[]" type="checkbox" checked="checked" value="883">七美鄉</label></td>
-	  			<td><label for="island11"><input id="island11" name="island[]" type="checkbox" checked="checked" value="212">東引鄉</label></td>
+	  			<td><label for="island10"><input id="island10" class="group1 island" name="island[]" type="checkbox" value="893">金城鎮</label></td>
+	  			<td><label for="island12"><input id="island12" class="group2 island" name="island[]" type="checkbox" value="883">七美鄉</label></td>
+	  			<td><label for="island11"><input id="island11" class="group3 island" name="island[]" type="checkbox" value="212">東引鄉</label></td>
 			</tr>
 			<tr>
-	  			<td><label for="island13"><input id="island13" name="island[]" type="checkbox" checked="checked" value="894">烈嶼鄉</label></td>
-	  			<td><label for="island14"><input id="island14" name="island[]" type="checkbox" checked="checked" value="884">白沙鄉</label></td>
+	  			<td><label for="island13"><input id="island13" class="group1 island" name="island[]" type="checkbox" value="894">烈嶼鄉</label></td>
+	  			<td><label for="island14"><input id="island14" class="group2 island" name="island[]" type="checkbox" value="884">白沙鄉</label></td>
 	  			<td>&nbsp;</td>
 			</tr>
 			<tr>
-	  			<td><label for="island15"><input id="island15" name="island[]" type="checkbox" checked="checked" value="896">烏坵鄉</label></td>
-				<td><label for="island16"><input id="island16" name="island[]" type="checkbox" checked="checked" value="111">湖西鄉</label></td>
+	  			<td><label for="island15"><input id="island15" class="group1 island" name="island[]" type="checkbox" value="896">烏坵鄉</label></td>
+				<td><label for="island16"><input id="island16" class="group2 island" name="island[]" type="checkbox" value="885">湖西鄉</label></td>
 				<td>&nbsp;</td>
 			</tr>
 		</table>
 	`)
+	
+	// 取得有勾選的地區
+	function updatePostCode(){
+		var checkedCode = $(".zone_tw_island input.island:checkbox:checked").map(function(){
+			return $(this).val();
+		  }).get();
 
+		$('#zone_postcodes').text( checkedCode.sort().join("\n") );
+		$('#zone_postcodes').trigger('input');
+	}
 
-	// 運送方式預設離島郵遞區號
-	//$('.wc-shipping-zone-settings tr:nth-child(2)').after(`
-	//	<tr>
-	//		<th>
-	//			<select id="selectZonePostcodes" style="width: 200px; margin-top: -8px;">
-	//				<option value="zone_postcodes">限制為特定郵遞區號</option>
-	//				<option value="zone_postcodes_tw_local">設定台灣本島郵遞區號</option>
-	//				<option value="zone_postcodes_tw_island">設定台灣離島郵遞區號</option>
-	//			</select>
-	//		</th>
-	//		<td id="zonePostcodesTextarea"></td>
-	//	</tr>
-	//`)
-	//$('.wc-shipping-zone-postcodes').appendTo($('#zonePostcodesTextarea'))
-	//$('#selectZonePostcodes').change(function(){
-	//	if( $(this).val() ===  'zone_postcodes'){
-	//		$('#zone_postcodes').text('');
-	//	}
-	//	if( $(this).val() ===  'zone_postcodes_tw_local'){
-	//		$('#zone_postcodes').text('100...116\n200...208\n220...253\n260...290\n300\n302...315\n320...338\n350...369\n400...439\n500...530\n540...558\n600\n602...625\n630...655\n700...745\n800...852\n900...947\n950...966\n970...983')
-	//	}
-	//	if( $(this).val() ===  'zone_postcodes_tw_island'){
-	//		$('#zone_postcodes').text('209...212\n880...885\n890...896')
-	//	}
-	//	$('#zone_postcodes').trigger('input');
-	//})
+	// 寫入郵遞區號
+	$('#TW_Island').change(function(){
+		if( $(this).is(':checked') ){
+			$('.zone_tw_island').show();
+			$('.zone_tw_island input').prop('checked', true);
+			updatePostCode()
+		} else {
+			$('.zone_tw_island').hide();
+			$('.zone_tw_island input').prop('checked', false);
+			updatePostCode()
+		}
+	})
+	
 
-	//if( $('#zone_postcodes').val().includes('100...116') ){
-	//	$('#selectZonePostcodes option[value="zone_postcodes_tw_local"]').prop('selected',true);
-	//}
+	// 判斷是否有輸入郵遞區號
+	if( $('#zone_postcodes').val() != '' ){
+		$('#TW_Island').prop('checked',true);
+		$('.zone_tw_island').show();
+	} else {
+		$('#TW_Island').prop('checked',false);
+		$('.zone_tw_island').hide();
+	}
 
-	//if( $('#zone_postcodes').val().includes('890...896') ){
-	//	$('#selectZonePostcodes option[value="zone_postcodes_tw_island"]').prop('selected',true);
-	//}
+	// 讀取既有的郵遞區號
+	var current_code = $('#zone_postcodes').val().split('\n');
+	for (let index = 0; index < current_code.length; index++) {
+		$(".zone_tw_island input.island[value='"+ current_code[index] +"']").prop('checked', true);
+	}
+
+	
+
+	// 郵遞區號寫入與刪除
+	$('.zone_tw_island input[type="checkbox"]').change(function(){
+		updatePostCode()
+	})
+
+	// 全選寫入與刪除
+	for (let index = 1; index < 4 ; index++) {
+		$('#group' + index ).change(function(){
+			if( $(this).is(':checked') ){
+				$('.group' + index).prop('checked', true);
+				updatePostCode()
+			} else {
+				$('.group' + index ).prop('checked', false);
+				updatePostCode()
+			}
+		})
+	}
 
 })( jQuery );
