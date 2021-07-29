@@ -37,6 +37,10 @@ input.toggle + label:after {
 	transition: 0.3s;
 }
 
+#zoneTwIsland {
+	display: none;
+}
+
 input.toggle:checked + label {
 	background: #cc99c2;
 }
@@ -51,28 +55,28 @@ input.toggle + label:active:after {
 	width: 130px;
 }
 
-fieldset.toggle label[for=TW_Island] {
+fieldset.toggle label[for=zoneTwIslandToggleBtn] {
 	margin-top: -5px!important;
 	margin-bottom: 3px!important;
 }
-fieldset.toggle label[for=TW_Island] + span {
+fieldset.toggle label[for=zoneTwIslandToggleBtn] + span {
     font-size: 14px;
     padding-left: 10px;
 }
 
 
-.zone_tw_island {
+#zoneTwIslandWrap {
     margin-bottom: 15px;
 }
 
-.zone_tw_island td {
+#zoneTwIslandWrap td {
     padding: 0 0 10px 0;
 }
-.zone_tw_island td input[type="checkbox"],
-.zone_tw_island td input[type="checkbox"]:checked {
+#zoneTwIslandWrap td input[type="checkbox"],
+#zoneTwIslandWrap td input[type="checkbox"]:checked {
     width: 16px!important;
 }
 
-.zone_tw_island + .wc-shipping-zone-postcodes {
-	x-display: none;
+#zoneTwIslandWrap + .wc-shipping-zone-postcodes {
+	display: none;
 }
