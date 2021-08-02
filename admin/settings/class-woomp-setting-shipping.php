@@ -264,7 +264,7 @@ class Woomp_Setting_Shipping extends WC_Settings_Page {
 	public function output() {
 		global $current_section, $hide_save_button;
 		if ( $current_section == '' ) {
-			$current_section = 'ecpay';
+			wp_safe_redirect( admin_url('admin.php?page=wc-settings&tab=woomp_setting_shipping&section=ecpay') );
 		}
 		$settings = $this->get_settings( $current_section );
 		WC_Admin_Settings::output_fields( $settings );

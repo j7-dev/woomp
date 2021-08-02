@@ -10,7 +10,7 @@ final class RY_WT_admin
 
             add_filter('plugin_action_links_' . RY_WT_PLUGIN_BASENAME, [__CLASS__, 'plugin_action_links'], 10);
 
-            //add_filter('woocommerce_get_settings_pages', [__CLASS__, 'get_settings_page']);
+            add_filter('woocommerce_get_settings_pages', [__CLASS__, 'get_settings_page']);
 
             add_filter('woocommerce_get_sections_rytools', [__CLASS__, 'add_sections'], 11);
 
