@@ -10,7 +10,7 @@ final class RY_WTP_Shipping
 
         if (is_admin()) {
         } else {
-            wp_register_script('ry-pro-shipping', RY_WTP_PLUGIN_URL . 'style/js/ry_shipping.js', ['jquery'], RY_WTP_VERSION, true);
+            //wp_register_script('ry-pro-shipping', RY_WTP_PLUGIN_URL . 'style/js/ry_shipping.js', ['jquery'], RY_WTP_VERSION, true);
         }
     }
 

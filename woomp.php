@@ -257,7 +257,7 @@ if ( ! defined( 'PAYNOW_SHIPPING_PLUGIN_URL' ) ) {
 		PayNow_Shipping_Response::init();
 
 	}
-	add_action( 'plugins_loaded', 'run_paynow_shipping' );
+	//add_action( 'plugins_loaded', 'run_paynow_shipping' );
 }
 
 /**
@@ -318,6 +318,6 @@ if ( ! defined( 'PAYNOW_EINVOICE_PLUGIN_URL' ) ) {
 		$plugin->run();
 
 	}
-	run_paynow_einvoice();
+	//run_paynow_einvoice();
 
 }
