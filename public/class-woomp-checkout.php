@@ -297,56 +297,40 @@ if ( ! class_exists( 'WooMP_Checkout' ) ) {
 			?>
 			<script>
 			jQuery(function($){
-				function toggleBillingAddressField( status ){}			
+				$('#ship-to-different-address-checkbox').prop('checked', false);
+				$('.shipping_address').hide();
+				// 處理運送到不同地址取消勾選
+				$('body').on('click', '#shipping_method li input', function(){
+					if( 
+						$('#shipping_method li input:checked').val() !== "ecpay_shipping" || 
+						!$('#shipping_method li input:checked').val().includes('ry_ecpay_shipping_cvs') ||
+						!$('#shipping_method li input:checked').val().includes('ry_newebpay_shipping_cvs') 
+					){
+						$('#ship-to-different-address-checkbox').prop('checked', false);
+						$('.shipping_address').hide();
+					}
+				})
+				function toggleBillingAddressField( status ){
+					if( status === 'hide' ){
+						$('.woocommerce-shipping-fields,h3#ship-to-different-address input,#billing_address_1_field,#billing_address_2_field,#billing_city_field,#billing_state_field,#billing_postcode_field').hide()
+					} else {
+						$('.woocommerce-shipping-fields,h3#ship-to-different-address input,#billing_address_1_field,#billing_address_2_field,#billing_city_field,#billing_state_field,#billing_postcode_field').show()
+					}
+				}	
 				$(document.body).on('updated_checkout', function (e, data) {
 					/**
 					 * 針對物流方式顯示帳單與運送地址欄位
 					 */
-					if( $('#shipping_method li').length > 1 ){
-						if( 
-							$('#shipping_method li input:checked').val() === "ecpay_shipping" || 
-							$('#shipping_method li input:checked').val().includes('ry_ecpay_shipping_cvs') ||
-							$('#shipping_method li input:checked').val().includes('ry_newebpay_shipping_cvs') 
+					let shippingMethodNum = $('#shipping_method li').length;
+					let shippingMethodSelector = ( shippingMethodNum === 1 ) ? '' : ':checked';
+					if( shippingMethodNum >= 1 ){
+						if( $('#shipping_method li input' + shippingMethodSelector ).val() === "ecpay_shipping" || 
+							$('#shipping_method li input' + shippingMethodSelector ).val().includes('ry_ecpay_shipping_cvs') ||
+							$('#shipping_method li input' + shippingMethodSelector ).val().includes('ry_newebpay_shipping_cvs') 
 						){
-							$('.woocommerce-shipping-fields').hide()
-							$('h3#ship-to-different-address input').hide()
-							$('#billing_address_1_field').hide();
-							$('#billing_address_2_field').hide();
-							$('#billing_city_field').hide();
-							$('#billing_state_field').hide();
-							$('#billing_postcode_field').hide();
+							toggleBillingAddressField('hide')
 						} else {
-							$('.woocommerce-shipping-fields').show()
-							$('h3#ship-to-different-address input').show()
-							$('#billing_address_1_field').show();
-							$('#billing_address_2_field').show();
-							$('#billing_city_field').show();
-							$('#billing_state_field').show();
-							$('#billing_postcode_field').show();
-							//$('#ship-to-different-address-checkbox').trigger('click');
-						}
-					} else if( $('#shipping_method li').length == 1 ){ // 只有一個運送方式的狀況
-						if( 
-							$('#shipping_method li input').val() === "ecpay_shipping" || 
-							$('#shipping_method li input').val().includes('ry_ecpay_shipping_cvs') ||
-							$('#shipping_method li input').val().includes('ry_newebpay_shipping_cvs') 
-						){
-							$('.woocommerce-shipping-fields').hide()
-							$('h3#ship-to-different-address input').hide()
-							$('#billing_address_1_field').hide();
-							$('#billing_address_2_field').hide();
-							$('#billing_city_field').hide();
-							$('#billing_state_field').hide();
-							$('#billing_postcode_field').hide();
-						} else {
-							$('.woocommerce-shipping-fields').show()
-							$('h3#ship-to-different-address input').show()
-							$('#billing_address_1_field').show();
-							$('#billing_address_2_field').show();
-							$('#billing_city_field').show();
-							$('#billing_state_field').show();
-							$('#billing_postcode_field').show();
-							//$('#ship-to-different-address-checkbox').trigger('click');
+							toggleBillingAddressField('show')	
 						}
 					}
 
