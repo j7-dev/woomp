@@ -177,7 +177,7 @@ if ( ! defined( 'RY_WEI_VERSION' ) ) {
 /**
  * 引入 paynow-payment
  */
-if ( ! defined( 'PAYNOW_PLUGIN_URL' ) ) {
+if ( ! defined( 'PAYNOW_PLUGIN_URL' ) && 'yes' === get_option( 'wc_woomp_setting_paynow_gateway' ) ) {
 	define( 'PAYNOW_PLUGIN_URL', plugin_dir_url( __FILE__ ) . 'includes/paynow-payment/' );
 	define( 'PAYNOW_PLUGIN_DIR', plugin_dir_path( __FILE__ ) . 'includes/paynow-payment/' );
 	define( 'PAYNOW_BASENAME', plugin_basename( __FILE__ ) . 'includes/paynow-payment/' );
@@ -202,7 +202,7 @@ if ( ! defined( 'PAYNOW_PLUGIN_URL' ) ) {
 /**
  * 引入 paynow-shipping
  */
-if ( ! defined( 'PAYNOW_SHIPPING_PLUGIN_URL' ) ) {
+if ( ! defined( 'PAYNOW_SHIPPING_PLUGIN_URL' ) && 'yes' === get_option( 'wc_woomp_setting_paynow_shipping' ) ) {
 
 	define( 'PAYNOW_SHIPPING_PLUGIN_URL', plugin_dir_url( __FILE__ ) . 'includes/paynow-shipping/' );
 	define( 'PAYNOW_SHIPPING_PLUGIN_DIR', plugin_dir_path( __FILE__ ) . 'includes/paynow-shipping/' );
@@ -257,13 +257,13 @@ if ( ! defined( 'PAYNOW_SHIPPING_PLUGIN_URL' ) ) {
 		PayNow_Shipping_Response::init();
 
 	}
-	//add_action( 'plugins_loaded', 'run_paynow_shipping' );
+	add_action( 'plugins_loaded', 'run_paynow_shipping' );
 }
 
 /**
  * 引入 paynow-invoice
  */
-if ( ! defined( 'PAYNOW_EINVOICE_PLUGIN_URL' ) ) {
+if ( ! defined( 'PAYNOW_EINVOICE_PLUGIN_URL' ) && 'yes' === get_option( 'wc_woomp_setting_paynow_einvoice' ) ) {
 	define( 'PAYNOW_EINVOICE_PLUGIN_URL', plugin_dir_url( __FILE__ ) . 'includes/paynow-einvoice/' );
 	define( 'PAYNOW_EINVOICE_PLUGIN_DIR', plugin_dir_path( __FILE__ ) . 'includes/paynow-einvoice/' );
 	define( 'PAYNOW_EINVOICE_BASENAME', plugin_basename( __FILE__ ) . 'includes/paynow-einvoice/' );
@@ -318,6 +318,6 @@ if ( ! defined( 'PAYNOW_EINVOICE_PLUGIN_URL' ) ) {
 		$plugin->run();
 
 	}
-	//run_paynow_einvoice();
+	run_paynow_einvoice();
 
 }

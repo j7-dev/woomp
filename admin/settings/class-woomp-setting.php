@@ -169,7 +169,7 @@ class Woomp_Setting {
 				'name'     => __( '啟用立吉富電子發票', 'woomp' ),
 				'type'     => 'checkbox',
 				'desc'     => __( '啟用 立吉富電子發票 模組', 'woomp' ),
-				'id'       => 'wc_settings_tab_active_paynow_einvoice',
+				'id'       => 'wc_woomp_setting_paynow_einvoice',
 				'class'    => 'toggle',
 				'default'  => 'no',
 				'desc_tip' => true,
