@@ -4,7 +4,7 @@ final class RY_WTP_SmilePay_Gateway
     public static function init()
     {
         if (is_admin()) {
-            add_filter('woocommerce_get_settings_rytools', [__CLASS__, 'add_setting'], 11, 2);
+            //add_filter('woocommerce_get_settings_rytools', [__CLASS__, 'add_setting'], 11, 2);
         }
 
         if ('yes' === RY_WT::get_option('smilepay_gateway', 'no')) {

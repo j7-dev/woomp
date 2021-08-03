@@ -215,4 +215,4 @@ class WC_Settings_RY_Tools extends WC_Settings_Page
     }
 }
 
-return new WC_Settings_RY_Tools();
+//return new WC_Settings_RY_Tools();

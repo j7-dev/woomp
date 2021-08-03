@@ -32,11 +32,25 @@ return [
         'desc' => __('Log status change at order notes.', 'ry-woocommerce-tools')
     ],
     [
+        'title' => __('Clean up receiver name', 'ry-woocommerce-tools-pro'),
+        'id' => RY_WT::$option_prefix . 'ecpay_shipping_cleanup_receiver_name',
+        'type' => 'checkbox',
+        'default' => 'no',
+        'desc' => __('Clean up receiver name to comply with EcPay request.', 'ry-woocommerce-tools-pro')
+    ],
+    [
         'title' => __('Auto get shipping payment no', 'ry-woocommerce-tools'),
         'id' => RY_WT::$option_prefix . 'ecpay_shipping_auto_get_no',
         'type' => 'checkbox',
         'default' => 'yes',
         'desc' => __('Auto get shipping payment no when order status is change to processing.', 'ry-woocommerce-tools')
+    ],
+    [
+        'title' => __('Auto get with scheduler action', 'ry-woocommerce-tools-pro'),
+        'id' => RY_WTP::$option_prefix . 'ecpay_shipping_auto_with_scheduler',
+        'type' => 'checkbox',
+        'default' => 'no',
+        'desc' => __('Get shipping payment no use scheduler action.', 'ry-woocommerce-tools-pro')
     ],
     [
         'title' => __('Keep shipping phone', 'ry-woocommerce-tools'),
@@ -53,6 +67,14 @@ return [
         'desc' => __('Auto completed order when user getted products.', 'ry-woocommerce-tools')
     ],
     [
+        'title' => __('cvs remove billing address', 'ry-woocommerce-tools-pro'),
+        'id' => RY_WTP::$option_prefix . 'ecpay_cvs_billing_address',
+        'type' => 'checkbox',
+        'default' => 'no',
+        'desc' => __('Remove billing address when shipping mode is cvs.', 'ry-woocommerce-tools-pro') . '<br>'
+            . __('The billing address still will show in order details.', 'ry-woocommerce-tools-pro')
+    ],
+    [
         'id' => 'base_options',
         'type' => 'sectionend'
     ],
@@ -66,6 +88,14 @@ return [
         'id' => RY_WT::$option_prefix . 'ecpay_shipping_order_prefix',
         'type' => 'text',
         'desc' => __('The prefix string of order no. Only letters and numbers allowed allowed.', 'ry-woocommerce-tools'),
+        'desc_tip' => true
+    ],
+    [
+        'title' => __('shipping item name', 'ry-woocommerce-tools-pro'),
+        'id' => RY_WT::$option_prefix . 'shipping_item_name',
+        'type' => 'text',
+        'default' => '',
+        'desc' => __('If empty use the first product name.', 'ry-woocommerce-tools-pro'),
         'desc_tip' => true
     ],
     [

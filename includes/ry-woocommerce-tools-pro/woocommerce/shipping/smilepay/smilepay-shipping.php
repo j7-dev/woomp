@@ -10,7 +10,7 @@ final class RY_WTP_SmilePay_Shipping
         if (is_admin()) {
             include_once RY_WTP_PLUGIN_DIR . 'woocommerce/admin/meta-boxes/smilepay-shipping-meta-box.php';
 
-            add_filter('woocommerce_get_settings_rytools', [__CLASS__, 'add_setting'], 11, 2);
+            //add_filter('woocommerce_get_settings_rytools', [__CLASS__, 'add_setting'], 11, 2);
 
             add_filter('bulk_actions-edit-shop_order', [__CLASS__, 'shop_order_list_action']);
             add_filter('handle_bulk_actions-edit-shop_order', [__CLASS__, 'print_shipping_note'], 10, 3);

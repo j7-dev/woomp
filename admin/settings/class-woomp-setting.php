@@ -242,6 +242,33 @@ class Woomp_Setting {
 				'default'  => 'yes',
 				'std'      => 'yes',
 			),
+			array(
+				'title'   => __( 'Repay action', 'ry-woocommerce-tools' ),
+				'desc'    => __( 'Enable order to change payment', 'ry-woocommerce-tools' ),
+				'id'      => RY_WT::$option_prefix . 'repay_action',
+				'type'    => 'checkbox',
+				'default' => 'no',
+				'class'    => 'toggle',
+				'desc_tip' => true,
+			),
+			array(
+				'title'   => __( 'strength password', 'ry-woocommerce-tools' ),
+				'desc'    => __( 'Enable the strength password check.', 'ry-woocommerce-tools' ),
+				'id'      => RY_WT::$option_prefix . 'strength_password',
+				'type'    => 'checkbox',
+				'default' => 'yes',
+				'class'    => 'toggle',
+				'desc_tip' => true,
+			),
+			array(
+				'title'   => __( 'show not paid info at order detail', 'ry-woocommerce-tools' ),
+				'desc'    => __( 'Show not paid info at order detail payment method info.', 'ry-woocommerce-tools' ),
+				'id'      => RY_WT::$option_prefix . 'show_unpay_title',
+				'type'    => 'checkbox',
+				'default' => 'yes',
+				'class'    => 'toggle',
+				'desc_tip' => true,
+			),
 			'place_order_text'       => array(
 				'name'     => __( '結帳按鈕文字設定', 'woomp' ),
 				'type'     => 'text',
@@ -254,6 +281,42 @@ class Woomp_Setting {
 			'section_end'            => array(
 				'type' => 'sectionend',
 				'id'   => 'wc_woomp_setting_section_checkout_title',
+			),
+			array(
+				'title' => __( 'Address options', 'ry-woocommerce-tools' ),
+				'type'  => 'title',
+				'id'    => 'checkout_page_options',
+			),
+			array(
+				'title'   => __( 'Show Country', 'ry-woocommerce-tools' ),
+				'desc'    => __( 'Show Country select item', 'ry-woocommerce-tools' ),
+				'id'      => RY_WT::$option_prefix . 'show_country_select',
+				'type'    => 'checkbox',
+				'default' => 'no',
+				'class'    => 'toggle',
+				'desc_tip' => true,
+			),
+			array(
+				'title'   => __( 'Last name first', 'ry-woocommerce-tools' ),
+				'desc'    => __( 'Show Last name before first name input item', 'ry-woocommerce-tools' ),
+				'id'      => RY_WT::$option_prefix . 'last_name_first',
+				'type'    => 'checkbox',
+				'default' => 'no',
+				'class'    => 'toggle',
+				'desc_tip' => true,
+			),
+			array(
+				'title'   => __( 'Address zip first', 'ry-woocommerce-tools' ),
+				'desc'    => __( 'Show address input item in zip state address', 'ry-woocommerce-tools' ),
+				'id'      => RY_WT::$option_prefix . 'address_zip_first',
+				'type'    => 'checkbox',
+				'default' => 'no',
+				'class'    => 'toggle',
+				'desc_tip' => true,
+			),
+			array(
+				'type' => 'sectionend',
+				'id'   => 'checkout_page_options',
 			),
 		);
 
@@ -325,43 +388,13 @@ class Woomp_Setting {
 				width: 130px;
 			}
 
-			.form-table td fieldset label[for=RY_WT_ecpay_gateway],
-			.form-table td fieldset label[for=RY_WT_ecpay_shipping],
-			.form-table td fieldset label[for=RY_WT_newebpay_gateway],
-			.form-table td fieldset label[for=RY_WT_newebpay_shipping],
-			.form-table td fieldset label[for=RY_WT_smilepay_gateway],
-			.form-table td fieldset label[for=RY_WT_smilepay_shipping],
-			.form-table td fieldset label[for=wc_woomp_setting_paynow_gateway],
-			.form-table td fieldset label[for=wc_woomp_setting_paynow_shipping],
-			.form-table td fieldset label[for=wc_settings_tab_active_paynow_einvoice],
-			.form-table td fieldset label[for=RY_WEI_enabled_invoice],
-			.form-table td fieldset label[for=wc_woomp_setting_replace],
-			.form-table td fieldset label[for=wc_woomp_setting_billing_country_pos],
-			.form-table td fieldset label[for=wc_woomp_setting_tw_address],
-			.form-table td fieldset label[for=wc_woomp_setting_one_line_address],
-			.form-table td fieldset label[for=wc_woomp_setting_cod_payment],
-			.form-table td fieldset label[for=wc_woomp_setting_product_variations_ui] {
+			.form-table td fieldset label {
 				margin-top: 0!important;
 				margin-left: -10px!important;
 				margin-bottom: 3px!important;
 			}
 
-			legend + label[for=RY_WT_ecpay_gateway]:after,
-			legend + label[for=RY_WT_ecpay_shipping]:after,
-			legend + label[for=RY_WT_newebpay_gateway]:after,
-			legend + label[for=RY_WT_newebpay_shipping]:after,
-			legend + label[for=RY_WT_smilepay_gateway]:after,
-			legend + label[for=RY_WT_smilepay_shipping]:after,
-			legend + label[for=RY_WEI_enabled_invoice]:after,
-			legend + label[for=wc_woomp_setting_paynow_gateway]:after,
-			legend + label[for=wc_woomp_setting_paynow_shipping]:after,
-			legend + label[for=wc_settings_tab_active_paynow_einvoice]:after,
-			legend + label[for=wc_woomp_setting_replace]:after,
-			legend + label[for=wc_woomp_setting_billing_country_pos]:after,
-			legend + label[for=wc_woomp_setting_tw_address]:after,
-			legend + label[for=wc_woomp_setting_one_line_address]:after,
-			legend + label[for=wc_woomp_setting_cod_payment]:after,
-			legend + label[for=wc_woomp_setting_product_variations_ui]:after {
+			legend + label:after {
 				content: '停用 / 啟用';
 				margin-left: 10px;
 			}
@@ -369,22 +402,9 @@ class Woomp_Setting {
 		<script>
 			var $ = jQuery.noConflict();
 			$(document).ready(function(){
-				$('#RY_WT_ecpay_gateway').after('<label for="RY_WT_ecpay_gateway">Toggle</label>')
-				$('#RY_WT_ecpay_shipping').after('<label for="RY_WT_ecpay_shipping">Toggle</label>')
-				$('#RY_WT_newebpay_gateway').after('<label for="RY_WT_newebpay_gateway">Toggle</label>')
-				$('#RY_WT_newebpay_shipping').after('<label for="RY_WT_newebpay_shipping">Toggle</label>')
-				$('#RY_WT_smilepay_gateway').after('<label for="RY_WT_smilepay_gateway">Toggle</label>')
-				$('#RY_WT_smilepay_shipping').after('<label for="RY_WT_smilepay_shipping">Toggle</label>')
-				$('#RY_WEI_enabled_invoice').after('<label for="RY_WEI_enabled_invoice">Toggle</label>')
-				$('#wc_woomp_setting_paynow_gateway').after('<label for="wc_woomp_setting_paynow_gateway">Toggle</label>')
-				$('#wc_woomp_setting_paynow_shipping').after('<label for="wc_woomp_setting_paynow_shipping">Toggle</label>')
-				$('#wc_settings_tab_active_paynow_einvoice').after('<label for="wc_settings_tab_active_paynow_einvoice">Toggle</label>')
-				$('#wc_woomp_setting_replace').after('<label for="wc_woomp_setting_replace">Toggle</label>')
-				$('#wc_woomp_setting_billing_country_pos').after('<label for="wc_woomp_setting_billing_country_pos">Toggle</label>')
-				$('#wc_woomp_setting_tw_address').after('<label for="wc_woomp_setting_tw_address">Toggle</label>')
-				$('#wc_woomp_setting_one_line_address').after('<label for="wc_woomp_setting_one_line_address">Toggle</label>')
-				$('#wc_woomp_setting_cod_payment').after('<label for="wc_woomp_setting_cod_payment">Toggle</label>')
-				$('#wc_woomp_setting_product_variations_ui').after('<label for="wc_woomp_setting_product_variations_ui">Toggle</label>')
+				$('.form-table td fieldset label').each(function(){
+					$(this).find('input').after('<label for="'+ $(this).attr('for') +'">Toggle</label>');
+				})
 			})
 		</script>
 			<?php

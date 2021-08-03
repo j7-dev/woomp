@@ -257,14 +257,13 @@ class Woomp_Setting_Shipping extends WC_Settings_Page {
 			$order_statuses[ str_replace( 'wc-', '', $slug ) ] = $name;
 		}
 
-
 		return $order_statuses;
 	}
 
 	public function output() {
 		global $current_section, $hide_save_button;
 		if ( $current_section == '' ) {
-			wp_safe_redirect( admin_url('admin.php?page=wc-settings&tab=woomp_setting_shipping&section=ecpay') );
+			wp_safe_redirect( admin_url( 'admin.php?page=wc-settings&tab=woomp_setting_shipping&section=ecpay' ) );
 		}
 		$settings = $this->get_settings( $current_section );
 		WC_Admin_Settings::output_fields( $settings );

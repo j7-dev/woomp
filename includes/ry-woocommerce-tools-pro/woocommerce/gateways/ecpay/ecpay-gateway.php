@@ -11,7 +11,7 @@ final class RY_WTP_ECPay_Gateway
         include_once RY_WTP_PLUGIN_DIR . 'woocommerce/gateways/ecpay/ecpay-gateway-credit-installment-24.php';
 
         if (is_admin()) {
-            add_filter('woocommerce_get_settings_rytools', [__CLASS__, 'add_setting'], 11, 2);
+            //add_filter('woocommerce_get_settings_rytools', [__CLASS__, 'add_setting'], 11, 2);
         }
 
         if ('yes' === RY_WT::get_option('ecpay_gateway', 'no')) {

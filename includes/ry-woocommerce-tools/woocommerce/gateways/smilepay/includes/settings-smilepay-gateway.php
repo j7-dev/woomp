@@ -36,6 +36,26 @@ return [
         'type' => 'sectionend'
     ],
     [
+        'title' => __('Gateway options', 'ry-woocommerce-tools-pro'),
+        'id' => 'gateway_options',
+        'type' => 'title'
+    ],
+    [
+        'title' => __('Show payment info in email', 'ry-woocommerce-tools-pro'),
+        'id' => RY_WTP::$option_prefix . 'smilepay_email_payment_info',
+        'type' => 'checkbox',
+        'default' => 'yes',
+        'desc' => sprintf(
+            /* translators: %s: email title */
+            __('Add payment info in "%s" email.', 'ry-woocommerce-tools-pro'),
+            __('Order on-hold', 'woocommerce')
+        )
+    ],
+    [
+        'id' => 'gateway_options',
+        'type' => 'sectionend'
+    ],
+    [
         'title' => __('API credentials', 'ry-woocommerce-tools'),
         'id' => 'api_options',
         'type' => 'title'

@@ -14,6 +14,14 @@ return [
     //    'desc' => __('Enable NewebPay shipping method', 'ry-woocommerce-tools')
     //],
     [
+        'title' => __('cvs remove billing address', 'ry-woocommerce-tools-pro'),
+        'id' => RY_WTP::$option_prefix . 'newebpay_cvs_billing_address',
+        'type' => 'checkbox',
+        'default' => 'no',
+        'desc' => __('Remove billing address when shipping mode is cvs.', 'ry-woocommerce-tools-pro') . '<br>'
+            . __('The billing address still will show in order details.', 'ry-woocommerce-tools-pro')
+    ],
+    [
         'id' => 'base_options',
         'type' => 'sectionend'
     ]
