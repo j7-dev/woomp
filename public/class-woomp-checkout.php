@@ -297,8 +297,10 @@ if ( ! class_exists( 'WooMP_Checkout' ) ) {
 			?>
 			<script>
 			jQuery(function($){
-				$('#ship-to-different-address-checkbox').prop('checked', false);
-				$('.shipping_address').hide();
+				if( $("#CVSStoreName_field strong").text() === '' ){
+					$('#ship-to-different-address-checkbox').prop('checked', false);
+					$('.shipping_address').hide();
+				}
 				// 處理運送到不同地址取消勾選
 				$('body').on('click', '#shipping_method li input', function(){
 					if( 
