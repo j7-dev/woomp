@@ -104,3 +104,25 @@ form.checkout.woocommerce-checkout {
 .woocommerce-checkout #placeOrderWrap button#place_order {
     margin: 2rem auto;
 }
+
+#paymentWrap th, #paymentWrap td {
+    border-bottom: none;
+}
+form.checkout.woocommerce-checkout #order_review.woocommerce-checkout-review-order {
+    border-bottom: none !important;
+}
+#paymentWrap th {
+    padding: 14px 12px 14px 0 !important;
+    font-size: 1em !important;
+    font-weight: 700 !important;
+}
+#paymentWrap td {
+    vertical-align: top;
+    padding: 14px 0;
+}
+.woocommerce-checkout #payment ul.payment_methods li input {
+    margin: 0;
+}
+.woocommerce-checkout #payment ul.payment_methods li {
+    font-weight: 700;
+}

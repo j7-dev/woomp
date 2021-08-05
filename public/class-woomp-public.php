@@ -44,13 +44,13 @@ class Woomp_Public {
 	 * Initialize the class and set its properties.
 	 *
 	 * @since    1.0.0
-	 * @param      string    $plugin_name       The name of the plugin.
-	 * @param      string    $version    The version of this plugin.
+	 * @param      string $plugin_name       The name of the plugin.
+	 * @param      string $version    The version of this plugin.
 	 */
 	public function __construct( $plugin_name, $version ) {
 
 		$this->plugin_name = $plugin_name;
-		$this->version = $version;
+		$this->version     = $version;
 
 	}
 
@@ -74,7 +74,6 @@ class Woomp_Public {
 		 */
 
 		// wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/woomp-public.css', array(), $this->version, 'all' );
-
 	}
 
 	/**
@@ -96,9 +95,31 @@ class Woomp_Public {
 		 * class.
 		 */
 
-		wp_enqueue_script( 'twzipcode', plugin_dir_url( __FILE__ ) . 'js/twzipcode.js', array( 'jquery' ), $this->version, false );
-		
-		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/woomp-public.js', array( 'jquery' ), $this->version, false );
+		wp_enqueue_script( 'twzipcode', plugin_dir_url( __FILE__ ) . 'js/twzipcode.js', array( 'jquery' ), $this->version, true );
 
+		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/woomp-public.js', array( 'jquery' ), $this->version, true );
+
+		if ( is_checkout() ) {
+			wp_register_script( 'woomp_checkout', plugin_dir_url( __FILE__ ) . 'js/woomp-checkout.js', array( 'jquery' ), $this->version, true );
+			wp_localize_script(
+				'woomp_checkout',
+				'woomp_checkout_params',
+				array(
+					'enableWoomp'                 => get_option( 'wc_woomp_setting_replace' ),
+					'enableTwAddress'             => get_option( 'wc_woomp_setting_tw_address' ),
+					'enableCountryToTop'          => get_option( 'wc_woomp_setting_billing_country_pos' ),
+					'enableCheckoutLoginReminder' => get_option( 'woocommerce_enable_checkout_login_reminder', true ),
+					'enableCoupons'               => get_option( 'woocommerce_enable_coupons', true ),
+					'wcGetCheckoutUrl'            => wc_get_checkout_url(),
+					'isUserLoggedIn'              => is_user_logged_in(),
+					'textReturnCustomer'          => esc_html__( 'Returning customer?', 'woocommerce' ),
+					'textClickLogin'              => esc_html__( 'Click here to login', 'woocommerce' ),
+					'textHaveCoupon'              => esc_html__( 'Have a coupon?', 'woocommerce' ),
+					'textClickCoupon'             => esc_html__( 'Click here to enter your code', 'woocommerce' ),
+				)
+			);
+			wp_enqueue_script( 'woomp_checkout' );
+		}
 	}
+
 }

@@ -76,6 +76,8 @@ class RY_ECPay_Shipping_Api extends RY_ECPay
 
             RY_ECPay_Shipping::log('Generating shipping for order #' . $order->get_order_number() . ' with ' . $get_count . ' times');
 
+            $shipping_phone = preg_replace('/[^0-9.]+/', '', $order->get_meta('_shipping_phone'));
+
             $args = [
                 'MerchantID' => $MerchantID,
                 'LogisticsType' => $method_class::$LogisticsType,
@@ -86,7 +88,7 @@ class RY_ECPay_Shipping_Api extends RY_ECPay
                 'SenderPhone' => RY_WT::get_option('ecpay_shipping_sender_phone'),
                 'SenderCellPhone' => RY_WT::get_option('ecpay_shipping_sender_cellphone'),
                 'ReceiverName' => $order->get_shipping_last_name() . $order->get_shipping_first_name(),
-                'ReceiverCellPhone' => $order->get_meta('_shipping_phone'),
+                'ReceiverCellPhone' => $shipping_phone,
                 'ReceiverStoreID' => '',
                 'ServerReplyURL' => $notify_url,
                 'LogisticsC2CReplyURL' => $notify_url,

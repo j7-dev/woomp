@@ -1,6 +1,6 @@
 === 好用版擴充 MorePower Addon for WooCommerce ===
 Requires at least: 4.9.8
-Tested up to: 5.7.2
+Tested up to: 5.8
 Requires PHP: 7.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html

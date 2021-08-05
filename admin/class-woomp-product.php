@@ -214,7 +214,7 @@ if ( ! class_exists( 'WooMP_Product' ) ) {
 							$.post( woocommerce_admin_meta_boxes_variations.ajax_url, dataLink, function( response ) {
 								var count = parseInt( response, 10 );
 
-								window.alert('<?php _e( "變化類型已更新", "woomp" ); ?>')
+								window.alert('<?php _e( '變化類型已更新', 'woomp' ); ?>')
 
 								if ( count > 0 ) {
 									$( '#variable_product_options' ).trigger( 'woocommerce_variations_added', count );
@@ -476,9 +476,9 @@ if ( ! class_exists( 'WooMP_Product' ) ) {
 		/**
 		 * 點擊更新按鈕修改 attribute_type 值
 		 */
-		public static function save_post_attribute_type( $post_id, $post, $update ){
-			if( 'product' === $post->post_type ){
-				if( is_array( $_POST['attribute_type'] ) ){
+		public static function save_post_attribute_type( $post_id, $post, $update ) {
+			if ( 'product' === $post->post_type && isset( $_POST['attribute_type'] ) ) {
+				if ( is_array( $_POST['attribute_type'] ) ) {
 					foreach ( $_POST['attribute_type'] as $i => $val ) {
 						$attr_name = sanitize_title( $_POST['attribute_names'][ $i ] );
 						$attr_name = strtolower( $attr_name );
@@ -533,10 +533,10 @@ if ( ! class_exists( 'WooMP_Product' ) ) {
 
 			if ( ! empty( $options ) && strpos( $attribute_type, 'radio' ) !== false ) {
 
-				$radios = '<style>.variation-radios + select,.variation-radios + select + *{display:none!important;}.variation-radios > * {cursor: pointer;}.radio-one,.radio-two{display:flex;flex-wrap:wrap;}.radio > div{display:inline-block;}.radio-one>div{width:100%}.radio-two>div{width:50%;}</style><div class="variation-radios '. $attribute_type .'">';
+				$radios = '<style>.variation-radios + select,.variation-radios + select + *{display:none!important;}.variation-radios > * {cursor: pointer;}.radio-one,.radio-two{display:flex;flex-wrap:wrap;}.radio > div{display:inline-block;}.radio-one>div{width:100%}.radio-two>div{width:50%;}</style><div class="variation-radios ' . $attribute_type . '">';
 
 				if ( $product && taxonomy_exists( $attribute ) ) {
-					
+
 					$terms = wc_get_product_terms(
 						$product->get_id(),
 						$attribute,
@@ -590,10 +590,10 @@ if ( ! class_exists( 'WooMP_Product' ) ) {
 				   }) 
 				})
 				</script>
-				<div class="variation-radios '. $attribute_type .'">';
+				<div class="variation-radios ' . $attribute_type . '">';
 
 				if ( $product && taxonomy_exists( $attribute ) ) {
-					
+
 					$terms = wc_get_product_terms(
 						$product->get_id(),
 						$attribute,
@@ -619,7 +619,6 @@ if ( ! class_exists( 'WooMP_Product' ) ) {
 				return $radios . $html;
 			}
 
-			
 		}
 		public static function variation_check( $active, $variation ) {
 			if ( ! $variation->is_in_stock() && ! $variation->backorders_allowed() ) {
