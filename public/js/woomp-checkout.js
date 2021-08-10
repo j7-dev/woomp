@@ -58,6 +58,7 @@ jQuery(function($){
 	function setBillingShippingFieldsSync(){
 		let syncFields = ['first_name', 'last_name', 'phone'];
 		for (let i = 0; i < syncFields.length; i++) {
+			$('.woocommerce-shipping-fields').find('#shipping_' + syncFields[i]).val( $('#billing_' + syncFields[i] ).val() )
 			$('#billing_' + syncFields[i] ).on('input',function (e) {
 				$('.woocommerce-shipping-fields').find('#shipping_' + syncFields[i]).val($(this).val())
 			});	
@@ -136,35 +137,38 @@ jQuery(function($){
 			$('#ship-to-different-address-checkbox').prop('checked', false);
 			$('.shipping_address').hide();
 		}
-		// 處理運送到不同地址取消勾選
-		$('body').on('click', '#shipping_method li input', function(){
-			if( 
-				$('#shipping_method li input:checked').val() !== "ecpay_shipping" || 
-				!$('#shipping_method li input:checked').val().includes('ry_ecpay_shipping_cvs') ||
-				!$('#shipping_method li input:checked').val().includes('ry_newebpay_shipping_cvs') 
-			){
-				$('#ship-to-different-address-checkbox').prop('checked', false);
-				$('.shipping_address').hide();
+
+		function isCvs(){
+			let currentShipping = $('#shipping_method li input:checked').val();
+			if( currentShipping === "ecpay_shipping" || currentShipping.includes('ry_ecpay_shipping_cvs') || currentShipping.includes('ry_newebpay_shipping_cvs') ){
+				return true;
+			} else {
+				return false;
 			}
-		})
+		}
 		function toggleBillingAddressField( status ){
 			if( status === 'hide' ){
-				$('.woocommerce-shipping-fields,h3#ship-to-different-address input,#billing_address_1_field,#billing_address_2_field,#billing_city_field,#billing_state_field,#billing_postcode_field').hide()
+				$('.woocommerce-shipping-fields,#billing_address_1_field,#billing_address_2_field,#billing_city_field,#billing_state_field,#billing_postcode_field').hide()
 			} else {
-				$('.woocommerce-shipping-fields,h3#ship-to-different-address input,#billing_address_1_field,#billing_address_2_field,#billing_city_field,#billing_state_field,#billing_postcode_field').show()
+				$('.woocommerce-shipping-fields,#billing_address_1_field,#billing_address_2_field,#billing_city_field,#billing_state_field,#billing_postcode_field').show();
 			}
 		}	
-		$(document.body).on('updated_checkout', function (e, data) {
+
+		// 處理運送到不同地址取消勾選
+		$('body').on('click', '#shipping_method li input', function(){
+			if( isCvs() ){
+				$('#ship-to-different-address-checkbox').prop('checked', false);
+ 				$('.shipping_address').hide();
+			}
+		})
+
+		$(document.body).on('updated_checkout', function () {
 			/**
 			 * 針對物流方式顯示帳單與運送地址欄位
 			 */
 			let shippingMethodNum = $('#shipping_method li').length;
-			let shippingMethodSelector = ( shippingMethodNum === 1 ) ? '' : ':checked';
 			if( shippingMethodNum >= 1 ){
-				if( $('#shipping_method li input' + shippingMethodSelector ).val() === "ecpay_shipping" || 
-					$('#shipping_method li input' + shippingMethodSelector ).val().includes('ry_ecpay_shipping_cvs') ||
-					$('#shipping_method li input' + shippingMethodSelector ).val().includes('ry_newebpay_shipping_cvs') 
-				){
+				if( isCvs() ){
 					toggleBillingAddressField('hide')
 				} else {
 					toggleBillingAddressField('show')	
@@ -183,8 +187,8 @@ jQuery(function($){
         if( woomp_checkout_params.enableCountryToTop === 'yes' ){
 			setCountryToTop();
 		}
-        if( woomp_checkout_params.enableCountryToTop === 'yes' ){
-			setCountryToTop();
+        if( woomp_checkout_params.enableTwAddress === 'yes' ){
+			setTwAddress();
 		}
 	})
 })
