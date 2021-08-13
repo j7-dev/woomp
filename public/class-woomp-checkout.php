@@ -154,6 +154,27 @@ if ( ! class_exists( 'WooMP_Checkout' ) ) {
 		public function custom_button_text( $button_text ) {
 			return get_option( ' wc_woomp_setting_place_order_text' );
 		}
+
+		/**
+		 * 姓名欄位限定要一個以上
+		 *
+		 * @param array  $fields checkout fields.
+		 * @param object $errors error object.
+		 */
+		public function validate_name_length( $fields, $errors ) {
+			// 如果只留下 billing_last_name.
+			if ( ! array_key_exists( 'billing_first_name', $fields ) ) {
+				if ( strlen( $fields['billing_last_name'] ) < 2 ) {
+					$errors->add( 'validation', '<strong>姓名欄位</strong> 至少兩個字以上' );
+				}
+			}
+			// 如果只留下 billing_first_name.
+			if ( ! array_key_exists( 'billing_last_name', $fields ) ) {
+				if ( strlen( $fields['billing_first_name'] ) < 2 ) {
+					$errors->add( 'validation', '<strong>姓名欄位</strong> 至少兩個字以上' );
+				}
+			}
+		}
 	}
 
 	/**
@@ -168,6 +189,7 @@ if ( 'yes' === get_option( 'wc_woomp_setting_replace', 1 ) ) {
 	add_action( 'wp_head', array( $checkout, 'redirect_cart_page_to_checkout' ), 1 );
 	add_action( 'woocommerce_before_checkout_form', array( $checkout, 'set_cart_in_checkout_page' ) );
 	add_filter( 'woocommerce_checkout_fields', array( $checkout, 'set_shipping_field' ), 10000 );
+	add_action( 'woocommerce_after_checkout_validation', array( $checkout, 'validate_name_length' ), 10, 2 );
 }
 
 if ( ! empty( get_option( ' wc_woomp_setting_place_order_text' ) ) ) {

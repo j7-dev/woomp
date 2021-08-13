@@ -204,7 +204,6 @@ if ( ! $checkout->is_registration_enabled() && $checkout->is_registration_requir
 </style>
 
 <?php
-//echo "<link rel='stylesheet' href='" . home_url() . '/wp-content/plugins/woomp/public/css/themes/' . strtolower( wp_get_theme()->name ) . ".css'>";
-echo "<link rel='stylesheet' href='" . home_url() . '/wp-content/plugins/woomp/public/css/themes/astra' . ".css'>";
+echo "<link rel='stylesheet' href='" . home_url() . '/wp-content/plugins/woomp/public/css/themes/' . strtolower( wp_get_theme()->name ) . ".css'>";
 
 ?>
