@@ -164,13 +164,13 @@ if ( ! class_exists( 'WooMP_Checkout' ) ) {
 		public function validate_name_length( $fields, $errors ) {
 			// 如果只留下 billing_last_name.
 			if ( ! array_key_exists( 'billing_first_name', $fields ) ) {
-				if ( strlen( $fields['billing_last_name'] ) < 2 ) {
+				if ( mb_strlen( $fields['billing_last_name'], 'utf-8' ) < 2 ) {
 					$errors->add( 'validation', '<strong>姓名欄位</strong> 至少兩個字以上' );
 				}
 			}
 			// 如果只留下 billing_first_name.
 			if ( ! array_key_exists( 'billing_last_name', $fields ) ) {
-				if ( strlen( $fields['billing_first_name'] ) < 2 ) {
+				if ( mb_strlen( $fields['billing_first_name'], 'utf-8' ) < 2 ) {
 					$errors->add( 'validation', '<strong>姓名欄位</strong> 至少兩個字以上' );
 				}
 			}
