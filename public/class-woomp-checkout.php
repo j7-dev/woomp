@@ -144,6 +144,18 @@ if ( ! class_exists( 'WooMP_Checkout' ) ) {
 					$fields['shipping']['shipping_last_name']['required']  = false;
 					$fields['shipping']['shipping_phone']['required']      = false;
 				}
+
+				/**
+				 * 增加運送離島選項
+				 */
+				if ( $this->has_island_postcodes() ) {
+					$fields['billing']['billing_island'] = array(
+						'type'  => 'checkbox',
+						'label' => '是否運送到離島',
+						'class' => array( $this->get_postcodes()[2] ),
+						'clear' => true,
+					);
+				}
 			}
 			return $fields;
 		}
@@ -173,6 +185,29 @@ if ( ! class_exists( 'WooMP_Checkout' ) ) {
 				if ( mb_strlen( $fields['billing_first_name'], 'utf-8' ) < 2 ) {
 					$errors->add( 'validation', '<strong>姓名欄位</strong> 至少兩個字以上' );
 				}
+			}
+		}
+
+		/**
+		 * 取得所有離島郵遞區號
+		 */
+		public function get_postcodes() {
+			global $wpdb;
+			$sql              = "SELECT * FROM {$wpdb->prefix}woocommerce_shipping_zone_locations";
+			$post_coded       = $wpdb->get_col( $sql, 2 );
+			$island_postcodes = array( 209, 210, 211, 212, 880, 881, 882, 883, 884, 885, 890, 891, 892, 893, 894, 896 );
+			$result           = array_intersect( $post_coded, $island_postcodes );
+			return $result;
+		}
+
+		/**
+		 * 檢查是否有設定台灣離島郵遞區號
+		 */
+		public function has_island_postcodes() {
+			if ( count( $this->get_postcodes() ) > 0 ) {
+				return true;
+			} else {
+				return false;
 			}
 		}
 	}

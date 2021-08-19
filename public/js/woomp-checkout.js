@@ -177,12 +177,31 @@ jQuery(function($){
 		});
 	}
 
+	// 勾選離島運送選項
+	function setIslandShipping(){
+		$('#billing_island_field').prependTo('#order_review');
+		$('#billing_island').on('change', function(){
+			if( $(this).is(':checked') ){
+				$(".woocommerce-billing-fields,.woocommerce-shipping-fields").twzipcode('set', {
+					'zipcode': $('#billing_island_field').attr('class')
+				});
+				$('select[name="county"]').trigger('change');
+			} else {
+				$(".woocommerce-billing-fields,.woocommerce-shipping-fields").twzipcode('set', {
+					'zipcode': 110
+				});
+				$('select[name="county"]').trigger('change');
+			}
+		})
+	}
+
 	$(document).ready(function(){
         if( woomp_checkout_params.enableWoomp === 'yes' ){
 			setBillingShippingFieldsSync();
 			setUpdateCart();
 			setCheckoutButtonToBottom();
 			changeFieldsDisplayByShippingMethod();
+			setIslandShipping()
 		}
         if( woomp_checkout_params.enableCountryToTop === 'yes' ){
 			setCountryToTop();
