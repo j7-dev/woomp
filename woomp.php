@@ -125,7 +125,7 @@ $prefix_updater = new WP_Package_Updater(
  */
 
 if ( ! defined( 'RY_WT_VERSION' ) ) {
-	define( 'RY_WT_VERSION', '1.7.3' );
+	define( 'RY_WT_VERSION', '1.7.6' );
 	define( 'RY_WT_PLUGIN_URL', plugin_dir_url( __FILE__ ) . 'includes/ry-woocommerce-tools/' );
 	define( 'RY_WT_PLUGIN_DIR', plugin_dir_path( __FILE__ ) . 'includes/ry-woocommerce-tools/' );
 	define( 'RY_WT_PLUGIN_BASENAME', plugin_basename( __FILE__ ) . 'includes/ry-woocommerce-tools/' );
