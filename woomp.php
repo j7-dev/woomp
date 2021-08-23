@@ -2,14 +2,14 @@
 
  /**
   * @link              https://morepower.club
-  * @since             1.3.6
+  * @since             1.3.7
   * @package           woomp
   *
   * @wordpress-plugin
   * Plugin Name:       好用版擴充 MorePower Addon for WooCommerce
   * Plugin URI:        https://morepower.club/morepower-addon/
   * Description:       WooCommerce 好用版擴充，改善結帳流程與可變商品等區塊，讓 WooCommerce 更符合亞洲人使用習慣。
-  * Version:           1.3.6
+  * Version:           1.3.7
   * Author:            MorePower
   * Author URI:        https://morepower.club
   * License:           GPL-2.0+
@@ -27,13 +27,24 @@ if ( ! defined( 'WPINC' ) ) {
 
 /**
  * Check WooCommerce is required
+ * 
  */
-if ( ! in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
-	function require_woocommerce_notice() {
-		echo '<div class="error"><p>好用版擴充啟用失敗，需要安裝並啟用 WooCommerce 5.3 以上版本。</p></div>';
+/**
+ * Check WooCommerce exist
+ */
+if ( ! in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ), true ) ) {
+	require_once ABSPATH . 'wp-admin/includes/plugin.php';
+	if ( is_plugin_active( plugin_basename( __FILE__ ) ) ) {
+		deactivate_plugins( plugin_basename( __FILE__ ) );
+		/**
+		 * Error admin notice
+		 */
+		function require_woocommerce_notice() {
+			echo '<div class="error"><p>好用版擴充啟用失敗，需要安裝並啟用 WooCommerce 5.3 以上版本。</p></div>';
+		}
+		add_action( 'admin_notices', 'require_woocommerce_notice' );
+		return;
 	}
-	add_action( 'admin_notices', 'require_woocommerce_notice' );
-	return;
 }
 
 /**
@@ -41,7 +52,7 @@ if ( ! in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins',
  * Start at version 1.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define( 'WOOMP_VERSION', '1.3.6' );
+define( 'WOOMP_VERSION', '1.3.7' );
 define( 'WOOMP_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'WOOMP_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'WOOMP_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );

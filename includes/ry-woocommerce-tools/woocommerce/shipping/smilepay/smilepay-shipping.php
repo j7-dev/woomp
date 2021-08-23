@@ -20,7 +20,7 @@ final class RY_SmilePay_Shipping
         include_once RY_WT_PLUGIN_DIR . 'woocommerce/shipping/smilepay/smilepay-shipping-cvs-711.php';
         include_once RY_WT_PLUGIN_DIR . 'woocommerce/shipping/smilepay/smilepay-shipping-cvs-fami.php';
 
-        if ('yes' === RY_WT::get_option('smilepay_shipping', 'no')) {
+        if ('yes' === RY_WT::get_option('enabled_smilepay_shipping', 'no')) {
             RY_SmilePay_Shipping_Response::init();
 
             add_filter('woocommerce_shipping_methods', [__CLASS__, 'add_method']);
@@ -85,9 +85,9 @@ final class RY_SmilePay_Shipping
             RY_WT::update_option('smilepay_shipping', 'no');
         }
 
-        if ('yes' == RY_WT::get_option('smilepay_shipping', 'no')) {
+        if ('yes' == RY_WT::get_option('enabled_smilepay_shipping', 'no')) {
             $enable = true;
-            if ('no' == RY_WT::get_option('smilepay_gateway', 'no')) {
+            if ('no' == RY_WT::get_option('enabled_smilepay_gateway', 'no')) {
                 WC_Admin_Settings::add_error(__('SmilePay shipping method need enable SmilePay gateway.', 'ry-woocommerce-tools'));
                 $enable = false;
             }

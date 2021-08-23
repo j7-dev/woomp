@@ -78,7 +78,7 @@ class Woomp_Setting_Gateway extends WC_Settings_Page {
 
 		switch ( $section ) {
 			case 'ecpay':
-				if ( get_option( RY_WT::$option_prefix . 'ecpay_gateway', 1 ) === 'yes' ) {
+				if ( get_option( RY_WT::$option_prefix . 'enabled_ecpay_gateway', 1 ) === 'yes' ) {
 					$settings = include RY_WT_PLUGIN_DIR . 'woocommerce/gateways/ecpay/includes/settings-ecpay-gateway.php';
 					return $settings;
 				} else {
@@ -88,7 +88,7 @@ class Woomp_Setting_Gateway extends WC_Settings_Page {
 				}
 				break;
 			case 'newebpay':
-				if ( get_option( RY_WT::$option_prefix . 'newebpay_gateway', 1 ) === 'yes' ) {
+				if ( get_option( RY_WT::$option_prefix . 'enabled_newebpay_gateway', 1 ) === 'yes' ) {
 					$settings = include RY_WT_PLUGIN_DIR . 'woocommerce/gateways/newebpay/includes/settings-newebpay-gateway.php';
 					return $settings;
 				} else {
@@ -98,7 +98,7 @@ class Woomp_Setting_Gateway extends WC_Settings_Page {
 				}
 				break;
 			case 'smilepay':
-				if ( get_option( RY_WT::$option_prefix . 'newebpay_gateway', 1 ) === 'yes' ) {
+				if ( get_option( RY_WT::$option_prefix . 'enabled_smilepay_gateway', 1 ) === 'yes' ) {
 					$settings = include RY_WT_PLUGIN_DIR . 'woocommerce/gateways/smilepay/includes/settings-smilepay-gateway.php';
 					return $settings;
 				} else {

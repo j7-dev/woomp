@@ -29,7 +29,7 @@ final class RY_ECPay_Gateway
             add_action('woocommerce_view_order', [__CLASS__, 'payment_info'], 9);
         }
 
-        if ('yes' === RY_WT::get_option('ecpay_gateway', 'no')) {
+        if ('yes' === RY_WT::get_option('enabled_ecpay_gateway', 'no')) {
             RY_ECPay_Gateway_Response::init();
 
             add_filter('woocommerce_payment_gateways', [__CLASS__, 'add_method']);

@@ -30,7 +30,7 @@ final class RY_ECPay_Shipping
 
         self::$log_enabled = 'yes' === RY_WT::get_option('ecpay_shipping_log', 'no');
 
-        if ('yes' === RY_WT::get_option('ecpay_shipping', 'no')) {
+        if ('yes' === RY_WT::get_option('enabled_ecpay_shipping', 'no')) {
             self::$testmode = 'yes' === RY_WT::get_option('ecpay_shipping_testmode', 'yes');
 
             RY_ECPay_Shipping_Response::init();
@@ -97,7 +97,7 @@ final class RY_ECPay_Shipping
 
     public static function check_option()
     {
-        if ('yes' == RY_WT::get_option('ecpay_shipping', 'yes')) {
+        if ('yes' == RY_WT::get_option('enabled_ecpay_shipping', 'yes')) {
             $enable = true;
             $name = RY_WT::get_option('ecpay_shipping_sender_name');
             if (mb_strwidth($name) < 1 || mb_strwidth($name) > 10) {

@@ -13,7 +13,7 @@ final class RY_NewebPay_Shipping
         include_once RY_WT_PLUGIN_DIR . 'woocommerce/abstracts/abstract-newebpay.php';
         include_once RY_WT_PLUGIN_DIR . 'woocommerce/shipping/newebpay/newebpay-shipping-cvs.php';
 
-        if ('yes' === RY_WT::get_option('newebpay_shipping', 'no')) {
+        if ('yes' === RY_WT::get_option('enabled_newebpay_shipping', 'no')) {
             add_filter('woocommerce_shipping_methods', [__CLASS__, 'add_method']);
 
             add_filter('woocommerce_checkout_fields', [__CLASS__, 'add_cvs_info'], 9999);
@@ -53,9 +53,9 @@ final class RY_NewebPay_Shipping
 
     public static function check_option()
     {
-        if ('yes' == RY_WT::get_option('newebpay_shipping', 'no')) {
+        if ('yes' == RY_WT::get_option('enabled_newebpay_shipping', 'no')) {
             $enable = true;
-            if ('no' == RY_WT::get_option('newebpay_gateway', 'no')) {
+            if ('no' == RY_WT::get_option('enabled_newebpay_gateway', 'no')) {
                 WC_Admin_Settings::add_error(__('NewebPay shipping method need enable NewebPay gateway.', 'ry-woocommerce-tools'));
                 $enable = false;
             }

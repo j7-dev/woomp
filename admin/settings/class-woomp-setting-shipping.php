@@ -78,7 +78,7 @@ class Woomp_Setting_Shipping extends WC_Settings_Page {
 
 		switch ( $section ) {
 			case 'ecpay':
-				if ( get_option( RY_WT::$option_prefix . 'ecpay_shipping', 1 ) === 'yes' ) {
+				if ( get_option( RY_WT::$option_prefix . 'enabled_ecpay_shipping', 1 ) === 'yes' ) {
 					$settings = include RY_WT_PLUGIN_DIR . 'woocommerce/shipping/ecpay/includes/settings-ecpay-shipping.php';
 					return $settings;
 				} else {
@@ -88,7 +88,7 @@ class Woomp_Setting_Shipping extends WC_Settings_Page {
 				}
 				break;
 			case 'newebpay':
-				if ( get_option( RY_WT::$option_prefix . 'newebpay_shipping', 1 ) === 'yes' ) {
+				if ( get_option( RY_WT::$option_prefix . 'enabled_newebpay_shipping', 1 ) === 'yes' ) {
 					$settings = include RY_WT_PLUGIN_DIR . 'woocommerce/shipping/newebpay/includes/settings-newebpay-shipping.php';
 					return $settings;
 				} else {
@@ -98,7 +98,7 @@ class Woomp_Setting_Shipping extends WC_Settings_Page {
 				}
 				break;
 			case 'smilepay':
-				if ( get_option( RY_WT::$option_prefix . 'newebpay_shipping', 1 ) === 'yes' ) {
+				if ( get_option( RY_WT::$option_prefix . 'enabled_smilepay_shipping', 1 ) === 'yes' ) {
 					$settings = include RY_WT_PLUGIN_DIR . 'woocommerce/shipping/smilepay/includes/settings-smilepay-shipping.php';
 					return $settings;
 				} else {
