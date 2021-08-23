@@ -24,7 +24,7 @@
 
 	// 離島選擇介面初始化
 	function init_island(){
-		$('.wc-shipping-zone-postcodes').before(`<fieldset class="toggle" id="zoneTwIslandToggle"><label for="zoneTwIslandToggleBtn"><input name="zoneTwIslandToggleBtn" id="zoneTwIslandToggleBtn" type="checkbox" class="toggle"><label for="zoneTwIslandToggleBtn">Toggle</label><span class="description">啟用 / 停用 台灣離島運送區域</span></label></fieldset>`);
+		$('.wc-shipping-zone-postcodes').before(`<fieldset class="toggle" id="zoneTwIslandToggle"><span class="woocommerce-help-tip tip-island"></span><label for="zoneTwIslandToggleBtn"><input name="zoneTwIslandToggleBtn" id="zoneTwIslandToggleBtn" type="checkbox" class="toggle"><label for="zoneTwIslandToggleBtn">Toggle</label><span class="description" style="font-size: 14px;">這是離島區域<br></span></label></fieldset>`);
 
 		// 增加離島複選方塊
 		$('#zoneTwIslandToggle').after(`
@@ -71,6 +71,11 @@
 			</tr>
 		</table>
 		`)
+
+		// 離島 Tooltip 說明
+		$('.tip-island').hover(function(){
+			$('#tiptip_content').text('台灣本島 與 台灣離島，需要分別建立自己的運送區域。台灣本島是一個運送區域，台灣離島是另一個運送區域，兩個區域可以有不同的運送方式&運費。若啟用此選項，即會將此運送區域改為 台灣離島的運送區域')
+		})
 	}
 	
 	if( $('#zone_locations option[value="country:TW"]').is(':selected') ){

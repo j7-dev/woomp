@@ -53,6 +53,13 @@ input.toggle:checked + label:after {
 fieldset.toggle,
 input.toggle + label:active:after {
 	width: 130px;
+	position: relative;
+}
+
+fieldset.toggle .tip-island {
+	position: absolute;
+	top: 17px;
+	left: -30px;
 }
 
 fieldset.toggle label[for=zoneTwIslandToggleBtn] {
