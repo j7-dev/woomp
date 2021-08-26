@@ -54,6 +54,19 @@ jQuery(function($){
 		})
 	}
 
+	// 台灣鄉鎮下拉選單隱藏
+	function setTwCountyStatus( county, status ){
+		if( status === 'hide' ){
+			for (let i = 0; i < county.length; i++) {
+				$('select[name="county"] option[value="'+ county[i] +'"]').attr('disabled','disabled');
+			}
+		} else {
+			for (let i = 0; i < county.length; i++) {
+				$('select[name="county"] option[value="'+ county[i] +'"]').removeAttr('disabled');
+			}
+		}
+	}
+
 	// 同步 Billing 與 Shipping 欄位
 	function setBillingShippingFieldsSync(){
 		let syncFields = ['first_name', 'last_name', 'phone'];
@@ -81,7 +94,7 @@ jQuery(function($){
 			}
 		})
 		// 同步 billing & shipping 國家欄位
-		$( '#shipping_country' ).change(function(){
+		$( '#shipping_country').change(function(){
 			$( '#billing_country' ).val( $(this).val() )
 			$('#select2-billing_country-container').text($( '#shipping_country option:selected').text())
 			$('#select2-billing_country-container').attr('title',$( '#shipping_country option:selected').text())
@@ -178,21 +191,49 @@ jQuery(function($){
 	}
 
 	// 勾選離島運送選項
-	function setIslandShipping(){
-		$('#billing_island_field').prependTo('#order_review');
-		$('#billing_island').on('change', function(){
-			if( $(this).is(':checked') ){
-				$(".woocommerce-billing-fields,.woocommerce-shipping-fields").twzipcode('set', {
-					'zipcode': $('#billing_island_field').attr('class')
-				});
+	function setIslandShipping( status ){
+		if( status === 'show' ){
+			$('#billing_island_field').show();
+			$('#billing_island_field').prependTo('#order_review');
+			$('#billing_island').on('change', function(){
+				island = ['金門縣','澎湖縣','連江縣']
+				islandHide = $('#billing_island_none').val().split(',');
+				countyHide = ['基隆市','臺北市','新北市','宜蘭縣','新竹市','新竹縣','桃園市','苗栗縣','臺中市','彰化縣','南投縣','嘉義市','嘉義縣','雲林縣','臺南市','高雄市','屏東縣','臺東縣','花蓮縣']
+				countyHide.push.apply( countyHide, islandHide );
+
+				if( $(this).prop('checked') ){
+					setTwCountyStatus( island, 'show' )
+					setTwCountyStatus( countyHide, 'hide' )
+					$(".woocommerce-billing-fields,.woocommerce-shipping-fields").twzipcode('set', {
+						'zipcode': $('#billing_island_field').attr('class')
+					});
+				} else {
+					setTwCountyStatus( countyHide, 'show' )
+					setTwCountyStatus( island, 'hide' )
+					$(".woocommerce-billing-fields,.woocommerce-shipping-fields").twzipcode('set', {
+						'zipcode': 110
+					});
+				}
 				$('select[name="county"]').trigger('change');
+			})
+		} else {
+			$('#billing_island_field').hide();
+		}
+	}
+
+	function setFunctionForTaiwan(){
+		$('#billing_country, #shipping_country').on('change', function(){
+			if( $(this).val() === 'TW' ){
+				setIslandShipping('show');
 			} else {
-				$(".woocommerce-billing-fields,.woocommerce-shipping-fields").twzipcode('set', {
-					'zipcode': 110
-				});
-				$('select[name="county"]').trigger('change');
+				setIslandShipping('hide');
 			}
 		})
+		if( $('#billing_country, #shipping_country').val() === 'TW' ){
+			setIslandShipping('show');
+		} else {
+			setIslandShipping('hide');
+		}
 	}
 
 	$(document).ready(function(){
@@ -201,13 +242,14 @@ jQuery(function($){
 			setUpdateCart();
 			setCheckoutButtonToBottom();
 			changeFieldsDisplayByShippingMethod();
-			setIslandShipping()
+			setFunctionForTaiwan()
 		}
         if( woomp_checkout_params.enableCountryToTop === 'yes' ){
 			setCountryToTop();
 		}
         if( woomp_checkout_params.enableTwAddress === 'yes' ){
 			setTwAddress();
+			setTwCountyStatus( ['金門縣','澎湖縣','連江縣'], 'hide' )
 		}
 	})
 })

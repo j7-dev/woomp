@@ -104,6 +104,7 @@ if ( ! $checkout->is_registration_enabled() && $checkout->is_registration_requir
 	#order_review .shop_table.woocommerce-checkout-review-order-table tfoot .cart-subtotal,
 	.woocommerce + .cart_totals tr.woocommerce-shipping-totals.shipping,
 	.woocommerce + .cart_totals tr.order-total,
+	#billing_island_none_field,
 	.hidden {
 		display: none!important;
 	}
@@ -186,6 +187,15 @@ if ( ! $checkout->is_registration_enabled() && $checkout->is_registration_requir
 	.woocommerce input[name=zipcode]{
 		width: 100%;
 	}
+
+	select option[disabled="disabled"]{ 
+    	display:none;
+	}
+
+	.woocommerce ul#shipping_method li {
+		padding: 0 0 0 22px;
+	}
+
 	@media screen and (max-width: 920px){
 		#paymentWrap th {
 			width: 80px!important;

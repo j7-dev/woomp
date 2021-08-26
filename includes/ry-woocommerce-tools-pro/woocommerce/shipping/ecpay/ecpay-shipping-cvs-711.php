@@ -41,9 +41,9 @@ class RY_ECPay_Shipping_CVS_711_Pro extends RY_ECPay_Shipping_CVS_711
             ]
         ];
 
-        if ((int) WC()->session->get('shipping_cvs_out_island') == 1) {
-            $rate['cost'] += $this->cost_offisland;
-        }
+        //if ((int) WC()->session->get('shipping_cvs_out_island') == 1) {
+        //    $rate['cost'] += $this->cost_offisland;
+        //}
 
         $has_coupon = $this->check_has_coupon($this->cost_requires, ['coupon', 'min_amount_or_coupon', 'min_amount_and_coupon', 'min_amount_except_discount_or_coupon', 'min_amount_except_discount_and_coupon']);
         $has_min_amount = $this->check_has_min_amount($this->cost_requires, ['min_amount', 'min_amount_or_coupon', 'min_amount_and_coupon']);

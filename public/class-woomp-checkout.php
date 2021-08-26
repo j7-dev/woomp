@@ -155,6 +155,12 @@ if ( ! class_exists( 'WooMP_Checkout' ) ) {
 						'class' => array( $this->get_postcodes()[2] ),
 						'clear' => true,
 					);
+
+					$fields['billing']['billing_island_none'] = array(
+						'type'    => 'text',
+						'label'   => '沒送到的離島縣市',
+						'default' => implode( ',', $this->get_island_hide() ),
+					);
 				}
 			}
 			return $fields;
@@ -209,6 +215,35 @@ if ( ! class_exists( 'WooMP_Checkout' ) ) {
 			} else {
 				return false;
 			}
+		}
+
+		/**
+		 * 取得沒有被勾選的外島縣市
+		 */
+		public function get_island_hide() {
+			global $wpdb;
+
+			$island_hide      = array();
+			$island_kinmen    = array( 890, 891, 892, 893, 894, 896 );
+			$island_penghu    = array( 880, 881, 882, 883, 884, 885 );
+			$island_lianjiang = array( 209, 210, 211, 212 );
+
+			$sql        = "SELECT * FROM {$wpdb->prefix}woocommerce_shipping_zone_locations";
+			$post_coded = $wpdb->get_col( $sql, 2 );
+
+			if ( ! array_intersect( $post_coded, $island_kinmen ) ) {
+				$island_hide[] = '金門縣';
+			}
+
+			if ( ! array_intersect( $post_coded, $island_penghu ) ) {
+				$island_hide[] = '澎湖縣';
+			}
+
+			if ( ! array_intersect( $post_coded, $island_lianjiang ) ) {
+				$island_hide[] = '連江縣';
+			}
+
+			return $island_hide;
 		}
 	}
 
