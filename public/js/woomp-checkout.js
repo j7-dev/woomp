@@ -221,6 +221,15 @@ jQuery(function($){
 		}
 	}
 
+	function setIslandCvsNotification(){
+		cvsAddress = $('#CVSAddress_field strong').text();
+		if( cvsAddress !== '' && !$('#billing_island').prop('checked') ){
+			if( cvsAddress.includes('金門縣') || cvsAddress.includes('澎湖縣') || cvsAddress.includes('連江縣') ){
+				alert('您選擇的超商不在運送範圍內！');
+			}
+		}
+	}
+
 	function setFunctionForTaiwan(){
 		$('#billing_country, #shipping_country').on('change', function(){
 			if( $(this).val() === 'TW' ){
@@ -243,6 +252,7 @@ jQuery(function($){
 			setCheckoutButtonToBottom();
 			changeFieldsDisplayByShippingMethod();
 			setFunctionForTaiwan()
+			setIslandCvsNotification()
 		}
         if( woomp_checkout_params.enableCountryToTop === 'yes' ){
 			setCountryToTop();

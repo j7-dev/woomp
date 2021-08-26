@@ -174,22 +174,32 @@ if ( ! class_exists( 'WooMP_Checkout' ) ) {
 		}
 
 		/**
-		 * 姓名欄位限定要一個以上
+		 * 結帳欄位格式驗證
 		 *
 		 * @param array  $fields checkout fields.
 		 * @param object $errors error object.
 		 */
-		public function validate_name_length( $fields, $errors ) {
+		public function field_validate( $fields, $errors ) {
 			// 如果只留下 billing_last_name.
 			if ( ! array_key_exists( 'billing_first_name', $fields ) ) {
 				if ( mb_strlen( $fields['billing_last_name'], 'utf-8' ) < 2 ) {
 					$errors->add( 'validation', '<strong>姓名欄位</strong> 至少兩個字以上' );
 				}
 			}
+
 			// 如果只留下 billing_first_name.
 			if ( ! array_key_exists( 'billing_last_name', $fields ) ) {
 				if ( mb_strlen( $fields['billing_first_name'], 'utf-8' ) < 2 ) {
 					$errors->add( 'validation', '<strong>姓名欄位</strong> 至少兩個字以上' );
+				}
+			}
+
+			// 在沒有勾選運送到離島的狀況下選擇離島超商取貨.
+			if ( array_key_exists( 'CVSAddress', $fields ) ) {
+				if ( 1 !== $fields['billing_postcode'] && ! empty( $fields['CVSAddress'] ) ) {
+					if ( strpos( $fields['CVSAddress'], '金門縣' ) > -1 || strpos( $fields['CVSAddress'], '澎湖縣' ) > -1 || strpos( $fields['CVSAddress'], '連江縣' ) > -1 ) {
+						$errors->add( 'validation', '<strong>外島超商</strong> 您選擇的運送方式不在運送範圍內' );
+					}
 				}
 			}
 		}
@@ -259,7 +269,7 @@ if ( 'yes' === get_option( 'wc_woomp_setting_replace', 1 ) ) {
 	add_action( 'wp_head', array( $checkout, 'redirect_cart_page_to_checkout' ), 1 );
 	add_action( 'woocommerce_before_checkout_form', array( $checkout, 'set_cart_in_checkout_page' ) );
 	add_filter( 'woocommerce_checkout_fields', array( $checkout, 'set_shipping_field' ), 10000 );
-	add_action( 'woocommerce_after_checkout_validation', array( $checkout, 'validate_name_length' ), 10, 2 );
+	add_action( 'woocommerce_after_checkout_validation', array( $checkout, 'field_validate' ), 10, 2 );
 }
 
 if ( ! empty( get_option( ' wc_woomp_setting_place_order_text' ) ) ) {
