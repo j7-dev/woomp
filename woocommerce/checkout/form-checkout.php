@@ -104,6 +104,7 @@ if ( ! $checkout->is_registration_enabled() && $checkout->is_registration_requir
 	#order_review .shop_table.woocommerce-checkout-review-order-table tfoot .cart-subtotal,
 	.woocommerce + .cart_totals tr.woocommerce-shipping-totals.shipping,
 	.woocommerce + .cart_totals tr.order-total,
+	#billing_island_none_field,
 	.hidden {
 		display: none!important;
 	}

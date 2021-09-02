@@ -169,8 +169,8 @@ if ( ! class_exists( 'WooMP_Checkout' ) ) {
 			woocommerce_form_field(
 				'billing_island_none',
 				array(
-					'type'  => 'text',
-					'label' => '沒送到的離島縣市',
+					'type'    => 'text',
+					'label'   => '沒送到的離島縣市',
 					'default' => implode( ',', $this->get_island_hide() ),
 				),
 			);

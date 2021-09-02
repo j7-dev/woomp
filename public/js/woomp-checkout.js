@@ -169,10 +169,8 @@ jQuery(function($){
 
 		// 處理運送到不同地址取消勾選
 		$('body').on('click', '#shipping_method li input', function(){
-			if( isCvs() ){
-				$('#ship-to-different-address-checkbox').prop('checked', false);
- 				$('.shipping_address').hide();
-			}
+			$('#ship-to-different-address-checkbox').prop('checked', false);
+			 $('.shipping_address').hide();
 		})
 
 		$(document.body).on('updated_checkout', function () {
