@@ -17,7 +17,7 @@
   * Text Domain:       woomp
   * Domain Path:       /languages
   * WC requires at least: 5
-  * WC tested up to: 5.4.1
+  * WC tested up to: 5.6.0
   */
 
  // If this file is called directly, abort.
@@ -57,6 +57,7 @@ define( 'WOOMP_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'WOOMP_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'WOOMP_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 
+require __DIR__ . '/vendor/autoload.php';
 
 /**
  * The code that runs during plugin activation.
@@ -332,3 +333,27 @@ if ( ! defined( 'PAYNOW_EINVOICE_PLUGIN_URL' ) && 'yes' === get_option( 'wc_woom
 	run_paynow_einvoice();
 
 }
+
+
+/**
+ * Initialize the plugin tracker
+ *
+ * @return void
+ */
+function appsero_init_tracker_woomp() {
+
+    if ( ! class_exists( 'Appsero\Client' ) ) {
+      require_once __DIR__ . '/appsero/src/Client.php';
+    }
+
+    $client = new Appsero\Client( 'fea02736-bb8e-4093-b876-77c5279c8875', '好用版擴充 MorePower Addon for WooCommerce', __FILE__ );
+
+    // Active insights
+    $client->insights()->init();
+
+    // Active automatic updater
+    $client->updater();
+
+}
+
+appsero_init_tracker_woomp();
