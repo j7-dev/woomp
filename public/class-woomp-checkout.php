@@ -212,6 +212,13 @@ if ( ! class_exists( 'WooMP_Checkout' ) ) {
 					}
 				}
 			}
+
+			// 電話位數一定要 10 碼.
+			if ( array_key_exists( 'billing_phone', $fields ) ) {
+				if ( mb_strlen( $fields['billing_phone'], 'utf-8' ) !== 10 ) {
+					$errors->add( 'validation', '<strong>聯絡電話</strong> 長度有誤，必須為 10 碼' );
+				}
+			}
 		}
 
 		/**
