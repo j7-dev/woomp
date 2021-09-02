@@ -134,9 +134,11 @@
 	}
 
 	// 讀取既有的郵遞區號
-	var current_code = $('#zone_postcodes').val().split('\n');
-	for (let index = 0; index < current_code.length; index++) {
-		$("#zoneTwIslandWrap input.island[value='"+ current_code[index] +"']").prop('checked', true);
+	if( $('#zone_postcodes').length > 0 ){
+		var current_code = $('#zone_postcodes').val().split('\n');
+		for (let index = 0; index < current_code.length; index++) {
+			$("#zoneTwIslandWrap input.island[value='"+ current_code[index] +"']").prop('checked', true);
+		}
 	}
 
 	// 郵遞區號寫入與刪除
@@ -156,5 +158,19 @@
 			}
 		})
 	}
+
+	function triggerSaveAtrributes(){
+		$('body').find('.save_attributes_after').on('click', function(e){
+			e.preventDefault();
+			$('body').find('.save_attributes').trigger('click');
+		})
+	}
+	$( document.body ).on( 'woocommerce_added_attribute', function() {
+		triggerSaveAtrributes()
+	})
+	$('#variable_product_options').on('reload', function(){
+		triggerSaveAtrributes()
+	})
+	triggerSaveAtrributes()
 
 })( jQuery );
