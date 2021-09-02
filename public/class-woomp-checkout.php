@@ -155,15 +155,25 @@ if ( ! class_exists( 'WooMP_Checkout' ) ) {
 						'class' => array( $this->get_postcodes()[2] ),
 						'clear' => true,
 					);
-
-					$fields['billing']['billing_island_none'] = array(
-						'type'    => 'text',
-						'label'   => '沒送到的離島縣市',
-						'default' => implode( ',', $this->get_island_hide() ),
-					);
 				}
 			}
 			return $fields;
+		}
+
+		/**
+		 * 新增沒送到的離島縣市欄位
+		 *
+		 * @param array $checkout Checkout Fields.
+		 */
+		public function set_checkout_field( $checkout ) {
+			woocommerce_form_field(
+				'billing_island_none',
+				array(
+					'type'  => 'text',
+					'label' => '沒送到的離島縣市',
+					'default' => implode( ',', $this->get_island_hide() ),
+				),
+			);
 		}
 
 		/**
@@ -270,6 +280,7 @@ if ( 'yes' === get_option( 'wc_woomp_setting_replace', 1 ) ) {
 	add_action( 'woocommerce_before_checkout_form', array( $checkout, 'set_cart_in_checkout_page' ) );
 	add_filter( 'woocommerce_checkout_fields', array( $checkout, 'set_shipping_field' ), 10000 );
 	add_action( 'woocommerce_after_checkout_validation', array( $checkout, 'field_validate' ), 10, 2 );
+	add_action( 'woocommerce_after_order_notes', array( $checkout, 'set_checkout_field' ) );
 }
 
 if ( ! empty( get_option( ' wc_woomp_setting_place_order_text' ) ) ) {

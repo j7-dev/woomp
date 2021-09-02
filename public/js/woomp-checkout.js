@@ -207,6 +207,11 @@ jQuery(function($){
 					$(".woocommerce-billing-fields,.woocommerce-shipping-fields").twzipcode('set', {
 						'zipcode': $('#billing_island_field').attr('class')
 					});
+					$(document.body).on('updated_checkout', function () {
+						if( $('.woocommerce-shipping-totals td ul').length === 0  ){
+							$('.woocommerce-shipping-totals td').text('很抱歉，我們目前沒有運送到離島，請選擇其他運送地區，謝謝!')
+						}
+					})
 				} else {
 					setTwCountyStatus( countyHide, 'show' )
 					setTwCountyStatus( island, 'hide' )
@@ -225,7 +230,7 @@ jQuery(function($){
 		cvsAddress = $('#CVSAddress_field strong').text();
 		if( cvsAddress !== '' && !$('#billing_island').prop('checked') ){
 			if( cvsAddress.includes('金門縣') || cvsAddress.includes('澎湖縣') || cvsAddress.includes('連江縣') ){
-				alert('您選擇的超商不在運送範圍內！');
+				alert('您選擇的超商不在運送範圍內！')
 			}
 		}
 	}
