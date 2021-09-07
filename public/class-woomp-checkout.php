@@ -151,7 +151,7 @@ if ( ! class_exists( 'WooMP_Checkout' ) ) {
 				if ( $this->has_island_postcodes() ) {
 					$fields['billing']['billing_island'] = array(
 						'type'  => 'checkbox',
-						'label' => '是否運送到離島',
+						'label' => '寄送到離島區域',
 						'class' => array( $this->get_postcodes()[2] ),
 						'clear' => true,
 					);

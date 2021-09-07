@@ -1,0 +1,95 @@
+.woocommerce-NoticeGroup.woocommerce-NoticeGroup-checkout .woocommerce-error {
+    margin-bottom: 0px;
+}
+form.checkout>.woocommerce-NoticeGroup {
+    margin-top: 20px;
+}
+.woocommerce.cart-content-wrapper.row .woocommerce-error {
+    display: none;
+}
+#placeOrderWrap {
+    margin: 0 auto;
+}
+.woocommerce-terms-and-conditions-wrapper {
+border-top: none;
+margin-top: 0;
+padding-top: 0;
+}
+#billing_island_field label {
+margin-left: 15px;
+}
+.woocommerce-checkout form.checkout.woocommerce-checkout #customer_details {
+margin-right: auto !important;
+margin-left: auto !important;
+}
+.payment_methods li img {
+max-height: 16px;
+}
+.checkout.woocommerce-checkout .col2-set .col-1, .checkout.woocommerce-checkout .col2-set .col-2 {
+flex: 0 0 100%;
+max-width: 100%;
+}
+.woocommerce-checkout form.checkout.woocommerce-checkout #order_review {
+border-bottom: none !important;
+}
+.woocommerce-checkout #place_order {
+background-color: #ed7f83;
+}
+#paymentWrap th, #paymentWrap td {
+border-bottom: none;
+}
+#paymentWrap th {
+font-weight: 700 !important;
+}
+/*Cart*/
+@media (min-width: 1200px) {
+.woocommerce-checkout .woocommerce-cart-form.col-xl-8 {
+-ms-flex: 0 0 100%;
+flex: 0 0 100%;
+max-width: 100%;
+padding: 0;
+}
+}
+/*Coupon*/
+.woocommerce-checkout .cart-actions .coupon {
+display: none !important;
+margin-right: 7px;
+}
+/*物流*/
+@media (min-width: 1000px) {
+.checkout .shop_table tfoot th {
+max-width: 159px !important;
+}
+}
+.woocommerce-checkout .shop_table tr td {
+text-align: left;
+width: auto;
+}
+.woocommerce-checkout #shipping_method input.shipping_method {
+float: left;
+margin-right: 7px;
+margin-left: 0;
+}
+.woocommerce-checkout #shipping_method label {
+text-align: left;
+}
+/*金流*/
+form.checkout.woocommerce-checkout #order_review {
+border-bottom: none;
+}
+.woocommerce-checkout .wd-table-wrapper {
+box-shadow: none;
+}
+.woocommerce-checkout .payment_methods .payment_box {
+background-color: #f1f1f1;
+}
+.woocommerce-checkout .payment_methods .payment_box:before {
+color: #f1f1f1;
+}
+.woocommerce-checkout #order_review .wd-table-wrapper {
+overflow-x: visible;
+}
+/*運送到離島*/
+form.checkout.woocommerce-checkout #order_review {
+margin-top: 25px;
+}
