@@ -153,7 +153,12 @@ jQuery(function($){
 
 		function isCvs(){
 			let currentShipping = $('#shipping_method li input:checked').val();
-			if( currentShipping === "ecpay_shipping" || currentShipping.includes('ry_ecpay_shipping_cvs') || currentShipping.includes('ry_newebpay_shipping_cvs') ){
+			if( 
+				currentShipping === "ecpay_shipping" || 
+				currentShipping.includes('ry_ecpay_shipping_cvs') || 
+				currentShipping.includes('ry_newebpay_shipping_cvs') ||
+				currentShipping.includes('ry_smilepay_shipping_cvs') ||
+				currentShipping.includes('paynow_shipping_c2c') ){
 				return true;
 			} else {
 				return false;
