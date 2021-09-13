@@ -175,7 +175,7 @@ jQuery(function($){
 		// 處理運送到不同地址取消勾選
 		$('body').on('click', '#shipping_method li input', function(){
 			$('#ship-to-different-address-checkbox').prop('checked', false);
-			 $('.shipping_address').hide();
+			$('.shipping_address').hide();
 		})
 
 		$(document.body).on('updated_checkout', function () {
@@ -190,12 +190,20 @@ jQuery(function($){
 					toggleBillingAddressField('show')	
 				}
 			}
+
+			// 虛擬商品隱藏地址欄位
+			if( woomp_checkout_params.enableVirtualProductAddress === 'yes' && shippingMethodNum === 0 ){
+				toggleBillingAddressField('hide')
+			}
 		});
 	}
 
 	// 勾選離島運送選項
 	function setIslandShipping( status ){
 		if( status === 'show' ){
+			if( $('input[name="billing_address_1"]').val() === '' ){
+				$('input[name="billing_address_1"]').val(' ');
+			}
 			$('#billing_island_field').show();
 			$('#billing_island_field').prependTo('#order_review');
 			$('#billing_island').on('change', function(){

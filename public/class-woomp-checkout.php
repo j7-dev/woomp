@@ -132,23 +132,26 @@ if ( ! class_exists( 'WooMP_Checkout' ) ) {
 
 			foreach ( $shipping_method as $method ) {
 				global $woocommerce;
-				$chosen_methods  = wc_get_chosen_shipping_method_ids();
-				$chosen_shipping = $chosen_methods[0];
+				$chosen_methods = wc_get_chosen_shipping_method_ids();
+				if ( count( $chosen_methods ) > 0 ) {
 
-				if ( $chosen_shipping == $method ) {
-					$fields['billing']['billing_postcode']['required']     = false;
-					$fields['billing']['billing_state']['required']        = false;
-					$fields['billing']['billing_city']['required']         = false;
-					$fields['billing']['billing_address_1']['required']    = false;
-					$fields['shipping']['shipping_first_name']['required'] = false;
-					$fields['shipping']['shipping_last_name']['required']  = false;
-					$fields['shipping']['shipping_phone']['required']      = false;
+					$chosen_shipping = $chosen_methods[0];
+
+					if ( $chosen_shipping == $method ) {
+						$fields['billing']['billing_postcode']['required']     = false;
+						$fields['billing']['billing_state']['required']        = false;
+						$fields['billing']['billing_city']['required']         = false;
+						$fields['billing']['billing_address_1']['required']    = false;
+						$fields['shipping']['shipping_first_name']['required'] = false;
+						$fields['shipping']['shipping_last_name']['required']  = false;
+						$fields['shipping']['shipping_phone']['required']      = false;
+					}
 				}
 
 				/**
 				 * 增加運送離島選項
 				 */
-				if ( $this->has_island_postcodes() ) {
+				if ( $this->has_island_postcodes() && ! $this->is_virtual_cart() ) {
 					$fields['billing']['billing_island'] = array(
 						'type'  => 'checkbox',
 						'label' => '寄送到離島區域',
@@ -272,10 +275,30 @@ if ( ! class_exists( 'WooMP_Checkout' ) ) {
 
 			return $island_hide;
 		}
+
+		/**
+		 * 檢查購物車是否只有一個虛擬商品
+		 */
+		private function is_virtual_cart() {
+			global $woocommerce;
+			$virtual_products = 0;
+			$products         = $woocommerce->cart->get_cart();
+			foreach ( $products as $product ) {
+				if ( 'yes' === get_post_meta( $product['product_id'], '_virtual', true ) ) {
+					++$virtual_products;
+				}
+			}
+
+			if ( 1 === $virtual_products && 1 === count( $products ) ) {
+				return true;
+			}
+
+			return false;
+		}
 	}
 
 	/**
-	 * 指定載入 Woo 客製範本寫外掛主檔案 woomp.php Line 93
+	 * 指定��入 Woo 客製範本寫外掛主檔案 woomp.php Line 93
 	 */
 
 }

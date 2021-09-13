@@ -100,6 +100,7 @@ class Woomp_Public {
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/woomp-public.js', array( 'jquery' ), $this->version, true );
 
 		if ( is_checkout() ) {
+
 			wp_register_script( 'woomp_checkout', plugin_dir_url( __FILE__ ) . 'js/woomp-checkout.js', array( 'jquery' ), $this->version, true );
 			wp_localize_script(
 				'woomp_checkout',
@@ -107,6 +108,7 @@ class Woomp_Public {
 				array(
 					'enableWoomp'                 => get_option( 'wc_woomp_setting_replace' ),
 					'enableTwAddress'             => get_option( 'wc_woomp_setting_tw_address' ),
+					'enableVirtualProductAddress' => get_option( 'wc_woomp_setting_virtual_product_address' ),
 					'enableCountryToTop'          => get_option( 'wc_woomp_setting_billing_country_pos' ),
 					'enableCheckoutLoginReminder' => get_option( 'woocommerce_enable_checkout_login_reminder', true ),
 					'enableCoupons'               => get_option( 'woocommerce_enable_coupons', true ),
