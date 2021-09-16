@@ -54,6 +54,7 @@ class WC_Gateway_LINEPay_Settings {
 				'type'        => 'textarea',
 				'description' => __( 'This controls the description which the user sees during checkout.', 'woocommerce-gateway-linepay' ),
 				'desc_tip'    => true,
+				'css'         => 'width:400px;',
 			),
 		);
 

@@ -57,10 +57,10 @@ class WC_Gateway_LINEPay_Handler {
 		$this->linepay_settings = get_option( 'woocommerce_' . WC_Gateway_LINEPay_Const::ID . '_settings' );
 
 		// logger.
-		if ( $this->linepay_settings ) {
+		if ( wc_string_to_bool( get_option( 'linepay_log_enabled' ) ) ) {
 			$linepay_log_info = array(
-				'enabled' => wc_string_to_bool( $this->linepay_settings['log_enabled'] ),
-				'level'   => ( '' !== $this->linepay_settings['log_enabled'] ) ? $this->linepay_settings['log_enabled'] : WC_Gateway_LINEPay_Logger::LOG_LEVEL_NONE,
+				'enabled' => wc_string_to_bool( get_option( 'linepay_log_enabled' ) ),
+				'level'   => ( '' !== get_option( 'linepay_log_enabled' ) ) ? get_option( 'linepay_log_level' ) : WC_Gateway_LINEPay_Logger::LOG_LEVEL_NONE,
 			);
 
 			static::$logger = WC_Gateway_LINEPay_Logger::get_instance( $linepay_log_info );
@@ -75,7 +75,9 @@ class WC_Gateway_LINEPay_Handler {
 	 * @return array
 	 */
 	public function add_gateway( $methods ) {
-		$methods[] = 'WC_Gateway_LINEPay';
+		if ( wc_string_to_bool( get_option( 'woocommerce_linepay_enabled' ) ) ) {
+			$methods[] = 'WC_Gateway_LINEPay';
+		}
 		return $methods;
 	}
 
@@ -279,7 +281,7 @@ class WC_Gateway_LINEPay_Handler {
 
 		switch ( $order_status ) {
 			case 'failed':
-				$payment_method = get_post_meta( $order->id, '_payment_method' );
+				$payment_method = get_post_meta( $order->get_id(), '_payment_method' );
 				if ( WC_Gateway_LINEPay_Const::ID !== $payment_method[0] ) {
 					break;
 				}
@@ -290,13 +292,13 @@ class WC_Gateway_LINEPay_Handler {
 				break;
 		}
 
-		if ( in_array( 'wc-' . $order_status, $this->linepay_settings['customer_refund'] ) ) {
+		if ( in_array( 'wc-' . $order_status, get_option( 'linepay_customer_refund' ) ) ) {
 			$actions['cancel'] = array(
 				'url'  => esc_url_raw(
 					add_query_arg(
 						array(
 							'request_type'  => WC_Gateway_LINEPay_Const::REQUEST_TYPE_REFUND,
-							'order_id'      => $order->order_id,
+							'order_id'      => $order->get_id(),
 							'cancel_amount' => $order->get_total(),
 						),
 						home_url( WC_Gateway_LINEPay_Const::URI_CALLBACK_HANDLER )

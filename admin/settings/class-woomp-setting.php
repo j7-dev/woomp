@@ -192,7 +192,7 @@ class Woomp_Setting {
 				'name'     => __( '啟用 LINE Pay 金流', 'woomp' ),
 				'type'     => 'checkbox',
 				'desc'     => '啟用 LINE Pay 金流模組',
-				'id'       => 'wc_woomp_setting_linepay_gateway',
+				'id'       => 'woocommerce_linepay_enabled',
 				'class'    => 'toggle',
 				'default'  => 'no',
 				'desc_tip' => true,

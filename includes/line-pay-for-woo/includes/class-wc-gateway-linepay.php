@@ -110,34 +110,33 @@ class WC_Gateway_LINEPay extends WC_Payment_Gateway {
 	 */
 	protected function init_merchant_data() {
 
-		$this->enabled                = wc_string_to_bool( $this->get_option( 'enabled' ) );
-		$this->linepay_lang_cd        = $this->get_option( 'lang_cd' );
-		$this->enable_sandbox         = wc_string_to_bool( $this->get_option( 'sandbox' ) );
+		$this->enabled                = wc_string_to_bool( get_option( 'linepay_enabled' ) );
+		$this->enable_sandbox         = wc_string_to_bool( get_option( 'linepay_sandbox' ) );
 		$this->linepay_evn_status     = ( $this->enable_sandbox ) ? WC_Gateway_LINEPay_Const::ENV_SANDBOX : WC_Gateway_LINEPay_Const::ENV_REAL;
-		$this->linepay_payment_type   = $this->get_option( 'payment_type' );
-		$this->linepay_payment_action = $this->get_option( 'payment_action' );
+		$this->linepay_payment_type   = get_option( 'linepay_payment_type' );
+		$this->linepay_payment_action = get_option( 'linepay_payment_action' );
 
 		$this->linepay_shipping_enabled = false;
 
 		$this->linepay_log_info = array(
-			'enabled' => wc_string_to_bool( $this->get_option( 'log_enabled' ) ),
-			'level'   => $this->get_option( 'log_level', WC_Gateway_LINEPay_Logger::LOG_LEVEL_NONE ),
+			'enabled' => wc_string_to_bool( get_option( 'linepay_log_enabled' ) ),
+			'level'   => get_option( 'linepay_log_level', WC_Gateway_LINEPay_Logger::LOG_LEVEL_NONE ),
 		);
 
 		$this->linepay_channel_info = array(
 			WC_Gateway_LINEPay_Const::ENV_REAL => array(
-				'channel_id'     => $this->get_option( 'channel_id' ),
-				'channel_secret' => $this->get_option( 'channel_secret' ),
+				'channel_id'     => get_option( 'linepay_channel_id' ),
+				'channel_secret' => get_option( 'linepay_channel_secret' ),
 			),
 			WC_Gateway_LINEPay_Const::ENV_SANDBOX => array(
-				'channel_id'     => $this->get_option( 'sandbox_channel_id' ),
-				'channel_secret' => $this->get_option( 'sandbox_channel_secret' ),
+				'channel_id'     => get_option( 'linepay_sandbox_channel_id' ),
+				'channel_secret' => get_option( 'linepay_sandbox_channel_secret' ),
 			),
 		);
 
 		$this->linepay_refundable_statuses = array(
-			WC_Gateway_LINEPay_Const::USER_STATUS_ADMIN    => $this->get_option( 'admin_refund' ),
-			WC_Gateway_LINEPay_Const::USER_STATUS_CUSTOMER => $this->get_option( 'customer_refund' ),
+			WC_Gateway_LINEPay_Const::USER_STATUS_ADMIN    => get_option( 'linepay_admin_refund' ),
+			WC_Gateway_LINEPay_Const::USER_STATUS_CUSTOMER => get_option( 'linepay_customer_refund' ),
 		);
 
 		// LINEPay Gateway Check whether it is used.
@@ -153,11 +152,11 @@ class WC_Gateway_LINEPay extends WC_Payment_Gateway {
 	 */
 	protected function init_linepay_logo() {
 
-		$this->linepay_logo = $this->get_option( 'custom_logo' );
+		$this->linepay_logo = get_option( 'linepay_custom_logo' );
 
 		// If custom logo is not registered, use default logo image.
 		if ( ! $this->linepay_logo ) {
-			$this->linepay_logo = $this->get_linepay_logo_path( $this->get_option( 'general_logo_size' ) );
+			$this->linepay_logo = $this->get_linepay_logo_path( get_option( 'linepay_general_logo_size' ) );
 			$this->linepay_logo = plugins_url( $this->linepay_logo, plugin_dir_path( __FILE__ ) );
 		}
 
@@ -306,7 +305,7 @@ class WC_Gateway_LINEPay extends WC_Payment_Gateway {
 						'capture' => $this->is_captured(),
 					),
 					'extra' => array(
-						'branchName' => '好寵',
+						'branchName' => get_bloginfo('name'),
 					),
 				),
 			);
