@@ -1,0 +1,277 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: WooCommerce LINE Pay Gateway for Taiwan\n"
+"POT-Creation-Date: 2020-09-14 11:20+0800\n"
+"PO-Revision-Date: 2021-07-27 10:18+0800\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: zh_TW\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.3\n"
+"X-Poedit-Basepath: ..\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Poedit-Flags-xgettext: --add-comments=translators:\n"
+"X-Poedit-WPHeader: gateway-linepay.php\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
+"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.min.js\n"
+
+#: gateway-linepay.php:125 gateway-linepay.php:150
+msgid "Unable to process callback."
+msgstr "無法處理回傳。"
+
+#: gateway-linepay.php:234
+#, php-format
+msgid "Item #%s stock increased from %s to %s."
+msgstr "商品#%s的庫存從%s增加到%s。"
+
+#: gateway-linepay.php:242
+msgid "Refund complete."
+msgstr "退款完成。"
+
+#: gateway-linepay.php:251
+msgid "Unable to process refund. Please try again."
+msgstr "無法處理退款。請再試一次。"
+
+#: gateway-linepay.php:273
+msgid "Processing refund..."
+msgstr "處理退款中..."
+
+#: gateway-linepay.php:274
+msgid "Request refund for order {order_id}"
+msgstr "要申請訂單編號{order_id}的退款？"
+
+#: gateway-linepay.php:275 gateway-linepay.php:329
+msgid "Cancel"
+msgstr "取消"
+
+#: includes/class-wc-gateway-linepay-settings.php:46
+msgid "Enable/Disable"
+msgstr "啓用/停用"
+
+#: includes/class-wc-gateway-linepay-settings.php:48
+msgid "Starting up LINE Pay plugin..."
+msgstr "開始使用 LINE Pay plugin..."
+
+#: includes/class-wc-gateway-linepay-settings.php:52
+msgid "Title"
+msgstr "標題"
+
+#: includes/class-wc-gateway-linepay-settings.php:54
+msgid "This controls the title which the user sees during checkout."
+msgstr "控制使用者在結帳時所看到的標題."
+
+#: includes/class-wc-gateway-linepay-settings.php:55
+msgid "Line Pay"
+msgstr "以 LINE Pay 付款"
+
+#: includes/class-wc-gateway-linepay-settings.php:59
+msgid "Description"
+msgstr "描述"
+
+#: includes/class-wc-gateway-linepay-settings.php:61
+msgid "This controls the description which the user sees during checkout."
+msgstr "此項目控制使用者在結帳時會看到的說明。"
+
+#: includes/class-wc-gateway-linepay-settings.php:65
+msgid "Log Enable"
+msgstr "啟用日誌"
+
+#: includes/class-wc-gateway-linepay-settings.php:67
+msgid "Starting up LINE Pay plugin log..."
+msgstr "開始使用LINE Pay plugin記錄..."
+
+#: includes/class-wc-gateway-linepay-settings.php:69
+msgid "Your log information will be saved in the following location."
+msgstr "您的記錄資訊將儲存在下列位置中。"
+
+#: includes/class-wc-gateway-linepay-settings.php:72
+msgid "Log Level"
+msgstr "日誌級別"
+
+#: includes/class-wc-gateway-linepay-settings.php:75
+msgid ""
+"Select the level of information to log. You can select Debug, Info, or "
+"Error. However, please note that website performance may decrease if you log "
+"too much information. We recommend you log only the important items at the "
+"Error level."
+msgstr ""
+"選擇要記錄的資訊層級。您可以選擇除錯、資訊或錯誤。然而，請注意若您記錄太多資"
+"訊，可能會降低網站性能。我們建議您紀錄錯誤層級的重要項目。"
+
+#: includes/class-wc-gateway-linepay-settings.php:79
+msgid "Error"
+msgstr "錯誤"
+
+#: includes/class-wc-gateway-linepay-settings.php:80
+msgid "Info"
+msgstr "資訊"
+
+#: includes/class-wc-gateway-linepay-settings.php:81
+msgid "debug"
+msgstr "偵錯"
+
+#: includes/class-wc-gateway-linepay-settings.php:85
+msgid "Sandbox Mode"
+msgstr "測試模式"
+
+#: includes/class-wc-gateway-linepay-settings.php:87
+msgid "Enable sandbox mode."
+msgstr "啟用 sandbox 模式。"
+
+#: includes/class-wc-gateway-linepay-settings.php:92
+msgid "Sandbox Channel ID"
+msgstr "測試用 Channel ID"
+
+#: includes/class-wc-gateway-linepay-settings.php:94
+#: includes/class-wc-gateway-linepay-settings.php:108
+msgid "Enter your Channel ID."
+msgstr "輸入您的 Channel ID。"
+
+#: includes/class-wc-gateway-linepay-settings.php:99
+msgid "Sandbox Channel Secret Key"
+msgstr "測試用 Channel 密鑰"
+
+#: includes/class-wc-gateway-linepay-settings.php:101
+#: includes/class-wc-gateway-linepay-settings.php:115
+msgid "Enter your Channel SecretKey."
+msgstr "輸入您的 Channel SecretKey。"
+
+#: includes/class-wc-gateway-linepay-settings.php:106
+msgid "Channel ID"
+msgstr "正式 Channel ID"
+
+#: includes/class-wc-gateway-linepay-settings.php:113
+msgid "Channel Secret Key"
+msgstr "正式 Channel 密鑰"
+
+#: includes/class-wc-gateway-linepay-settings.php:120
+msgid "Payment Type"
+msgstr "付款方式"
+
+#: includes/class-wc-gateway-linepay-settings.php:123
+msgid "You can only select regular payment."
+msgstr "您只能選擇一般付款。"
+
+#: includes/class-wc-gateway-linepay-settings.php:127
+msgid "Normal"
+msgstr "一般"
+
+#: includes/class-wc-gateway-linepay-settings.php:131
+msgid "Payment Action"
+msgstr "付款動作"
+
+#: includes/class-wc-gateway-linepay-settings.php:134
+msgid "You can only select auto-acquisition."
+msgstr "您只能選擇自動取得。"
+
+#: includes/class-wc-gateway-linepay-settings.php:138
+msgid "Authorization/Capture"
+msgstr "授權"
+
+#: includes/class-wc-gateway-linepay-settings.php:142
+msgid "Statuses that Allow Managers to Refund Orders"
+msgstr "允許管理員對訂單退款的狀態"
+
+#: includes/class-wc-gateway-linepay-settings.php:145
+msgid "Please select the statuses in which managers can refund orders."
+msgstr "請選擇管理員能夠對訂單退款的狀態。"
+
+#: includes/class-wc-gateway-linepay-settings.php:150
+msgid "Statuses that Allow Customers to Request Refunds"
+msgstr "允許顧客申請退款的狀態"
+
+#: includes/class-wc-gateway-linepay-settings.php:153
+msgid ""
+"Please select the statuses that allow customers to request refunds. Some "
+"statuses do not allow refunds."
+msgstr "請選擇允許顧客申請退款的狀態。有些狀態不允許退款."
+
+#: includes/class-wc-gateway-linepay-settings.php:158
+msgid "General Logo Size"
+msgstr "LOGO 尺寸"
+
+#: includes/class-wc-gateway-linepay-settings.php:160
+msgid "Please select the size of your main LINE Pay logo."
+msgstr "請選擇LINE Pay主要標誌的尺寸。"
+
+#: includes/class-wc-gateway-linepay-settings.php:173
+msgid "Custom Logo"
+msgstr "自訂LOGO"
+
+#: includes/class-wc-gateway-linepay-settings.php:177
+msgid ""
+"You can also customize your LINE Pay logo by uploading an image or entering "
+"an image URL."
+msgstr "您也可以上傳圖片或輸入圖片網址，自訂您的LINE Pay標誌。"
+
+#: includes/class-wc-gateway-linepay.php:58
+msgid "Pay with LINE Pay"
+msgstr "以LINE Pay付款"
+
+#: includes/class-wc-gateway-linepay.php:202
+msgid "Settings"
+msgstr "設定"
+
+#: includes/class-wc-gateway-linepay.php:335
+msgid "Unable to process payment request. Please try again."
+msgstr "無法處理付款要求。請再試一次。"
+
+#: includes/class-wc-gateway-linepay.php:432
+msgid "Unable to confirm payment. Please contact support."
+msgstr "我們已收到您的訂單，但無法確認付款，請洽客服確認訂單付款狀態，謝謝。"
+
+#: includes/class-wc-gateway-linepay.php:488
+msgid "Payment canceled."
+msgstr "付款已取消。"
+
+#: includes/class-wc-gateway-linepay.php:512
+#, php-format
+msgid "Unable to find order #%s"
+msgstr "找不到訂單編號 #%s"
+
+#: includes/class-wc-gateway-linepay.php:528
+msgid "Unable to refund order due to its current status."
+msgstr "因目前訂單狀態而無法退款。"
+
+#: includes/class-wc-gateway-linepay.php:547
+msgid "Refund amount does not match total purchase amount."
+msgstr "退款金額不符合總購買金額。"
+
+#: includes/class-wc-gateway-linepay.php:714
+msgid "Unsupported currency."
+msgstr "不支援的貨幣。"
+
+#: includes/class-wc-gateway-linepay.php:721
+msgid "You have not entered your channel information."
+msgstr "您尚未輸入您的通路資訊。"
+
+#. Plugin Name of the plugin/theme
+msgid "WooCommerce LINE Pay Gateway for Taiwan"
+msgstr "LINE Pay 支付"
+
+#. Plugin URI of the plugin/theme
+#. Author URI of the plugin/theme
+msgid "https://pay.line.me"
+msgstr "https://pay.line.me"
+
+#. Description of the plugin/theme
+msgid "LINE Pay Gateway for Taiwan"
+msgstr "LINE Pay 支付"
+
+#. Author of the plugin/theme
+msgid "LINE Pay"
+msgstr "以 LINE Pay 付款"
+
+#~ msgid ""
+#~ "Payments are received through the LINE Pay gateway, which supports USD, "
+#~ "JPY, TWD, and THB. In order to use LINE Pay, you must have a Channel ID "
+#~ "and Channel SecretKey."
+#~ msgstr ""
+#~ "已透過LINE Pay接收付款，貨幣單位支援美金、日幣、新台幣與泰銖。您必須有"
+#~ "Channel ID與Channel SecretKey才能使用LINE Pay。"

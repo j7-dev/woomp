@@ -55,6 +55,12 @@ class Woomp_Setting {
 	public static function get_settings() {
 
 		$settings = array(
+			'morepower_link'           => array(
+				'name' => '教學文件',
+				'type' => 'text',
+				'id'   => 'wc_woomp_setting_link',
+				'desc'     => __( '<a target="_blank" href="https://morepower.club/know_cate/addon/">好用版擴充 教學文件</a>', 'woomp' ),
+			),
 			'section_ecpay'           => array(
 				'name' => __( '綠界設定', 'woomp' ),
 				'type' => 'title',
@@ -175,6 +181,23 @@ class Woomp_Setting {
 				'desc_tip' => true,
 			),
 			'section_paynow_end'      => array(
+				'type' => 'sectionend',
+			),
+			'section_linepay'         => array(
+				'name' => __( 'LINE Pay 設定', 'woomp' ),
+				'type' => 'title',
+				'id'   => 'wc_woomp_setting_linepay',
+			),
+			'linepay_gateway'         => array(
+				'name'     => __( '啟用 LINE Pay 金流', 'woomp' ),
+				'type'     => 'checkbox',
+				'desc'     => '啟用 LINE Pay 金流模組',
+				'id'       => 'wc_woomp_setting_linepay_gateway',
+				'class'    => 'toggle',
+				'default'  => 'no',
+				'desc_tip' => true,
+			),
+			'section_linepay_end'     => array(
 				'type' => 'sectionend',
 			),
 			'section_checkout_title'  => array(

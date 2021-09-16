@@ -87,3 +87,17 @@ fieldset.toggle label[for=zoneTwIslandToggleBtn] + span {
 #zoneTwIslandWrap + .wc-shipping-zone-postcodes {
 	display: none;
 }
+
+label[for="wc_woomp_setting_link"],
+#wc_woomp_setting_link {
+	display: none;
+}
+
+#wc_woomp_setting_link + p.description {
+	margin-top: 2rem;
+	font-size: 14px;
+}
+
+#wc_woomp_setting_link + p.description a:hover {
+	text-decoration: none;
+}

@@ -332,3 +332,8 @@ if ( ! defined( 'PAYNOW_EINVOICE_PLUGIN_URL' ) && 'yes' === get_option( 'wc_woom
 	run_paynow_einvoice();
 
 }
+
+/**
+ * 引入 line-pay
+ */
+require_once WOOMP_PLUGIN_DIR . 'includes/line-pay-for-woo/line-pay-for-woo.php';

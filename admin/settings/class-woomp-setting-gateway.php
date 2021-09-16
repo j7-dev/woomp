@@ -65,6 +65,7 @@ class Woomp_Setting_Gateway extends WC_Settings_Page {
 		$sections['newebpay'] = __( '藍新', 'woomp' );
 		$sections['smilepay'] = __( '速買配', 'woomp' );
 		$sections['paynow']   = __( '立吉富', 'woomp' );
+		$sections['linepay']  = __( 'LINE Pay', 'woomp' );
 		return apply_filters( 'woocommerce_get_sections_' . $this->id, $sections );
 	}
 
@@ -172,7 +173,143 @@ class Woomp_Setting_Gateway extends WC_Settings_Page {
 					return $settings;
 				}
 				break;
+			case 'linepay':
+				if ( get_option( 'wc_woomp_setting_linepay_gateway', 1 ) === 'yes' ) {
+					// Administrator's refundable status.
+					$admin_statuses = wc_get_order_statuses( WC_Gateway_LINEPay_Const::USER_STATUS_ADMIN );
 
+					// Consumer's refundable status.
+					$customer_statuses = wc_get_order_statuses( WC_Gateway_LINEPay_Const::USER_STATUS_CUSTOMER );
+
+					$settings = array(
+						array(
+							'title' => __( 'LINE Pay 金流設定', 'woomp' ),
+							'type'  => 'title',
+							'id'    => 'payment_general_setting',
+						),
+						array(
+							'title'   => __( 'Log Enable', 'woocommerce-gateway-linepay' ),
+							'type'    => 'checkbox',
+							'default' => 'no',
+							'desc'    => sprintf( __( 'Your log information will be saved in the following location.', 'woocommerce-gateway-linepay' ) . '<code>%s</code>', wc_get_log_file_path( 'linepay' ) ),
+							'id'      => 'linepay_log_enabled',
+						),
+						array(
+							'title'    => __( 'Log Level', 'woocommerce-gateway-linepay' ),
+							'type'     => 'select',
+							'class'    => 'wc-enhanced-select',
+							'desc'     => __( 'Select the level of information to log. You can select Debug, Info, or Error. However, please note that website performance may decrease if you log too much information. We recommend you log only the important items at the Error level.', 'woocommerce-gateway-linepay' ),
+							'desc_tip' => true,
+							'default'  => 'error',
+							'options'  => array(
+								'error' => __( 'Error', 'woocommerce-gateway-linepay' ),
+								'info'  => __( 'Info', 'woocommerce-gateway-linepay' ),
+								'Debug' => __( 'debug', 'woocommerce-gateway-linepay' ),
+							),
+							'id'       => 'linepay_log_level',
+						),
+						'sandbox'                => array(
+							'title'   => __( 'Sandbox Mode', 'woocommerce-gateway-linepay' ),
+							'type'    => 'checkbox',
+							'desc'    => __( 'Enable sandbox mode.', 'woocommerce-gateway-linepay' ),
+							'default' => 'no',
+						),
+						'sandbox_channel_id'     => array(
+							'title'    => __( 'Sandbox Channel ID', 'woocommerce-gateway-linepay' ),
+							'type'     => 'text',
+							'desc'     => __( 'Enter your Channel ID.', 'woocommerce-gateway-linepay' ),
+							'desc_tip' => true,
+							'default'  => '',
+						),
+						'sandbox_channel_secret' => array(
+							'title'    => __( 'Sandbox Channel Secret Key', 'woocommerce-gateway-linepay' ),
+							'type'     => 'text',
+							'desc'     => __( 'Enter your Channel SecretKey.', 'woocommerce-gateway-linepay' ),
+							'desc_tip' => true,
+							'default'  => '',
+						),
+						'channel_id'             => array(
+							'title'    => __( 'Channel ID', 'woocommerce-gateway-linepay' ),
+							'type'     => 'text',
+							'desc'     => __( 'Enter your Channel ID.', 'woocommerce-gateway-linepay' ),
+							'desc_tip' => true,
+							'default'  => '',
+						),
+						'channel_secret'         => array(
+							'title'    => __( 'Channel Secret Key', 'woocommerce-gateway-linepay' ),
+							'type'     => 'text',
+							'desc'     => __( 'Enter your Channel SecretKey.', 'woocommerce-gateway-linepay' ),
+							'desc_tip' => true,
+							'default'  => '',
+						),
+						'payment_type'           => array(
+							'title'    => __( 'Payment Type', 'woocommerce-gateway-linepay' ),
+							'type'     => 'select',
+							'class'    => 'wc-enhanced-select',
+							'desc'     => __( 'You can only select regular payment.', 'woocommerce-gateway-linepay' ),
+							'desc_tip' => true,
+							'default'  => 'normal',
+							'options'  => array(
+								'normal' => __( 'Normal', 'woocommerce-gateway-linepay' ),
+							),
+						),
+						'payment_action'         => array(
+							'title'    => __( 'Payment Action', 'woocommerce-gateway-linepay' ),
+							'type'     => 'select',
+							'class'    => 'wc-enhanced-select',
+							'desc'     => __( 'You can only select auto-acquisition.', 'woocommerce-gateway-linepay' ),
+							'desc_tip' => true,
+							'default'  => 'authorization/capture',
+							'options'  => array(
+								'authorization/capture' => __( 'Authorization/Capture', 'woocommerce-gateway-linepay' ),
+							),
+						),
+						'admin_refund'           => array(
+							'title'    => __( 'Statuses that Allow Managers to Refund Orders', 'woocommerce-gateway-linepay' ),
+							'type'     => 'multiselect',
+							'class'    => 'chosen_select',
+							'desc'     => __( 'Please select the statuses in which managers can refund orders.', 'woocommerce-gateway-linepay' ),
+							'desc_tip' => true,
+							'options'  => $admin_statuses,
+						),
+						'customer_refund'        => array(
+							'title'    => __( 'Statuses that Allow Customers to Request Refunds', 'woocommerce-gateway-linepay' ),
+							'type'     => 'multiselect',
+							'class'    => 'chosen_select',
+							'desc'     => __( 'Please select the statuses that allow customers to request refunds. Some statuses do not allow refunds.', 'woocommerce-gateway-linepay' ),
+							'desc_tip' => true,
+							'options'  => $customer_statuses,
+						),
+						'general_logo_size'      => array(
+							'title'    => __( 'General Logo Size', 'woocommerce-gateway-linepay' ),
+							'type'     => 'select',
+							'desc'     => __( 'Please select the size of your main LINE Pay logo.', 'woocommerce-gateway-linepay' ),
+							'desc_tip' => true,
+							'default'  => '5',
+							'options'  => array(
+								'1' => '238x78',
+								'2' => '119x39',
+								'3' => '98x32',
+								'4' => '85x28',
+								'5' => '74x24',
+								'6' => '61x20',
+							),
+						),
+						'custom_logo'            => array(
+							'title'    => __( 'Custom Logo', 'woocommerce-gateway-linepay' ),
+							'id'       => 'wc_linepay_custom_logo',
+							'type'     => 'text',
+							'desc_tip' => true,
+							'desc'     => __( 'You can also customize your LINE Pay logo by uploading an image or entering an image URL.', 'woocommerce-gateway-linepay' ),
+						),
+					);
+					return $settings;
+				} else {
+					$this->set_setting_default( 'LINE Pay' );
+					$settings = $this->setting_default;
+					return $settings;
+				}
+				break;
 			default:
 				// code...
 				break;
@@ -182,7 +319,7 @@ class Woomp_Setting_Gateway extends WC_Settings_Page {
 	public function output() {
 		global $current_section, $hide_save_button;
 		if ( $current_section == '' ) {
-			wp_safe_redirect( admin_url('admin.php?page=wc-settings&tab=woomp_setting_gateway&section=ecpay') );
+			wp_safe_redirect( admin_url( 'admin.php?page=wc-settings&tab=woomp_setting_gateway&section=ecpay' ) );
 		}
 		$settings = $this->get_settings( $current_section );
 		WC_Admin_Settings::output_fields( $settings );

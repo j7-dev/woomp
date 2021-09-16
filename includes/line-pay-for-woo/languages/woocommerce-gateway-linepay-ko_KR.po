@@ -1,0 +1,252 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: WooCommerce LINEPay Gateway\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: Sat Oct 24 2015 18:55:24 GMT+0900 (KST)\n"
+"PO-Revision-Date: Sat Oct 24 2015 21:06:21 GMT+0900 (KST)\n"
+"Last-Translator: donggyu-seo <donggyu-seo@linecorp.com>\n"
+"Language-Team: \n"
+"Language: Korean\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-KeywordsList: _:1;gettext:1;dgettext:2;ngettext:1,2;dngettext:2,3;"
+"__:1;_e:1;_c:1;_n:1,2;_n_noop:1,2;_nc:1,2;__ngettext:1,2;__ngettext_noop:1,2;"
+"_x:1,2c;_ex:1,2c;_nx:1,2,4c;_nx_noop:1,2,3c;_n_js:1,2;_nx_js:1,2,3c;"
+"esc_attr__:1;esc_html__:1;esc_attr_e:1;esc_html_e:1;esc_attr_x:1,2c;"
+"esc_html_x:1,2c;comments_number_link:2,3;t:1;st:1;trans:1;transChoice:1,2\n"
+"X-Loco-Target-Locale: ko_KR\n"
+"X-Generator: Loco - https://localise.biz/"
+
+#. Name of the plugin
+msgid "WooCommerce LINEPay Gateway"
+msgstr ""
+
+#. URI of the plugin
+msgid "https://pay.line.me"
+msgstr ""
+
+#. Author of the plugin
+msgid "LINEPay"
+msgstr ""
+
+#: ../gateway-linepay.php:220
+#, php-format
+msgid "Item #%s stock increased from %s to %s."
+msgstr ""
+
+#: ../gateway-linepay.php:262 ../gateway-linepay.php:308
+msgid "Cancel"
+msgstr "취소"
+
+#: ../includes/class-wc-gateway-linepay-admin.php:40
+msgid "Enable/Disable"
+msgstr ""
+
+#: ../includes/class-wc-gateway-linepay-admin.php:46
+msgid "Log Enable"
+msgstr ""
+
+#: ../includes/class-wc-gateway-linepay-admin.php:53
+msgid "Log Level"
+msgstr ""
+
+#: ../includes/class-wc-gateway-linepay-admin.php:60
+msgid "Error"
+msgstr ""
+
+#: ../includes/class-wc-gateway-linepay-admin.php:66
+msgid "Sandbox Mode"
+msgstr ""
+
+#: ../includes/class-wc-gateway-linepay-admin.php:73
+msgid "Sandbox Channel ID"
+msgstr ""
+
+#: ../includes/class-wc-gateway-linepay-admin.php:80
+msgid "Sandbox Channel Secret Key"
+msgstr ""
+
+#: ../includes/class-wc-gateway-linepay-admin.php:87
+msgid "Channel ID"
+msgstr ""
+
+#: ../includes/class-wc-gateway-linepay-admin.php:94
+msgid "Channel Secret Key"
+msgstr ""
+
+#: ../includes/class-wc-gateway-linepay-admin.php:101
+msgid "Payment Type"
+msgstr ""
+
+#: ../includes/class-wc-gateway-linepay-admin.php:108
+msgid "Normal"
+msgstr ""
+
+#: ../includes/class-wc-gateway-linepay-admin.php:113
+msgid "Payment Action"
+msgstr ""
+
+#: ../includes/class-wc-gateway-linepay-admin.php:120
+msgid "Authorization/Capture"
+msgstr ""
+
+#: ../includes/class-wc-gateway-linepay-admin.php:141
+msgid "General Logo Size"
+msgstr ""
+
+#: ../includes/class-wc-gateway-linepay-admin.php:156
+msgid "Custom Logo"
+msgstr ""
+
+#: ../includes/class-wc-gateway-linepay.php:201
+msgid "Settings"
+msgstr ""
+
+#. Description of the plugin
+msgid ""
+"Payments are received through the LINE Pay gateway, which supports USD, JPY, "
+"TWD, and THB. In order to use LINE Pay, you must have a Channel ID and "
+"Channel SecretKey."
+msgstr ""
+"라인페이 게이트웨이를 사용하여 결제를 받습니다. USD, JPY, TWD, THB 통화를 지원합니다. 판매자가 라인페이를 등록하기 "
+"위해서는 채널ID와 채널Key를 발급받아야합니다."
+
+#: ../gateway-linepay.php:119 ../gateway-linepay.php:149
+msgid "Unable to process callback."
+msgstr "콜백을 처리할 수 없습니다."
+
+#: ../gateway-linepay.php:229
+msgid "Refund complete."
+msgstr "환불되었습니다."
+
+#: ../gateway-linepay.php:238
+msgid "Unable to process refund. Please try again."
+msgstr "환불 실패했습니다. 다시 시도해주세요."
+
+#: ../gateway-linepay.php:260
+msgid "Processing refund..."
+msgstr "환불 진행중..."
+
+#: ../gateway-linepay.php:261
+msgid "Request refund for order {order_id}"
+msgstr "주문 {order_id}을(를) 환불하시겠습니까?"
+
+#: ../includes/class-wc-gateway-linepay-admin.php:42
+msgid "Starting up LINE Pay plugin..."
+msgstr "LINE Pay 플러그인을 사용합니다."
+
+#: ../includes/class-wc-gateway-linepay-admin.php:48
+msgid "Starting up LINE Pay plugin log..."
+msgstr "LINE Pay 플러그인에 로그를 기록합니다."
+
+#: ../includes/class-wc-gateway-linepay-admin.php:50
+msgid "Your log information will be saved in the following location."
+msgstr "로그 정보는 다음 위치에 기록됩니다."
+
+#: ../includes/class-wc-gateway-linepay-admin.php:56
+msgid ""
+"Select the level of information to log. You can select Debug, Info, or Error."
+" However, please note that website performance may decrease if you log too "
+"much information. We recommend you log only the important items at the Error "
+"level."
+msgstr ""
+"로그를 기록할 레벨을 선택합니다. Debug, Info, Error 레벨을 선택할 수 있지만 많은 로깅은 사이트의 성능을 저하시킬 수 "
+"있기 때문에 되도록 꼭 필요한 부분만 Error레벨로 기록하도록 권고합니다."
+
+#: ../includes/class-wc-gateway-linepay-admin.php:68
+msgid "Enable sandbox mode."
+msgstr "Sandbox 모드를 활성화합니다."
+
+#: ../includes/class-wc-gateway-linepay-admin.php:75 ../includes/class-wc-gateway-
+#: linepay-admin.php:89
+msgid "Enter your Channel ID."
+msgstr "채널 ID를 입력해주세요."
+
+#: ../includes/class-wc-gateway-linepay-admin.php:82 ../includes/class-wc-gateway-
+#: linepay-admin.php:96
+msgid "Enter your Channel SecretKey."
+msgstr "채널 비밀키를 입력해주세요."
+
+#: ../includes/class-wc-gateway-linepay-admin.php:104
+msgid "You can only select regular payment."
+msgstr ""
+"지불 종류(Payment Type)에는 일반결제(Normal)와 자동결제(Preapproved)가 있지만 지금은 일반결제(Normal)만 "
+"선택할 수 있습니다."
+
+#: ../includes/class-wc-gateway-linepay-admin.php:116
+msgid "You can only select auto-acquisition."
+msgstr ""
+"지불 방법(Payment Action)에는 인증(Authorization)과 인증매입(Authorization/Capture)가 있지만 "
+"지금은 인증매입(Authorization/Capture)만 선택할 수 있습니다."
+
+#: ../includes/class-wc-gateway-linepay-admin.php:125
+msgid "Statuses that Allow Managers to Refund Orders"
+msgstr "관리자 환불 상태"
+
+#: ../includes/class-wc-gateway-linepay-admin.php:128
+msgid "Please select the statuses in which managers can refund orders."
+msgstr "관리자가 환불할 수 있는 상태를 선택해주세요."
+
+#: ../includes/class-wc-gateway-linepay-admin.php:133
+msgid "Statuses that Allow Customers to Request Refunds"
+msgstr "소비자 환불 상태"
+
+#: ../includes/class-wc-gateway-linepay-admin.php:136
+msgid ""
+"Please select the statuses that allow customers to request refunds. Some "
+"statuses do not allow refunds."
+msgstr ""
+"소비자가 환불할 수 있는 상태를 선택해주세요. 소비자가 환불할 수 있는 상태는 지불했으나 물건을 받지 못한 상태이어야하므로 '진행중' "
+"으로만 제한되었습니다. 필요한 경우 가능한 상태를 추가할 수도 있지만 잘못된 환불이 일어나지 않도록 유의해주세요."
+
+#: ../includes/class-wc-gateway-linepay-admin.php:143
+msgid "Please select the size of your main LINE Pay logo."
+msgstr "기본 LINE Pay 로고 크기를 선택해주세요."
+
+#: ../includes/class-wc-gateway-linepay-admin.php:160
+msgid ""
+"You can also customize your LINE Pay logo by uploading an image or entering "
+"an image URL."
+msgstr "개인화된 LINE Pay 로고를 등록할 수 있습니다. 이미지를 업로드하거나, 이미지 URL을 직접 입력해주세요."
+
+#: ../includes/class-wc-gateway-linepay.php:54
+msgid "Pay with LINE Pay"
+msgstr "LINE Pay로 결제"
+
+#: ../includes/class-wc-gateway-linepay.php:315
+msgid "Unable to process payment request. Please try again."
+msgstr "결제 요청이 실패했습니다. 다시 시도해주세요."
+
+#: ../includes/class-wc-gateway-linepay.php:409
+msgid "Unable to confirm payment. Please try again."
+msgstr "결제 확인이 실패했습니다. 다시 시도해주세요."
+
+#: ../includes/class-wc-gateway-linepay.php:445
+msgid "Payment canceled."
+msgstr "결제가 취소되었습니다."
+
+#: ../includes/class-wc-gateway-linepay.php:468
+#, php-format
+msgid "Unable to find order #%s"
+msgstr "주문 #%s 을(를) 찾을 수 없습니다."
+
+#: ../includes/class-wc-gateway-linepay.php:483
+msgid "Unable to refund order due to its current status."
+msgstr "환불할 수 있는 상태가 아닙니다."
+
+#: ../includes/class-wc-gateway-linepay.php:499
+msgid "Refund amount does not match total purchase amount."
+msgstr "환불금액이 총 구매금액과 다릅니다."
+
+#: ../includes/class-wc-gateway-linepay.php:668
+msgid "Unsupported currency."
+msgstr "지원하지 않는 통화입니다."
+
+#: ../includes/class-wc-gateway-linepay.php:675
+msgid "You have not entered your channel information."
+msgstr "채널 ID를 입력해주세요."

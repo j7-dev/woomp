@@ -40,21 +40,21 @@ class Woomp_Admin {
 	 */
 	private $version;
 
-	public static $support_methods = [
-        'ry_newebpay_shipping_cvs' => 'RY_NewebPay_Shipping_CVS'
-    ];
+	public static $support_methods = array(
+		'ry_newebpay_shipping_cvs' => 'RY_NewebPay_Shipping_CVS',
+	);
 
 	/**
 	 * Initialize the class and set its properties.
 	 *
 	 * @since    1.0.0
-	 * @param      string    $plugin_name       The name of this plugin.
-	 * @param      string    $version    The version of this plugin.
+	 * @param      string $plugin_name       The name of this plugin.
+	 * @param      string $version    The version of this plugin.
 	 */
 	public function __construct( $plugin_name, $version ) {
 
 		$this->plugin_name = $plugin_name;
-		$this->version = $version;
+		$this->version     = $version;
 
 	}
 
@@ -107,22 +107,22 @@ class Woomp_Admin {
 	/**
 	 * 訂單頁面新增地址編輯欄位
 	 */
-	public function custom_order_meta($fields){
+	public function custom_order_meta( $fields ) {
 		$fields['full-address'] = array(
-			'label' => __( '完整地址', 'woomp' ),
-			'show'  => true,
+			'label'         => __( '完整地址', 'woomp' ),
+			'show'          => true,
 			'wrapper_class' => 'form-field-wide full-address',
-    );
+		);
 		return $fields;
 	}
 
 	/**
 	 * 訂單頁面新增地址&姓名欄位
 	 */
-	public function add_address_meta ( $order ) {
-		if(get_option( 'wc_woomp_setting_one_line_address', 1 ) === 'yes'){
+	public function add_address_meta( $order ) {
+		if ( get_option( 'wc_woomp_setting_one_line_address', 1 ) === 'yes' ) {
 			echo '<style>.order_data_column:nth-child(2) .address p:first-child {display: none;}</style>';
-			echo '<p style="font-size: 14px;" id="billingName"><strong>帳單姓名:<br/></strong>'. get_post_meta( $order->get_id(), '_billing_last_name', true ) . get_post_meta( $order->get_id(), '_billing_first_name', true ).'</p>';
+			echo '<p style="font-size: 14px;" id="billingName"><strong>帳單姓名:<br/></strong>' . get_post_meta( $order->get_id(), '_billing_last_name', true ) . get_post_meta( $order->get_id(), '_billing_first_name', true ) . '</p>';
 			echo '<p style="font-size: 14px;" id="fullAddress"><strong>帳單地址:<br/></strong><span></span></p>';
 		}
 	}
@@ -131,30 +131,42 @@ class Woomp_Admin {
 	 * 在外掛列表頁加入「設定」按鈕
 	 */
 	public function add_settings_link( $links ) {
-		return array_merge([
-            'settings' => '<a href="' . admin_url('admin.php?page=wc-settings&tab=woomp_setting') . '">' . __('Settings') . '</a>'
-        ], $links);
+		return array_merge(
+			array(
+				'settings' => '<a href="' . admin_url( 'admin.php?page=wc-settings&tab=woomp_setting' ) . '">' . __( 'Settings' ) . '</a>',
+			),
+			$links
+		);
 	}
 
 	/**
 	 * 讓 RY 藍新物流也能支援 woomp_cvs_payment
 	 */
-	public function only_newebpay_gateway( $_available_gateways ){
-        if ( WC()->cart && WC()->cart->needs_shipping() ) {
-            $chosen_shipping = wc_get_chosen_shipping_method_ids();
-            $chosen_shipping = array_intersect($chosen_shipping, array_keys(self::$support_methods));
-            if (count($chosen_shipping)) {
-                foreach ($_available_gateways as $key => $gateway) {
-                    if (strpos($key, 'ry_newebpay_') === 0) {
-                        continue;
-                    }
-                    if ($key == 'cod' || $key == 'woomp_cvs_gateway' ) {
-                        continue;
-                    }
-                    unset($_available_gateways[$key]);
-                }
-            }
-        }
-        return $_available_gateways;
-    }
+	public function only_newebpay_gateway( $_available_gateways ) {
+		if ( WC()->cart && WC()->cart->needs_shipping() ) {
+			$chosen_shipping = wc_get_chosen_shipping_method_ids();
+			$chosen_shipping = array_intersect( $chosen_shipping, array_keys( self::$support_methods ) );
+			if ( count( $chosen_shipping ) ) {
+				foreach ( $_available_gateways as $key => $gateway ) {
+					if ( strpos( $key, 'ry_newebpay_' ) === 0 ) {
+						continue;
+					}
+					if ( $key == 'cod' || $key == 'woomp_cvs_gateway' ) {
+						continue;
+					}
+					unset( $_available_gateways[ $key ] );
+				}
+			}
+		}
+		return $_available_gateways;
+	}
+
+	public function plugin_row_meta( $links, $file ) {
+		return array_merge(
+			$links,
+			array(
+				'doc' => '<a target="_blank" href="https://morepower.club/know_cate/addon/">教學文件</a>',
+			),
+		);
+	}
 }
