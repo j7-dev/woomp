@@ -162,11 +162,15 @@ class Woomp_Admin {
 	}
 
 	public function plugin_row_meta( $links, $file ) {
-		return array_merge(
-			$links,
-			array(
-				'doc' => '<a target="_blank" href="https://morepower.club/know_cate/addon/">教學文件</a>',
-			),
-		);
+		if ( 'woomp/woomp.php' === $file ) {
+			return array_merge(
+				$links,
+				array(
+					'doc' => '<a target="_blank" href="https://morepower.club/know_cate/addon/">教學文件</a>',
+				),
+			);
+		}
+
+		return $links;
 	}
 }
