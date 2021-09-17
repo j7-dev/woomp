@@ -237,7 +237,7 @@ class Woomp_Setting_Gateway extends WC_Settings_Page {
 							'desc'     => __( 'Enter your Channel ID.', 'woocommerce-gateway-linepay' ),
 							'desc_tip' => true,
 							'default'  => '',
-							'id '      => 'linepay_channel_id',
+							'id'       => 'linepay_channel_id',
 						),
 						array(
 							'title'    => __( 'Channel Secret Key', 'woocommerce-gateway-linepay' ),

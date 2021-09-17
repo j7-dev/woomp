@@ -21,6 +21,7 @@ WooCommerce 好用版擴充，改善結帳流程與可變商品等區塊，讓 W
 
 <p>v1.4.1</p>
 <p>除錯 - 外掛文件連結</p>
+<p>除錯 - LINE Pay Channel ID 無法儲存</p>
 <p>v1.4.0</p>
 <p>新增 - 整合 LINE Pay</p>
 <p>v1.3.9</p>
