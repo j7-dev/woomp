@@ -148,6 +148,16 @@ if ( ! class_exists( 'WooMP_Checkout' ) ) {
 					}
 				}
 
+				if ( $this->is_virtual_cart() || $this->is_free_cart() ) {
+					$fields['billing']['billing_postcode']['required']     = false;
+					$fields['billing']['billing_state']['required']        = false;
+					$fields['billing']['billing_city']['required']         = false;
+					$fields['billing']['billing_address_1']['required']    = false;
+					$fields['shipping']['shipping_first_name']['required'] = false;
+					$fields['shipping']['shipping_last_name']['required']  = false;
+					$fields['shipping']['shipping_phone']['required']      = false;
+				}
+
 				/**
 				 * 增加運送離島選項
 				 */
@@ -295,6 +305,19 @@ if ( ! class_exists( 'WooMP_Checkout' ) ) {
 
 			return false;
 		}
+
+		/**
+		 * 檢查購物車總金額為 0
+		 */
+		private function is_free_cart() {
+			global $woocommerce;
+			$total = $woocommerce->cart->cart_contents_total;
+			if ( '0' === $total ) {
+				return true;
+			}
+			return false;
+		}
+
 	}
 
 	/**

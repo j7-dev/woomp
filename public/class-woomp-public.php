@@ -118,10 +118,23 @@ class Woomp_Public {
 					'textClickLogin'              => esc_html__( 'Click here to login', 'woocommerce' ),
 					'textHaveCoupon'              => esc_html__( 'Have a coupon?', 'woocommerce' ),
 					'textClickCoupon'             => esc_html__( 'Click here to enter your code', 'woocommerce' ),
+					'isFreeCart'                  => $this->is_free_cart(),
 				)
 			);
 			wp_enqueue_script( 'woomp_checkout' );
 		}
+	}
+
+	/**
+	 * 檢查購物車總金額為 0
+	 */
+	public function is_free_cart() {
+		global $woocommerce;
+		$total = $woocommerce->cart->cart_contents_total;
+		if ( '0' === $total ) {
+			return 'yes';
+		}
+		return 'no';
 	}
 
 }

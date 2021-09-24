@@ -209,7 +209,9 @@ class PayNow_Shipping {
 	 * 顯示選擇超商按鈕。僅在結帳頁面且需要超商運送時顯示，黑貓宅配不需要
 	 */
 	public static function paynow_after_shipping_rate() {
-
+		if ( WC()->session->get( 'chosen_shipping_methods' ) === null ) {
+			return;
+		}
 		$chosen_shipping_methods = WC()->session->get( 'chosen_shipping_methods' );
 		$chosen_method           = strstr( $chosen_shipping_methods[0], ':', true );
 
@@ -226,6 +228,10 @@ class PayNow_Shipping {
 	 */
 	public static function paynow_setup_shipping_info() {
 		self::$js_data = array();
+
+		if ( WC()->session->get( 'chosen_shipping_methods' ) === null ) {
+			return;
+		}
 
 		$chosen_shipping_methods = WC()->session->get( 'chosen_shipping_methods' );
 		$chosen_method_id        = strstr( $chosen_shipping_methods[0], ':', true );
@@ -258,6 +264,10 @@ class PayNow_Shipping {
 	 * @return array
 	 */
 	public static function shipping_choose_cvs_info( $fragments ) {
+
+		if ( WC()->session->get( 'chosen_shipping_methods' ) === null ) {
+			return;
+		}
 
 		$chosen_shipping_methods = WC()->session->get( 'chosen_shipping_methods' );
 		$chosen_method_id        = strstr( $chosen_shipping_methods[0], ':', true );
@@ -488,7 +498,7 @@ class PayNow_Shipping {
 	 */
 	public static function paynow_checkout_enqueue_scripts() {
 
-		if ( ! is_checkout() ) {
+		if ( ! is_checkout() || WC()->session->get( 'chosen_shipping_methods' ) === null ) {
 			return;
 		}
 

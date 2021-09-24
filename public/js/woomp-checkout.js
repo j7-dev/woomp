@@ -261,6 +261,16 @@ jQuery(function($){
 		}
 	}
 
+	function setFreeCart(){
+		$(document.body).on('updated_checkout', function () {
+			var total = $('.order-total').find('bdi').html().match(/\d+/gi).toString();
+			amount = parseInt( total.replace(/\,/g, '') )
+			if( amount === 0 ){
+				$('#order_review').hide()
+			}
+		})
+	}
+
 	$(document).ready(function(){
         if( woomp_checkout_params.enableWoomp === 'yes' ){
 			setBillingShippingFieldsSync();
@@ -269,6 +279,7 @@ jQuery(function($){
 			changeFieldsDisplayByShippingMethod();
 			setFunctionForTaiwan()
 			setIslandCvsNotification()
+			setFreeCart()
 		}
         if( woomp_checkout_params.enableCountryToTop === 'yes' ){
 			setCountryToTop();
