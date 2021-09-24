@@ -524,7 +524,7 @@ class PayNow_Shipping {
 			'ajax_url'           => self::$api_url . '/Member/Order/Choselogistics',
 		);
 
-		wp_register_script( 'paynow-shipping', PAYNOW_SHIPPING_PLUGIN_URL . 'assets/js/paynow-shipping-public.js', array( 'jquery' ), '1.0.0', true );
+		wp_register_script( 'paynow-shipping', PAYNOW_SHIPPING_PLUGIN_URL . 'assets/js/paynow-shipping-public.js', array( 'jquery' ), '1.0.12', true );
 		wp_localize_script( 'paynow-shipping', 'paynow_shipping_object', $cvs_data );
 		wp_enqueue_script( 'paynow-shipping' );
 
