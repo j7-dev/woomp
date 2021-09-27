@@ -49,8 +49,8 @@ class WC_Gateway_LINEPay_Handler {
 		include_once plugin_dir_path( __FILE__ ) . 'includes/class-wc-gateway-linepay.php';
 
 		add_filter( 'woocommerce_payment_gateways', array( $this, 'add_gateway' ) );
-		add_filter( 'woocommerce_my_account_my_orders_title', array( $this, 'append_script_for_refund_action' ) );
-		add_filter( 'woocommerce_my_account_my_orders_actions', array( $this, 'change_customer_order_action' ), 10, 2 );
+		//add_filter( 'woocommerce_my_account_my_orders_title', array( $this, 'append_script_for_refund_action' ) );
+		//add_filter( 'woocommerce_my_account_my_orders_actions', array( $this, 'change_customer_order_action' ), 10, 2 );
 		add_action( 'woocommerce_api_' . strtolower( get_class( $this ) ), array( $this, 'handle_callback' ) );
 
 		// linepay setting.
