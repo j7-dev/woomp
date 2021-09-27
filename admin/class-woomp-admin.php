@@ -161,6 +161,9 @@ class Woomp_Admin {
 		return $_available_gateways;
 	}
 
+	/**
+	 * 新增教學文件連結
+	 */
 	public function plugin_row_meta( $links, $file ) {
 		if ( 'woomp/woomp.php' === $file ) {
 			return array_merge(
@@ -172,5 +175,15 @@ class Woomp_Admin {
 		}
 
 		return $links;
+	}
+
+	/**
+	 * 增加好用版選單
+	 */
+	public function add_woomp_submenu() {
+		add_submenu_page( 'woocommerce', 'woomp-main', '主要設定', 'manage_options', admin_url() . 'admin.php?page=wc-settings&tab=woomp_setting', '', 10 );
+		add_submenu_page( 'woocommerce', 'woomp-main', '金流設定', 'manage_options', admin_url() . 'admin.php?page=wc-settings&tab=woomp_setting_gateway&section=ecpay', '', 10 );
+		add_submenu_page( 'woocommerce', 'woomp-main', '物流設定', 'manage_options', admin_url() . 'admin.php?page=wc-settings&tab=woomp_setting_shipping&section=ecpay', '', 10 );
+		add_submenu_page( 'woocommerce', 'woomp-main', '電子發票設定', 'manage_options', admin_url() . 'admin.php?page=wc-settings&tab=woomp_setting_invoice&section=ecpay', '', 10 );
 	}
 }

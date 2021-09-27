@@ -170,6 +170,7 @@ class Woomp {
 		$this->loader->add_filter( 'woocommerce_available_payment_gateways', $plugin_admin, 'only_newebpay_gateway', 10 );
 		$this->loader->add_filter( 'woocommerce_available_payment_gateways', $plugin_admin, 'only_newebpay_gateway', 10 );
 		$this->loader->add_filter( 'plugin_row_meta', $plugin_admin, 'plugin_row_meta', 10, 2 );
+		$this->loader->add_action( 'admin_menu', $plugin_admin, 'add_woomp_submenu', 60 );
 	}
 
 	/**

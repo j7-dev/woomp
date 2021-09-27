@@ -20,7 +20,7 @@ class Woomp_Setting {
 	 * @return array $settings_tabs Array of WooCommerce setting tabs & their labels, including the Subscription tab.
 	 */
 	public static function add_settings_tab( $settings_tabs ) {
-		$settings_tabs['woomp_setting'] = __( '好用版 Woo', 'woomp' );
+		$settings_tabs['woomp_setting'] = __( '好用版擴充', 'woomp' );
 		return $settings_tabs;
 	}
 
