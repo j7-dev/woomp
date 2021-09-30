@@ -25,11 +25,11 @@ final class RY_WTP
 
             self::$activate_status = self::valid_key();
 
-            include_once RY_WTP_PLUGIN_DIR . 'include/class.updater.php';
-            include_once RY_WTP_PLUGIN_DIR . 'include/class.link-server.php';
+            //include_once RY_WTP_PLUGIN_DIR . 'include/class.updater.php';
+            //include_once RY_WTP_PLUGIN_DIR . 'include/class.link-server.php';
 
-            include_once RY_WTP_PLUGIN_DIR . 'class.ry-wt-p.update.php';
-            RY_WTP_update::update();
+            //include_once RY_WTP_PLUGIN_DIR . 'class.ry-wt-p.update.php';
+            //RY_WTP_update::update();
 
             if (is_admin()) {
                 include_once RY_WTP_PLUGIN_DIR . 'class.ry-wt-p.admin.php';

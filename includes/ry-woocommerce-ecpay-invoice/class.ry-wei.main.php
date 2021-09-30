@@ -20,11 +20,11 @@ final class RY_WEI
 
             self::$activate_status = self::valid_key();
 
-            include_once RY_WEI_PLUGIN_DIR . 'include/class.updater.php';
-            include_once RY_WEI_PLUGIN_DIR . 'include/class.link-server.php';
+            //include_once RY_WEI_PLUGIN_DIR . 'include/class.updater.php';
+            //include_once RY_WEI_PLUGIN_DIR . 'include/class.link-server.php';
 
-            include_once RY_WEI_PLUGIN_DIR . 'class.ry-wei.update.php';
-            RY_WEI_update::update();
+            //include_once RY_WEI_PLUGIN_DIR . 'class.ry-wei.update.php';
+            //RY_WEI_update::update();
 
             if (is_admin()) {
                 include_once RY_WEI_PLUGIN_DIR . 'class.ry-wei.admin.php';
