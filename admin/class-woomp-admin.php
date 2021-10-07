@@ -186,4 +186,16 @@ class Woomp_Admin {
 		add_submenu_page( 'woocommerce', 'woomp-main', '物流設定', 'manage_options', admin_url() . 'admin.php?page=wc-settings&tab=woomp_setting_shipping&section=ecpay', '', 10 );
 		add_submenu_page( 'woocommerce', 'woomp-main', '電子發票設定', 'manage_options', admin_url() . 'admin.php?page=wc-settings&tab=woomp_setting_invoice&section=ecpay', '', 10 );
 	}
+
+	/**
+	 * 停用訂單列表點擊事件
+	 */
+	public function disable_order_table_link( $classes ){
+		if ( is_admin() ) {
+			$current_screen = get_current_screen();
+			if ( $current_screen->base == 'edit' && $current_screen->post_type == 'shop_order' ) $classes[] = 'no-link';
+		}
+		return $classes;
+	}
+
 }

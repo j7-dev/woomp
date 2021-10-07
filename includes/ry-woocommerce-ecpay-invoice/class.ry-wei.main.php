@@ -41,12 +41,12 @@ final class RY_WEI
 
     public static function check_expire()
     {
-        $json = RY_WEI_link_server::expire_data();
-        if (is_array($json) && isset($json['data'])) {
-            self::update_option('pro_Data', $json['data']);
-        } else {
-            wp_unschedule_hook(self::$option_prefix . 'check_expire');
-        }
+        //$json = RY_WEI_link_server::expire_data();
+        //if (is_array($json) && isset($json['data'])) {
+        //    self::update_option('pro_Data', $json['data']);
+        //} else {
+        //    wp_unschedule_hook(self::$option_prefix . 'check_expire');
+        //}
     }
 
     private static function valid_key()

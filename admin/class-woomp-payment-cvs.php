@@ -290,9 +290,9 @@ function init_woomp_gateway_cvs() {
 		 */
 		public function email_instructions( $order, $sent_to_admin, $plain_text = false ) {
 		
-			if ( $this->instructions && ! $sent_to_admin && $this->id === $order->payment_method && $order->has_status( 'pending' ) ) {
-				echo wpautop( wptexturize( $this->instructions ) ) . PHP_EOL;
-			}
+			//if ( $this->instructions && ! $sent_to_admin && $this->id === $order->payment_method && $order->has_status( 'pending' ) ) {
+			//}
+			echo wpautop( wptexturize( $this->instructions ) ) . PHP_EOL;
 		}
 	
 	

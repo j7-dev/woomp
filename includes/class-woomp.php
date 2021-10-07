@@ -119,7 +119,7 @@ class Woomp {
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-woomp-product.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-woomp-payment-cod-clone.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/settings/class-woomp-setting.php';
-		//require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-woomp-payment-cvs.php';
+		// require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-woomp-payment-cvs.php';
 
 		/**
 		 * The class responsible for defining all actions that occur in the public-facing
@@ -128,7 +128,7 @@ class Woomp {
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-woomp-public.php';
 
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-woomp-checkout.php';
-		//require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/transient.php';
+		// require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/transient.php';
 
 		$this->loader = new Woomp_Loader();
 
@@ -171,6 +171,7 @@ class Woomp {
 		$this->loader->add_filter( 'woocommerce_available_payment_gateways', $plugin_admin, 'only_newebpay_gateway', 10 );
 		$this->loader->add_filter( 'plugin_row_meta', $plugin_admin, 'plugin_row_meta', 10, 2 );
 		$this->loader->add_action( 'admin_menu', $plugin_admin, 'add_woomp_submenu', 60 );
+		$this->loader->add_filter( 'post_class', $plugin_admin, 'disable_order_table_link', 10, 1 );
 	}
 
 	/**
