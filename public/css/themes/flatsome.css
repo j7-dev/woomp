@@ -111,6 +111,10 @@ display: block;
 display: none;
 }
 
+.woocommerce > .woocommerce > .cart-collaterals.col {
+display: none;
+}
+
 @media screen and (min-width: 850px) {
 .woocommerce-checkout .woocommerce > .large-7.cart-auto-refresh {
 max-width: 100%;
