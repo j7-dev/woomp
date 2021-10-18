@@ -173,4 +173,30 @@
 	})
 	triggerSaveAtrributes()
 
+	// 訂單列表頁更新綠界物流訂單號
+	$('.btnShippingNoEcpay').on('click', function(e){
+		e.preventDefault();
+		
+	})
+
+	// 訂單列表頁更新非綠界物流訂單號
+	$('.shippingNoWrap input[name="shippingNo"]').on('change', function(){
+		$(this).parent().find('.shipping-no-loading').show();
+		var data = {
+			action: "update_shipping_number",
+			shippingNo: $(this).val(),
+			orderId: $(this).next().val()
+		};
+
+		$.ajax({
+			url: ajaxurl,
+			data: data,
+			type: 'POST',
+			dataType: "json",
+			success: function(data){
+				$('.shipping-no-loading').hide();
+			}
+		})
+	})
+
 })( jQuery );

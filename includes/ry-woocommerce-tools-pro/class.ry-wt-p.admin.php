@@ -154,8 +154,8 @@ final class RY_WTP_admin {
 
 	public static function shop_order_column( $column, $post_id ) {
 		if ( $column == 'ry_payment_no' ) {
-            $order = wc_get_order( $post_id );
-		    echo $order->get_data()['transaction_id'];
+			$order = wc_get_order( $post_id );
+			echo $order->get_data()['transaction_id'];
 			// echo ( ! empty( $trans_id ) ) ? esc_html( $trans_id ) : '';
 		}
 		if ( $column == 'ry_shipping_no' ) {
@@ -164,14 +164,19 @@ final class RY_WTP_admin {
 			if ( is_array( $shipping_list ) ) {
 				foreach ( $shipping_list as $item ) {
 					if ( $item['LogisticsType'] == 'CVS' ) {
-						echo $item['PaymentNo'] . ' ' . $item['ValidationNo']; ?>
-					<!--<form>
-						<input type="text" name="shippingNo" value="<?php echo $item['PaymentNo'] . ' ' . $item['ValidationNo'] ?>" style="width: 100%;">
-						<button class="button button-secondary btnShippingNo" type="submit" style="float:right; margin-top: 5px;">變更</button>
-					</form>-->
-					<?php
+						echo $item['PaymentNo'] . ' ' . $item['ValidationNo'];
 					}
 				}
+			} else { 
+				?>
+				<div class="shippingNoWrap">
+					<input type="text" name="shippingNo" placeholder="請輸入物流單號" value="<?php echo ( get_post_meta( $post_id, 'wmp_shipping_no', true ) ) ? get_post_meta( $post_id, 'wmp_shipping_no', true ) : '' ?>" style="width: 100%;" maxlength=100>
+					<input type="hidden" class="orderId" value="<?php echo esc_attr( $post_id ); ?>">
+					<div class="shipping-no-loading">
+						<div class="lds-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+					</div>
+				</div>
+				<?php
 			}
 		}
 	}

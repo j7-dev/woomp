@@ -190,12 +190,29 @@ class Woomp_Admin {
 	/**
 	 * 停用訂單列表點擊事件
 	 */
-	public function disable_order_table_link( $classes ){
+	public function disable_order_table_link( $classes ) {
 		if ( is_admin() ) {
 			$current_screen = get_current_screen();
-			if ( $current_screen->base == 'edit' && $current_screen->post_type == 'shop_order' ) $classes[] = 'no-link';
+			if ( $current_screen->base == 'edit' && $current_screen->post_type == 'shop_order' ) {
+				$classes[] = 'no-link';
+			}
 		}
 		return $classes;
+	}
+
+	/**
+	 * Ajax 更新訂單物流單號
+	 */
+	public function update_order_shipping_number() {
+		if ( isset( $_POST['shippingNo'] ) && isset( $_POST['orderId'] ) ) {
+			$shipping_no = $_POST['shippingNo'];
+			$order_id    = $_POST['orderId'];
+			update_post_meta( $order_id, 'wmp_shipping_no', $shipping_no );
+			echo json_encode( '變更完成' );
+		} else {
+			echo json_encode( '發生錯誤' );
+		}
+		die();
 	}
 
 }

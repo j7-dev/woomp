@@ -172,6 +172,7 @@ class Woomp {
 		$this->loader->add_filter( 'plugin_row_meta', $plugin_admin, 'plugin_row_meta', 10, 2 );
 		$this->loader->add_action( 'admin_menu', $plugin_admin, 'add_woomp_submenu', 60 );
 		$this->loader->add_filter( 'post_class', $plugin_admin, 'disable_order_table_link', 10, 1 );
+		$this->loader->add_filter( 'wp_ajax_update_shipping_number', $plugin_admin, 'update_order_shipping_number', 10, 1 );
 	}
 
 	/**
