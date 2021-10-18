@@ -11,7 +11,8 @@
  * @version 1.0.28
  */
 defined('ABSPATH') || exit;
-if (count($shipping_info_list)) { ?>
+
+if (count($shipping_info_list) ) { ?>
 <h2 class="woocommerce-order-details__title">
     <?=__('Shipping details', 'ry-woocommerce-tools-pro') ?>
 </h2>
