@@ -215,4 +215,12 @@ class Woomp_Admin {
 		die();
 	}
 
+	/**
+	 * 新增訂單觸發電子郵件
+	 */
+	public function add_email_action( $actions ){
+		$actions[] = 'ry_ecpay_shipping_cvs_to_store';
+        return $actions;
+	}
+
 }
