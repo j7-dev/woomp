@@ -6,8 +6,8 @@ if ( ! class_exists( 'RY_ECPay_Shipping_Email_Customer_CVS_Transporting', false 
 			$this->id             = 'ry_ecpay_shipping_customer_cvs_transporting';
 			$this->customer_email = true;
 
-			$this->title          = __( '商品運送中', 'ry-woocommerce-tools' );
-			$this->description    = __( '這是在商品經由綠界物流運送中時通知訂購人。', 'ry-woocommerce-tools' );
+			$this->title          = __( '商品已出貨', 'ry-woocommerce-tools' );
+			$this->description    = __( '這是在商品經由綠界物流出貨時時通知訂購人。', 'ry-woocommerce-tools' );
 			$this->template_base  = RY_WT_PLUGIN_DIR . 'templates/';
 			$this->template_html  = 'emails/customer-cvs-store.php';
 			$this->template_plain = 'emails/plain/customer-cvs-store.php';
