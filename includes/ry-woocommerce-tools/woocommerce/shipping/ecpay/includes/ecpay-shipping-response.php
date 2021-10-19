@@ -21,7 +21,6 @@ class RY_ECPay_Shipping_Response extends RY_ECPay_Shipping_Api {
 
 		if ( 'yes' == RY_WT::get_option( 'ecpay_shipping_auto_completed', 'yes' ) ) {
 			add_action( 'ry_ecpay_shipping_response_status_2067', array( __CLASS__, 'shipping_completed' ), 10, 2 );
-			add_action( 'ry_ecpay_shipping_response_status_3003', array( __CLASS__, 'shipping_completed' ), 10, 2 );
 			add_action( 'ry_ecpay_shipping_response_status_3022', array( __CLASS__, 'shipping_completed' ), 10, 2 );
 		}
 	}

@@ -140,33 +140,70 @@ class Woomp_Public {
 	/**
 	 * 前台訂單查詢顯示物流單號
 	 */
-	public function display_order_shipping_number( $order_id ){
-		if( get_post_meta( $order_id, 'wmp_shipping_no' ) ){ ?>
+	public function display_order_shipping_number( $order_id ) {
+		if ( get_post_meta( $order_id, 'wmp_shipping_no' ) ) { ?>
 			<h2 class="woocommerce-order-details__title">
-			    <?=__('Shipping details', 'ry-woocommerce-tools-pro') ?>
+				<?php echo __( 'Shipping details', 'ry-woocommerce-tools-pro' ); ?>
 			</h2>
 
 			<table class="woocommerce-table woocommerce-table--shipping-details shop_table shipping_details">
-			    <thead>
-			        <tr>
-			            <th class="woocommerce-table__shipping-no shipping-no">
-			                <?=__('Shipping payment no', 'ry-woocommerce-tools-pro') ?>
-			            </th>
-			            <th class="woocommerce-table__shipping-status shipping-status">
-			                <?=__('Shipping status', 'ry-woocommerce-tools-pro') ?>
-			            </th>
-			        </tr>
-			    </thead>
-			    <tbody>
-			        <tr>
-			            <td class="woocommerce-table__shipping-no shipping-no">
-			                <?php
-			                echo esc_html( get_post_meta( $order_id, 'wmp_shipping_no', true ) );
-			                ?>
-			            </td>
-			        </tr>
-			    </tbody>
+				<thead>
+					<tr>
+						<th class="woocommerce-table__shipping-no shipping-no">
+							<?php echo __( 'Shipping payment no', 'ry-woocommerce-tools-pro' ); ?>
+						</th>
+						<th class="woocommerce-table__shipping-status shipping-status">
+							<?php echo __( 'Shipping status', 'ry-woocommerce-tools-pro' ); ?>
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td class="woocommerce-table__shipping-no shipping-no">
+							<?php
+							echo esc_html( get_post_meta( $order_id, 'wmp_shipping_no', true ) );
+							?>
+						</td>
+					</tr>
+				</tbody>
 			</table>
-		<?php }
+			<?php
+		}
+	}
+
+	/**
+	 *
+	 */
+	public function auto_complete_virtual( $order_id ) {
+
+		if ( ! $order_id ) {
+			return;
+		}
+
+		global $product;
+		$order = wc_get_order( $order_id );
+
+		if ( 'processing' === $order->data['status'] ) {
+
+			$virtual_order = null;
+
+			if ( count( $order->get_items() ) > 0 ) {
+				foreach ( $order->get_items() as $item ) {
+					if ( 'line_item' === $item['type'] ) {
+						$_product = $order->get_product_from_item( $item );
+						if ( ! $_product->is_virtual() ) {
+							$virtual_order = false;
+							break;
+						} else {
+							$virtual_order = true;
+						}
+					}
+				}
+			}
+
+			if ( $virtual_order ) {
+				$order->update_status( 'completed' );
+			}
+		}
 	}
 }
