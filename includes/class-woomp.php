@@ -174,6 +174,11 @@ class Woomp {
 		$this->loader->add_filter( 'post_class', $plugin_admin, 'disable_order_table_link', 10, 1 );
 		$this->loader->add_filter( 'wp_ajax_update_shipping_number', $plugin_admin, 'update_order_shipping_number', 10, 1 );
 		$this->loader->add_filter( 'woocommerce_email_actions', $plugin_admin, 'add_email_action', 10, 1 );
+		
+		// Cron Job
+		$this->loader->add_action( 'init', $plugin_admin, 'register_cron_hook', 10 );
+		$this->loader->add_action( 'wmp_cron_every_morning', $plugin_admin, 'set_ecpay_cvs_get_remind', 10 );
+		$this->loader->add_action( 'wmp_cron_every_morning', $plugin_admin, 'set_ecpay_cvs_get_expired', 10 );
 	}
 
 	/**

@@ -226,4 +226,75 @@ class Woomp_Admin {
 		return $actions;
 	}
 
+	/**
+	 * 排程 Hook 註冊
+	 */
+	public function register_cron_hook() {
+		$cron = array(
+			array(
+				'type'      => 'recurring',
+				'hook_name' => 'wmp_cron_every_morning',
+				'start'     => strtotime( '10:00:00' ) - get_option( 'gmt_offset' ) * 3600,
+				'interval'  => DAY_IN_SECONDS,
+			),
+		);
+
+		foreach ( $cron as $arg ) {
+			if ( ! as_next_scheduled_action( $arg['hook_name'] ) ) {
+				as_schedule_recurring_action( $arg['start'], $arg['interval'], $arg['hook_name'] );
+			}
+		}
+	}
+
+	/**
+	 * 綠界超商訂單取貨到期前一天通知
+	 */
+	public function set_ecpay_cvs_get_remind() {
+		$args   = array(
+			'status'     => array( 'wc-ry-at-cvs' ),
+			'meta_key'   => 'ecpay_cvs_at_store_expired',
+			'meta_value' => date( 'Y-m-d', strtotime( '+1 days' ) ),
+		);
+		$orders = wc_get_orders( $args );
+
+		if ( $orders ) {
+			$wc_emails = WC_Emails::instance();
+			$emails    = $wc_emails->get_emails();
+			$email     = $emails['RY_ECPay_Shipping_Email_Customer_CVS_Get_Remind'];
+
+			if ( $email->is_enabled() ) {
+				foreach ( $orders as $order ) {
+					$email->object    = $order;
+					$email->recipient = $email->object->get_billing_email();
+					$email->send( $email->get_recipient(), $email->get_subject(), $email->get_content(), $email->get_headers(), $email->get_attachments() );
+				}
+			}
+		}
+
+	}
+
+	/**
+	 * 綠界超商訂單取貨到期當天通知
+	 */
+	public function set_ecpay_cvs_get_expired() {
+		$args   = array(
+			'status'     => array( 'wc-ry-at-cvs' ),
+			'meta_key'   => 'ecpay_cvs_at_store_expired',
+			'meta_value' => date( 'Y-m-d' ),
+		);
+		$orders = wc_get_orders( $args );
+
+		$wc_emails = WC_Emails::instance();
+		$emails    = $wc_emails->get_emails();
+		$email     = $emails['RY_ECPay_Shipping_Email_Customer_CVS_Get_Expired'];
+
+		if ( $email->is_enabled() ) {
+			foreach ( $orders as $order ) {
+				$email->object    = $order;
+				$email->recipient = $email->object->get_billing_email();
+				$email->send( $email->get_recipient(), $email->get_subject(), $email->get_content(), $email->get_headers(), $email->get_attachments() );
+			}
+		}
+	}
+
 }

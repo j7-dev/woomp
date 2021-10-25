@@ -25,7 +25,7 @@ if ( ! class_exists( 'RY_ECPay_Shipping_Email_Customer_CVS_Get_Expired', false )
 		}
 
 		public function get_default_heading() {
-			return __( '商品取貨通知', 'ry-woocommerce-tools' );
+			return __( '超商取貨逾期提醒', 'ry-woocommerce-tools' );
 		}
 
 		public function trigger( $order_id, $order = false ) {
