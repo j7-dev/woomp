@@ -393,10 +393,13 @@ final class RY_ECPay_Shipping
     {
         $emails['RY_ECPay_Shipping_Email_Customer_CVS_Store'] = include(RY_WT_PLUGIN_DIR . 'woocommerce/emails/ecpay-shipping-customer-cvs-store.php');
         $emails['RY_ECPay_Shipping_Email_Customer_CVS_Transporting'] = include(RY_WT_PLUGIN_DIR . 'woocommerce/emails/ecpay-shipping-customer-cvs-transporting.php');
+        $emails['RY_ECPay_Shipping_Email_Customer_CVS_Get_Remind'] = include(RY_WT_PLUGIN_DIR . 'woocommerce/emails/ecpay-shipping-customer-cvs-get-remind.php');
+        $emails['RY_ECPay_Shipping_Email_Customer_CVS_Get_Expired'] = include(RY_WT_PLUGIN_DIR . 'woocommerce/emails/ecpay-shipping-customer-cvs-get-expired.php');
 
         return $emails;
     }
 
+    // 整合進好用版後這個 action 沒作用，所以改寫到 class-woomp-admin.php 裡面
     public static function add_email_action($actions)
     {
         $actions[] = 'ry_ecpay_shipping_cvs_to_store';

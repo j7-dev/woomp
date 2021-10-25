@@ -221,6 +221,8 @@ class Woomp_Admin {
 	public function add_email_action( $actions ) {
 		$actions[] = 'ry_ecpay_shipping_cvs_to_store';
 		$actions[] = 'ry_ecpay_shipping_cvs_to_transporting';
+		$actions[] = 'ry_ecpay_shipping_cvs_get_remind';
+		$actions[] = 'ry_ecpay_shipping_cvs_get_expired';
 		return $actions;
 	}
 
