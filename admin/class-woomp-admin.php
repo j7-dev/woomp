@@ -208,9 +208,9 @@ class Woomp_Admin {
 			$shipping_no = $_POST['shippingNo'];
 			$order_id    = $_POST['orderId'];
 			update_post_meta( $order_id, 'wmp_shipping_no', $shipping_no );
-			echo json_encode( '變更完成' );
+			echo wp_json_encode( '變更完成' );
 		} else {
-			echo json_encode( '發生錯誤' );
+			echo wp_json_encode( '發生錯誤' );
 		}
 		die();
 	}
