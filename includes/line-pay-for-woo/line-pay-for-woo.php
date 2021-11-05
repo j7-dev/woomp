@@ -110,7 +110,7 @@ class WC_Gateway_LINEPay_Handler {
 			if ( WC_Gateway_LINEPay_Const::PAYMENT_STATUS_RESERVED === $payment_status ) {
 				switch ( $request_type ) {
 					case WC_Gateway_LINEPay_Const::REQUEST_TYPE_CONFIRM:
-						static::$logger->debug( 'handle_callback', 'process_payment_confirm' );
+						//static::$logger->debug( 'handle_callback', 'process_payment_confirm' );
 						$linepay_gateway->process_payment_confirm( $order_id );
 						break;
 					case WC_Gateway_LINEPay_Const::REQUEST_TYPE_CANCEL:
