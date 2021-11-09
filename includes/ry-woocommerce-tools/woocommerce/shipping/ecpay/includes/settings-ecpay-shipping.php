@@ -46,8 +46,8 @@ return [
         'desc' => __('Auto get shipping payment no when order status is change to processing.', 'ry-woocommerce-tools')
     ],
     [
-        'title' => __('Auto get with scheduler action', 'ry-woocommerce-tools-pro'),
-        'id' => RY_WTP::$option_prefix . 'ecpay_shipping_auto_with_scheduler',
+        'title' => '使用排程來自動取得物流單號(Pro)',
+        'id' => 'wmp_ecpay_shipping_auto_with_scheduler',
         'type' => 'checkbox',
         'default' => 'no',
         'desc' => __('Get shipping payment no use scheduler action.', 'ry-woocommerce-tools-pro')
@@ -67,8 +67,8 @@ return [
         'desc' => __('Auto completed order when user getted products.', 'ry-woocommerce-tools')
     ],
     [
-        'title' => __('cvs remove billing address', 'ry-woocommerce-tools-pro'),
-        'id' => RY_WTP::$option_prefix . 'ecpay_cvs_billing_address',
+        'title' => '超商取貨移除帳單地址(Pro)',
+        'id' => 'wmp_ecpay_cvs_billing_address',
         'type' => 'checkbox',
         'default' => 'no',
         'desc' => __('Remove billing address when shipping mode is cvs.', 'ry-woocommerce-tools-pro') . '<br>'

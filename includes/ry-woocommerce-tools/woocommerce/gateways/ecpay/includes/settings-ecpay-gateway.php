@@ -32,34 +32,14 @@ return [
         'desc_tip' => true
     ],
     [
-        'id' => 'base_options',
-        'type' => 'sectionend'
-    ],
-    [
-        'title' => __('Gateway options', 'ry-woocommerce-tools-pro'),
-        'id' => 'gateway_options',
-        'type' => 'title'
-    ],
-    [
-        'title' => __('Credit installment', 'ry-woocommerce-tools-pro'),
-        'id' => RY_WTP::$option_prefix . 'ecpay_credit_installment',
+        'title' => '信用卡分期設定',
+        'id' => 'wmp_ecpay_credit_installment',
         'type' => 'checkbox',
         'default' => 'no',
-        'desc' => __('Add each periods of credit installment as a payment gateway.', 'ry-woocommerce-tools-pro')
+        'desc' => '勾選後會將分期期數獨立為個別的付款方式'
     ],
     [
-        'title' => __('Show payment info in email', 'ry-woocommerce-tools-pro'),
-        'id' => RY_WTP::$option_prefix . 'ecpay_email_payment_info',
-        'type' => 'checkbox',
-        'default' => 'yes',
-        'desc' => sprintf(
-            /* translators: %s: email title */
-            __('Add payment info in "%s" email.', 'ry-woocommerce-tools-pro'),
-            __('Order on-hold', 'woocommerce')
-        )
-    ],
-    [
-        'id' => 'gateway_options',
+        'id' => 'base_options',
         'type' => 'sectionend'
     ],
     [
