@@ -12,6 +12,11 @@ final class RY_ECPay_Gateway
         include_once RY_WT_PLUGIN_DIR . 'woocommerce/gateways/ecpay/includes/ecpay-gateway-base.php';
         include_once RY_WT_PLUGIN_DIR . 'woocommerce/gateways/ecpay/ecpay-gateway-credit.php';
         include_once RY_WT_PLUGIN_DIR . 'woocommerce/gateways/ecpay/ecpay-gateway-credit-installment.php';
+        include_once RY_WT_PLUGIN_DIR . 'woocommerce/gateways/ecpay/ecpay-gateway-credit-installment-3.php';
+        include_once RY_WT_PLUGIN_DIR . 'woocommerce/gateways/ecpay/ecpay-gateway-credit-installment-6.php';
+        include_once RY_WT_PLUGIN_DIR . 'woocommerce/gateways/ecpay/ecpay-gateway-credit-installment-12.php';
+        include_once RY_WT_PLUGIN_DIR . 'woocommerce/gateways/ecpay/ecpay-gateway-credit-installment-18.php';
+        include_once RY_WT_PLUGIN_DIR . 'woocommerce/gateways/ecpay/ecpay-gateway-credit-installment-24.php';
         include_once RY_WT_PLUGIN_DIR . 'woocommerce/gateways/ecpay/ecpay-gateway-webatm.php';
         include_once RY_WT_PLUGIN_DIR . 'woocommerce/gateways/ecpay/ecpay-gateway-atm.php';
         include_once RY_WT_PLUGIN_DIR . 'woocommerce/gateways/ecpay/ecpay-gateway-cvs.php';
@@ -142,6 +147,14 @@ final class RY_ECPay_Gateway
         $methods[] = 'RY_ECPay_Gateway_Atm';
         $methods[] = 'RY_ECPay_Gateway_Cvc';
         $methods[] = 'RY_ECPay_Gateway_Barcode';
+
+        if( wc_string_to_bool( get_option( 'wmp_ecpay_credit_installment' ) ) ) {
+            $methods[] = 'WMP_ECPay_Gateway_Credit_Installment_3';
+            $methods[] = 'WMP_ECPay_Gateway_Credit_Installment_6';
+            $methods[] = 'WMP_ECPay_Gateway_Credit_Installment_12';
+            $methods[] = 'WMP_ECPay_Gateway_Credit_Installment_18';
+            $methods[] = 'WMP_ECPay_Gateway_Credit_Installment_24';
+        }
 
         return $methods;
     }
