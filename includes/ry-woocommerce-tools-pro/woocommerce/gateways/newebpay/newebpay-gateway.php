@@ -17,7 +17,7 @@ final class RY_WTP_NewebPay_Gateway
 
         if ('yes' === RY_WT::get_option('newebpay_gateway', 'no')) {
             if ('yes' === RY_WTP::get_option('newebpay_credit_installment', 'no')) {
-                add_filter('woocommerce_payment_gateways', [__CLASS__, 'add_method']);
+                //add_filter('woocommerce_payment_gateways', [__CLASS__, 'add_method']);
             }
 
             if ('yes' === RY_WTP::get_option('newebpay_email_payment_info', 'yes')) {
