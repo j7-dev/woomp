@@ -117,7 +117,7 @@ class Woomp_Admin {
 	}
 
 	/**
-	 * 訂單頁面新增地址&姓名欄位
+	 * 訂單頁面新增地址&姓名欄位
 	 */
 	public function add_address_meta( $order ) {
 		if ( get_option( 'wc_woomp_setting_one_line_address', 1 ) === 'yes' ) {

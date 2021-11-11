@@ -194,7 +194,7 @@ if ( ! defined( 'PAYNOW_PLUGIN_URL' ) && 'yes' === get_option( 'wc_woomp_setting
 	define( 'PAYNOW_BASENAME', plugin_basename( __FILE__ ) . 'includes/paynow-payment/' );
 
 	/**
-	 * Run PayNow Payment plugin.
+	 * Run PayNow Payment plugin.
 	 *
 	 * @return void
 	 */

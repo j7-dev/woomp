@@ -49,4 +49,4 @@ final class RY_WTP_Shipping
     }
 }
 
-RY_WTP_Shipping::init();
+//RY_WTP_Shipping::init();
