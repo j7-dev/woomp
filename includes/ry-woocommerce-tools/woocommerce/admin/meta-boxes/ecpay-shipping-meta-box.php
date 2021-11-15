@@ -30,6 +30,9 @@ class RY_ECPay_Shipping_Meta_Box
         if (!is_array($shipping_list)) {
             $shipping_list = [];
         } ?>
+        <div class="shipping-loading">
+            <div class="lds-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+        </div>
 <table cellpadding="0" cellspacing="0" class="widefat">
     <thead>
         <tr>
@@ -70,7 +73,7 @@ class RY_ECPay_Shipping_Meta_Box
         <?php foreach ($shipping_list as $item) {
             $item['edit'] = wc_string_to_datetime($item['edit']);
             $item['create'] = wc_string_to_datetime($item['create']); ?>
-        <tr>
+        <tr class="shippingId-<?php echo $item['ID']; ?>">
             <td>
                 <a class="button btnEcpayShippingCvsRemove" data-order="<?php echo $post->ID; ?>" data-item="<?php echo $item['ID']; ?>"  href="#"><?=__('刪除', 'ry-woocommerce-tools') ?></a>
             </td>

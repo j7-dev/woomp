@@ -19,6 +19,7 @@ if ( ! class_exists( 'WooMP_Order' ) ) {
 			add_action( 'wc_order_statuses', array( $class, 'add_order_statuses' ) );
 			add_filter( 'woocommerce_reports_order_statuses', array( $class, 'add_order_statuses' ) );
 			add_filter( 'woocommerce_order_is_paid_statuses', array( $class, 'add_report_paid_statuses' ) );
+			add_filter( 'wp_ajax_delete_shipping_ecpay_cvs', array( $class, 'delete_shipping_ecpay_cvs' ) );
 		}
 
 		/**
@@ -47,6 +48,26 @@ if ( ! class_exists( 'WooMP_Order' ) ) {
 			$statues[] = 'wc-wmp-in-transit';
 			return $statues;
 		}
+
+		/**
+		 * 訂單管理頁刪除綠界物流資訊 Ajax
+		 */
+		public function delete_shipping_ecpay_cvs() {
+			if ( isset( $_POST['ecpayShippingId'] ) && isset( $_POST['orderId'] ) ) {
+				$order_id            = $_POST['orderId'];
+				$ecpay_shipping_id   = $_POST['ecpayShippingId'];
+				$ecpay_shipping_info = get_post_meta( $order_id, '_ecpay_shipping_info', true );
+				
+				unset( $ecpay_shipping_info[ $ecpay_shipping_id ] );
+				update_post_meta( $order_id, '_ecpay_shipping_info', $ecpay_shipping_info );
+
+				echo wp_json_encode( '已刪除' );
+			} else {
+				echo wp_json_encode( '發生錯誤' );
+			}
+			die();
+		}
+
 
 	}
 	WooMP_Order::init();

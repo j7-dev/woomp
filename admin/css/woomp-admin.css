@@ -192,3 +192,26 @@ label[for="wc_woomp_setting_link"],
     opacity: 0;
   }
 }
+
+#ry-ecpay-shipping-info .shipping-loading {
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%) scale(.6);
+}
+
+#ry-ecpay-shipping-info.loading .shipping-loading {
+  display: block;
+}
+
+#ry-ecpay-shipping-info.loading .inside:before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: calc( 100% + 6px );
+  top: -6px;
+  left: 0;
+  background: rgba(0,0,0,.3);
+  z-index: 10;
+}

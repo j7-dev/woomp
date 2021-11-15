@@ -199,4 +199,33 @@
 		})
 	})
 
+	// 訂單管理頁刪除綠界物流資訊
+	$('.btnEcpayShippingCvsRemove').on('click', function(e){
+		e.preventDefault();
+
+		$('#ry-ecpay-shipping-info').addClass('loading');
+
+		var data = {
+			action: "delete_shipping_ecpay_cvs",
+			ecpayShippingId: $(this).data('item'),
+			orderId: $(this).data('order')
+		};
+
+		var ecpayShippingId = data.ecpayShippingId;
+
+		$.ajax({
+			url: ajaxurl,
+			data: data,
+			type: 'POST',
+			dataType: "json",
+			success: function(data){
+				if( '已刪除' === data ){
+					$('#ry-ecpay-shipping-info').removeClass('loading');
+					$('#ry-ecpay-shipping-info tr.shippingId-' + ecpayShippingId ).remove();
+					alert(data)
+				}
+			}
+		})
+	})
+
 })( jQuery );
