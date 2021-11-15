@@ -48,6 +48,51 @@
                 "source": "https://github.com/Appsero/client/tree/v1.2.0"
             },
             "install-path": "../appsero/client"
+        },
+        {
+            "name": "oberonlai/wp-metabox",
+            "version": "v1.0.5",
+            "version_normalized": "1.0.5.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/oberonlai/wp-metabox.git",
+                "reference": "68b2d4f94dffe8fdca3b3c3f635de4f3a0e33c9e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/oberonlai/wp-metabox/zipball/68b2d4f94dffe8fdca3b3c3f635de4f3a0e33c9e",
+                "reference": "68b2d4f94dffe8fdca3b3c3f635de4f3a0e33c9e",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.2"
+            },
+            "time": "2021-10-07T02:08:10+00:00",
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "ODS\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Oberon Lai",
+                    "email": "m615926@gmail.com",
+                    "homepage": "https://oberonlai.blog"
+                }
+            ],
+            "description": "Adding custom field for WordPress Post Type.",
+            "homepage": "https://github.com/oberonlai/wp-metabox",
+            "support": {
+                "issues": "https://github.com/oberonlai/wp-metabox/issues",
+                "source": "https://github.com/oberonlai/wp-metabox/tree/v1.0.5"
+            },
+            "install-path": "../oberonlai/wp-metabox"
         }
     ],
     "dev": true,

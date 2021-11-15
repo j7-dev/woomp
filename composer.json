@@ -1,5 +1,6 @@
 {
     "require": {
-        "appsero/client": "^1.2"
+        "appsero/client": "^1.2",
+        "oberonlai/wp-metabox": "^1.0"
     }
 }

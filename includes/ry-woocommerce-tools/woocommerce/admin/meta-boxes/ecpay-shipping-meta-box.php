@@ -33,6 +33,7 @@ class RY_ECPay_Shipping_Meta_Box
 <table cellpadding="0" cellspacing="0" class="widefat">
     <thead>
         <tr>
+            <th>&nbsp;</th>
             <th>
                 <?=__('ECPay shipping ID', 'ry-woocommerce-tools') ?>
             </th>
@@ -63,7 +64,6 @@ class RY_ECPay_Shipping_Meta_Box
             <th>
                 <?=__('Shipping booking note', 'ry-woocommerce-tools') ?>
             </th>
-            <th>&nbsp;</th>
         </tr>
     </thead>
     <tbody>
@@ -71,6 +71,9 @@ class RY_ECPay_Shipping_Meta_Box
             $item['edit'] = wc_string_to_datetime($item['edit']);
             $item['create'] = wc_string_to_datetime($item['create']); ?>
         <tr>
+            <td>
+                <a class="button btnEcpayShippingCvsRemove" data-order="<?php echo $post->ID; ?>" data-item="<?php echo $item['ID']; ?>"  href="#"><?=__('刪除', 'ry-woocommerce-tools') ?></a>
+            </td>
             <td>
                 <?=$item['ID']; ?>
             </td>
@@ -111,9 +114,6 @@ class RY_ECPay_Shipping_Meta_Box
             </td>
             <td>
                 <a class="button" href="<?=esc_url(add_query_arg(['orderid' => $post->ID, 'id' => $item['ID'], 'noheader' => 1], admin_url('admin.php?page=ry_print_ecpay_shipping'))) ?>"><?=__('Print', 'ry-woocommerce-tools') ?></a>
-            </td>
-            <td>
-                <a class="button btnEcpayShippingCvsRemove" data-order="<?php echo $post->ID; ?>" data-item="<?php echo $item['ID']; ?>"  href="#"><?=__('刪除', 'ry-woocommerce-tools') ?></a>
             </td>
         </tr>
         <?php

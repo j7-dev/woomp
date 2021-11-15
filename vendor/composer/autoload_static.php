@@ -7,6 +7,10 @@ namespace Composer\Autoload;
 class ComposerStaticInitfa8a6a6fed38f1d45842b14769b5150e
 {
     public static $prefixLengthsPsr4 = array (
+        'O' => 
+        array (
+            'ODS\\' => 4,
+        ),
         'A' => 
         array (
             'Appsero\\' => 8,
@@ -14,6 +18,10 @@ class ComposerStaticInitfa8a6a6fed38f1d45842b14769b5150e
     );
 
     public static $prefixDirsPsr4 = array (
+        'ODS\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/oberonlai/wp-metabox/src',
+        ),
         'Appsero\\' => 
         array (
             0 => __DIR__ . '/..' . '/appsero/client/src',
