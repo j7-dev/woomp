@@ -2,14 +2,14 @@
 
  /**
   * @link              https://morepower.club
-  * @since             1.4.3
+  * @since             1.4.4
   * @package           woomp
   *
   * @wordpress-plugin
   * Plugin Name:       好用版擴充 MorePower Addon for WooCommerce
   * Plugin URI:        https://morepower.club/morepower-addon/
   * Description:       WooCommerce 好用版擴充，改善結帳流程與可變商品等區塊，讓 WooCommerce 更符合亞洲人使用習慣。
-  * Version:           1.4.3
+  * Version:           1.4.4
   * Author:            MorePower
   * Author URI:        https://morepower.club
   * License:           GPL-2.0+
@@ -51,7 +51,7 @@ if ( ! in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins',
  * Start at version 1.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define( 'WOOMP_VERSION', '1.4.3' );
+define( 'WOOMP_VERSION', '1.4.4' );
 define( 'WOOMP_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'WOOMP_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'WOOMP_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
@@ -154,17 +154,17 @@ if ( ! defined( 'RY_WT_VERSION' ) ) {
  * 引入 ry-woocommerce-tools-pro
  */
 if ( ! defined( 'RY_WTP_VERSION' ) ) {
-	//define( 'RY_WTP_VERSION', '1.2.11' );
-	//define( 'RY_WTP_PLUGIN_URL', plugin_dir_url( __FILE__ ) . 'includes/ry-woocommerce-tools-pro/' );
-	//define( 'RY_WTP_PLUGIN_DIR', plugin_dir_path( __FILE__ ) . 'includes/ry-woocommerce-tools-pro/' );
-	//define( 'RY_WTP_PLUGIN_BASENAME', plugin_basename( __FILE__ ) . 'includes/ry-woocommerce-tools-pro/' );
+	define( 'RY_WTP_VERSION', '1.2.11' );
+	define( 'RY_WTP_PLUGIN_URL', plugin_dir_url( __FILE__ ) . 'includes/ry-woocommerce-tools-pro/' );
+	define( 'RY_WTP_PLUGIN_DIR', plugin_dir_path( __FILE__ ) . 'includes/ry-woocommerce-tools-pro/' );
+	define( 'RY_WTP_PLUGIN_BASENAME', plugin_basename( __FILE__ ) . 'includes/ry-woocommerce-tools-pro/' );
 
-	//require_once RY_WTP_PLUGIN_DIR . 'class.ry-wt-p.main.php';
+	require_once RY_WTP_PLUGIN_DIR . 'class.ry-wt-p.main.php';
 
-	//register_activation_hook( __FILE__, array( 'RY_WTP', 'plugin_activation' ) );
-	//register_deactivation_hook( __FILE__, array( 'RY_WTP', 'plugin_deactivation' ) );
+	register_activation_hook( __FILE__, array( 'RY_WTP', 'plugin_activation' ) );
+	register_deactivation_hook( __FILE__, array( 'RY_WTP', 'plugin_deactivation' ) );
 
-	//add_action( 'init', array( 'RY_WTP', 'init' ), 11 );
+	add_action( 'init', array( 'RY_WTP', 'init' ), 11 );
 }
 
 /**

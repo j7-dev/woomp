@@ -189,7 +189,7 @@ if ( ! $checkout->is_registration_enabled() && $checkout->is_registration_requir
 	}
 
 	select option[disabled="disabled"]{ 
-    	display:none;
+		display:none;
 	}
 
 	.woocommerce ul#shipping_method li {
@@ -214,6 +214,7 @@ if ( ! $checkout->is_registration_enabled() && $checkout->is_registration_requir
 </style>
 
 <?php
-echo "<link rel='stylesheet' href='" . home_url() . '/wp-content/plugins/woomp/public/css/themes/' . strtolower( wp_get_theme()->name ) . ".css'>";
+$theme_name = str_replace( ' child', '', strtolower( wp_get_theme()->name ) );
+echo "<link rel='stylesheet' href='" . home_url() . '/wp-content/plugins/woomp/public/css/themes/' . $theme_name . ".css'>";
 
 ?>
