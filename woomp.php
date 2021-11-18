@@ -159,12 +159,12 @@ if ( ! defined( 'RY_WTP_VERSION' ) ) {
 	define( 'RY_WTP_PLUGIN_DIR', plugin_dir_path( __FILE__ ) . 'includes/ry-woocommerce-tools-pro/' );
 	define( 'RY_WTP_PLUGIN_BASENAME', plugin_basename( __FILE__ ) . 'includes/ry-woocommerce-tools-pro/' );
 
-	require_once RY_WTP_PLUGIN_DIR . 'class.ry-wt-p.main.php';
+	//require_once RY_WTP_PLUGIN_DIR . 'class.ry-wt-p.main.php';
 
-	register_activation_hook( __FILE__, array( 'RY_WTP', 'plugin_activation' ) );
-	register_deactivation_hook( __FILE__, array( 'RY_WTP', 'plugin_deactivation' ) );
+	//register_activation_hook( __FILE__, array( 'RY_WTP', 'plugin_activation' ) );
+	//register_deactivation_hook( __FILE__, array( 'RY_WTP', 'plugin_deactivation' ) );
 
-	add_action( 'init', array( 'RY_WTP', 'init' ), 11 );
+	//add_action( 'init', array( 'RY_WTP', 'init' ), 11 );
 }
 
 /**

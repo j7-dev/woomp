@@ -114,7 +114,8 @@ tr.choose_cvs td button {
      display: none;
 }
  @media screen and (min-width: 850px) {
-     .woocommerce-checkout .woocommerce > .large-7.cart-auto-refresh {
+     .woocommerce-checkout .woocommerce > .large-7.cart-auto-refresh,
+     .woocommerce-checkout .woocommerce > .large-7 {
          max-width: 100%;
          -ms-flex-preferred-size: 100%;
          flex-basis: 100%;
