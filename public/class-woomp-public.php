@@ -138,40 +138,6 @@ class Woomp_Public {
 	}
 
 	/**
-	 * 前台訂單查詢顯示物流單號
-	 */
-	public function display_order_shipping_number( $order_id ) {
-		if ( get_post_meta( $order_id, 'wmp_shipping_no' ) ) { ?>
-			<h2 class="woocommerce-order-details__title">
-				<?php echo __( 'Shipping details', 'ry-woocommerce-tools-pro' ); ?>
-			</h2>
-
-			<table class="woocommerce-table woocommerce-table--shipping-details shop_table shipping_details">
-				<thead>
-					<tr>
-						<th class="woocommerce-table__shipping-no shipping-no">
-							<?php echo __( 'Shipping payment no', 'ry-woocommerce-tools-pro' ); ?>
-						</th>
-						<th class="woocommerce-table__shipping-status shipping-status">
-							<?php echo __( 'Shipping status', 'ry-woocommerce-tools-pro' ); ?>
-						</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td class="woocommerce-table__shipping-no shipping-no">
-							<?php
-							echo esc_html( get_post_meta( $order_id, 'wmp_shipping_no', true ) );
-							?>
-						</td>
-					</tr>
-				</tbody>
-			</table>
-			<?php
-		}
-	}
-
-	/**
 	 *
 	 */
 	public function auto_complete_virtual( $order_id ) {

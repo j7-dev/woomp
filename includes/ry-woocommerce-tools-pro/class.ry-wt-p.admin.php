@@ -15,8 +15,8 @@ final class RY_WTP_admin {
 			add_action( 'ry_setting_section_ouput_tools', array( __CLASS__, 'output_tools' ) );
 			add_action( 'woocommerce_update_options_rytools_ry_key', array( __CLASS__, 'activate_key' ) );
 
-			add_filter( 'manage_shop_order_posts_columns', array( __CLASS__, 'shop_order_columns' ), 11 );
-			add_action( 'manage_shop_order_posts_custom_column', array( __CLASS__, 'shop_order_column' ), 11, 2 );
+			//add_filter( 'manage_shop_order_posts_columns', array( __CLASS__, 'shop_order_columns' ), 11 );
+			//add_action( 'manage_shop_order_posts_custom_column', array( __CLASS__, 'shop_order_column' ), 11, 2 );
 
 			wp_register_script( 'ry-pro-admin-shipping', RY_WTP_PLUGIN_URL . 'style/js/admin/ry_shipping.js', array( 'jquery' ), RY_WTP_VERSION, true );
 		}

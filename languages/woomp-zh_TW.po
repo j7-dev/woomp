@@ -4,15 +4,19 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 好用版擴充 MorePower Addon for WooCommerce 1.4.4\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/woomp\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2021-11-23T04:59:36+00:00\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.4.0\n"
+"POT-Creation-Date: 2021-11-23T04:55:27+00:00\n"
+"PO-Revision-Date: 2021-11-23 13:01+0800\n"
+"X-Generator: Poedit 2.3\n"
 "X-Domain: woomp\n"
+"Last-Translator: \n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"Language: zh_TW\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SearchPath-0: woomp.pot\n"
 
 #. Plugin Name of the plugin
 msgid "好用版擴充 MorePower Addon for WooCommerce"
@@ -23,7 +27,9 @@ msgid "https://morepower.club/morepower-addon/"
 msgstr ""
 
 #. Description of the plugin
-msgid "WooCommerce 好用版擴充，改善結帳流程與可變商品等區塊，讓 WooCommerce 更符合亞洲人使用習慣。"
+msgid ""
+"WooCommerce 好用版擴充，改善結帳流程與可變商品等區塊，讓 WooCommerce 更符"
+"合亞洲人使用習慣。"
 msgstr ""
 
 #. Author of the plugin
@@ -64,13 +70,11 @@ msgid "設定"
 msgstr ""
 
 #: admin/class-woomp-payment-cod-clone.php:340
-#: admin/class-woomp-payment-cvs.php:30
-#: admin/class-woomp-payment-cvs.php:71
+#: admin/class-woomp-payment-cvs.php:30 admin/class-woomp-payment-cvs.php:71
 msgid "超商取貨付款"
 msgstr ""
 
-#: admin/class-woomp-payment-cvs.php:31
-#: admin/class-woomp-payment-cvs.php:79
+#: admin/class-woomp-payment-cvs.php:31 admin/class-woomp-payment-cvs.php:79
 #: admin/class-woomp-payment-cvs.php:87
 msgid "可將商品送到指定的超商門市，取貨時再進行付款。"
 msgstr ""
@@ -185,7 +189,9 @@ msgid "好用版擴充"
 msgstr ""
 
 #: admin/settings/class-woomp-setting.php:62
-msgid "<a target=\"_blank\" href=\"https://morepower.club/know_cate/addon/\">好用版擴充 教學文件</a>"
+msgid ""
+"<a target=\"_blank\" href=\"https://morepower.club/know_cate/addon/\">好用"
+"版擴充 教學文件</a>"
 msgstr ""
 
 #: admin/settings/class-woomp-setting.php:65
@@ -273,7 +279,9 @@ msgid "一頁結帳模式"
 msgstr ""
 
 #: admin/settings/class-woomp-setting.php:212
-msgid "將原本兩段式結帳改成一頁式結帳，並改變結帳順序為 「選物流 -> 選金流 -> 填結帳欄位」，以適應超商取貨等物流模式"
+msgid ""
+"將原本兩段式結帳改成一頁式結帳，並改變結帳順序為 「選物流 -> 選金流 -> 填"
+"結帳欄位」，以適應超商取貨等物流模式"
 msgstr ""
 
 #: admin/settings/class-woomp-setting.php:219
@@ -334,13 +342,12 @@ msgstr ""
 
 #: public/class-woomp-order.php:38
 msgid "Ecpay Shipping details"
-msgstr ""
+msgstr "綠界物流資訊"
 
-#: public/class-woomp-order.php:45
-#: public/class-woomp-order.php:75
+#: public/class-woomp-order.php:45 public/class-woomp-order.php:75
 msgid "Shipping payment no"
-msgstr ""
+msgstr "物流編號"
 
 #: public/class-woomp-order.php:68
 msgid "Shipping details"
-msgstr ""
+msgstr "物流資訊"
