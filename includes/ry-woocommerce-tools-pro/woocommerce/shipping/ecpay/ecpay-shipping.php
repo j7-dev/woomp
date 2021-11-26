@@ -155,7 +155,7 @@ final class RY_WTP_ECPay_Shipping
             if ($shipping_method === false) {
                 continue;
             }
-            $shipping_list = $order->get_meta('_ecpay_shipping_info', true);
+            $shipping_list = $order->get_meta('', true);
             if (is_array($shipping_list)) {
                 $field_keys = array_keys($fields);
                 $field_idx = array_search('order_number', $field_keys) + 1;

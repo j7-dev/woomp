@@ -42,9 +42,13 @@ final class RY_ECPay_Shipping
             add_filter('woocommerce_update_order_review_fragments', [__CLASS__, 'shipping_choose_cvs_info']);
             add_action('woocommerce_checkout_create_order', [__CLASS__, 'save_cvs_info'], 20, 2);
 
-            if ('yes' === RY_WT::get_option('ecpay_shipping_auto_get_no', 'yes')) {
-                add_action('woocommerce_order_status_processing', [__CLASS__, 'get_code'], 10, 2);
-            }
+            //if ('yes' === RY_WT::get_option('ecpay_shipping_auto_get_no', 'yes')) {
+            //}
+            
+            add_action('woocommerce_order_status_on-hold', [__CLASS__, 'get_code'], 10, 2);
+            add_action('woocommerce_order_status_processing', [__CLASS__, 'get_code'], 10, 2);
+            add_action('wmp_get_ecpay_cvs_code', ['RY_ECPay_Shipping_Api', 'get_code'], 10, 2);
+
             add_action('woocommerce_order_status_ry-at-cvs', [__CLASS__, 'send_at_cvs_email'], 10, 2);
             add_action('woocommerce_order_status_ry-transporting', [__CLASS__, 'send_transporting_email'], 10, 2);
 
@@ -367,7 +371,7 @@ final class RY_ECPay_Shipping
             $shipping_list = [];
         }
         if (count($shipping_list) == 0) {
-            RY_ECPay_Shipping_Api::get_code($order_id);
+            WC()->queue()->schedule_single(time() + 3, 'wmp_get_ecpay_cvs_code', [$order_id], '');
         }
     }
 
