@@ -104,6 +104,12 @@ function init_woomp_gateway_cod() {
 						'data-placeholder' => __( 'Select shipping methods', 'woocommerce' ),
 					),
 				),
+				'enable_for_virtual' => array(
+					'title'   => __( 'Accept for virtual orders', 'woocommerce' ),
+					'label'   => __( '若訂單皆為虛擬商品，也接受貨到付款', 'woocommerce' ),
+					'type'    => 'checkbox',
+					'default' => 'yes',
+				),
 			) );
 		}
 
