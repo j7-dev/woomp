@@ -116,7 +116,7 @@ class RY_ECPay_Shipping_Meta_Box
                 <?=sprintf(_x('%1$s %2$s', 'Datetime', 'ry-woocommerce-tools'), $item['create']->date_i18n(wc_date_format()), $item['create']->date_i18n(wc_time_format())) ?>
             </td>
             <td>
-                <a class="button" href="<?=esc_url(add_query_arg(['orderid' => $post->ID, 'id' => $item['ID'], 'noheader' => 1], admin_url('admin.php?page=ry_print_ecpay_shipping'))) ?>"><?=__('Print', 'ry-woocommerce-tools') ?></a>
+                <a class="button" target="_blank" rel="noopener noreffer" href="<?=esc_url(add_query_arg(['orderid' => $post->ID, 'id' => $item['ID'], 'noheader' => 1], admin_url('admin.php?page=ry_print_ecpay_shipping'))) ?>"><?=__('Print', 'ry-woocommerce-tools') ?></a>
             </td>
         </tr>
         <?php
