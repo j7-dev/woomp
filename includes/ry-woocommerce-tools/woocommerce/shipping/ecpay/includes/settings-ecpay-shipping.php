@@ -46,7 +46,7 @@ return [
         'desc' => __('Auto get shipping payment no when order status is change to processing.', 'ry-woocommerce-tools')
     ],
     [
-        'title' => '使用排程來自動取得物流單號(Pro)',
+        'title' => '使用排程來自動取得物流單號',
         'id' => 'wmp_ecpay_shipping_auto_with_scheduler',
         'type' => 'checkbox',
         'default' => 'no',
@@ -66,14 +66,14 @@ return [
         'default' => 'yes',
         'desc' => __('Auto completed order when user getted products.', 'ry-woocommerce-tools')
     ],
-    [
-        'title' => '超商取貨移除帳單地址(Pro)',
-        'id' => 'wmp_ecpay_cvs_billing_address',
-        'type' => 'checkbox',
-        'default' => 'no',
-        'desc' => __('Remove billing address when shipping mode is cvs.', 'ry-woocommerce-tools-pro') . '<br>'
-            . __('The billing address still will show in order details.', 'ry-woocommerce-tools-pro')
-    ],
+    //[
+    //    'title' => '超商取貨移除帳單地址(Pro)',
+    //    'id' => 'wmp_ecpay_cvs_billing_address',
+    //    'type' => 'checkbox',
+    //    'default' => 'no',
+    //    'desc' => __('Remove billing address when shipping mode is cvs.', 'ry-woocommerce-tools-pro') . '<br>'
+    //        . __('The billing address still will show in order details.', 'ry-woocommerce-tools-pro')
+    //],
     [
         'id' => 'base_options',
         'type' => 'sectionend'

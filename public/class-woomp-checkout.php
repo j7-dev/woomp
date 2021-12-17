@@ -130,6 +130,9 @@ if ( ! class_exists( 'WooMP_Checkout' ) ) {
 				'ry_newebpay_shipping_cvs',
 				'paynow_shipping_c2c_711',
 				'paynow_shipping_c2c_family',
+				'paynow_shipping_c2c_hilife',
+				'ry_smilepay_shipping_cvs_711',
+				'ry_smilepay_shipping_cvs_fami',
 			);
 
 			foreach ( $shipping_method as $method ) {
