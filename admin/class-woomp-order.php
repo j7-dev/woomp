@@ -180,7 +180,7 @@ if ( ! class_exists( 'WooMP_Order' ) ) {
 						'product_num'      => '',
 						'qty'              => count( $order->get_items() ),
 						'weight'           => '',
-						'amount'           => $order->get_total(),
+						'amount'           => ( 'woomp_cod_gateway' === $order->get_payment_method() ) ? $order->get_total() : '',
 						'deliver_date'     => '',
 						'deliver_time'     => '',
 					);
