@@ -137,6 +137,7 @@ if ( ! class_exists( 'WooMP_Order' ) ) {
 
 			$actions['ry_print_ecpay_home_tcat'] = __( 'Print ECPay shipping booking note (tcat)', 'woomp' );
 			$actions['ry_print_ecpay_home_ecan'] = __( 'Print ECPay shipping booking note (ecan)', 'woomp' );
+			$actions['wmp_print_hct']            = __( 'Print HCT shipping booking note', 'woomp' );
 
 			return $actions;
 		}
@@ -153,12 +154,57 @@ if ( ! class_exists( 'WooMP_Order' ) ) {
 				);
 				wp_redirect( $redirect_to );
 				exit();
-			}
+			} elseif ( 'wmp_print_hct' === $action ) {
+				set_time_limit( 0 );
+				$csv_arr   = array();
+				$csv_arr[] = array( '序號', '訂單號', '收件人姓名', '收件人地址', '收件人電話', '託運備註', '商品別編號', '商品數量', '才積重量', '代收貨款', '指定配送日期', '指定配送時間' );
 
-			return esc_url_raw( $redirect_to );
+				$filename = current_time( 'Y-m-d' ) . '-hct-export.csv';
+
+				header( 'Pragma: no-cache' );
+				header( 'Expires: 0' );
+				header( 'Content-Disposition: attachment;filename="' . $filename . '";' );
+				header( 'Content-Type: application/csv; charset=UTF-8' );
+
+				$i = 1;
+
+				foreach ( $ids as $id ) {
+					$order     = wc_get_order( $id );
+					$csv_arr[] = array(
+						'serial'           => $i,
+						'order_id'         => $id,
+						'shipping_name'    => ( $order->get_shipping_last_name() ) ? $order->get_shipping_last_name() . $order->get_shipping_first_name() : $order->get_billing_last_name() . $order->get_billing_first_name(),
+						'shipping_address' => ( $order->get_shipping_address_1() ) ? $order->get_shipping_postcode() . $order->get_shipping_state() . $order->get_shipping_city() . $order->get_shipping_address_1() : $order->get_billing_postcode() . $order->get_billing_state() . $order->get_billing_city() . $order->get_billing_address_1(),
+						'phone'            => $order->get_billing_phone(),
+						'note'             => '',
+						'product_num'      => '',
+						'qty'              => count( $order->get_items() ),
+						'weight'           => '',
+						'amount'           => $order->get_total(),
+						'deliver_date'     => '',
+						'deliver_time'     => '',
+					);
+					$i++;
+				}
+
+				for ( $j = 0; $j < count( $csv_arr ); $j++ ) {
+					echo $this->csvstr( $csv_arr[ $j ] ) . "\n";
+				}
+			}
 		}
 
-
+		/**
+		 * 確保輸出內容符合 CSV 格式，定義下列方法來處理
+		 */
+		public function csvstr( array $fields ) {
+			$f = fopen( 'php://memory', 'r+' );
+			if ( fputcsv( $f, $fields ) === false ) {
+				return false;
+			}
+			rewind( $f );
+			$csv_line = stream_get_contents( $f );
+			return rtrim( $csv_line );
+		}
 
 	}
 	WooMP_Order::init();

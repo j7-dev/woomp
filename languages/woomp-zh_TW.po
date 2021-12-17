@@ -2,374 +2,383 @@
 # This file is distributed under the same license as the 好用版擴充 MorePower Addon for WooCommerce plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: 好用版擴充 MorePower Addon for WooCommerce 1.4.5\n"
+"Project-Id-Version: woomp\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/woomp\n"
-"Language-Team: \n"
+"POT-Creation-Date: 2021-12-14T07:34:52+00:00\n"
+"PO-Revision-Date: 2021-12-14 15:36+0800\n"
+"Last-Translator: \n"
+"Language-Team: morepower\n"
+"Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2021-12-13T04:04:21+00:00\n"
-"PO-Revision-Date: 2021-12-13 13:23+0800\n"
 "X-Generator: Poedit 2.3\n"
 "X-Domain: woomp\n"
-"Last-Translator: \n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"Language: zh_TW\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-SearchPath-0: woomp.pot\n"
 
 #. Plugin Name of the plugin
 msgid "好用版擴充 MorePower Addon for WooCommerce"
-msgstr ""
+msgstr "好用版擴充 MorePower Addon for WooCommerce"
 
 #. Plugin URI of the plugin
 msgid "https://morepower.club/morepower-addon/"
-msgstr ""
+msgstr "https://morepower.club/morepower-addon/"
 
 #. Description of the plugin
 msgid ""
 "WooCommerce 好用版擴充，改善結帳流程與可變商品等區塊，讓 WooCommerce 更符"
 "合亞洲人使用習慣。"
 msgstr ""
+"WooCommerce 好用版擴充，改善結帳流程與可變商品等區塊，讓 WooCommerce 更符"
+"合亞洲人使用習慣。"
 
 #. Author of the plugin
 msgid "MorePower"
-msgstr ""
+msgstr "MorePower"
 
 #. Author URI of the plugin
 msgid "https://morepower.club"
-msgstr ""
+msgstr "https://morepower.club"
 
 #: admin/class-woomp-admin.php:112
 msgid "完整地址"
-msgstr ""
+msgstr "完整地址"
 
-#: admin/class-woomp-order.php:127 admin/class-woomp-order.php:132
+#: admin/class-woomp-order.php:128 admin/class-woomp-order.php:133
 msgid "Print ECPay shipping booking note (711)"
 msgstr "列印統一超商託運單（綠界）"
 
-#: admin/class-woomp-order.php:128 admin/class-woomp-order.php:133
+#: admin/class-woomp-order.php:129 admin/class-woomp-order.php:134
 msgid "Print ECPay shipping booking note (family)"
 msgstr "列印全家超商託運單（綠界）"
 
-#: admin/class-woomp-order.php:129
+#: admin/class-woomp-order.php:130
 msgid "Print ECPay shipping booking note (hilife)"
 msgstr "列印萊爾富超商託運單（綠界）"
 
-#: admin/class-woomp-order.php:137
+#: admin/class-woomp-order.php:138
 msgid "Print ECPay shipping booking note (tcat)"
 msgstr "列印黑貓託運單（綠界）"
 
-#: admin/class-woomp-order.php:138
+#: admin/class-woomp-order.php:139
 msgid "Print ECPay shipping booking note (ecan)"
 msgstr "列印宅配通託運單（綠界）"
 
-#: admin/class-woomp-order.php:139
+#: admin/class-woomp-order.php:140
 msgid "Print HCT shipping booking note"
-msgstr ""
+msgstr "匯出新竹物流報表"
 
 #: admin/class-woomp-payment-cod-clone.php:30
 #: admin/class-woomp-payment-cod-clone.php:71
 msgid "貨到付款"
-msgstr ""
+msgstr "貨到付款"
 
 #: admin/class-woomp-payment-cod-clone.php:31
 #: admin/class-woomp-payment-cod-clone.php:79
 #: admin/class-woomp-payment-cod-clone.php:87
 msgid "收到貨時以現金付款。"
-msgstr ""
+msgstr "收到貨時以現金付款。"
 
 #: admin/class-woomp-payment-cod-clone.php:61
 #: admin/class-woomp-payment-cvs.php:61
 msgid "啓用/停用"
-msgstr ""
+msgstr "啓用/停用"
 
 #: admin/class-woomp-payment-cod-clone.php:63
 msgid "啟用貨到付款"
-msgstr ""
+msgstr "啟用貨到付款"
 
 #: admin/class-woomp-payment-cod-clone.php:338
 #: admin/class-woomp-payment-cvs.php:337
 msgid "設定"
-msgstr ""
+msgstr "設定"
 
 #: admin/class-woomp-payment-cod-clone.php:346
 #: admin/class-woomp-payment-cvs.php:30 admin/class-woomp-payment-cvs.php:71
 msgid "超商取貨付款"
-msgstr ""
+msgstr "超商取貨付款"
 
 #: admin/class-woomp-payment-cvs.php:31 admin/class-woomp-payment-cvs.php:79
 #: admin/class-woomp-payment-cvs.php:87
 msgid "可將商品送到指定的超商門市，取貨時再進行付款。"
-msgstr ""
+msgstr "可將商品送到指定的超商門市，取貨時再進行付款。"
 
 #: admin/class-woomp-payment-cvs.php:63
 msgid "啟用超商取貨付款"
-msgstr ""
+msgstr "啟用超商取貨付款"
 
 #: admin/class-woomp-product.php:78
 msgid "商品屬性"
-msgstr ""
+msgstr "商品屬性"
 
 #: admin/class-woomp-product.php:114
 msgid "切換原版變化類型介面"
-msgstr ""
+msgstr "切換原版變化類型介面"
 
 #: admin/class-woomp-product.php:123
 msgid "請輸入變化類型規格，一次輸入一個"
-msgstr ""
+msgstr "請輸入變化類型規格，一次輸入一個"
 
 #: admin/class-woomp-product.php:217
 msgid "變化類型已更新"
-msgstr ""
+msgstr "變化類型已更新"
 
 #: admin/class-woomp-product.php:302
 msgid "必填"
-msgstr ""
+msgstr "必填"
 
 #: admin/class-woomp-product.php:304
 msgid "須小於定價"
-msgstr ""
+msgstr "須小於定價"
 
 #: admin/class-woomp-product.php:333
 msgid "定價未填"
-msgstr ""
+msgstr "定價未填"
 
 #: admin/class-woomp-product.php:415
 msgid "切換好用版 Woo 變化類型介面"
-msgstr ""
+msgstr "切換好用版 Woo 變化類型介面"
 
 #: admin/class-woomp-product.php:446
 msgid "設定前台變化類型介面:"
-msgstr ""
+msgstr "設定前台變化類型介面:"
 
 #: admin/class-woomp-product.php:448
 msgid "下拉選單"
-msgstr ""
+msgstr "下拉選單"
 
 #: admin/class-woomp-product.php:449
 msgid "單選方塊(不斷行)"
-msgstr ""
+msgstr "單選方塊(不斷行)"
 
 #: admin/class-woomp-product.php:450
 msgid "單選方塊(每行放1個選項)"
-msgstr ""
+msgstr "單選方塊(每行放1個選項)"
 
 #: admin/class-woomp-product.php:451
 msgid "單選方塊(每行放2個選項) "
-msgstr ""
+msgstr "單選方塊(每行放2個選項) "
 
 #: admin/class-woomp-product.php:452
 msgid "標籤式選項"
-msgstr ""
+msgstr "標籤式選項"
 
 #: admin/settings/class-woomp-setting-gateway.php:12
 #: admin/settings/class-woomp-setting-gateway.php:37
 msgid "金流設定"
-msgstr ""
+msgstr "金流設定"
 
 #: admin/settings/class-woomp-setting-gateway.php:64
 #: admin/settings/class-woomp-setting-invoice.php:64
 #: admin/settings/class-woomp-setting-shipping.php:64
 msgid "綠界"
-msgstr ""
+msgstr "綠界"
 
 #: admin/settings/class-woomp-setting-gateway.php:65
 #: admin/settings/class-woomp-setting-shipping.php:65
 msgid "藍新"
-msgstr ""
+msgstr "藍新"
 
 #: admin/settings/class-woomp-setting-gateway.php:66
 #: admin/settings/class-woomp-setting-shipping.php:66
 msgid "速買配"
-msgstr ""
+msgstr "速買配"
 
 #: admin/settings/class-woomp-setting-gateway.php:67
 #: admin/settings/class-woomp-setting-invoice.php:65
 #: admin/settings/class-woomp-setting-shipping.php:67
 msgid "立吉富"
-msgstr ""
+msgstr "立吉富"
 
 #: admin/settings/class-woomp-setting-gateway.php:68
 msgid "LINE Pay"
-msgstr ""
+msgstr "LINE Pay"
 
 #: admin/settings/class-woomp-setting-gateway.php:186
 msgid "LINE Pay 金流設定"
-msgstr ""
+msgstr "LINE Pay 金流設定"
 
 #: admin/settings/class-woomp-setting-invoice.php:12
 #: admin/settings/class-woomp-setting-invoice.php:37
 msgid "電子發票設定"
-msgstr ""
+msgstr "電子發票設定"
 
 #: admin/settings/class-woomp-setting-shipping.php:12
 #: admin/settings/class-woomp-setting-shipping.php:37
 msgid "物流設定"
-msgstr ""
+msgstr "物流設定"
 
 #: admin/settings/class-woomp-setting.php:23
 msgid "好用版擴充"
-msgstr ""
+msgstr "好用版擴充"
 
 #: admin/settings/class-woomp-setting.php:62
 msgid ""
 "<a target=\"_blank\" href=\"https://morepower.club/know_cate/addon/\">好用"
 "版擴充 教學文件</a>"
 msgstr ""
+"<a target=\"_blank\" href=\"https://morepower.club/know_cate/addon/\">好用"
+"版擴充 教學文件</a>"
 
 #: admin/settings/class-woomp-setting.php:65
 msgid "綠界設定"
-msgstr ""
+msgstr "綠界設定"
 
 #: admin/settings/class-woomp-setting.php:70
 msgid "啟用綠界金流"
-msgstr ""
+msgstr "啟用綠界金流"
 
 #: admin/settings/class-woomp-setting.php:79
 msgid "啟用綠界物流"
-msgstr ""
+msgstr "啟用綠界物流"
 
 #: admin/settings/class-woomp-setting.php:88
 msgid "啟用綠界電子發票"
-msgstr ""
+msgstr "啟用綠界電子發票"
 
 #: admin/settings/class-woomp-setting.php:100
 msgid "藍新設定"
-msgstr ""
+msgstr "藍新設定"
 
 #: admin/settings/class-woomp-setting.php:105
 msgid "啟用藍新金流"
-msgstr ""
+msgstr "啟用藍新金流"
 
 #: admin/settings/class-woomp-setting.php:114
 msgid "啟用藍新物流"
-msgstr ""
+msgstr "啟用藍新物流"
 
 #: admin/settings/class-woomp-setting.php:126
 msgid "速買配設定"
-msgstr ""
+msgstr "速買配設定"
 
 #: admin/settings/class-woomp-setting.php:131
 msgid "啟用速買配金流"
-msgstr ""
+msgstr "啟用速買配金流"
 
 #: admin/settings/class-woomp-setting.php:140
 msgid "啟用速買配物流"
-msgstr ""
+msgstr "啟用速買配物流"
 
 #: admin/settings/class-woomp-setting.php:152
 msgid "立吉富設定"
-msgstr ""
+msgstr "立吉富設定"
 
 #: admin/settings/class-woomp-setting.php:157
 msgid "啟用立吉富金流"
-msgstr ""
+msgstr "啟用立吉富金流"
 
 #: admin/settings/class-woomp-setting.php:159
 msgid "啟用 立吉富金流 模組"
-msgstr ""
+msgstr "啟用 立吉富金流 模組"
 
 #: admin/settings/class-woomp-setting.php:166
 msgid "啟用立吉富物流"
-msgstr ""
+msgstr "啟用立吉富物流"
 
 #: admin/settings/class-woomp-setting.php:168
 msgid "啟用 立吉富物流 模組"
-msgstr ""
+msgstr "啟用 立吉富物流 模組"
 
 #: admin/settings/class-woomp-setting.php:175
 msgid "啟用立吉富電子發票"
-msgstr ""
+msgstr "啟用立吉富電子發票"
 
 #: admin/settings/class-woomp-setting.php:177
 msgid "啟用 立吉富電子發票 模組"
-msgstr ""
+msgstr "啟用 立吉富電子發票 模組"
 
 #: admin/settings/class-woomp-setting.php:187
 msgid "LINE Pay 設定"
-msgstr ""
+msgstr "LINE Pay 設定"
 
 #: admin/settings/class-woomp-setting.php:192
 msgid "啟用 LINE Pay 金流"
-msgstr ""
+msgstr "啟用 LINE Pay 金流"
 
 #: admin/settings/class-woomp-setting.php:204
 msgid "結帳相關設定"
-msgstr ""
+msgstr "結帳相關設定"
 
 #: admin/settings/class-woomp-setting.php:210
 msgid "一頁結帳模式"
-msgstr ""
+msgstr "一頁結帳模式"
 
 #: admin/settings/class-woomp-setting.php:212
 msgid ""
 "將原本兩段式結帳改成一頁式結帳，並改變結帳順序為 「選物流 -> 選金流 -> 填"
 "結帳欄位」，以適應超商取貨等物流模式"
 msgstr ""
+"將原本兩段式結帳改成一頁式結帳，並改變結帳順序為 「選物流 -> 選金流 -> 填"
+"結帳欄位」，以適應超商取貨等物流模式"
 
 #: admin/settings/class-woomp-setting.php:219
 msgid "結帳頁國家欄位置頂"
-msgstr ""
+msgstr "結帳頁國家欄位置頂"
 
 #: admin/settings/class-woomp-setting.php:221
 msgid "若需運送至多個國家，建議開啟此選項，將國家欄位移至物流選項之前"
-msgstr ""
+msgstr "若需運送至多個國家，建議開啟此選項，將國家欄位移至物流選項之前"
 
 #: admin/settings/class-woomp-setting.php:229
 msgid "縣市/鄉鎮市下拉式選單"
-msgstr ""
+msgstr "縣市/鄉鎮市下拉式選單"
 
 #: admin/settings/class-woomp-setting.php:231
 msgid "開啟此選項套用結帳中的台灣地址下拉選單"
-msgstr ""
+msgstr "開啟此選項套用結帳中的台灣地址下拉選單"
 
 #: admin/settings/class-woomp-setting.php:239
 msgid "訂單地址欄位整併"
-msgstr ""
+msgstr "訂單地址欄位整併"
 
 #: admin/settings/class-woomp-setting.php:241
 msgid "開啟此選項套用後台訂單管理地址欄位整合為一行"
-msgstr ""
+msgstr "開啟此選項套用後台訂單管理地址欄位整合為一行"
 
 #: admin/settings/class-woomp-setting.php:249
 msgid "虛擬商品隱藏地址欄位"
-msgstr ""
+msgstr "虛擬商品隱藏地址欄位"
 
 #: admin/settings/class-woomp-setting.php:251
 msgid "開啟此選項套用結帳虛擬商品時隱藏地址欄位"
-msgstr ""
+msgstr "開啟此選項套用結帳虛擬商品時隱藏地址欄位"
 
 #: admin/settings/class-woomp-setting.php:259
 msgid "新增取代貨到付款方式"
-msgstr ""
+msgstr "新增取代貨到付款方式"
 
 #: admin/settings/class-woomp-setting.php:261
 msgid "開啟此選項以取代貨到付款方式"
-msgstr ""
+msgstr "開啟此選項以取代貨到付款方式"
 
 #: admin/settings/class-woomp-setting.php:269
 msgid "變化商品編輯介面"
-msgstr ""
+msgstr "變化商品編輯介面"
 
 #: admin/settings/class-woomp-setting.php:271
 msgid "開啟此選項以套用好用版變化商品操作介面"
-msgstr ""
+msgstr "開啟此選項以套用好用版變化商品操作介面"
 
 #: admin/settings/class-woomp-setting.php:306
 msgid "結帳按鈕文字設定"
-msgstr ""
+msgstr "結帳按鈕文字設定"
 
 #: admin/settings/class-woomp-setting.php:308
 msgid "設定結帳頁確定購買按鈕的文字內容"
-msgstr ""
+msgstr "設定結帳頁確定購買按鈕的文字內容"
 
 #: public/class-woomp-order.php:38
 msgid "Ecpay Shipping details"
-msgstr ""
+msgstr "綠界物流資訊"
 
 #: public/class-woomp-order.php:45 public/class-woomp-order.php:75
 msgid "Shipping payment no"
-msgstr ""
+msgstr "物流單號"
 
 #: public/class-woomp-order.php:68
 msgid "Shipping details"
-msgstr ""
+msgstr "物流資訊"

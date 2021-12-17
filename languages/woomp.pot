@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the 好用版擴充 MorePower Addon for WooCommerce plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: 好用版擴充 MorePower Addon for WooCommerce 1.4.5\n"
+"Project-Id-Version: 好用版擴充 MorePower Addon for WooCommerce 1.4.6\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/woomp\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2021-12-13T04:04:21+00:00\n"
+"POT-Creation-Date: 2021-12-14T07:34:52+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.4.0\n"
 "X-Domain: woomp\n"
@@ -38,29 +38,29 @@ msgstr ""
 msgid "完整地址"
 msgstr ""
 
-#: admin/class-woomp-order.php:127
-#: admin/class-woomp-order.php:132
+#: admin/class-woomp-order.php:128
+#: admin/class-woomp-order.php:133
 msgid "Print ECPay shipping booking note (711)"
 msgstr ""
 
-#: admin/class-woomp-order.php:128
-#: admin/class-woomp-order.php:133
+#: admin/class-woomp-order.php:129
+#: admin/class-woomp-order.php:134
 msgid "Print ECPay shipping booking note (family)"
 msgstr ""
 
-#: admin/class-woomp-order.php:129
+#: admin/class-woomp-order.php:130
 msgid "Print ECPay shipping booking note (hilife)"
 msgstr ""
 
-#: admin/class-woomp-order.php:137
+#: admin/class-woomp-order.php:138
 msgid "Print ECPay shipping booking note (tcat)"
 msgstr ""
 
-#: admin/class-woomp-order.php:138
+#: admin/class-woomp-order.php:139
 msgid "Print ECPay shipping booking note (ecan)"
 msgstr ""
 
-#: admin/class-woomp-order.php:139
+#: admin/class-woomp-order.php:140
 msgid "Print HCT shipping booking note"
 msgstr ""
 
