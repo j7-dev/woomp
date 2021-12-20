@@ -433,10 +433,9 @@ class Woomp_Setting {
 			}
 		</style>
 		<script>
-			var $ = jQuery.noConflict();
-			$(document).ready(function(){
-				$('.form-table td fieldset label').each(function(){
-					$(this).find('input').after('<label for="'+ $(this).attr('for') +'">Toggle</label>');
+			jQuery(document).ready(function(){
+				jQuery('.form-table td fieldset label').each(function(){
+					jQuery(this).find('input').after('<label for="'+ jQuery(this).attr('for') +'">Toggle</label>');
 				})
 			})
 		</script>

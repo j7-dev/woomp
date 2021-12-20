@@ -26,6 +26,8 @@ if ( ! class_exists( 'WooMP_Order' ) ) {
 
 			add_filter( 'bulk_actions-edit-shop_order', array( $class, 'bulk_action' ), 99, 1 );
 			add_filter( 'handle_bulk_actions-edit-shop_order', array( $class, 'print_shipping_note' ), 10, 3 );
+
+			//add_action( 'woocommerce_admin_order_data_after_shipping_address', array( $class, 'add_choose_cvs_btn' ) );
 		}
 
 		/**
@@ -204,6 +206,13 @@ if ( ! class_exists( 'WooMP_Order' ) ) {
 			rewind( $f );
 			$csv_line = stream_get_contents( $f );
 			return rtrim( $csv_line );
+		}
+
+		public function add_choose_cvs_btn( $order ) {
+			echo '
+			<div class="edit_address">
+				<button type="button" class="button ry-choosr-cvs">aaa</button><br>
+			</div>';
 		}
 
 	}
