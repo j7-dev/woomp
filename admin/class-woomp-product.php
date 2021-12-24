@@ -578,7 +578,37 @@ if ( ! class_exists( 'WooMP_Product' ) ) {
 				}
 				return $html;
 			} elseif ( ! empty( $options ) && $attribute_type === 'tag' ) {
-				$radios = '<style>.variation-radios + select,.variation-radios + select + *{display:none!important;}.variation-radios > * {cursor: pointer;}.variation-radios.tag {display:flex; flex-wrap: wrap; margin-bottom: 1rem; } .tag-list label { display: inline-block; background:#efefef; padding: .1rem .8rem; cursor: pointer; margin: .8rem .8rem 0 0; border-radius: 3px; } .tag-list input:checked + label { color: #fff; }</style>
+				$radios = '
+				<style>
+				.variation-radios + select,.variation-radios + select + * {
+					display:none!important;
+				}
+				.variation-radios + select + a.reset_variations {
+					display: block!important;
+				}
+				.variation-radios > * {
+					cursor: pointer;
+				}
+				.variation-radios.tag {
+					display:flex;
+					flex-wrap: wrap;
+					margin-bottom: 1rem;
+				}
+				.tag-list label {
+					display: inline-block;
+					background:#efefef;
+					padding: .1rem .8rem;
+					cursor: pointer;
+					margin: .8rem .8rem 0 0;
+					border-radius: 3px;
+				}
+				.tag-list input:checked + label {
+					 color: #fff;
+				}
+				.tag-list input:disabled + label {
+					text-decoration: line-through;
+				}
+				</style>
 				<script>
 				jQuery(function($){
 				   $(document).ready(function(){
