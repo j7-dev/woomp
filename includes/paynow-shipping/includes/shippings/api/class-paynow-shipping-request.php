@@ -482,7 +482,7 @@ class PayNow_Shipping_Request {
 		$args['Receiver_address'] = $reciever['address'];// 若為交貨便請填店家地址.
 		$args['Receiver_Email']   = $order->get_billing_email();
 		$args['Receiver_Name']    = $order->get_shipping_last_name() . $order->get_shipping_first_name();
-		$args['Receiver_Phone']   = $order->get_meta( '_shipping_phone' );
+		$args['Receiver_Phone']   = PayNow_Shipping::paynow_get_shipping_phone( $order );
 
 		$args['Remark'] = '';
 

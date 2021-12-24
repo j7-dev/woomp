@@ -485,7 +485,9 @@ class PayNow_Shipping {
 		}
 
 		if ( isset( $data['shipping_phone'] ) ) {
-			$order->update_meta_data( '_shipping_phone', $data['shipping_phone'] );
+			if ( version_compare(WC_VERSION, '5.6.0', '<' ) ) {
+				$order->update_meta_data( '_shipping_phone', $data['shipping_phone'] );
+			}
 		}
 
 		$order->save();
@@ -570,13 +572,13 @@ class PayNow_Shipping {
 			$raw_address['paynow_storeid']      = $order->get_meta( PayNow_Shipping_Order_Meta::StoreId );
 			$raw_address['paynow_storename']    = $order->get_meta( PayNow_Shipping_Order_Meta::StoreName );
 			$raw_address['paynow_storeaddress'] = $order->get_meta( PayNow_Shipping_Order_Meta::StoreAddr );
-			$raw_address['phone']               = $order->get_meta( '_shipping_phone' );
+			$raw_address['phone']               = self::paynow_get_shipping_phone( $order );
 			$raw_address['country']             = 'PNCVS';
 
 		} else {
 
-			if ( $order->get_meta( '_shipping_phone' ) ) {
-				$raw_address['phone'] = $order->get_meta( '_shipping_phone' );
+			if ( self::paynow_get_shipping_phone( $order ) ) {
+				$raw_address['phone'] = self::paynow_get_shipping_phone( $order );
 			}
 
 			if ( $order->get_meta( PayNow_Shipping_Order_Meta::LogisticServiceId ) === PayNow_Shipping_Logistic_Service::TCAT ) {
@@ -803,6 +805,20 @@ class PayNow_Shipping {
 		}
 
 		return false;
+	}
+
+	/**
+	 * WooCommerce 5.6 支援 shipping phone
+	 *
+	 * @param WC_Order $order
+	 * @return string
+	 */
+	public static function paynow_get_shipping_phone( $order ) {
+		if ( version_compare( WC_VERSION, '5.6.0', '>=' )) {
+			return $order->get_shipping_phone();
+		} else {
+			return $order->get_meta('_shipping_phone');
+		}
 	}
 
 
