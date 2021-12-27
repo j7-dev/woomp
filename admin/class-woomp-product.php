@@ -19,11 +19,13 @@ if ( ! class_exists( 'WooMP_Product' ) ) {
 			add_action( 'admin_head', __CLASS__ . '::is_active_woomp_ui' );
 			add_filter( 'admin_head', __CLASS__ . '::enqueue_proudcts_style', 99 );
 			add_filter( 'admin_footer', __CLASS__ . '::enqueue_proudcts_script', 99 );
-			add_action( 'woocommerce_after_product_attribute_settings', __CLASS__ . '::wcb_add_product_attribute_is_highlighted', 10, 2 );
 			add_action( 'wp_ajax_woocommerce_save_attributes', __CLASS__ . '::wcb_ajax_woocommerce_save_attributes', 1 );
 			add_action( 'save_post', __CLASS__ . '::save_post_attribute_type', 10, 3 );
-			add_filter( 'woocommerce_dropdown_variation_attribute_options_html', __CLASS__ . '::variation_radio_buttons', 20, 2 );
 			add_filter( 'woocommerce_variation_is_active', __CLASS__ . '::variation_check', 10, 2 );
+			if ( get_option( 'wc_woomp_setting_product_variations_frontend_ui', 1 ) === 'yes' ) {
+				add_action( 'woocommerce_after_product_attribute_settings', __CLASS__ . '::wcb_add_product_attribute_is_highlighted', 10, 2 );
+				add_filter( 'woocommerce_dropdown_variation_attribute_options_html', __CLASS__ . '::variation_radio_buttons', 20, 2 );
+			}
 		}
 
 		/**

@@ -265,16 +265,6 @@ class Woomp_Setting {
 				'default'  => 'yes',
 				'std'      => 'yes',
 			),
-			'product_variations_ui'   => array(
-				'name'     => __( '變化商品編輯介面', 'woomp' ),
-				'type'     => 'checkbox',
-				'desc'     => __( '開啟此選項以套用好用版變化商品操作介面', 'woomp' ),
-				'id'       => 'wc_woomp_setting_product_variations_ui',
-				'class'    => 'toggle',
-				'desc_tip' => true,
-				'default'  => 'yes',
-				'std'      => 'yes',
-			),
 			array(
 				'title'    => __( 'Repay action', 'ry-woocommerce-tools' ),
 				'desc'     => __( 'Enable order to change payment', 'ry-woocommerce-tools' ),
@@ -314,6 +304,35 @@ class Woomp_Setting {
 			'section_end'             => array(
 				'type' => 'sectionend',
 				'id'   => 'wc_woomp_setting_section_checkout_title',
+			),
+			array(
+				'title' => __( '商品相關設定', 'woomp' ),
+				'type'  => 'title',
+				'id'    => 'product_page_options',
+			),
+			'product_variations_ui'   => array(
+				'name'     => __( '變化商品編輯介面', 'woomp' ),
+				'type'     => 'checkbox',
+				'desc'     => __( '開啟此選項以套用好用版變化商品操作介面', 'woomp' ),
+				'id'       => 'wc_woomp_setting_product_variations_ui',
+				'class'    => 'toggle',
+				'desc_tip' => true,
+				'default'  => 'yes',
+				'std'      => 'yes',
+			),
+			'product_variations_frontend_ui'   => array(
+				'name'     => __( '變化商品前台顯示介面', 'woomp' ),
+				'type'     => 'checkbox',
+				'desc'     => __( '開啟此選項以套用好用版變化商品前台顯示介面', 'woomp' ),
+				'id'       => 'wc_woomp_setting_product_variations_frontend_ui',
+				'class'    => 'toggle',
+				'desc_tip' => true,
+				'default'  => 'yes',
+				'std'      => 'yes',
+			),
+			array(
+				'type' => 'sectionend',
+				'id'   => 'product_page_options',
 			),
 			array(
 				'title' => __( 'Address options', 'ry-woocommerce-tools' ),
