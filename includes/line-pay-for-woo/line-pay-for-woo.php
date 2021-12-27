@@ -49,8 +49,8 @@ class WC_Gateway_LINEPay_Handler {
 		include_once plugin_dir_path( __FILE__ ) . 'includes/class-wc-gateway-linepay.php';
 
 		add_filter( 'woocommerce_payment_gateways', array( $this, 'add_gateway' ) );
-		//add_filter( 'woocommerce_my_account_my_orders_title', array( $this, 'append_script_for_refund_action' ) );
-		//add_filter( 'woocommerce_my_account_my_orders_actions', array( $this, 'change_customer_order_action' ), 10, 2 );
+		add_filter( 'woocommerce_my_account_my_orders_title', array( $this, 'append_script_for_refund_action' ) );
+		add_filter( 'woocommerce_my_account_my_orders_actions', array( $this, 'change_customer_order_action' ), 10, 2 );
 		add_action( 'woocommerce_api_' . strtolower( get_class( $this ) ), array( $this, 'handle_callback' ) );
 
 		// linepay setting.
@@ -149,7 +149,7 @@ class WC_Gateway_LINEPay_Handler {
 	public function process_refund_by_customer( $linepay_gateway, $order_id ) {
 		$order         = wc_get_order( $order_id );
 		$refund_amount = wc_format_decimal( sanitize_text_field( wp_unslash( $_GET['cancel_amount'] ) ) );
-		$refund_reason = sanitize_text_field( wp_unslash( $_GET['reason'] ) );
+		$refund_reason = ( isset( $_GET['reason'] ) ) ? sanitize_text_field( wp_unslash( $_GET['reason'] ) ) : '';
 
 		$line_items       = array();
 		$items            = $order->get_items();
@@ -157,7 +157,7 @@ class WC_Gateway_LINEPay_Handler {
 
 		// items.
 		foreach ( $items as $item_id => $item ) {
-			$line_tax_data          = unserialize( $item['line_tax_data'] );
+			$line_tax_data          = $item['line_tax_data'];
 			$line_item              = array(
 				'qty'          => $item['qty'],
 				'refund_total' => wc_format_decimal( $item['line_total'] ),
@@ -170,7 +170,7 @@ class WC_Gateway_LINEPay_Handler {
 		foreach ( $shipping_methods as $shipping_id => $shipping ) {
 			$line_item                  = array(
 				'refund_total' => wc_format_decimal( $shipping['cost'] ),
-				'refund_tax'   => unserialize( $shipping['taxes'] ),
+				'refund_tax'   => $shipping['taxes'],
 			);
 			$line_items[ $shipping_id ] = $line_item;
 		}
@@ -194,30 +194,28 @@ class WC_Gateway_LINEPay_Handler {
 
 			if ( is_wp_error( $result ) || ! $result ) {
 				static::$logger->error( 'process_refund_request_by_customer', $result );
-
-				throw new Exception( $result->get_error_message() );
 			}
 
 			// Item quantity return.
-			foreach ( $items as $item_id => $item ) {
-				$qty      = $item['qty'];
-				$_product = $order->get_product_from_item( $item );
+			//foreach ( $items as $item_id => $item ) {
+			//	$qty      = $item['qty'];
+			//	$_product = wc_get_product( $item_id );
 
-				if ( $_product && $_product->exists() && $_product->managing_stock() ) {
-					$old_stock = wc_stock_amount( $_product->stock );
+			//	if ( $_product && $_product->exists() && $_product->managing_stock() ) {
+			//		$old_stock = wc_stock_amount( $_product->stock );
 
-					$new_quantity = wc_update_product_stock( $_product, $qty, 'increase', true );
+			//		$new_quantity = wc_update_product_stock( $_product, $qty, 'increase', true );
 
-					$order->add_order_note( sprintf( __( 'Item #%1$s stock increased from %2$s to %3$s.', 'woocommerce' ), $order_item['product_id'], $old_stock, $new_quantity ) );
+			//		$order->add_order_note( sprintf( __( 'Item #%1$s stock increased from %2$s to %3$s.', 'woocommerce' ), $order_item['product_id'], $old_stock, $new_quantity ) );
 
-					do_action( 'woocommerce_restock_refunded_item', $_product->id, $old_stock, $new_quantity, $order );
-				}
-			}
+			//		do_action( 'woocommerce_restock_refunded_item', $_product->id, $old_stock, $new_quantity, $order );
+			//	}
+			//}
 
 			wc_delete_shop_order_transients( $order_id );
 
 			wc_add_notice( __( 'Refund complete.', 'woocommerce_gateway_linepay' ) );
-			wp_send_json_success( array( 'info' => 'fully_refunded' ) );
+			wp_safe_redirect( wc_get_account_endpoint_url( 'dashboard' ) );
 
 		} catch ( Exception $e ) {
 
@@ -226,7 +224,8 @@ class WC_Gateway_LINEPay_Handler {
 			}
 
 			wc_add_wp_error_notices( new WP_Error( 'process_refund_by_customer', __( 'Unable to process refund. Please try again.', 'woocommerce_gateway_linepay' ) ) );
-			wp_send_json_error( array( 'info' => $e->getMessage() ) );
+			//wp_send_json_error( array( 'info' => $e->getMessage() ) );
+			wp_safe_redirect( wc_get_account_endpoint_url( 'dashboard' ) );
 		}
 
 	}
