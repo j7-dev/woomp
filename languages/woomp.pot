@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the 好用版擴充 MorePower Addon for WooCommerce plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: 好用版擴充 MorePower Addon for WooCommerce 1.4.6\n"
+"Project-Id-Version: 好用版擴充 MorePower Addon for WooCommerce 1.4.9\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/woomp\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2021-12-14T07:34:52+00:00\n"
+"POT-Creation-Date: 2021-12-28T10:17:28+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.4.0\n"
 "X-Domain: woomp\n"
@@ -38,30 +38,38 @@ msgstr ""
 msgid "完整地址"
 msgstr ""
 
-#: admin/class-woomp-order.php:128
-#: admin/class-woomp-order.php:133
+#: admin/class-woomp-order.php:130
+#: admin/class-woomp-order.php:135
 msgid "Print ECPay shipping booking note (711)"
 msgstr ""
 
-#: admin/class-woomp-order.php:129
-#: admin/class-woomp-order.php:134
+#: admin/class-woomp-order.php:131
+#: admin/class-woomp-order.php:136
 msgid "Print ECPay shipping booking note (family)"
 msgstr ""
 
-#: admin/class-woomp-order.php:130
+#: admin/class-woomp-order.php:132
 msgid "Print ECPay shipping booking note (hilife)"
 msgstr ""
 
-#: admin/class-woomp-order.php:138
+#: admin/class-woomp-order.php:140
 msgid "Print ECPay shipping booking note (tcat)"
 msgstr ""
 
-#: admin/class-woomp-order.php:139
+#: admin/class-woomp-order.php:141
 msgid "Print ECPay shipping booking note (ecan)"
 msgstr ""
 
-#: admin/class-woomp-order.php:140
+#: admin/class-woomp-order.php:142
 msgid "Print HCT shipping booking note"
+msgstr ""
+
+#: admin/class-woomp-order.php:219
+msgid "Update convenience store"
+msgstr ""
+
+#: admin/class-woomp-order.php:220
+msgid "After choosing cvs, you need update the order to save changing."
 msgstr ""
 
 #: admin/class-woomp-payment-cod-clone.php:30
@@ -105,59 +113,59 @@ msgstr ""
 msgid "啟用超商取貨付款"
 msgstr ""
 
-#: admin/class-woomp-product.php:78
+#: admin/class-woomp-product.php:80
 msgid "商品屬性"
 msgstr ""
 
-#: admin/class-woomp-product.php:114
+#: admin/class-woomp-product.php:116
 msgid "切換原版變化類型介面"
 msgstr ""
 
-#: admin/class-woomp-product.php:123
+#: admin/class-woomp-product.php:125
 msgid "請輸入變化類型規格，一次輸入一個"
 msgstr ""
 
-#: admin/class-woomp-product.php:217
+#: admin/class-woomp-product.php:219
 msgid "變化類型已更新"
 msgstr ""
 
-#: admin/class-woomp-product.php:302
+#: admin/class-woomp-product.php:304
 msgid "必填"
 msgstr ""
 
-#: admin/class-woomp-product.php:304
+#: admin/class-woomp-product.php:306
 msgid "須小於定價"
 msgstr ""
 
-#: admin/class-woomp-product.php:333
+#: admin/class-woomp-product.php:335
 msgid "定價未填"
 msgstr ""
 
-#: admin/class-woomp-product.php:415
+#: admin/class-woomp-product.php:417
 msgid "切換好用版 Woo 變化類型介面"
 msgstr ""
 
-#: admin/class-woomp-product.php:446
+#: admin/class-woomp-product.php:448
 msgid "設定前台變化類型介面:"
 msgstr ""
 
-#: admin/class-woomp-product.php:448
+#: admin/class-woomp-product.php:450
 msgid "下拉選單"
 msgstr ""
 
-#: admin/class-woomp-product.php:449
+#: admin/class-woomp-product.php:451
 msgid "單選方塊(不斷行)"
 msgstr ""
 
-#: admin/class-woomp-product.php:450
+#: admin/class-woomp-product.php:452
 msgid "單選方塊(每行放1個選項)"
 msgstr ""
 
-#: admin/class-woomp-product.php:451
+#: admin/class-woomp-product.php:453
 msgid "單選方塊(每行放2個選項) "
 msgstr ""
 
-#: admin/class-woomp-product.php:452
+#: admin/class-woomp-product.php:454
 msgid "標籤式選項"
 msgstr ""
 
@@ -342,20 +350,32 @@ msgstr ""
 msgid "開啟此選項以取代貨到付款方式"
 msgstr ""
 
-#: admin/settings/class-woomp-setting.php:269
-msgid "變化商品編輯介面"
-msgstr ""
-
-#: admin/settings/class-woomp-setting.php:271
-msgid "開啟此選項以套用好用版變化商品操作介面"
-msgstr ""
-
-#: admin/settings/class-woomp-setting.php:306
+#: admin/settings/class-woomp-setting.php:296
 msgid "結帳按鈕文字設定"
 msgstr ""
 
-#: admin/settings/class-woomp-setting.php:308
+#: admin/settings/class-woomp-setting.php:298
 msgid "設定結帳頁確定購買按鈕的文字內容"
+msgstr ""
+
+#: admin/settings/class-woomp-setting.php:309
+msgid "商品相關設定"
+msgstr ""
+
+#: admin/settings/class-woomp-setting.php:314
+msgid "變化商品編輯介面"
+msgstr ""
+
+#: admin/settings/class-woomp-setting.php:316
+msgid "開啟此選項以套用好用版變化商品操作介面"
+msgstr ""
+
+#: admin/settings/class-woomp-setting.php:324
+msgid "變化商品前台顯示介面"
+msgstr ""
+
+#: admin/settings/class-woomp-setting.php:326
+msgid "開啟此選項以套用好用版變化商品前台顯示介面"
 msgstr ""
 
 #: public/class-woomp-order.php:38

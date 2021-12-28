@@ -27,7 +27,8 @@ if ( ! class_exists( 'WooMP_Order' ) ) {
 			add_filter( 'bulk_actions-edit-shop_order', array( $class, 'bulk_action' ), 99, 1 );
 			add_filter( 'handle_bulk_actions-edit-shop_order', array( $class, 'print_shipping_note' ), 10, 3 );
 
-			//add_action( 'woocommerce_admin_order_data_after_shipping_address', array( $class, 'add_choose_cvs_btn' ) );
+			add_action( 'woocommerce_admin_order_data_after_shipping_address', array( $class, 'add_choose_cvs_btn' ) );
+			add_action( 'admin_enqueue_scripts', array( $class, 'enqueue_choose_cvs_script' ) );
 		}
 
 		/**
@@ -208,11 +209,65 @@ if ( ! class_exists( 'WooMP_Order' ) ) {
 			return rtrim( $csv_line );
 		}
 
+		/**
+		 * 增加訂單頁面重新選擇超商按鈕
+		 */
 		public function add_choose_cvs_btn( $order ) {
-			echo '
-			<div class="edit_address">
-				<button type="button" class="button ry-choosr-cvs">aaa</button><br>
-			</div>';
+			foreach ($order->get_items('shipping') as $item_id => $item) {
+				$method_class = RY_ECPay_Shipping::get_order_support_shipping($item);
+				if ($method_class !== false && strpos($method_class, 'cvs') !== false) {
+					echo '<div class="edit_address">
+					<button type="button" class="button choose-cvs" style="margin-top: 10px;">'. __('Update convenience store', 'woomp') .' </button><p style="margin-top: 10px;">'
+					.__('After choosing cvs, you need update the order to save changing.', 'woomp') . '
+					</p></div>
+					';
+				}
+			}
+		}
+
+		/**
+		 * 註冊重新選擇超商 JS
+		 */
+		public function enqueue_choose_cvs_script(){
+			global $pagenow;
+			if ( 'post.php' === $pagenow && isset($_GET['post']) && 'shop_order' === get_post_type( $_GET['post'] ) ) {
+				$order = wc_get_order( $_GET['post'] );
+				foreach ($order->get_items('shipping') as $item_id => $item) {
+					$method_class = RY_ECPay_Shipping::get_order_support_shipping($item);
+					if ($method_class !== false && strpos($method_class, 'cvs') !== false) {
+						list($MerchantID, $HashKey, $HashIV, $CVS_type) = RY_ECPay_Shipping::get_ecpay_api_info();
+		
+						$choosed_cvs = '';
+
+						if (isset($_POST['MerchantID']) && $_POST['MerchantID'] == $MerchantID) {
+							$choosed_cvs = [
+								'CVSStoreID' => wc_clean(wp_unslash($_POST['CVSStoreID'])),
+								'CVSStoreName' => wc_clean(wp_unslash($_POST['CVSStoreName'])),
+								'CVSAddress' => wc_clean(wp_unslash($_POST['CVSAddress'])),
+								'CVSTelephone' => wc_clean(wp_unslash($_POST['CVSTelephone']))
+							];
+						}
+
+						wp_register_script( 'wmp-admin-shipping', WOOMP_PLUGIN_URL . 'admin/js/choose-cvs.js', array('jquery'), null, false );
+
+						wp_localize_script('wmp-admin-shipping', 'ECPayInfo', [
+							'postUrl' => RY_ECPay_Shipping_Api::get_map_post_url(),
+							'postData' => [
+								'MerchantID' => $MerchantID,
+								'LogisticsType' => $method_class::$LogisticsType,
+								'LogisticsSubType' => $method_class::$LogisticsSubType . (('C2C' == $CVS_type) ? 'C2C' : ''),
+								'IsCollection' => 'Y',
+								'ServerReplyURL' => esc_url(WC()->api_request_url('ry_ecpay_map_callback')),
+								'ExtraData' => 'ry' . $order->get_id()
+							],
+							'newStore' => $choosed_cvs,
+						]);
+		
+						wp_enqueue_script('wmp-admin-shipping');
+	
+					}
+				}
+			}
 		}
 
 	}
