@@ -25,6 +25,7 @@ class PayNow_Shipping_Order_Meta {
 	const PaymentNo         = '_paynow_shipping_paymentno'; // 物流商託運單號.
 	const ValidationNo      = '_paynow_shipping_validation_no'; // 物流商驗證碼如需使用 IboN 列印請搭配 paymentno 使用.
 	const Status            = '_paynow_shipping_status'; // 0:成立中訂單 1:無效訂單.
+	const RenewOrderNo      = '_paynow_shipping_paynoworderno'; // 重新取號後訂單在 Paynow 的訂單編號
 	const DeliveryStatus    = '_paynow_shipping_delivery_status'; // 物流狀態.
 	const LogisticCode      = '_paynow_shipping_logistic_code'; // paynow 物流代碼.
 	const DetailStatusDesc  = '_paynow_shipping_detail_status_desc'; // paynow 物流代碼描述.

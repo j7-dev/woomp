@@ -1,17 +1,17 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: PayNow Shipping\n"
-"POT-Creation-Date: 2021-05-31 21:07+0800\n"
+"POT-Creation-Date: 2021-12-29 15:05+0800\n"
 "PO-Revision-Date: 2021-05-20 18:28+0800\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.4.3\n"
-"X-Poedit-Basepath: ..\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"X-Generator: Poedit 3.0.1\n"
+"X-Poedit-Basepath: ../includes/paynow-shipping\n"
 "X-Poedit-Flags-xgettext: --add-comments=translators:\n"
 "X-Poedit-WPHeader: paynow-shipping.php\n"
 "X-Poedit-SourceCharset: UTF-8\n"
@@ -20,31 +20,35 @@ msgstr ""
 "_n_noop:1,2;_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.min.js\n"
-"X-Poedit-SearchPathExcluded-1: vendor\n"
+"X-Poedit-SearchPathExcluded-1: ../../vendor\n"
 
-#: includes/admin/meta-boxes/class-paynow-shipping-order-admin.php:62
+#: includes/admin/meta-boxes/class-paynow-shipping-order-admin.php:72
 #: includes/utils/paynow-shipping-functions.php:43
 msgid "Store ID"
 msgstr ""
 
-#: includes/admin/meta-boxes/class-paynow-shipping-order-admin.php:66
+#: includes/admin/meta-boxes/class-paynow-shipping-order-admin.php:76
 #: includes/utils/paynow-shipping-functions.php:33
 msgid "Store Name"
 msgstr ""
 
-#: includes/admin/meta-boxes/class-paynow-shipping-order-admin.php:70
+#: includes/admin/meta-boxes/class-paynow-shipping-order-admin.php:80
 #: includes/utils/paynow-shipping-functions.php:53
 msgid "Store Address"
 msgstr ""
 
-#: includes/admin/meta-boxes/class-paynow-shipping-order-admin.php:75
-#: includes/admin/meta-boxes/class-paynow-shipping-order-admin.php:81
+#: includes/admin/meta-boxes/class-paynow-shipping-order-admin.php:85
+#: includes/admin/meta-boxes/class-paynow-shipping-order-admin.php:91
 #: includes/utils/paynow-shipping-functions.php:18
 msgid "Shipping Phone"
 msgstr ""
 
-#: includes/admin/meta-boxes/class-paynow-shipping-order-admin.php:101
+#: includes/admin/meta-boxes/class-paynow-shipping-order-admin.php:112
 msgid "Get new PayNow Logistic Number"
+msgstr ""
+
+#: includes/admin/meta-boxes/class-paynow-shipping-order-admin.php:114
+msgid "Create PayNow Shipping Order"
 msgstr ""
 
 #: includes/admin/meta-boxes/class-paynow-shipping-order-meta-box.php:31
@@ -52,17 +56,17 @@ msgid "PayNow Shipping Info"
 msgstr ""
 
 #: includes/admin/meta-boxes/class-paynow-shipping-order-meta-box.php:53
-#: includes/class-paynow-shipping.php:612
+#: includes/class-paynow-shipping.php:699
 msgid "PayNow Logistic Number"
 msgstr ""
 
 #: includes/admin/meta-boxes/class-paynow-shipping-order-meta-box.php:55
-#: includes/class-paynow-shipping.php:615
+#: includes/class-paynow-shipping.php:702
 msgid "Logistic Service"
 msgstr ""
 
 #: includes/admin/meta-boxes/class-paynow-shipping-order-meta-box.php:82
-#: includes/class-paynow-shipping.php:624
+#: includes/class-paynow-shipping.php:711
 msgid "Payment NO"
 msgstr ""
 
@@ -82,43 +86,58 @@ msgstr ""
 msgid "Logistic Code Description"
 msgstr ""
 
-#: includes/admin/meta-boxes/class-paynow-shipping-order-meta-box.php:88
+#: includes/admin/meta-boxes/class-paynow-shipping-order-meta-box.php:91
 msgid "Logistic Status Last Query"
 msgstr ""
 
-#: includes/class-paynow-shipping.php:302
+#: includes/class-paynow-shipping.php:346
 msgid "Please select a CVS store."
 msgstr ""
 
-#: includes/class-paynow-shipping.php:309
+#: includes/class-paynow-shipping.php:353
 msgid "Shipping Phone format is invalid"
 msgstr ""
 
-#: includes/class-paynow-shipping.php:479
+#: includes/class-paynow-shipping.php:556
 msgid "Shipping status update failed."
 msgstr ""
 
-#: includes/class-paynow-shipping.php:480
+#: includes/class-paynow-shipping.php:557
 msgid "Shipping order cancel failed."
 msgstr ""
 
-#: includes/class-paynow-shipping.php:600
+#: includes/class-paynow-shipping.php:687
 msgid "PayNow Shipping Detail"
 msgstr ""
 
-#: includes/class-paynow-shipping.php:621
+#: includes/class-paynow-shipping.php:708
 msgid "Detail Status Desc"
 msgstr ""
 
-#: includes/class-paynow-shipping.php:639
+#: includes/class-paynow-shipping.php:726
 msgid "Store Date"
 msgstr ""
 
-#: includes/class-paynow-shipping.php:643
+#: includes/class-paynow-shipping.php:730
 msgid "Store Time"
 msgstr ""
 
-#. Author of the plugin/theme
+#: includes/class-paynow-shipping.php:844
+msgid "Print 7-11 shipping Label"
+msgstr ""
+
+#: includes/class-paynow-shipping.php:845
+msgid "Print Family shipping Label"
+msgstr ""
+
+#: includes/class-paynow-shipping.php:846
+msgid "Print HiLfe shipping Label"
+msgstr ""
+
+#: includes/class-paynow-shipping.php:847
+msgid "Print TCat shipping Label"
+msgstr ""
+
 #: includes/settings/class-paynow-shipping-settings-tab.php:22
 msgid "PayNow"
 msgstr ""
@@ -335,8 +354,9 @@ msgstr ""
 msgid "PayNow Shipping TCat"
 msgstr ""
 
-#: includes/shippings/api/class-paynow-shipping-request.php:62
-#: includes/shippings/api/class-paynow-shipping-request.php:102
+#: includes/shippings/api/class-paynow-shipping-request.php:67
+#: includes/shippings/api/class-paynow-shipping-request.php:104
+#: includes/shippings/api/class-paynow-shipping-request.php:372
 msgid "Create shipping order failed. "
 msgstr ""
 
@@ -345,52 +365,36 @@ msgid "Create shipping order successed. LogisticNumber: "
 msgstr ""
 
 #: includes/shippings/api/class-paynow-shipping-request.php:93
-msgid "Re-Create shipping order successed. LogisticNumber: "
+msgid "Renew shipping order successed. LogisticNumber: "
 msgstr ""
 
-#: includes/shippings/api/class-paynow-shipping-request.php:141
-#: includes/shippings/api/class-paynow-shipping-request.php:188
+#: includes/shippings/api/class-paynow-shipping-request.php:142
+#: includes/shippings/api/class-paynow-shipping-request.php:189
 msgid "Invalid security token sent."
 msgstr ""
 
-#: includes/shippings/api/class-paynow-shipping-request.php:148
-#: includes/shippings/api/class-paynow-shipping-request.php:195
-#: includes/shippings/api/class-paynow-shipping-request.php:239
+#: includes/shippings/api/class-paynow-shipping-request.php:149
+#: includes/shippings/api/class-paynow-shipping-request.php:196
+#: includes/shippings/api/class-paynow-shipping-request.php:240
 msgid "Missing Ajax Parameter."
 msgstr ""
 
-#: includes/shippings/api/class-paynow-shipping-request.php:255
+#: includes/shippings/api/class-paynow-shipping-request.php:275
 msgid "Unsupported shipping service."
 msgstr ""
 
-#: includes/shippings/api/class-paynow-shipping-request.php:274
+#: includes/shippings/api/class-paynow-shipping-request.php:294
 msgid "Fail to get print label"
 msgstr ""
 
-#: includes/shippings/api/class-paynow-shipping-request.php:288
+#: includes/shippings/api/class-paynow-shipping-request.php:308
 msgid "No logistic number"
+msgstr ""
+
+#: includes/shippings/api/class-paynow-shipping-request.php:449
+msgid "Renew shipping order failed. "
 msgstr ""
 
 #: includes/utils/paynow-shipping-functions.php:27
 msgid "Service"
-msgstr ""
-
-#: paynow-shipping.php:52
-msgid "General Settings"
-msgstr ""
-
-#. Plugin Name of the plugin/theme
-msgid "PayNow Shipping"
-msgstr ""
-
-#. Plugin URI of the plugin/theme
-msgid "https://paynow.yangsheep.art"
-msgstr ""
-
-#. Description of the plugin/theme
-msgid "PayNow Shipping for WooCommerce"
-msgstr ""
-
-#. Author URI of the plugin/theme
-msgid "https://www.paynow.com.tw/"
 msgstr ""

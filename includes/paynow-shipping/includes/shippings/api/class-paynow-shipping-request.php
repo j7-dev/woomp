@@ -77,6 +77,10 @@ class PayNow_Shipping_Request {
 					$order->update_meta_data( PayNow_Shipping_Order_Meta::LogisticServiceId, $resp_obj->LogisticServiceID );// 物流服務代碼.
 				}
 
+				if ( 'renew' === $action ) {
+					$order->update_meta_data( PayNow_Shipping_Order_Meta::RenewOrderNo, $resp_obj->paynoworderno );// 重新取號後訂單在 Paynow 的訂單編號，列印標籤需以此為訂單編號.
+				}
+
 				$order->update_meta_data( PayNow_Shipping_Order_Meta::LogisticNumber, $resp_obj->LogisticNumber );// paynow物流單號.
 				$order->update_meta_data( PayNow_Shipping_Order_Meta::PaymentNo, $resp_obj->paymentno );// 物流商貨運編號.
 				$order->update_meta_data( PayNow_Shipping_Order_Meta::ValidationNo, $resp_obj->validationno );// 物流商驗證碼.
@@ -239,13 +243,28 @@ class PayNow_Shipping_Request {
 		$order_ids = wc_clean( wp_unslash( $_GET['orderids'] ) );
 		$service   = wc_clean( wp_unslash( $_GET['service'] ) );
 
+		$order_ids_array = explode(',', $order_ids);
+		$renew_order_ids = array();
+		foreach( $order_ids_array as $order_id ) {
+			$order = wc_get_order( $order_id );
+			if ( $order ) {
+				$renew_order_id = $order->get_meta( PayNow_Shipping_Order_Meta::RenewOrderNo );
+				if ( $renew_order_id ) {
+					$renew_order_ids[] = $renew_order_id;
+				} else {
+					$renew_order_ids[] = $order_id;
+				}
+			}
+		}
+		$renew_order_ids_string = implode(',', $renew_order_ids);
+
 		$api_url = '';
 		if ( PayNow_Shipping_Logistic_Service::SEVEN === $service ) {
-			$api_url = PayNow_Shipping::$api_url . '/api/Order711?orderNumberStr=' . $order_ids . '&user_account=' . PayNow_Shipping::$user_account;
+			$api_url = PayNow_Shipping::$api_url . '/api/Order711?orderNumberStr=' . $renew_order_ids_string . '&user_account=' . PayNow_Shipping::$user_account;
 		} elseif ( PayNow_Shipping_Logistic_Service::FAMI === $service ) {
-			$api_url = PayNow_Shipping::$api_url . '/api/OrderFamiC2C?orderNumberStr=' . $order_ids . '&user_account=' . PayNow_Shipping::$user_account;
+			$api_url = PayNow_Shipping::$api_url . '/api/OrderFamiC2C?orderNumberStr=' . $renew_order_ids_string . '&user_account=' . PayNow_Shipping::$user_account;
 		} elseif ( PayNow_Shipping_Logistic_Service::HILIFE === $service ) {
-			$api_url = PayNow_Shipping::$api_url . '/api/OrderHiLife?orderNumberStr=' . $order_ids . '&user_account=' . PayNow_Shipping::$user_account;
+			$api_url = PayNow_Shipping::$api_url . '/api/OrderHiLife?orderNumberStr=' . $renew_order_ids_string . '&user_account=' . PayNow_Shipping::$user_account;
 		} elseif ( PayNow_Shipping_Logistic_Service::TCAT === $service ) {
 			$api_url = PayNow_Shipping::$api_url . '/Member/Order/PrintBlackCatLabel';
 		} elseif ( PayNow_Shipping_Logistic_Service::FAMIFROZEN === $service ) {

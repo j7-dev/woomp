@@ -192,6 +192,9 @@ class PayNow_Shipping {
 
 		add_action( 'admin_enqueue_scripts', array( self::get_instance(), 'paynow_enqueue_admin_script' ) );
 
+		//pro function
+		add_filter( 'bulk_actions-edit-shop_order', array( self::get_instance(), 'paynow_register_shipping_bulk_actions' ) );
+
 	}
 
 	/**
@@ -556,6 +559,16 @@ class PayNow_Shipping {
 			)
 		);
 
+		wp_enqueue_script( 'paynow-pro-admin', PAYNOW_SHIPPING_PLUGIN_URL . 'assets/js/paynow-pro-admin.js', array( 'jquery' ), '1.0.0', false );
+		wp_localize_script(
+			'paynow-pro-admin',
+			'paynow_pro',
+			array(
+				'ajax_url' => admin_url( 'admin-ajax.php' ),
+				'security' => wp_create_nonce( 'paynow-pro' ),
+			)
+		);
+
 	}
 
 	/**
@@ -821,6 +834,19 @@ class PayNow_Shipping {
 		}
 	}
 
+	/**
+	 * Bulk print label action
+	 *
+	 * @param array $bulk_actions The bulk actions array.
+	 * @return array
+	 */
+	public static function paynow_register_shipping_bulk_actions( $bulk_actions ) {
+		$bulk_actions['paynow_bulk_print_711']           = __( 'Print 7-11 shipping Label', 'paynow-shipping' );
+		$bulk_actions['paynow_bulk_print_family']        = __( 'Print Family shipping Label', 'paynow-shipping' );
+		$bulk_actions['paynow_bulk_print_hilife']        = __( 'Print HiLfe shipping Label', 'paynow-shipping' );
+		$bulk_actions['paynow_bulk_print_tcat']          = __( 'Print TCat shipping Label', 'paynow-shipping' );
+		return $bulk_actions;
+	}
 
 	/**
 	 * Log method.
