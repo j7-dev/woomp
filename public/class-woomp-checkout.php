@@ -299,7 +299,7 @@ if ( ! class_exists( 'WooMP_Checkout' ) ) {
 			$virtual_products = 0;
 			$products         = $woocommerce->cart->get_cart();
 			foreach ( $products as $product ) {
-				if ( 'yes' === get_post_meta( $product['product_id'], '_virtual', true ) ) {
+				if ( 'yes' === get_post_meta( $product['product_id'], '_virtual', true ) || 'yes' === get_post_meta( $product['variation_id'], '_virtual', true ) ) {
 					++$virtual_products;
 				}
 			}
