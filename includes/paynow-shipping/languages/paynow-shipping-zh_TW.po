@@ -1,8 +1,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PayNow Shipping\n"
-"POT-Creation-Date: 2021-05-31 21:15+0800\n"
-"PO-Revision-Date: 2021-09-07 18:04+0800\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-12-30T09:34:06+00:00\n"
+"PO-Revision-Date: 2021-12-30 17:37+0800\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: zh_TW\n"
@@ -22,32 +23,32 @@ msgstr ""
 "X-Poedit-SearchPathExcluded-0: *.min.js\n"
 "X-Poedit-SearchPathExcluded-1: vendor\n"
 
-#: includes/admin/meta-boxes/class-paynow-shipping-order-admin.php:62
+#: includes/admin/meta-boxes/class-paynow-shipping-order-admin.php:72
 #: includes/utils/paynow-shipping-functions.php:43
 msgid "Store ID"
 msgstr "門市編號"
 
-#: includes/admin/meta-boxes/class-paynow-shipping-order-admin.php:66
+#: includes/admin/meta-boxes/class-paynow-shipping-order-admin.php:76
 #: includes/utils/paynow-shipping-functions.php:33
 msgid "Store Name"
 msgstr "門市名稱"
 
-#: includes/admin/meta-boxes/class-paynow-shipping-order-admin.php:70
+#: includes/admin/meta-boxes/class-paynow-shipping-order-admin.php:80
 #: includes/utils/paynow-shipping-functions.php:53
 msgid "Store Address"
 msgstr "門市地址"
 
-#: includes/admin/meta-boxes/class-paynow-shipping-order-admin.php:75
-#: includes/admin/meta-boxes/class-paynow-shipping-order-admin.php:81
+#: includes/admin/meta-boxes/class-paynow-shipping-order-admin.php:85
+#: includes/admin/meta-boxes/class-paynow-shipping-order-admin.php:91
 #: includes/utils/paynow-shipping-functions.php:18
 msgid "Shipping Phone"
 msgstr "收件人電話"
 
-#: includes/admin/meta-boxes/class-paynow-shipping-order-admin.php:102
+#: includes/admin/meta-boxes/class-paynow-shipping-order-admin.php:112
 msgid "Get new PayNow Logistic Number"
 msgstr "PayNow 物流重新取號"
 
-#: includes/admin/meta-boxes/class-paynow-shipping-order-admin.php:104
+#: includes/admin/meta-boxes/class-paynow-shipping-order-admin.php:114
 msgid "Create PayNow Shipping Order"
 msgstr "PayNow 物流取號"
 
@@ -56,17 +57,17 @@ msgid "PayNow Shipping Info"
 msgstr "PayNow 物流資訊"
 
 #: includes/admin/meta-boxes/class-paynow-shipping-order-meta-box.php:53
-#: includes/class-paynow-shipping.php:632
+#: includes/class-paynow-shipping.php:699
 msgid "PayNow Logistic Number"
 msgstr "物流單號"
 
 #: includes/admin/meta-boxes/class-paynow-shipping-order-meta-box.php:55
-#: includes/class-paynow-shipping.php:635
+#: includes/class-paynow-shipping.php:702
 msgid "Logistic Service"
 msgstr "物流服務"
 
 #: includes/admin/meta-boxes/class-paynow-shipping-order-meta-box.php:82
-#: includes/class-paynow-shipping.php:644
+#: includes/class-paynow-shipping.php:711
 msgid "Payment NO"
 msgstr "物流商託運單號"
 
@@ -86,51 +87,57 @@ msgstr "物流代碼"
 msgid "Logistic Code Description"
 msgstr "物流代碼描述"
 
-#: includes/admin/meta-boxes/class-paynow-shipping-order-meta-box.php:88
+#: includes/admin/meta-boxes/class-paynow-shipping-order-meta-box.php:91
 msgid "Logistic Status Last Query"
 msgstr "物流狀態更新時間"
 
-#: includes/class-paynow-shipping.php:322
+#: includes/class-paynow-shipping.php:346
 msgid "Please select a CVS store."
 msgstr "請選擇超商。"
 
-#: includes/class-paynow-shipping.php:329
+#: includes/class-paynow-shipping.php:353
 msgid "Shipping Phone format is invalid"
 msgstr "收件人電話格式錯誤"
 
-#: includes/class-paynow-shipping.php:499
+#: includes/class-paynow-shipping.php:556
 msgid "Shipping status update failed."
 msgstr "貨態更新失敗。"
 
-#: includes/class-paynow-shipping.php:500
+#: includes/class-paynow-shipping.php:557
 msgid "Shipping order cancel failed."
 msgstr "運送訂單取消失敗。"
 
-#: includes/class-paynow-shipping.php:620
+#: includes/class-paynow-shipping.php:687
 msgid "PayNow Shipping Detail"
 msgstr "PayNow 物流資訊"
 
-#: includes/class-paynow-shipping.php:641
+#: includes/class-paynow-shipping.php:708
 msgid "Detail Status Desc"
 msgstr "物流代碼描述"
 
-#: includes/class-paynow-shipping.php:659
+#: includes/class-paynow-shipping.php:726
 msgid "Store Date"
 msgstr "到店日期"
 
-#: includes/class-paynow-shipping.php:663
+#: includes/class-paynow-shipping.php:730
 msgid "Store Time"
 msgstr "到店時間"
 
-#. Author of the plugin/theme
-#: includes/settings/class-paynow-shipping-settings-tab.php:22
-msgid "PayNow"
-msgstr "PayNow 立吉富"
+#: includes/class-paynow-shipping.php:844
+msgid "Print 7-11 shipping Label"
+msgstr "列印統一超商託運單（PayNow）"
 
-#: includes/settings/class-paynow-shipping-settings-tab.php:25
-#: includes/settings/class-paynow-shipping-settings-tab.php:47
-msgid "Shipping Settings"
-msgstr "物流設定"
+#: includes/class-paynow-shipping.php:845
+msgid "Print Family shipping Label"
+msgstr "列印全家超商託運單（PayNow）"
+
+#: includes/class-paynow-shipping.php:846
+msgid "Print HiLfe shipping Label"
+msgstr "列印萊爾富運託運單（PayNow)"
+
+#: includes/class-paynow-shipping.php:847
+msgid "Print TCat shipping Label"
+msgstr "列印黑貓運託運單 (PayNow)"
 
 #: includes/settings/class-paynow-shipping-settings-tab.php:80
 msgid "General Shipping Settings"
@@ -145,7 +152,6 @@ msgid "Enable logging"
 msgstr "啓用除錯記錄"
 
 #: includes/settings/class-paynow-shipping-settings-tab.php:89
-#, php-format
 msgid "Log PayNow Shipping message, inside <code>%s</code>"
 msgstr "在<code>%s</code>中紀錄 PayNow 物流的除錯訊息"
 
@@ -344,65 +350,72 @@ msgstr "PayNow 超商取貨 C2C 萊爾富"
 msgid "PayNow Shipping TCat"
 msgstr "PayNow 黑貓宅配"
 
-#: includes/shippings/api/class-paynow-shipping-request.php:62
-#: includes/shippings/api/class-paynow-shipping-request.php:102
-msgid "Create shipping order failed. "
-msgstr "建立物流單失敗。 "
-
 #: includes/shippings/api/class-paynow-shipping-request.php:91
 msgid "Create shipping order successed. LogisticNumber: "
 msgstr "建立物流單成功。PayNow 物流單號： "
 
 #: includes/shippings/api/class-paynow-shipping-request.php:93
-msgid "Re-Create shipping order successed. LogisticNumber: "
-msgstr "重新取號成功。新的 PayNow 物流單號： "
+msgid "Renew shipping order successed. LogisticNumber: "
+msgstr "建立物流單成功。PayNow 物流單號： "
 
-#: includes/shippings/api/class-paynow-shipping-request.php:141
-#: includes/shippings/api/class-paynow-shipping-request.php:188
+#: includes/shippings/api/class-paynow-shipping-request.php:142
+#: includes/shippings/api/class-paynow-shipping-request.php:189
 msgid "Invalid security token sent."
 msgstr "不安全的呼叫。"
 
-#: includes/shippings/api/class-paynow-shipping-request.php:148
-#: includes/shippings/api/class-paynow-shipping-request.php:195
-#: includes/shippings/api/class-paynow-shipping-request.php:239
+#: includes/shippings/api/class-paynow-shipping-request.php:149
+#: includes/shippings/api/class-paynow-shipping-request.php:196
+#: includes/shippings/api/class-paynow-shipping-request.php:240
 msgid "Missing Ajax Parameter."
 msgstr "缺少呼叫參數。"
 
-#: includes/shippings/api/class-paynow-shipping-request.php:255
+#: includes/shippings/api/class-paynow-shipping-request.php:275
 msgid "Unsupported shipping service."
 msgstr "不支援的物流服務。"
 
-#: includes/shippings/api/class-paynow-shipping-request.php:274
+#: includes/shippings/api/class-paynow-shipping-request.php:294
 msgid "Fail to get print label"
 msgstr "取得托運單標籤失敗"
 
-#: includes/shippings/api/class-paynow-shipping-request.php:288
+#: includes/shippings/api/class-paynow-shipping-request.php:308
 msgid "No logistic number"
 msgstr "沒有物流單號"
+
+#: includes/shippings/api/class-paynow-shipping-request.php:372
+msgid "Create shipping order failed. "
+msgstr "建立物流單失敗。 "
+
+#: includes/shippings/api/class-paynow-shipping-request.php:449
+msgid "Renew shipping order failed. "
+msgstr "建立物流單失敗。 "
 
 #: includes/utils/paynow-shipping-functions.php:27
 msgid "Service"
 msgstr "物流服務"
 
-#: paynow-shipping.php:52
-msgid "General Settings"
-msgstr "一般設定"
+#~ msgid "PayNow"
+#~ msgstr "PayNow 立吉富"
 
-#. Plugin Name of the plugin/theme
-msgid "PayNow Shipping"
-msgstr "PayNow 運送模組"
+#~ msgid "Shipping Settings"
+#~ msgstr "物流設定"
 
-#. Plugin URI of the plugin/theme
-msgid "https://paynow.yangsheep.art"
-msgstr "https://paynow.yangsheep.art"
+#~ msgid "Re-Create shipping order successed. LogisticNumber: "
+#~ msgstr "重新取號成功。新的 PayNow 物流單號： "
 
-#. Description of the plugin/theme
-msgid "PayNow Shipping for WooCommerce"
-msgstr "台灣立吉富 PayNow 運送模組"
+#~ msgid "General Settings"
+#~ msgstr "一般設定"
 
-#. Author URI of the plugin/theme
-msgid "https://www.paynow.com.tw/"
-msgstr "https://www.paynow.com.tw/"
+#~ msgid "PayNow Shipping"
+#~ msgstr "PayNow 運送模組"
+
+#~ msgid "https://paynow.yangsheep.art"
+#~ msgstr "https://paynow.yangsheep.art"
+
+#~ msgid "PayNow Shipping for WooCommerce"
+#~ msgstr "台灣立吉富 PayNow 運送模組"
+
+#~ msgid "https://www.paynow.com.tw/"
+#~ msgstr "https://www.paynow.com.tw/"
 
 #~ msgid "Validation NO"
 #~ msgstr "驗證碼"

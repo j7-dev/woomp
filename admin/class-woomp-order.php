@@ -213,14 +213,16 @@ if ( ! class_exists( 'WooMP_Order' ) ) {
 		 * 增加訂單頁面重新選擇超商按鈕
 		 */
 		public function add_choose_cvs_btn( $order ) {
-			foreach ($order->get_items('shipping') as $item_id => $item) {
-				$method_class = RY_ECPay_Shipping::get_order_support_shipping($item);
-				if ($method_class !== false && strpos($method_class, 'cvs') !== false) {
-					echo '<div class="edit_address">
-					<button type="button" class="button choose-cvs" style="margin-top: 10px;">'. __('Update convenience store', 'woomp') .' </button><p style="margin-top: 10px;">'
-					.__('After choosing cvs, you need update the order to save changing.', 'woomp') . '
-					</p></div>
-					';
+			if( get_option( RY_WT::$option_prefix . 'enabled_ecpay_shipping', 1 ) === 'yes' ){
+				foreach ($order->get_items('shipping') as $item_id => $item) {
+					$method_class = RY_ECPay_Shipping::get_order_support_shipping($item);
+					if ($method_class !== false && strpos($method_class, 'cvs') !== false) {
+						echo '<div class="edit_address">
+						<button type="button" class="button choose-cvs" style="margin-top: 10px;">'. __('Update convenience store', 'woomp') .' </button><p style="margin-top: 10px;">'
+						.__('After choosing cvs, you need update the order to save changing.', 'woomp') . '
+						</p></div>
+						';
+					}
 				}
 			}
 		}
@@ -230,7 +232,7 @@ if ( ! class_exists( 'WooMP_Order' ) ) {
 		 */
 		public function enqueue_choose_cvs_script(){
 			global $pagenow;
-			if ( 'post.php' === $pagenow && isset($_GET['post']) && 'shop_order' === get_post_type( $_GET['post'] ) ) {
+			if ( 'post.php' === $pagenow && isset($_GET['post']) && 'shop_order' === get_post_type( $_GET['post'] ) && get_option( RY_WT::$option_prefix . 'enabled_ecpay_shipping', 1 ) === 'yes' ) {
 				$order = wc_get_order( $_GET['post'] );
 				foreach ($order->get_items('shipping') as $item_id => $item) {
 					$method_class = RY_ECPay_Shipping::get_order_support_shipping($item);
