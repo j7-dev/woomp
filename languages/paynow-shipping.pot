@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PayNow Shipping\n"
-"POT-Creation-Date: 2021-12-29 15:05+0800\n"
+"POT-Creation-Date: 2022-01-11 15:35+0800\n"
 "PO-Revision-Date: 2021-05-20 18:28+0800\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -56,17 +56,17 @@ msgid "PayNow Shipping Info"
 msgstr ""
 
 #: includes/admin/meta-boxes/class-paynow-shipping-order-meta-box.php:53
-#: includes/class-paynow-shipping.php:699
+#: includes/class-paynow-shipping.php:702
 msgid "PayNow Logistic Number"
 msgstr ""
 
 #: includes/admin/meta-boxes/class-paynow-shipping-order-meta-box.php:55
-#: includes/class-paynow-shipping.php:702
+#: includes/class-paynow-shipping.php:705
 msgid "Logistic Service"
 msgstr ""
 
 #: includes/admin/meta-boxes/class-paynow-shipping-order-meta-box.php:82
-#: includes/class-paynow-shipping.php:711
+#: includes/class-paynow-shipping.php:714
 msgid "Payment NO"
 msgstr ""
 
@@ -90,52 +90,47 @@ msgstr ""
 msgid "Logistic Status Last Query"
 msgstr ""
 
-#: includes/class-paynow-shipping.php:346
+#: includes/class-paynow-shipping.php:347
 msgid "Please select a CVS store."
 msgstr ""
 
-#: includes/class-paynow-shipping.php:353
+#: includes/class-paynow-shipping.php:354
 msgid "Shipping Phone format is invalid"
 msgstr ""
 
-#: includes/class-paynow-shipping.php:556
+#: includes/class-paynow-shipping.php:559
 msgid "Shipping status update failed."
 msgstr ""
 
-#: includes/class-paynow-shipping.php:557
+#: includes/class-paynow-shipping.php:560
 msgid "Shipping order cancel failed."
 msgstr ""
 
-#: includes/class-paynow-shipping.php:687
+#: includes/class-paynow-shipping.php:690
 msgid "PayNow Shipping Detail"
 msgstr ""
 
-#: includes/class-paynow-shipping.php:708
+#: includes/class-paynow-shipping.php:711
 msgid "Detail Status Desc"
 msgstr ""
 
-#: includes/class-paynow-shipping.php:726
+#: includes/class-paynow-shipping.php:729
 msgid "Store Date"
 msgstr ""
 
-#: includes/class-paynow-shipping.php:730
+#: includes/class-paynow-shipping.php:733
 msgid "Store Time"
 msgstr ""
 
-#: includes/class-paynow-shipping.php:844
-msgid "Print 7-11 shipping Label"
-msgstr ""
-
-#: includes/class-paynow-shipping.php:845
-msgid "Print Family shipping Label"
-msgstr ""
-
-#: includes/class-paynow-shipping.php:846
-msgid "Print HiLfe shipping Label"
-msgstr ""
-
 #: includes/class-paynow-shipping.php:847
-msgid "Print TCat shipping Label"
+msgid "Print Shipping Label"
+msgstr ""
+
+#: includes/class-paynow-shipping.php:853
+#: includes/shippings/api/class-paynow-shipping-request.php:149
+#: includes/shippings/api/class-paynow-shipping-request.php:196
+#: includes/shippings/api/class-paynow-shipping-request.php:240
+msgid "Missing Ajax Parameter."
 msgstr ""
 
 #: includes/settings/class-paynow-shipping-settings-tab.php:22
@@ -371,12 +366,6 @@ msgstr ""
 #: includes/shippings/api/class-paynow-shipping-request.php:142
 #: includes/shippings/api/class-paynow-shipping-request.php:189
 msgid "Invalid security token sent."
-msgstr ""
-
-#: includes/shippings/api/class-paynow-shipping-request.php:149
-#: includes/shippings/api/class-paynow-shipping-request.php:196
-#: includes/shippings/api/class-paynow-shipping-request.php:240
-msgid "Missing Ajax Parameter."
 msgstr ""
 
 #: includes/shippings/api/class-paynow-shipping-request.php:275
