@@ -194,6 +194,7 @@ class PayNow_Shipping {
 
 		//pro function
 		add_filter( 'bulk_actions-edit-shop_order', array( self::get_instance(), 'paynow_register_shipping_bulk_actions' ) );
+		add_action( 'wp_ajax_paynow_pre_print_label', array( self::get_instance(), 'paynow_ajax_pre_print_label' ), 10 );
 
 	}
 
@@ -543,6 +544,8 @@ class PayNow_Shipping {
 	 */
 	public static function paynow_enqueue_admin_script() {
 
+		wp_enqueue_script( 'jquery-ui-dialog' );
+
 		wp_enqueue_style( 'paynow-shipping-admin', PAYNOW_SHIPPING_PLUGIN_URL . 'assets/css/paynow-shipping-admin.css', array(), '1.0.0', 'all' );
 
 		wp_enqueue_script( 'paynow-shipping-admin', PAYNOW_SHIPPING_PLUGIN_URL . 'assets/js/paynow-shipping-admin.js', array( 'jquery' ), '1.0.0', false );
@@ -562,7 +565,7 @@ class PayNow_Shipping {
 		wp_enqueue_script( 'paynow-pro-admin', PAYNOW_SHIPPING_PLUGIN_URL . 'assets/js/paynow-pro-admin.js', array( 'jquery' ), '1.0.0', false );
 		wp_localize_script(
 			'paynow-pro-admin',
-			'paynow_pro',
+			'paynow_shipping_object',
 			array(
 				'ajax_url' => admin_url( 'admin-ajax.php' ),
 				'security' => wp_create_nonce( 'paynow-pro' ),
@@ -841,11 +844,42 @@ class PayNow_Shipping {
 	 * @return array
 	 */
 	public static function paynow_register_shipping_bulk_actions( $bulk_actions ) {
-		$bulk_actions['paynow_bulk_print_711']           = __( 'Print 7-11 shipping Label', 'paynow-shipping' );
-		$bulk_actions['paynow_bulk_print_family']        = __( 'Print Family shipping Label', 'paynow-shipping' );
-		$bulk_actions['paynow_bulk_print_hilife']        = __( 'Print HiLfe shipping Label', 'paynow-shipping' );
-		$bulk_actions['paynow_bulk_print_tcat']          = __( 'Print TCat shipping Label', 'paynow-shipping' );
+		$bulk_actions['paynow_bulk_print']           = __( 'Print Shipping Label', 'paynow-shipping' );
 		return $bulk_actions;
+	}
+
+	public static function paynow_ajax_pre_print_label() {
+		if ( ! isset( $_POST['orderIds'] )  ) {
+			esc_html_e( 'Missing Ajax Parameter.', 'paynow-shipping' );
+			wp_die();
+		}
+		$order_ids = wc_clean( wp_unslash( $_POST['orderIds'] ) );
+		PayNow_Shipping::log('order_idsf:' . $order_ids);
+		$order_ids_array = explode(',', $order_ids);
+
+
+		//物流服務對應到訂單的數量
+		$service_order_array = array(
+			PayNow_Shipping_Logistic_Service::SEVEN  => array(),
+			PayNow_Shipping_Logistic_Service::FAMI   => array(),
+			PayNow_Shipping_Logistic_Service::HILIFE => array(),
+			PayNow_Shipping_Logistic_Service::TCAT   => array(),
+		);
+		foreach( $order_ids_array as $order_id ) {
+			PayNow_Shipping::log('order_id:' . $order_id);
+			$order = wc_get_order( $order_id );
+			if ( $order ) {
+				$service = $order->get_meta( PayNow_Shipping_Order_Meta::LogisticServiceId );
+				PayNow_Shipping::log('service:' . $service);
+				if ( $service && array_key_exists( $service, $service_order_array )) {
+					$service_order_array[ $service ][] = $order_id;
+				}
+			}
+		}
+
+		wp_send_json( $service_order_array );
+		wp_die();
+
 	}
 
 	/**
