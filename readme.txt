@@ -1,9 +1,9 @@
 === 好用版擴充 MorePower Addon for WooCommerce ===
 Requires at least: 4.9.8
-Tested up to: 5.8.0
+Tested up to: 5.8.2
 Requires PHP: 7.0
 WC requires at least: 5
-WC tested up to: 5.6.0
+WC tested up to: 6.1.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -18,6 +18,10 @@ WooCommerce 好用版擴充，改善結帳流程與可變商品等區塊，讓 W
 安裝說明
 
 == Changelog ==
+
+v1.5.2
+新增 - 單一費率增加最小訂購金額欄位
+修改 - 佈景主題 Astra CSS 調整
 
 v1.5.1
 新增 - 後台訂單頁列印託運單介面

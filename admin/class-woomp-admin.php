@@ -297,4 +297,12 @@ class Woomp_Admin {
 		}
 	}
 
+	/**
+	 * 將單一費率類別改成好用版的
+	 */
+	public function set_flat_rate_class( $shipping_methods ){
+		$shipping_methods['flat_rate'] = 'WooMP_Shipping_Flat_Rate';
+		return $shipping_methods;
+	}
+
 }

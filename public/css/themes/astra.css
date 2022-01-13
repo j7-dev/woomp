@@ -106,7 +106,7 @@ form.checkout.woocommerce-checkout {
 }
 
 #paymentWrap th, #paymentWrap td {
-    border-bottom: none;
+    border-bottom: none!important;
 }
 form.checkout.woocommerce-checkout #order_review.woocommerce-checkout-review-order {
     border-bottom: none !important;

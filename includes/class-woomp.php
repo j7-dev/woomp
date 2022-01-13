@@ -120,6 +120,7 @@ class Woomp {
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-woomp-order.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-woomp-email.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-woomp-payment-cod-clone.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-woomp-shipping-flat-rate.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/settings/class-woomp-setting.php';
 		// require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-woomp-payment-cvs.php';
 
@@ -181,6 +182,8 @@ class Woomp {
 		$this->loader->add_action( 'init', $plugin_admin, 'register_cron_hook', 10 );
 		$this->loader->add_action( 'wmp_cron_every_morning', $plugin_admin, 'set_ecpay_cvs_get_remind', 10 );
 		$this->loader->add_action( 'wmp_cron_every_morning', $plugin_admin, 'set_ecpay_cvs_get_expired', 10 );
+		
+		$this->loader->add_filter( 'woocommerce_shipping_methods', $plugin_admin, 'set_flat_rate_class', 10 );
 	}
 
 	/**
