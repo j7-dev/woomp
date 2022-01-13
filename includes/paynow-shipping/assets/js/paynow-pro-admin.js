@@ -45,7 +45,7 @@
 					}
 
 					if (data['03'].length > 0) {
-						$html.append('<div class="shipping-orders"<div class="shipping-service">全家超商託運單(PayNow) - <span data-tip="' + data['03'].join(',') + '">共' + data['03'].length + '筆</span></div><div class="shipping-action"><a href="#" data-id="' + data['03'].join(',') +'" data-service="03" class="button button-primary">列印</a></div></div>');
+						$html.append('<div class="shipping-orders"><div class="shipping-service">全家超商託運單(PayNow) - <span data-tip="' + data['03'].join(',') + '">共' + data['03'].length + '筆</span></div><div class="shipping-action"><a href="#" data-id="' + data['03'].join(',') +'" data-service="03" class="button button-primary">列印</a></div></div>');
 					}
 
 					if (data['05'].length > 0) {

@@ -108,6 +108,8 @@ if ( ! class_exists( 'WooMP_Order' ) ) {
 							echo $item['PaymentNo'] . ' ' . $item['ValidationNo'];
 						}
 					}
+				} else if( get_post_meta( $post_id, '_paynow_shipping_paymentno', true ) ) {
+					echo get_post_meta( $post_id, '_paynow_shipping_paymentno', true );
 				} else {
 					?>
 					<div class="shippingNoWrap">
