@@ -51,6 +51,9 @@ class Woomp_Activator {
 		if ( ! get_option( 'wc_woomp_setting_product_variations_frontend_ui' ) ) {
 			update_option( 'wc_woomp_setting_product_variations_frontend_ui', 'yes' );
 		}
+		if ( ! get_option( 'wc_woomp_setting_tw_field_valitdate' ) ) {
+			update_option( 'wc_woomp_setting_tw_field_valitdate', 'yes' );
+		}
 		if ( ! get_option( 'woocommerce_woomp_cod_gateway_settings' ) ) {
 			$gateway_setting = array(
 				'enabled'            => 'no',

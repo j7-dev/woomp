@@ -4,17 +4,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: woomp\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/woomp\n"
-"POT-Creation-Date: 2021-12-28T10:17:28+00:00\n"
-"PO-Revision-Date: 2021-12-28 18:19+0800\n"
+"POT-Creation-Date: 2022-01-17T04:47:11+00:00\n"
+"PO-Revision-Date: 2022-01-17 12:56+0800\n"
 "Last-Translator: \n"
 "Language-Team: morepower\n"
 "Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.3\n"
-"X-Domain: woomp\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 3.0.1\n"
+"X-Domain: woomp\n"
 "X-Poedit-Basepath: .\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-SearchPath-0: woomp.pot\n"
@@ -47,35 +47,35 @@ msgstr "https://morepower.club"
 msgid "完整地址"
 msgstr "完整地址"
 
-#: admin/class-woomp-order.php:130 admin/class-woomp-order.php:135
+#: admin/class-woomp-order.php:133 admin/class-woomp-order.php:138
 msgid "Print ECPay shipping booking note (711)"
 msgstr "列印統一超商託運單（綠界）"
 
-#: admin/class-woomp-order.php:131 admin/class-woomp-order.php:136
+#: admin/class-woomp-order.php:134 admin/class-woomp-order.php:139
 msgid "Print ECPay shipping booking note (family)"
 msgstr "列印全家超商託運單（綠界）"
 
-#: admin/class-woomp-order.php:132
+#: admin/class-woomp-order.php:135
 msgid "Print ECPay shipping booking note (hilife)"
 msgstr "列印萊爾富超商託運單（綠界）"
 
-#: admin/class-woomp-order.php:140
+#: admin/class-woomp-order.php:143
 msgid "Print ECPay shipping booking note (tcat)"
 msgstr "列印黑貓託運單（綠界）"
 
-#: admin/class-woomp-order.php:141
+#: admin/class-woomp-order.php:144
 msgid "Print ECPay shipping booking note (ecan)"
 msgstr "列印宅配通託運單（綠界）"
 
-#: admin/class-woomp-order.php:142
+#: admin/class-woomp-order.php:145
 msgid "Print HCT shipping booking note"
 msgstr "匯出新竹物流報表"
 
-#: admin/class-woomp-order.php:219
+#: admin/class-woomp-order.php:223
 msgid "Update convenience store"
 msgstr "重新選擇超商"
 
-#: admin/class-woomp-order.php:220
+#: admin/class-woomp-order.php:224
 msgid "After choosing cvs, you need update the order to save changing."
 msgstr "重新選擇超商後記得要更新訂單資料才會被寫入。"
 
@@ -348,50 +348,58 @@ msgid "開啟此選項套用後台訂單管理地址欄位整合為一行"
 msgstr "開啟此選項套用後台訂單管理地址欄位整合為一行"
 
 #: admin/settings/class-woomp-setting.php:249
+msgid "Validate the length of name and phone"
+msgstr "結帳頁姓名與電話欄位長度驗證"
+
+#: admin/settings/class-woomp-setting.php:251
+msgid "Check the box to set the validate rule of name and phone."
+msgstr "開啟此選項將會驗證結帳時的姓名與電話長度須符合台灣的規範。"
+
+#: admin/settings/class-woomp-setting.php:259
 msgid "虛擬商品隱藏地址欄位"
 msgstr "虛擬商品隱藏地址欄位"
 
-#: admin/settings/class-woomp-setting.php:251
+#: admin/settings/class-woomp-setting.php:261
 msgid "開啟此選項套用結帳虛擬商品時隱藏地址欄位"
 msgstr "開啟此選項套用結帳虛擬商品時隱藏地址欄位"
 
-#: admin/settings/class-woomp-setting.php:259
+#: admin/settings/class-woomp-setting.php:269
 msgid "新增取代貨到付款方式"
 msgstr "新增取代貨到付款方式"
 
-#: admin/settings/class-woomp-setting.php:261
+#: admin/settings/class-woomp-setting.php:271
 msgid "開啟此選項以取代貨到付款方式"
 msgstr "開啟此選項以取代貨到付款方式"
 
-#: admin/settings/class-woomp-setting.php:296
+#: admin/settings/class-woomp-setting.php:306
 msgid "結帳按鈕文字設定"
 msgstr "結帳按鈕文字設定"
 
-#: admin/settings/class-woomp-setting.php:298
+#: admin/settings/class-woomp-setting.php:308
 msgid "設定結帳頁確定購買按鈕的文字內容"
 msgstr "設定結帳頁確定購買按鈕的文字內容"
 
-#: admin/settings/class-woomp-setting.php:309
+#: admin/settings/class-woomp-setting.php:319
 #, fuzzy
 #| msgid "結帳相關設定"
 msgid "商品相關設定"
 msgstr "結帳相關設定"
 
-#: admin/settings/class-woomp-setting.php:314
+#: admin/settings/class-woomp-setting.php:324
 msgid "變化商品編輯介面"
 msgstr "變化商品編輯介面"
 
-#: admin/settings/class-woomp-setting.php:316
+#: admin/settings/class-woomp-setting.php:326
 msgid "開啟此選項以套用好用版變化商品操作介面"
 msgstr "開啟此選項以套用好用版變化商品操作介面"
 
-#: admin/settings/class-woomp-setting.php:324
+#: admin/settings/class-woomp-setting.php:334
 #, fuzzy
 #| msgid "變化商品編輯介面"
 msgid "變化商品前台顯示介面"
 msgstr "變化商品編輯介面"
 
-#: admin/settings/class-woomp-setting.php:326
+#: admin/settings/class-woomp-setting.php:336
 #, fuzzy
 #| msgid "開啟此選項以套用好用版變化商品操作介面"
 msgid "開啟此選項以套用好用版變化商品前台顯示介面"

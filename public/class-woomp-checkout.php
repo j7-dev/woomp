@@ -337,8 +337,11 @@ if ( 'yes' === get_option( 'wc_woomp_setting_replace', 1 ) ) {
 	add_action( 'wp_head', array( $checkout, 'redirect_cart_page_to_checkout' ), 1 );
 	add_action( 'woocommerce_before_checkout_form', array( $checkout, 'set_cart_in_checkout_page' ) );
 	add_filter( 'woocommerce_checkout_fields', array( $checkout, 'set_shipping_field' ), 10000 );
-	add_action( 'woocommerce_after_checkout_validation', array( $checkout, 'field_validate' ), 10, 2 );
 	add_action( 'woocommerce_after_order_notes', array( $checkout, 'set_checkout_field' ) );
+}
+
+if ( 'yes' === get_option( 'wc_woomp_setting_tw_field_valitdate', 1 ) ) {
+	add_action( 'woocommerce_after_checkout_validation', array( $checkout, 'field_validate' ), 10, 2 );
 }
 
 if ( ! empty( get_option( ' wc_woomp_setting_place_order_text' ) ) ) {

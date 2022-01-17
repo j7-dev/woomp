@@ -245,6 +245,16 @@ class Woomp_Setting {
 				'default'  => 'yes',
 				'std'      => 'yes',
 			),
+			'tw_field_valitdate'        => array(
+				'name'     => __( 'Validate the length of name and phone', 'woomp' ),
+				'type'     => 'checkbox',
+				'desc'     => __( 'Check the box to set the validate rule of name and phone.', 'woomp' ),
+				'id'       => 'wc_woomp_setting_tw_field_valitdate',
+				'class'    => 'toggle',
+				'desc_tip' => true,
+				'default'  => 'no',
+				'std'      => 'no',
+			),
 			'virtual_product_address' => array(
 				'name'     => __( '虛擬商品隱藏地址欄位', 'woomp' ),
 				'type'     => 'checkbox',
