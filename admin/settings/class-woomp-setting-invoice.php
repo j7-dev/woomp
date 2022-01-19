@@ -86,7 +86,7 @@ class Woomp_Setting_Invoice extends WC_Settings_Page {
 				}
 				break;
 			case 'paynow':
-				if ( get_option( 'wc_woomp_setting_paynow_einvoice', 1 ) === 'yes' ) {
+				if ( get_option( 'wc_settings_tab_active_paynow_einvoice', 1 ) === 'yes' ) {
 					$settings = array(
 						'section_title'           => array(
 							'name' => __( '立吉富電子發票設定', 'paynow-einvoice' ),

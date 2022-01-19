@@ -196,6 +196,11 @@ if ( ! $checkout->is_registration_enabled() && $checkout->is_registration_requir
 		padding: 0 0 0 22px;
 	}
 
+	.single-product .variations th.label {
+		text-align: left;
+		padding-left: 0;
+	}
+
 	@media screen and (max-width: 920px){
 		#paymentWrap th {
 			width: 80px!important;
