@@ -51,13 +51,13 @@ class WC_Gateway_LINEPay extends WC_Payment_Gateway {
 	 * Initialize the default state of the Gateway.
 	 */
 	private function init_gateway_data() {
-		$this->id                 = WC_Gateway_LINEPay_Const::ID;
+		$this->id                 = 'linepay';
 		$this->title              = $this->get_option( 'title' );
 		$this->description        = $this->get_option( 'description' );
 		$this->has_fields         = false;
-		$this->order_button_text  = __( 'Pay with LINE Pay', 'woocommerce-gateway-linepay' );
-		$this->method_title       = WC_Gateway_LINEPay_Const::TITLE;
-		$this->method_description = WC_Gateway_LINEPay_Const::DESC;
+		$this->order_button_text  = __( 'Pay with LINE Pay', 'woomp' );
+		$this->method_title       = __( 'LINE Pay Gateway', 'woomp' );
+		$this->method_description = __( 'Payments are received through the LINE Pay gateway, which supports USD, JPY, TWD, and THB. In order to use LINE Pay, you must have a Channel ID and Channel SecretKey.', 'woomp' );
 	}
 
 	/**
@@ -871,7 +871,7 @@ class WC_Gateway_LINEPay extends WC_Payment_Gateway {
 	 */
 	public function set_transparent_icon( $icon_tag, $id ) {
 
-		if ( WC_Gateway_LINEPay_Const::ID !== $id ) {
+		if ( 'linepay' !== $id ) {
 			return $icon_tag;
 		}
 

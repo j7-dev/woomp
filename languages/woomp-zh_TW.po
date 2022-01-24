@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: woomp\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/woomp\n"
-"POT-Creation-Date: 2022-01-17T04:47:11+00:00\n"
-"PO-Revision-Date: 2022-01-17 12:56+0800\n"
+"POT-Creation-Date: 2022-01-24T08:11:22+00:00\n"
+"PO-Revision-Date: 2022-01-24 16:14+0800\n"
 "Last-Translator: \n"
 "Language-Team: morepower\n"
 "Language: zh_TW\n"
@@ -29,11 +29,11 @@ msgstr "https://morepower.club/morepower-addon/"
 
 #. Description of the plugin
 msgid ""
-"WooCommerce 好用版擴充，改善結帳流程與可變商品等區塊，讓 WooCommerce 更符"
-"合亞洲人使用習慣。"
+"WooCommerce 好用版擴充，改善結帳流程與可變商品等區塊，讓 WooCommerce 更符合亞"
+"洲人使用習慣。"
 msgstr ""
-"WooCommerce 好用版擴充，改善結帳流程與可變商品等區塊，讓 WooCommerce 更符"
-"合亞洲人使用習慣。"
+"WooCommerce 好用版擴充，改善結帳流程與可變商品等區塊，讓 WooCommerce 更符合亞"
+"洲人使用習慣。"
 
 #. Author of the plugin
 msgid "MorePower"
@@ -225,11 +225,11 @@ msgstr "好用版擴充"
 
 #: admin/settings/class-woomp-setting.php:62
 msgid ""
-"<a target=\"_blank\" href=\"https://morepower.club/know_cate/addon/\">好用"
-"版擴充 教學文件</a>"
+"<a target=\"_blank\" href=\"https://morepower.club/know_cate/addon/\">好用版"
+"擴充 教學文件</a>"
 msgstr ""
-"<a target=\"_blank\" href=\"https://morepower.club/know_cate/addon/\">好用"
-"版擴充 教學文件</a>"
+"<a target=\"_blank\" href=\"https://morepower.club/know_cate/addon/\">好用版"
+"擴充 教學文件</a>"
 
 #: admin/settings/class-woomp-setting.php:65
 msgid "綠界設定"
@@ -317,11 +317,11 @@ msgstr "一頁結帳模式"
 
 #: admin/settings/class-woomp-setting.php:212
 msgid ""
-"將原本兩段式結帳改成一頁式結帳，並改變結帳順序為 「選物流 -> 選金流 -> 填"
-"結帳欄位」，以適應超商取貨等物流模式"
+"將原本兩段式結帳改成一頁式結帳，並改變結帳順序為 「選物流 -> 選金流 -> 填結帳"
+"欄位」，以適應超商取貨等物流模式"
 msgstr ""
-"將原本兩段式結帳改成一頁式結帳，並改變結帳順序為 「選物流 -> 選金流 -> 填"
-"結帳欄位」，以適應超商取貨等物流模式"
+"將原本兩段式結帳改成一頁式結帳，並改變結帳順序為 「選物流 -> 選金流 -> 填結帳"
+"欄位」，以適應超商取貨等物流模式"
 
 #: admin/settings/class-woomp-setting.php:219
 msgid "結帳頁國家欄位置頂"
@@ -380,10 +380,8 @@ msgid "設定結帳頁確定購買按鈕的文字內容"
 msgstr "設定結帳頁確定購買按鈕的文字內容"
 
 #: admin/settings/class-woomp-setting.php:319
-#, fuzzy
-#| msgid "結帳相關設定"
 msgid "商品相關設定"
-msgstr "結帳相關設定"
+msgstr "商品相關設定"
 
 #: admin/settings/class-woomp-setting.php:324
 msgid "變化商品編輯介面"
@@ -394,16 +392,29 @@ msgid "開啟此選項以套用好用版變化商品操作介面"
 msgstr "開啟此選項以套用好用版變化商品操作介面"
 
 #: admin/settings/class-woomp-setting.php:334
-#, fuzzy
-#| msgid "變化商品編輯介面"
 msgid "變化商品前台顯示介面"
-msgstr "變化商品編輯介面"
+msgstr "變化商品前台顯示介面"
 
 #: admin/settings/class-woomp-setting.php:336
-#, fuzzy
-#| msgid "開啟此選項以套用好用版變化商品操作介面"
 msgid "開啟此選項以套用好用版變化商品前台顯示介面"
-msgstr "開啟此選項以套用好用版變化商品操作介面"
+msgstr "開啟此選項以套用好用版變化商品前台顯示介面"
+
+#: includes/line-pay-for-woo/includes/class-wc-gateway-linepay.php:58
+msgid "Pay with LINE Pay"
+msgstr "使用 LINE Pay 付款"
+
+#: includes/line-pay-for-woo/includes/class-wc-gateway-linepay.php:59
+msgid "LINE Pay Gateway"
+msgstr "LINE Pay 支付"
+
+#: includes/line-pay-for-woo/includes/class-wc-gateway-linepay.php:60
+msgid ""
+"Payments are received through the LINE Pay gateway, which supports USD, JPY, "
+"TWD, and THB. In order to use LINE Pay, you must have a Channel ID and "
+"Channel SecretKey."
+msgstr ""
+"透過 LINE Pay 進行付款。要使用LINE Pay 您必須擁有Channel ID 和Channel "
+"SecretKey。"
 
 #: public/class-woomp-order.php:38
 msgid "Ecpay Shipping details"

@@ -9,13 +9,6 @@
  */
 final class WC_Gateway_LINEPay_Const {
 
-	// data.
-	const ID           = 'linepay';
-	const TITLE        = 'LINE Pay Gateway';
-	const DESC         = 'Payments are received through the LINE Pay gateway, which supports USD, JPY, TWD, and THB. In order to use LINE Pay, you must have a Channel ID and Channel SecretKey.';
-	const METHOD_TITLE = 'LINE Pay';
-	const METHOD_DESC  = 'Payments are received through the LINE Pay gateway, which supports USD, JPY, TWD, and THB. In order to use LINE Pay, you must have a Channel ID and Channel SecretKey.';
-
 	// resource.
 	const RESOURCE_IMG_LOGO_OFFICIAL_PREFIX     = '/assets/images/logo/linepay_logo_';
 	const RESOURCE_IMG_LOGO_OFFICIAL_THB_PREFIX = '/assets/images/logo/THB/linepay_logo_';
