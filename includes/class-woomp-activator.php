@@ -42,9 +42,9 @@ class Woomp_Activator {
 		if ( ! get_option( 'wc_woomp_setting_one_line_address' ) ) {
 			update_option( 'wc_woomp_setting_one_line_address', 'yes' );
 		}
-		//if ( ! get_option( 'wc_woomp_setting_cod_payment' ) ) {
-		//	update_option( 'wc_woomp_setting_cod_payment', 'yes' );
-		//}
+		// if ( ! get_option( 'wc_woomp_setting_cod_payment' ) ) {
+		// update_option( 'wc_woomp_setting_cod_payment', 'yes' );
+		// }
 		if ( ! get_option( 'wc_woomp_setting_product_variations_ui' ) ) {
 			update_option( 'wc_woomp_setting_product_variations_ui', 'yes' );
 		}
@@ -66,7 +66,7 @@ class Woomp_Activator {
 		}
 
 		// 將預設貨到付款文字改為超商取貨付款
-		if ( in_array( 'ry-woocommerce-tools/ry-woocommerce-tools.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
+		if ( ! get_option( 'woocommerce_cod_settings' ) ) {
 			$gateway_setting = array(
 				'enabled'            => 'no',
 				'title'              => '超商取貨付款',
