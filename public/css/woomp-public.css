@@ -1,4 +1,5 @@
-/**
- * All of the CSS for your public-facing functionality should be
- * included in this file.
- */
+/* 商品頁樣式 */
+.single-product .variations th.label {
+  text-align: left;
+  padding-left: 0;
+} 
