@@ -155,7 +155,7 @@ class RY_ECPay_Shipping_Response extends RY_ECPay_Shipping_Api {
 	}
 
 	public static function shipping_transporting( $ipn_info, $order ) {
-		$order->update_status( 'ry-transporting' );
+		$order->update_status( 'wmp-in-transit' );
 	}
 
 	public static function shipping_at_cvs( $ipn_info, $order ) {
