@@ -116,14 +116,29 @@ class Woomp_Admin {
 		return $fields;
 	}
 
+	public function custom_order_meta_shipping( $fields ) {
+		$fields['full-addressShipping'] = array(
+			'label'         => __( '運送地址', 'woomp' ),
+			'show'          => true,
+			'wrapper_class' => 'form-field-wide full-addressShipping',
+		);
+		return $fields;
+	}
+
 	/**
 	 * 訂單頁面新增地址&姓名欄位
 	 */
 	public function add_address_meta( $order ) {
 		if ( get_option( 'wc_woomp_setting_one_line_address', 1 ) === 'yes' ) {
-			echo '<style>.order_data_column:nth-child(2) .address p:first-child {display: none;}</style>';
-			echo '<p style="font-size: 14px;" id="billingName"><strong>帳單姓名:<br/></strong>' . get_post_meta( $order->get_id(), '_billing_last_name', true ) . get_post_meta( $order->get_id(), '_billing_first_name', true ) . '</p>';
+			echo '<style>.order_data_column:nth-child(2) .address:not(.ivoice) p:first-child,.order_data_column:nth-child(2) .address:not(.ivoice) p:last-child,.ivoice #billingName,.ivoice #fullAddress {display: none;}</style>';
+			echo '<p style="font-size: 14px;" id="billingName"><strong>帳單姓名:<br/></strong>' . $order->get_billing_last_name() . $order->get_billing_first_name() . '</p>';
 			echo '<p style="font-size: 14px;" id="fullAddress"><strong>帳單地址:<br/></strong><span></span></p>';
+		}
+	}
+
+	public function add_address_meta_shipping( $order ) {
+		if ( get_option( 'wc_woomp_setting_one_line_address', 1 ) === 'yes' && strpos( $order->get_shipping_method(), '超商' ) < -1 ) {
+			echo '<style>.order_data_column:nth-child(3) .address p:first-child{display: none;}</style>';
 		}
 	}
 

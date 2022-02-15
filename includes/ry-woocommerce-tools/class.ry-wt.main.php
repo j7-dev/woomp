@@ -55,7 +55,7 @@ final class RY_WT
             }
 
             if ('yes' == self::get_option('enabled_smilepay_gateway', 'no')) {
-                include_once RY_WT_PLUGIN_DIR . 'woocommerce/gateways/smilepay/smilepay-gateway.php';
+				include_once RY_WT_PLUGIN_DIR . 'woocommerce/gateways/smilepay/smilepay-gateway.php';
             }
             if ('yes' == self::get_option('enabled_smilepay_shipping', 'no')) {
                 include_once RY_WT_PLUGIN_DIR . 'woocommerce/shipping/smilepay/smilepay-shipping.php';
