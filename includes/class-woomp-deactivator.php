@@ -38,7 +38,7 @@ class Woomp_Deactivator {
 			'instructions'   => '收到貨時以現金付款。',
 			'enable_for_methods'   => array()
 		); 
-		update_option( 'woocommerce_cod_settings', $gateway_setting );
+		//update_option( 'woocommerce_cod_settings', $gateway_setting );
 	}
 
 }
