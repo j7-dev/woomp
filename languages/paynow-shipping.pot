@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PayNow Shipping\n"
-"POT-Creation-Date: 2022-01-11 15:35+0800\n"
+"POT-Creation-Date: 2022-02-18 01:16+0800\n"
 "PO-Revision-Date: 2021-05-20 18:28+0800\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -11,7 +11,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "X-Generator: Poedit 3.0.1\n"
-"X-Poedit-Basepath: ../includes/paynow-shipping\n"
+"X-Poedit-Basepath: ..\n"
 "X-Poedit-Flags-xgettext: --add-comments=translators:\n"
 "X-Poedit-WPHeader: paynow-shipping.php\n"
 "X-Poedit-SourceCharset: UTF-8\n"
@@ -20,35 +20,45 @@ msgstr ""
 "_n_noop:1,2;_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.min.js\n"
-"X-Poedit-SearchPathExcluded-1: ../../vendor\n"
+"X-Poedit-SearchPathExcluded-1: vendor\n"
 
-#: includes/admin/meta-boxes/class-paynow-shipping-order-admin.php:72
+#: includes/admin/meta-boxes/class-paynow-shipping-order-admin.php:75
 #: includes/utils/paynow-shipping-functions.php:43
 msgid "Store ID"
 msgstr ""
 
-#: includes/admin/meta-boxes/class-paynow-shipping-order-admin.php:76
+#: includes/admin/meta-boxes/class-paynow-shipping-order-admin.php:79
 #: includes/utils/paynow-shipping-functions.php:33
 msgid "Store Name"
 msgstr ""
 
-#: includes/admin/meta-boxes/class-paynow-shipping-order-admin.php:80
+#: includes/admin/meta-boxes/class-paynow-shipping-order-admin.php:83
 #: includes/utils/paynow-shipping-functions.php:53
 msgid "Store Address"
 msgstr ""
 
-#: includes/admin/meta-boxes/class-paynow-shipping-order-admin.php:85
-#: includes/admin/meta-boxes/class-paynow-shipping-order-admin.php:91
+#: includes/admin/meta-boxes/class-paynow-shipping-order-admin.php:88
+#: includes/admin/meta-boxes/class-paynow-shipping-order-admin.php:94
 #: includes/utils/paynow-shipping-functions.php:18
 msgid "Shipping Phone"
 msgstr ""
 
-#: includes/admin/meta-boxes/class-paynow-shipping-order-admin.php:112
+#: includes/admin/meta-boxes/class-paynow-shipping-order-admin.php:115
 msgid "Get new PayNow Logistic Number"
 msgstr ""
 
-#: includes/admin/meta-boxes/class-paynow-shipping-order-admin.php:114
+#: includes/admin/meta-boxes/class-paynow-shipping-order-admin.php:117
 msgid "Create PayNow Shipping Order"
+msgstr ""
+
+#: includes/admin/meta-boxes/class-paynow-shipping-order-admin.php:129
+msgid "Change CVS store"
+msgstr ""
+
+#: includes/admin/meta-boxes/class-paynow-shipping-order-admin.php:130
+msgid ""
+"The PayNow shipping order will be revoked and recreated after changed the "
+"cvs store."
 msgstr ""
 
 #: includes/admin/meta-boxes/class-paynow-shipping-order-meta-box.php:31
@@ -127,9 +137,9 @@ msgid "Print Shipping Label"
 msgstr ""
 
 #: includes/class-paynow-shipping.php:853
-#: includes/shippings/api/class-paynow-shipping-request.php:149
-#: includes/shippings/api/class-paynow-shipping-request.php:196
-#: includes/shippings/api/class-paynow-shipping-request.php:240
+#: includes/shippings/api/class-paynow-shipping-request.php:180
+#: includes/shippings/api/class-paynow-shipping-request.php:227
+#: includes/shippings/api/class-paynow-shipping-request.php:272
 msgid "Missing Ajax Parameter."
 msgstr ""
 
@@ -349,39 +359,53 @@ msgstr ""
 msgid "PayNow Shipping TCat"
 msgstr ""
 
-#: includes/shippings/api/class-paynow-shipping-request.php:67
-#: includes/shippings/api/class-paynow-shipping-request.php:104
-#: includes/shippings/api/class-paynow-shipping-request.php:372
+#: includes/shippings/api/class-paynow-shipping-request.php:74
+#: includes/shippings/api/class-paynow-shipping-request.php:111
+#: includes/shippings/api/class-paynow-shipping-request.php:405
 msgid "Create shipping order failed. "
 msgstr ""
 
-#: includes/shippings/api/class-paynow-shipping-request.php:91
+#: includes/shippings/api/class-paynow-shipping-request.php:98
 msgid "Create shipping order successed. LogisticNumber: "
 msgstr ""
 
-#: includes/shippings/api/class-paynow-shipping-request.php:93
+#: includes/shippings/api/class-paynow-shipping-request.php:100
 msgid "Renew shipping order successed. LogisticNumber: "
 msgstr ""
 
-#: includes/shippings/api/class-paynow-shipping-request.php:142
-#: includes/shippings/api/class-paynow-shipping-request.php:189
+#: includes/shippings/api/class-paynow-shipping-request.php:121
+#: includes/shippings/api/class-paynow-shipping-request.php:135
+msgid ""
+"PayNow shipping order cancel failed. Please cancel manually and recreate "
+"the shipping order again."
+msgstr ""
+
+#: includes/shippings/api/class-paynow-shipping-request.php:173
+#: includes/shippings/api/class-paynow-shipping-request.php:220
 msgid "Invalid security token sent."
 msgstr ""
 
-#: includes/shippings/api/class-paynow-shipping-request.php:275
+#: includes/shippings/api/class-paynow-shipping-request.php:307
 msgid "Unsupported shipping service."
 msgstr ""
 
-#: includes/shippings/api/class-paynow-shipping-request.php:294
+#: includes/shippings/api/class-paynow-shipping-request.php:326
 msgid "Fail to get print label"
 msgstr ""
 
-#: includes/shippings/api/class-paynow-shipping-request.php:308
+#: includes/shippings/api/class-paynow-shipping-request.php:340
 msgid "No logistic number"
 msgstr ""
 
-#: includes/shippings/api/class-paynow-shipping-request.php:449
+#: includes/shippings/api/class-paynow-shipping-request.php:482
 msgid "Renew shipping order failed. "
+msgstr ""
+
+#: includes/shippings/api/class-paynow-shipping-response.php:70
+#, php-format
+msgid ""
+"CVS store has changed to %1$s. The PayNow shipping order will be revoked "
+"and recreated."
 msgstr ""
 
 #: includes/utils/paynow-shipping-functions.php:27

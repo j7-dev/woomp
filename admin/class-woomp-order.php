@@ -54,7 +54,12 @@ if ( ! class_exists( 'WooMP_Order' ) ) {
 		}
 
 		public function add_report_paid_statuses( $statues ) {
-			$statues[] = 'wc-wmp-in-transit';
+			$statues[] = 'wmp-in-transit';
+			return $statues;
+		}
+
+		public function add_order_is_paid_statuses( $statues ) {
+			$statues[] = 'wmp-in-transit';
 			return $statues;
 		}
 
@@ -108,7 +113,7 @@ if ( ! class_exists( 'WooMP_Order' ) ) {
 							echo $item['PaymentNo'] . ' ' . $item['ValidationNo'];
 						}
 					}
-				} else if( get_post_meta( $post_id, '_paynow_shipping_paymentno', true ) ) {
+				} elseif ( get_post_meta( $post_id, '_paynow_shipping_paymentno', true ) ) {
 					echo get_post_meta( $post_id, '_paynow_shipping_paymentno', true );
 				} else {
 					?>
@@ -215,13 +220,13 @@ if ( ! class_exists( 'WooMP_Order' ) ) {
 		 * 增加訂單頁面重新選擇超商按鈕
 		 */
 		public function add_choose_cvs_btn( $order ) {
-			if( get_option( RY_WT::$option_prefix . 'enabled_ecpay_shipping', 1 ) === 'yes' ){
-				foreach ($order->get_items('shipping') as $item_id => $item) {
-					$method_class = RY_ECPay_Shipping::get_order_support_shipping($item);
-					if ($method_class !== false && strpos($method_class, 'cvs') !== false) {
+			if ( get_option( RY_WT::$option_prefix . 'enabled_ecpay_shipping', 1 ) === 'yes' ) {
+				foreach ( $order->get_items( 'shipping' ) as $item_id => $item ) {
+					$method_class = RY_ECPay_Shipping::get_order_support_shipping( $item );
+					if ( $method_class !== false && strpos( $method_class, 'cvs' ) !== false ) {
 						echo '<div class="edit_address">
-						<button type="button" class="button choose-cvs" style="margin-top: 10px;">'. __('Update convenience store', 'woomp') .' </button><p style="margin-top: 10px;">'
-						.__('After choosing cvs, you need update the order to save changing.', 'woomp') . '
+						<button type="button" class="button choose-cvs" style="margin-top: 10px;">' . __( 'Update convenience store', 'woomp' ) . ' </button><p style="margin-top: 10px;">'
+						. __( 'After choosing cvs, you need update the order to save changing.', 'woomp' ) . '
 						</p></div>
 						';
 					}
@@ -232,43 +237,47 @@ if ( ! class_exists( 'WooMP_Order' ) ) {
 		/**
 		 * 註冊重新選擇超商 JS
 		 */
-		public function enqueue_choose_cvs_script(){
+		public function enqueue_choose_cvs_script() {
 			global $pagenow;
-			if ( 'post.php' === $pagenow && isset($_GET['post']) && 'shop_order' === get_post_type( $_GET['post'] ) && get_option( RY_WT::$option_prefix . 'enabled_ecpay_shipping', 1 ) === 'yes' ) {
+			if ( 'post.php' === $pagenow && isset( $_GET['post'] ) && 'shop_order' === get_post_type( $_GET['post'] ) && get_option( RY_WT::$option_prefix . 'enabled_ecpay_shipping', 1 ) === 'yes' ) {
 				$order = wc_get_order( $_GET['post'] );
-				foreach ($order->get_items('shipping') as $item_id => $item) {
-					$method_class = RY_ECPay_Shipping::get_order_support_shipping($item);
-					if ($method_class !== false && strpos($method_class, 'cvs') !== false) {
+				foreach ( $order->get_items( 'shipping' ) as $item_id => $item ) {
+					$method_class = RY_ECPay_Shipping::get_order_support_shipping( $item );
+					if ( $method_class !== false && strpos( $method_class, 'cvs' ) !== false ) {
 						list($MerchantID, $HashKey, $HashIV, $CVS_type) = RY_ECPay_Shipping::get_ecpay_api_info();
-		
+
 						$choosed_cvs = '';
 
-						if (isset($_POST['MerchantID']) && $_POST['MerchantID'] == $MerchantID) {
-							$choosed_cvs = [
-								'CVSStoreID' => wc_clean(wp_unslash($_POST['CVSStoreID'])),
-								'CVSStoreName' => wc_clean(wp_unslash($_POST['CVSStoreName'])),
-								'CVSAddress' => wc_clean(wp_unslash($_POST['CVSAddress'])),
-								'CVSTelephone' => wc_clean(wp_unslash($_POST['CVSTelephone']))
-							];
+						if ( isset( $_POST['MerchantID'] ) && $_POST['MerchantID'] == $MerchantID ) {
+							$choosed_cvs = array(
+								'CVSStoreID'   => wc_clean( wp_unslash( $_POST['CVSStoreID'] ) ),
+								'CVSStoreName' => wc_clean( wp_unslash( $_POST['CVSStoreName'] ) ),
+								'CVSAddress'   => wc_clean( wp_unslash( $_POST['CVSAddress'] ) ),
+								'CVSTelephone' => wc_clean( wp_unslash( $_POST['CVSTelephone'] ) ),
+							);
 						}
 
-						wp_register_script( 'wmp-admin-shipping', WOOMP_PLUGIN_URL . 'admin/js/choose-cvs.js', array('jquery'), null, false );
+						wp_register_script( 'wmp-admin-shipping', WOOMP_PLUGIN_URL . 'admin/js/choose-cvs.js', array( 'jquery' ), null, false );
 
-						wp_localize_script('wmp-admin-shipping', 'ECPayInfo', [
-							'postUrl' => RY_ECPay_Shipping_Api::get_map_post_url(),
-							'postData' => [
-								'MerchantID' => $MerchantID,
-								'LogisticsType' => $method_class::$LogisticsType,
-								'LogisticsSubType' => $method_class::$LogisticsSubType . (('C2C' == $CVS_type) ? 'C2C' : ''),
-								'IsCollection' => 'Y',
-								'ServerReplyURL' => esc_url(WC()->api_request_url('ry_ecpay_map_callback')),
-								'ExtraData' => 'ry' . $order->get_id()
-							],
-							'newStore' => $choosed_cvs,
-						]);
-		
-						wp_enqueue_script('wmp-admin-shipping');
-	
+						wp_localize_script(
+							'wmp-admin-shipping',
+							'ECPayInfo',
+							array(
+								'postUrl'  => RY_ECPay_Shipping_Api::get_map_post_url(),
+								'postData' => array(
+									'MerchantID'       => $MerchantID,
+									'LogisticsType'    => $method_class::$LogisticsType,
+									'LogisticsSubType' => $method_class::$LogisticsSubType . ( ( 'C2C' == $CVS_type ) ? 'C2C' : '' ),
+									'IsCollection'     => 'Y',
+									'ServerReplyURL'   => esc_url( WC()->api_request_url( 'ry_ecpay_map_callback' ) ),
+									'ExtraData'        => 'ry' . $order->get_id(),
+								),
+								'newStore' => $choosed_cvs,
+							)
+						);
+
+						wp_enqueue_script( 'wmp-admin-shipping' );
+
 					}
 				}
 			}

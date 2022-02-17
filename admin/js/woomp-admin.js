@@ -1,29 +1,38 @@
-(function( $ ) {
-	var addr0 = $('#_billing_postcode').val()
-	var addr1 = $('#_billing_country option:selected').text()
-	var addr2 = $("#_billing_state").val();
-	var addr3 = $("#_billing_city").val();
-	var addr4 = $("#_billing_address_1").val();
-	var addr5 = $("#_billing_address_2").val();
-	$(".full-address input").val( addr0 + " " + addr1 + addr2 + addr3 + addr4 + addr5 );
-	$("#fullAddress span").html( addr0 + " " + addr1 + addr2 + addr3 + addr4 + addr5 );
-	$("#billingName").insertAfter(".order_data_column:nth-child(2) .address p:first-child");
-	$('#fullAddress').insertAfter('p#billingName');
-	
-	$(".full-address input").on('paste change', function () {
-		setTimeout(() => {
-			var addrf1 = $(".full-address input").val().replaceAll("市", "市 ");
-			var addrf2 = addrf1.replaceAll("區", "區 ");
-			var addr = addrf2.split(' ');
-			$("#_billing_state").val(addr[1]);
-			$("#_billing_city").val(addr[2]);
-			$("#_billing_postcode").val(addr[0]);
-			$("#_billing_address_1").val(addr[3]);
-		}, 300);
-  	});
+(function ($) {
+	// 後台訂單地址整併為一欄
+	function set_one_line_address(type) {
+		var addr0 = $('#_' + type + '_postcode').val()
+		var addr1 = $('#_' + type + '_country option:selected').text()
+		var addr2 = $('#_' + type + '_state').val();
+		var addr3 = $('#_' + type + '_city').val();
+		var addr4 = $('#_' + type + '_address_1').val();
+		var addr5 = $('#_' + type + '_address_2').val();
+		var isShipping = (type === 'shipping') ? 'Shipping' : '';
+
+		$(".full-address" + isShipping + " input").val(addr0 + " " + addr1 + addr2 + addr3 + addr4 + addr5);
+		$("#fullAddress" + isShipping + " span").html(addr0 + " " + addr1 + addr2 + addr3 + addr4 + addr5);
+
+		$("#billingName").insertAfter(".order_data_column:nth-child(2) .address p:first-child");
+		$("#fullAddress").insertAfter('p#billingName');
+
+		$(".full-address" + isShipping + " input").on('paste change', function () {
+			setTimeout(() => {
+				var addrf1 = $(".full-address" + isShipping + " input").val().replaceAll("市", "市 ");
+				var addrf2 = addrf1.replaceAll("區", "區 ");
+				var addr = addrf2.split(' ');
+				$("#_" + type + "_state").val(addr[1]);
+				$("#_" + type + "_city").val(addr[2]);
+				$("#_" + type + "_postcode").val(addr[0]);
+				$("#_" + type + "_address_1").val(addr[3]);
+			}, 300);
+		});
+	}
+
+	set_one_line_address('billing');
+	set_one_line_address('shipping');
 
 	// 離島選擇介面初始化
-	function init_island(){
+	function init_island() {
 		$('.wc-shipping-zone-postcodes').before(`<fieldset class="toggle" id="zoneTwIslandToggle"><span class="woocommerce-help-tip tip-island"></span><label for="zoneTwIslandToggleBtn"><input name="zoneTwIslandToggleBtn" id="zoneTwIslandToggleBtn" type="checkbox" class="toggle"><label for="zoneTwIslandToggleBtn">Toggle</label><span class="description" style="font-size: 14px;">這是離島區域<br></span></label></fieldset>`);
 
 		// 增加離島複選方塊
@@ -73,23 +82,23 @@
 		`)
 
 		// 離島 Tooltip 說明
-		$('.tip-island').hover(function(){
+		$('.tip-island').hover(function () {
 			$('#tiptip_content').text('台灣本島 與 台灣離島，需要分別建立自己的運送區域。台灣本島是一個運送區域，台灣離島是另一個運送區域，兩個區域可以有不同的運送方式&運費。若啟用此選項，即會將此運送區域改為 台灣離島的運送區域')
 		})
 	}
-	
-	if( $('#zone_locations option[value="country:TW"]').is(':selected') ){
+
+	if ($('#zone_locations option[value="country:TW"]').is(':selected')) {
 		init_island();
 		$('#zoneTwIslandToggle').show();
 	}
 
-	$('#zone_locations').on('change', function(){
-		if( $('#zone_locations option[value="country:TW"]').is(':selected') ){
-			if( $('#zoneTwIslandToggle').length === 0 ){ // 避免重複新增介面
+	$('#zone_locations').on('change', function () {
+		if ($('#zone_locations option[value="country:TW"]').is(':selected')) {
+			if ($('#zoneTwIslandToggle').length === 0) { // 避免重複新增介面
 				init_island();
 			}
 			$('#zoneTwIslandToggle').show();
-			$('#zoneTwIslandToggleBtn').prop('checked',false);
+			$('#zoneTwIslandToggleBtn').prop('checked', false);
 		} else {
 			$('#zoneTwIslandToggle').hide();
 			$('#zoneTwIslandWrap').hide();
@@ -98,20 +107,20 @@
 			updatePostCode()
 		}
 	})
-	
-	// 取得有勾選的地區
-	function updatePostCode(){
-		var checkedCode = $("#zoneTwIslandWrap input.island:checkbox:checked").map(function(){
-			return $(this).val();
-		  }).get();
 
-		$('#zone_postcodes').text( checkedCode.sort().join("\n") );
+	// 取得有勾選的地區
+	function updatePostCode() {
+		var checkedCode = $("#zoneTwIslandWrap input.island:checkbox:checked").map(function () {
+			return $(this).val();
+		}).get();
+
+		$('#zone_postcodes').text(checkedCode.sort().join("\n"));
 		$('#zone_postcodes').trigger('input');
 	}
 
 	// 寫入郵遞區號
-	$('body').on('change','#zoneTwIslandToggleBtn',function(){
-		if( $(this).is(':checked') ){
+	$('body').on('change', '#zoneTwIslandToggleBtn', function () {
+		if ($(this).is(':checked')) {
 			$('#zoneTwIslandWrap').show();
 			$('#zoneTwIslandWrap input').prop('checked', true);
 			$('.wc-shipping-zone-postcodes').hide();
@@ -125,62 +134,62 @@
 	})
 
 	// 判斷是否有輸入郵遞區號
-	if( $('#zone_postcodes').val() != '' && $('#zone_locations option[value="country:TW"]').is(':selected') ){
-		$('#zoneTwIslandToggleBtn').prop('checked',true);
+	if ($('#zone_postcodes').val() != '' && $('#zone_locations option[value="country:TW"]').is(':selected')) {
+		$('#zoneTwIslandToggleBtn').prop('checked', true);
 		$('#zoneTwIslandWrap').show();
 	} else {
-		$('#zoneTwIslandToggleBtn').prop('checked',false);
+		$('#zoneTwIslandToggleBtn').prop('checked', false);
 		$('#zoneTwIslandWrap').hide();
 	}
 
 	// 讀取既有的郵遞區號
-	if( $('#zone_postcodes').length > 0 ){
+	if ($('#zone_postcodes').length > 0) {
 		var current_code = $('#zone_postcodes').val().split('\n');
 		for (let index = 0; index < current_code.length; index++) {
-			$("#zoneTwIslandWrap input.island[value='"+ current_code[index] +"']").prop('checked', true);
+			$("#zoneTwIslandWrap input.island[value='" + current_code[index] + "']").prop('checked', true);
 		}
 	}
 
 	// 郵遞區號寫入與刪除
-	$('body').on('change','#zoneTwIslandWrap input[type="checkbox"]',function(){
+	$('body').on('change', '#zoneTwIslandWrap input[type="checkbox"]', function () {
 		updatePostCode()
 	})
 
 	// 全選寫入與刪除
-	for (let index = 1; index < 4 ; index++) {
-		$('body').on('change', '#group' + index, function(){
-			if( $(this).is(':checked') ){
+	for (let index = 1; index < 4; index++) {
+		$('body').on('change', '#group' + index, function () {
+			if ($(this).is(':checked')) {
 				$('.group' + index).prop('checked', true);
 				updatePostCode()
 			} else {
-				$('.group' + index ).prop('checked', false);
+				$('.group' + index).prop('checked', false);
 				updatePostCode()
 			}
 		})
 	}
 
-	function triggerSaveAtrributes(){
-		$('body').find('.save_attributes_after').on('click', function(e){
+	function triggerSaveAtrributes() {
+		$('body').find('.save_attributes_after').on('click', function (e) {
 			e.preventDefault();
 			$('body').find('.save_attributes').trigger('click');
 		})
 	}
-	$( document.body ).on( 'woocommerce_added_attribute', function() {
+	$(document.body).on('woocommerce_added_attribute', function () {
 		triggerSaveAtrributes()
 	})
-	$('#variable_product_options').on('reload', function(){
+	$('#variable_product_options').on('reload', function () {
 		triggerSaveAtrributes()
 	})
 	triggerSaveAtrributes()
 
 	// 訂單列表頁更新綠界物流訂單號
-	$('.btnShippingNoEcpay').on('click', function(e){
+	$('.btnShippingNoEcpay').on('click', function (e) {
 		e.preventDefault();
-		
+
 	})
 
 	// 訂單列表頁更新非綠界物流訂單號
-	$('.shippingNoWrap input[name="shippingNo"]').on('change', function(){
+	$('.shippingNoWrap input[name="shippingNo"]').on('change', function () {
 		$(this).parent().find('.shipping-no-loading').show();
 		var data = {
 			action: "update_shipping_number",
@@ -193,14 +202,14 @@
 			data: data,
 			type: 'POST',
 			dataType: "json",
-			success: function(data){
+			success: function (data) {
 				$('.shipping-no-loading').hide();
 			}
 		})
 	})
 
 	// 訂單管理頁刪除綠界物流資訊
-	$('.btnEcpayShippingCvsRemove').on('click', function(e){
+	$('.btnEcpayShippingCvsRemove').on('click', function (e) {
 		e.preventDefault();
 
 		$('#ry-ecpay-shipping-info').addClass('loading');
@@ -218,10 +227,10 @@
 			data: data,
 			type: 'POST',
 			dataType: "json",
-			success: function(data){
-				if( '已刪除' === data ){
+			success: function (data) {
+				if ('已刪除' === data) {
 					$('#ry-ecpay-shipping-info').removeClass('loading');
-					$('#ry-ecpay-shipping-info tr.shippingId-' + ecpayShippingId ).remove();
+					$('#ry-ecpay-shipping-info tr.shippingId-' + ecpayShippingId).remove();
 					alert(data)
 				}
 			}
@@ -229,13 +238,13 @@
 	})
 
 	// 訂單批次操作列印託運單另開視窗
-	$('#bulk-action-selector-top,#bulk-action-selector-bottom').on('change',function(){
+	$('#bulk-action-selector-top,#bulk-action-selector-bottom').on('change', function () {
 		var action = $(this).val()
-		if( action === 'ry_print_ecpay_cvs_711' || action === 'ry_print_ecpay_cvs_family' ){
-			$('#posts-filter').attr('target','_blank');
+		if (action === 'ry_print_ecpay_cvs_711' || action === 'ry_print_ecpay_cvs_family') {
+			$('#posts-filter').attr('target', '_blank');
 		} else {
 			$('#posts-filter').removeAttr('target');
 		}
 	})
 
-})( jQuery );
+})(jQuery);

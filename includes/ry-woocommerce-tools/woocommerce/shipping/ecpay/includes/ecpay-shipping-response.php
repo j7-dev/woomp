@@ -11,6 +11,7 @@ class RY_ECPay_Shipping_Response extends RY_ECPay_Shipping_Api {
 
 		add_action( 'ry_ecpay_shipping_response_status_2030', array( __CLASS__, 'shipping_transporting' ), 10, 2 );
 		add_action( 'ry_ecpay_shipping_response_status_3024', array( __CLASS__, 'shipping_transporting' ), 10, 2 );
+		add_action( 'ry_ecpay_shipping_response_status_3032', array( __CLASS__, 'shipping_transporting' ), 10, 2 );
 
 		add_action( 'ry_ecpay_shipping_response_status_2063', array( __CLASS__, 'shipping_at_cvs' ), 10, 2 );
 		add_action( 'ry_ecpay_shipping_response_status_2073', array( __CLASS__, 'shipping_at_cvs' ), 10, 2 );
@@ -155,7 +156,7 @@ class RY_ECPay_Shipping_Response extends RY_ECPay_Shipping_Api {
 	}
 
 	public static function shipping_transporting( $ipn_info, $order ) {
-		$order->update_status( 'ry-transporting' );
+		$order->update_status( 'wmp-in-transit' );
 	}
 
 	public static function shipping_at_cvs( $ipn_info, $order ) {

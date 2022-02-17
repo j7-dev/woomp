@@ -54,7 +54,7 @@ class WC_Gateway_LINEPay_Handler {
 		add_action( 'woocommerce_api_' . strtolower( get_class( $this ) ), array( $this, 'handle_callback' ) );
 
 		// linepay setting.
-		$this->linepay_settings = get_option( 'woocommerce_' . WC_Gateway_LINEPay_Const::ID . '_settings' );
+		$this->linepay_settings = get_option( 'woocommerce_linepay_settings' );
 
 		// logger.
 		if ( wc_string_to_bool( get_option( 'linepay_log_enabled' ) ) ) {
@@ -281,7 +281,7 @@ class WC_Gateway_LINEPay_Handler {
 		switch ( $order_status ) {
 			case 'failed':
 				$payment_method = get_post_meta( $order->get_id(), '_payment_method' );
-				if ( WC_Gateway_LINEPay_Const::ID !== $payment_method[0] ) {
+				if ( 'linepay' !== $payment_method[0] ) {
 					break;
 				}
 

@@ -46,7 +46,7 @@ function init_woomp_gateway_cod() {
 			add_action( 'woocommerce_thankyou_' . $this->id, array( $this, 'thankyou_page' ) );
 		  
 			// Customer Emails
-			add_action( 'woocommerce_email_before_order_table', array( $this, 'email_instructions' ), 10, 3 );
+			//add_action( 'woocommerce_email_before_order_table', array( $this, 'email_instructions' ), 10, 3 );
 		}
 	
 	
@@ -84,7 +84,7 @@ function init_woomp_gateway_cod() {
 					'title'       => __( 'Instructions', 'woocommerce' ),
 					'type'        => 'textarea',
 					'description' => __( 'Instructions that will be added to the thank you page and emails.', 'woocommerce' ),
-					'default'     => __( '收到貨時以現金付款。', 'woomp' ),
+					'default'     => __( '', 'woomp' ),
 					'desc_tip'    => true,
 				),
 
