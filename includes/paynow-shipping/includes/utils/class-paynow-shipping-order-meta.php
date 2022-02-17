@@ -35,5 +35,4 @@ class PayNow_Shipping_Order_Meta {
 	const StoreDate         = '_paynow_shipping_store_date'; // 到店日期.
 	const StoreTime         = '_paynow_shipping_store_time'; // 到店時間.
 
-
 }

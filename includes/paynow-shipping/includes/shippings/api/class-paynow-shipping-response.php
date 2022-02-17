@@ -52,6 +52,8 @@ class PayNow_Shipping_Response {
 
 		if ( ! empty( $posted ) ) {
 
+			PayNow_Shipping::log('recieve cvs callback from PayNow:' . wc_print_r( $posted, true ) );
+
 			foreach ( array( 'service', 'storename', 'storeid', 'storeaddress' ) as $key ) {
 				if ( isset( $posted[ $key ] ) ) {
 					$cvs_info[ 'paynow_' . $key ] = $posted[ $key ];
@@ -60,6 +62,19 @@ class PayNow_Shipping_Response {
 
 			// May received additional data for CVS Family Frozen shipping.
 			$cvs_info = apply_filters( 'paynow_shipping_cvs_callback', $cvs_info, $posted );
+
+			// redirect to admin order edit screen
+			if ( isset( $_REQUEST[ 'order_id' ] )) {
+				$order = wc_get_order( $_REQUEST[ 'order_id' ] );
+				if ( $order ) {
+					PayNow_Shipping::paynow_save_order_shipping_meta( $order, $cvs_info);
+					$order->add_order_note( sprintf( __( 'CVS store has changed to %1$s. The PayNow shipping order will be revoked and recreated.', 'paynow-shipping' ), $cvs_info['paynow_storename'] ) );
+					do_action( 'paynow_after_admin_changed_cvs_store', $order );
+					wp_redirect( admin_url( 'post.php?post=' . $order->get_id() . '&action=edit' ) );
+					die();
+				}
+
+			}
 		}
 
 		// post to checkout page, so the cvs field can be saved.

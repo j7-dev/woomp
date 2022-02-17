@@ -26,10 +26,15 @@ class PayNow_Shipping_Request {
 		self::get_instance();
 
 		add_action( 'woocommerce_order_status_processing', array( self::get_instance(), 'paynow_get_logistic_no' ), 10, 1 );
-		add_action( 'paynow_shipping_order_created', array( self::get_instance(), 'paynow_query_shipping_order_after_created' ), 30, 2 );
+		add_action( 'paynow_shipping_order_created', array( self::get_instance(), 'paynow_query_shipping_order' ), 30, 1 );
+
+		//後台重選超商後需取消物流單再重新建立新的物流單
+		add_action( 'paynow_after_admin_changed_cvs_store', array( self::get_instance(), 'paynow_cancel_shipping_order_when_cvs_store_changed' ) );
+		add_action( 'paynow_after_cancel_shipping_order_when_cvs_store_changed', array( self::get_instance(), 'paynow_get_logistic_no'), 10, 1 );
 
 		add_action( 'wp_ajax_update_delivery_status', array( self::get_instance(), 'paynow_ajax_query_delivery_status' ), 10, 1 );
 		add_action( 'wp_ajax_cancel_shipping_order', array( self::get_instance(), 'paynow_ajax_cancel_shipping_order' ), 10, 1 );
+		add_action( 'paynow_shipping_after_order_cancelled', array( self::get_instance(), 'paynow_query_shipping_order' ), 10, 1 );
 
 		add_action( 'wp_ajax_paynow_shipping_print_label', array( self::get_instance(), 'paynow_print_label' ) );
 
@@ -54,15 +59,17 @@ class PayNow_Shipping_Request {
 
 			do_action( 'paynow_shipping_before_create_order', $order );
 
-			if ( empty( $order->get_meta( PayNow_Shipping_Order_Meta::LogisticNumber ) ) ) {
-				$response = self::create_order( $order );
-				$action   = 'create';
-			} else {
+			// status = 1, 無效訂單
+			if ( !empty( $order->get_meta( PayNow_Shipping_Order_Meta::LogisticNumber ) &&  (string) $order->get_meta( PayNow_Shipping_Order_Meta::Status ) !== '1') ) {
 				$response = self::renew_order( $order );
 				$action   = 'renew';
+			} else {
+				$response = self::create_order( $order );
+				$action   = 'create';
 			}
 
 			$resp_obj = json_decode( wp_remote_retrieve_body( $response ) );
+			PayNow_Shipping::log( 'PayNow shipping order response:' . wc_print_r( $resp_obj, true ) );
 			if ( 'F' === $resp_obj->Status ) {
 				$order->add_order_note( __( 'Create shipping order failed. ' ) . $resp_obj->ErrorMsg );
 				throw new Exception( $resp_obj->ErrorMsg );
@@ -105,13 +112,38 @@ class PayNow_Shipping_Request {
 		}
 	}
 
+	public static function paynow_cancel_shipping_order_when_cvs_store_changed( $order ) {
+
+		$response = self::cancel_order( $order );
+		PayNow_Shipping::log( 'Order ' . $order->get_id() . ' cancel shipping order. response: ' . wc_print_r( $response, true ) );
+
+		if ( is_wp_error( $response ) ) {
+			$order->add_order_note( __( 'PayNow shipping order cancel failed. Please cancel manually and recreate the shipping order again.', 'paynow-shipping' ) );
+			return;
+		}
+
+		$resp = wp_remote_retrieve_body( $response );
+		if ( strpos( $resp, 'S' ) !== false ) {
+			//取消成功
+			$order->update_meta_data( PayNow_Shipping_Order_Meta::Status, '1' );// 無效訂單
+			$order->save();
+			$order->add_order_note( $resp );
+			//重新建立物流單
+			do_action( 'paynow_after_cancel_shipping_order_when_cvs_store_changed', $order );
+		} else {
+			//取消失敗
+			$order->add_order_note( $resp );
+			$order->add_order_note( __( 'PayNow shipping order cancel failed. Please cancel manually and recreate the shipping order again.', 'paynow-shipping' ) );
+		}
+	}
+
 	/**
 	 * Query shipping order after shipping order created to get the logistic status
 	 *
 	 * @param WC_Order $order The order object.
 	 * @return void
 	 */
-	public function paynow_query_shipping_order_after_created( $order, $action ) {
+	public function paynow_query_shipping_order( $order ) {
 		if ( $order ) {
 			$response = self::query_order( $order );
 
@@ -123,7 +155,7 @@ class PayNow_Shipping_Request {
 			$resp_json  = wp_remote_retrieve_body( $response );
 			$resp_obj   = json_decode( $resp_json );
 			$query_date = wp_remote_retrieve_header( $response, 'date' );
-			PayNow_Shipping::log( 'Query Order ' . $order->get_id() . ' status after created success. Response json: ' . $resp_json );
+			PayNow_Shipping::log( 'Query Order ' . $order->get_id() . ' status. Response json: ' . $resp_json );
 
 			self::update_order_logistic_meta( $order, $resp_obj, $query_date );
 		}
@@ -215,6 +247,7 @@ class PayNow_Shipping_Request {
 		$resp = wp_remote_retrieve_body( $response );
 		if ( strpos( $resp, 'S' ) !== false ) {
 			$order->add_order_note( $resp );
+			do_action( 'paynow_shipping_after_order_cancelled', $order );
 
 			$return = array(
 				'success' => true,
@@ -349,6 +382,7 @@ class PayNow_Shipping_Request {
 	public static function create_order( $order ) {
 
 		$request_args = self::build_add_order_args( $order );
+		PayNow_Shipping::log( 'Create PayNow shipping order request args:' . wc_print_r( $request_args, true ), 'info' );
 		$encrypt_json = self::build_encrypted_args( $request_args );
 		$url          = PayNow_Shipping::$api_url . '/api/Orderapi/Add_Order';
 
