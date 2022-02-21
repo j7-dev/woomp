@@ -50,6 +50,7 @@ class PayNow_Payment_Response {
 		// Payment listener/API hook, 此網址請設定在 PayNow 後台.
 		add_action( 'woocommerce_api_paynow_payment', array( self::get_instance(), 'paynow_receive_response' ) );
 		add_action( 'paynow_payment_online_response', array( self::get_instance(), 'paynow_valid_response' ) );
+		add_action( 'paynow_payment_online_background_notification', array( self::get_instance(), 'paynow_background_notification' ) );
 
 		// offline Payment listener/API hook, 此網址請設定在 PayNow 後台.
 		add_action( 'woocommerce_api_paynow_payment_offline', array( self::get_instance(), 'paynow_receive_response' ) );
@@ -66,16 +67,25 @@ class PayNow_Payment_Response {
 		// phpcs:disable WordPress.Security.NonceVerification.Missing
 		global $woocommerce;
 
-		PayNow_Payment::log( 'paynow_receive_response:' . wc_print_r( $_POST, true ) );
+		PayNow_Payment::log( 'paynow_receive_response. raw post data ' . wc_print_r( $_POST, true ) );
 
 		if ( ! empty( $_POST ) && self::validate_passcode() ) {
 
 			$posted = wc_clean( wp_unslash( $_POST ) );
 
 			if ( current_action() === 'woocommerce_api_paynow_payment' ) {
-				do_action( 'paynow_payment_online_response', $posted );
+				if ( self::is_background_notification( $posted ) ) {
+					do_action( 'paynow_payment_online_background_notification', $posted );
+				} else {
+					do_action( 'paynow_payment_online_response', $posted );
+				}
+
 			} elseif ( current_action() === 'woocommerce_api_paynow_payment_offline' ) {
-				do_action( 'paynow_payment_offline_response', $posted );
+				if ( self::is_background_notification( $posted ) ) {
+					do_action( 'paynow_payment_online_background_notification', $posted );
+				} else {
+					do_action( 'paynow_payment_offline_response', $posted );
+				}
 			}
 
 			exit;
@@ -84,7 +94,7 @@ class PayNow_Payment_Response {
 
 	}
 
-	// 信用卡(01)、WebATM(02) 即時通知結果
+	// 信用卡(01)、WebATM(02) 即時通知結果
 	/**
 	 * Update post meta using the received post data
 	 *
@@ -93,6 +103,10 @@ class PayNow_Payment_Response {
 	 */
 	public static function paynow_valid_response( $posted ) {
 		global $woocommerce;
+
+		if ( self::is_background_notification( $posted ) ) {
+			return;
+		}
 
 		$web_no      = $posted['WebNo'];
 		$buysafe_no  = $posted['BuysafeNo']; // PayNow訂單編號.
@@ -103,6 +117,13 @@ class PayNow_Payment_Response {
 		$pan_no4     = $posted['pan_no4'];// 信用卡末四碼.
 
 		PayNow_Payment::log( 'Order ' . $order_no . ' response received from PayNow. ' . wc_print_r( $posted, true ) );
+
+		$site_web_no = get_option( 'paynow_payment_web_no' );
+		if ( $web_no !==  $site_web_no ) {
+			PayNow_Payment::log( 'Received WebNo '. $web_no . ' is not the same as the site WebNo ' . $site_web_no . ' do nothing' );
+			return;
+		}
+
 		$order = self::get_paynow_order( $posted );
 
 		if ( $order ) {
@@ -152,6 +173,10 @@ class PayNow_Payment_Response {
 	public static function paynow_valid_offline_response( $posted ) {
 		global $woocommerce;
 
+		if ( self::is_background_notification( $posted ) ) {
+			return;
+		}
+
 		$web_no     = $posted['WebNo'];
 		$buysafe_no = $posted['BuysafeNo'];// paynow訂單編號.
 		$pass_code  = $posted['PassCode'];
@@ -165,6 +190,13 @@ class PayNow_Payment_Response {
 
 		$order = self::get_paynow_order( $posted );
 		PayNow_Payment::log( 'Order ' . $order_no . ' offline payment response received from PayNow. ' . wc_print_r( $posted, true ) );
+
+		$site_web_no = get_option( 'paynow_payment_web_no' );
+		if ( $web_no !==  $site_web_no ) {
+			PayNow_Payment::log( 'Received WebNo '. $web_no . ' is not the same as the site WebNo ' . $site_web_no . ' do nothing' );
+			return;
+		}
+
 		if ( $order ) {
 
 			update_post_meta( $order->get_id(), '_paynow_new_date', $new_date );
@@ -209,7 +241,7 @@ class PayNow_Payment_Response {
 
 			if ( 'S' === $tran_status ) {
 
-				$order->add_order_note( __( 'Recieved PayNow payment completed notification', 'paynow-payment' ) );
+				$order->add_order_note( __( 'Recieved PayNow payment completed notification', 'paynow-payment' ) );
 				$order->payment_complete( $buysafe_no );
 				$woocommerce->cart->empty_cart();
 
@@ -225,6 +257,52 @@ class PayNow_Payment_Response {
 		}
 	}
 
+	//成功才會回傳
+	public static function paynow_background_notification( $posted ) {
+		global $woocommerce;
+
+		$web_no      = $posted['WebNo'];
+		$buysafe_no  = $posted['BuysafeNo']; // PayNow訂單編號.
+		$pass_code   = $posted['PassCode'];
+		$order_no    = $posted['OrderNo'];
+		$tran_status = $posted['TranStatus'];// 交易結果 S or F.
+		$pay_type    = $posted['PayType'];//交易類別
+		$pan_no4     = $posted['Pan_no4'];// 信用卡末四碼.
+
+		PayNow_Payment::log( 'Order ' . $order_no . ' background notification received from PayNow. ' . wc_print_r( $posted, true ) );
+
+		$site_web_no = get_option( 'paynow_payment_web_no' );
+		if ( $web_no !==  $site_web_no ) {
+			PayNow_Payment::log( 'Received WebNo '. $web_no . ' is not the same as the site WebNo ' . $site_web_no . ' do nothing' );
+			return;
+		}
+
+		$order = self::get_paynow_order( $posted );
+		if ( $order ) {
+			update_post_meta( $order->get_id(), '_paynow_tran_id', $buysafe_no );
+			update_post_meta( $order->get_id(), '_paynow_tran_status', $tran_status );
+			if ( ! empty( $pan_no4 ) ) {
+				update_post_meta( $order->get_id(), '_paynow_pan_no4', $pan_no4 );
+			}
+
+			if ( !$order->is_paid() && 'S' === $tran_status ) {
+				$order->payment_complete( $buysafe_no );
+			}
+
+			$woocommerce->cart->empty_cart();
+			echo '1';
+		}
+
+	}
+
+	private static function is_background_notification( $posted ) {
+		$method = ( array_key_exists( 'method', $posted ) )? $posted['method']: '';
+		if ( 'paynow_return' === $method ) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 
 	/**
 	 * Validate passcode

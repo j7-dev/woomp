@@ -48,7 +48,7 @@ class PayNow_Payment_Request {
 				'ReceiverTel'   => $order->get_billing_phone(),
 				'ReceiverEmail' => $order->get_billing_email(),
 				'OrderNo'       => $order->get_order_number(),
-				'ECPlatform'    => $this->gateway->get_merchant_name(),
+				'ECPlatform'    => 'paynowwoocommerce',
 				'PayType'       => $this->gateway->get_pay_type(),
 				'Note1'         => $order->get_id(),
 				'EPT'           => '1',
