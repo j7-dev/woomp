@@ -138,7 +138,8 @@ class Woomp_Admin {
 
 	public function add_address_meta_shipping( $order ) {
 		if ( get_option( 'wc_woomp_setting_one_line_address', 1 ) === 'yes' && strpos( $order->get_shipping_method(), '超商' ) < -1 ) {
-			echo '<style>.order_data_column:nth-child(3) .address p:first-child{display: none;}</style>';
+			echo '<style>.order_data_column:nth-child(3) .address p:first-child{x-display: none;}</style>';
+			echo '<p style="font-size: 14px;" id="fullAddressShipping"><strong>運送地址:<br/></strong><span></span></p>';
 		}
 	}
 
