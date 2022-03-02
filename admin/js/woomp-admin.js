@@ -15,6 +15,8 @@
 		$("#billingName").insertAfter(".order_data_column:nth-child(2) .address p:first-child");
 		$("#fullAddress").insertAfter('p#billingName');
 
+		$("#fullAddressShipping").insertAfter(".order_data_column:nth-child(3) .address p:first-child");
+
 		$(".full-address" + isShipping + " input").on('paste change', function () {
 			setTimeout(() => {
 				var addrf1 = $(".full-address" + isShipping + " input").val().replaceAll("市", "市 ");
@@ -30,6 +32,16 @@
 
 	set_one_line_address('billing');
 	set_one_line_address('shipping');
+
+	function set_cvs_info(){
+		if( $('input[name="_shipping_cvs_store_ID"]').length > 0 ){
+			$("#cvsStore").insertAfter(".order_data_column:nth-child(3) .address p:first-child");
+			$("#cvsNumber").insertAfter('#cvsStore');
+			$("#cvsName").insertAfter('#cvsNumber');
+			$("#cvsAddress").insertAfter('#cvsName');
+		}
+	}
+	set_cvs_info();
 
 	// 離島選擇介面初始化
 	function init_island() {

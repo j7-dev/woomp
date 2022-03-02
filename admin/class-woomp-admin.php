@@ -117,11 +117,25 @@ class Woomp_Admin {
 	}
 
 	public function custom_order_meta_shipping( $fields ) {
-		$fields['full-addressShipping'] = array(
-			'label'         => __( '運送地址', 'woomp' ),
-			'show'          => true,
-			'wrapper_class' => 'form-field-wide full-addressShipping',
-		);
+		global $theorder;
+
+		$shipping_method = false;
+		if ( ! empty( $theorder ) ) {
+			$items_shipping = $theorder->get_items( 'shipping' );
+			$items_shipping = array_shift( $items_shipping );
+			if ( $items_shipping ) {
+				$shipping_method = RY_ECPay_Shipping::get_order_support_shipping( $items_shipping );
+			}
+			if ( $shipping_method !== false ) {
+				if ( strpos( $shipping_method, 'cvs' ) < -1 ) {
+					$fields['full-addressShipping'] = array(
+						'label'         => __( '運送地址', 'woomp' ),
+						'show'          => true,
+						'wrapper_class' => 'form-field-wide full-addressShipping',
+					);
+				}
+			}
+		}
 		return $fields;
 	}
 
@@ -132,14 +146,19 @@ class Woomp_Admin {
 		if ( get_option( 'wc_woomp_setting_one_line_address', 1 ) === 'yes' ) {
 			echo '<style>.order_data_column:nth-child(2) .address:not(.ivoice) p:first-child,.order_data_column:nth-child(2) .address:not(.ivoice) p:last-child,.ivoice #billingName,.ivoice #fullAddress {display: none;}</style>';
 			echo '<p style="font-size: 14px;" id="billingName"><strong>帳單姓名:<br/></strong>' . $order->get_billing_last_name() . $order->get_billing_first_name() . '</p>';
-			echo '<p style="font-size: 14px;" id="fullAddress"><strong>帳單地址:<br/></strong><span></span></p>';
+			echo '<p style="font-size: 14px;" id="fullAddress"><strong>帳單地址:<br/></strong><span>' . $order->get_meta( '_billing_full-address' ) . '</span></p>';
 		}
 	}
 
 	public function add_address_meta_shipping( $order ) {
+		echo '<style>.order_data_column:nth-child(3) .address p:first-child{display: none;}</style>';
 		if ( get_option( 'wc_woomp_setting_one_line_address', 1 ) === 'yes' && strpos( $order->get_shipping_method(), '超商' ) < -1 ) {
-			echo '<style>.order_data_column:nth-child(3) .address p:first-child{x-display: none;}</style>';
-			echo '<p style="font-size: 14px;" id="fullAddressShipping"><strong>運送地址:<br/></strong><span></span></p>';
+			echo '<p style="font-size: 14px;" id="fullAddressShipping"><strong>運送地址:<br/></strong><span>' . $order->get_meta( '_shipping_full-addressShipping' ) . '</span></p>';
+		} elseif ( get_option( 'wc_woomp_setting_one_line_address', 1 ) === 'yes' && strpos( $order->get_shipping_method(), '超商' ) > -1 ) {
+			echo '<p style="font-size: 14px; color: #222" id="cvsStore"><strong>' . $order->get_shipping_method() . '</strong></p>';
+			echo '<p style="font-size: 14px;" id="cvsNumber">門市編號:<br/><span>' . $order->get_meta( '_shipping_cvs_store_ID' ) . '</span></p>';
+			echo '<p style="font-size: 14px;" id="cvsName">門市名稱:<br/><span>' . $order->get_meta( '_shipping_cvs_store_name' ) . '</span></p>';
+			echo '<p style="font-size: 14px;" id="cvsAddress">門市地址:<br/><span>' . $order->get_meta( '_shipping_cvs_store_address' ) . '</span></p>';
 		}
 	}
 
@@ -316,7 +335,7 @@ class Woomp_Admin {
 	/**
 	 * 將單一費率類別改成好用版的
 	 */
-	public function set_flat_rate_class( $shipping_methods ){
+	public function set_flat_rate_class( $shipping_methods ) {
 		$shipping_methods['flat_rate'] = 'WooMP_Shipping_Flat_Rate';
 		return $shipping_methods;
 	}
