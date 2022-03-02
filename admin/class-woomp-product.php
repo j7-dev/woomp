@@ -609,6 +609,9 @@ if ( ! class_exists( 'WooMP_Product' ) ) {
 				}
 				.tag-list input:disabled + label {
 					text-decoration: line-through;
+					text-decoration-thickness: 3px;
+					opacity: 0.7;
+					cursor: default;
 				}
 				</style>
 				<script>
