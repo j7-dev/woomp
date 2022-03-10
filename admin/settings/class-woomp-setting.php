@@ -245,6 +245,16 @@ class Woomp_Setting {
 				'default'  => 'yes',
 				'std'      => 'yes',
 			),
+			'show_phone'        => array(
+				'name'     => __( '顯示訂單電話資訊', 'woomp' ),
+				'type'     => 'checkbox',
+				'desc'     => __( '開啟此選項套用後台訂單管理列表顯示帳單電話與運送電話', 'woomp' ),
+				'id'       => 'wc_woomp_setting_show_phone',
+				'class'    => 'toggle',
+				'desc_tip' => true,
+				'default'  => 'yes',
+				'std'      => 'yes',
+			),
 			'tw_field_valitdate'        => array(
 				'name'     => __( 'Validate the length of name and phone', 'woomp' ),
 				'type'     => 'checkbox',

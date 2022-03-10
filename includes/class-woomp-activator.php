@@ -42,6 +42,9 @@ class Woomp_Activator {
 		if ( ! get_option( 'wc_woomp_setting_one_line_address' ) ) {
 			update_option( 'wc_woomp_setting_one_line_address', 'yes' );
 		}
+		if ( ! get_option( 'wc_woomp_setting_show_phone' ) ) {
+			update_option( 'wc_woomp_setting_show_phone', 'yes' );
+		}
 		if ( ! get_option( 'wc_woomp_setting_product_variations_ui' ) ) {
 			update_option( 'wc_woomp_setting_product_variations_ui', 'yes' );
 		}
