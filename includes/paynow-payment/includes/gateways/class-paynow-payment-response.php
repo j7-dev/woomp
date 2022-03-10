@@ -147,7 +147,6 @@ class PayNow_Payment_Response {
 
 				$order->payment_complete( $buysafe_no );
 				$woocommerce->cart->empty_cart();
-				$order->update_status( 'processing' );
 
 			} else {
 

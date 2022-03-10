@@ -144,14 +144,25 @@ class Woomp_Admin {
 	 */
 	public function add_address_meta( $order ) {
 		if ( get_option( 'wc_woomp_setting_one_line_address', 1 ) === 'yes' ) {
-			echo '<style>.order_data_column:nth-child(2) .address:not(.ivoice) p:first-child,.order_data_column:nth-child(2) .address:not(.ivoice) p:last-child,.ivoice #billingName,.ivoice #fullAddress {display: none;}</style>';
+			echo '<style>
+			.order_data_column:nth-child(2) .address:not(.ivoice) p:first-child,
+			.order_data_column:nth-child(2) .address.ivoice #billingName,
+			.order_data_column:nth-child(2) .address.ivoice #fullAddress {
+				display: none;
+			}</style>';
+			if ( $order->get_meta( '_billing_full-address' ) ) {
+				echo '<style>.order_data_column:nth-child(2) .address:not(.ivoice) p:last-child{display:none;}</style>';
+			};
 			echo '<p style="font-size: 14px;" id="billingName"><strong>帳單姓名:<br/></strong>' . $order->get_billing_last_name() . $order->get_billing_first_name() . '</p>';
 			echo '<p style="font-size: 14px;" id="fullAddress"><strong>帳單地址:<br/></strong><span>' . $order->get_meta( '_billing_full-address' ) . '</span></p>';
 		}
 	}
 
 	public function add_address_meta_shipping( $order ) {
-		echo '<style>.order_data_column:nth-child(3) .address p:first-child{display: none;}</style>';
+		echo '<style>
+		.order_data_column:nth-child(3) .address p:first-child {
+			display: none;
+		}</style>';
 		if ( get_option( 'wc_woomp_setting_one_line_address', 1 ) === 'yes' && strpos( $order->get_shipping_method(), '超商' ) < -1 ) {
 			echo '<p style="font-size: 14px;" id="fullAddressShipping"><strong>運送地址:<br/></strong><span>' . $order->get_meta( '_shipping_full-addressShipping' ) . '</span></p>';
 		} elseif ( get_option( 'wc_woomp_setting_one_line_address', 1 ) === 'yes' && strpos( $order->get_shipping_method(), '超商' ) > -1 ) {
