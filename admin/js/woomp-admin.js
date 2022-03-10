@@ -268,4 +268,18 @@
 		$(this).find('.shipping-phone').insertBefore( $(this).find('.description') );
 	})
 
+	// 判斷設定頁兩頁式結帳提示文字顯示
+	$('#wc_woomp_setting_mode').change(function(){
+		if( $(this).val() === 'twopage' ){
+			$('#wc_woomp_setting_mode_twopage_message').parent().parent().show()
+		} else {
+			$('#wc_woomp_setting_mode_twopage_message').parent().parent().hide()
+		}
+	})
+	if( $('#wc_woomp_setting_mode').val() === 'twopage' ){
+		$('#wc_woomp_setting_mode_twopage_message').parent().parent().show()
+	} else {
+		$('#wc_woomp_setting_mode_twopage_message').parent().parent().hide()
+	}
+
 })(jQuery);
