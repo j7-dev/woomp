@@ -96,7 +96,7 @@ if ( ! class_exists( 'WooMP_Order' ) ) {
 		}
 
 		/**
-		 * 後台訂單列表增加單號欄位
+		 * 後台訂單列表修改
 		 */
 		public function shop_order_column( $column, $post_id ) {
 			if ( $column == 'wmp_payment_no' ) {
@@ -127,6 +127,30 @@ if ( ! class_exists( 'WooMP_Order' ) ) {
 					<?php
 				}
 			}
+
+			if ( get_option( 'wc_woomp_setting_show_phone', 1 ) === 'yes' ) {
+				/**
+				 * 加入帳單電話
+				 */
+				if ( $column == 'billing_address' ) {
+					$order = wc_get_order( $post_id );
+					echo '<span class="billing-phone" style="display: block;">電話 ' . $order->get_billing_phone() . '</span>';
+				}
+
+				/**
+				 * 加入運送電話
+				 */
+				if ( $column == 'shipping_address' ) {
+					$order = wc_get_order( $post_id );
+					if ( $order->get_shipping_phone() ) {
+						echo '<span class="shipping-phone" style="display: block;">電話 ' . $order->get_shipping_phone() . '</span>';
+					}
+				}
+			}
+		}
+
+		public function shop_order_billing_column( $column, $post_id ) {
+
 		}
 
 		/**

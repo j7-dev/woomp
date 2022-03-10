@@ -33,8 +33,8 @@
 	set_one_line_address('billing');
 	set_one_line_address('shipping');
 
-	function set_cvs_info(){
-		if( $('input[name="_shipping_cvs_store_ID"]').length > 0 ){
+	function set_cvs_info() {
+		if ($('input[name="_shipping_cvs_store_ID"]').length > 0) {
 			$("#cvsStore").insertAfter(".order_data_column:nth-child(3) .address p:first-child");
 			$("#cvsNumber").insertAfter('#cvsStore');
 			$("#cvsName").insertAfter('#cvsNumber');
@@ -257,6 +257,15 @@
 		} else {
 			$('#posts-filter').removeAttr('target');
 		}
+	})
+
+	// 調整帳單電話位置
+	$('.column-billing_address').each(function(){
+		$(this).find('.billing-phone').insertBefore( $(this).find('.description') );
+	})
+	// 調整運送電話位置
+	$('.column-shipping_address').each(function(){
+		$(this).find('.shipping-phone').insertBefore( $(this).find('.description') );
 	})
 
 })(jQuery);
