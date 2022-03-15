@@ -30,8 +30,8 @@ class Woomp_Activator {
 	 * @since    1.0.0
 	 */
 	public static function activate() {
-		if ( ! get_option( 'wc_woomp_setting_replace' ) ) {
-			update_option( 'wc_woomp_setting_replace', 'yes' );
+		if ( ! get_option( 'wc_woomp_setting_mode' ) ) {
+			update_option( 'wc_woomp_setting_mode', 'default' );
 		}
 		if ( ! get_option( 'wc_woomp_setting_billing_country_pos' ) ) {
 			update_option( 'wc_woomp_setting_billing_country_pos', 'yes' );

@@ -152,16 +152,18 @@ jQuery(function($){
 		}
 
 		function isCvs(){
-			let currentShipping = $('#shipping_method li input:checked').val();
-			if( 
-				currentShipping === "ecpay_shipping" || 
-				currentShipping.includes('ry_ecpay_shipping_cvs') || 
-				currentShipping.includes('ry_newebpay_shipping_cvs') ||
-				currentShipping.includes('ry_smilepay_shipping_cvs') ||
-				currentShipping.includes('paynow_shipping_c2c') ){
-				return true;
-			} else {
-				return false;
+			if( $('#shipping_method li').length > 1 ){
+				let currentShipping = $('#shipping_method li input:checked').val();
+				if( 
+					currentShipping === "ecpay_shipping" || 
+					currentShipping.includes('ry_ecpay_shipping_cvs') || 
+					currentShipping.includes('ry_newebpay_shipping_cvs') ||
+					currentShipping.includes('ry_smilepay_shipping_cvs') ||
+					currentShipping.includes('paynow_shipping_c2c') ){
+					return true;
+				} else {
+					return false;
+				}
 			}
 		}
 		function toggleBillingAddressField( status ){
@@ -194,6 +196,12 @@ jQuery(function($){
 			// 虛擬商品隱藏地址欄位
 			if( woomp_checkout_params.enableVirtualProductAddress === 'yes' && shippingMethodNum === 0 ){
 				toggleBillingAddressField('hide')
+			}
+
+			// 兩頁式結帳移動小計位置
+			if( woomp_checkout_params.enableTwoPage === 'yes' ){
+				$('form.woocommerce-checkout').before('<table class="twopage-subtotal"></table');
+				$('.woocommerce-checkout-review-order-table thead,.woocommerce-checkout-review-order-table tbody').appendTo('.twopage-subtotal');
 			}
 		});
 	}
