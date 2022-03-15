@@ -120,7 +120,7 @@ class Woomp_Admin {
 		global $theorder;
 
 		$shipping_method = false;
-		if ( ! empty( $theorder ) ) {
+		if ( ! empty( $theorder ) && class_exists( 'RY_ECPay_Shipping' ) ) {
 			$items_shipping = $theorder->get_items( 'shipping' );
 			$items_shipping = array_shift( $items_shipping );
 			if ( $items_shipping ) {
