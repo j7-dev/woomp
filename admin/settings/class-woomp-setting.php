@@ -235,7 +235,7 @@ class Woomp_Setting {
 				'desc'     => __( '啟用兩頁式結帳後顯示於結帳頁最上方的返回購物車說明文字', 'woomp' ),
 				'id'       => 'wc_woomp_setting_mode_twopage_message',
 				'class'    => 'wc_woomp_setting_mode_twopage_message',
-				'default'  => '若需修改商品數量，請<a href=”/cart”>點此回到購物車</a>',
+				'default'  => '若需修改商品數量，請<a href="/cart">點此回到購物車</a>',
 				'desc_tip' => true,
 			),
 			'billing_country_pos'     => array(
