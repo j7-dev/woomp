@@ -33,6 +33,9 @@ class Woomp_Activator {
 		if ( ! get_option( 'wc_woomp_setting_mode' ) ) {
 			update_option( 'wc_woomp_setting_mode', 'default' );
 		}
+		if ( ! get_option( 'wc_woomp_setting_mode_twopage_message' ) ) {
+			update_option( 'wc_woomp_setting_mode_twopage_message', '若需修改商品數量，請<a href="/cart">點此回到購物車</a>' );
+		}
 		if ( ! get_option( 'wc_woomp_setting_billing_country_pos' ) ) {
 			update_option( 'wc_woomp_setting_billing_country_pos', 'yes' );
 		}

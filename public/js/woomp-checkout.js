@@ -199,7 +199,7 @@ jQuery(function($){
 			}
 
 			// 兩頁式結帳移動小計位置
-			if( woomp_checkout_params.enableTwoPage === 'yes' ){
+			if( woomp_checkout_params.enableTwoPage === 'yes' && $('table.twopage-subtotal').length == 0 ){
 				$('form.woocommerce-checkout').before('<table class="twopage-subtotal"></table');
 				$('.woocommerce-checkout-review-order-table thead,.woocommerce-checkout-review-order-table tbody').appendTo('.twopage-subtotal');
 			}

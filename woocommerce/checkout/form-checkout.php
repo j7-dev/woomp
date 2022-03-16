@@ -103,11 +103,9 @@ if ( ! $checkout->is_registration_enabled() && $checkout->is_registration_requir
 	button[name='update_cart'],
 	.wc-proceed-to-checkout,
 	#order_review_heading,
-	<?php if ( get_option( 'wc_woomp_setting_mode', 1 ) === 'onepage' ) : ?>
 	#order_review .shop_table.woocommerce-checkout-review-order-table thead,
 	#order_review .shop_table.woocommerce-checkout-review-order-table tbody,
 	#order_review .shop_table.woocommerce-checkout-review-order-table tfoot .cart-subtotal,
-	<?php endif; ?>
 	.woocommerce + .cart_totals tr.woocommerce-shipping-totals.shipping,
 	.woocommerce + .cart_totals tr.order-total,
 	#billing_island_none_field,
