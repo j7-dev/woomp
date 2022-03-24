@@ -22,18 +22,18 @@ class WooMP_Shipping_Flat_Rate extends WC_Shipping_Flat_Rate {
 	 */
 	public $requires = '';
 
-	public function init(){
+	public function init() {
 		$cost_desc = __( 'Enter a cost (excl. tax) or sum, e.g. <code>10.00 * [qty]</code>.', 'woocommerce' ) . '<br/><br/>' . __( 'Use <code>[qty]</code> for the number of items, <br/><code>[cost]</code> for the total cost of items, and <code>[fee percent="10" min_fee="20" max_fee=""]</code> for percentage based fees.', 'woocommerce' );
 
 		$settings = array(
-			'title'      => array(
+			'title'            => array(
 				'title'       => __( 'Method title', 'woocommerce' ),
 				'type'        => 'text',
 				'description' => __( 'This controls the title which the user sees during checkout.', 'woocommerce' ),
 				'default'     => __( 'Flat rate', 'woocommerce' ),
 				'desc_tip'    => true,
 			),
-			'tax_status' => array(
+			'tax_status'       => array(
 				'title'   => __( 'Tax status', 'woocommerce' ),
 				'type'    => 'select',
 				'class'   => 'wc-enhanced-select',
@@ -43,7 +43,7 @@ class WooMP_Shipping_Flat_Rate extends WC_Shipping_Flat_Rate {
 					'none'    => _x( 'None', 'Tax status', 'woocommerce' ),
 				),
 			),
-			'cost'       => array(
+			'cost'             => array(
 				'title'             => __( 'Cost', 'woocommerce' ),
 				'type'              => 'text',
 				'placeholder'       => '',
@@ -52,25 +52,25 @@ class WooMP_Shipping_Flat_Rate extends WC_Shipping_Flat_Rate {
 				'desc_tip'          => true,
 				'sanitize_callback' => array( $this, 'sanitize_cost' ),
 			),
-			'requires'         => array(
+			'cost_requires'    => array(
 				'title'   => __( 'Free shipping requires...', 'woocommerce' ),
 				'type'    => 'select',
-				'class'   => 'wc-enhanced-select',
 				'default' => '',
 				'options' => array(
-					''           => __( 'N/A', 'woocommerce' ),
-					'coupon'     => __( 'A valid free shipping coupon', 'woocommerce' ),
-					'min_amount' => __( 'A minimum order amount', 'woocommerce' ),
-					'either'     => __( 'A minimum order amount OR a coupon', 'woocommerce' ),
-					'both'       => __( 'A minimum order amount AND a coupon', 'woocommerce' ),
+					''                      => __( 'N/A', 'woocommerce' ),
+					'coupon'                => __( 'A valid free shipping coupon', 'woocommerce' ),
+					'min_amount'            => __( 'A minimum order amount', 'woocommerce' ),
+					'min_amount_or_coupon'  => __( 'A minimum order amount OR a coupon', 'woocommerce' ),
+					'min_amount_and_coupon' => __( 'A minimum order amount AND a coupon', 'woocommerce' ),
 				),
+				'class'   => 'wc-enhanced-select',
 			),
 			'min_amount'       => array(
-				'title'       => __( 'Minimum order amount', 'woocommerce' ),
+				'title'       => __( 'Minimum order amount', 'ry-woocommerce-tools' ),
 				'type'        => 'price',
+				'default'     => 0,
 				'placeholder' => wc_format_localized_price( 0 ),
 				'description' => __( 'Users will need to spend this amount to get free shipping (if enabled above).', 'woocommerce' ),
-				'default'     => '0',
 				'desc_tip'    => true,
 			),
 			'ignore_discounts' => array(
@@ -81,6 +81,15 @@ class WooMP_Shipping_Flat_Rate extends WC_Shipping_Flat_Rate {
 				'default'     => 'no',
 				'desc_tip'    => true,
 			),
+			'weight_plus_cost' => [
+				// translators: %s WooCommerce weight unit
+				'title' => sprintf(__('Every weight (%s) to plus times of cost', 'ry-woocommerce-tools'), __(get_option('woocommerce_weight_unit'), 'woocommerce')),
+				'type' => 'number',
+				'default' => 0,
+				'placeholder' => 0,
+				'description' => __('Calculate free shipping first. 0 to disable plus cost by weight.', 'ry-woocommerce-tools'),
+				'desc_tip' => true
+			]
 		);
 
 		$shipping_classes = WC()->shipping()->get_shipping_classes();
@@ -136,9 +145,10 @@ class WooMP_Shipping_Flat_Rate extends WC_Shipping_Flat_Rate {
 		$this->tax_status           = $this->get_option( 'tax_status' );
 		$this->cost                 = $this->get_option( 'cost' );
 		$this->type                 = $this->get_option( 'type', 'class' );
-		$this->min_amount   = $this->get_option( 'min_amount', 0 );
-		$this->requires     = $this->get_option( 'requires' );
-		$this->ignore_discounts = $this->get_option( 'ignore_discounts' );
+		$this->min_amount           = $this->get_option( 'min_amount', 0 );
+		$this->cost_requires        = $this->get_option( 'cost_requires' );
+		$this->ignore_discounts     = $this->get_option( 'ignore_discounts' );
+		$this->weight_plus_cost     = $this->get_option( 'weight_plus_cost', 0 );
 
 		add_action( 'admin_footer', array( $this, 'enqueue_admin_js' ), 10 );
 	}
@@ -205,6 +215,86 @@ class WooMP_Shipping_Flat_Rate extends WC_Shipping_Flat_Rate {
 		return apply_filters( 'woocommerce_shipping_' . $this->id . '_is_available', $is_available, $package, $this );
 	}
 
+	public function calculate_shipping( $package = array() ) {
+		$rate = array(
+			'id'        => $this->get_rate_id(),
+			'label'     => $this->title,
+			'cost'      => $this->cost,
+			'package'   => $package,
+			'meta_data' => array(
+				'no_count' => 1,
+			),
+		);
+
+		$has_coupon     = $this->check_has_coupon( $this->cost_requires, array( 'coupon', 'min_amount_or_coupon', 'min_amount_and_coupon' ) );
+		$has_min_amount = $this->check_has_min_amount( $this->cost_requires, array( 'min_amount', 'min_amount_or_coupon', 'min_amount_and_coupon' ) );
+
+		switch ( $this->cost_requires ) {
+			case 'coupon':
+				$set_cost_zero = $has_coupon;
+				break;
+			case 'min_amount':
+				$set_cost_zero = $has_min_amount;
+				break;
+			case 'min_amount_or_coupon':
+				$set_cost_zero = $has_min_amount || $has_coupon;
+				break;
+			case 'min_amount_and_coupon':
+				$set_cost_zero = $has_min_amount && $has_coupon;
+				break;
+			default:
+				$set_cost_zero = false;
+				break;
+		}
+
+		if ( $set_cost_zero ) {
+			$rate['cost'] = 0;
+		}
+
+		if ( $this->weight_plus_cost > 0 ) {
+			$total = WC()->cart->get_cart_contents_weight();
+			if ( $total > 0 ) {
+				$rate['meta_data']['no_count'] = (int) ceil( $total / $this->weight_plus_cost );
+				$rate['cost']                 *= $rate['meta_data']['no_count'];
+			}
+		}
+
+		$this->add_rate( $rate );
+		do_action( 'woocommerce_' . $this->id . '_shipping_add_rate', $this, $rate );
+	}
+
+	protected function check_has_coupon( $requires, $check_requires_list ) {
+		if ( in_array( $requires, $check_requires_list ) ) {
+			$coupons = WC()->cart->get_coupons();
+			if ( $coupons ) {
+				foreach ( $coupons as $code => $coupon ) {
+					if ( $coupon->is_valid() && $coupon->get_free_shipping() ) {
+						return true;
+						break;
+					}
+				}
+			}
+		}
+		return false;
+	}
+
+	protected function check_has_min_amount( $requires, $check_requires_list, $original = false ) {
+		if ( in_array( $requires, $check_requires_list ) ) {
+			$total = WC()->cart->get_displayed_subtotal();
+			if ( $original === false ) {
+				if ( 'incl' === WC()->cart->get_tax_price_display_mode() ) {
+					$total = round( $total - ( WC()->cart->get_cart_discount_total() + WC()->cart->get_cart_discount_tax_total() ), wc_get_price_decimals() );
+				} else {
+					$total = round( $total - WC()->cart->get_cart_discount_total(), wc_get_price_decimals() );
+				}
+			}
+			if ( $total >= $this->min_amount ) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	/**
 	 * Enqueue JS to handle free shipping options.
 	 *
@@ -226,15 +316,15 @@ class WooMP_Shipping_Flat_Rate extends WC_Shipping_Flat_Rate {
 					}
 				}
 
-				$( document.body ).on( 'change', '#woocommerce_flat_rate_requires', function() {
+				$( document.body ).on( 'change', '#woocommerce_flat_rate_cost_requires', function() {
 					woompFlatShippingShowHideMinAmountField( this );
 				});
 
 				// Change while load.
-				$( '#woocommerce_flat_rate_requires' ).trigger( 'change' );
+				$( '#woocommerce_flat_rate_cost_requires' ).trigger( 'change' );
 				$( document.body ).on( 'wc_backbone_modal_loaded', function( evt, target ) {
 					if ( 'wc-modal-shipping-method-settings' === target ) {
-						woompFlatShippingShowHideMinAmountField( $( '#wc-backbone-modal-dialog #woocommerce_flat_rate_requires', evt.currentTarget ) );
+						woompFlatShippingShowHideMinAmountField( $( '#wc-backbone-modal-dialog #woocommerce_flat_rate_cost_requires', evt.currentTarget ) );
 					}
 				} );
 			});"

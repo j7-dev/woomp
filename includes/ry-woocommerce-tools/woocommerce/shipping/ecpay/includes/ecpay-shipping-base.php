@@ -126,7 +126,7 @@ class RY_ECPay_Shipping_Base extends WC_Shipping_Method
         if (in_array($requires, $check_requires_list)) {
             $total = WC()->cart->get_displayed_subtotal();
             if ($original === false) {
-                if ('incl' === WC()->cart->tax_display_cart) {
+                if ('incl' === WC()->cart->get_tax_price_display_mode()) {
                     $total = round($total - (WC()->cart->get_cart_discount_total() + WC()->cart->get_cart_discount_tax_total()), wc_get_price_decimals());
                 } else {
                     $total = round($total - WC()->cart->get_cart_discount_total(), wc_get_price_decimals());
