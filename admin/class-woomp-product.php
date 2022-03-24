@@ -499,6 +499,11 @@ if ( ! class_exists( 'WooMP_Product' ) ) {
 		 * 原始碼在 woocommerce/inluces/wc-template-functions.php Line 2988
 		 */
 		public static function variation_radio_buttons( $html, $args ) {
+
+			global $post;
+
+			if( wc_get_product( $post->ID )->get_type() === 'woosg' ) return $html;
+
 			$args = wp_parse_args(
 				apply_filters( 'woocommerce_dropdown_variation_attribute_options_args', $args ),
 				array(
