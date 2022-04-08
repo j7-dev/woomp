@@ -32,6 +32,9 @@ class Checkout {
 		);
 
 		// 個人發票選項
+		if ( ! get_option( 'wc_woomp_ecpay_invoice_carrier_type' ) ) {
+			update_option( 'wc_woomp_ecpay_invoice_carrier_type', array( '紙本發票', '雲端發票', '自然人憑證', '手機代碼' ) );
+		}
 		$this->add_wc_field(
 			'individual-invoice',
 			'select',
@@ -100,8 +103,8 @@ class Checkout {
 		$orgs = array(
 			'' => '請選擇',
 		);
-		if ( get_option( 'wc_woomp_ecpay_invoice_donate_org', true ) ) {
-			$org_strings = array_map( 'trim', explode( "\n", get_option( 'wc_woomp_ecpay_invoice_donate_org', true ) ) );
+		if ( get_option( 'wc_woomp_ecpay_invoice_donate_org' ) ) {
+			$org_strings = array_map( 'trim', explode( "\n", get_option( 'wc_woomp_ecpay_invoice_donate_org' ) ) );
 			foreach ( $org_strings as $value ) {
 				list($k, $v) = explode( '|', $value );
 				$orgs[ $k ]  = $v;

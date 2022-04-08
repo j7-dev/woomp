@@ -61,9 +61,9 @@ class Woomp_Setting_Invoice extends WC_Settings_Page {
 	}
 
 	public function get_sections() {
-		//$sections['ecpay']       = __( '綠界', 'woomp' );
-		$sections['ecpay'] = __( '綠界(好用版)', 'woomp' );
-		$sections['paynow']      = __( '立吉富', 'woomp' );
+		// $sections['ecpay']       = __( '綠界', 'woomp' );
+		$sections['ecpay']  = __( '綠界(好用版)', 'woomp' );
+		$sections['paynow'] = __( '立吉富', 'woomp' );
 		return apply_filters( 'woocommerce_get_sections_' . $this->id, $sections );
 	}
 
@@ -76,16 +76,16 @@ class Woomp_Setting_Invoice extends WC_Settings_Page {
 	public function get_settings( $section = null ) {
 
 		switch ( $section ) {
-			//case 'ecpay':
-			//	if ( get_option( RY_WEI::$option_prefix . 'enabled_invoice', 1 ) === 'yes' ) {
-			//		$settings = include RY_WEI_PLUGIN_DIR . 'woocommerce/settings/settings-ecpay-invoice.php';
-			//		return $settings;
-			//	} else {
-			//		$this->set_setting_default( '綠界' );
-			//		$settings = $this->setting_default;
-			//		return $settings;
-			//	}
-			//	break;
+			// case 'ecpay':
+			// if ( get_option( RY_WEI::$option_prefix . 'enabled_invoice', 1 ) === 'yes' ) {
+			// $settings = include RY_WEI_PLUGIN_DIR . 'woocommerce/settings/settings-ecpay-invoice.php';
+			// return $settings;
+			// } else {
+			// $this->set_setting_default( '綠界' );
+			// $settings = $this->setting_default;
+			// return $settings;
+			// }
+			// break;
 			case 'ecpay':
 				if ( wc_string_to_bool( get_option( 'wc_woomp_enabled_ecpay_invoice' ) ) || wc_string_to_bool( get_option( 'RY_WEI_enabled_invoice' ) ) ) {
 					$settings = array(
@@ -166,12 +166,12 @@ class Woomp_Setting_Invoice extends WC_Settings_Page {
 							),
 						),
 						array(
-							'name'    => __( 'Carrier Type', 'paynow-einvoice' ),
-							'desc'    => __( 'Allowed invoice carrier type', 'woomp' ),
-							'id'      => 'wc_woomp_ecpay_invoice_carrier_type',
-							'class'   => 'wc-enhanced-select',
-							'type'    => 'multiselect',
-							'options' => array(
+							'name'     => __( 'Carrier Type', 'paynow-einvoice' ),
+							'desc'     => __( 'Allowed invoice carrier type', 'woomp' ),
+							'id'       => 'wc_woomp_ecpay_invoice_carrier_type',
+							'class'    => 'wc-enhanced-select',
+							'type'     => 'multiselect',
+							'options'  => array(
 								__( 'Paper Invoice', 'woomp' )  => __( 'Paper Invoice', 'woomp' ),
 								__( 'Cloud Invoice', 'woomp' )  => __( 'Cloud Invoice', 'woomp' ),
 								__( 'Citizen Digital Certificate', 'paynow-einvoice' )    => __( 'Citizen Digital Certificate', 'paynow-einvoice' ),

@@ -92,9 +92,11 @@ class Metabox {
 
 		wp_nonce_field( basename( __FILE__ ), $this->_nonce_name );
 		echo sprintf( '<div class="%s">', self::BLOCK_NAMESPACE );
-		foreach ( $this->_fields as $field ) {
-			$meta = get_post_meta( $post->ID, $field['id'], true );
-			call_user_func( array( $this, 'show_field_' . $field['type'] ), $field, $meta );
+		if( $this->_fields ){
+			foreach ( $this->_fields as $field ) {
+				$meta = get_post_meta( $post->ID, $field['id'], true );
+				call_user_func( array( $this, 'show_field_' . $field['type'] ), $field, $meta );
+			}
 		}
 		echo '</div>';
 	}
