@@ -173,7 +173,7 @@ class EcpayInvoiceHandler {
 			$invoice_number  = $return_info['InvoiceNumber'];
 			$invoice_message = $return_info['RtnMsg'];
 
-			$invocie_result = ( $invoice_date ) ? __( '<b>Invoice issue success</b>', 'woomp' ) : __( '<b>Invoice issue faild</b>', 'woomp' );
+			$invocie_result = ( $invoice_date ) ? __( '<b>Invoice issue result</b>', 'woomp' ) : __( '<b>Invoice issue faild</b>', 'woomp' );
 
 			$invocie_time   = ( $invoice_date ) ? __( '<br>Generate Time: ', 'woomp' ) . $invoice_date : '';
 			$invocie_number = ( $invoice_date ) ? __( '<br>Invoice Number: ', 'woomp' ) . $invoice_number : '';

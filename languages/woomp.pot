@@ -2,14 +2,14 @@
 # This file is distributed under the GPL-2.0+.
 msgid ""
 msgstr ""
-"Project-Id-Version: 好用版擴充 MorePower Addon for WooCommerce 1.5.94\n"
+"Project-Id-Version: 好用版擴充 MorePower Addon for WooCommerce 1.6.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/woomp\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-03-31T09:23:58+00:00\n"
+"POT-Creation-Date: 2022-04-08T09:57:12+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.5.0\n"
 "X-Domain: woomp\n"
@@ -178,7 +178,6 @@ msgid "金流設定"
 msgstr ""
 
 #: admin/settings/class-woomp-setting-gateway.php:64
-#: admin/settings/class-woomp-setting-invoice.php:64
 #: admin/settings/class-woomp-setting-shipping.php:64
 msgid "綠界"
 msgstr ""
@@ -228,39 +227,43 @@ msgstr ""
 msgid "Invoice options"
 msgstr ""
 
-#: admin/settings/class-woomp-setting-invoice.php:128
+#: admin/settings/class-woomp-setting-invoice.php:129
 msgid "Issue Manual"
 msgstr ""
 
-#: admin/settings/class-woomp-setting-invoice.php:129
+#: admin/settings/class-woomp-setting-invoice.php:130
 msgid "Issue automatic"
 msgstr ""
 
-#: admin/settings/class-woomp-setting-invoice.php:134
+#: admin/settings/class-woomp-setting-invoice.php:135
 msgid "Allowed Order Status for issue"
 msgstr ""
 
-#: admin/settings/class-woomp-setting-invoice.php:143
+#: admin/settings/class-woomp-setting-invoice.php:144
 msgid "Invalid mode"
 msgstr ""
 
-#: admin/settings/class-woomp-setting-invoice.php:149
+#: admin/settings/class-woomp-setting-invoice.php:151
 msgid "Invalid manual"
 msgstr ""
 
-#: admin/settings/class-woomp-setting-invoice.php:150
+#: admin/settings/class-woomp-setting-invoice.php:152
 msgid "Invalid automatic"
 msgstr ""
 
-#: admin/settings/class-woomp-setting-invoice.php:155
+#: admin/settings/class-woomp-setting-invoice.php:157
 msgid "Allowed Order Status for invalid"
 msgstr ""
 
-#: admin/settings/class-woomp-setting-invoice.php:181
+#: admin/settings/class-woomp-setting-invoice.php:170
+msgid "Allowed invoice carrier type"
+msgstr ""
+
+#: admin/settings/class-woomp-setting-invoice.php:175
 msgid "Paper Invoice"
 msgstr ""
 
-#: admin/settings/class-woomp-setting-invoice.php:188
+#: admin/settings/class-woomp-setting-invoice.php:176
 msgid "Cloud Invoice"
 msgstr ""
 
@@ -287,10 +290,6 @@ msgstr ""
 
 #: admin/settings/class-woomp-setting.php:79
 msgid "啟用綠界物流"
-msgstr ""
-
-#: admin/settings/class-woomp-setting.php:88
-msgid "啟用綠界電子發票"
 msgstr ""
 
 #: admin/settings/class-woomp-setting.php:97
@@ -473,51 +472,54 @@ msgstr ""
 msgid "Payments are received through the LINE Pay gateway, which supports USD, JPY, TWD, and THB. In order to use LINE Pay, you must have a Channel ID and Channel SecretKey."
 msgstr ""
 
-#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:175
-msgid "Ecpay invoice result"
+#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:176
+msgid "<b>Invoice issue result</b>"
 msgstr ""
 
-#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:175
-#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:259
+#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:176
+msgid "<b>Invoice issue faild</b>"
+msgstr ""
+
+#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:178
 msgid "<br>Generate Time: "
 msgstr ""
 
-#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:175
-#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:259
+#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:179
+#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:261
 msgid "<br>Invoice Number: "
 msgstr ""
 
-#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:175
-#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:259
+#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:180
+#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:261
 msgid "<br>Invoice Message: "
 msgstr ""
 
-#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:195
-msgid "Generate Ecpay invoice successful!"
+#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:197
+msgid "Generate Ecpay invoice issue finish!"
 msgstr ""
 
-#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:259
-msgid "Ecpay invalid invoice result"
+#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:261
+msgid "<b>Ecpay invalid invoice result</b>"
 msgstr ""
 
-#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:284
+#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:287
 msgid "Invalid Ecpay invoice successful!"
 msgstr ""
 
-#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:286
+#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:289
 msgid "Invalid Ecpay invoice error!"
 msgstr ""
 
-#: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Admin.php:39
+#: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Admin.php:51
 #: includes/woomp-ecpay-invoice/src/templates/MyAccount.php:25
 msgid "Invoice number"
 msgstr ""
 
-#: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Admin.php:48
+#: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Admin.php:60
 msgid "Invalid invoice"
 msgstr ""
 
-#: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Admin.php:50
+#: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Admin.php:62
 msgid "Generate invoice"
 msgstr ""
 
@@ -530,66 +532,49 @@ msgstr ""
 msgid "綠界電子發票(好用版)"
 msgstr ""
 
-#: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Metabox.php:53
+#: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Metabox.php:52
 #: includes/woomp-ecpay-invoice/src/templates/Checkout.php:24
 msgid "Invoice Type"
 msgstr ""
 
-#: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Metabox.php:60
-#: includes/woomp-ecpay-invoice/src/templates/Checkout.php:38
-msgid "paper-invoice"
-msgstr ""
-
-#: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Metabox.php:63
-#: includes/woomp-ecpay-invoice/src/templates/Checkout.php:42
-msgid "cloud-invoice"
-msgstr ""
-
-#: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Metabox.php:66
-#: includes/woomp-ecpay-invoice/src/templates/Checkout.php:46
-msgid "certification"
-msgstr ""
-
-#: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Metabox.php:69
-#: includes/woomp-ecpay-invoice/src/templates/Checkout.php:50
-msgid "mobile-barcode"
-msgstr ""
-
-#: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Metabox.php:76
-#: includes/woomp-ecpay-invoice/src/templates/Checkout.php:56
-msgid "Individual Invoice Type"
-msgstr ""
-
-#: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Metabox.php:81
-#: includes/woomp-ecpay-invoice/src/templates/Checkout.php:66
-msgid "Carrier Number"
-msgstr ""
-
-#: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Metabox.php:86
-#: includes/woomp-ecpay-invoice/src/templates/Checkout.php:76
-msgid "Company Name"
-msgstr ""
-
-#: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Metabox.php:91
-#: includes/woomp-ecpay-invoice/src/templates/Checkout.php:85
-msgid "TaxID"
-msgstr ""
-
-#: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Metabox.php:96
-#: includes/woomp-ecpay-invoice/src/templates/Checkout.php:95
-msgid "Donate Number"
-msgstr ""
-
+#: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Metabox.php:55
 #: includes/woomp-ecpay-invoice/src/templates/Checkout.php:28
 msgid "individual"
 msgstr ""
 
+#: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Metabox.php:56
 #: includes/woomp-ecpay-invoice/src/templates/Checkout.php:29
 msgid "company"
 msgstr ""
 
+#: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Metabox.php:57
 #: includes/woomp-ecpay-invoice/src/templates/Checkout.php:30
 msgid "donate"
+msgstr ""
+
+#: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Metabox.php:63
+#: includes/woomp-ecpay-invoice/src/templates/Checkout.php:38
+msgid "Individual Invoice Type"
+msgstr ""
+
+#: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Metabox.php:74
+#: includes/woomp-ecpay-invoice/src/templates/Checkout.php:48
+msgid "Carrier Number"
+msgstr ""
+
+#: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Metabox.php:78
+#: includes/woomp-ecpay-invoice/src/templates/Checkout.php:58
+msgid "Company Name"
+msgstr ""
+
+#: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Metabox.php:82
+#: includes/woomp-ecpay-invoice/src/templates/Checkout.php:67
+msgid "TaxID"
+msgstr ""
+
+#: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Metabox.php:86
+#: includes/woomp-ecpay-invoice/src/templates/Checkout.php:77
+msgid "Donate Number"
 msgstr ""
 
 #: public/class-woomp-order.php:38
