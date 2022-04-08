@@ -153,19 +153,19 @@ if ( ! defined( 'RY_WT_VERSION' ) ) {
  * 引入 ry-woocommerce-ecpay-invoice
  */
 
-if ( ! defined( 'RY_WEI_VERSION' ) ) {
-	define( 'RY_WEI_VERSION', '1.1.13' );
-	define( 'RY_WEI_PLUGIN_URL', plugin_dir_url( __FILE__ ) . 'includes/ry-woocommerce-ecpay-invoice/' );
-	define( 'RY_WEI_PLUGIN_DIR', plugin_dir_path( __FILE__ ) . 'includes/ry-woocommerce-ecpay-invoice/' );
-	define( 'RY_WEI_PLUGIN_BASENAME', plugin_basename( __FILE__ ) . 'includes/ry-woocommerce-ecpay-invoice/' );
+//if ( ! defined( 'RY_WEI_VERSION' ) ) {
+//	define( 'RY_WEI_VERSION', '1.1.13' );
+//	define( 'RY_WEI_PLUGIN_URL', plugin_dir_url( __FILE__ ) . 'includes/ry-woocommerce-ecpay-invoice/' );
+//	define( 'RY_WEI_PLUGIN_DIR', plugin_dir_path( __FILE__ ) . 'includes/ry-woocommerce-ecpay-invoice/' );
+//	define( 'RY_WEI_PLUGIN_BASENAME', plugin_basename( __FILE__ ) . 'includes/ry-woocommerce-ecpay-invoice/' );
 
-	require_once RY_WEI_PLUGIN_DIR . 'class.ry-wei.main.php';
+//	require_once RY_WEI_PLUGIN_DIR . 'class.ry-wei.main.php';
 
-	register_activation_hook( __FILE__, array( 'RY_WEI', 'plugin_activation' ) );
-	register_deactivation_hook( __FILE__, array( 'RY_WEI', 'plugin_deactivation' ) );
+//	register_activation_hook( __FILE__, array( 'RY_WEI', 'plugin_activation' ) );
+//	register_deactivation_hook( __FILE__, array( 'RY_WEI', 'plugin_deactivation' ) );
 
-	add_action( 'init', array( 'RY_WEI', 'init' ), 11 );
-}
+//	add_action( 'init', array( 'RY_WEI', 'init' ), 11 );
+//}
 
 /**
  * 引入 paynow-payment
@@ -319,4 +319,9 @@ if ( ! defined( 'PAYNOW_EINVOICE_PLUGIN_URL' ) && 'yes' === get_option( 'wc_sett
  * 引入 line-pay
  */
 require_once WOOMP_PLUGIN_DIR . 'includes/line-pay-for-woo/line-pay-for-woo.php';
+
+/**
+ * 引入 wmp-ecpay-invoice
+ */
+require_once WOOMP_PLUGIN_DIR . 'includes/woomp-ecpay-invoice/woomp-ecpay-invoice.php';
 

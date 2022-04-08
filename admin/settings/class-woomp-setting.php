@@ -84,11 +84,20 @@ class Woomp_Setting {
 				'default'  => 'no',
 				'desc_tip' => true,
 			),
-			'ecpay_invoice'                  => array(
-				'name'     => __( '啟用綠界電子發票', 'woomp' ),
+			//'ecpay_invoice'                  => array(
+			//	'name'     => __( '啟用綠界電子發票', 'woomp' ),
+			//	'type'     => 'checkbox',
+			//	'desc'     => __( 'Enable ECPay invoice method', 'ry-woocommerce-ecpay-invoice' ),
+			//	'id'       => RY_WEI::$option_prefix . 'enabled_invoice',
+			//	'class'    => 'toggle',
+			//	'default'  => 'no',
+			//	'desc_tip' => true,
+			//),
+			'wmp_ecpay_invoice'                  => array(
+				'name'     => __( '啟用綠界電子發票(好用版)', 'woomp' ),
 				'type'     => 'checkbox',
 				'desc'     => __( 'Enable ECPay invoice method', 'ry-woocommerce-ecpay-invoice' ),
-				'id'       => RY_WEI::$option_prefix . 'enabled_invoice',
+				'id'       => 'wc_woomp_enabled_ecpay_invoice',
 				'class'    => 'toggle',
 				'default'  => 'no',
 				'desc_tip' => true,

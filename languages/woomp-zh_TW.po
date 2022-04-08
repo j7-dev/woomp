@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: woomp\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/woomp\n"
-"POT-Creation-Date: 2022-01-24T08:11:22+00:00\n"
-"PO-Revision-Date: 2022-01-24 16:14+0800\n"
+"POT-Creation-Date: 2022-03-31T09:23:58+00:00\n"
+"PO-Revision-Date: 2022-03-31 17:24+0800\n"
 "Last-Translator: \n"
 "Language-Team: morepower\n"
 "Language: zh_TW\n"
@@ -47,35 +47,39 @@ msgstr "https://morepower.club"
 msgid "完整地址"
 msgstr "完整地址"
 
-#: admin/class-woomp-order.php:133 admin/class-woomp-order.php:138
+#: admin/class-woomp-admin.php:132
+msgid "運送地址"
+msgstr "運送地址"
+
+#: admin/class-woomp-order.php:162 admin/class-woomp-order.php:167
 msgid "Print ECPay shipping booking note (711)"
 msgstr "列印統一超商託運單（綠界）"
 
-#: admin/class-woomp-order.php:134 admin/class-woomp-order.php:139
+#: admin/class-woomp-order.php:163 admin/class-woomp-order.php:168
 msgid "Print ECPay shipping booking note (family)"
 msgstr "列印全家超商託運單（綠界）"
 
-#: admin/class-woomp-order.php:135
+#: admin/class-woomp-order.php:164
 msgid "Print ECPay shipping booking note (hilife)"
 msgstr "列印萊爾富超商託運單（綠界）"
 
-#: admin/class-woomp-order.php:143
+#: admin/class-woomp-order.php:172
 msgid "Print ECPay shipping booking note (tcat)"
 msgstr "列印黑貓託運單（綠界）"
 
-#: admin/class-woomp-order.php:144
+#: admin/class-woomp-order.php:173
 msgid "Print ECPay shipping booking note (ecan)"
 msgstr "列印宅配通託運單（綠界）"
 
-#: admin/class-woomp-order.php:145
+#: admin/class-woomp-order.php:174
 msgid "Print HCT shipping booking note"
 msgstr "匯出新竹物流報表"
 
-#: admin/class-woomp-order.php:223
+#: admin/class-woomp-order.php:252
 msgid "Update convenience store"
 msgstr "重新選擇超商"
 
-#: admin/class-woomp-order.php:224
+#: admin/class-woomp-order.php:253
 msgid "After choosing cvs, you need update the order to save changing."
 msgstr "重新選擇超商後記得要更新訂單資料才會被寫入。"
 
@@ -86,7 +90,6 @@ msgstr "貨到付款"
 
 #: admin/class-woomp-payment-cod-clone.php:31
 #: admin/class-woomp-payment-cod-clone.php:79
-#: admin/class-woomp-payment-cod-clone.php:87
 msgid "收到貨時以現金付款。"
 msgstr "收到貨時以現金付款。"
 
@@ -196,7 +199,7 @@ msgid "速買配"
 msgstr "速買配"
 
 #: admin/settings/class-woomp-setting-gateway.php:67
-#: admin/settings/class-woomp-setting-invoice.php:65
+#: admin/settings/class-woomp-setting-invoice.php:66
 #: admin/settings/class-woomp-setting-shipping.php:67
 msgid "立吉富"
 msgstr "立吉富"
@@ -213,6 +216,58 @@ msgstr "LINE Pay 金流設定"
 #: admin/settings/class-woomp-setting-invoice.php:37
 msgid "電子發票設定"
 msgstr "電子發票設定"
+
+#: admin/settings/class-woomp-setting-invoice.php:65
+msgid "綠界(好用版)"
+msgstr "綠界(好用版)"
+
+#: admin/settings/class-woomp-setting-invoice.php:105
+msgid "Order number prefix"
+msgstr "訂單號前綴"
+
+#: admin/settings/class-woomp-setting-invoice.php:108
+msgid "The prefix string of order number. Only letters and numbers allowed."
+msgstr "訂單前綴字，僅限英數。"
+
+#: admin/settings/class-woomp-setting-invoice.php:117
+msgid "Invoice options"
+msgstr "電子發票設定"
+
+#: admin/settings/class-woomp-setting-invoice.php:128
+msgid "Issue Manual"
+msgstr "手動開立"
+
+#: admin/settings/class-woomp-setting-invoice.php:129
+msgid "Issue automatic"
+msgstr "自動開立"
+
+#: admin/settings/class-woomp-setting-invoice.php:134
+msgid "Allowed Order Status for issue"
+msgstr "自動開立的訂單狀態"
+
+#: admin/settings/class-woomp-setting-invoice.php:143
+msgid "Invalid mode"
+msgstr "作廢模式"
+
+#: admin/settings/class-woomp-setting-invoice.php:149
+msgid "Invalid manual"
+msgstr "手動作廢"
+
+#: admin/settings/class-woomp-setting-invoice.php:150
+msgid "Invalid automatic"
+msgstr "自動作廢"
+
+#: admin/settings/class-woomp-setting-invoice.php:155
+msgid "Allowed Order Status for invalid"
+msgstr "自動作廢的訂單狀態"
+
+#: admin/settings/class-woomp-setting-invoice.php:181
+msgid "Paper Invoice"
+msgstr "紙本發票"
+
+#: admin/settings/class-woomp-setting-invoice.php:188
+msgid "Cloud Invoice"
+msgstr "雲端發票"
 
 #: admin/settings/class-woomp-setting-shipping.php:12
 #: admin/settings/class-woomp-setting-shipping.php:37
@@ -247,155 +302,175 @@ msgstr "啟用綠界物流"
 msgid "啟用綠界電子發票"
 msgstr "啟用綠界電子發票"
 
-#: admin/settings/class-woomp-setting.php:100
+#: admin/settings/class-woomp-setting.php:97
+msgid "啟用綠界電子發票(好用版)"
+msgstr "啟用綠界電子發票(好用版)"
+
+#: admin/settings/class-woomp-setting.php:109
 msgid "藍新設定"
 msgstr "藍新設定"
 
-#: admin/settings/class-woomp-setting.php:105
+#: admin/settings/class-woomp-setting.php:114
 msgid "啟用藍新金流"
 msgstr "啟用藍新金流"
 
-#: admin/settings/class-woomp-setting.php:114
+#: admin/settings/class-woomp-setting.php:123
 msgid "啟用藍新物流"
 msgstr "啟用藍新物流"
 
-#: admin/settings/class-woomp-setting.php:126
+#: admin/settings/class-woomp-setting.php:135
 msgid "速買配設定"
 msgstr "速買配設定"
 
-#: admin/settings/class-woomp-setting.php:131
+#: admin/settings/class-woomp-setting.php:140
 msgid "啟用速買配金流"
 msgstr "啟用速買配金流"
 
-#: admin/settings/class-woomp-setting.php:140
+#: admin/settings/class-woomp-setting.php:149
 msgid "啟用速買配物流"
 msgstr "啟用速買配物流"
 
-#: admin/settings/class-woomp-setting.php:152
+#: admin/settings/class-woomp-setting.php:161
 msgid "立吉富設定"
 msgstr "立吉富設定"
 
-#: admin/settings/class-woomp-setting.php:157
+#: admin/settings/class-woomp-setting.php:166
 msgid "啟用立吉富金流"
 msgstr "啟用立吉富金流"
 
-#: admin/settings/class-woomp-setting.php:159
+#: admin/settings/class-woomp-setting.php:168
 msgid "啟用 立吉富金流 模組"
 msgstr "啟用 立吉富金流 模組"
 
-#: admin/settings/class-woomp-setting.php:166
+#: admin/settings/class-woomp-setting.php:175
 msgid "啟用立吉富物流"
 msgstr "啟用立吉富物流"
 
-#: admin/settings/class-woomp-setting.php:168
+#: admin/settings/class-woomp-setting.php:177
 msgid "啟用 立吉富物流 模組"
 msgstr "啟用 立吉富物流 模組"
 
-#: admin/settings/class-woomp-setting.php:175
+#: admin/settings/class-woomp-setting.php:184
 msgid "啟用立吉富電子發票"
 msgstr "啟用立吉富電子發票"
 
-#: admin/settings/class-woomp-setting.php:177
+#: admin/settings/class-woomp-setting.php:186
 msgid "啟用 立吉富電子發票 模組"
 msgstr "啟用 立吉富電子發票 模組"
 
-#: admin/settings/class-woomp-setting.php:187
+#: admin/settings/class-woomp-setting.php:196
 msgid "LINE Pay 設定"
 msgstr "LINE Pay 設定"
 
-#: admin/settings/class-woomp-setting.php:192
+#: admin/settings/class-woomp-setting.php:201
 msgid "啟用 LINE Pay 金流"
 msgstr "啟用 LINE Pay 金流"
 
-#: admin/settings/class-woomp-setting.php:204
+#: admin/settings/class-woomp-setting.php:213
 msgid "結帳相關設定"
 msgstr "結帳相關設定"
 
-#: admin/settings/class-woomp-setting.php:210
-msgid "一頁結帳模式"
-msgstr "一頁結帳模式"
+#: admin/settings/class-woomp-setting.php:228
+msgid "結帳流程設定"
+msgstr "結帳流程設定"
 
-#: admin/settings/class-woomp-setting.php:212
+#: admin/settings/class-woomp-setting.php:230
 msgid ""
-"將原本兩段式結帳改成一頁式結帳，並改變結帳順序為 「選物流 -> 選金流 -> 填結帳"
-"欄位」，以適應超商取貨等物流模式"
+"將原本兩段式結帳改成一頁式或兩頁式結帳，並改變結帳順序為 「選物流 -> 選金流 -"
+"> 填��帳欄位」，以適應超商取貨等物流模式"
 msgstr ""
 "將原本兩段式結帳改成一頁式結帳，並改變結帳順序為 「選物流 -> 選金流 -> 填結帳"
 "欄位」，以適應超商取貨等物流模式"
 
-#: admin/settings/class-woomp-setting.php:219
+#: admin/settings/class-woomp-setting.php:242
+msgid "兩頁式結帳返回購物車文字"
+msgstr "兩頁式結帳返回購物車文字"
+
+#: admin/settings/class-woomp-setting.php:244
+msgid "啟用兩頁式結帳後顯示於結帳頁最上方的返回購物車說明文字"
+msgstr "啟用兩頁式結帳後顯示於結帳頁最上方的返回購物車說明文字"
+
+#: admin/settings/class-woomp-setting.php:250
 msgid "結帳頁國家欄位置頂"
 msgstr "結帳頁國家欄位置頂"
 
-#: admin/settings/class-woomp-setting.php:221
+#: admin/settings/class-woomp-setting.php:252
 msgid "若需運送至多個國家，建議開啟此選項，將國家欄位移至物流選項之前"
 msgstr "若需運送至多個國家，建議開啟此選項，將國家欄位移至物流選項之前"
 
-#: admin/settings/class-woomp-setting.php:229
+#: admin/settings/class-woomp-setting.php:260
 msgid "縣市/鄉鎮市下拉式選單"
 msgstr "縣市/鄉鎮市下拉式選單"
 
-#: admin/settings/class-woomp-setting.php:231
+#: admin/settings/class-woomp-setting.php:262
 msgid "開啟此選項套用結帳中的台灣地址下拉選單"
 msgstr "開啟此選項套用結帳中的台灣地址下拉選單"
 
-#: admin/settings/class-woomp-setting.php:239
+#: admin/settings/class-woomp-setting.php:270
 msgid "訂單地址欄位整併"
 msgstr "訂單地址欄位整併"
 
-#: admin/settings/class-woomp-setting.php:241
+#: admin/settings/class-woomp-setting.php:272
 msgid "開啟此選項套用後台訂單管理地址欄位整合為一行"
 msgstr "開啟此選項套用後台訂單管理地址欄位整合為一行"
 
-#: admin/settings/class-woomp-setting.php:249
+#: admin/settings/class-woomp-setting.php:280
+msgid "顯示訂單電話資訊"
+msgstr "顯示訂單電話資訊"
+
+#: admin/settings/class-woomp-setting.php:282
+msgid "開啟此選項套用後台訂單管理列表顯示帳單電話與運送電話"
+msgstr "開啟此選項套用後台訂單管理列表顯示帳單電話與運送電話"
+
+#: admin/settings/class-woomp-setting.php:290
 msgid "Validate the length of name and phone"
 msgstr "結帳頁姓名與電話欄位長度驗證"
 
-#: admin/settings/class-woomp-setting.php:251
+#: admin/settings/class-woomp-setting.php:292
 msgid "Check the box to set the validate rule of name and phone."
 msgstr "開啟此選項將會驗證結帳時的姓名與電話長度須符合台灣的規範。"
 
-#: admin/settings/class-woomp-setting.php:259
+#: admin/settings/class-woomp-setting.php:300
 msgid "虛擬商品隱藏地址欄位"
 msgstr "虛擬商品隱藏地址欄位"
 
-#: admin/settings/class-woomp-setting.php:261
+#: admin/settings/class-woomp-setting.php:302
 msgid "開啟此選項套用結帳虛擬商品時隱藏地址欄位"
 msgstr "開啟此選項套用結帳虛擬商品時隱藏地址欄位"
 
-#: admin/settings/class-woomp-setting.php:269
+#: admin/settings/class-woomp-setting.php:310
 msgid "新增取代貨到付款方式"
 msgstr "新增取代貨到付款方式"
 
-#: admin/settings/class-woomp-setting.php:271
+#: admin/settings/class-woomp-setting.php:312
 msgid "開啟此選項以取代貨到付款方式"
 msgstr "開啟此選項以取代貨到付款方式"
 
-#: admin/settings/class-woomp-setting.php:306
+#: admin/settings/class-woomp-setting.php:347
 msgid "結帳按鈕文字設定"
 msgstr "結帳按鈕文字設定"
 
-#: admin/settings/class-woomp-setting.php:308
+#: admin/settings/class-woomp-setting.php:349
 msgid "設定結帳頁確定購買按鈕的文字內容"
 msgstr "設定結帳頁確定購買按鈕的文字內容"
 
-#: admin/settings/class-woomp-setting.php:319
+#: admin/settings/class-woomp-setting.php:360
 msgid "商品相關設定"
 msgstr "商品相關設定"
 
-#: admin/settings/class-woomp-setting.php:324
+#: admin/settings/class-woomp-setting.php:365
 msgid "變化商品編輯介面"
 msgstr "變化商品編輯介面"
 
-#: admin/settings/class-woomp-setting.php:326
+#: admin/settings/class-woomp-setting.php:367
 msgid "開啟此選項以套用好用版變化商品操作介面"
 msgstr "開啟此選項以套用好用版變化商品操作介面"
 
-#: admin/settings/class-woomp-setting.php:334
+#: admin/settings/class-woomp-setting.php:375
 msgid "變化商品前台顯示介面"
 msgstr "變化商品前台顯示介面"
 
-#: admin/settings/class-woomp-setting.php:336
+#: admin/settings/class-woomp-setting.php:377
 msgid "開啟此選項以套用好用版變化商品前台顯示介面"
 msgstr "開啟此選項以套用好用版變化商品前台顯示介面"
 
@@ -416,6 +491,125 @@ msgstr ""
 "透過 LINE Pay 進行付款。要使用LINE Pay 您必須擁有Channel ID 和Channel "
 "SecretKey。"
 
+#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:175
+msgid "Ecpay invoice result"
+msgstr "電子發票開立結果"
+
+#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:175
+#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:259
+msgid "<br>Generate Time: "
+msgstr "<br>產生時間: "
+
+#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:175
+#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:259
+msgid "<br>Invoice Number: "
+msgstr "<br>發票號碼: "
+
+#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:175
+#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:259
+msgid "<br>Invoice Message: "
+msgstr "<br>回傳訊息: "
+
+#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:195
+msgid "Generate Ecpay invoice successful!"
+msgstr "電子發票開立成功！"
+
+#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:259
+msgid "Ecpay invalid invoice result"
+msgstr "電子發票作廢結果"
+
+#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:284
+msgid "Invalid Ecpay invoice successful!"
+msgstr "電子發票作廢成功！"
+
+#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:286
+msgid "Invalid Ecpay invoice error!"
+msgstr "作廢發票發生錯誤！"
+
+#: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Admin.php:39
+#: includes/woomp-ecpay-invoice/src/templates/MyAccount.php:25
+msgid "Invoice number"
+msgstr "發票號碼"
+
+#: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Admin.php:48
+msgid "Invalid invoice"
+msgstr "作廢發票"
+
+#: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Admin.php:50
+msgid "Generate invoice"
+msgstr "開立發票"
+
+#: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Ajax.php:29
+#: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Ajax.php:51
+msgid "發生錯誤，不合法的請求來源！"
+msgstr "發生錯誤，不合法的請求來源！"
+
+#: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Metabox.php:29
+msgid "綠界電子發票(好用版)"
+msgstr "綠界電子發票(好用版)"
+
+#: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Metabox.php:53
+#: includes/woomp-ecpay-invoice/src/templates/Checkout.php:24
+msgid "Invoice Type"
+msgstr "電子發票類型"
+
+#: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Metabox.php:60
+#: includes/woomp-ecpay-invoice/src/templates/Checkout.php:38
+msgid "paper-invoice"
+msgstr "紙本發票"
+
+#: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Metabox.php:63
+#: includes/woomp-ecpay-invoice/src/templates/Checkout.php:42
+msgid "cloud-invoice"
+msgstr "雲端發票"
+
+#: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Metabox.php:66
+#: includes/woomp-ecpay-invoice/src/templates/Checkout.php:46
+msgid "certification"
+msgstr "自然人憑證"
+
+#: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Metabox.php:69
+#: includes/woomp-ecpay-invoice/src/templates/Checkout.php:50
+msgid "mobile-barcode"
+msgstr "手機條碼"
+
+#: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Metabox.php:76
+#: includes/woomp-ecpay-invoice/src/templates/Checkout.php:56
+msgid "Individual Invoice Type"
+msgstr "個人發票類型"
+
+#: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Metabox.php:81
+#: includes/woomp-ecpay-invoice/src/templates/Checkout.php:66
+msgid "Carrier Number"
+msgstr "載具"
+
+#: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Metabox.php:86
+#: includes/woomp-ecpay-invoice/src/templates/Checkout.php:76
+msgid "Company Name"
+msgstr "公司名稱"
+
+#: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Metabox.php:91
+#: includes/woomp-ecpay-invoice/src/templates/Checkout.php:85
+msgid "TaxID"
+msgstr "統一編號"
+
+#: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Metabox.php:96
+#: includes/woomp-ecpay-invoice/src/templates/Checkout.php:95
+msgid "Donate Number"
+msgstr "捐贈碼"
+
+#: includes/woomp-ecpay-invoice/src/templates/Checkout.php:28
+msgid "individual"
+msgstr "個人"
+
+#: includes/woomp-ecpay-invoice/src/templates/Checkout.php:29
+msgid "company"
+msgstr "公司"
+
+#: includes/woomp-ecpay-invoice/src/templates/Checkout.php:30
+msgid "donate"
+msgstr "捐贈"
+
 #: public/class-woomp-order.php:38
 msgid "Ecpay Shipping details"
 msgstr "綠界物流資訊"
@@ -427,3 +621,30 @@ msgstr "物流單號"
 #: public/class-woomp-order.php:68
 msgid "Shipping details"
 msgstr "物流資訊"
+
+#~ msgid "Show invoice number"
+#~ msgstr "顯示發票號碼"
+
+#~ msgid "Show invoice number in Frontend order list"
+#~ msgstr "在前台訂單查詢畫面顯示發票號碼"
+
+#~ msgid "support paper type"
+#~ msgstr "支援紙本發票"
+
+#~ msgid "You need print invoice and seed to orderer."
+#~ msgstr "列印紙本發票."
+
+#~ msgid "Success"
+#~ msgstr "成功"
+
+#~ msgid "Failed"
+#~ msgstr "失敗"
+
+#~ msgid "Move billing company"
+#~ msgstr "調整公司欄位"
+
+#~ msgid "Move billing company to invoice area"
+#~ msgstr "將結帳頁的公司欄位移動到發票區塊中"
+
+#~ msgid "一頁結帳模式"
+#~ msgstr "一頁結帳模式"

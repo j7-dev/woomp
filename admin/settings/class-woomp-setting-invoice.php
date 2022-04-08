@@ -61,8 +61,9 @@ class Woomp_Setting_Invoice extends WC_Settings_Page {
 	}
 
 	public function get_sections() {
-		$sections['ecpay']  = __( '綠界', 'woomp' );
-		$sections['paynow'] = __( '立吉富', 'woomp' );
+		//$sections['ecpay']       = __( '綠界', 'woomp' );
+		$sections['ecpay'] = __( '綠界(好用版)', 'woomp' );
+		$sections['paynow']      = __( '立吉富', 'woomp' );
 		return apply_filters( 'woocommerce_get_sections_' . $this->id, $sections );
 	}
 
@@ -75,9 +76,158 @@ class Woomp_Setting_Invoice extends WC_Settings_Page {
 	public function get_settings( $section = null ) {
 
 		switch ( $section ) {
+			//case 'ecpay':
+			//	if ( get_option( RY_WEI::$option_prefix . 'enabled_invoice', 1 ) === 'yes' ) {
+			//		$settings = include RY_WEI_PLUGIN_DIR . 'woocommerce/settings/settings-ecpay-invoice.php';
+			//		return $settings;
+			//	} else {
+			//		$this->set_setting_default( '綠界' );
+			//		$settings = $this->setting_default;
+			//		return $settings;
+			//	}
+			//	break;
 			case 'ecpay':
-				if ( get_option( RY_WEI::$option_prefix . 'enabled_invoice', 1 ) === 'yes' ) {
-					$settings = include RY_WEI_PLUGIN_DIR . 'woocommerce/settings/settings-ecpay-invoice.php';
+				if ( wc_string_to_bool( get_option( 'wc_woomp_enabled_ecpay_invoice' ) ) || wc_string_to_bool( get_option( 'RY_WEI_enabled_invoice' ) ) ) {
+					$settings = array(
+						array(
+							'title' => '綠界電子發票設定',
+							'type'  => 'title',
+							'id'    => 'wc_woomp_general_setting',
+						),
+						array(
+							'title'   => '除錯資訊',
+							'type'    => 'checkbox',
+							'default' => 'no',
+							'desc'    => sprintf( '紀錄日誌於以下路徑：<code>%s</code>', wc_get_log_file_path( 'woomp-ecpay-invoice' ) ),
+							'id'      => 'wc_woomp_ecpay_invoice_debug_log_enabled',
+						),
+						array(
+							'title'    => __( 'Order number prefix', 'woomp' ),
+							'id'       => 'wc_woomp_ecpay_invoice_order_prefix',
+							'type'     => 'text',
+							'desc'     => __( 'The prefix string of order number. Only letters and numbers allowed.', 'woomp' ),
+							'desc_tip' => true,
+						),
+
+						array(
+							'type' => 'sectionend',
+							'id'   => 'wc_woomp_general_setting',
+						),
+						array(
+							'title' => __( 'Invoice options', 'woomp' ),
+							'id'    => 'invoice_options',
+							'type'  => 'title',
+						),
+						array(
+							'name'     => __( 'Issue Mode', 'paynow-einvoice' ),
+							'type'     => 'select',
+							'desc'     => __( 'You can issue the e-invoice manually even if you choose Automatic mode' ),
+							'class'    => 'wc-enhanced-select',
+							'desc_tip' => true,
+							'id'       => 'wc_woomp_ecpay_invoice_issue_mode',
+							'options'  => array(
+								'manual' => __( 'Issue Manual', 'woomp' ),
+								'auto'   => __( 'Issue automatic', 'woomp' ),
+							),
+							'default'  => 'manual',
+						),
+						array(
+							'name'     => __( 'Allowed Order Status for issue', 'woomp' ),
+							'type'     => 'select',
+							'class'    => 'wc-enhanced-select',
+							'desc'     => __( 'When order status changes to the status, the e-invoice will be issued automatically.' ),
+							'id'       => 'wc_woomp_ecpay_invoice_issue_at',
+							'desc_tip' => true,
+							'options'  => wc_get_order_statuses(),
+						),
+						array(
+							'name'     => __( 'Invalid mode', 'woomp' ),
+							'type'     => 'select',
+							'desc'     => __( 'You can issue the e-invoice manually even if you choose Automatic mode' ),
+							'class'    => 'wc-enhanced-select',
+							'desc_tip' => true,
+							'id'       => 'wc_woomp_ecpay_invoice_invalid_mode',
+							'options'  => array(
+								'manual' => __( 'Invalid manual', 'woomp' ),
+								'auto'   => __( 'Invalid automatic', 'woomp' ),
+							),
+							'default'  => 'auto',
+						),
+						array(
+							'name'     => __( 'Allowed Order Status for invalid', 'woomp' ),
+							'type'     => 'select',
+							'class'    => 'wc-enhanced-select',
+							'desc'     => __( 'When order status changes to the status, the e-invoice will be invalid automatically.' ),
+							'id'       => 'wc_woomp_ecpay_invoice_invalid_at',
+							'desc_tip' => true,
+							'options'  => array(
+								'wc-refunded' => __( 'Refunded', 'woocommerce' ),
+								'wc-failed'   => __( 'Failed', 'woocommerce' ),
+							),
+						),
+						array(
+							'name'    => __( 'Carrier Type', 'paynow-einvoice' ),
+							'desc'    => __( 'Allowed invoice carrier type', 'woomp' ),
+							'id'      => 'wc_woomp_ecpay_invoice_carrier_type',
+							'class'   => 'wc-enhanced-select',
+							'type'    => 'multiselect',
+							'options' => array(
+								__( 'Paper Invoice', 'woomp' )  => __( 'Paper Invoice', 'woomp' ),
+								__( 'Cloud Invoice', 'woomp' )  => __( 'Cloud Invoice', 'woomp' ),
+								__( 'Citizen Digital Certificate', 'paynow-einvoice' )    => __( 'Citizen Digital Certificate', 'paynow-einvoice' ),
+								__( 'Mobile Code', 'paynow-einvoice' ) => __( 'Mobile Code', 'paynow-einvoice' ),
+							),
+						),
+
+						array(
+							'name'        => __( 'Donated Organization', 'paynow-einvoice' ),
+							'type'        => 'textarea',
+							'desc'        => '輸入捐增機構(每行一筆)，格式為：愛心碼|社福團體名稱，預設為伊甸社會福利基金會',
+							'desc_tip'    => true,
+							'id'          => 'wc_woomp_ecpay_invoice_donate_org',
+							'placeholder' => '25885|伊甸社會福利基金會',
+						),
+						array(
+							'id'   => 'invoice_options',
+							'type' => 'sectionend',
+						),
+						array(
+							'title' => '商家資料設定',
+							'type'  => 'title',
+							'id'    => 'wc_woomp_ecpay_invoice_api_settings',
+						),
+						array(
+							'title' => '測試模式',
+							'type'  => 'checkbox',
+							'desc'  => '請勾選時會測試模式，未勾選則會使用下方資料作為正式交易環境',
+							'id'    => 'wc_woomp_ecpay_invoice_testmode_enabled',
+						),
+						array(
+							'title'   => '商家編號',
+							'type'    => 'text',
+							'desc'    => '請輸入正式商家代號',
+							'id'      => 'wc_woomp_ecpay_invoice_merchant_id',
+							'default' => '2000132',
+						),
+						array(
+							'title'   => '正式 HashKey',
+							'type'    => 'text',
+							'desc'    => '請輸入 HashKey',
+							'id'      => 'wc_woomp_ecpay_invoice_hashkey',
+							'default' => 'ejCk326UnaZWKisg',
+						),
+						array(
+							'title'   => '正式 HashIV',
+							'type'    => 'text',
+							'desc'    => '請輸入 HashIV',
+							'id'      => 'wc_woomp_ecpay_invoice_hashiv',
+							'default' => 'q9jcZX8Ib9LM8wYk',
+						),
+						array(
+							'type' => 'sectionend',
+							'id'   => 'wc_woomp_ecpay_invoice_api_settings',
+						),
+					);
 					return $settings;
 				} else {
 					$this->set_setting_default( '綠界' );
@@ -94,12 +244,12 @@ class Woomp_Setting_Invoice extends WC_Settings_Page {
 							'desc' => '',
 							'id'   => 'wc_settings_tab_demo_section_title',
 						),
-						//'active_paynow_einvoice'  => array(
-						//	'name' => __( 'Enable', 'paynow-einvoice' ),
-						//	'type' => 'checkbox',
-						//	'desc' => '',
-						//	'id'   => 'wc_settings_tab_active_paynow_einvoice',
-						//),
+						// 'active_paynow_einvoice'  => array(
+						// 'name' => __( 'Enable', 'paynow-einvoice' ),
+						// 'type' => 'checkbox',
+						// 'desc' => '',
+						// 'id'   => 'wc_settings_tab_active_paynow_einvoice',
+						// ),
 						'paynow_einvoice_sandbox' => array(
 							'name' => __( 'Test Mode', 'paynow-einvoice' ),
 							'type' => 'checkbox',
@@ -251,7 +401,7 @@ class Woomp_Setting_Invoice extends WC_Settings_Page {
 	public function output() {
 		global $current_section, $hide_save_button;
 		if ( $current_section == '' ) {
-			wp_safe_redirect( admin_url('admin.php?page=wc-settings&tab=woomp_setting_invoice&section=ecpay') );
+			wp_safe_redirect( admin_url( 'admin.php?page=wc-settings&tab=woomp_setting_invoice&section=ecpay' ) );
 		}
 		$settings = $this->get_settings( $current_section );
 		WC_Admin_Settings::output_fields( $settings );
