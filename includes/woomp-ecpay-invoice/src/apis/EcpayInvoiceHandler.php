@@ -1,6 +1,8 @@
 <?php
 namespace WOOMPECPAYINVOICE\APIs;
 
+use WOOMPECPAYINVOICE\APIs\EcpayInvoiceFiels;
+
 defined( 'ABSPATH' ) || exit;
 
 class EcpayInvoiceHandler {
@@ -8,9 +10,9 @@ class EcpayInvoiceHandler {
 	/**
 	 * 開立發票
 	 */
-	public function generate_invoice( $orde_id ) {
+	public function generate_invoice( $order_id ) {
 
-		$order       = wc_get_order( $orde_id );
+		$order       = wc_get_order( $order_id );
 		$order_total = $order->get_total();
 		$order_info  = $order->get_address();
 
@@ -20,10 +22,8 @@ class EcpayInvoiceHandler {
 		$orderPhone   = $order_info['phone'];
 		$orderAddress = $order_info['country'] . $order_info['state'] . $order_info['city'] . $order_info['address_1'] . $order_info['address_2'];
 
-		$invoce_type = $order->get_meta( '_ecpay_invoice_data' )['_invoice_type'];
-
-		$customerIdentifier = $order->get_meta( '_ecpay_invoice_data' )['_invoice_tax_id']; // 統一編號
-		$invoiceType        = $order->get_meta( '_ecpay_invoice_data' )['_invoice_type'];
+		$customerIdentifier = EcpayInvoiceFields::get_meta( $order_id, 'tax_id' ); // 統一編號
+		$invoiceType        = EcpayInvoiceFields::get_meta( $order_id, 'type' );
 
 		$donation = ( $invoiceType == 'donate' ) ? 1 : 0; // 捐贈
 		$donation = ( empty( $customerIdentifier ) ) ? $donation : 0; // 如果有寫統一發票號碼則無法捐贈
@@ -34,12 +34,12 @@ class EcpayInvoiceHandler {
 			$print = 1;
 
 			// 有統一編號 則取得公司名稱.
-			$sCompany_Name = $order->get_meta( '_ecpay_invoice_data' )['_invoice_company_name']; // 公司名稱
+			$sCompany_Name = EcpayInvoiceFields::get_meta( $order_id, 'company_name' ); // 公司名稱
 			$customerName  = ( ! empty( $sCompany_Name ) ) ? $sCompany_Name : $customerName;
 		}
 
-		$loveCode    = $order->get_meta( '_ecpay_invoice_data' )['_invoice_donate']; // 捐贈碼
-		$carruerType = $order->get_meta( '_ecpay_invoice_data' )['_invoice_individual']; // 載具
+		$loveCode    = EcpayInvoiceFields::get_meta( $order_id, 'donate' ); // 捐贈碼
+		$carruerType = EcpayInvoiceFields::get_meta( $order_id, 'individual' ); // 載具
 		$carruerType = ( $carruerType == 0 ) ? '' : $carruerType;
 
 			// 無載具 強制列印
@@ -51,7 +51,7 @@ class EcpayInvoiceHandler {
 		if ( $donation == 1 ) {
 			$print = 0;
 		}
-		$carruerNum = $order->get_meta( '_ecpay_invoice_data' )['_invoice_carrier']; // 載具編號
+		$carruerNum = EcpayInvoiceFields::get_meta( $order_id, 'carrier' ); // 載具編號
 
 		// 付款成功次數 第一次付款或沒有此欄位則設定為空值
 		$totalSuccessTimes = '';
@@ -67,7 +67,7 @@ class EcpayInvoiceHandler {
 			$print = 1;
 
 			// // 有統一編號 則取得公司名稱
-			$sCompany_Name = get_post_meta( $orde_id, '_company_name', true ); // 公司名稱
+			$sCompany_Name = EcpayInvoiceFields::get_meta( $order_id, 'company_name' ); // 公司名稱
 			$customerName  = ( ! empty( $sCompany_Name ) ) ? $sCompany_Name : $customerName;
 		}
 
