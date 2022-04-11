@@ -104,7 +104,7 @@ class EcpayInvoiceHandler {
 
 			foreach ( $itemsTmp as $key1 => $value1 ) {
 
-				$items[ $key1 ]['ItemName']   = $value1['name']; // 商品名稱 ItemName
+				$items[ $key1 ]['ItemName']   = str_replace( '|', '-', $value1['name'] ); // 商品名稱 ItemName
 				$items[ $key1 ]['ItemCount']  = $value1['quantity']; // 數量 ItemCount
 				$items[ $key1 ]['ItemAmount'] = round( $value1['total'] + $value1['total_tax'] ); // 小計 ItemAmount
 				$items[ $key1 ]['ItemPrice']  = $items[ $key1 ]['ItemAmount'] / $items[ $key1 ]['ItemCount']; // 單價 ItemPrice
@@ -115,7 +115,7 @@ class EcpayInvoiceHandler {
 				array_push(
 					$ecpay_invoice->Send['Items'],
 					array(
-						'ItemName'    => $value2['ItemName'],
+						'ItemName'    => str_replace( '|', '-', $value2['ItemName'] ),
 						'ItemCount'   => $value2['ItemCount'],
 						'ItemWord'    => '批',
 						'ItemPrice'   => $value2['ItemPrice'],
@@ -235,7 +235,7 @@ class EcpayInvoiceHandler {
 
 				$ecpayInvoice = new ECPay_Woo_EcpayInvoice();
 
-				// 2.��入����介接參數
+				// 2.介接參數
 				$ecpayInvoice->Invoice_Method = 'INVOICE_VOID';
 				$ecpayInvoice->Invoice_Url    = $this->get_api_key()['request_url_invalid'];
 				$ecpayInvoice->MerchantID     = $this->get_api_key()['merchant_id'];
