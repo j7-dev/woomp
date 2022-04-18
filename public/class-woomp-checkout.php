@@ -208,6 +208,12 @@ if ( ! class_exists( 'WooMP_Checkout' ) ) {
 		 * @param object $errors error object.
 		 */
 		public function field_validate( $fields, $errors ) {
+
+			// 台灣限定
+			if( 'TW' !== $fields['shipping_country'] ){
+				return false;
+			}
+
 			// 如果只留下 billing_last_name.
 			if ( ! array_key_exists( 'billing_first_name', $fields ) ) {
 				if ( mb_strlen( $fields['billing_last_name'], 'utf-8' ) < 2 ) {
