@@ -210,8 +210,8 @@ if ( ! class_exists( 'WooMP_Checkout' ) ) {
 		public function field_validate( $fields, $errors ) {
 
 			// 台灣限定
-			if( 'TW' !== $fields['shipping_country'] ){
-				return false;
+			if ( 'TW' !== $fields['shipping_country'] ) {
+				return;
 			}
 
 			// 如果只留下 billing_last_name.
