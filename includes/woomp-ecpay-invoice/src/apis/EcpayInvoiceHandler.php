@@ -104,7 +104,7 @@ class EcpayInvoiceHandler {
 
 			foreach ( $itemsTmp as $key1 => $value1 ) {
 
-				$items[ $key1 ]['ItemName']   = str_replace( '|', '-', $value1['name'] ); // 商品名稱 ItemName
+				$items[ $key1 ]['ItemName']   = wp_strip_all_tags( str_replace( '|', '-', $value1['name'] ), true ); // 商品名稱 ItemName
 				$items[ $key1 ]['ItemCount']  = $value1['quantity']; // 數量 ItemCount
 				$items[ $key1 ]['ItemAmount'] = round( $value1['total'] + $value1['total_tax'] ); // 小計 ItemAmount
 				$items[ $key1 ]['ItemPrice']  = $items[ $key1 ]['ItemAmount'] / $items[ $key1 ]['ItemCount']; // 單價 ItemPrice

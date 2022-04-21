@@ -16,7 +16,7 @@ if ( ! class_exists( 'WooMP_Order' ) ) {
 		public static function init() {
 			$class = new self();
 			add_action( 'init', array( $class, 'add_order_status_in_transit' ) );
-			add_action( 'wc_order_statuses', array( $class, 'add_order_statuses' ) );
+			add_filter( 'wc_order_statuses', array( $class, 'add_order_statuses' ) );
 			add_filter( 'woocommerce_reports_order_statuses', array( $class, 'add_order_statuses' ) );
 			add_filter( 'woocommerce_order_is_paid_statuses', array( $class, 'add_report_paid_statuses' ) );
 			add_filter( 'wp_ajax_delete_shipping_ecpay_cvs', array( $class, 'delete_shipping_ecpay_cvs' ) );
@@ -29,10 +29,43 @@ if ( ! class_exists( 'WooMP_Order' ) ) {
 
 			add_action( 'woocommerce_admin_order_data_after_shipping_address', array( $class, 'add_choose_cvs_btn' ) );
 			add_action( 'admin_enqueue_scripts', array( $class, 'enqueue_choose_cvs_script' ) );
+
+			//add_action( 'woocommerce_cancel_atm_expired_orders', array( $class, 'cancel_atm_exipred_orders' ) );
+
 		}
 
+		public function cancel_atm_exipred_orders() {
+
+			wp_clear_scheduled_hook( 'woocommerce_cancel_atm_expired_orders' );
+			$cancel_unpaid_interval = get_option( 'woocommerce_ry_ecpay_atm_expire_date' ) * 24 * 60;
+			wp_schedule_single_event( time() + ( absint( $cancel_unpaid_interval ) * 60 ), 'woocommerce_cancel_atm_expired_orders' );
+
+			global $wpdb;
+
+			$unpaid_orders = $wpdb->get_col(
+				$wpdb->prepare(
+					// @codingStandardsIgnoreStart
+					"SELECT posts.ID
+					FROM {$wpdb->posts} AS posts
+					WHERE   posts.post_type   IN ('" . implode( "','", wc_get_order_types() ) . "')
+					AND     posts.post_status = 'wc-on-hold'
+					AND     posts.post_modified < %s",
+					// @codingStandardsIgnoreEnd
+					gmdate( 'Y-m-d H:i:s', absint( strtotime( '-' . absint( $held_duration ) . ' MINUTES', current_time( 'timestamp' ) ) ) )
+				)
+			);
+
+			if ( $unpaid_orders ) {
+				foreach ( $unpaid_orders as $unpaid_order ) {
+					$order = wc_get_order( $unpaid_order );
+					$order->update_status( 'cancelled', __( 'Unpaid order cancelled - time limit reached.', 'woocommerce' ) );
+				}
+			}
+		}
+
+
 		/**
-		 * 增加訂單狀態 - 配送中
+		 * 增加訂單狀態
 		 */
 		public function add_order_status_in_transit() {
 
@@ -49,8 +82,14 @@ if ( ! class_exists( 'WooMP_Order' ) ) {
 		}
 
 		public function add_order_statuses( $order_statuses ) {
-			$order_statuses['wc-wmp-in-transit'] = '配送中';
-			return $order_statuses;
+			$new_order_statuses = array();
+			foreach ( $order_statuses as $key => $status ) {
+				$new_order_statuses[ $key ] = $status;
+				if ( 'wc-processing' === $key ) {
+					$new_order_statuses['wc-wmp-in-transit'] = '配送中';
+				}
+			}
+			return $new_order_statuses;
 		}
 
 		public function add_report_paid_statuses( $statues ) {

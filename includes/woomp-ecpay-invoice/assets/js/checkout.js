@@ -1,5 +1,8 @@
 jQuery(document).ready(function ($) {
 	var prefix = 'ecpay_invoice';
+
+	$("#donate-number,#invoice-type,#individual-invoice").selectWoo();
+
 	// 當頁面載入，藏起所有表格額外欄位
 	$('#carrier-number_field').hide();
 	$('#taxid-number_field').hide();
@@ -7,6 +10,7 @@ jQuery(document).ready(function ($) {
 	$('#company-name_field').hide();
 	$('#billing_company_field').hide();
 
+	
 	// 當發票類型改變，顯示對應的數值
 	$("#invoice-type").change(function () {
 		var selection = $('#invoice-type').val();
@@ -42,6 +46,7 @@ jQuery(document).ready(function ($) {
 			$('#company-name_field').hide();
 		}
 	});
+	
 	// 發票類型為個人，且選擇為自然人憑證或手機條碼
 	$("#individual-invoice").change(function () {
 		var individualOption = $('#individual-invoice').val();
