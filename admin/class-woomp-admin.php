@@ -308,11 +308,13 @@ class Woomp_Admin {
 			$emails    = $wc_emails->get_emails();
 			$email     = $emails['RY_ECPay_Shipping_Email_Customer_CVS_Get_Remind'];
 
-			if ( $email->is_enabled() ) {
-				foreach ( $orders as $order ) {
-					$email->object    = $order;
-					$email->recipient = $email->object->get_billing_email();
-					$email->send( $email->get_recipient(), $email->get_subject(), $email->get_content(), $email->get_headers(), $email->get_attachments() );
+			if ( $email ) {
+				if ( $email->is_enabled() ) {
+					foreach ( $orders as $order ) {
+						$email->object    = $order;
+						$email->recipient = $email->object->get_billing_email();
+						$email->send( $email->get_recipient(), $email->get_subject(), $email->get_content(), $email->get_headers(), $email->get_attachments() );
+					}
 				}
 			}
 		}
@@ -334,11 +336,13 @@ class Woomp_Admin {
 		$emails    = $wc_emails->get_emails();
 		$email     = $emails['RY_ECPay_Shipping_Email_Customer_CVS_Get_Expired'];
 
-		if ( $email->is_enabled() ) {
-			foreach ( $orders as $order ) {
-				$email->object    = $order;
-				$email->recipient = $email->object->get_billing_email();
-				$email->send( $email->get_recipient(), $email->get_subject(), $email->get_content(), $email->get_headers(), $email->get_attachments() );
+		if ( $email ) {
+			if ( $email->is_enabled() ) {
+				foreach ( $orders as $order ) {
+					$email->object    = $order;
+					$email->recipient = $email->object->get_billing_email();
+					$email->send( $email->get_recipient(), $email->get_subject(), $email->get_content(), $email->get_headers(), $email->get_attachments() );
+				}
 			}
 		}
 	}

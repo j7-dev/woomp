@@ -125,6 +125,9 @@ class EcpayInvoiceHandler {
 				);
 			}
 
+			$log = new \WC_Logger();
+			$log->log( 'info', wc_print_r( $ecpay_invoice->Send['Items'], true ), array( 'source' => 'ods-log' ) );
+
 			// 運費
 			$shippingTotal = number_format( (float) $order->get_total_shipping() + (float) $order->get_shipping_tax(), wc_get_price_decimals(), '.', '' );
 
