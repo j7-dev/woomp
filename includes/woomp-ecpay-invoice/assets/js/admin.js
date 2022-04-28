@@ -74,7 +74,8 @@ jQuery(function($){
 			}
 		})
 
-		if( $('select[name="_invoice_individual"]').val() === '2' || $('select[name="_invoice_individual"]').val() === '3' ){
+		if( ( $('select[name="_invoice_type"]').val() === 
+		'individual' ) && ( $('select[name="_invoice_individual"]').val() === '2' || $('select[name="_invoice_individual"]').val() === '3' ) ){
 			$('#invoiceCarrier').show()
 		} else {
 			$('#invoiceCarrier').hide()

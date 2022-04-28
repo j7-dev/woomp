@@ -162,7 +162,7 @@ class Checkout {
 			$invoice_data['_invoice_individual'] = false;
 		}
 		// 新增載具編號
-		if ( isset( $_POST['carrier-number'] ) ) {
+		if ( isset( $_POST['carrier-number'] ) && ( $_POST['individual-invoice'] == 3 || $_POST['individual-invoice'] == 2 ) ) {
 			$invoice_data['_invoice_carrier'] = wp_unslash( $_POST['carrier-number'] );
 		}
 		// 新增公司名稱
