@@ -50,7 +50,8 @@ final class RY_ECPay_Shipping
             add_action('wmp_get_ecpay_cvs_code', ['RY_ECPay_Shipping_Api', 'get_code'], 10, 2);
 
             add_action('woocommerce_order_status_ry-at-cvs', [__CLASS__, 'send_at_cvs_email'], 10, 2);
-            add_action('woocommerce_order_status_ry-transporting', [__CLASS__, 'send_transporting_email'], 10, 2);
+            add_action('woocommerce_order_status_ry-out-cvs', [__CLASS__, 'send_out_cvs_email'], 10, 2);
+            add_action('woocommerce_order_status_wmp-in-transit', [__CLASS__, 'send_transporting_email'], 10, 2);
 
             add_filter('woocommerce_email_classes', [__CLASS__, 'add_email_class']);
             add_filter('woocommerce_email_actions', [__CLASS__, 'add_email_action']);
@@ -382,6 +383,15 @@ final class RY_ECPay_Shipping
         }
 
         do_action('ry_ecpay_shipping_cvs_to_store', $order_id, $order);
+    }
+
+    public static function send_out_cvs_email($order_id, $order = null)
+    {
+        if (!is_object($order)) {
+            $order = wc_get_order($order_id);
+        }
+
+        do_action('ry_ecpay_shipping_cvs_get_expired', $order_id, $order);
     }
 
     public static function send_transporting_email($order_id, $order = null)

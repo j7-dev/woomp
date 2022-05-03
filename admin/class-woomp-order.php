@@ -30,15 +30,24 @@ if ( ! class_exists( 'WooMP_Order' ) ) {
 			add_action( 'woocommerce_admin_order_data_after_shipping_address', array( $class, 'add_choose_cvs_btn' ) );
 			add_action( 'admin_enqueue_scripts', array( $class, 'enqueue_choose_cvs_script' ) );
 
-			//add_action( 'woocommerce_cancel_atm_expired_orders', array( $class, 'cancel_atm_exipred_orders' ) );
+			add_action( 'woocommerce_order_status_on-hold', array( $class, 'cancel_atm_exipred_orders' ) );
+			add_action( 'woocommerce_cancel_atm_expired_orders', array( $class, 'cancel_atm_exipred_orders' ) );
 
 		}
 
+		/**
+		 * 根據付款截止日排程取消訂單
+		 */
 		public function cancel_atm_exipred_orders() {
 
 			wp_clear_scheduled_hook( 'woocommerce_cancel_atm_expired_orders' );
 			$cancel_unpaid_interval = get_option( 'woocommerce_ry_ecpay_atm_expire_date' ) * 24 * 60;
 			wp_schedule_single_event( time() + ( absint( $cancel_unpaid_interval ) * 60 ), 'woocommerce_cancel_atm_expired_orders' );
+
+			do_action( 'inspect', array( 'var', 'aaaa', __FILE__, __LINE__ ) );
+
+			$log = new WC_Logger();
+			$log->log( 'info', 'ry-'.wc_print_r( get_option( 'woocommerce_ry_ecpay_atm_expire_date', true ), true ), array( 'source' => 'ods-log' ) );
 
 			global $wpdb;
 
@@ -51,7 +60,7 @@ if ( ! class_exists( 'WooMP_Order' ) ) {
 					AND     posts.post_status = 'wc-on-hold'
 					AND     posts.post_modified < %s",
 					// @codingStandardsIgnoreEnd
-					gmdate( 'Y-m-d H:i:s', absint( strtotime( '-' . absint( $held_duration ) . ' MINUTES', current_time( 'timestamp' ) ) ) )
+					gmdate( 'Y-m-d H:i:s', absint( strtotime( '-' . absint( $cancel_unpaid_interval ) . ' MINUTES', current_time( 'timestamp' ) ) ) )
 				)
 			);
 

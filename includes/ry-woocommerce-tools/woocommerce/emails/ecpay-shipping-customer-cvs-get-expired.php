@@ -15,13 +15,13 @@ if ( ! class_exists( 'RY_ECPay_Shipping_Email_Customer_CVS_Get_Expired', false )
 				'{site_title}' => $this->get_blogname(),
 			);
 
-			//add_action( 'ry_ecpay_shipping_cvs_to_transporting_notification', array( $this, 'trigger' ), 10, 2 );
+			add_action( 'ry_ecpay_shipping_cvs_get_expired_notification', array( $this, 'trigger' ), 10, 2 );
 
 			parent::__construct();
 		}
 
 		public function get_default_subject() {
-			return __( '您在 {site_title} 訂購的商品今天到期了，請儘速前往取貨', 'ry-woocommerce-tools' );
+			return __( '您在 {site_title} 訂購的商品今天到期了，請儘速前往取貨', 'ry-woocommerce-tools' );
 		}
 
 		public function get_default_heading() {
