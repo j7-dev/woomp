@@ -188,10 +188,6 @@ if ( ! class_exists( 'WooMP_Order' ) ) {
 			}
 		}
 
-		public function shop_order_billing_column( $column, $post_id ) {
-
-		}
-
 		/**
 		 * 訂單列表增加列運托運單批次操作選單
 		 */
