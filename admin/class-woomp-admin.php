@@ -163,8 +163,8 @@ class Woomp_Admin {
 		.order_data_column:nth-child(3) .address p:first-child {
 			display: none;
 		}</style>';
+		echo '<p style="font-size: 14px;" id="shippingName"><strong>收件人姓名:<br/></strong>' . $order->get_shipping_last_name() . $order->get_shipping_first_name() . '</p>';
 		if ( get_option( 'wc_woomp_setting_one_line_address', 1 ) === 'yes' && strpos( $order->get_shipping_method(), '超商' ) < -1 ) {
-			echo '<p style="font-size: 14px;" id="shippingName"><strong>收件人姓名:<br/></strong>' . $order->get_shipping_last_name() . $order->get_shipping_first_name() . '</p>';
 			echo '<p style="font-size: 14px;" id="fullAddressShipping"><strong>運送地址:<br/></strong><span>' . $order->get_meta( '_shipping_full-addressShipping' ) . '</span></p>';
 		} elseif ( get_option( 'wc_woomp_setting_one_line_address', 1 ) === 'yes' && strpos( $order->get_shipping_method(), '超商' ) > -1 ) {
 			echo '<p style="font-size: 14px; color: #222" id="cvsStore"><strong>' . $order->get_shipping_method() . '</strong></p>';
