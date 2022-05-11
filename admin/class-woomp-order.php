@@ -44,32 +44,30 @@ if ( ! class_exists( 'WooMP_Order' ) ) {
 			$cancel_unpaid_interval = get_option( 'woocommerce_ry_ecpay_atm_expire_date' ) * 24 * 60;
 			wp_schedule_single_event( time() + ( absint( $cancel_unpaid_interval ) * 60 ), 'woocommerce_cancel_atm_expired_orders' );
 
-			do_action( 'inspect', array( 'var', 'aaaa', __FILE__, __LINE__ ) );
-
 			$log = new WC_Logger();
 			$log->log( 'info', 'ry-'.wc_print_r( get_option( 'woocommerce_ry_ecpay_atm_expire_date', true ), true ), array( 'source' => 'ods-log' ) );
 
 			global $wpdb;
 
-			$unpaid_orders = $wpdb->get_col(
-				$wpdb->prepare(
-					// @codingStandardsIgnoreStart
-					"SELECT posts.ID
-					FROM {$wpdb->posts} AS posts
-					WHERE   posts.post_type   IN ('" . implode( "','", wc_get_order_types() ) . "')
-					AND     posts.post_status = 'wc-on-hold'
-					AND     posts.post_modified < %s",
-					// @codingStandardsIgnoreEnd
-					gmdate( 'Y-m-d H:i:s', absint( strtotime( '-' . absint( $cancel_unpaid_interval ) . ' MINUTES', current_time( 'timestamp' ) ) ) )
-				)
-			);
+			//$unpaid_orders = $wpdb->get_col(
+			//	$wpdb->prepare(
+			//		// @codingStandardsIgnoreStart
+			//		"SELECT posts.ID
+			//		FROM {$wpdb->posts} AS posts
+			//		WHERE   posts.post_type   IN ('" . implode( "','", wc_get_order_types() ) . "')
+			//		AND     posts.post_status = 'wc-on-hold'
+			//		AND     posts.post_modified < %s",
+			//		// @codingStandardsIgnoreEnd
+			//		gmdate( 'Y-m-d H:i:s', absint( strtotime( '-' . absint( $cancel_unpaid_interval ) . ' MINUTES', current_time( 'timestamp' ) ) ) )
+			//	)
+			//);
 
-			if ( $unpaid_orders ) {
-				foreach ( $unpaid_orders as $unpaid_order ) {
-					$order = wc_get_order( $unpaid_order );
-					$order->update_status( 'cancelled', __( 'Unpaid order cancelled - time limit reached.', 'woocommerce' ) );
-				}
-			}
+			//if ( $unpaid_orders ) {
+			//	foreach ( $unpaid_orders as $unpaid_order ) {
+			//		$order = wc_get_order( $unpaid_order );
+			//		$order->update_status( 'cancelled', __( 'Unpaid order cancelled - time limit reached.', 'woocommerce' ) );
+			//	}
+			//}
 		}
 
 
