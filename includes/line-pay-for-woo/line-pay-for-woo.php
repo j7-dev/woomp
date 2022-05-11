@@ -291,20 +291,22 @@ class WC_Gateway_LINEPay_Handler {
 				break;
 		}
 
-		if ( in_array( 'wc-' . $order_status, get_option( 'linepay_customer_refund' ) ) ) {
-			$actions['cancel'] = array(
-				'url'  => esc_url_raw(
-					add_query_arg(
-						array(
-							'request_type'  => WC_Gateway_LINEPay_Const::REQUEST_TYPE_REFUND,
-							'order_id'      => $order->get_id(),
-							'cancel_amount' => $order->get_total(),
-						),
-						home_url( WC_Gateway_LINEPay_Const::URI_CALLBACK_HANDLER )
-					)
-				),
-				'name' => __( 'Cancel', 'woocommerce-gateway-linepay' ),
-			);
+		if( get_option( 'linepay_customer_refund' ) ){
+			if ( in_array( 'wc-' . $order_status, get_option( 'linepay_customer_refund' ) ) ) {
+				$actions['cancel'] = array(
+					'url'  => esc_url_raw(
+						add_query_arg(
+							array(
+								'request_type'  => WC_Gateway_LINEPay_Const::REQUEST_TYPE_REFUND,
+								'order_id'      => $order->get_id(),
+								'cancel_amount' => $order->get_total(),
+							),
+							home_url( WC_Gateway_LINEPay_Const::URI_CALLBACK_HANDLER )
+						)
+					),
+					'name' => __( 'Cancel', 'woocommerce-gateway-linepay' ),
+				);
+			}
 		}
 
 		return $actions;
