@@ -70,7 +70,7 @@ class Admin {
 	public function update_invoice_data( $post_id, $post, $update ) {
 
 		global $pagenow;
-		if ( 'post.php' === $pagenow && 'shop_order' === get_post_type( $_GET['post'] ) ) {
+		if ( get_option( 'wc_woomp_enabled_ecpay_invoice' ) && 'post.php' === $pagenow && 'shop_order' === get_post_type( $_GET['post'] ) ) {
 
 			$order        = wc_get_order( $post_id );
 			$invoice_data = array();
