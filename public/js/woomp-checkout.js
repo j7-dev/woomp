@@ -246,12 +246,14 @@ jQuery(function($){
 	}
 
 	function setIslandCvsNotification(){
-		cvsAddress = $('#CVSAddress_field strong').text();
-		if( cvsAddress !== '' && !$('#billing_island').prop('checked') ){
-			if( cvsAddress.includes('金門縣') || cvsAddress.includes('澎湖縣') || cvsAddress.includes('連江縣') ){
-				alert('您選擇的超商不在運送範圍內！')
+		$(document.body).on('updated_checkout',function(){
+			cvsAddress = $('#CVSAddress_field strong').text();
+			if( cvsAddress !== '' && !$('#billing_island').prop('checked') ){
+				if( cvsAddress.includes('金門縣') || cvsAddress.includes('澎湖縣') || cvsAddress.includes('連江縣') ){
+					alert('您選擇的超商不在運送範圍內！')
+				}
 			}
-		}
+		})
 	}
 
 	function setFunctionForTaiwan(){
