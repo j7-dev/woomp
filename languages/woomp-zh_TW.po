@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: woomp\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/woomp\n"
-"POT-Creation-Date: 2022-04-08T09:57:12+00:00\n"
-"PO-Revision-Date: 2022-04-08 17:57+0800\n"
+"POT-Creation-Date: 2022-05-16T10:26:38+00:00\n"
+"PO-Revision-Date: 2022-05-16 18:26+0800\n"
 "Last-Translator: \n"
 "Language-Team: morepower\n"
 "Language: zh_TW\n"
@@ -51,35 +51,47 @@ msgstr "完整地址"
 msgid "運送地址"
 msgstr "運送地址"
 
-#: admin/class-woomp-order.php:162 admin/class-woomp-order.php:167
+#: admin/class-woomp-admin.php:232
+msgid "invoice"
+msgstr "電子發票"
+
+#: admin/class-woomp-admin.php:232
+msgid "shipping"
+msgstr "物流"
+
+#: admin/class-woomp-admin.php:232
+msgid "payment"
+msgstr "金流"
+
+#: admin/class-woomp-order.php:204 admin/class-woomp-order.php:209
 msgid "Print ECPay shipping booking note (711)"
 msgstr "列印統一超商託運單（綠界）"
 
-#: admin/class-woomp-order.php:163 admin/class-woomp-order.php:168
+#: admin/class-woomp-order.php:205 admin/class-woomp-order.php:210
 msgid "Print ECPay shipping booking note (family)"
 msgstr "列印全家超商託運單（綠界）"
 
-#: admin/class-woomp-order.php:164
+#: admin/class-woomp-order.php:206
 msgid "Print ECPay shipping booking note (hilife)"
 msgstr "列印萊爾富超商託運單（綠界）"
 
-#: admin/class-woomp-order.php:172
+#: admin/class-woomp-order.php:214
 msgid "Print ECPay shipping booking note (tcat)"
 msgstr "列印黑貓託運單（綠界）"
 
-#: admin/class-woomp-order.php:173
+#: admin/class-woomp-order.php:215
 msgid "Print ECPay shipping booking note (ecan)"
 msgstr "列印宅配通託運單（綠界）"
 
-#: admin/class-woomp-order.php:174
+#: admin/class-woomp-order.php:216
 msgid "Print HCT shipping booking note"
 msgstr "匯出新竹物流報表"
 
-#: admin/class-woomp-order.php:252
+#: admin/class-woomp-order.php:294
 msgid "Update convenience store"
 msgstr "重新選擇超商"
 
-#: admin/class-woomp-order.php:253
+#: admin/class-woomp-order.php:295
 msgid "After choosing cvs, you need update the order to save changing."
 msgstr "重新選擇超商後記得要更新訂單資料才會被寫入。"
 
@@ -262,7 +274,7 @@ msgstr "自動作廢的訂單狀態"
 
 #: admin/settings/class-woomp-setting-invoice.php:170
 msgid "Allowed invoice carrier type"
-msgstr ""
+msgstr "允許的載具類型"
 
 #: admin/settings/class-woomp-setting-invoice.php:175
 msgid "Paper Invoice"
@@ -490,41 +502,41 @@ msgstr ""
 "透過 LINE Pay 進行付款。要使用LINE Pay 您必須擁有Channel ID 和Channel "
 "SecretKey。"
 
-#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:176
+#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:179
 msgid "<b>Invoice issue result</b>"
 msgstr "<b>發票開立結果</b>"
 
-#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:176
+#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:179
 msgid "<b>Invoice issue faild</b>"
 msgstr "<b>發票開立失敗</b>"
 
-#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:178
+#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:181
 msgid "<br>Generate Time: "
 msgstr "<br>產生時間: "
 
-#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:179
-#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:261
+#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:182
+#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:264
 msgid "<br>Invoice Number: "
 msgstr "<br>發票號碼: "
 
-#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:180
-#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:261
+#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:183
+#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:264
 msgid "<br>Invoice Message: "
 msgstr "<br>回傳訊息: "
 
-#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:197
+#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:200
 msgid "Generate Ecpay invoice issue finish!"
 msgstr "電子發票開立作業完成！"
 
-#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:261
+#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:264
 msgid "<b>Ecpay invalid invoice result</b>"
 msgstr "<b>發票作廢結果</b>"
 
-#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:287
+#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:290
 msgid "Invalid Ecpay invoice successful!"
 msgstr "電子發票作廢成功！"
 
-#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:289
+#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:292
 msgid "Invalid Ecpay invoice error!"
 msgstr "作廢發票發生錯誤！"
 
@@ -550,48 +562,48 @@ msgstr "發生錯誤，不合法的請求來源！"
 msgid "綠界電子發票(好用版)"
 msgstr "綠界電子發票(好用版)"
 
-#: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Metabox.php:52
+#: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Metabox.php:58
 #: includes/woomp-ecpay-invoice/src/templates/Checkout.php:24
 msgid "Invoice Type"
 msgstr "電子發票類型"
 
-#: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Metabox.php:55
+#: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Metabox.php:61
 #: includes/woomp-ecpay-invoice/src/templates/Checkout.php:28
 msgid "individual"
 msgstr "個人"
 
-#: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Metabox.php:56
+#: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Metabox.php:62
 #: includes/woomp-ecpay-invoice/src/templates/Checkout.php:29
 msgid "company"
 msgstr "公司"
 
-#: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Metabox.php:57
+#: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Metabox.php:63
 #: includes/woomp-ecpay-invoice/src/templates/Checkout.php:30
 msgid "donate"
 msgstr "捐贈"
 
-#: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Metabox.php:63
-#: includes/woomp-ecpay-invoice/src/templates/Checkout.php:38
+#: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Metabox.php:69
+#: includes/woomp-ecpay-invoice/src/templates/Checkout.php:41
 msgid "Individual Invoice Type"
 msgstr "個人發票類型"
 
-#: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Metabox.php:74
-#: includes/woomp-ecpay-invoice/src/templates/Checkout.php:48
+#: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Metabox.php:82
+#: includes/woomp-ecpay-invoice/src/templates/Checkout.php:51
 msgid "Carrier Number"
 msgstr "載具"
 
-#: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Metabox.php:78
-#: includes/woomp-ecpay-invoice/src/templates/Checkout.php:58
+#: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Metabox.php:86
+#: includes/woomp-ecpay-invoice/src/templates/Checkout.php:61
 msgid "Company Name"
 msgstr "公司名稱"
 
-#: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Metabox.php:82
-#: includes/woomp-ecpay-invoice/src/templates/Checkout.php:67
+#: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Metabox.php:90
+#: includes/woomp-ecpay-invoice/src/templates/Checkout.php:70
 msgid "TaxID"
 msgstr "統一編號"
 
-#: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Metabox.php:86
-#: includes/woomp-ecpay-invoice/src/templates/Checkout.php:77
+#: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Metabox.php:94
+#: includes/woomp-ecpay-invoice/src/templates/Checkout.php:80
 msgid "Donate Number"
 msgstr "捐贈碼"
 
@@ -607,14 +619,14 @@ msgstr "物流單號"
 msgid "Shipping details"
 msgstr "物流資訊"
 
+#~ msgid "settings"
+#~ msgstr "設定"
+
 #~ msgid "啟用綠界電子發票"
 #~ msgstr "啟用綠界電子發票"
 
 #~ msgid "Ecpay invoice result"
 #~ msgstr "電子發票開立結果"
-
-#~ msgid "paper-invoice"
-#~ msgstr "紙本發票"
 
 #~ msgid "cloud-invoice"
 #~ msgstr "雲端發票"

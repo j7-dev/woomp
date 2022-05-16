@@ -181,10 +181,14 @@ class Woomp_Admin {
 		return array_merge(
 			array(
 				'settings' => '<a href="' . admin_url( 'admin.php?page=wc-settings&tab=woomp_setting' ) . '">' . __( 'Settings' ) . '</a>',
+				'gateway' => '<a href="' . admin_url( 'admin.php?page=wc-settings&tab=woomp_setting_gateway' ) . '">' . __( 'payment', 'woomp' ) . '</a>',
+				'shipping' => '<a href="' . admin_url( 'admin.php?page=wc-settings&tab=woomp_setting_shipping' ) . '">' . __( 'shipping', 'woomp' ) . '</a>',
+				'invoice' => '<a href="' . admin_url( 'admin.php?page=wc-settings&tab=woomp_setting_invoice' ) . '">' . __( 'invoice', 'woomp' ) . '</a>',
 			),
 			$links
 		);
 	}
+
 
 	/**
 	 * 讓 RY 藍新物流也能支援 woomp_cvs_payment
@@ -223,6 +227,8 @@ class Woomp_Admin {
 
 		return $links;
 	}
+
+	
 
 	/**
 	 * 增加好用版選單
