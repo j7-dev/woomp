@@ -113,6 +113,7 @@ class Admin {
 	 */
 	public function issue_invoice( $order_id ) {
 		$order = \wc_get_order( $order_id );
+
 		if ( ! isset( $order->get_meta( '_ecpay_invoice_status' )[0] ) || $order->get_meta( '_ecpay_invoice_status' )[0] == 0 ) {
 			$invoice = new EcpayInvoiceHandler();
 			$invoice->generate_invoice( $order_id );

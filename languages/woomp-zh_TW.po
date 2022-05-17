@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: woomp\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/woomp\n"
-"POT-Creation-Date: 2022-05-16T10:26:38+00:00\n"
-"PO-Revision-Date: 2022-05-16 18:26+0800\n"
+"POT-Creation-Date: 2022-05-17T10:20:16+00:00\n"
+"PO-Revision-Date: 2022-05-17 18:21+0800\n"
 "Last-Translator: \n"
 "Language-Team: morepower\n"
 "Language: zh_TW\n"
@@ -51,17 +51,17 @@ msgstr "完整地址"
 msgid "運送地址"
 msgstr "運送地址"
 
-#: admin/class-woomp-admin.php:232
-msgid "invoice"
-msgstr "電子發票"
+#: admin/class-woomp-admin.php:184
+msgid "payment"
+msgstr "金流"
 
-#: admin/class-woomp-admin.php:232
+#: admin/class-woomp-admin.php:185
 msgid "shipping"
 msgstr "物流"
 
-#: admin/class-woomp-admin.php:232
-msgid "payment"
-msgstr "金流"
+#: admin/class-woomp-admin.php:186
+msgid "invoice"
+msgstr "電子發票"
 
 #: admin/class-woomp-order.php:204 admin/class-woomp-order.php:209
 msgid "Print ECPay shipping booking note (711)"
@@ -502,41 +502,46 @@ msgstr ""
 "透過 LINE Pay 進行付款。要使用LINE Pay 您必須擁有Channel ID 和Channel "
 "SecretKey。"
 
-#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:179
+#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:20
+#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:21
+msgid "Zero total fee without invoice"
+msgstr "零元訂單不開立發票"
+
+#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:181
 msgid "<b>Invoice issue result</b>"
 msgstr "<b>發票開立結果</b>"
 
-#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:179
+#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:181
 msgid "<b>Invoice issue faild</b>"
 msgstr "<b>發票開立失敗</b>"
 
-#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:181
+#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:183
 msgid "<br>Generate Time: "
 msgstr "<br>產生時間: "
 
-#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:182
-#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:264
+#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:184
+#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:266
 msgid "<br>Invoice Number: "
 msgstr "<br>發票號碼: "
 
-#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:183
-#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:264
+#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:185
+#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:266
 msgid "<br>Invoice Message: "
 msgstr "<br>回傳訊息: "
 
-#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:200
+#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:202
 msgid "Generate Ecpay invoice issue finish!"
 msgstr "電子發票開立作業完成！"
 
-#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:264
+#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:266
 msgid "<b>Ecpay invalid invoice result</b>"
 msgstr "<b>發票作廢結果</b>"
 
-#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:290
+#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:292
 msgid "Invalid Ecpay invoice successful!"
 msgstr "電子發票作廢成功！"
 
-#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:292
+#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:294
 msgid "Invalid Ecpay invoice error!"
 msgstr "作廢發票發生錯誤！"
 

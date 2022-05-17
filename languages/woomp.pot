@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-05-16T10:26:38+00:00\n"
+"POT-Creation-Date: 2022-05-17T10:20:16+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.5.0\n"
 "X-Domain: woomp\n"
@@ -42,16 +42,16 @@ msgstr ""
 msgid "運送地址"
 msgstr ""
 
-#: admin/class-woomp-admin.php:232
-msgid "invoice"
+#: admin/class-woomp-admin.php:184
+msgid "payment"
 msgstr ""
 
-#: admin/class-woomp-admin.php:232
+#: admin/class-woomp-admin.php:185
 msgid "shipping"
 msgstr ""
 
-#: admin/class-woomp-admin.php:232
-msgid "payment"
+#: admin/class-woomp-admin.php:186
+msgid "invoice"
 msgstr ""
 
 #: admin/class-woomp-order.php:204
@@ -484,41 +484,46 @@ msgstr ""
 msgid "Payments are received through the LINE Pay gateway, which supports USD, JPY, TWD, and THB. In order to use LINE Pay, you must have a Channel ID and Channel SecretKey."
 msgstr ""
 
-#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:179
-msgid "<b>Invoice issue result</b>"
-msgstr ""
-
-#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:179
-msgid "<b>Invoice issue faild</b>"
+#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:20
+#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:21
+msgid "Zero total fee without invoice"
 msgstr ""
 
 #: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:181
-msgid "<br>Generate Time: "
+msgid "<b>Invoice issue result</b>"
 msgstr ""
 
-#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:182
-#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:264
-msgid "<br>Invoice Number: "
+#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:181
+msgid "<b>Invoice issue faild</b>"
 msgstr ""
 
 #: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:183
-#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:264
+msgid "<br>Generate Time: "
+msgstr ""
+
+#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:184
+#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:266
+msgid "<br>Invoice Number: "
+msgstr ""
+
+#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:185
+#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:266
 msgid "<br>Invoice Message: "
 msgstr ""
 
-#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:200
+#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:202
 msgid "Generate Ecpay invoice issue finish!"
 msgstr ""
 
-#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:264
+#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:266
 msgid "<b>Ecpay invalid invoice result</b>"
 msgstr ""
 
-#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:290
+#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:292
 msgid "Invalid Ecpay invoice successful!"
 msgstr ""
 
-#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:292
+#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:294
 msgid "Invalid Ecpay invoice error!"
 msgstr ""
 

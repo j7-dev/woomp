@@ -16,6 +16,11 @@ class EcpayInvoiceHandler {
 		$order_total = $order->get_total();
 		$order_info  = $order->get_address();
 
+		if ( '0' === $order_total ) {
+			$order->add_order_note( __( 'Zero total fee without invoice', 'woomp' ) );
+			return __( 'Zero total fee without invoice', 'woomp' );
+		}
+
 		// 訂購人資料.
 		$customerName = $order_info['last_name'] . $order_info['first_name'];
 		$orderEmail   = $order_info['email'];
@@ -124,9 +129,6 @@ class EcpayInvoiceHandler {
 					)
 				);
 			}
-
-			$log = new \WC_Logger();
-			$log->log( 'info', wc_print_r( $ecpay_invoice->Send['Items'], true ), array( 'source' => 'ods-log' ) );
 
 			// 運費
 			$shippingTotal = number_format( (float) $order->get_total_shipping() + (float) $order->get_shipping_tax(), wc_get_price_decimals(), '.', '' );
