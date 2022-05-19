@@ -35,7 +35,6 @@ class Admin {
 			array(
 				'ajax_nonce' => wp_create_nonce( 'invoice_handler' ),
 				'post_id'    => get_the_ID(),
-
 			)
 		);
 		wp_enqueue_script( 'woomp_ecpay_invoice' );
@@ -54,7 +53,8 @@ class Admin {
 	}
 
 	public function shop_order_column( $column, $post_id ) {
-		if ( 'wmp_invoice_no' === $column ) {
+		$order = wc_get_order( $post_id );
+		if ( 'wmp_invoice_no' === $column && '0' !== $order->get_total() ) {
 			if ( get_post_meta( $post_id, '_ecpay_invoice_number', true ) ) {
 				echo get_post_meta( $post_id, '_ecpay_invoice_number', true );
 				echo '<br><button type="button" class="button btnInvalidInvoice" value="' . $post_id . '">' . __( 'Invalid invoice', 'woomp' ) . '</button>';

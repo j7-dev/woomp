@@ -23,6 +23,16 @@ class Field {
 	 */
 	public function set_metabox() {
 
+		if ( ! isset( $_GET['post'] ) ) {
+			return;
+		}
+
+		$order = wc_get_order( $_GET['post'] );
+
+		if ( ! $order || '0' === $order->get_total() ) {
+			return;
+		}
+
 		$this->metabox = new Metabox(
 			array(
 				'id'       => 'ecpay_invoice',
@@ -32,16 +42,6 @@ class Field {
 				'priority' => 'default',
 			)
 		);
-
-		if ( ! isset( $_GET['post'] ) ) {
-			return;
-		}
-
-		$order = wc_get_order( $_GET['post'] );
-
-		if ( ! $order ) {
-			return;
-		}
 
 		if ( ! $order->get_meta( '_ecpay_invoice_data' ) ) {
 			$order->update_meta_data( '_ecpay_invoice_data', array() );
@@ -109,7 +109,8 @@ class Field {
 	 */
 	private function set_invoice_button( $order_id ) {
 
-		$order       = \wc_get_order( $order_id );
+		$order = \wc_get_order( $order_id );
+
 		$gen_invoice = false;
 
 		// 尚未開立發票要消失按鈕

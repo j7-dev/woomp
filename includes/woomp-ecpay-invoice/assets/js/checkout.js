@@ -1,6 +1,16 @@
 jQuery(document).ready(function ($) {
 	var prefix = 'ecpay_invoice';
 
+	$(document.body).on('updated_checkout',function(){
+		var total = parseInt($('tr.order-total span.woocommerce-Price-amount bdi').text().match(/\d+/));
+        if( total === 0 ){
+			$('#invoice-type_field,#individual-invoice_field').hide()
+		} else {
+			$('#invoice-type_field,#individual-invoice_field').show()
+		}
+	})
+
+
 	$("#donate-number,#invoice-type,#individual-invoice").selectWoo();
 
 	// 當頁面載入，藏起所有表格額外欄位

@@ -17,6 +17,11 @@ class Checkout {
 	 * 發票欄位
 	 */
 	public function set_invoice_field() {
+
+		if ( '0' === WC()->cart->total ) {
+			return;
+		}
+
 		// 發票開立類型。個人、公司、捐贈發票
 		$this->add_wc_field(
 			'invoice-type',
@@ -149,7 +154,12 @@ class Checkout {
 	 * 發票資料寫入
 	 */
 	public function set_invoice_meta( $order_id ) {
-		$order        = wc_get_order( $order_id );
+		$order = wc_get_order( $order_id );
+
+		if ( '0' === $order->get_total() ) {
+			return;
+		}
+
 		$invoice_data = array();
 		// 新增發票開立類型
 		if ( isset( $_POST['invoice-type'] ) ) {
@@ -189,7 +199,7 @@ class Checkout {
 	 */
 	public function enqueue_scripts() {
 		if ( is_checkout() ) {
-			wp_enqueue_script( 'woomp-ecpay-invoice', ECPAYINVOICE_PLUGIN_URL . 'assets/js/checkout.js', array( 'jquery' ), '1.0.0', true );
+			wp_enqueue_script( 'woomp-ecpay-invoice', ECPAYINVOICE_PLUGIN_URL . 'assets/js/checkout.js', array( 'jquery' ), '1.0.2', true );
 		}
 	}
 
