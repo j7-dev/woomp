@@ -1,4 +1,4 @@
-jQuery(function($){
+jQuery(function ($) {
 
 	function fieldDisplay(fieldControlName, fieldControlNameValue, fieldDisplay) {
 		function condition(fieldControlName) {
@@ -14,16 +14,16 @@ jQuery(function($){
 		})
 	}
 
-	$(document).ready(function(){
-		
-		$('.btnGenerateInvoice').click(function(){
+	$(document).ready(function () {
+
+		$('.btnGenerateInvoice').click(function () {
 
 			$.blockUI({ message: '<p>處理中...</p>' });
 
 			var data = {
-			  action: "gen_invoice",
-			  nonce: woomp_ecpay_invoice_params.ajax_nonce,
-			  orderId: $(this).val(),
+				action: "gen_invoice",
+				nonce: woomp_ecpay_invoice_params.ajax_nonce,
+				orderId: $(this).val(),
 			};
 
 			$.post(ajaxurl, data, function (response) {
@@ -33,18 +33,18 @@ jQuery(function($){
 			});
 		})
 
-		$('.btnInvalidInvoice').click(function(){
+		$('.btnInvalidInvoice').click(function () {
 
 			if (confirm("確定要刪除此筆發票")) {
-				
+
 				$.blockUI({ message: '<p>處理中...</p>' });
-	
+
 				var data = {
-				  action: "invalid_invoice",
-				  nonce: woomp_ecpay_invoice_params.ajax_nonce,
-				  orderId: $(this).val(),
+					action: "invalid_invoice",
+					nonce: woomp_ecpay_invoice_params.ajax_nonce,
+					orderId: $(this).val(),
 				};
-	
+
 				$.post(ajaxurl, data, function (response) {
 					$.unblockUI();
 					alert(response);
@@ -66,31 +66,31 @@ jQuery(function($){
 		fieldDisplay($('select[name="_invoice_type"'), 'company', $('#invoiceTaxId'));
 		fieldDisplay($('select[name="_invoice_type"'), 'donate', $('#invoiceDonate'));
 
-		$('select[name="_invoice_individual"]').on('change',function(){
-			if( $(this).val() === '2' || $(this).val() === '3' ){
+		$('select[name="_invoice_individual"]').on('change', function () {
+			if ($(this).val() === '2' || $(this).val() === '3') {
 				$('#invoiceCarrier').show()
 			} else {
 				$('#invoiceCarrier').hide()
 			}
 		})
 
-		if( ( $('select[name="_invoice_type"]').val() === 
-		'individual' ) && ( $('select[name="_invoice_individual"]').val() === '2' || $('select[name="_invoice_individual"]').val() === '3' ) ){
+		if (($('select[name="_invoice_type"]').val() ===
+			'individual') && ($('select[name="_invoice_individual"]').val() === '2' || $('select[name="_invoice_individual"]').val() === '3')) {
 			$('#invoiceCarrier').show()
 		} else {
 			$('#invoiceCarrier').hide()
 		}
-		
+
 
 		// 觸發變更發票資料按鈕
-		$('#ecpay_invoice select,#ecpay_invoice input[type="text"]').on('click',function(){
-			$('#btnUpdateInvoiceData').prop('disabled',false)
-			$('.btnGenerateInvoice').prop('disabled',true);
+		$('#ecpay_invoice select,#ecpay_invoice input[type="text"]').on('click', function () {
+			$('#btnUpdateInvoiceData').prop('disabled', false)
+			$('.btnGenerateInvoice').prop('disabled', true);
 		})
 
-		$('select[name="_invoice_type"]').on('change',function(){
+		$('select[name="_invoice_type"]').on('change', function () {
 			$('#ecpay_invoice input').val('');
 		})
 
-	}) 
+	})
 })
