@@ -2,7 +2,7 @@
 
  /**
   * @link              https://morepower.club
-  * @since             1.6.5
+  * @since             1.6.6
   * @package           woomp
   *
   * @wordpress-plugin
@@ -148,24 +148,6 @@ if ( ! defined( 'RY_WT_VERSION' ) ) {
 
 	add_action( 'init', array( 'RY_WT', 'init' ), 10 );
 }
-
-/**
- * 引入 ry-woocommerce-ecpay-invoice
- */
-
-//if ( ! defined( 'RY_WEI_VERSION' ) ) {
-//	define( 'RY_WEI_VERSION', '1.1.13' );
-//	define( 'RY_WEI_PLUGIN_URL', plugin_dir_url( __FILE__ ) . 'includes/ry-woocommerce-ecpay-invoice/' );
-//	define( 'RY_WEI_PLUGIN_DIR', plugin_dir_path( __FILE__ ) . 'includes/ry-woocommerce-ecpay-invoice/' );
-//	define( 'RY_WEI_PLUGIN_BASENAME', plugin_basename( __FILE__ ) . 'includes/ry-woocommerce-ecpay-invoice/' );
-
-//	require_once RY_WEI_PLUGIN_DIR . 'class.ry-wei.main.php';
-
-//	register_activation_hook( __FILE__, array( 'RY_WEI', 'plugin_activation' ) );
-//	register_deactivation_hook( __FILE__, array( 'RY_WEI', 'plugin_deactivation' ) );
-
-//	add_action( 'init', array( 'RY_WEI', 'init' ), 11 );
-//}
 
 /**
  * 引入 paynow-payment
