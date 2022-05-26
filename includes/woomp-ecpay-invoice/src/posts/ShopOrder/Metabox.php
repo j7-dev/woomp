@@ -23,6 +23,10 @@ class Field {
 	 */
 	public function set_metabox() {
 
+		if ( ! wc_string_to_bool( get_option( 'wc_woomp_enabled_ecpay_invoice' ) ) ) {
+			return;
+		}
+
 		if ( ! isset( $_GET['post'] ) ) {
 			return;
 		}

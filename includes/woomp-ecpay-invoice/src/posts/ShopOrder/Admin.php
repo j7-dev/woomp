@@ -14,8 +14,8 @@ class Admin {
 		add_action( 'admin_enqueue_scripts', array( $class, 'enqueue_script' ) );
 		add_filter( 'manage_shop_order_posts_columns', array( $class, 'shop_order_columns' ), 11, 1 );
 		add_action( 'manage_shop_order_posts_custom_column', array( $class, 'shop_order_column' ), 11, 2 );
-		add_action( 'admin_init', array( $class, 'update_invoice_exist_data' ), 20 );
 		add_action( 'save_post', array( $class, 'update_invoice_data' ), 10, 3 );
+		add_action( 'admin_init', array( $class, 'update_invoice_exist_data' ), 20 );
 
 		if ( 'auto' === get_option( 'wc_woomp_ecpay_invoice_issue_mode' ) ) {
 			$invoice_issue_at = str_replace( 'wc-', '', get_option( 'wc_woomp_ecpay_invoice_issue_at' ) );
