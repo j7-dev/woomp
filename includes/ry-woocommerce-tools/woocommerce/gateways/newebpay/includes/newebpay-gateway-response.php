@@ -84,6 +84,7 @@ class RY_NewebPay_Gateway_Response extends RY_NewebPay_Gateway_Api
             if (isset($ipn_info->PayTime)) {
                 $order->add_order_note(__('Payment completed', 'ry-woocommerce-tools'));
                 $order->payment_complete();
+				$order->update_status('processing');
             } elseif (isset($ipn_info->BankCode)) {
                 $expireDate = new DateTime($ipn_info->ExpireDate . ' ' . $ipn_info->ExpireTime, new DateTimeZone('Asia/Taipei'));
 

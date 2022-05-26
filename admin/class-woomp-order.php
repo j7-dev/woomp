@@ -44,10 +44,10 @@ if ( ! class_exists( 'WooMP_Order' ) ) {
 			$cancel_unpaid_interval = get_option( 'woocommerce_ry_ecpay_atm_expire_date' ) * 24 * 60;
 			wp_schedule_single_event( time() + ( absint( $cancel_unpaid_interval ) * 60 ), 'woocommerce_cancel_atm_expired_orders' );
 
-			$log = new WC_Logger();
-			$log->log( 'info', 'ry-'.wc_print_r( get_option( 'woocommerce_ry_ecpay_atm_expire_date', true ), true ), array( 'source' => 'ods-log' ) );
+			//$log = new WC_Logger();
+			//$log->log( 'info', 'ry-'.wc_print_r( get_option( 'woocommerce_ry_ecpay_atm_expire_date', true ), true ), array( 'source' => 'ods-log' ) );
 
-			global $wpdb;
+			//global $wpdb;
 
 			//$unpaid_orders = $wpdb->get_col(
 			//	$wpdb->prepare(

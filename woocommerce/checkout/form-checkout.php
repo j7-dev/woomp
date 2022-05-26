@@ -205,6 +205,13 @@ if ( ! $checkout->is_registration_enabled() && $checkout->is_registration_requir
 		padding-left: 0;
 	}
 
+	.woocommerce-checkout table.shop_table .recurring-totals {
+		display: none;
+	}
+	.woocommerce-checkout table.shop_table .recurring-total th {
+		vertical-align: middle;
+	}
+
 	@media screen and (max-width: 920px){
 		#paymentWrap th {
 			width: 80px!important;
