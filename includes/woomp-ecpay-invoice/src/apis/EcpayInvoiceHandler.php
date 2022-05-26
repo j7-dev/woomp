@@ -16,6 +16,10 @@ class EcpayInvoiceHandler {
 		$order_total = $order->get_total();
 		$order_info  = $order->get_address();
 
+		if ( '0' === $order_total ) {
+			return;
+		}
+
 		// 訂購人資料.
 		$customerName = $order_info['last_name'] . $order_info['first_name'];
 		$orderEmail   = $order_info['email'];
