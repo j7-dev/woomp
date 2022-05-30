@@ -15,7 +15,11 @@ class RY_NewebPay_Gateway_Api extends RY_NewebPay
         $notify_url = WC()->api_request_url('ry_newebpay_callback', true);
         $return_url = $gateway->get_return_url($order);
 
-        list($MerchantID, $HashKey, $HashIV) = RY_NewebPay_Gateway::get_newebpay_api_info();
+        // 使用 get_item_name 取得商品名稱
+		$item_name = self::get_item_name(RY_WT::get_option('payment_item_name', ''), $order);
+		$item_name = mb_substr($item_name, 0, 40);
+		
+		list($MerchantID, $HashKey, $HashIV) = RY_NewebPay_Gateway::get_newebpay_api_info();
 
         $args = [
             'MerchantID' => $MerchantID,
@@ -24,7 +28,7 @@ class RY_NewebPay_Gateway_Api extends RY_NewebPay
             'Version' => '1.5',
             'MerchantOrderNo' => self::generate_trade_no($order->get_id(), RY_WT::get_option('newebpay_gateway_order_prefix')),
             'Amt' => (int) ceil($order->get_total()),
-            'ItemDesc' => mb_substr(get_bloginfo('name'), 0, 50),
+            'ItemDesc' => $item_name, //商品名稱第一個
             'ReturnURL' => $return_url,
             'NotifyURL' => $notify_url,
             'CustomerURL' => $return_url,

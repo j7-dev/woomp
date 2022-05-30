@@ -12,6 +12,21 @@ if (!class_exists('RY_NewebPay')) {
             return substr($trade_no, 0, 30);
         }
 
+		// 新增 get_item_name function
+        protected static function get_item_name($item_name, $order)
+        {
+            if (empty($item_name)) {
+                $items = $order->get_items();
+                if (count($items)) {
+                    $item = reset($items);
+                    $item_name = trim($item->get_name());
+                }
+            }
+            $item_name = str_replace(['^', '\'', '`', '!', '@', '＠', '#', '%', '&', '*', '+', '\\', '"', '<', '>', '|', '_', '[', ']'], '', $item_name);
+
+            return $item_name;
+        }
+
         protected static function args_encrypt($args, $HashKey, $HashIV)
         {
             ksort($args);
