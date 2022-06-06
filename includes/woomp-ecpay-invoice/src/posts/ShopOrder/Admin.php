@@ -29,7 +29,7 @@ class Admin {
 	}
 
 	public function enqueue_script() {
-		wp_register_script( 'woomp_ecpay_invoice', ECPAYINVOICE_PLUGIN_URL . 'assets/js/admin.js', array( 'jquery' ), '1.0.1', true );
+		wp_register_script( 'woomp_ecpay_invoice', ECPAYINVOICE_PLUGIN_URL . 'assets/js/admin.js', array( 'jquery' ), '1.0.2', true );
 		wp_localize_script(
 			'woomp_ecpay_invoice',
 			'woomp_ecpay_invoice_params',

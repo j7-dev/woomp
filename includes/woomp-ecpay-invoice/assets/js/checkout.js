@@ -68,6 +68,7 @@ jQuery(document).ready(function ($) {
 		}
 	});
 
+	// 紙本發票移到最後
 	var options = $('#individual-invoice option');
 	$(options[0]).insertAfter($(options[3]));
 	$(options[3]).insertAfter($(options[1]));
