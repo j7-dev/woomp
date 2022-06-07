@@ -646,7 +646,7 @@ if ( ! class_exists( 'WooMP_Product' ) ) {
 					foreach ( $terms as $term ) {
 						if ( in_array( $term->slug, $options, true ) ) {
 							$id      = $name . '-' . $term->slug;
-							$radios .= '<div class="tag-list"><input type="radio" style="display:none" id="' . esc_attr( $id ) . '" name="' . esc_attr( $name ) . '" value="' . esc_attr( $term->slug ) . '" ' . checked( sanitize_title( $args['selected'] ), $term->slug, false ) . '><label" for="' . esc_attr( $id ) . '">' . esc_html( apply_filters( 'woocommerce_variation_option_name', $term->name ) ) . '</label></div>';
+							$radios .= '<div class="tag-list"><input type="radio" style="display:none" id="' . esc_attr( $id ) . '" name="' . esc_attr( $name ) . '" value="' . esc_attr( $term->slug ) . '" ' . checked( sanitize_title( $args['selected'] ), $term->slug, false ) . '><label for="' . esc_attr( $id ) . '">' . esc_html( apply_filters( 'woocommerce_variation_option_name', $term->name ) ) . '</label></div>';
 						}
 					}
 				} else {
