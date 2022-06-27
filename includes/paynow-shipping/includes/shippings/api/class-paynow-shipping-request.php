@@ -304,12 +304,17 @@ class PayNow_Shipping_Request {
 			$api_url = PayNow_Shipping::$api_url . '/Member/Order/PrintFamiFreezingB2CLabel';
 		} elseif ( PayNow_Shipping_Logistic_Service::SEVENFROZEN === $service ) {
 			$api_url = PayNow_Shipping::$api_url . '/Member/Order/Print711FreezingB2CLabel';
+		} elseif ( PayNow_Shipping_Logistic_Service::FAMIFROZEN_C2C === $service ) {
+			$api_url = PayNow_Shipping::$api_url . '/Member/Order/PrintFamiFreezingC2CLabel';
+		} elseif ( PayNow_Shipping_Logistic_Service::SEVENFROZEN_C2C === $service ) {
+			$api_url = PayNow_Shipping::$api_url . '/Member/Order/Print711FreezingC2CLabel';
 		} else {
 			esc_html_e( 'Unsupported shipping service.', 'paynow-shipping' );
 			wp_die();
 		}
 
-		if ( PayNow_Shipping_Logistic_Service::TCAT !== $service && PayNow_Shipping_Logistic_Service::FAMIFROZEN !== $service && PayNow_Shipping_Logistic_Service::SEVENFROZEN !== $service ) {
+		if ( PayNow_Shipping_Logistic_Service::TCAT !== $service && PayNow_Shipping_Logistic_Service::FAMIFROZEN !== $service && PayNow_Shipping_Logistic_Service::SEVENFROZEN !== $service
+		&& PayNow_Shipping_Logistic_Service::FAMIFROZEN_C2C !== $service && PayNow_Shipping_Logistic_Service::SEVENFROZEN_C2C !== $service ) {
 			$response = wp_remote_get( $api_url );
 			PayNow_Shipping::log( 'label:' . wc_print_r( $response, true ) );
 			if ( is_wp_error( $response ) ) {
@@ -327,15 +332,25 @@ class PayNow_Shipping_Request {
 				wp_die( esc_html( __( 'Fail to get print label', 'paynow-shipping' ) ) );
 			}
 		} else {
-			// tcat、family frozen and seven frozen.
+			// tcat、family b2c frozen and seven b2c frozen.
 			$logistic_nos = array();
 			$order_ids    = explode( ',', $order_ids );
-			foreach ( $order_ids as $order_id ) {
-				$logistic_no = get_post_meta( $order_id, PayNow_Shipping_Order_Meta::LogisticNumber, true );
-				if ( $logistic_no ) {
-					$logistic_nos[] = $logistic_no . '_1';
+			if ( PayNow_Shipping_Logistic_Service::TCAT === $service || PayNow_Shipping_Logistic_Service::FAMIFROZEN === $service || PayNow_Shipping_Logistic_Service::SEVENFROZEN === $service ) {
+				foreach ( $order_ids as $order_id ) {
+					$logistic_no = get_post_meta( $order_id, PayNow_Shipping_Order_Meta::LogisticNumber, true );
+					if ( $logistic_no ) {
+						$logistic_nos[] = $logistic_no . '_1';
+					}
+				}
+			} elseif ( PayNow_Shipping_Logistic_Service::FAMIFROZEN_C2C === $service || PayNow_Shipping_Logistic_Service::SEVENFROZEN_C2C === $service ) {
+				foreach ( $order_ids as $order_id ) {
+					$logistic_no = get_post_meta( $order_id, PayNow_Shipping_Order_Meta::LogisticNumber, true );
+					if ( $logistic_no ) {
+						$logistic_nos[] = $logistic_no;
+					}
 				}
 			}
+
 
 			if ( empty( $logistic_nos ) ) {
 				esc_html_e( 'No logistic number', 'paynow-shipping' );
@@ -356,6 +371,7 @@ class PayNow_Shipping_Request {
 					),
 					'body'        => array(
 						'LogisticNumbers' => $logistic_nos_request_str,
+						'PrintMode' =>  '2',
 					),
 				)
 			);
@@ -364,10 +380,23 @@ class PayNow_Shipping_Request {
 			if ( is_wp_error( $response ) ) {
 				return false;
 			}
-			$data = wp_remote_retrieve_body( $response );
 
-			echo $data;
-			wp_die();
+			$header_content = (array) wp_remote_retrieve_headers( $response );
+			$header = current($header_content);
+			$data   = wp_remote_retrieve_body( $response );
+			if ( array_key_exists('content-type', $header) ) {
+				if ( $header['content-type'] === 'application/pdf') {
+					header("Content-type: application/pdf");
+					header('Content-Length: '.strlen( $data ));
+    				header("Content-disposition: inline;filename=woomp-paynow-tcat-".date("Y-m-d").".pdf");
+    				echo $data;
+					wp_die();
+				} else {
+					echo $data;
+					wp_die();
+
+				}
+			}
 		}
 		// phpcs:enable WordPress.Security.NonceVerification.Recommended
 	}
@@ -676,6 +705,7 @@ class PayNow_Shipping_Request {
 	 */
 	private static function get_prefixed_order_no( $order ) {
 		$prefix = apply_filters( 'paynow_shipping_order_prefix', '' );
+		$prefix = 'woomp';
 		return $prefix . $order->get_order_number();
 	}
 

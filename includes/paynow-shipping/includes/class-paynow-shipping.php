@@ -109,13 +109,15 @@ class PayNow_Shipping {
 	 * @var array
 	 */
 	public static $cvs_methods = array(
-		'paynow_shipping_c2c_711'           => 'PayNow_Shipping_C2C_711',
-		'paynow_shipping_c2c_family'        => 'PayNow_Shipping_C2C_Family',
-		'paynow_shipping_c2c_hilife'        => 'PayNow_Shipping_C2C_Hilife',
-		'paynow_shipping_b2c_711'           => 'PayNow_Shipping_B2C_711',
-		'paynow_shipping_b2c_family'        => 'PayNow_Shipping_B2C_Family',
-		'paynow_shipping_b2c_711_frozen'    => 'PayNow_Shipping_B2C_711_Frozen',
-		'paynow_shipping_b2c_family_frozen' => 'PayNow_Shipping_B2C_Family_Frozen',
+		'paynow_shipping_c2c_711'                 => 'PayNow_Shipping_C2C_711',
+		'paynow_shipping_c2c_family'              => 'PayNow_Shipping_C2C_Family',
+		'paynow_shipping_c2c_hilife'              => 'PayNow_Shipping_C2C_Hilife',
+		'paynow_shipping_b2c_711'                 => 'PayNow_Shipping_B2C_711',
+		'paynow_shipping_b2c_family'              => 'PayNow_Shipping_B2C_Family',
+		'paynow_shipping_b2c_711_frozen'          => 'PayNow_Shipping_B2C_711_Frozen',
+		'paynow_shipping_b2c_family_frozen'       => 'PayNow_Shipping_B2C_Family_Frozen',
+		'woomp_paynow_shipping_c2c_711_frozen'    => 'WOOMP_PayNow_Shipping_C2C_711_Frozen',
+		'woomp_paynow_shipping_c2c_family_frozen' => 'WOOMP_PayNow_Shipping_C2C_Family_Frozen',
 	);
 
 	/**
@@ -124,9 +126,9 @@ class PayNow_Shipping {
 	 * @var array
 	 */
 	public static $hd_methods = array(
-		'paynow_shipping_hd_tcat'              => 'PayNow_Shipping_HD_TCat',
-		'paynow_shipping_hd_tcat_frozen'       => 'PayNow_Shipping_HD_TCat_Frozen',
-		'paynow_shipping_hd_tcat_refrigerated' => 'PayNow_Shipping_HD_TCat_Refrigerated',
+		'paynow_shipping_hd_tcat'                    => 'PayNow_Shipping_HD_TCat',
+		'woomp_paynow_shipping_hd_tcat_frozen'       => 'WOOMP_PayNow_Shipping_HD_TCat_Frozen',
+		'woomp_paynow_shipping_hd_tcat_refrigerated' => 'WOOMP_PayNow_Shipping_HD_TCat_Refrigerated',
 	);
 
 	/**
@@ -472,18 +474,18 @@ class PayNow_Shipping {
 		}
 
 		// 如果是黑貓宅急便，要儲存 paynow_service = 06.
-		if ( $order->has_shipping_method( 'paynow_shipping_hd_tcat' ) || $order->has_shipping_method( 'paynow_shipping_hd_tcat_refrigerated' ) || $order->has_shipping_method( 'paynow_shipping_hd_tcat_frozen' ) ) {
+		if ( $order->has_shipping_method( 'paynow_shipping_hd_tcat' ) || $order->has_shipping_method( 'woomp_paynow_shipping_hd_tcat_refrigerated' ) || $order->has_shipping_method( 'woomp_paynow_shipping_hd_tcat_frozen' ) ) {
 			$order->update_meta_data( PayNow_Shipping_Order_Meta::LogisticServiceId, PayNow_Shipping_Logistic_Service::TCAT );
 
 			if ( $order->has_shipping_method( 'paynow_shipping_hd_tcat' ) ) {
 				$order->update_meta_data( PayNow_Shipping_Order_Meta::DeliveryType, '0001' ); // 常溫.
 			}
 
-			if ( $order->has_shipping_method( 'paynow_shipping_hd_tcat_refrigerated' ) ) {
+			if ( $order->has_shipping_method( 'woomp_paynow_shipping_hd_tcat_refrigerated' ) ) {
 				$order->update_meta_data( PayNow_Shipping_Order_Meta::DeliveryType, '0002' ); // 冷藏.
 			}
 
-			if ( $order->has_shipping_method( 'paynow_shipping_hd_tcat_frozen' ) ) {
+			if ( $order->has_shipping_method( 'woomp_paynow_shipping_hd_tcat_frozen' ) ) {
 				$order->update_meta_data( PayNow_Shipping_Order_Meta::DeliveryType, '0003' );// 冷凍.
 			}
 		}
@@ -770,7 +772,7 @@ class PayNow_Shipping {
 	 * @return boolean
 	 */
 	public static function needs_cvs( $method_id ) {
-		if ( substr( $method_id, 0, 19 ) === 'paynow_shipping_c2c' || substr( $method_id, 0, 19 ) === 'paynow_shipping_b2c' ) {
+		if ( substr( $method_id, 0, 19 ) === 'paynow_shipping_c2c' || substr( $method_id, 0, 19 ) === 'paynow_shipping_b2c' || substr( $method_id, 0, 25 ) === 'woomp_paynow_shipping_c2c' ) {
 			return true;
 		} else {
 			return false;
@@ -800,7 +802,7 @@ class PayNow_Shipping {
 	 * @return boolean
 	 */
 	public static function is_paynow_shipping( $shipping_method_id ) {
-		if ( strpos( $shipping_method_id, 'paynow_shipping' ) === 0 ) {
+		if ( strpos( $shipping_method_id, 'paynow_shipping' ) === 0 || strpos( $shipping_method_id, 'woomp_paynow_shipping' ) === 0 ) {
 			return true;
 		}
 

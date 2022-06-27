@@ -73,7 +73,7 @@ class PayNow_Shipping_Order_Meta_Box {
 		$update_at = $theorder->get_meta( PayNow_Shipping_Order_Meta::StatusUpdateAt );
 
 		// 物流商貨運編號.
-		if ( PayNow_Shipping_Logistic_Service::SEVEN === $service_id || PayNow_Shipping_Logistic_Service::SEVENBULK === $service_id ) {
+		if ( PayNow_Shipping_Logistic_Service::SEVEN === $service_id || PayNow_Shipping_Logistic_Service::SEVENBULK === $service_id || PayNow_Shipping_Logistic_Service::SEVENFROZEN_C2C === $service_id ) {
 			$shipping_no = $payment_no . $validation_no;
 		} else {
 			$shipping_no = $payment_no;

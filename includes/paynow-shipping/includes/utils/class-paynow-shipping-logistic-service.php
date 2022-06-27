@@ -11,14 +11,16 @@ defined( 'ABSPATH' ) || exit;
  * PayNow_Shipping_Logistic_Service class
  */
 class PayNow_Shipping_Logistic_Service {
-	const SEVEN       = '01'; // 7-11 店到店.
-	const SEVENBULK   = '02'; // 7-11 大宗.
-	const FAMI        = '03'; // 全家 店到店.
-	const FAMIBULK    = '04'; // 全家 大宗.
-	const HILIFE      = '05'; // HiLife 店到店.
-	const TCAT        = '06'; // 黑貓 宅配.
-	const SEVENFROZEN = '22'; // 7-11 大宗冷凍.
-	const FAMIFROZEN  = '24'; // 全家 大宗冷凍.
+	const SEVEN           = '01'; // 7-11 店到店.
+	const SEVENBULK       = '02'; // 7-11 大宗.
+	const FAMI            = '03'; // 全家 店到店.
+	const FAMIBULK        = '04'; // 全家 大宗.
+	const HILIFE          = '05'; // HiLife 店到店.
+	const TCAT            = '06'; // 黑貓 宅配.
+	const SEVENFROZEN_C2C = '21'; // 7-11 交貨便(冷凍).
+	const SEVENFROZEN     = '22'; // 7-11 大宗冷凍.
+	const FAMIFROZEN_C2C  = '23'; // 全家 店到店(冷凍).
+	const FAMIFROZEN      = '24'; // 全家 大宗冷凍.
 
 	/**
 	 * Check if the service need cvs
@@ -37,7 +39,7 @@ class PayNow_Shipping_Logistic_Service {
 	}
 
 	/**
-	 * Get logistic service id by shipping method id
+	 * Get logistic service id by shipping method id
 	 *
 	 * @param string $method_id shipping method id.
 	 * @return string
@@ -74,6 +76,12 @@ class PayNow_Shipping_Logistic_Service {
 				break;
 			case 'paynow_shipping_hd_tcat_refrigerated':
 				return self::TCAT;
+				break;
+			case 'woomp_paynow_shipping_c2c_711_frozen':
+				return self::SEVENFROZEN_C2C;
+				break;
+			case 'woomp_paynow_shipping_c2c_family_frozen':
+				return self::FAMIFROZEN_C2C;
 				break;
 			default:
 				return '';

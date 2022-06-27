@@ -52,7 +52,7 @@ var paynow_shipping_info;
 					$('.woocommerce-shipping-fields__field-wrapper p.paynow-shipping-field').show();
 
 					// Family B2C Frozen shipping
-					if (data.fragments.paynow_shipping_info.shipping_data.Logistic_serviceID === '24' ) {
+					if (data.fragments.paynow_shipping_info.shipping_data.Logistic_serviceID === '23' || data.fragments.paynow_shipping_info.shipping_data.Logistic_serviceID === '24' ) {
 						$('.paynow-shipping-family-frozen-field').show();
 					} else {
 						$('.paynow-shipping-family-frozen-field').hide();

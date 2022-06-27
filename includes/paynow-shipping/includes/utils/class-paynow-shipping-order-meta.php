@@ -12,6 +12,7 @@ defined( 'ABSPATH' ) || exit;
  */
 class PayNow_Shipping_Order_Meta {
 
+	// phpcs:disable
 	const LogisticServiceId = '_paynow_shipping_logistic_service_id';// 物流服務 id.
 	const LogisticService   = '_paynow_shipping_logistic_service'; // 物流服務名稱.
 	const SNO               = '_paynow_shipping_logistic_sno'; // 物流單序號.
@@ -34,5 +35,6 @@ class PayNow_Shipping_Order_Meta {
 	const StatusUpdateAt    = '_paynow_shipping_status_update_at'; // 狀態更新時間.
 	const StoreDate         = '_paynow_shipping_store_date'; // 到店日期.
 	const StoreTime         = '_paynow_shipping_store_time'; // 到店時間.
+	// phpcs:enable
 
 }
