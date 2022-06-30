@@ -329,6 +329,17 @@ if ( ! class_exists( 'WooMP_Checkout' ) ) {
 			return false;
 		}
 
+		/**
+		 * 移除欄位的選填文字
+		 */
+		public function remove_checkout_optional_fields_label( $field, $key, $args, $value ) {
+			if ( is_checkout() && ! is_wc_endpoint_url() ) {
+				$optional = '&nbsp;<span class="optional">(' . esc_html__( 'optional', 'woocommerce' ) . ')</span>';
+				$field    = str_replace( $optional, '', $field );
+			}
+			return $field;
+		}
+
 	}
 
 	/**
@@ -356,5 +367,8 @@ if ( 'yes' === get_option( 'wc_woomp_setting_tw_field_valitdate', 1 ) ) {
 if ( ! empty( get_option( ' wc_woomp_setting_place_order_text' ) ) ) {
 	add_filter( 'woocommerce_order_button_text', array( $checkout, 'custom_button_text' ), 99, 1 );
 }
+
+add_filter( 'woocommerce_form_field' , array( $checkout, 'remove_checkout_optional_fields_label' ), 10, 4 );
+
 
 WooMP_Checkout::init();
