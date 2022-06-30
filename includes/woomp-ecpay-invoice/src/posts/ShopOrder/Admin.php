@@ -121,64 +121,66 @@ class Admin {
 
 			// 電子發票類型.
 			if ( $order->get_meta( '_invoice_type' ) && ! empty( $order->get_meta( '_invoice_type' ) ) ) {
+
 				if ( 'personal' === $order->get_meta( '_invoice_type' ) ) {
 					$invoice_data['_invoice_type'] = 'individual';
 				} else {
 					$invoice_data['_invoice_type'] = $order->get_meta( '_invoice_type' );
 				}
-			}
 
-			// 個人發票類型.
-			if ( $order->get_meta( '_invoice_carruer_type' ) && ! empty( $order->get_meta( '_invoice_carruer_type' ) ) ) {
-				switch ( $order->get_meta( '_invoice_carruer_type' ) ) {
-					case 'ecpay_host':
-						$invoice_data['_invoice_individual'] = '1';
-						break;
-					case 'MOICA':
-						$invoice_data['_invoice_individual'] = '2';
-						break;
-					case 'phone_barcode':
-						$invoice_data['_invoice_individual'] = '3';
-						break;
-					default:
-						// code...
-						break;
+				// 個人發票類型.
+				if ( $order->get_meta( '_invoice_carruer_type' ) && ! empty( $order->get_meta( '_invoice_carruer_type' ) ) ) {
+					switch ( $order->get_meta( '_invoice_carruer_type' ) ) {
+						case 'ecpay_host':
+							$invoice_data['_invoice_individual'] = '1';
+							break;
+						case 'MOICA':
+							$invoice_data['_invoice_individual'] = '2';
+							break;
+						case 'phone_barcode':
+							$invoice_data['_invoice_individual'] = '3';
+							break;
+						default:
+							// code...
+							break;
+					}
 				}
-			}
 
-			// 載具.
-			if ( $order->get_meta( '_invoice_carruer_no' ) && ! empty( $order->get_meta( '_invoice_carruer_no' ) ) ) {
-				$invoice_data['_invoice_carrier'] = $order->get_meta( '_invoice_carruer_no' );
-			}
+				// 載具.
+				if ( $order->get_meta( '_invoice_carruer_no' ) && ! empty( $order->get_meta( '_invoice_carruer_no' ) ) ) {
+					$invoice_data['_invoice_carrier'] = $order->get_meta( '_invoice_carruer_no' );
+				}
 
-			// 統一編號.
-			if ( $order->get_meta( '_invoice_no' ) && ! empty( $order->get_meta( '_invoice_no' ) ) ) {
-				$invoice_data['_invoice_tax_id'] = $order->get_meta( '_invoice_no' );
-			}
+				// 統一編號.
+				if ( $order->get_meta( '_invoice_no' ) && ! empty( $order->get_meta( '_invoice_no' ) ) ) {
+					$invoice_data['_invoice_tax_id'] = $order->get_meta( '_invoice_no' );
+				}
 
-			// 公司名稱.
-			if ( $order->get_meta( '_invoice_no' ) && empty( $invoice_data['_invoice_company_name'] ) && ! empty( $order->get_meta( '_invoice_no' ) ) ) {
-				$options = array(
-					'method'  => 'GET',
-					'timeout' => 60,
-					'headers' => array(
-						'Content-Type' => 'application/json',
-					),
-				);
+				// 公司名稱.
+				if ( $order->get_meta( '_invoice_no' ) && empty( $invoice_data['_invoice_company_name'] ) && ! empty( $order->get_meta( '_invoice_no' ) ) ) {
+					$options = array(
+						'method'  => 'GET',
+						'timeout' => 60,
+						'headers' => array(
+							'Content-Type' => 'application/json',
+						),
+					);
 
-				$response = wp_remote_request( 'https://company.g0v.ronny.tw/api/show/' . $order->get_meta( '_invoice_no' ), $options );
-				$resp     = json_decode( wp_remote_retrieve_body( $response ) );
+					$response = wp_remote_request( 'https://company.g0v.ronny.tw/api/show/' . $order->get_meta( '_invoice_no' ), $options );
+					$resp     = json_decode( wp_remote_retrieve_body( $response ) );
 
-				$invoice_data['_invoice_company_name'] = $resp->data->公司名稱;
-			}
+					$invoice_data['_invoice_company_name'] = $resp->data->公司名稱;
+				}
 
-			if ( $order->get_meta( '_invoice_donate_no' ) && ! empty( $order->get_meta( '_invoice_donate_no' ) ) ) {
-				$invoice_data['_invoice_donate'] = $order->get_meta( '_invoice_donate_no' );
-			}
+				if ( $order->get_meta( '_invoice_donate_no' ) && ! empty( $order->get_meta( '_invoice_donate_no' ) ) ) {
+					$invoice_data['_invoice_donate'] = $order->get_meta( '_invoice_donate_no' );
+				}
 
-			if ( count( $invoice_data ) > 0 ) {
-				$order->update_meta_data( '_ecpay_invoice_data', $invoice_data );
-				$order->save();
+				if ( count( $invoice_data ) > 0 ) {
+					$order->update_meta_data( '_ecpay_invoice_data', $invoice_data );
+					$order->delete_meta_data( '_invoice_type' );
+					$order->save();
+				}
 			}
 		}
 	}

@@ -67,15 +67,14 @@ jQuery(function ($) {
 		fieldDisplay($('select[name="_invoice_type"'), 'donate', $('#invoiceDonate'));
 
 		$('select[name="_invoice_individual"]').on('change', function () {
-			if ($(this).val() === '2' || $(this).val() === '3') {
+			if ($(this).val() === '2' || $(this).val() === '1') {
 				$('#invoiceCarrier').show()
 			} else {
 				$('#invoiceCarrier').hide()
 			}
 		})
-
-		if (($('select[name="_invoice_type"]').val() ===
-			'individual') && ($('select[name="_invoice_individual"]').val() === '2' || $('select[name="_invoice_individual"]').val() === '3')) {
+		
+		if ($('select[name="_invoice_individual"]').val() === '1' || $('select[name="_invoice_individual"]').val() === '2' ) {
 			$('#invoiceCarrier').show()
 		} else {
 			$('#invoiceCarrier').hide()
