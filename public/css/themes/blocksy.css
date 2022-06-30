@@ -224,3 +224,12 @@ span.select2-container .select2-selection--single .select2-selection__rendered,
 .select2-results__option {
 	outline: 0;
 }
+
+table.shop_table th {
+	vertical-align: middle;
+}
+
+table.shop_table tfoot td {
+	text-align: left;
+}
+
