@@ -23,7 +23,7 @@ function run_woomp_paynow_shipping() {
 	//WOOMP_PayNow_Shipping::init();
 
 }
-add_action( 'plugins_loaded', 'run_woomp_paynow_shipping', '999' );
+//add_action( 'plugins_loaded', 'run_woomp_paynow_shipping', '999' );
 
 /**
  * Add PayNow shipping methods.

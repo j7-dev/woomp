@@ -1,9 +1,9 @@
 === 好用版擴充 MorePower Addon for WooCommerce ===
 Requires at least: 4.9.8
-Tested up to: 5.8.2
+Tested up to: 6.0.0
 Requires PHP: 7.0
 WC requires at least: 5
-WC tested up to: 6.1.0
+WC tested up to: 6.6.1
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -18,6 +18,10 @@ WooCommerce 好用版擴充，改善結帳流程與可變商品等區塊，讓 W
 安裝說明
 
 == Changelog ==
+
+<p>v1.7.0</p>
+<p>修改 - 統一開立發票選項順序</p>
+<p>除錯 - 自然人憑證選項移除後載具不會出現</p>
 
 <p>v1.6.9</p>
 <p>除錯 - 單一費率運送類別無效</p>

@@ -38,7 +38,7 @@ class Checkout {
 
 		// 個人發票選項
 		if ( ! get_option( 'wc_woomp_ecpay_invoice_carrier_type' ) ) {
-			update_option( 'wc_woomp_ecpay_invoice_carrier_type', array( '紙本發票', '雲端發票', '自然人憑證', '手機代碼' ) );
+			update_option( 'wc_woomp_ecpay_invoice_carrier_type', array( '雲端發票', '手機代碼', '自然人憑證', '紙本發票' ) );
 		}
 		$this->add_wc_field(
 			'individual-invoice',

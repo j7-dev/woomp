@@ -91,8 +91,5 @@ jQuery(function ($) {
 			$('#ecpay_invoice input').val('');
 		})
 
-		// 紙本發票移到最後
-		var options = $('select[name="_invoice_individual"] option');
-		$(options[0]).insertAfter($(options[3]));
 	})
 })

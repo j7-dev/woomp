@@ -173,8 +173,8 @@ class Woomp_Setting_Invoice extends WC_Settings_Page {
 							'type'    => 'multiselect',
 							'options' => array(
 								__( 'Cloud Invoice', 'woomp' )  => __( 'Cloud Invoice', 'woomp' ),
-								__( 'Citizen Digital Certificate', 'paynow-einvoice' )    => __( 'Citizen Digital Certificate', 'paynow-einvoice' ),
 								__( 'Mobile Code', 'paynow-einvoice' ) => __( 'Mobile Code', 'paynow-einvoice' ),
+								__( 'Citizen Digital Certificate', 'paynow-einvoice' )    => __( 'Citizen Digital Certificate', 'paynow-einvoice' ),
 								__( 'Paper Invoice', 'woomp' )  => __( 'Paper Invoice', 'woomp' ),
 							),
 						),
