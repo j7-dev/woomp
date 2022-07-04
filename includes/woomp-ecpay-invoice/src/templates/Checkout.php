@@ -199,7 +199,7 @@ class Checkout {
 	 */
 	public function enqueue_scripts() {
 		if ( is_checkout() ) {
-			wp_enqueue_script( 'woomp-ecpay-invoice', ECPAYINVOICE_PLUGIN_URL . 'assets/js/checkout.js', array( 'jquery' ), '1.0.2', true );
+			wp_enqueue_script( 'woomp-ecpay-invoice', ECPAYINVOICE_PLUGIN_URL . 'assets/js/checkout.js', array( 'jquery' ), '1.0.3', true );
 		}
 	}
 

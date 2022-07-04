@@ -59,8 +59,8 @@ jQuery(document).ready(function ($) {
 	
 	// 發票類型為個人，且選擇為自然人憑證或手機條碼
 	$("#individual-invoice").change(function () {
-		var individualOption = $('#individual-invoice').val();
-		if (individualOption == '2' || individualOption == '3') {
+		var individualOption = $('#individual-invoice option:selected').text();
+		if (individualOption == '自然人憑證' || individualOption == '手機代碼') {
 			$('#carrier-number_field').show();
 		}
 		else {
