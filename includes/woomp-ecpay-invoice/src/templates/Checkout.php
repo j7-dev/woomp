@@ -40,13 +40,18 @@ class Checkout {
 		if ( ! get_option( 'wc_woomp_ecpay_invoice_carrier_type' ) ) {
 			update_option( 'wc_woomp_ecpay_invoice_carrier_type', array( '雲端發票', '手機代碼', '自然人憑證', '紙本發票' ) );
 		}
+		$type_option = array();
+		foreach ( get_option( 'wc_woomp_ecpay_invoice_carrier_type' ) as $value ) {
+			$type_option[ $value ] = $value;
+		}
+
 		$this->add_wc_field(
 			'individual-invoice',
 			'select',
 			__( 'Individual Invoice Type', 'woomp' ),
 			array(),
 			'invoice-label',
-			get_option( 'wc_woomp_ecpay_invoice_carrier_type' ),
+			$type_option,
 		);
 
 		// 自然人憑證與手機條碼 載具編號欄位

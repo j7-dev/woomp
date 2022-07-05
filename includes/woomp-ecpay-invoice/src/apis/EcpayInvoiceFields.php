@@ -42,7 +42,31 @@ class EcpayInvoiceFields {
 			return $order->get_meta( '_invoice_' . $type );
 		}
 
-		return $order->get_meta( '_ecpay_invoice_data' )[ '_invoice_' . $type ];
+		// 轉換個人發票類型數字
+		if ( 'individual' === $type ) {
+			$carruer_type = $order->get_meta( '_ecpay_invoice_data' )[ '_invoice_individual' ];
+			switch ($carruer_type) {
+				case '雲端發票':
+					return 1;
+					break;
+				case '自然人憑證':
+					return 2;
+					break;
+				case '手機代碼':
+					return 3;
+					break;
+				case '紙本發票':
+					return 0;
+					break;
+				
+				default:
+					# code...
+					break;
+			}
+		} else {
+			return $order->get_meta( '_ecpay_invoice_data' )[ '_invoice_' . $type ];
+		}
+
 	}
 
 }

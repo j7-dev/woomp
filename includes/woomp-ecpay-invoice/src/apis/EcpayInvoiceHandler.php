@@ -55,7 +55,11 @@ class EcpayInvoiceHandler {
 		if ( $donation == 1 ) {
 			$print = 0;
 		}
-		$carruerNum = EcpayInvoiceFields::get_meta( $order_id, 'carrier' ); // 載具編號
+
+		$carruerNum = '';
+		if ( 2 === $carruerType || 3 === $carruerType ) {
+			$carruerNum = EcpayInvoiceFields::get_meta( $order_id, 'carrier' ); // 載具編號
+		}
 
 		// 付款成功次數 第一次付款或沒有此欄位則設定為空值
 		$totalSuccessTimes = '';
@@ -73,6 +77,7 @@ class EcpayInvoiceHandler {
 			// // 有統一編號 則取得公司名稱
 			$sCompany_Name = EcpayInvoiceFields::get_meta( $order_id, 'company_name' ); // 公司名稱
 			$customerName  = ( ! empty( $sCompany_Name ) ) ? $sCompany_Name : $customerName;
+			$carruerType = $carruerNum = '';
 		}
 
 		// 無載具 強制列印
@@ -171,6 +176,8 @@ class EcpayInvoiceHandler {
 
 			// 4.送出
 			$return_info = $ecpay_invoice->Check_Out();
+
+			do_action( 'inspect', array( 'ecpay_invoice', $ecpay_invoice, __FILE__, __LINE__ ) );
 
 			// 於備註區寫入發票資訊
 			$invoice_date    = $return_info['InvoiceDate'];

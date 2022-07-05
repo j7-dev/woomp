@@ -74,7 +74,7 @@ class Field {
 			$output .= '<select name="_invoice_individual" style="display:block;width:100%;margin-top:-8px;">';
 			if ( get_option( 'wc_woomp_ecpay_invoice_carrier_type' ) ) {
 				foreach ( get_option( 'wc_woomp_ecpay_invoice_carrier_type' ) as $key => $value ) {
-					$output .= '<option value="' . $key . '" ' . selected( $_invoice_individual, $key, false ) . '>' . $value . '</option>';
+					$output .= '<option value="' . $value . '" ' . selected( $_invoice_individual, $value, false ) . '>' . $value . '</option>';
 				}
 			}
 			$output .= '</select>';
