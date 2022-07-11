@@ -23,7 +23,7 @@ class EcpayInvoiceHandler {
 		// 訂購人資料.
 		$customerName = $order_info['last_name'] . $order_info['first_name'];
 		$orderEmail   = $order_info['email'];
-		$orderPhone   = $order_info['phone'];
+		$orderPhone   = str_replace( '+886','0', $order_info['phone'] );
 		$orderAddress = $order_info['country'] . $order_info['state'] . $order_info['city'] . $order_info['address_1'] . $order_info['address_2'];
 
 		$customerIdentifier = EcpayInvoiceFields::get_meta( $order_id, 'tax_id' ); // 統一編號
@@ -176,8 +176,6 @@ class EcpayInvoiceHandler {
 
 			// 4.送出
 			$return_info = $ecpay_invoice->Check_Out();
-
-			do_action( 'inspect', array( 'ecpay_invoice', $ecpay_invoice, __FILE__, __LINE__ ) );
 
 			// 於備註區寫入發票資訊
 			$invoice_date    = $return_info['InvoiceDate'];

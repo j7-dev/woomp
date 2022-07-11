@@ -44,8 +44,8 @@ class EcpayInvoiceFields {
 
 		// 轉換個人發票類型數字
 		if ( 'individual' === $type ) {
-			$carruer_type = $order->get_meta( '_ecpay_invoice_data' )[ '_invoice_individual' ];
-			switch ($carruer_type) {
+			$carruer_type = $order->get_meta( '_ecpay_invoice_data' )['_invoice_individual'];
+			switch ( $carruer_type ) {
 				case '雲端發票':
 					return 1;
 					break;
@@ -58,9 +58,9 @@ class EcpayInvoiceFields {
 				case '紙本發票':
 					return 0;
 					break;
-				
+
 				default:
-					# code...
+					// code...
 					break;
 			}
 		} else {
