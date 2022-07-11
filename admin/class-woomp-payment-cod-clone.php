@@ -308,7 +308,7 @@ function init_woomp_gateway_cod() {
 			$order = wc_get_order( $order_id );
 			
 			// Mark as on-hold (we're awaiting the payment)
-			$order->update_status( 'pending', __( 'Awaiting offline payment', 'woocommerce' ) );
+			$order->update_status( 'processing', __( 'Awaiting offline payment', 'woocommerce' ) );
 			
 			// Reduce stock levels
 			$order->reduce_order_stock();
