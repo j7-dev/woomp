@@ -55,18 +55,18 @@ class Woomp_Setting {
 	public static function get_settings() {
 
 		$settings = array(
-			'morepower_link'                 => array(
+			'morepower_link'                            => array(
 				'name' => '教學文件',
 				'type' => 'text',
 				'id'   => 'wc_woomp_setting_link',
 				'desc' => __( '<a target="_blank" href="https://morepower.club/know_cate/addon/">好用版擴充 教學文件</a>', 'woomp' ),
 			),
-			'section_ecpay'                  => array(
+			'section_ecpay'                             => array(
 				'name' => __( '綠界設定', 'woomp' ),
 				'type' => 'title',
 				'id'   => 'wc_woomp_setting_ecpay',
 			),
-			'ecpay_gateway'                  => array(
+			'ecpay_gateway'                             => array(
 				'name'     => __( '啟用綠界金流', 'woomp' ),
 				'type'     => 'checkbox',
 				'desc'     => __( 'Enable ECPay gateway method', 'ry-woocommerce-tools' ),
@@ -75,7 +75,7 @@ class Woomp_Setting {
 				'default'  => 'no',
 				'desc_tip' => true,
 			),
-			'ecpay_shipping'                 => array(
+			'ecpay_shipping'                            => array(
 				'name'     => __( '啟用綠界物流', 'woomp' ),
 				'type'     => 'checkbox',
 				'desc'     => __( 'Enable ECPay shipping method', 'ry-woocommerce-tools' ),
@@ -84,16 +84,16 @@ class Woomp_Setting {
 				'default'  => 'no',
 				'desc_tip' => true,
 			),
-			//'ecpay_invoice'                  => array(
-			//	'name'     => __( '啟用綠界電子發票', 'woomp' ),
-			//	'type'     => 'checkbox',
-			//	'desc'     => __( 'Enable ECPay invoice method', 'ry-woocommerce-ecpay-invoice' ),
-			//	'id'       => RY_WEI::$option_prefix . 'enabled_invoice',
-			//	'class'    => 'toggle',
-			//	'default'  => 'no',
-			//	'desc_tip' => true,
-			//),
-			'wmp_ecpay_invoice'                  => array(
+			// 'ecpay_invoice'                  => array(
+			// 'name'     => __( '啟用綠界電子發票', 'woomp' ),
+			// 'type'     => 'checkbox',
+			// 'desc'     => __( 'Enable ECPay invoice method', 'ry-woocommerce-ecpay-invoice' ),
+			// 'id'       => RY_WEI::$option_prefix . 'enabled_invoice',
+			// 'class'    => 'toggle',
+			// 'default'  => 'no',
+			// 'desc_tip' => true,
+			// ),
+			'wmp_ecpay_invoice'                         => array(
 				'name'     => __( '啟用綠界電子發票(好用版)', 'woomp' ),
 				'type'     => 'checkbox',
 				'desc'     => __( 'Enable ECPay invoice method', 'ry-woocommerce-ecpay-invoice' ),
@@ -102,15 +102,15 @@ class Woomp_Setting {
 				'default'  => 'no',
 				'desc_tip' => true,
 			),
-			'section_ecpay_end'              => array(
+			'section_ecpay_end'                         => array(
 				'type' => 'sectionend',
 			),
-			'section_newebpay'               => array(
+			'section_newebpay'                          => array(
 				'name' => __( '藍新設定', 'woomp' ),
 				'type' => 'title',
 				'id'   => 'wc_woomp_setting_newebpay',
 			),
-			'newebpay_gateway'               => array(
+			'newebpay_gateway'                          => array(
 				'name'     => __( '啟用藍新金流', 'woomp' ),
 				'type'     => 'checkbox',
 				'desc'     => __( 'Enable NewebPay gateway method', 'ry-woocommerce-tools' ),
@@ -119,7 +119,7 @@ class Woomp_Setting {
 				'default'  => 'no',
 				'desc_tip' => true,
 			),
-			'newebpay_shipping'              => array(
+			'newebpay_shipping'                         => array(
 				'name'     => __( '啟用藍新物流', 'woomp' ),
 				'type'     => 'checkbox',
 				'desc'     => __( 'Enable NewebPay shipping method', 'ry-woocommerce-tools' ),
@@ -128,15 +128,15 @@ class Woomp_Setting {
 				'default'  => 'no',
 				'desc_tip' => true,
 			),
-			'section_newebpay_end'           => array(
+			'section_newebpay_end'                      => array(
 				'type' => 'sectionend',
 			),
-			'section_smilepay'               => array(
+			'section_smilepay'                          => array(
 				'name' => __( '速買配設定', 'woomp' ),
 				'type' => 'title',
 				'id'   => 'wc_woomp_setting_smilepay',
 			),
-			'smilepay_gateway'               => array(
+			'smilepay_gateway'                          => array(
 				'name'     => __( '啟用速買配金流', 'woomp' ),
 				'type'     => 'checkbox',
 				'desc'     => __( 'Enable SmilePay gateway method', 'ry-woocommerce-tools' ),
@@ -145,7 +145,7 @@ class Woomp_Setting {
 				'default'  => 'no',
 				'desc_tip' => true,
 			),
-			'smilepay_shipping'              => array(
+			'smilepay_shipping'                         => array(
 				'name'     => __( '啟用速買配物流', 'woomp' ),
 				'type'     => 'checkbox',
 				'desc'     => __( 'Enable SmilePay shipping method', 'ry-woocommerce-tools' ),
@@ -154,15 +154,15 @@ class Woomp_Setting {
 				'default'  => 'no',
 				'desc_tip' => true,
 			),
-			'section_smilepay_end'           => array(
+			'section_smilepay_end'                      => array(
 				'type' => 'sectionend',
 			),
-			'section_paynow'                 => array(
+			'section_paynow'                            => array(
 				'name' => __( '立吉富設定', 'woomp' ),
 				'type' => 'title',
 				'id'   => 'wc_woomp_setting_paynow',
 			),
-			'paynow_gateway'                 => array(
+			'paynow_gateway'                            => array(
 				'name'     => __( '啟用立吉富金流', 'woomp' ),
 				'type'     => 'checkbox',
 				'desc'     => __( '啟用 立吉富金流 模組', 'woomp' ),
@@ -171,7 +171,7 @@ class Woomp_Setting {
 				'default'  => 'no',
 				'desc_tip' => true,
 			),
-			'paynow_shipping'                => array(
+			'paynow_shipping'                           => array(
 				'name'     => __( '啟用立吉富物流', 'woomp' ),
 				'type'     => 'checkbox',
 				'desc'     => __( '啟用 立吉富物流 模組', 'woomp' ),
@@ -180,7 +180,7 @@ class Woomp_Setting {
 				'default'  => 'no',
 				'desc_tip' => true,
 			),
-			'paynow_invoice'                 => array(
+			'paynow_invoice'                            => array(
 				'name'     => __( '啟用立吉富電子發票', 'woomp' ),
 				'type'     => 'checkbox',
 				'desc'     => __( '啟用 立吉富電子發票 模組', 'woomp' ),
@@ -189,15 +189,15 @@ class Woomp_Setting {
 				'default'  => 'no',
 				'desc_tip' => true,
 			),
-			'section_paynow_end'             => array(
+			'section_paynow_end'                        => array(
 				'type' => 'sectionend',
 			),
-			'section_linepay'                => array(
+			'section_linepay'                           => array(
 				'name' => __( 'LINE Pay 設定', 'woomp' ),
 				'type' => 'title',
 				'id'   => 'wc_woomp_setting_linepay',
 			),
-			'linepay_gateway'                => array(
+			'linepay_gateway'                           => array(
 				'name'     => __( '啟用 LINE Pay 金流', 'woomp' ),
 				'type'     => 'checkbox',
 				'desc'     => '啟用 LINE Pay 金流模組',
@@ -206,10 +206,10 @@ class Woomp_Setting {
 				'default'  => 'no',
 				'desc_tip' => true,
 			),
-			'section_linepay_end'            => array(
+			'section_linepay_end'                       => array(
 				'type' => 'sectionend',
 			),
-			'section_checkout_title'         => array(
+			'section_checkout_title'                    => array(
 				'name' => __( '結帳相關設定', 'woomp' ),
 				'type' => 'title',
 				'desc' => '',
@@ -224,7 +224,7 @@ class Woomp_Setting {
 			// 'default'  => 'yes',
 			// 'desc_tip' => true,
 			// ),
-			'mode'                           => array(
+			'mode'                                      => array(
 				'name'     => __( '結帳流程設定', 'woomp' ),
 				'type'     => 'select',
 				'desc'     => __( '將原本兩段式結帳改成一頁式或兩頁式結帳，並改變結帳順序為 「選物流 -> 選金流 -> 填��帳欄位」，以適應超商取貨等物流模式', 'woomp' ),
@@ -238,7 +238,7 @@ class Woomp_Setting {
 				'default'  => 'yes',
 				'desc_tip' => true,
 			),
-			'mode_twopage_message'           => array(
+			'mode_twopage_message'                      => array(
 				'name'     => __( '兩頁式結帳返回購物車文字', 'woomp' ),
 				'type'     => 'textarea',
 				'desc'     => __( '啟用兩頁式結帳後顯示於結帳頁最上方的返回購物車說明文字', 'woomp' ),
@@ -246,7 +246,7 @@ class Woomp_Setting {
 				'class'    => 'wc_woomp_setting_mode_twopage_message',
 				'desc_tip' => true,
 			),
-			'billing_country_pos'            => array(
+			'billing_country_pos'                       => array(
 				'name'     => __( '結帳頁國家欄位置頂', 'woomp' ),
 				'type'     => 'checkbox',
 				'desc'     => __( '若需運送至多個國家，建議開啟此選項，將國家欄位移至物流選項之前', 'woomp' ),
@@ -256,7 +256,7 @@ class Woomp_Setting {
 				'default'  => 'yes',
 				'std'      => 'yes',
 			),
-			'tw_address'                     => array(
+			'tw_address'                                => array(
 				'name'     => __( '縣市/鄉鎮市下拉式選單', 'woomp' ),
 				'type'     => 'checkbox',
 				'desc'     => __( '開啟此選項套用結帳中的台灣地址下拉選單', 'woomp' ),
@@ -266,7 +266,7 @@ class Woomp_Setting {
 				'default'  => 'yes',
 				'std'      => 'yes',
 			),
-			'one_line_address'               => array(
+			'one_line_address'                          => array(
 				'name'     => __( '訂單地址欄位整併', 'woomp' ),
 				'type'     => 'checkbox',
 				'desc'     => __( '開啟此選項套用後台訂單管理地址欄位整合為一行', 'woomp' ),
@@ -276,7 +276,7 @@ class Woomp_Setting {
 				'default'  => 'yes',
 				'std'      => 'yes',
 			),
-			'show_phone'                     => array(
+			'show_phone'                                => array(
 				'name'     => __( '顯示訂單電話資訊', 'woomp' ),
 				'type'     => 'checkbox',
 				'desc'     => __( '開啟此選項套用後台訂單管理列表顯示帳單電話與運送電話', 'woomp' ),
@@ -286,7 +286,7 @@ class Woomp_Setting {
 				'default'  => 'yes',
 				'std'      => 'yes',
 			),
-			'tw_field_valitdate'             => array(
+			'tw_field_valitdate'                        => array(
 				'name'     => __( 'Validate the length of name and phone', 'woomp' ),
 				'type'     => 'checkbox',
 				'desc'     => __( 'Check the box to set the validate rule of name and phone.', 'woomp' ),
@@ -296,7 +296,7 @@ class Woomp_Setting {
 				'default'  => 'no',
 				'std'      => 'no',
 			),
-			'virtual_product_address'        => array(
+			'virtual_product_address'                   => array(
 				'name'     => __( '虛擬商品隱藏地址欄位', 'woomp' ),
 				'type'     => 'checkbox',
 				'desc'     => __( '開啟此選項套用結帳虛擬商品時隱藏地址欄位', 'woomp' ),
@@ -306,7 +306,7 @@ class Woomp_Setting {
 				'default'  => 'yes',
 				'std'      => 'yes',
 			),
-			'cod_payment'                    => array(
+			'cod_payment'                               => array(
 				'name'     => __( '新增取代貨到付款方式', 'woomp' ),
 				'type'     => 'checkbox',
 				'desc'     => __( '開啟此選項以取代貨到付款方式', 'woomp' ),
@@ -343,7 +343,7 @@ class Woomp_Setting {
 				'class'    => 'toggle',
 				'desc_tip' => true,
 			),
-			'place_order_text'               => array(
+			'place_order_text'                          => array(
 				'name'     => __( '結帳按鈕文字設定', 'woomp' ),
 				'type'     => 'text',
 				'desc'     => __( '設定結帳頁確定購買按鈕的文字內容', 'woomp' ),
@@ -352,7 +352,7 @@ class Woomp_Setting {
 				'desc_tip' => true,
 				'default'  => '',
 			),
-			'section_end'                    => array(
+			'section_end'                               => array(
 				'type' => 'sectionend',
 				'id'   => 'wc_woomp_setting_section_checkout_title',
 			),
@@ -361,7 +361,7 @@ class Woomp_Setting {
 				'type'  => 'title',
 				'id'    => 'product_page_options',
 			),
-			'product_variations_ui'          => array(
+			'product_variations_ui'                     => array(
 				'name'     => __( '可變商品編輯介面', 'woomp' ),
 				'type'     => 'checkbox',
 				'desc'     => __( '開啟此選項以套用好用版可變商品操作介面', 'woomp' ),
@@ -371,7 +371,7 @@ class Woomp_Setting {
 				'default'  => 'yes',
 				'std'      => 'yes',
 			),
-			'product_variations_frontend_ui' => array(
+			'product_variations_frontend_ui'            => array(
 				'name'     => __( '可變商品前台顯示介面', 'woomp' ),
 				'type'     => 'checkbox',
 				'desc'     => __( '開啟此選項以套用好用版可變商品前台顯示介面', 'woomp' ),
@@ -381,7 +381,7 @@ class Woomp_Setting {
 				'default'  => 'yes',
 				'std'      => 'yes',
 			),
-			'product_variations_frontend_ui_default' => array(
+			'product_variations_frontend_ui_default'    => array(
 				'name'     => __( '可變商品規格預設為標籤式', 'woomp' ),
 				'type'     => 'checkbox',
 				'desc'     => __( '開啟此選項以套用好用版可變商品規格預設為標籤式', 'woomp' ),
@@ -391,7 +391,7 @@ class Woomp_Setting {
 				'default'  => 'no',
 				'std'      => 'no',
 			),
-			'product_variations_frontend_ui_bg_color' => array(
+			'product_variations_frontend_ui_bg_color'   => array(
 				'name'     => __( '可變商品規格標籤背景顏色', 'woomp' ),
 				'type'     => 'color',
 				'desc'     => __( '設定標籤式可變商品規格的背景顏色', 'woomp' ),
@@ -412,7 +412,7 @@ class Woomp_Setting {
 				'id'   => 'product_page_options',
 			),
 			array(
-				'title' => __( 'Address options', 'ry-woocommerce-tools' ),
+				'title' => __( '運送相關設定', 'ry-woocommerce-tools' ),
 				'type'  => 'title',
 				'id'    => 'checkout_page_options',
 			),
@@ -441,6 +441,36 @@ class Woomp_Setting {
 				'type'     => 'checkbox',
 				'default'  => 'no',
 				'class'    => 'toggle',
+				'desc_tip' => true,
+			),
+			array(
+				'title'    => __( '免運剩餘金額提示文字 ex.「差 {{price}} 即可免運」', 'woomp' ),
+				'desc'     => __( '設定免費運送門檻提示文字，使用 {{price}} 來帶入免運金額', 'woomp' ),
+				'id'       => 'wc_woomp_setting_free_shipping_text_left',
+				'type'     => 'text',
+				'default' => '差 {{price}} 即可免運',
+				'desc_tip' => true,
+			),
+			array(
+				'title'    => __( "達到免運提示文字 ex.「免運」", 'woomp' ),
+				'desc'     => __( '設定達到免運門檻後的顯示文字', 'woomp' ),
+				'id'       => 'wc_woomp_setting_free_shipping_text_free_shipping',
+				'type'     => 'text',
+				'default'  => '免運',
+				'desc_tip' => true,
+			),
+			array(
+				'title'    => __( '免運提示文字背景色', 'woomp' ),
+				'desc'     => __( '設定免費運送門檻提示文字的背景顏色', 'woomp' ),
+				'id'       => 'wc_woomp_setting_free_shipping_bg_color',
+				'type'     => 'color',
+				'desc_tip' => true,
+			),
+			array(
+				'title'    => __( '免運提示文字顏色', 'woomp' ),
+				'desc'     => __( '設定免費運送門檻提示文字顏色', 'woomp' ),
+				'id'       => 'wc_woomp_setting_free_shipping_text_color',
+				'type'     => 'color',
 				'desc_tip' => true,
 			),
 			array(

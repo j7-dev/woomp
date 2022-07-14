@@ -340,10 +340,28 @@ if ( ! class_exists( 'WooMP_Checkout' ) ) {
 			return $field;
 		}
 
+		/**
+		 * 免運提示文字
+		 */
+		public function get_free_shipping_amount( $method, $index ) {
+			$min_amount       = get_option( 'woocommerce_' . str_replace( ':', '_', $method->id ) . '_settings' )['min_amount'];
+			$cart_subtotal    = WC()->cart->get_subtotal();
+			$free_text        = ( get_option( 'wc_woomp_setting_free_shipping_text_free_shipping' ) ) ? get_option( 'wc_woomp_setting_free_shipping_text_free_shipping' ) : '免運';
+			$background_color = ( get_option( 'wc_woomp_setting_free_shipping_bg_color' ) ) ? get_option( 'wc_woomp_setting_free_shipping_bg_color' ) : '#d36f6f';
+			$text_color       = ( get_option( 'wc_woomp_setting_free_shipping_text_color' ) ) ? get_option( 'wc_woomp_setting_free_shipping_text_color' ) : '#fff';
+
+			if ( $min_amount - $cart_subtotal <= 0 ) {
+				echo '<span style="font-size: 14px ;margin: 0 6px; background: ' . esc_attr( $background_color ) . ';padding: 2px 5px;border-radius: 3px;color: ' . esc_attr( $text_color ) . ';
+				">' . esc_html( $free_text ) . '</span>';
+			} else {
+				echo '<span style="position: relative; top: -1px; font-size: 14px ;margin: 0 6px; background: ' . esc_attr( $background_color ) . ';padding: 2px 5px;border-radius: 3px;color: ' . esc_attr( $text_color ) . ';">' . esc_html( str_replace( '{{price}}', ( $min_amount - $cart_subtotal ) . '元', get_option( 'wc_woomp_setting_free_shipping_text_left' ) ) ) . '</span>';
+			}
+		}
+
 	}
 
 	/**
-	 * 指定��入 Woo 客製範本寫外掛主檔案 woomp.php Line 93
+	 * 指定載入 Woo 客製範本寫外掛主檔案 woomp.php Line 93
 	 */
 
 }
@@ -368,7 +386,11 @@ if ( ! empty( get_option( ' wc_woomp_setting_place_order_text' ) ) ) {
 	add_filter( 'woocommerce_order_button_text', array( $checkout, 'custom_button_text' ), 99, 1 );
 }
 
-add_filter( 'woocommerce_form_field' , array( $checkout, 'remove_checkout_optional_fields_label' ), 10, 4 );
+if ( ! empty( get_option( ' wc_woomp_setting_free_shipping_text_left' ) ) ) {
+	add_action( 'woocommerce_after_shipping_rate', array( $checkout, 'get_free_shipping_amount' ), 99, 2 );
+}
+
+add_filter( 'woocommerce_form_field', array( $checkout, 'remove_checkout_optional_fields_label' ), 10, 4 );
 
 
 WooMP_Checkout::init();
