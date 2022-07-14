@@ -440,18 +440,23 @@ if ( ! class_exists( 'WooMP_Product' ) ) {
 		 * 加入 attribute_type 選擇介面
 		 */
 		public static function wcb_add_product_attribute_is_highlighted( $attribute, $i = 0 ) {
-			$value = ( self::get_attribute_highlighted( $attribute->get_name() ) ) ? self::get_attribute_highlighted( $attribute->get_name() ) : 'select';
+			$value = ( self::get_attribute_highlighted( $attribute->get_name() ) ) ? self::get_attribute_highlighted( $attribute->get_name() ) : 'default';
 			?>
 			<tr>
 				<td>
 					<div class="enable_highlighted">
 						<label><?php _e( '設定前台變化類型介面:', 'woomp' ); ?></label>
 						<select name="attribute_type[<?php echo esc_attr( $i ); ?>]">
+							<?php if( wc_string_to_bool( get_option( 'wc_woomp_setting_product_variations_frontend_ui＿default' ) ) ): ?>
+								<option value="tag" <?php echo ( 'tag' === $value || 'default' === $value ) ? 'selected' : ''; ?>><?php _e( '標籤式選項', 'woomp' ); ?></option>
+							<?php endif; ?>
 							<option value="select" <?php echo ( 'select' === $value ) ? 'selected' : ''; ?>><?php _e( '下拉選單', 'woomp' ); ?></option>
 							<option value="radio" <?php echo ( 'radio' === $value ) ? 'selected' : ''; ?>><?php _e( '單選方塊(不斷行)', 'woomp' ); ?></option>
 							<option value="radio-one" <?php echo ( 'radio-one' === $value ) ? 'selected' : ''; ?>><?php _e( '單選方塊(每行放1個選項)', 'woomp' ); ?></option>
 							<option value="radio-two" <?php echo ( 'radio-two' === $value ) ? 'selected' : ''; ?>><?php _e( '單選方塊(每行放2個選項) ', 'woomp' ); ?></option>
+							<?php if( ! wc_string_to_bool( get_option( 'wc_woomp_setting_product_variations_frontend_ui＿default' ) ) ): ?>
 							<option value="tag" <?php echo ( 'tag' === $value ) ? 'selected' : ''; ?>><?php _e( '標籤式選項', 'woomp' ); ?></option>
+							<?php endif; ?>
 						</select>
 					</div>
 					<a href='#' class="button save_attributes_after button-primary" style="margin-top: 1rem">儲存屬性</a>
