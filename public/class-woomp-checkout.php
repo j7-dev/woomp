@@ -344,7 +344,27 @@ if ( ! class_exists( 'WooMP_Checkout' ) ) {
 		 * 免運提示文字
 		 */
 		public function get_free_shipping_amount( $method, $index ) {
-			$min_amount       = get_option( 'woocommerce_' . str_replace( ':', '_', $method->id ) . '_settings' )['min_amount'];
+			if ( ! get_option( 'woocommerce_' . str_replace( ':', '_', $method->id ) . '_settings' ) ) {
+				return false;
+			}
+
+			// PayNow 跟其他家的設定值不一樣，所以要分開處理.
+			if ( strpos( $method->id, 'paynow' ) !== false ) {
+				if ( empty( get_option( 'woocommerce_' . str_replace( ':', '_', $method->id ) . '_settings' )['free_shipping_requires'] ) ) {
+					return false;
+				}
+			} else {
+				if ( empty( get_option( 'woocommerce_' . str_replace( ':', '_', $method->id ) . '_settings' )['cost_requires'] ) ) {
+					return false;
+				}
+			}
+
+			if ( strpos( $method->id, 'paynow' ) !== false ) {
+				$min_amount = get_option( 'woocommerce_' . str_replace( ':', '_', $method->id ) . '_settings' )['free_shipping_min_amount'];
+			} else {
+				$min_amount = get_option( 'woocommerce_' . str_replace( ':', '_', $method->id ) . '_settings' )['min_amount'];
+			}
+
 			$cart_subtotal    = WC()->cart->get_subtotal();
 			$free_text        = ( get_option( 'wc_woomp_setting_free_shipping_text_free_shipping' ) ) ? get_option( 'wc_woomp_setting_free_shipping_text_free_shipping' ) : '免運';
 			$background_color = ( get_option( 'wc_woomp_setting_free_shipping_bg_color' ) ) ? get_option( 'wc_woomp_setting_free_shipping_bg_color' ) : '#d36f6f';
