@@ -622,11 +622,36 @@ if ( ! class_exists( 'WooMP_Product' ) ) {
 				<script>
 				jQuery(function($){
 				   $(document).ready(function(){
-					   mainColor = $(".woocommerce-variation-add-to-cart button").css("background-color");
-					   $(this).find("input:checked + label").css("background-color",mainColor);
+					   mainColor = $(".woocommerce-variation-add-to-cart button").css("background-color");';
+					   if( get_option( 'wc_woomp_setting_product_variations_frontend_ui＿bg_color' ) )  {
+						   $radios .= '$(this).find("input:checked + label").css("background-color", "' . get_option( 'wc_woomp_setting_product_variations_frontend_ui＿bg_color' ) . '");';
+					   } else {
+							$radios .='$(this).find("input:checked + label").css("background-color",mainColor);';
+					   }
+
+					   if( get_option( 'wc_woomp_setting_product_variations_frontend_ui＿text_color' ) )  {
+							$radios .= '$(this).find("input:checked + label").css("color", "' . get_option( 'wc_woomp_setting_product_variations_frontend_ui＿text_color' ) . '");';
+						} else {
+							 $radios .='$(this).find("input:checked + label").css("color","#fff);';
+						}
+					 
+					   $radios .='
 				       $(".variation-radios.tag").click(function(){
-				           $(this).find("input + label").css("background-color","#efefef")
-				           $(this).find("input:checked + label").css("background-color",mainColor)
+				           $(this).find("input + label").css("background-color","#efefef");
+						   $(this).find("input + label").css("color","#000");';
+
+						   if( get_option( 'wc_woomp_setting_product_variations_frontend_ui＿bg_color' ) )  {
+							$radios .= '$(this).find("input:checked + label").css("background-color", "' . get_option( 'wc_woomp_setting_product_variations_frontend_ui＿bg_color' ) . '");';
+							} else {
+								 $radios .='$(this).find("input:checked + label").css("background-color",mainColor);';
+							}
+
+						   if( get_option( 'wc_woomp_setting_product_variations_frontend_ui＿text_color' ) )  {
+							$radios .= '$(this).find("input:checked + label").css("color", "' . get_option( 'wc_woomp_setting_product_variations_frontend_ui＿text_color' ) . '");';
+							} else {
+								 $radios .='$(this).find("input:checked + label").css("color","#fff");';
+							}
+						  $radios.='
 				       })
 				   }) 
 				})
