@@ -56,6 +56,7 @@ $settings = array(
 );
 
 $shipping_classes = WC()->shipping->get_shipping_classes();
+$cost_desc        = '';
 
 if ( ! empty( $shipping_classes ) ) {
 	$settings['class_available'] = array(
@@ -80,12 +81,23 @@ if ( ! empty( $shipping_classes ) ) {
 			'title'             => sprintf( __( '"%s" shipping class cost', 'woocommerce' ), esc_html( $shipping_class->name ) ),
 			'type'              => 'text',
 			'placeholder'       => __( 'N/A', 'woocommerce' ),
-			'description'       => $cost_desc,
+			// 'description'       => $cost_desc,
 			'default'           => $this->get_option( 'class_cost_' . $shipping_class->slug ),
-			'desc_tip'          => true,
+			// 'desc_tip'          => true,
 			'sanitize_callback' => array( $this, 'sanitize_cost' ),
 		);
 	}
+
+	$settings['type'] = array(
+		'title'   => __( 'Calculation type', 'woocommerce' ),
+		'type'    => 'select',
+		'class'   => 'wc-enhanced-select',
+		'default' => 'class',
+		'options' => array(
+			'class' => __( 'Per class: Charge shipping for each shipping class individually', 'woocommerce' ),
+			'order' => __( 'Per order: Charge shipping for the most expensive shipping class', 'woocommerce' ),
+		),
+	);
 }
 
 return $settings;
