@@ -60,18 +60,13 @@ class PayNow_Shipping_C2C_Hilife extends PayNow_Abstract_Shipping_Method {
 	 */
 	public function is_available( $package ) {
 
-		$max_amount = 20000;
+		$max_amount   = 20000;
+		$is_available = $this->is_enabled();
 
-		if ( 'no' === $this->enabled ) {
-			return false;
-		}
-
-		$total = WC()->cart->get_total();
+		$total = WC()->cart->get_cart_contents_total();
 		if ( $total >= $max_amount ) {
-			return false;
+			$is_available = false;
 		}
-
-		$is_available = true;
 
 		return apply_filters( 'woocommerce_shipping_' . $this->id . '_is_available', $is_available, $package, $this );
 	}
