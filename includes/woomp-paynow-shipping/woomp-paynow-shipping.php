@@ -16,14 +16,14 @@ function run_woomp_paynow_shipping() {
 	/**
 	 * Autoload
 	 */
-	//\A7\autoload( WOOMP_PLUGIN_DIR . 'includes/woomp-paynow-shipping/src' );
+	\A7\autoload( WOOMP_PLUGIN_DIR . 'includes/woomp-paynow-shipping/src' );
 
 	add_filter( 'woocommerce_shipping_methods', 'woomp_add_paynow_shipping_methods' );
 
-	//WOOMP_PayNow_Shipping::init();
+	WOOMP_PayNow_Shipping::init();
 
 }
-//add_action( 'plugins_loaded', 'run_woomp_paynow_shipping', '999' );
+add_action( 'plugins_loaded', 'run_woomp_paynow_shipping', '999' );
 
 /**
  * Add PayNow shipping methods.

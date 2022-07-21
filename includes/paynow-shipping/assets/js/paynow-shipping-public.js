@@ -24,7 +24,6 @@ var paynow_shipping_info;
 	});
 
 	$(document.body).on('updated_checkout', function (e, data) {
-		console.log(data.fragments.paynow_shipping_info);
 		if( data.fragments.paynow_shipping_info !== undefined ){
 			console.log('on updated_checkout');
 			//console.log(data.fragments.paynow_shipping_info.shipping_data);

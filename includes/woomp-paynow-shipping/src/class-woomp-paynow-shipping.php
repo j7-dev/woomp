@@ -163,8 +163,8 @@ class WOOMP_PayNow_Shipping {
 	 */
 	public static function woomp_paynow_shipping_c2c_family_frozen_admin_meta_fields( $order ) {
 		if ( $order->has_shipping_method( 'woomp_paynow_shipping_c2c_family_frozen' ) ) {
-			echo '<tr><th>' . esc_html__( 'Reserved No', 'wc-paynow-shipping' ) . '</th><td>' . esc_html( $order->get_meta( PayNow_Shipping_Order_Meta::ReservedNo ) ) . '</td></tr>';
-			echo '<tr><th>' . esc_html__( 'Ship Date', 'wc-paynow-shipping' ) . '</th><td>' . esc_html( $order->get_meta( PayNow_Shipping_Order_Meta::ShipDate ) ) . '</td></tr>';
+			echo '<tr><th>' . esc_html__( 'Reserved No', 'woomp' ) . '</th><td>' . esc_html( $order->get_meta( PayNow_Shipping_Order_Meta::ReservedNo ) ) . '</td></tr>';
+			echo '<tr><th>' . esc_html__( 'Ship Date', 'woomp' ) . '</th><td>' . esc_html( $order->get_meta( PayNow_Shipping_Order_Meta::ShipDate ) ) . '</td></tr>';
 		}
 
 	}

@@ -61,18 +61,20 @@ class PayNow_Shipping_C2C_Family extends PayNow_Abstract_Shipping_Method {
 	 */
 	public function is_available( $package ) {
 
-		$max_amount = 20000;
+		$max_amount   = 20000;
+		$is_available = $this->is_enabled();
 
+<<<<<<< HEAD
 		if ( 'no' === $this->enabled ) {
 			return false;
 		}
 
+=======
+>>>>>>> 93c3f937ddf0a76300ce8ce20470a3a6dd50499a
 		$total = WC()->cart->get_cart_contents_total();
 		if ( $total >= $max_amount ) {
-			return false;
+			$is_available = false;
 		}
-
-		$is_available = true;
 
 		return apply_filters( 'woocommerce_shipping_' . $this->id . '_is_available', $is_available, $package, $this );
 	}

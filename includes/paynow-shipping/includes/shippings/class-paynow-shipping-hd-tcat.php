@@ -60,11 +60,13 @@ class PayNow_Shipping_HD_TCat extends PayNow_Abstract_Shipping_Method {
 	 */
 	public function is_available( $package ) {
 
-		if ( 'no' === $this->enabled ) {
-			return false;
-		}
+		$max_amount   = 100000;
+		$is_available = $this->is_enabled();
 
-		$is_available = true;
+		$total = WC()->cart->get_cart_contents_total();
+		if ( $total >= $max_amount ) {
+			$is_available = false;
+		}
 
 		return apply_filters( 'woocommerce_shipping_' . $this->id . '_is_available', $is_available, $package, $this );
 

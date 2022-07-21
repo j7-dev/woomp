@@ -56,6 +56,8 @@ $settings = array(
 );
 
 $shipping_classes = WC()->shipping->get_shipping_classes();
+$cost_desc        = __( 'Enter a cost (excl. tax) or sum, e.g. <code>10.00 * [qty]</code>.', 'woocommerce' ) . '<br/><br/>' . __( 'Use <code>[qty]</code> for the number of items, <br/><code>[cost]</code> for the total cost of items, and <code>[fee percent="10" min_fee="20" max_fee=""]</code> for percentage based fees.', 'woocommerce' );
+
 
 if ( ! empty( $shipping_classes ) ) {
 	$settings['class_available'] = array(
@@ -86,6 +88,17 @@ if ( ! empty( $shipping_classes ) ) {
 			'sanitize_callback' => array( $this, 'sanitize_cost' ),
 		);
 	}
+
+	$settings['type'] = array(
+		'title'   => __( 'Calculation type', 'woocommerce' ),
+		'type'    => 'select',
+		'class'   => 'wc-enhanced-select',
+		'default' => 'class',
+		'options' => array(
+			'class' => __( 'Per class: Charge shipping for each shipping class individually', 'woocommerce' ),
+			'order' => __( 'Per order: Charge shipping for the most expensive shipping class', 'woocommerce' ),
+		),
+	);
 }
 
 return $settings;

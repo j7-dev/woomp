@@ -28,9 +28,9 @@ class PayNow_Shipping_Request {
 		add_action( 'woocommerce_order_status_processing', array( self::get_instance(), 'paynow_get_logistic_no' ), 10, 1 );
 		add_action( 'paynow_shipping_order_created', array( self::get_instance(), 'paynow_query_shipping_order' ), 30, 1 );
 
-		//後台重選超商後需取消物流單再重新建立新的物流單
+		// 後台重選超商後需取消物流單再重新建立新的物流單
 		add_action( 'paynow_after_admin_changed_cvs_store', array( self::get_instance(), 'paynow_cancel_shipping_order_when_cvs_store_changed' ) );
-		add_action( 'paynow_after_cancel_shipping_order_when_cvs_store_changed', array( self::get_instance(), 'paynow_get_logistic_no'), 10, 1 );
+		add_action( 'paynow_after_cancel_shipping_order_when_cvs_store_changed', array( self::get_instance(), 'paynow_get_logistic_no' ), 10, 1 );
 
 		add_action( 'wp_ajax_update_delivery_status', array( self::get_instance(), 'paynow_ajax_query_delivery_status' ), 10, 1 );
 		add_action( 'wp_ajax_cancel_shipping_order', array( self::get_instance(), 'paynow_ajax_cancel_shipping_order' ), 10, 1 );
@@ -60,7 +60,7 @@ class PayNow_Shipping_Request {
 			do_action( 'paynow_shipping_before_create_order', $order );
 
 			// status = 1, 無效訂單
-			if ( !empty( $order->get_meta( PayNow_Shipping_Order_Meta::LogisticNumber ) &&  (string) $order->get_meta( PayNow_Shipping_Order_Meta::Status ) !== '1') ) {
+			if ( ! empty( $order->get_meta( PayNow_Shipping_Order_Meta::LogisticNumber ) && (string) $order->get_meta( PayNow_Shipping_Order_Meta::Status ) !== '1' ) ) {
 				$response = self::renew_order( $order );
 				$action   = 'renew';
 			} else {
@@ -124,14 +124,14 @@ class PayNow_Shipping_Request {
 
 		$resp = wp_remote_retrieve_body( $response );
 		if ( strpos( $resp, 'S' ) !== false ) {
-			//取消成功
+			// 取消成功
 			$order->update_meta_data( PayNow_Shipping_Order_Meta::Status, '1' );// 無效訂單
 			$order->save();
 			$order->add_order_note( $resp );
-			//重新建立物流單
+			// 重新建立物流單
 			do_action( 'paynow_after_cancel_shipping_order_when_cvs_store_changed', $order );
 		} else {
-			//取消失敗
+			// 取消失敗
 			$order->add_order_note( $resp );
 			$order->add_order_note( __( 'PayNow shipping order cancel failed. Please cancel manually and recreate the shipping order again.', 'paynow-shipping' ) );
 		}
@@ -279,7 +279,7 @@ class PayNow_Shipping_Request {
 		
 		$order_ids_array = explode(',', $order_ids);
 		$renew_order_ids = array();
-		foreach( $order_ids_array as $order_id ) {
+		foreach ( $order_ids_array as $order_id ) {
 			$order = wc_get_order( $order_id );
 			if ( $order ) {
 				$renew_order_id = $order->get_meta( PayNow_Shipping_Order_Meta::RenewOrderNo );
@@ -290,7 +290,7 @@ class PayNow_Shipping_Request {
 				}
 			}
 		}
-		$renew_order_ids_string = implode(',', $renew_order_ids);
+		$renew_order_ids_string = implode( ',', $renew_order_ids );
 
 		$api_url = '';
 		if ( PayNow_Shipping_Logistic_Service::SEVEN === $service ) {
@@ -301,21 +301,23 @@ class PayNow_Shipping_Request {
 			$api_url = PayNow_Shipping::$api_url . '/api/OrderHiLife?orderNumberStr=' . $renew_order_ids_string . '&user_account=' . PayNow_Shipping::$user_account;
 		} elseif ( PayNow_Shipping_Logistic_Service::TCAT === $service ) {
 			$api_url = PayNow_Shipping::$api_url . '/Member/Order/PrintBlackCatLabel';
-		} elseif ( PayNow_Shipping_Logistic_Service::FAMIFROZEN === $service ) {
-			$api_url = PayNow_Shipping::$api_url . '/Member/Order/PrintFamiFreezingB2CLabel';
+		} elseif ( PayNow_Shipping_Logistic_Service::SEVENBULK === $service ) {
+			$api_url = PayNow_Shipping::$api_url . '/Member/Order/Print711bulkLabel';
+		} elseif ( PayNow_Shipping_Logistic_Service::FAMIBULK === $service ) {
+			$api_url = PayNow_Shipping::$api_url . '/Member/Order/PrintFamiB2CLabel';
 		} elseif ( PayNow_Shipping_Logistic_Service::SEVENFROZEN === $service ) {
 			$api_url = PayNow_Shipping::$api_url . '/Member/Order/Print711FreezingB2CLabel';
-		} elseif ( PayNow_Shipping_Logistic_Service::FAMIFROZEN_C2C === $service ) {
-			$api_url = PayNow_Shipping::$api_url . '/Member/Order/PrintFamiFreezingC2CLabel';
-		} elseif ( PayNow_Shipping_Logistic_Service::SEVENFROZEN_C2C === $service ) {
-			$api_url = PayNow_Shipping::$api_url . '/Member/Order/Print711FreezingC2CLabel';
+		} elseif ( PayNow_Shipping_Logistic_Service::FAMIFROZEN === $service ) {
+			$api_url = PayNow_Shipping::$api_url . '/Member/Order/PrintFamiFreezingB2CLabel';
 		} else {
 			esc_html_e( 'Unsupported shipping service.', 'paynow-shipping' );
 			wp_die();
 		}
 
-		if ( PayNow_Shipping_Logistic_Service::TCAT !== $service && PayNow_Shipping_Logistic_Service::FAMIFROZEN !== $service && PayNow_Shipping_Logistic_Service::SEVENFROZEN !== $service
-		&& PayNow_Shipping_Logistic_Service::FAMIFROZEN_C2C !== $service && PayNow_Shipping_Logistic_Service::SEVENFROZEN_C2C !== $service ) {
+		PayNow_Shipping::log( 'Print shipping label. api_url: ' . $api_url );
+
+		if ( PayNow_Shipping_Logistic_Service::TCAT !== $service && PayNow_Shipping_Logistic_Service::SEVENBULK !== $service && PayNow_Shipping_Logistic_Service::FAMIBULK !== $service &&
+		PayNow_Shipping_Logistic_Service::FAMIFROZEN !== $service && PayNow_Shipping_Logistic_Service::SEVENFROZEN !== $service ) {
 			$response = wp_remote_get( $api_url );
 			PayNow_Shipping::log( 'label:' . wc_print_r( $response, true ) );
 			if ( is_wp_error( $response ) ) {
@@ -333,25 +335,15 @@ class PayNow_Shipping_Request {
 				wp_die( esc_html( __( 'Fail to get print label', 'paynow-shipping' ) ) );
 			}
 		} else {
-			// tcat、family b2c frozen and seven b2c frozen.
+			// tcat、seven bulk、family bulk、family frozen and seven frozen.
 			$logistic_nos = array();
 			$order_ids    = explode( ',', $order_ids );
-			if ( PayNow_Shipping_Logistic_Service::TCAT === $service || PayNow_Shipping_Logistic_Service::FAMIFROZEN === $service || PayNow_Shipping_Logistic_Service::SEVENFROZEN === $service ) {
-				foreach ( $order_ids as $order_id ) {
-					$logistic_no = get_post_meta( $order_id, PayNow_Shipping_Order_Meta::LogisticNumber, true );
-					if ( $logistic_no ) {
-						$logistic_nos[] = $logistic_no . '_1';
-					}
-				}
-			} elseif ( PayNow_Shipping_Logistic_Service::FAMIFROZEN_C2C === $service || PayNow_Shipping_Logistic_Service::SEVENFROZEN_C2C === $service ) {
-				foreach ( $order_ids as $order_id ) {
-					$logistic_no = get_post_meta( $order_id, PayNow_Shipping_Order_Meta::LogisticNumber, true );
-					if ( $logistic_no ) {
-						$logistic_nos[] = $logistic_no;
-					}
+			foreach ( $order_ids as $order_id ) {
+				$logistic_no = get_post_meta( $order_id, PayNow_Shipping_Order_Meta::LogisticNumber, true );
+				if ( $logistic_no ) {
+					$logistic_nos[] = $logistic_no . '_1';
 				}
 			}
-
 
 			if ( empty( $logistic_nos ) ) {
 				esc_html_e( 'No logistic number', 'paynow-shipping' );
@@ -372,7 +364,6 @@ class PayNow_Shipping_Request {
 					),
 					'body'        => array(
 						'LogisticNumbers' => $logistic_nos_request_str,
-						'PrintMode' =>  '2',
 					),
 				)
 			);
@@ -383,14 +374,13 @@ class PayNow_Shipping_Request {
 			}
 
 			$header_content = (array) wp_remote_retrieve_headers( $response );
-			$header = current($header_content);
-			$data   = wp_remote_retrieve_body( $response );
-			if ( array_key_exists('content-type', $header) ) {
-				if ( $header['content-type'] === 'application/pdf') {
-					header("Content-type: application/pdf");
-					header('Content-Length: '.strlen( $data ));
-    				header("Content-disposition: inline;filename=woomp-paynow-tcat-".date("Y-m-d").".pdf");
-    				echo $data;
+			$header         = current( $header_content );
+			$data           = wp_remote_retrieve_body( $response );
+			if ( array_key_exists( 'content-type', $header ) ) {
+				if ( $header['content-type'] === 'application/pdf' ) {
+					header( 'Content-type: application/pdf' );
+					header( 'Content-disposition: attachment;filename=paynow-tcat-' . date( 'Y-m-d' ) . '.pdf' );
+					echo $data;
 					wp_die();
 				} else {
 					echo $data;
@@ -433,7 +423,7 @@ class PayNow_Shipping_Request {
 		);
 
 		if ( is_wp_error( $response ) ) {
-			$order->add_order_note( __( 'Create shipping order failed. ', 'paynow-shipping' ) . $response->get_error_message());
+			$order->add_order_note( __( 'Create shipping order failed. ', 'paynow-shipping' ) . $response->get_error_message() );
 			PayNow_Shipping::log( 'Create PayNow shipping order:' . wc_print_r( $response, true ), 'error' );
 			throw new Exception( $response->get_error_message(), $response->get_error_code() );
 		}
@@ -706,7 +696,6 @@ class PayNow_Shipping_Request {
 	 */
 	private static function get_prefixed_order_no( $order ) {
 		$prefix = apply_filters( 'paynow_shipping_order_prefix', '' );
-		$prefix = 'woomp';
 		return $prefix . $order->get_order_number();
 	}
 
