@@ -64,13 +64,10 @@ class PayNow_Shipping_C2C_Family extends PayNow_Abstract_Shipping_Method {
 		$max_amount   = 20000;
 		$is_available = $this->is_enabled();
 
-<<<<<<< HEAD
 		if ( 'no' === $this->enabled ) {
 			return false;
 		}
 
-=======
->>>>>>> 93c3f937ddf0a76300ce8ce20470a3a6dd50499a
 		$total = WC()->cart->get_cart_contents_total();
 		if ( $total >= $max_amount ) {
 			$is_available = false;
