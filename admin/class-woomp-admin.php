@@ -168,9 +168,9 @@ class Woomp_Admin {
 			echo '<p style="font-size: 14px;" id="fullAddressShipping"><strong>運送地址:<br/></strong><span>' . $order->get_meta( '_shipping_full-addressShipping' ) . '</span></p>';
 		} elseif ( get_option( 'wc_woomp_setting_one_line_address', 1 ) === 'yes' && strpos( $order->get_shipping_method(), '超商' ) > -1 ) {
 			echo '<p style="font-size: 14px; color: #222" id="cvsStore"><strong>' . $order->get_shipping_method() . '</strong></p>';
-			echo '<p style="font-size: 14px;" id="cvsNumber">門市編號:<br/><span>' . $order->get_meta( '_shipping_cvs_store_ID' ) . '</span></p>';
-			echo '<p style="font-size: 14px;" id="cvsName">門市名稱:<br/><span>' . $order->get_meta( '_shipping_cvs_store_name' ) . '</span></p>';
-			echo '<p style="font-size: 14px;" id="cvsAddress">門市地址:<br/><span>' . $order->get_meta( '_shipping_cvs_store_address' ) . '</span></p>';
+			echo '<p style="font-size: 14px;" id="cvsNumber">門市編號:<br/><span>' . $order->get_meta( '_shipping_cvs_store_ID' ) . $order->get_meta( '_shipping_paynow_storeid' ) . '</span></p>';
+			echo '<p style="font-size: 14px;" id="cvsName">門市名稱:<br/><span>' . $order->get_meta( '_shipping_cvs_store_name' ) . $order->get_meta( '_shipping_paynow_storename' ) . '</span></p>';
+			echo '<p style="font-size: 14px;" id="cvsAddress">門市地址:<br/><span>' . $order->get_meta( '_shipping_cvs_store_address' ) . $order->get_meta( '_shipping_paynow_storeaddress' ) . '</span></p>';
 		}
 	}
 

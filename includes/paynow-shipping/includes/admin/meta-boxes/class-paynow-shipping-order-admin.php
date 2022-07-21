@@ -149,7 +149,7 @@ class PayNow_Shipping_Order_Admin {
 
 					$cvs_data = array(
 						'source'             => 'paynow_admin_choose_cvs_script',
-						'methods'            => $chosen_method_id,
+						'methods'            => $item->get_method_id(),
 						'is_paynow_cvs'      => true,
 						'user_account'       => PayNow_Shipping::$user_account,
 						'orderno'            => '',

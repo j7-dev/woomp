@@ -67,7 +67,7 @@ class PayNow_Shipping_C2C_Family extends PayNow_Abstract_Shipping_Method {
 			return false;
 		}
 
-		$total = WC()->cart->get_total();
+		$total = WC()->cart->get_cart_contents_total();
 		if ( $total >= $max_amount ) {
 			return false;
 		}

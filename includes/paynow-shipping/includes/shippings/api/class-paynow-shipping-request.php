@@ -276,6 +276,7 @@ class PayNow_Shipping_Request {
 		$order_ids = wc_clean( wp_unslash( $_GET['orderids'] ) );
 		$service   = wc_clean( wp_unslash( $_GET['service'] ) );
 
+		
 		$order_ids_array = explode(',', $order_ids);
 		$renew_order_ids = array();
 		foreach( $order_ids_array as $order_id ) {
@@ -285,7 +286,7 @@ class PayNow_Shipping_Request {
 				if ( $renew_order_id ) {
 					$renew_order_ids[] = $renew_order_id;
 				} else {
-					$renew_order_ids[] = $order_id;
+					$renew_order_ids[] = $order->get_order_number();
 				}
 			}
 		}
