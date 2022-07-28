@@ -88,9 +88,19 @@ class PayNow_Shipping_Order_Meta_Box {
 
 		do_action( 'paynow_shipping_admin_meta_before_last_query', $theorder );
 
+		foreach ( $theorder->get_items( 'shipping' ) as $item_id => $item ) {
+			if ( PayNow_Shipping::is_paynow_shipping( $item->get_method_id() ) !== false ) {
+				if ( ! empty( $theorder->get_meta( PayNow_Shipping_Order_Meta::LogisticNumber ) && $theorder->get_meta( PayNow_Shipping_Order_Meta::Status ) !== '1' ) ) {
+					$order_btn = '<button class="button renew-order" data-id="' . $theorder->get_id() . '">重新取號</button>';
+				} else {
+					$order_btn = '<button class="button create-order" data-id="' . $theorder->get_id() . '">取號</button>';
+				}
+			}
+		}
+
 		echo '<tr><th>' . esc_html__( 'Logistic Status Last Query', 'paynow-shipping' ) . '</th><td>' . esc_html( $update_at ) . '</td></tr>';
 
-		echo '<tr id="paynow-action"><th>物流單動作</th><td><button class="button print-label" data-id=' . esc_html( $post->ID ) . ' data-service="' . esc_html( $service_id ) . '">列印</button><button class="button update-delivery-status" data-id="' . esc_html( $post->ID ) . '">更新</button><button class="button cancel-shipping" data-id="' . esc_html( $post->ID ) . '">取消</button></td></tr>';
+		echo '<tr id="paynow-action"><th>物流單動作</th><td>' . $order_btn . '<button class="button print-label" data-id=' . esc_html( $post->ID ) . ' data-service="' . esc_html( $service_id ) . '">列印</button><button class="button update-delivery-status" data-id="' . esc_html( $post->ID ) . '">更新</button><button class="button cancel-shipping" data-id="' . esc_html( $post->ID ) . '">取消</button></td></tr>';
 		echo '</table>';
 		?>
 

@@ -558,6 +558,8 @@ class PayNow_Shipping {
 				'ajax_url'     => admin_url( 'admin-ajax.php' ),
 				'security'     => wp_create_nonce( 'paynow-shipping-order' ),
 				'translations' => array(
+					'shipping_create_order_failed'  => __( 'Shipping create order failed.', 'paynow-shipping' ),
+					'shipping_renew_order_failed'   => __( 'Shipping renew order failed.', 'paynow-shipping' ),
 					'shipping_status_update_failed' => __( 'Shipping status update failed.', 'paynow-shipping' ),
 					'cancel_shipping_failed'        => __( 'Shipping order cancel failed.', 'paynow-shipping' ),
 				),

@@ -28,10 +28,13 @@ class PayNow_Shipping_Request {
 		add_action( 'woocommerce_order_status_processing', array( self::get_instance(), 'paynow_get_logistic_no' ), 10, 1 );
 		add_action( 'paynow_shipping_order_created', array( self::get_instance(), 'paynow_query_shipping_order' ), 30, 1 );
 
-		// 後台重選超商後需取消物流單再重新建立新的物流單
+		// 後台重選超商後需取消物流單再重新建立新的物流單.
 		add_action( 'paynow_after_admin_changed_cvs_store', array( self::get_instance(), 'paynow_cancel_shipping_order_when_cvs_store_changed' ) );
 		add_action( 'paynow_after_cancel_shipping_order_when_cvs_store_changed', array( self::get_instance(), 'paynow_get_logistic_no' ), 10, 1 );
 
+		// order action.
+		add_action( 'wp_ajax_create_order', array( self::get_instance(), 'paynow_ajax_get_logistic_no' ), 10, 1 );
+		add_action( 'wp_ajax_renew_order', array( self::get_instance(), 'paynow_ajax_get_logistic_no' ), 10, 1 );
 		add_action( 'wp_ajax_update_delivery_status', array( self::get_instance(), 'paynow_ajax_query_delivery_status' ), 10, 1 );
 		add_action( 'wp_ajax_cancel_shipping_order', array( self::get_instance(), 'paynow_ajax_cancel_shipping_order' ), 10, 1 );
 		add_action( 'paynow_shipping_after_order_cancelled', array( self::get_instance(), 'paynow_query_shipping_order' ), 10, 1 );
@@ -59,7 +62,7 @@ class PayNow_Shipping_Request {
 
 			do_action( 'paynow_shipping_before_create_order', $order );
 
-			// status = 1, 無效訂單
+			// status = 1, 無效訂單.
 			if ( ! empty( $order->get_meta( PayNow_Shipping_Order_Meta::LogisticNumber ) && (string) $order->get_meta( PayNow_Shipping_Order_Meta::Status ) !== '1' ) ) {
 				$response = self::renew_order( $order );
 				$action   = 'renew';
@@ -104,11 +107,13 @@ class PayNow_Shipping_Request {
 
 			} else {
 				PayNow_Shipping::log( 'Order NO mismatch. Received order no: ' . $orderno );
+				throw new Exception( 'Order NO mismatch. Received order no: ' . $orderno );
 			}
 
 			// phpcs:enable WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 		} catch ( Exception $e ) {
 			PayNow_Shipping::log( __( 'Create shipping order failed. ' ) . $e->getMessage(), 'error' );
+			throw $e;
 		}
 	}
 
@@ -162,6 +167,54 @@ class PayNow_Shipping_Request {
 	}
 
 	/**
+	 * Ajax get logistic no.
+	 *
+	 * @return void
+	 */
+	public static function paynow_ajax_get_logistic_no() {
+
+		if ( ! check_ajax_referer( 'paynow-shipping-order', 'security', false ) ) {
+			$return = array(
+				'success' => false,
+				'result'  => __( 'Invalid security token sent.', 'paynow-shipping' ),
+			);
+			wp_send_json( $return );
+			wp_die();
+		}
+
+		if ( ! isset( $_POST['post_id'] ) ) {
+			$return = array(
+				'success' => false,
+				'result'  => __( 'Missing Ajax Parameter.', 'paynow-shipping' ),
+			);
+			wp_send_json_error( $return );
+			wp_die();
+		}
+
+		$post_id = wc_clean( wp_unslash( $_POST['post_id'] ) );
+		$order   = wc_get_order( $post_id );
+
+		try {
+			self::paynow_get_logistic_no( $order );
+		} catch ( Exception $e ) {
+			$return = array(
+				'success' => false,
+				'result'  => $e->getMessage(),
+			);
+
+			wp_send_json_error( $return );
+			wp_die();
+		}
+
+		$return = array(
+			'success' => true,
+			'result'  => $resp_obj,
+		);
+		wp_send_json( $return );
+
+	}
+
+	/**
 	 * Handling query status ajax call.
 	 *
 	 * @return void
@@ -178,7 +231,11 @@ class PayNow_Shipping_Request {
 		}
 
 		if ( ! isset( $_POST['post_id'] ) ) {
-			wp_send_json_error( __( 'Missing Ajax Parameter.', 'paynow-shipping' ) );
+			$return = array(
+				'success' => false,
+				'result'  => __( 'Missing Ajax Parameter.', 'paynow-shipping' ),
+			);
+			wp_send_json_error( $return );
 			wp_die();
 		}
 
@@ -189,10 +246,10 @@ class PayNow_Shipping_Request {
 
 		if ( is_wp_error( $response ) ) {
 			$return = array(
-				'success' => true,
+				'success' => false,
 				'result'  => $response->get_error_message(),
 			);
-			wp_send_json( $return );
+			wp_send_json_error( $return );
 			wp_die();
 		}
 
@@ -225,7 +282,11 @@ class PayNow_Shipping_Request {
 		}
 
 		if ( ! isset( $_POST['post_id'] ) ) {
-			wp_send_json_error( __( 'Missing Ajax Parameter.', 'paynow-shipping' ) );
+			$return = array(
+				'success' => false,
+				'result'  => __( 'Missing Ajax Parameter.', 'paynow-shipping' ),
+			);
+			wp_send_json_error( $return );
 			wp_die();
 		}
 
@@ -276,8 +337,7 @@ class PayNow_Shipping_Request {
 		$order_ids = wc_clean( wp_unslash( $_GET['orderids'] ) );
 		$service   = wc_clean( wp_unslash( $_GET['service'] ) );
 
-		
-		$order_ids_array = explode(',', $order_ids);
+		$order_ids_array = explode( ',', $order_ids );
 		$renew_order_ids = array();
 		foreach ( $order_ids_array as $order_id ) {
 			$order = wc_get_order( $order_id );

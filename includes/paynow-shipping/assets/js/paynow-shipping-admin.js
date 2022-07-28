@@ -1,4 +1,4 @@
-(function( $ ) {
+(function ($) {
 	'use strict';
 
 	$(document).on('click', '.edit_address', function () {
@@ -17,7 +17,55 @@
 		}
 	});
 
-	$(document).on('click', '.update-delivery-status', function(event){
+	$(document).on('click', '.create-order', function (event) {
+		event.preventDefault();
+		var post_id = $(this).data('id');
+		$.ajax({
+			url: paynow_shipping.ajax_url,
+			data: {
+				action: 'create_order',
+				post_id: post_id,
+				security: paynow_shipping.security,
+			},
+			dataType: "json",
+			type: 'post',
+			success: function (resp) {
+				console.log(resp);
+				if (resp.success) {
+					window.location.reload();
+				} else {
+					alert(paynow_shipping.translations.shipping_create_order_failed + ' Message:' + resp.data.result);
+				}
+
+			}
+		});
+	});
+
+	$(document).on('click', '.renew-order', function (event) {
+		event.preventDefault();
+		var post_id = $(this).data('id');
+		$.ajax({
+			url: paynow_shipping.ajax_url,
+			data: {
+				action: 'renew_order',
+				post_id: post_id,
+				security: paynow_shipping.security,
+			},
+			dataType: "json",
+			type: 'post',
+			success: function (resp) {
+				console.log(resp);
+				if (resp.success) {
+					window.location.reload();
+				} else {
+					alert(paynow_shipping.translations.shipping_renew_order_failed + ' Message:' + resp.data.result);
+				}
+
+			}
+		});
+	});
+
+	$(document).on('click', '.update-delivery-status', function (event) {
 		event.preventDefault();
 		var post_id = $(this).data('id');
 		$.ajax({
@@ -29,12 +77,12 @@
 			},
 			dataType: "json",
 			type: 'post',
-			success: function (data) {
-				console.log(data);
-				if (data.success) {
+			success: function (resp) {
+				console.log(resp);
+				if (resp.success) {
 					window.location.reload();
 				} else {
-					alert(paynow_shipping.translations.shipping_status_update_failed + ' ' + data.result);
+					alert(paynow_shipping.translations.shipping_status_update_failed + ' ' + resp.data.result);
 				}
 
 			},
@@ -59,14 +107,14 @@
 			},
 			dataType: "json",
 			type: 'post',
-			success: function ( data ) {
-				console.log(data);
-				if (data.success) {
-
+			success: function (resp) {
+				console.log(resp);
+				if (resp.success) {
+					window.location.reload();
 				} else {
-					alert( paynow_shipping.translations.cancel_shipping_failed + ' ' + data.result);
+					alert(paynow_shipping.translations.cancel_shipping_failed + ' ' + resp.data.result);
 				}
-				window.location.reload();
+
 
 			},
 			always: function () {
@@ -78,4 +126,4 @@
 	});
 
 
-})( jQuery );
+})(jQuery);
