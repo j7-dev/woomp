@@ -366,23 +366,23 @@ class Woomp_Admin {
 	 * ATM 排程 Hook 註冊
 	 */
 	public function register_ATM_deadline_cron_hook() {
-		$atm = WC()->payment_gateways()->get_available_payment_gateways()['ry_ecpay_atm'];
-		$expire_date = $atm->expire_date;
-		$expire_sec = $expire_date * 86400;
+		//$atm = WC()->payment_gateways()->get_available_payment_gateways()['ry_ecpay_atm'];
+		//$expire_date = $atm->expire_date;
+		//$expire_sec = $expire_date * 86400;
 
-		// 取得訂單，date 以秒數計、且為綠界 ATM 支付
-		$args = array(
-			'date_created' => '<' . (time() - $expire_sec),
-			'payment_method' => 'ry_ecpay_atm',
-		);
-		$orders = wc_get_orders( $args );
+		//// 取得訂單，date 以秒數計、且為綠界 ATM 支付
+		//$args = array(
+		//	'date_created' => '<' . (time() - $expire_sec),
+		//	'payment_method' => 'ry_ecpay_atm',
+		//);
+		//$orders = wc_get_orders( $args );
 
-		foreach ($orders as $order){
-			// 不知道為何加這行就無作用了
-			//  if ( ! as_next_scheduled_action('wmp_cron_ATM_deadline' ) ) {
-				as_schedule_single_action ( strtotime($order->get_date_created()->date('Y-m-d H:i:s') + $expire_sec), 'wmp_cron_ATM_deadline' );
-				// }
-        }
+		//foreach ($orders as $order){
+		//	// 不知道為何加這行就無作用了
+		//	//  if ( ! as_next_scheduled_action('wmp_cron_ATM_deadline' ) ) {
+		//		as_schedule_single_action ( strtotime($order->get_date_created()->date('Y-m-d H:i:s') + $expire_sec), 'wmp_cron_ATM_deadline' );
+		//		// }
+        //}
 
 	}
 

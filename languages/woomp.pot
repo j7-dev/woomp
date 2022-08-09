@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-08-09T09:56:19+00:00\n"
+"POT-Creation-Date: 2022-08-09T10:26:50+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.5.0\n"
 "X-Domain: woomp\n"
@@ -311,11 +311,15 @@ msgid "綠界設定"
 msgstr ""
 
 #: admin/settings/class-woomp-setting.php:70
-msgid "啟用綠界金流"
+msgid "Enable ECPay gateway"
 msgstr ""
 
 #: admin/settings/class-woomp-setting.php:79
-msgid "啟用綠界物流"
+msgid "Enable ECPay shipping"
+msgstr ""
+
+#: admin/settings/class-woomp-setting.php:81
+msgid "Enable ECPay shipping method. The POST method doesn't support goods' weight rule. You should notice that your goods can not over 20kg by yourself."
 msgstr ""
 
 #: admin/settings/class-woomp-setting.php:97

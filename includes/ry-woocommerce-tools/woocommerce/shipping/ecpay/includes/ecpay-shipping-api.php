@@ -166,7 +166,7 @@ class RY_ECPay_Shipping_Api extends RY_ECPay
 				}
 				
 				if ($method_class::$LogisticsSubType == 'POST') {
-					$args['GoodsWeight'] = 21;
+					$args['GoodsWeight'] = 1;
 				}
             }
 

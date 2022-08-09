@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: woomp\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/woomp\n"
-"POT-Creation-Date: 2022-08-09T09:56:19+00:00\n"
-"PO-Revision-Date: 2022-08-09 18:03+0800\n"
+"POT-Creation-Date: 2022-08-09T10:26:50+00:00\n"
+"PO-Revision-Date: 2022-08-09 18:29+0800\n"
 "Last-Translator: \n"
 "Language-Team: morepower\n"
 "Language: zh_TW\n"
@@ -321,12 +321,20 @@ msgid "綠界設定"
 msgstr "綠界設定"
 
 #: admin/settings/class-woomp-setting.php:70
-msgid "啟用綠界金流"
+msgid "Enable ECPay gateway"
 msgstr "啟用綠界金流"
 
 #: admin/settings/class-woomp-setting.php:79
-msgid "啟用綠界物流"
+msgid "Enable ECPay shipping"
 msgstr "啟用綠界物流"
+
+#: admin/settings/class-woomp-setting.php:81
+msgid ""
+"Enable ECPay shipping method. The POST method doesn't support goods' weight "
+"rule. You should notice that your goods can not over 20kg by yourself."
+msgstr ""
+"啟用 綠界物流 模組 - 中華郵政物流有重量 20 KG 的限制，要使用該物流方式前請確"
+"保商品重量未超重。"
 
 #: admin/settings/class-woomp-setting.php:97
 msgid "啟用綠界電子發票(好用版)"
@@ -605,7 +613,7 @@ msgstr "綠界物流 超商取貨 OK超商"
 
 #: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/ecpay-shipping-home-post.php:11
 msgid "ECPay shipping home Post"
-msgstr "綠界物流 中華郵政"
+msgstr "綠界物流 宅配 中華郵政"
 
 #: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/ecpay-shipping-home-tcat-freeze.php:11
 msgid "ECPay shipping home Tcat Freeze"
@@ -889,6 +897,12 @@ msgstr "物流單號"
 msgid "Shipping details"
 msgstr "物流資訊"
 
+#~ msgid "啟用綠界金流"
+#~ msgstr "啟用綠界金流"
+
+#~ msgid "啟用綠界物流"
+#~ msgstr "啟用綠界物流"
+
 #~ msgid "Print ECPay shipping booking note (ecan)"
 #~ msgstr "列印宅配通託運單（綠界）"
 
@@ -1169,11 +1183,6 @@ msgstr "物流資訊"
 #~| msgid "Ecpay Shipping details"
 #~ msgid "ECPay shipping info"
 #~ msgstr "綠界物流資訊"
-
-#, fuzzy
-#~| msgid "shipping"
-#~ msgid "ECPay shipping ID"
-#~ msgstr "物流"
 
 #, fuzzy
 #~| msgid "Shipping details"

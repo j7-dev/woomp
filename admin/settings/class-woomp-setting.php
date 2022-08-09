@@ -67,7 +67,7 @@ class Woomp_Setting {
 				'id'   => 'wc_woomp_setting_ecpay',
 			),
 			'ecpay_gateway'                             => array(
-				'name'     => __( '啟用綠界金流', 'woomp' ),
+				'name'     => __( 'Enable ECPay gateway', 'woomp' ),
 				'type'     => 'checkbox',
 				'desc'     => __( 'Enable ECPay gateway method', 'ry-woocommerce-tools' ),
 				'id'       => RY_WT::$option_prefix . 'enabled_ecpay_gateway',
@@ -76,9 +76,9 @@ class Woomp_Setting {
 				'desc_tip' => true,
 			),
 			'ecpay_shipping'                            => array(
-				'name'     => __( '啟用綠界物流', 'woomp' ),
+				'name'     => __( 'Enable ECPay shipping', 'woomp' ),
 				'type'     => 'checkbox',
-				'desc'     => __( 'Enable ECPay shipping method', 'ry-woocommerce-tools' ),
+				'desc'     => __( 'Enable ECPay shipping method. The POST method doesn\'t support goods\' weight rule. You should notice that your goods can not over 20kg by yourself.', 'woomp' ),
 				'id'       => RY_WT::$option_prefix . 'enabled_ecpay_shipping',
 				'class'    => 'toggle',
 				'default'  => 'no',
