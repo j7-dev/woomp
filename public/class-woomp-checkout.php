@@ -127,6 +127,7 @@ if ( ! class_exists( 'WooMP_Checkout' ) ) {
 				'ry_ecpay_shipping_cvs_711',
 				'ry_ecpay_shipping_cvs_hilife',
 				'ry_ecpay_shipping_cvs_family',
+				'ry_ecpay_shipping_cvs_okmart',
 				'ry_newebpay_shipping_cvs',
 				'paynow_shipping_c2c_711',
 				'paynow_shipping_c2c_family',

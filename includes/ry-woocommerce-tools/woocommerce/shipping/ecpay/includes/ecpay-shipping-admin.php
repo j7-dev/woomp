@@ -184,6 +184,11 @@ final class RY_ECPay_Shipping_admin
                                     $print_list[] = $info;
                                 }
                                 break;
+                            case 'OKMARTC2C':
+                                if ($print_type == 'cvs_okmart') {
+                                    $print_list[] = $info;
+                                }
+                                break;
                             case 'TCAT':
                                 if ($print_type == 'home_tcat') {
                                     $print_list[] = $info;

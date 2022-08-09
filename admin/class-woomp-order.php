@@ -44,13 +44,13 @@ if ( ! class_exists( 'WooMP_Order' ) ) {
 			$cancel_unpaid_interval = get_option( 'woocommerce_ry_ecpay_atm_expire_date' ) * 24 * 60;
 			wp_schedule_single_event( time() + ( absint( $cancel_unpaid_interval ) * 60 ), 'woocommerce_cancel_atm_expired_orders' );
 
-			//$log = new WC_Logger();
-			//$log->log( 'info', 'ry-'.wc_print_r( get_option( 'woocommerce_ry_ecpay_atm_expire_date', true ), true ), array( 'source' => 'ods-log' ) );
+			// $log = new WC_Logger();
+			// $log->log( 'info', 'ry-'.wc_print_r( get_option( 'woocommerce_ry_ecpay_atm_expire_date', true ), true ), array( 'source' => 'ods-log' ) );
 
-			//global $wpdb;
+			// global $wpdb;
 
-			//$unpaid_orders = $wpdb->get_col(
-			//	$wpdb->prepare(
+			// $unpaid_orders = $wpdb->get_col(
+			// $wpdb->prepare(
 			//		// @codingStandardsIgnoreStart
 			//		"SELECT posts.ID
 			//		FROM {$wpdb->posts} AS posts
@@ -58,16 +58,16 @@ if ( ! class_exists( 'WooMP_Order' ) ) {
 			//		AND     posts.post_status = 'wc-on-hold'
 			//		AND     posts.post_modified < %s",
 			//		// @codingStandardsIgnoreEnd
-			//		gmdate( 'Y-m-d H:i:s', absint( strtotime( '-' . absint( $cancel_unpaid_interval ) . ' MINUTES', current_time( 'timestamp' ) ) ) )
-			//	)
-			//);
+			// gmdate( 'Y-m-d H:i:s', absint( strtotime( '-' . absint( $cancel_unpaid_interval ) . ' MINUTES', current_time( 'timestamp' ) ) ) )
+			// )
+			// );
 
-			//if ( $unpaid_orders ) {
-			//	foreach ( $unpaid_orders as $unpaid_order ) {
-			//		$order = wc_get_order( $unpaid_order );
-			//		$order->update_status( 'cancelled', __( 'Unpaid order cancelled - time limit reached.', 'woocommerce' ) );
-			//	}
-			//}
+			// if ( $unpaid_orders ) {
+			// foreach ( $unpaid_orders as $unpaid_order ) {
+			// $order = wc_get_order( $unpaid_order );
+			// $order->update_status( 'cancelled', __( 'Unpaid order cancelled - time limit reached.', 'woocommerce' ) );
+			// }
+			// }
 		}
 
 
@@ -199,21 +199,25 @@ if ( ! class_exists( 'WooMP_Order' ) ) {
 		 * 訂單列表增加列運托運單批次操作選單
 		 */
 		public function bulk_action( $actions ) {
-			switch ( RY_WT::get_option( 'ecpay_shipping_cvs_type' ) ) {
-				case 'B2C':
-					$actions['ry_print_ecpay_cvs_711']    = __( 'Print ECPay shipping booking note (711)', 'woomp' );
-					$actions['ry_print_ecpay_cvs_family'] = __( 'Print ECPay shipping booking note (family)', 'woomp' );
-					$actions['ry_print_ecpay_cvs_hilife'] = __( 'Print ECPay shipping booking note (hilife)', 'woomp' );
-					break;
-				case 'C2C':
-					$actions['ry_print_ecpay_cvs_711']    = __( 'Print ECPay shipping booking note (711)', 'woomp' );
-					$actions['ry_print_ecpay_cvs_family'] = __( 'Print ECPay shipping booking note (family)', 'woomp' );
-					break;
-			}
+			if ( wc_string_to_bool( get_option( 'RY_WT_enabled_ecpay_shipping' ) ) ) {
+				switch ( RY_WT::get_option( 'ecpay_shipping_cvs_type' ) ) {
+					case 'B2C':
+						$actions['ry_print_ecpay_cvs_711']    = __( 'Print ECPay shipping booking note (711)', 'woomp' );
+						$actions['ry_print_ecpay_cvs_family'] = __( 'Print ECPay shipping booking note (family)', 'woomp' );
+						$actions['ry_print_ecpay_cvs_hilife'] = __( 'Print ECPay shipping booking note (hilife)', 'woomp' );
+						break;
+					case 'C2C':
+						$actions['ry_print_ecpay_cvs_711']    = __( 'Print ECPay shipping booking note (711)', 'woomp' );
+						$actions['ry_print_ecpay_cvs_family'] = __( 'Print ECPay shipping booking note (family)', 'woomp' );
+						$actions['ry_print_ecpay_cvs_hilife'] = __( 'Print ECPay shipping booking note (hilife)', 'woomp' );
+						$actions['ry_print_ecpay_cvs_okmart'] = __( 'Print ECPay shipping booking note (okmart)', 'woomp' );
+						break;
+				}
 
-			$actions['ry_print_ecpay_home_tcat'] = __( 'Print ECPay shipping booking note (tcat)', 'woomp' );
-			$actions['ry_print_ecpay_home_ecan'] = __( 'Print ECPay shipping booking note (ecan)', 'woomp' );
-			$actions['wmp_print_hct']            = __( 'Print HCT shipping booking note', 'woomp' );
+				$actions['ry_print_ecpay_home_tcat'] = __( 'Print ECPay shipping booking note (tcat)', 'woomp' );
+				$actions['ry_print_ecpay_home_ecan'] = __( 'Print ECPay shipping booking note (ecan)', 'woomp' );
+			}
+			$actions['wmp_print_hct'] = __( 'Print HCT shipping booking note', 'woomp' );
 
 			return $actions;
 		}

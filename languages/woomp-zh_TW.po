@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: woomp\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/woomp\n"
-"POT-Creation-Date: 2022-07-20 16:16+0800\n"
-"PO-Revision-Date: 2022-07-20 16:47+0800\n"
+"POT-Creation-Date: 2022-08-09T03:53:42+00:00\n"
+"PO-Revision-Date: 2022-08-09 11:54+0800\n"
 "Last-Translator: \n"
 "Language-Team: morepower\n"
 "Language: zh_TW\n"
@@ -22,6 +22,30 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-SearchPath-0: woomp.pot\n"
 
+#. Plugin Name of the plugin
+msgid "好用版擴充 MorePower Addon for WooCommerce"
+msgstr "好用版擴充 MorePower Addon for WooCommerce"
+
+#. Plugin URI of the plugin
+msgid "https://morepower.club/morepower-addon/"
+msgstr "https://morepower.club/morepower-addon/"
+
+#. Description of the plugin
+msgid ""
+"WooCommerce 好用版擴充，改善結帳流程與可變商品等區塊，讓 WooCommerce 更符合亞"
+"洲人使用習慣。"
+msgstr ""
+"WooCommerce 好用版擴充，改善結帳流程與可變商品等區塊，讓 WooCommerce 更符合亞"
+"洲人使用習慣。"
+
+#. Author of the plugin
+msgid "MorePower"
+msgstr "MorePower"
+
+#. Author URI of the plugin
+msgid "https://morepower.club"
+msgstr "https://morepower.club"
+
 #: admin/class-woomp-admin.php:112
 msgid "完整地址"
 msgstr "完整地址"
@@ -29,14 +53,6 @@ msgstr "完整地址"
 #: admin/class-woomp-admin.php:132
 msgid "運送地址"
 msgstr "運送地址"
-
-#: admin/class-woomp-admin.php:183
-#: includes/line-pay-for-woo/includes/class-wc-gateway-linepay.php:201
-#: includes/ry-woocommerce-tools/class.ry-wt.admin.php:25
-#, fuzzy
-#| msgid "settings"
-msgid "Settings"
-msgstr "設定"
 
 #: admin/class-woomp-admin.php:184
 msgid "payment"
@@ -50,129 +66,39 @@ msgstr "物流"
 msgid "invoice"
 msgstr "電子發票"
 
-#: admin/class-woomp-email.php:64
-#: includes/ry-woocommerce-tools/templates/order/order-ecpay-payment-info-atm.php:38
-#: includes/ry-woocommerce-tools/templates/order/order-newebpay-payment-info-atm.php:39
-#: includes/ry-woocommerce-tools/templates/order/order-smilepay-payment-info-atm.php:38
-msgid "Bank code"
-msgstr ""
-
-#: admin/class-woomp-email.php:70 admin/class-woomp-email.php:102
-#: includes/ry-woocommerce-tools/templates/order/order-ecpay-payment-info-atm.php:52
-#: includes/ry-woocommerce-tools/templates/order/order-ecpay-payment-info-barcode.php:55
-#: includes/ry-woocommerce-tools/templates/order/order-ecpay-payment-info-cvs.php:39
-#: includes/ry-woocommerce-tools/templates/order/order-newebpay-payment-info-atm.php:55
-#: includes/ry-woocommerce-tools/templates/order/order-newebpay-payment-info-barcode.php:55
-#: includes/ry-woocommerce-tools/templates/order/order-newebpay-payment-info-cvs.php:39
-#: includes/ry-woocommerce-tools/templates/order/order-smilepay-payment-info-atm.php:52
-#: includes/ry-woocommerce-tools/templates/order/order-smilepay-payment-info-barcode.php:55
-#: includes/ry-woocommerce-tools/templates/order/order-smilepay-payment-info-cvs-711.php:39
-#: includes/ry-woocommerce-tools/templates/order/order-smilepay-payment-info-cvs-fami.php:39
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/ecpay-gateway-atm.php:97
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/ecpay-gateway-barcode.php:117
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/ecpay-gateway-cvs.php:109
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-atm.php:47
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-barcode.php:47
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-atm.php:47
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-barcode.php:47
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-cvs.php:47
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/newebpay-gateway-atm.php:91
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/newebpay-gateway-barcode.php:118
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/newebpay-gateway-cvs.php:102
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-atm.php:47
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-barcode.php:47
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/smilepay-gateway-atm.php:107
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/smilepay-gateway-barcode.php:118
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/smilepay-gateway-cvs-711.php:106
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/smilepay-gateway-cvs-fami.php:102
-msgid "Payment deadline"
-msgstr ""
-
-#. translators: %1$s: date %2$s: time
-#. translators: %1$s: date %2$s: time
-#: admin/class-woomp-email.php:72 admin/class-woomp-email.php:104
-#: includes/ry-woocommerce-tools/templates/order/order-ecpay-payment-info-barcode.php:60
-#: includes/ry-woocommerce-tools/templates/order/order-ecpay-payment-info-cvs.php:44
-#: includes/ry-woocommerce-tools/templates/order/order-smilepay-payment-info-cvs-711.php:44
-#: includes/ry-woocommerce-tools/templates/order/order-smilepay-payment-info-cvs-fami.php:44
-#: includes/ry-woocommerce-tools/woocommerce/admin/meta-boxes/ecpay-shipping-meta-box.php:113
-#: includes/ry-woocommerce-tools/woocommerce/admin/meta-boxes/ecpay-shipping-meta-box.php:116
-#: includes/ry-woocommerce-tools/woocommerce/admin/meta-boxes/newebpay-shipping-meta-box.php:64
-#: includes/ry-woocommerce-tools/woocommerce/admin/meta-boxes/newebpay-shipping-meta-box.php:66
-#: includes/ry-woocommerce-tools/woocommerce/admin/meta-boxes/smilepay-shipping-meta-box.php:90
-#: includes/ry-woocommerce-tools/woocommerce/admin/meta-boxes/smilepay-shipping-meta-box.php:94
-#, php-format
-msgctxt "Datetime"
-msgid "%1$s %2$s"
-msgstr ""
-
-#: admin/class-woomp-email.php:84
-#: includes/ry-woocommerce-tools/templates/order/order-ecpay-payment-info-barcode.php:31
-#: includes/ry-woocommerce-tools/templates/order/order-newebpay-payment-info-barcode.php:31
-#: includes/ry-woocommerce-tools/templates/order/order-smilepay-payment-info-barcode.php:31
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/ecpay-gateway-barcode.php:99
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/newebpay-gateway-barcode.php:100
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/smilepay-gateway-barcode.php:100
-msgid "Barcode 1"
-msgstr ""
-
-#: admin/class-woomp-email.php:90
-#: includes/ry-woocommerce-tools/templates/order/order-ecpay-payment-info-barcode.php:39
-#: includes/ry-woocommerce-tools/templates/order/order-newebpay-payment-info-barcode.php:39
-#: includes/ry-woocommerce-tools/templates/order/order-smilepay-payment-info-barcode.php:39
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/ecpay-gateway-barcode.php:105
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/newebpay-gateway-barcode.php:106
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/smilepay-gateway-barcode.php:106
-msgid "Barcode 2"
-msgstr ""
-
-#: admin/class-woomp-email.php:96
-#: includes/ry-woocommerce-tools/templates/order/order-ecpay-payment-info-barcode.php:47
-#: includes/ry-woocommerce-tools/templates/order/order-newebpay-payment-info-barcode.php:47
-#: includes/ry-woocommerce-tools/templates/order/order-smilepay-payment-info-barcode.php:47
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/ecpay-gateway-barcode.php:111
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/newebpay-gateway-barcode.php:112
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/smilepay-gateway-barcode.php:112
-msgid "Barcode 3"
-msgstr ""
-
-#: admin/class-woomp-order.php:138
-msgid "金流單號"
-msgstr ""
-
-#: admin/class-woomp-order.php:139
-msgid "物流單號"
-msgstr ""
-
-#: admin/class-woomp-order.php:204 admin/class-woomp-order.php:209
+#: admin/class-woomp-order.php:205 admin/class-woomp-order.php:210
 msgid "Print ECPay shipping booking note (711)"
 msgstr "列印統一超商託運單（綠界）"
 
-#: admin/class-woomp-order.php:205 admin/class-woomp-order.php:210
+#: admin/class-woomp-order.php:206 admin/class-woomp-order.php:211
 msgid "Print ECPay shipping booking note (family)"
 msgstr "列印全家超商託運單（綠界）"
 
-#: admin/class-woomp-order.php:206
+#: admin/class-woomp-order.php:207 admin/class-woomp-order.php:212
 msgid "Print ECPay shipping booking note (hilife)"
 msgstr "列印萊爾富超商託運單（綠界）"
 
-#: admin/class-woomp-order.php:214
+#: admin/class-woomp-order.php:213
+msgid "Print ECPay shipping booking note (okmart)"
+msgstr "列印OK超商託運單（綠界）"
+
+#: admin/class-woomp-order.php:217
 msgid "Print ECPay shipping booking note (tcat)"
 msgstr "列印黑貓託運單（綠界）"
 
-#: admin/class-woomp-order.php:215
+#: admin/class-woomp-order.php:218
 msgid "Print ECPay shipping booking note (ecan)"
 msgstr "列印宅配通託運單（綠界）"
 
-#: admin/class-woomp-order.php:216
+#: admin/class-woomp-order.php:220
 msgid "Print HCT shipping booking note"
 msgstr "匯出新竹物流報表"
 
-#: admin/class-woomp-order.php:294
+#: admin/class-woomp-order.php:298
 msgid "Update convenience store"
 msgstr "重新選擇超商"
 
-#: admin/class-woomp-order.php:295
+#: admin/class-woomp-order.php:299
 msgid "After choosing cvs, you need update the order to save changing."
 msgstr "重新選擇超商後記得要更新訂單資料才會被寫入。"
 
@@ -194,152 +120,6 @@ msgstr "啓用/停用"
 #: admin/class-woomp-payment-cod-clone.php:63
 msgid "啟用貨到付款"
 msgstr "啟用貨到付款"
-
-#: admin/class-woomp-payment-cod-clone.php:68
-#: admin/class-woomp-payment-cvs.php:68
-#: includes/line-pay-for-woo/includes/class-wc-gateway-linepay-settings.php:46
-#: includes/paynow-payment/includes/settings/settings-paynow-payment-famiport.php:24
-#: includes/paynow-shipping/includes/settings/settings-paynow-shipping-c2c-711.php:17
-#: includes/paynow-shipping/includes/settings/settings-paynow-shipping-c2c-family.php:17
-#: includes/paynow-shipping/includes/settings/settings-paynow-shipping-c2c-hilife.php:17
-#: includes/paynow-shipping/includes/settings/settings-paynow-shipping-hd-tcat.php:17
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-atm.php:11
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-barcode.php:11
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-credit-installment.php:11
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-credit.php:11
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-cvs.php:11
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-webatm.php:11
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-atm.php:11
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-barcode.php:11
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-credit-installment.php:11
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-credit.php:11
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-cvs.php:11
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-webatm.php:11
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-atm.php:11
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-barcode.php:11
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-credit.php:11
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-cvs.php:11
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-webatm.php:11
-#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/includes/settings-ecpay-shipping-base.php:4
-#: includes/ry-woocommerce-tools/woocommerce/shipping/newebpay/includes/settings-newebpay-shipping-cvs.php:4
-#: includes/ry-woocommerce-tools/woocommerce/shipping/smilepay/includes/settings-smilepay-shipping-base.php:4
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-711-frozen.php:18
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-family-frozen.php:18
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-frozen.php:18
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-refrigerated.php:18
-msgid "Title"
-msgstr "標題"
-
-#: admin/class-woomp-payment-cod-clone.php:70
-#: admin/class-woomp-payment-cvs.php:70
-msgid ""
-"This controls the title for the payment method the customer sees during "
-"checkout."
-msgstr ""
-
-#: admin/class-woomp-payment-cod-clone.php:76
-#: admin/class-woomp-payment-cvs.php:76
-#: includes/line-pay-for-woo/includes/class-wc-gateway-linepay-settings.php:53
-#: includes/paynow-payment/includes/settings/settings-paynow-payment-famiport.php:31
-#: includes/paynow-payment/includes/settings/settings-paynow-payment-ibon.php:31
-#: includes/paynow-payment/includes/settings/settings-paynow-payment-virtual-account.php:31
-#: includes/paynow-shipping/includes/settings/settings-paynow-shipping-c2c-711.php:24
-#: includes/paynow-shipping/includes/settings/settings-paynow-shipping-c2c-family.php:24
-#: includes/paynow-shipping/includes/settings/settings-paynow-shipping-c2c-hilife.php:24
-#: includes/paynow-shipping/includes/settings/settings-paynow-shipping-hd-tcat.php:24
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-atm.php:18
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-barcode.php:18
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-credit-installment.php:18
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-credit.php:18
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-cvs.php:18
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-webatm.php:18
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-atm.php:18
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-barcode.php:18
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-credit-installment.php:18
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-credit.php:18
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-cvs.php:18
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-webatm.php:18
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-atm.php:18
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-barcode.php:18
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-credit.php:18
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-cvs.php:18
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-webatm.php:18
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-711-frozen.php:25
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-family-frozen.php:25
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-frozen.php:25
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-refrigerated.php:25
-msgid "Description"
-msgstr "說明"
-
-#: admin/class-woomp-payment-cod-clone.php:78
-#: admin/class-woomp-payment-cvs.php:78
-msgid "Payment method description that the customer will see on your checkout."
-msgstr ""
-
-#: admin/class-woomp-payment-cod-clone.php:84
-#: admin/class-woomp-payment-cvs.php:84
-msgid "Instructions"
-msgstr ""
-
-#: admin/class-woomp-payment-cod-clone.php:86
-#: admin/class-woomp-payment-cvs.php:86
-msgid "Instructions that will be added to the thank you page and emails."
-msgstr ""
-
-#: admin/class-woomp-payment-cod-clone.php:92
-#: admin/class-woomp-payment-cvs.php:92
-msgid "Enable for shipping methods"
-msgstr ""
-
-#: admin/class-woomp-payment-cod-clone.php:100
-#: admin/class-woomp-payment-cvs.php:105
-msgid ""
-"If COD is only available for certain methods, set it up here. Leave blank to "
-"enable for all methods."
-msgstr ""
-
-#: admin/class-woomp-payment-cod-clone.php:104
-#: admin/class-woomp-payment-cvs.php:109
-#, fuzzy
-#| msgid "Shipping payment no"
-msgid "Select shipping methods"
-msgstr "物流單號"
-
-#: admin/class-woomp-payment-cod-clone.php:108
-msgid "Accept for virtual orders"
-msgstr ""
-
-#: admin/class-woomp-payment-cod-clone.php:109
-msgid "若訂單皆為虛擬商品，也接受貨到付款"
-msgstr ""
-
-#: admin/class-woomp-payment-cod-clone.php:137
-#: admin/class-woomp-payment-cvs.php:136
-#, php-format
-msgid "Any &quot;%1$s&quot; method"
-msgstr ""
-
-#: admin/class-woomp-payment-cod-clone.php:152
-#: admin/class-woomp-payment-cvs.php:151
-#, php-format
-msgid "%1$s (#%2$s)"
-msgstr ""
-
-#: admin/class-woomp-payment-cod-clone.php:155
-#: admin/class-woomp-payment-cvs.php:154
-#, php-format
-msgid "%1$s &ndash; %2$s"
-msgstr ""
-
-#: admin/class-woomp-payment-cod-clone.php:155
-#: admin/class-woomp-payment-cvs.php:154
-msgid "Other locations"
-msgstr ""
-
-#: admin/class-woomp-payment-cod-clone.php:311
-#: admin/class-woomp-payment-cvs.php:310
-msgid "Awaiting offline payment"
-msgstr ""
 
 #: admin/class-woomp-payment-cod-clone.php:338
 #: admin/class-woomp-payment-cvs.php:337
@@ -376,19 +156,9 @@ msgstr "請輸入變化類型規格，一次輸入一個"
 msgid "變化類型已更新"
 msgstr "變化類型已更新"
 
-#: admin/class-woomp-product.php:303
-#, php-format
-msgid "Regular price (%s)"
-msgstr ""
-
 #: admin/class-woomp-product.php:304
 msgid "必填"
 msgstr "必填"
-
-#: admin/class-woomp-product.php:305
-#, php-format
-msgid "Sale price (%s)"
-msgstr ""
 
 #: admin/class-woomp-product.php:306
 msgid "須小於定價"
@@ -426,278 +196,6 @@ msgstr "單選方塊(每行放1個選項)"
 msgid "單選方塊(每行放2個選項) "
 msgstr "單選方塊(每行放2個選項) "
 
-#: admin/class-woomp-product.php:522 admin/class-woomp-product.php:538
-msgid "Choose an option"
-msgstr ""
-
-#: admin/class-woomp-shipping-flat-rate.php:26
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-711-frozen.php:59
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-family-frozen.php:69
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-frozen.php:59
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-refrigerated.php:59
-msgid "Enter a cost (excl. tax) or sum, e.g. <code>10.00 * [qty]</code>."
-msgstr ""
-
-#: admin/class-woomp-shipping-flat-rate.php:26
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-711-frozen.php:59
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-family-frozen.php:69
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-frozen.php:59
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-refrigerated.php:59
-msgid ""
-"Use <code>[qty]</code> for the number of items, <br/><code>[cost]</code> for "
-"the total cost of items, and <code>[fee percent=\"10\" min_fee=\"20\" "
-"max_fee=\"\"]</code> for percentage based fees."
-msgstr ""
-
-#: admin/class-woomp-shipping-flat-rate.php:30
-msgid "Method title"
-msgstr ""
-
-#: admin/class-woomp-shipping-flat-rate.php:32
-#: includes/line-pay-for-woo/includes/class-wc-gateway-linepay-settings.php:48
-#: includes/paynow-payment/includes/settings/settings-paynow-payment-famiport.php:26
-#: includes/paynow-shipping/includes/settings/settings-paynow-shipping-c2c-711.php:19
-#: includes/paynow-shipping/includes/settings/settings-paynow-shipping-c2c-family.php:19
-#: includes/paynow-shipping/includes/settings/settings-paynow-shipping-c2c-hilife.php:19
-#: includes/paynow-shipping/includes/settings/settings-paynow-shipping-hd-tcat.php:19
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-atm.php:14
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-barcode.php:14
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-credit-installment.php:14
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-credit.php:14
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-cvs.php:14
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-webatm.php:14
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-atm.php:14
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-barcode.php:14
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-credit-installment.php:14
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-credit.php:14
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-cvs.php:14
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-webatm.php:14
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-atm.php:14
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-barcode.php:14
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-credit.php:14
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-cvs.php:14
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-webatm.php:14
-#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/includes/settings-ecpay-shipping-base.php:7
-#: includes/ry-woocommerce-tools/woocommerce/shipping/newebpay/includes/settings-newebpay-shipping-cvs.php:7
-#: includes/ry-woocommerce-tools/woocommerce/shipping/smilepay/includes/settings-smilepay-shipping-base.php:7
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-711-frozen.php:20
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-family-frozen.php:20
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-frozen.php:20
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-refrigerated.php:20
-msgid "This controls the title which the user sees during checkout."
-msgstr ""
-
-#: admin/class-woomp-shipping-flat-rate.php:33
-msgid "Flat rate"
-msgstr ""
-
-#: admin/class-woomp-shipping-flat-rate.php:37
-#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/includes/settings-ecpay-shipping-base.php:11
-#: includes/ry-woocommerce-tools/woocommerce/shipping/newebpay/includes/settings-newebpay-shipping-cvs.php:11
-#: includes/ry-woocommerce-tools/woocommerce/shipping/smilepay/includes/settings-smilepay-shipping-base.php:11
-msgid "Tax status"
-msgstr ""
-
-#: admin/class-woomp-shipping-flat-rate.php:42
-#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/includes/settings-ecpay-shipping-base.php:15
-#: includes/ry-woocommerce-tools/woocommerce/shipping/newebpay/includes/settings-newebpay-shipping-cvs.php:15
-#: includes/ry-woocommerce-tools/woocommerce/shipping/smilepay/includes/settings-smilepay-shipping-base.php:15
-msgid "Taxable"
-msgstr ""
-
-#: admin/class-woomp-shipping-flat-rate.php:43
-#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/includes/settings-ecpay-shipping-base.php:16
-#: includes/ry-woocommerce-tools/woocommerce/shipping/newebpay/includes/settings-newebpay-shipping-cvs.php:16
-#: includes/ry-woocommerce-tools/woocommerce/shipping/smilepay/includes/settings-smilepay-shipping-base.php:16
-msgctxt "Tax status"
-msgid "None"
-msgstr ""
-
-#: admin/class-woomp-shipping-flat-rate.php:47
-msgid "Cost"
-msgstr ""
-
-#: admin/class-woomp-shipping-flat-rate.php:56
-#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/includes/settings-ecpay-shipping-base.php:28
-#: includes/ry-woocommerce-tools/woocommerce/shipping/newebpay/includes/settings-newebpay-shipping-cvs.php:28
-#: includes/ry-woocommerce-tools/woocommerce/shipping/smilepay/includes/settings-smilepay-shipping-base.php:28
-msgid "Free shipping requires..."
-msgstr "如果要免運費的話需要.."
-
-#: admin/class-woomp-shipping-flat-rate.php:60
-#: admin/class-woomp-shipping-flat-rate.php:113
-#: admin/class-woomp-shipping-flat-rate.php:124
-#: includes/paynow-einvoice/includes/class-paynow-einvoice.php:604
-#: includes/paynow-shipping/includes/settings/settings-paynow-shipping-c2c-711.php:42
-#: includes/paynow-shipping/includes/settings/settings-paynow-shipping-c2c-family.php:42
-#: includes/paynow-shipping/includes/settings/settings-paynow-shipping-c2c-hilife.php:42
-#: includes/paynow-shipping/includes/settings/settings-paynow-shipping-hd-tcat.php:42
-#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/includes/settings-ecpay-shipping-base.php:32
-#: includes/ry-woocommerce-tools/woocommerce/shipping/newebpay/includes/settings-newebpay-shipping-cvs.php:32
-#: includes/ry-woocommerce-tools/woocommerce/shipping/smilepay/includes/settings-smilepay-shipping-base.php:32
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-711-frozen.php:43
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-711-frozen.php:84
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-family-frozen.php:53
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-family-frozen.php:93
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-frozen.php:43
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-frozen.php:84
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-refrigerated.php:43
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-refrigerated.php:83
-msgid "N/A"
-msgstr ""
-
-#: admin/class-woomp-shipping-flat-rate.php:61
-#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/includes/settings-ecpay-shipping-base.php:33
-#: includes/ry-woocommerce-tools/woocommerce/shipping/newebpay/includes/settings-newebpay-shipping-cvs.php:33
-#: includes/ry-woocommerce-tools/woocommerce/shipping/smilepay/includes/settings-smilepay-shipping-base.php:33
-msgid "A valid free shipping coupon"
-msgstr ""
-
-#: admin/class-woomp-shipping-flat-rate.php:62
-#: includes/paynow-shipping/includes/settings/settings-paynow-shipping-c2c-711.php:43
-#: includes/paynow-shipping/includes/settings/settings-paynow-shipping-c2c-family.php:43
-#: includes/paynow-shipping/includes/settings/settings-paynow-shipping-c2c-hilife.php:43
-#: includes/paynow-shipping/includes/settings/settings-paynow-shipping-hd-tcat.php:43
-#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/includes/settings-ecpay-shipping-base.php:34
-#: includes/ry-woocommerce-tools/woocommerce/shipping/newebpay/includes/settings-newebpay-shipping-cvs.php:34
-#: includes/ry-woocommerce-tools/woocommerce/shipping/smilepay/includes/settings-smilepay-shipping-base.php:34
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-711-frozen.php:44
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-family-frozen.php:54
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-frozen.php:44
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-refrigerated.php:44
-msgid "A minimum order amount"
-msgstr "一個最低訂單金額"
-
-#: admin/class-woomp-shipping-flat-rate.php:63
-#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/includes/settings-ecpay-shipping-base.php:35
-#: includes/ry-woocommerce-tools/woocommerce/shipping/newebpay/includes/settings-newebpay-shipping-cvs.php:35
-#: includes/ry-woocommerce-tools/woocommerce/shipping/smilepay/includes/settings-smilepay-shipping-base.php:35
-msgid "A minimum order amount OR a coupon"
-msgstr ""
-
-#: admin/class-woomp-shipping-flat-rate.php:64
-#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/includes/settings-ecpay-shipping-base.php:36
-#: includes/ry-woocommerce-tools/woocommerce/shipping/newebpay/includes/settings-newebpay-shipping-cvs.php:36
-#: includes/ry-woocommerce-tools/woocommerce/shipping/smilepay/includes/settings-smilepay-shipping-base.php:36
-msgid "A minimum order amount AND a coupon"
-msgstr ""
-
-#: admin/class-woomp-shipping-flat-rate.php:69
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-atm.php:25
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-barcode.php:25
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-credit-installment.php:25
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-credit.php:25
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-cvs.php:25
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-webatm.php:25
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-atm.php:25
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-barcode.php:25
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-credit-installment.php:25
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-credit.php:25
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-cvs.php:25
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-webatm.php:25
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-atm.php:25
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-barcode.php:25
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-credit.php:25
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-cvs.php:25
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-webatm.php:25
-#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/includes/settings-ecpay-shipping-base.php:41
-#: includes/ry-woocommerce-tools/woocommerce/shipping/newebpay/includes/settings-newebpay-shipping-cvs.php:41
-#: includes/ry-woocommerce-tools/woocommerce/shipping/smilepay/includes/settings-smilepay-shipping-base.php:41
-msgid "Minimum order amount"
-msgstr ""
-
-#: admin/class-woomp-shipping-flat-rate.php:73
-#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/includes/settings-ecpay-shipping-base.php:45
-#: includes/ry-woocommerce-tools/woocommerce/shipping/newebpay/includes/settings-newebpay-shipping-cvs.php:45
-#: includes/ry-woocommerce-tools/woocommerce/shipping/smilepay/includes/settings-smilepay-shipping-base.php:45
-msgid ""
-"Users will need to spend this amount to get free shipping (if enabled above)."
-msgstr ""
-
-#: admin/class-woomp-shipping-flat-rate.php:77
-msgid "Coupons discounts"
-msgstr ""
-
-#: admin/class-woomp-shipping-flat-rate.php:78
-msgid "Apply minimum order rule before coupon discount"
-msgstr ""
-
-#: admin/class-woomp-shipping-flat-rate.php:80
-msgid ""
-"If checked, free shipping would be available based on pre-discount order "
-"amount."
-msgstr ""
-
-#. translators: %s WooCommerce weight unit
-#. translators: %s WooCommerce weight unit
-#. translators: %s WooCommerce weight unit
-#: admin/class-woomp-shipping-flat-rate.php:86
-#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/includes/settings-ecpay-shipping-base.php:50
-#: includes/ry-woocommerce-tools/woocommerce/shipping/newebpay/includes/settings-newebpay-shipping-cvs.php:50
-#: includes/ry-woocommerce-tools/woocommerce/shipping/smilepay/includes/settings-smilepay-shipping-base.php:50
-#, php-format
-msgid "Every weight (%s) to plus times of cost"
-msgstr ""
-
-#: admin/class-woomp-shipping-flat-rate.php:90
-#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/includes/settings-ecpay-shipping-base.php:54
-#: includes/ry-woocommerce-tools/woocommerce/shipping/newebpay/includes/settings-newebpay-shipping-cvs.php:54
-#: includes/ry-woocommerce-tools/woocommerce/shipping/smilepay/includes/settings-smilepay-shipping-base.php:54
-msgid "Calculate free shipping first. 0 to disable plus cost by weight."
-msgstr ""
-
-#: admin/class-woomp-shipping-flat-rate.php:99
-#, fuzzy
-#| msgid "Shipping payment no"
-msgid "Shipping class costs"
-msgstr "物流單號"
-
-#. translators: %s: URL for link.
-#: admin/class-woomp-shipping-flat-rate.php:103
-#, php-format
-msgid ""
-"These costs can optionally be added based on the <a href=\"%s\">product "
-"shipping class</a>."
-msgstr ""
-
-#. translators: %s: shipping class name
-#: admin/class-woomp-shipping-flat-rate.php:111
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-711-frozen.php:82
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-family-frozen.php:91
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-frozen.php:82
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-refrigerated.php:81
-#, php-format
-msgid "\"%s\" shipping class cost"
-msgstr ""
-
-#: admin/class-woomp-shipping-flat-rate.php:122
-msgid "No shipping class cost"
-msgstr ""
-
-#: admin/class-woomp-shipping-flat-rate.php:132
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-711-frozen.php:93
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-family-frozen.php:102
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-frozen.php:93
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-refrigerated.php:92
-msgid "Calculation type"
-msgstr ""
-
-#: admin/class-woomp-shipping-flat-rate.php:137
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-711-frozen.php:98
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-family-frozen.php:107
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-frozen.php:98
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-refrigerated.php:97
-msgid "Per class: Charge shipping for each shipping class individually"
-msgstr ""
-
-#: admin/class-woomp-shipping-flat-rate.php:138
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-711-frozen.php:99
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-family-frozen.php:108
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-frozen.php:99
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-refrigerated.php:98
-msgid "Per order: Charge shipping for the most expensive shipping class"
-msgstr ""
-
 #: admin/settings/class-woomp-setting-gateway.php:12
 #: admin/settings/class-woomp-setting-gateway.php:37
 msgid "金流設定"
@@ -728,208 +226,12 @@ msgstr "立吉富"
 msgid "LINE Pay"
 msgstr "LINE Pay"
 
-#: admin/settings/class-woomp-setting-gateway.php:115
-#, fuzzy
-#| msgid "金流設定"
-msgid "立吉富金流設定"
-msgstr "金流設定"
-
-#: admin/settings/class-woomp-setting-gateway.php:120
-#: admin/settings/class-woomp-setting-invoice.php:257
-#: admin/settings/class-woomp-setting-shipping.php:121
-#: includes/paynow-einvoice/includes/settings/class-paynow-einvoice-settings-tab.php:74
-#: includes/paynow-payment/includes/settings/class-paynow-payment-settings-tab.php:101
-#: includes/paynow-shipping/includes/settings/class-paynow-shipping-settings-tab.php:85
-msgid "Debug Log"
-msgstr ""
-
-#: admin/settings/class-woomp-setting-gateway.php:123
-#: includes/paynow-payment/includes/settings/class-paynow-payment-settings-tab.php:104
-#, php-format
-msgid "Log PayNow payment message, inside <code>%s</code>"
-msgstr ""
-
-#: admin/settings/class-woomp-setting-gateway.php:131
-#: admin/settings/class-woomp-setting-shipping.php:199
-#: includes/paynow-payment/includes/settings/class-paynow-payment-settings-tab.php:112
-#: includes/paynow-shipping/includes/settings/class-paynow-shipping-settings-tab.php:163
-#, fuzzy
-#| msgid "settings"
-msgid "API Settings"
-msgstr "設定"
-
-#: admin/settings/class-woomp-setting-gateway.php:133
-#: includes/paynow-payment/includes/settings/class-paynow-payment-settings-tab.php:114
-msgid "Enter your PayNow API credentials"
-msgstr ""
-
-#: admin/settings/class-woomp-setting-gateway.php:137
-#: includes/paynow-payment/includes/settings/class-paynow-payment-settings-tab.php:118
-msgid "測試模式"
-msgstr ""
-
-#: admin/settings/class-woomp-setting-gateway.php:140
-#: includes/paynow-payment/includes/settings/class-paynow-payment-settings-tab.php:121
-msgid "如果要使用測試模式，請勾選."
-msgstr ""
-
-#: admin/settings/class-woomp-setting-gateway.php:144
-#: includes/paynow-payment/includes/settings/class-paynow-payment-settings-tab.php:125
-msgid "WebNo"
-msgstr ""
-
-#: admin/settings/class-woomp-setting-gateway.php:146
-#: includes/paynow-payment/includes/settings/class-paynow-payment-settings-tab.php:127
-msgid "This is the WebNo when you apply PayNow API"
-msgstr ""
-
-#: admin/settings/class-woomp-setting-gateway.php:151
-#: includes/paynow-payment/includes/settings/class-paynow-payment-settings-tab.php:132
-msgid "Transaction Password"
-msgstr ""
-
-#: admin/settings/class-woomp-setting-gateway.php:153
-#: includes/paynow-payment/includes/settings/class-paynow-payment-settings-tab.php:134
-msgid "This is the Transaction Password when you apply PayNow API"
-msgstr ""
-
-#: admin/settings/class-woomp-setting-gateway.php:158
-#: includes/paynow-payment/includes/settings/class-paynow-payment-settings-tab.php:139
-msgid "Merchant Name"
-msgstr ""
-
-#: admin/settings/class-woomp-setting-gateway.php:160
-#: includes/paynow-payment/includes/settings/class-paynow-payment-settings-tab.php:141
-msgid "This is the Merchant Name when you apply PayNow API"
-msgstr ""
-
 #: admin/settings/class-woomp-setting-gateway.php:186
 msgid "LINE Pay 金流設定"
 msgstr "LINE Pay 金流設定"
 
-#: admin/settings/class-woomp-setting-gateway.php:191
-msgid "Log Enable"
-msgstr ""
-
-#: admin/settings/class-woomp-setting-gateway.php:194
-msgid "Your log information will be saved in the following location."
-msgstr ""
-
-#: admin/settings/class-woomp-setting-gateway.php:198
-msgid "Log Level"
-msgstr ""
-
-#: admin/settings/class-woomp-setting-gateway.php:201
-msgid ""
-"Select the level of information to log. You can select Debug, Info, or "
-"Error. However, please note that website performance may decrease if you log "
-"too much information. We recommend you log only the important items at the "
-"Error level."
-msgstr ""
-
-#: admin/settings/class-woomp-setting-gateway.php:205
-msgid "Error"
-msgstr ""
-
-#: admin/settings/class-woomp-setting-gateway.php:206
-msgid "Info"
-msgstr ""
-
-#: admin/settings/class-woomp-setting-gateway.php:207
-msgid "debug"
-msgstr ""
-
-#: admin/settings/class-woomp-setting-gateway.php:212
-msgid "Sandbox Mode"
-msgstr ""
-
-#: admin/settings/class-woomp-setting-gateway.php:214
-msgid "Enable sandbox mode."
-msgstr ""
-
-#: admin/settings/class-woomp-setting-gateway.php:219
-msgid "Sandbox Channel ID"
-msgstr ""
-
-#: admin/settings/class-woomp-setting-gateway.php:221
-#: admin/settings/class-woomp-setting-gateway.php:237
-msgid "Enter your Channel ID."
-msgstr ""
-
-#: admin/settings/class-woomp-setting-gateway.php:227
-msgid "Sandbox Channel Secret Key"
-msgstr ""
-
-#: admin/settings/class-woomp-setting-gateway.php:229
-#: admin/settings/class-woomp-setting-gateway.php:245
-msgid "Enter your Channel SecretKey."
-msgstr ""
-
-#: admin/settings/class-woomp-setting-gateway.php:235
-msgid "Channel ID"
-msgstr ""
-
-#: admin/settings/class-woomp-setting-gateway.php:243
-msgid "Channel Secret Key"
-msgstr ""
-
-#: admin/settings/class-woomp-setting-gateway.php:251
-#, fuzzy
-#| msgid "payment"
-msgid "Payment Type"
-msgstr "金流"
-
-#: admin/settings/class-woomp-setting-gateway.php:254
-msgid "You can only select regular payment."
-msgstr ""
-
-#: admin/settings/class-woomp-setting-gateway.php:258
-msgid "Normal"
-msgstr ""
-
-#: admin/settings/class-woomp-setting-gateway.php:263
-msgid "Payment Action"
-msgstr ""
-
-#: admin/settings/class-woomp-setting-gateway.php:266
-msgid "You can only select auto-acquisition."
-msgstr ""
-
-#: admin/settings/class-woomp-setting-gateway.php:270
-msgid "Authorization/Capture"
-msgstr ""
-
-#: admin/settings/class-woomp-setting-gateway.php:275
-msgid "Statuses that Allow Managers to Refund Orders"
-msgstr ""
-
-#: admin/settings/class-woomp-setting-gateway.php:278
-msgid "Please select the statuses in which managers can refund orders."
-msgstr ""
-
-#: admin/settings/class-woomp-setting-gateway.php:284
-msgid "Statuses that Allow Customers to Request Refunds"
-msgstr ""
-
-#: admin/settings/class-woomp-setting-gateway.php:287
-msgid ""
-"Please select the statuses that allow customers to request refunds. Some "
-"statuses do not allow refunds."
-msgstr ""
-
-#: admin/settings/class-woomp-setting-gateway.php:293
-#, fuzzy
-#| msgid "Generate invoice"
-msgid "General Logo Size"
-msgstr "開立發票"
-
-#: admin/settings/class-woomp-setting-gateway.php:295
-msgid "Please select the size of your main LINE Pay logo."
-msgstr ""
-
 #: admin/settings/class-woomp-setting-invoice.php:12
 #: admin/settings/class-woomp-setting-invoice.php:37
-#: includes/paynow-einvoice/includes/settings/class-paynow-einvoice-settings-tab.php:30
 msgid "電子發票設定"
 msgstr "電子發票設定"
 
@@ -949,21 +251,6 @@ msgstr "訂單前綴字，僅限英數。"
 msgid "Invoice options"
 msgstr "電子發票設定"
 
-#: admin/settings/class-woomp-setting-invoice.php:122
-#: admin/settings/class-woomp-setting-invoice.php:277
-#: includes/paynow-einvoice/includes/settings/class-paynow-einvoice-settings-tab.php:94
-#, fuzzy
-#| msgid "Issue Manual"
-msgid "Issue Mode"
-msgstr "手動開立"
-
-#: admin/settings/class-woomp-setting-invoice.php:124
-#: admin/settings/class-woomp-setting-invoice.php:146
-#: admin/settings/class-woomp-setting-invoice.php:279
-#: includes/paynow-einvoice/includes/settings/class-paynow-einvoice-settings-tab.php:96
-msgid "You can issue the e-invoice manually even if you choose Automatic mode"
-msgstr ""
-
 #: admin/settings/class-woomp-setting-invoice.php:129
 msgid "Issue Manual"
 msgstr "手動開立"
@@ -975,14 +262,6 @@ msgstr "自動開立"
 #: admin/settings/class-woomp-setting-invoice.php:135
 msgid "Allowed Order Status for issue"
 msgstr "自動開立的訂單狀態"
-
-#: admin/settings/class-woomp-setting-invoice.php:138
-#: admin/settings/class-woomp-setting-invoice.php:292
-#: includes/paynow-einvoice/includes/settings/class-paynow-einvoice-settings-tab.php:109
-msgid ""
-"When order status changes to the status, the e-invoice will be issued "
-"automatically."
-msgstr ""
 
 #: admin/settings/class-woomp-setting-invoice.php:144
 msgid "Invalid mode"
@@ -1000,29 +279,6 @@ msgstr "自動作廢"
 msgid "Allowed Order Status for invalid"
 msgstr "自動作廢的訂單狀態"
 
-#: admin/settings/class-woomp-setting-invoice.php:160
-msgid ""
-"When order status changes to the status, the e-invoice will be invalid "
-"automatically."
-msgstr ""
-
-#: admin/settings/class-woomp-setting-invoice.php:164
-msgid "Refunded"
-msgstr ""
-
-#: admin/settings/class-woomp-setting-invoice.php:165
-msgid "Failed"
-msgstr "失敗"
-
-#: admin/settings/class-woomp-setting-invoice.php:169
-#: admin/settings/class-woomp-setting-invoice.php:311
-#: includes/paynow-einvoice/includes/class-paynow-einvoice.php:800
-#: includes/paynow-einvoice/includes/settings/class-paynow-einvoice-settings-tab.php:128
-#, fuzzy
-#| msgid "Carrier Number"
-msgid "Carrier Type"
-msgstr "載具"
-
 #: admin/settings/class-woomp-setting-invoice.php:170
 msgid "Allowed invoice carrier type"
 msgstr "允許的載具類型"
@@ -1031,242 +287,14 @@ msgstr "允許的載具類型"
 msgid "Cloud Invoice"
 msgstr "雲端發票"
 
-#: admin/settings/class-woomp-setting-invoice.php:176
-#: admin/settings/class-woomp-setting-invoice.php:313
-#: includes/paynow-einvoice/includes/class-paynow-einvoice.php:880
-#: includes/paynow-einvoice/includes/settings/class-paynow-einvoice-settings-tab.php:130
-#, fuzzy
-#| msgid "mobile-barcode"
-msgid "Mobile Code"
-msgstr "手機條碼"
-
-#: admin/settings/class-woomp-setting-invoice.php:177
-#: admin/settings/class-woomp-setting-invoice.php:319
-#: includes/paynow-einvoice/includes/class-paynow-einvoice.php:884
-#: includes/paynow-einvoice/includes/settings/class-paynow-einvoice-settings-tab.php:136
-msgid "Citizen Digital Certificate"
-msgstr ""
-
 #: admin/settings/class-woomp-setting-invoice.php:178
 msgid "Paper Invoice"
 msgstr "紙本發票"
-
-#: admin/settings/class-woomp-setting-invoice.php:183
-#: admin/settings/class-woomp-setting-invoice.php:340
-#: includes/paynow-einvoice/includes/settings/class-paynow-einvoice-settings-tab.php:157
-msgid "Donated Organization"
-msgstr ""
-
-#: admin/settings/class-woomp-setting-invoice.php:239
-#, fuzzy
-#| msgid "電子發票設定"
-msgid "立吉富電子發票設定"
-msgstr "電子發票設定"
-
-#: admin/settings/class-woomp-setting-invoice.php:251
-#: admin/settings/class-woomp-setting-shipping.php:205
-#: includes/paynow-einvoice/includes/settings/class-paynow-einvoice-settings-tab.php:68
-#: includes/paynow-shipping/includes/settings/class-paynow-shipping-settings-tab.php:169
-msgid "Test Mode"
-msgstr ""
-
-#: admin/settings/class-woomp-setting-invoice.php:259
-#: includes/paynow-einvoice/includes/settings/class-paynow-einvoice-settings-tab.php:76
-msgid "Enable Logging"
-msgstr ""
-
-#: admin/settings/class-woomp-setting-invoice.php:261
-#: includes/paynow-einvoice/includes/settings/class-paynow-einvoice-settings-tab.php:78
-#, php-format
-msgid "Log PayNow E-Invoice message, inside <code>%s</code>"
-msgstr ""
-
-#: admin/settings/class-woomp-setting-invoice.php:265
-#: includes/paynow-einvoice/includes/settings/class-paynow-einvoice-settings-tab.php:82
-msgid "Merchant ID"
-msgstr ""
-
-#: admin/settings/class-woomp-setting-invoice.php:271
-#: includes/paynow-einvoice/includes/settings/class-paynow-einvoice-settings-tab.php:88
-msgid "Merchant Password"
-msgstr ""
-
-#: admin/settings/class-woomp-setting-invoice.php:283
-#: includes/paynow-einvoice/includes/settings/class-paynow-einvoice-settings-tab.php:100
-#, fuzzy
-#| msgid "Issue automatic"
-msgid "Automatic"
-msgstr "自動開立"
-
-#: admin/settings/class-woomp-setting-invoice.php:284
-#: includes/paynow-einvoice/includes/settings/class-paynow-einvoice-settings-tab.php:101
-#, fuzzy
-#| msgid "Issue Manual"
-msgid "Manual"
-msgstr "手動開立"
-
-#: admin/settings/class-woomp-setting-invoice.php:289
-#: includes/paynow-einvoice/includes/settings/class-paynow-einvoice-settings-tab.php:106
-#, fuzzy
-#| msgid "Allowed Order Status for issue"
-msgid "Allowed Order Status"
-msgstr "自動開立的訂單狀態"
-
-#: admin/settings/class-woomp-setting-invoice.php:298
-#: includes/paynow-einvoice/includes/settings/class-paynow-einvoice-settings-tab.php:115
-msgid "Tax Type"
-msgstr ""
-
-#: admin/settings/class-woomp-setting-invoice.php:300
-#: includes/paynow-einvoice/includes/settings/class-paynow-einvoice-settings-tab.php:117
-msgid "When input the product price, please input the price with tax-included."
-msgstr ""
-
-#: admin/settings/class-woomp-setting-invoice.php:326
-#: includes/paynow-einvoice/includes/class-paynow-einvoice.php:888
-#: includes/paynow-einvoice/includes/settings/class-paynow-einvoice-settings-tab.php:143
-msgid "Easy Card"
-msgstr ""
-
-#: admin/settings/class-woomp-setting-invoice.php:385
-#: admin/settings/class-woomp-setting-shipping.php:252
-#: includes/paynow-shipping/includes/settings/class-paynow-shipping-settings-tab.php:208
-msgid "No action"
-msgstr ""
 
 #: admin/settings/class-woomp-setting-shipping.php:12
 #: admin/settings/class-woomp-setting-shipping.php:37
 msgid "物流設定"
 msgstr "物流設定"
-
-#: admin/settings/class-woomp-setting-shipping.php:116
-#: includes/paynow-shipping/includes/settings/class-paynow-shipping-settings-tab.php:80
-#, fuzzy
-#| msgid "Ecpay Shipping details"
-msgid "General Shipping Settings"
-msgstr "綠界物流資訊"
-
-#: admin/settings/class-woomp-setting-shipping.php:123
-#: includes/paynow-shipping/includes/settings/class-paynow-shipping-settings-tab.php:87
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/includes/settings-ecpay-gateway.php:20
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/includes/settings-newebpay-gateway.php:20
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/includes/settings-smilepay-gateway.php:20
-#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/includes/settings-ecpay-shipping.php:20
-msgid "Enable logging"
-msgstr ""
-
-#: admin/settings/class-woomp-setting-shipping.php:125
-#: includes/paynow-shipping/includes/settings/class-paynow-shipping-settings-tab.php:89
-#, php-format
-msgid "Log PayNow Shipping message, inside <code>%s</code>"
-msgstr ""
-
-#: admin/settings/class-woomp-setting-shipping.php:133
-#: includes/paynow-shipping/includes/settings/class-paynow-shipping-settings-tab.php:97
-#, fuzzy
-#| msgid "settings"
-msgid "Store Settings"
-msgstr "設定"
-
-#: admin/settings/class-woomp-setting-shipping.php:135
-#: includes/paynow-shipping/includes/settings/class-paynow-shipping-settings-tab.php:99
-msgid "Enter your store information"
-msgstr ""
-
-#: admin/settings/class-woomp-setting-shipping.php:139
-#: includes/paynow-shipping/includes/settings/class-paynow-shipping-settings-tab.php:103
-msgid "Sender Name"
-msgstr ""
-
-#: admin/settings/class-woomp-setting-shipping.php:141
-#: includes/paynow-shipping/includes/settings/class-paynow-shipping-settings-tab.php:105
-msgid ""
-"Please enter the sender name. It may be used when the order is returned."
-msgstr ""
-
-#: admin/settings/class-woomp-setting-shipping.php:146
-#: includes/paynow-shipping/includes/settings/class-paynow-shipping-settings-tab.php:110
-msgid "Sender Address"
-msgstr ""
-
-#: admin/settings/class-woomp-setting-shipping.php:151
-#: includes/paynow-shipping/includes/settings/class-paynow-shipping-settings-tab.php:115
-msgid "Sender Phone"
-msgstr ""
-
-#: admin/settings/class-woomp-setting-shipping.php:156
-#: includes/paynow-shipping/includes/settings/class-paynow-shipping-settings-tab.php:120
-msgid "Sender Email"
-msgstr ""
-
-#: admin/settings/class-woomp-setting-shipping.php:165
-#: includes/paynow-shipping/includes/settings/class-paynow-shipping-settings-tab.php:129
-#, fuzzy
-#| msgid "Shipping details"
-msgid "Shipping Order Status Settings"
-msgstr "物流資訊"
-
-#: admin/settings/class-woomp-setting-shipping.php:167
-#: includes/paynow-shipping/includes/settings/class-paynow-shipping-settings-tab.php:131
-msgid "Manage your shipping order status"
-msgstr ""
-
-#: admin/settings/class-woomp-setting-shipping.php:171
-#: includes/paynow-shipping/includes/settings/class-paynow-shipping-settings-tab.php:135
-msgid "When products are located at sender CVS store, change order status to"
-msgstr ""
-
-#: admin/settings/class-woomp-setting-shipping.php:177
-#: includes/paynow-shipping/includes/settings/class-paynow-shipping-settings-tab.php:141
-msgid "When products are at located receiver CVS store, change order status to"
-msgstr ""
-
-#: admin/settings/class-woomp-setting-shipping.php:183
-#: includes/paynow-shipping/includes/settings/class-paynow-shipping-settings-tab.php:147
-msgid "When customer pickuped or received products, change order status to"
-msgstr ""
-
-#: admin/settings/class-woomp-setting-shipping.php:189
-#: includes/paynow-shipping/includes/settings/class-paynow-shipping-settings-tab.php:153
-msgid ""
-"When the customer doesn't pickup products and the products are returned, "
-"change order status to"
-msgstr ""
-
-#: admin/settings/class-woomp-setting-shipping.php:201
-#: includes/paynow-shipping/includes/settings/class-paynow-shipping-settings-tab.php:165
-msgid "Enter your PayNow shipping user account and API Code"
-msgstr ""
-
-#: admin/settings/class-woomp-setting-shipping.php:207
-#: includes/paynow-shipping/includes/settings/class-paynow-shipping-settings-tab.php:171
-msgid "Enable Test Mode"
-msgstr ""
-
-#: admin/settings/class-woomp-setting-shipping.php:209
-#: includes/paynow-shipping/includes/settings/class-paynow-shipping-settings-tab.php:173
-msgid "When enabled, you need to use the test-only User Account and API Code."
-msgstr ""
-
-#: admin/settings/class-woomp-setting-shipping.php:213
-#: includes/paynow-shipping/includes/settings/class-paynow-shipping-settings-tab.php:177
-msgid "User Account"
-msgstr ""
-
-#: admin/settings/class-woomp-setting-shipping.php:215
-#: includes/paynow-shipping/includes/settings/class-paynow-shipping-settings-tab.php:179
-msgid "This is the user account when you apply PayNow shipping"
-msgstr ""
-
-#: admin/settings/class-woomp-setting-shipping.php:220
-#: includes/paynow-shipping/includes/settings/class-paynow-shipping-settings-tab.php:184
-msgid "API Code"
-msgstr ""
-
-#: admin/settings/class-woomp-setting-shipping.php:222
-#: includes/paynow-shipping/includes/settings/class-paynow-shipping-settings-tab.php:186
-msgid "This is the API Code when you apply PayNow shipping"
-msgstr ""
 
 #: admin/settings/class-woomp-setting.php:23
 msgid "好用版擴充"
@@ -1288,29 +316,13 @@ msgstr "綠界設定"
 msgid "啟用綠界金流"
 msgstr "啟用綠界金流"
 
-#: admin/settings/class-woomp-setting.php:72
-#: includes/ry-woocommerce-tools/woocommerce/settings/class-settings-ry-tools.php:78
-msgid "Enable ECPay gateway method"
-msgstr ""
-
 #: admin/settings/class-woomp-setting.php:79
 msgid "啟用綠界物流"
 msgstr "啟用綠界物流"
 
-#: admin/settings/class-woomp-setting.php:81
-#: includes/ry-woocommerce-tools/woocommerce/settings/class-settings-ry-tools.php:86
-msgid "Enable ECPay shipping method"
-msgstr ""
-
 #: admin/settings/class-woomp-setting.php:97
 msgid "啟用綠界電子發票(好用版)"
 msgstr "啟用綠界電子發票(好用版)"
-
-#: admin/settings/class-woomp-setting.php:99
-#, fuzzy
-#| msgid "Invalid Ecpay invoice error!"
-msgid "Enable ECPay invoice method"
-msgstr "作廢發票發生錯誤！"
 
 #: admin/settings/class-woomp-setting.php:109
 msgid "藍新設定"
@@ -1320,19 +332,9 @@ msgstr "藍新設定"
 msgid "啟用藍新金流"
 msgstr "啟用藍新金流"
 
-#: admin/settings/class-woomp-setting.php:116
-#: includes/ry-woocommerce-tools/woocommerce/settings/class-settings-ry-tools.php:103
-msgid "Enable NewebPay gateway method"
-msgstr ""
-
 #: admin/settings/class-woomp-setting.php:123
 msgid "啟用藍新物流"
 msgstr "啟用藍新物流"
-
-#: admin/settings/class-woomp-setting.php:125
-#: includes/ry-woocommerce-tools/woocommerce/settings/class-settings-ry-tools.php:111
-msgid "Enable NewebPay shipping method"
-msgstr ""
 
 #: admin/settings/class-woomp-setting.php:135
 msgid "速買配設定"
@@ -1342,19 +344,9 @@ msgstr "速買配設定"
 msgid "啟用速買配金流"
 msgstr "啟用速買配金流"
 
-#: admin/settings/class-woomp-setting.php:142
-#: includes/ry-woocommerce-tools/woocommerce/settings/class-settings-ry-tools.php:128
-msgid "Enable SmilePay gateway method"
-msgstr ""
-
 #: admin/settings/class-woomp-setting.php:149
 msgid "啟用速買配物流"
 msgstr "啟用速買配物流"
-
-#: admin/settings/class-woomp-setting.php:151
-#: includes/ry-woocommerce-tools/woocommerce/settings/class-settings-ry-tools.php:136
-msgid "Enable SmilePay shipping method"
-msgstr ""
 
 #: admin/settings/class-woomp-setting.php:161
 msgid "立吉富設定"
@@ -1472,36 +464,6 @@ msgstr "新增取代貨到付款方式"
 msgid "開啟此選項以取代貨到付款方式"
 msgstr "開啟此選項以取代貨到付款方式"
 
-#: admin/settings/class-woomp-setting.php:320
-#: includes/ry-woocommerce-tools/woocommerce/settings/class-settings-ry-tools.php:152
-msgid "Repay action"
-msgstr ""
-
-#: admin/settings/class-woomp-setting.php:321
-#: includes/ry-woocommerce-tools/woocommerce/settings/class-settings-ry-tools.php:153
-msgid "Enable order to change payment"
-msgstr ""
-
-#: admin/settings/class-woomp-setting.php:329
-#: includes/ry-woocommerce-tools/woocommerce/settings/class-settings-ry-tools.php:159
-msgid "strength password"
-msgstr ""
-
-#: admin/settings/class-woomp-setting.php:330
-#: includes/ry-woocommerce-tools/woocommerce/settings/class-settings-ry-tools.php:160
-msgid "Enable the strength password check."
-msgstr ""
-
-#: admin/settings/class-woomp-setting.php:338
-#: includes/ry-woocommerce-tools/woocommerce/settings/class-settings-ry-tools.php:166
-msgid "show not paid info at order detail"
-msgstr ""
-
-#: admin/settings/class-woomp-setting.php:339
-#: includes/ry-woocommerce-tools/woocommerce/settings/class-settings-ry-tools.php:167
-msgid "Show not paid info at order detail payment method info."
-msgstr ""
-
 #: admin/settings/class-woomp-setting.php:347
 msgid "結帳按鈕文字設定"
 msgstr "結帳按鈕文字設定"
@@ -1564,42 +526,6 @@ msgstr ""
 msgid "設定標籤式可變商品規格的文字顏色"
 msgstr ""
 
-#: admin/settings/class-woomp-setting.php:415
-#, fuzzy
-#| msgid "商品相關設定"
-msgid "運送相關設定"
-msgstr "商品相關設定"
-
-#: admin/settings/class-woomp-setting.php:420
-#: includes/ry-woocommerce-tools/woocommerce/settings/class-settings-ry-tools.php:182
-msgid "Show Country"
-msgstr ""
-
-#: admin/settings/class-woomp-setting.php:421
-#: includes/ry-woocommerce-tools/woocommerce/settings/class-settings-ry-tools.php:183
-msgid "Show Country select item"
-msgstr ""
-
-#: admin/settings/class-woomp-setting.php:429
-#: includes/ry-woocommerce-tools/woocommerce/settings/class-settings-ry-tools.php:189
-msgid "Last name first"
-msgstr ""
-
-#: admin/settings/class-woomp-setting.php:430
-#: includes/ry-woocommerce-tools/woocommerce/settings/class-settings-ry-tools.php:190
-msgid "Show Last name before first name input item"
-msgstr ""
-
-#: admin/settings/class-woomp-setting.php:438
-#: includes/ry-woocommerce-tools/woocommerce/settings/class-settings-ry-tools.php:196
-msgid "Address zip first"
-msgstr ""
-
-#: admin/settings/class-woomp-setting.php:439
-#: includes/ry-woocommerce-tools/woocommerce/settings/class-settings-ry-tools.php:197
-msgid "Show address input item in zip state address"
-msgstr ""
-
 #: admin/settings/class-woomp-setting.php:447
 msgid "免運剩餘金額提示文字 ex.「差 {{price}} 即可免運」"
 msgstr ""
@@ -1632,68 +558,6 @@ msgstr ""
 msgid "設定免費運送門檻提示文字顏色"
 msgstr ""
 
-#: includes/line-pay-for-woo/includes/class-wc-gateway-linepay-settings.php:40
-#: includes/paynow-payment/includes/settings/settings-paynow-payment-famiport.php:18
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-atm.php:4
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-barcode.php:4
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-credit-installment.php:4
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-credit.php:4
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-cvs.php:4
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-webatm.php:4
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-atm.php:4
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-barcode.php:4
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-credit-installment.php:4
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-credit.php:4
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-cvs.php:4
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-webatm.php:4
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-atm.php:4
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-barcode.php:4
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-credit.php:4
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-cvs.php:4
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-webatm.php:4
-msgid "Enable/Disable"
-msgstr ""
-
-#: includes/line-pay-for-woo/includes/class-wc-gateway-linepay-settings.php:42
-msgid "Starting up LINE Pay plugin..."
-msgstr ""
-
-#: includes/line-pay-for-woo/includes/class-wc-gateway-linepay-settings.php:49
-#, fuzzy
-#| msgid "LINE Pay"
-msgid "Line Pay"
-msgstr "LINE Pay"
-
-#: includes/line-pay-for-woo/includes/class-wc-gateway-linepay-settings.php:55
-#: includes/paynow-payment/includes/settings/settings-paynow-payment-famiport.php:33
-#: includes/paynow-shipping/includes/settings/settings-paynow-shipping-c2c-711.php:26
-#: includes/paynow-shipping/includes/settings/settings-paynow-shipping-c2c-family.php:26
-#: includes/paynow-shipping/includes/settings/settings-paynow-shipping-c2c-hilife.php:26
-#: includes/paynow-shipping/includes/settings/settings-paynow-shipping-hd-tcat.php:26
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-atm.php:22
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-barcode.php:22
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-credit-installment.php:22
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-credit.php:22
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-cvs.php:22
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-webatm.php:22
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-atm.php:22
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-barcode.php:22
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-credit-installment.php:22
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-credit.php:22
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-cvs.php:22
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-webatm.php:22
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-atm.php:22
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-barcode.php:22
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-credit.php:22
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-cvs.php:22
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-webatm.php:22
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-711-frozen.php:27
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-family-frozen.php:27
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-frozen.php:27
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-refrigerated.php:27
-msgid "This controls the description which the user sees during checkout."
-msgstr ""
-
 #: includes/line-pay-for-woo/includes/class-wc-gateway-linepay.php:58
 msgid "Pay with LINE Pay"
 msgstr "使用 LINE Pay 付款"
@@ -1711,2418 +575,21 @@ msgstr ""
 "透過 LINE Pay 進行付款。要使用LINE Pay 您必須擁有Channel ID 和Channel "
 "SecretKey。"
 
-#: includes/line-pay-for-woo/includes/class-wc-gateway-linepay.php:334
-msgid "Unable to process payment request. Please try again."
-msgstr ""
-
-#: includes/line-pay-for-woo/includes/class-wc-gateway-linepay.php:430
-msgid "Unable to confirm payment. Please contact support."
-msgstr ""
-
-#: includes/line-pay-for-woo/includes/class-wc-gateway-linepay.php:488
-msgid "Payment canceled."
-msgstr ""
-
-#: includes/line-pay-for-woo/includes/class-wc-gateway-linepay.php:512
-#, php-format
-msgid "Unable to find order #%s"
-msgstr ""
-
-#: includes/line-pay-for-woo/includes/class-wc-gateway-linepay.php:528
-msgid "Unable to refund order due to its current status."
-msgstr ""
-
-#: includes/line-pay-for-woo/includes/class-wc-gateway-linepay.php:547
-msgid "Refund amount does not match total purchase amount."
-msgstr ""
-
-#: includes/line-pay-for-woo/includes/class-wc-gateway-linepay.php:714
-msgid "Unsupported currency."
-msgstr ""
-
-#: includes/line-pay-for-woo/includes/class-wc-gateway-linepay.php:721
-msgid "You have not entered your channel information."
-msgstr ""
-
-#: includes/line-pay-for-woo/line-pay-for-woo.php:103
-#: includes/line-pay-for-woo/line-pay-for-woo.php:128
-msgid "Unable to process callback."
-msgstr ""
-
-#: includes/line-pay-for-woo/line-pay-for-woo.php:217
-msgid "Refund complete."
-msgstr ""
-
-#: includes/line-pay-for-woo/line-pay-for-woo.php:226
-msgid "Unable to process refund. Please try again."
-msgstr ""
-
-#: includes/line-pay-for-woo/line-pay-for-woo.php:249
-msgid "Processing refund..."
-msgstr ""
-
-#: includes/line-pay-for-woo/line-pay-for-woo.php:250
-msgid "Request refund for order {order_id}"
-msgstr ""
-
-#: includes/line-pay-for-woo/line-pay-for-woo.php:251
-#: includes/line-pay-for-woo/line-pay-for-woo.php:307
-msgid "Cancel"
-msgstr ""
-
-#: includes/paynow-einvoice/includes/class-paynow-einvoice.php:178
-#: includes/paynow-einvoice/includes/class-paynow-einvoice.php:216
-#, fuzzy
-#| msgid "<b>Invoice issue result</b>"
-msgid "E-Invoice issued successfully."
-msgstr "<b>發票開立結果</b>"
-
-#: includes/paynow-einvoice/includes/class-paynow-einvoice.php:185
-#: includes/paynow-einvoice/includes/class-paynow-einvoice.php:227
-#, fuzzy
-#| msgid "<b>Invoice issue faild</b>"
-msgid "E-Invoice issued failed."
-msgstr "<b>發票開立失敗</b>"
-
-#: includes/paynow-einvoice/includes/class-paynow-einvoice.php:201
-msgid "E-Invoice is already issued."
-msgstr ""
-
-#: includes/paynow-einvoice/includes/class-paynow-einvoice.php:225
-#, fuzzy
-#| msgid "<b>Invoice issue faild</b>"
-msgid "E-Invoice issued failed"
-msgstr "<b>發票開立失敗</b>"
-
-#: includes/paynow-einvoice/includes/class-paynow-einvoice.php:241
-msgid "Issue PayNow E-Invoice"
-msgstr ""
-
-#: includes/paynow-einvoice/includes/class-paynow-einvoice.php:278
-#, fuzzy
-#| msgid "<b>Invoice issue result</b>"
-msgid "E-Invoice issued successfully:"
-msgstr "<b>發票開立結果</b>"
-
-#: includes/paynow-einvoice/includes/class-paynow-einvoice.php:288
-#, fuzzy
-#| msgid "<b>Invoice issue faild</b>"
-msgid "E-Invoice issued failed:"
-msgstr "<b>發票開立失敗</b>"
-
-#: includes/paynow-einvoice/includes/class-paynow-einvoice.php:306
-#, php-format
-msgid "%s E-Invoice is issued."
-msgid_plural "%s E-Invoice are issued"
-msgstr[0] ""
-
-#: includes/paynow-einvoice/includes/class-paynow-einvoice.php:339
-#, fuzzy
-#| msgid "Invalid Ecpay invoice successful!"
-msgid "Cancel E-Invoice Successfully:"
-msgstr "電子發票作廢成功！"
-
-#: includes/paynow-einvoice/includes/class-paynow-einvoice.php:342
-#: includes/paynow-einvoice/includes/class-paynow-einvoice.php:343
-msgid "Cancel E-Invoice Failed:"
-msgstr ""
-
-#: includes/paynow-einvoice/includes/class-paynow-einvoice.php:559
-#: includes/paynow-einvoice/includes/class-paynow-einvoice.php:686
-#, fuzzy
-#| msgid "Paper Invoice"
-msgid "PayNow E-Invoice"
-msgstr "紙本發票"
-
-#: includes/paynow-einvoice/includes/class-paynow-einvoice.php:574
-#: includes/paynow-einvoice/includes/class-paynow-einvoice.php:629
-#: includes/paynow-einvoice/includes/class-paynow-einvoice.php:812
-msgid "Buyer Name"
-msgstr ""
-
-#: includes/paynow-einvoice/includes/class-paynow-einvoice.php:575
-#: includes/paynow-einvoice/includes/class-paynow-einvoice.php:631
-#: includes/paynow-einvoice/includes/class-paynow-einvoice.php:823
-msgid "Unified Business NO"
-msgstr ""
-
-#: includes/paynow-einvoice/includes/class-paynow-einvoice.php:579
-#: includes/paynow-einvoice/includes/class-paynow-einvoice.php:636
-#: includes/paynow-einvoice/includes/class-paynow-einvoice.php:835
-#: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Metabox.php:86
-#: includes/woomp-ecpay-invoice/src/templates/Checkout.php:61
-msgid "Carrier Number"
-msgstr "載具"
-
-#: includes/paynow-einvoice/includes/class-paynow-einvoice.php:583
-#: includes/paynow-einvoice/includes/class-paynow-einvoice.php:641
-msgid "Love Code"
-msgstr ""
-
-#: includes/paynow-einvoice/includes/class-paynow-einvoice.php:590
-#: includes/paynow-einvoice/includes/class-paynow-einvoice.php:592
-#: includes/paynow-einvoice/includes/class-paynow-einvoice.php:604
-#: includes/paynow-einvoice/includes/class-paynow-einvoice.php:650
-#, fuzzy
-#| msgid "Invoice Type"
-msgid "E-Invoice NO"
-msgstr "電子發票類型"
-
-#: includes/paynow-einvoice/includes/class-paynow-einvoice.php:601
-#, fuzzy
-#| msgid "Paper Invoice"
-msgid "Cancel E-Invoice"
-msgstr "紙本發票"
-
-#: includes/paynow-einvoice/includes/class-paynow-einvoice.php:612
-#, fuzzy
-#| msgid "Paper Invoice"
-msgid "Issue E-Invoice"
-msgstr "紙本發票"
-
-#: includes/paynow-einvoice/includes/class-paynow-einvoice.php:619
-msgid "PayNow E-Invoice Details"
-msgstr ""
-
-#: includes/paynow-einvoice/includes/class-paynow-einvoice.php:624
-#, fuzzy
-#| msgid "Invoice Type"
-msgctxt "checkout"
-msgid "Issue Type"
-msgstr "電子發票類型"
-
-#: includes/paynow-einvoice/includes/class-paynow-einvoice.php:646
-#, fuzzy
-#| msgid "Issue automatic"
-msgid "Issue S\btatus"
-msgstr "自動開立"
-
-#: includes/paynow-einvoice/includes/class-paynow-einvoice.php:674
-msgid "Please input the company name and Unified Business NO"
-msgstr ""
-
-#: includes/paynow-einvoice/includes/class-paynow-einvoice.php:679
-msgid "Please input the carrier number"
-msgstr ""
-
-#: includes/paynow-einvoice/includes/class-paynow-einvoice.php:770
-msgid "Notice: You need to set up Merchant ID and Merchant Password "
-msgstr ""
-
-#: includes/paynow-einvoice/includes/class-paynow-einvoice.php:770
-msgid "PayNow E-Invoice Setting"
-msgstr ""
-
-#: includes/paynow-einvoice/includes/class-paynow-einvoice.php:784
-#, fuzzy
-#| msgid "Invoice Type"
-msgctxt "checkout"
-msgid "I\bssue Type"
-msgstr "電子發票類型"
-
-#: includes/paynow-einvoice/includes/class-paynow-einvoice.php:786
-#, fuzzy
-#| msgid "Paper Invoice"
-msgid "Personal E-Invoice"
-msgstr "紙本發票"
-
-#: includes/paynow-einvoice/includes/class-paynow-einvoice.php:787
-#, fuzzy
-#| msgid "Cloud Invoice"
-msgid "Company E-Invoice"
-msgstr "雲端發票"
-
-#: includes/paynow-einvoice/includes/class-paynow-einvoice.php:788
-#, fuzzy
-#| msgid "donate"
-msgid "Donate"
-msgstr "捐贈"
-
-#: includes/paynow-einvoice/includes/class-paynow-einvoice.php:836
-#, fuzzy
-#| msgid "Carrier Number"
-msgid "Please input the Carrier Number"
-msgstr "載具"
-
-#: includes/paynow-einvoice/includes/class-paynow-einvoice.php:848
-msgid "Donate Organization"
-msgstr ""
-
-#: includes/paynow-einvoice/includes/settings/class-paynow-einvoice-settings-tab.php:12
-#, fuzzy
-#| msgid "電子發票設定"
-msgid "PayNow 電子發票"
-msgstr "電子發票設定"
-
-#: includes/paynow-einvoice/includes/settings/class-paynow-einvoice-settings-tab.php:56
-#, fuzzy
-#| msgid "Invoice options"
-msgid "E-Invoice Settings"
-msgstr "電子發票設定"
-
-#: includes/paynow-einvoice/includes/settings/class-paynow-einvoice-settings-tab.php:62
-#: includes/paynow-payment/includes/settings/settings-paynow-payment-famiport.php:20
-msgid "Enable"
-msgstr ""
-
-#: includes/paynow-payment/includes/admin/meta-boxes/class-paynow-payment-order-meta-boxes.php:53
-#: includes/paynow-payment/includes/gateways/abstract-paynow-payment.php:119
-#: includes/paynow-payment/includes/gateways/class-paynow-payment-barcode.php:122
-#: includes/paynow-payment/includes/gateways/class-paynow-payment-credit.php:101
-#: includes/paynow-payment/includes/gateways/class-paynow-payment-ibon.php:122
-#: includes/paynow-payment/includes/gateways/class-paynow-payment-virtual-account.php:122
-#: includes/paynow-payment/includes/gateways/class-paynow-payment-webatm.php:104
-msgid "PayNow Payment Detail"
-msgstr ""
-
-#: includes/paynow-payment/includes/admin/meta-boxes/class-paynow-payment-order-meta-boxes.php:84
-#: includes/paynow-payment/includes/gateways/class-paynow-payment-webatm.php:126
-msgid "Payment Error Description"
-msgstr ""
-
-#: includes/paynow-payment/includes/class-paynow-payment.php:112
-msgid "General Settings"
-msgstr ""
-
-#: includes/paynow-payment/includes/class-paynow-payment.php:113
-#: includes/paynow-payment/includes/settings/class-paynow-payment-settings-tab.php:24
-#: includes/paynow-payment/includes/settings/class-paynow-payment-settings-tab.php:50
-msgid "Payment Settings"
-msgstr ""
-
-#: includes/paynow-payment/includes/gateways/abstract-paynow-payment.php:78
-msgid "Proceed to PayNow"
-msgstr ""
-
-#: includes/paynow-payment/includes/gateways/abstract-paynow-payment.php:102
-#, php-format
-msgid ""
-"%1$s 是<a href=\"%2$s\" target=\"_blank\">台灣立吉富線上金流的支付系統</a>"
-msgstr ""
-
-#: includes/paynow-payment/includes/gateways/abstract-paynow-payment.php:157
-#, fuzzy
-#| msgid "LINE Pay Gateway"
-msgid "Paynow Payment Gateway"
-msgstr "LINE Pay 支付"
-
-#: includes/paynow-payment/includes/gateways/class-paynow-payment-barcode.php:25
-#: includes/paynow-payment/includes/settings/settings-paynow-payment-barcode.php:27
-msgid "PayNow 超商條碼付款"
-msgstr ""
-
-#: includes/paynow-payment/includes/gateways/class-paynow-payment-barcode.php:105
-#: includes/paynow-payment/includes/gateways/class-paynow-payment-barcode.php:124
-#: includes/paynow-payment/includes/gateways/class-paynow-payment-credit.php:85
-#: includes/paynow-payment/includes/gateways/class-paynow-payment-credit.php:103
-#: includes/paynow-payment/includes/gateways/class-paynow-payment-ibon.php:104
-#: includes/paynow-payment/includes/gateways/class-paynow-payment-ibon.php:124
-#: includes/paynow-payment/includes/gateways/class-paynow-payment-virtual-account.php:103
-#: includes/paynow-payment/includes/gateways/class-paynow-payment-virtual-account.php:124
-#: includes/paynow-payment/includes/gateways/class-paynow-payment-webatm.php:85
-#: includes/paynow-payment/includes/gateways/class-paynow-payment-webatm.php:106
-msgid "Transaction No"
-msgstr ""
-
-#: includes/paynow-payment/includes/gateways/class-paynow-payment-barcode.php:106
-#: includes/paynow-payment/includes/gateways/class-paynow-payment-barcode.php:127
-#: includes/paynow-payment/includes/gateways/class-paynow-payment-ibon.php:106
-#: includes/paynow-payment/includes/gateways/class-paynow-payment-ibon.php:130
-#: includes/paynow-payment/includes/gateways/class-paynow-payment-virtual-account.php:106
-#: includes/paynow-payment/includes/gateways/class-paynow-payment-virtual-account.php:133
-#: includes/paynow-payment/includes/gateways/class-paynow-payment-webatm.php:88
-#: includes/paynow-payment/includes/gateways/class-paynow-payment-webatm.php:115
-msgid "N\bew Date"
-msgstr ""
-
-#: includes/paynow-payment/includes/gateways/class-paynow-payment-barcode.php:107
-#: includes/paynow-payment/includes/gateways/class-paynow-payment-barcode.php:130
-#: includes/paynow-payment/includes/gateways/class-paynow-payment-ibon.php:107
-#: includes/paynow-payment/includes/gateways/class-paynow-payment-ibon.php:133
-#: includes/paynow-payment/includes/gateways/class-paynow-payment-virtual-account.php:107
-#: includes/paynow-payment/includes/gateways/class-paynow-payment-virtual-account.php:136
-#: includes/paynow-payment/includes/gateways/class-paynow-payment-webatm.php:89
-#: includes/paynow-payment/includes/gateways/class-paynow-payment-webatm.php:118
-msgid "Due Date"
-msgstr ""
-
-#: includes/paynow-payment/includes/gateways/class-paynow-payment-barcode.php:108
-#: includes/paynow-payment/includes/gateways/class-paynow-payment-barcode.php:133
-#: includes/paynow-payment/includes/gateways/class-paynow-payment-credit.php:87
-#: includes/paynow-payment/includes/gateways/class-paynow-payment-ibon.php:108
-#: includes/paynow-payment/includes/gateways/class-paynow-payment-virtual-account.php:108
-msgid "Tran Status"
-msgstr ""
-
-#: includes/paynow-payment/includes/gateways/class-paynow-payment-barcode.php:135
-#: includes/paynow-payment/includes/gateways/class-paynow-payment-ibon.php:138
-#: includes/paynow-payment/includes/gateways/class-paynow-payment-virtual-account.php:141
-msgid "Unpaid"
-msgstr ""
-
-#: includes/paynow-payment/includes/gateways/class-paynow-payment-barcode.php:135
-#: includes/paynow-payment/includes/gateways/class-paynow-payment-ibon.php:138
-#: includes/paynow-payment/includes/gateways/class-paynow-payment-virtual-account.php:141
-msgid "Paid"
-msgstr ""
-
-#: includes/paynow-payment/includes/gateways/class-paynow-payment-credit.php:26
-msgid "PayNow 信用卡付款"
-msgstr ""
-
-#: includes/paynow-payment/includes/gateways/class-paynow-payment-credit.php:86
-#: includes/paynow-payment/includes/gateways/class-paynow-payment-credit.php:106
-msgid "Card Last 4 Num"
-msgstr ""
-
-#: includes/paynow-payment/includes/gateways/class-paynow-payment-credit.php:110
-#: includes/paynow-payment/includes/gateways/class-paynow-payment-ibon.php:136
-#: includes/paynow-payment/includes/gateways/class-paynow-payment-virtual-account.php:139
-msgid "Trans Status"
-msgstr ""
-
-#: includes/paynow-payment/includes/gateways/class-paynow-payment-credit.php:114
-#: includes/paynow-payment/includes/gateways/class-paynow-payment-virtual-account.php:146
-msgid "Error Description"
-msgstr ""
-
-#: includes/paynow-payment/includes/gateways/class-paynow-payment-ibon.php:25
-#: includes/paynow-payment/includes/settings/settings-paynow-payment-ibon.php:27
-msgid "PayNow ibon代碼繳費"
-msgstr ""
-
-#: includes/paynow-payment/includes/gateways/class-paynow-payment-ibon.php:105
-#: includes/paynow-payment/includes/gateways/class-paynow-payment-ibon.php:127
-msgid "ibon NO"
-msgstr ""
-
-#: includes/paynow-payment/includes/gateways/class-paynow-payment-response.php:244
-msgid "Recieved PayNow payment completed notification"
-msgstr ""
-
-#: includes/paynow-payment/includes/gateways/class-paynow-payment-virtual-account.php:25
-#: includes/paynow-payment/includes/settings/settings-paynow-payment-virtual-account.php:27
-msgid "PayNow 虛擬帳號付款"
-msgstr ""
-
-#: includes/paynow-payment/includes/gateways/class-paynow-payment-virtual-account.php:104
-#: includes/paynow-payment/includes/gateways/class-paynow-payment-virtual-account.php:127
-#: includes/paynow-payment/includes/gateways/class-paynow-payment-webatm.php:86
-#: includes/paynow-payment/includes/gateways/class-paynow-payment-webatm.php:109
-msgid "Bank Code"
-msgstr ""
-
-#: includes/paynow-payment/includes/gateways/class-paynow-payment-virtual-account.php:105
-#: includes/paynow-payment/includes/gateways/class-paynow-payment-virtual-account.php:130
-#: includes/paynow-payment/includes/gateways/class-paynow-payment-webatm.php:87
-#: includes/paynow-payment/includes/gateways/class-paynow-payment-webatm.php:112
-msgid "ATM No"
-msgstr ""
-
-#: includes/paynow-payment/includes/gateways/class-paynow-payment-webatm.php:25
-msgid "PayNow 網頁ATM"
-msgstr ""
-
-#: includes/paynow-payment/includes/gateways/class-paynow-payment-webatm.php:90
-#: includes/paynow-payment/includes/gateways/class-paynow-payment-webatm.php:121
-msgid "Pay Status"
-msgstr ""
-
-#: includes/paynow-payment/includes/settings/class-paynow-payment-settings-tab.php:21
-#: includes/paynow-shipping/includes/settings/class-paynow-shipping-settings-tab.php:22
-msgid "PayNow"
-msgstr ""
-
-#: includes/paynow-payment/includes/settings/class-paynow-payment-settings-tab.php:96
-msgid "General Payment Settings"
-msgstr ""
-
-#: includes/paynow-payment/includes/settings/settings-paynow-payment-barcode.php:18
-#: includes/paynow-payment/includes/settings/settings-paynow-payment-credit.php:18
-#: includes/paynow-payment/includes/settings/settings-paynow-payment-ibon.php:18
-#: includes/paynow-payment/includes/settings/settings-paynow-payment-virtual-account.php:18
-#: includes/paynow-payment/includes/settings/settings-paynow-payment-webatm.php:18
-msgid "啟用"
-msgstr ""
-
-#: includes/paynow-payment/includes/settings/settings-paynow-payment-barcode.php:20
-#: includes/paynow-payment/includes/settings/settings-paynow-payment-credit.php:20
-#: includes/paynow-payment/includes/settings/settings-paynow-payment-ibon.php:20
-#: includes/paynow-payment/includes/settings/settings-paynow-payment-virtual-account.php:20
-#: includes/paynow-payment/includes/settings/settings-paynow-payment-webatm.php:20
-msgid "勾選，啟用這個付款"
-msgstr ""
-
-#: includes/paynow-payment/includes/settings/settings-paynow-payment-barcode.php:24
-#: includes/paynow-payment/includes/settings/settings-paynow-payment-credit.php:24
-#: includes/paynow-payment/includes/settings/settings-paynow-payment-ibon.php:24
-#: includes/paynow-payment/includes/settings/settings-paynow-payment-virtual-account.php:24
-#: includes/paynow-payment/includes/settings/settings-paynow-payment-webatm.php:24
-msgid "付款標題"
-msgstr ""
-
-#: includes/paynow-payment/includes/settings/settings-paynow-payment-barcode.php:26
-#: includes/paynow-payment/includes/settings/settings-paynow-payment-credit.php:26
-#: includes/paynow-payment/includes/settings/settings-paynow-payment-ibon.php:26
-#: includes/paynow-payment/includes/settings/settings-paynow-payment-virtual-account.php:26
-#: includes/paynow-payment/includes/settings/settings-paynow-payment-webatm.php:26
-msgid "這裡設定使用者付款時看到的付款網關名稱."
-msgstr ""
-
-#: includes/paynow-payment/includes/settings/settings-paynow-payment-barcode.php:31
-#: includes/paynow-payment/includes/settings/settings-paynow-payment-credit.php:31
-#: includes/paynow-payment/includes/settings/settings-paynow-payment-webatm.php:31
-msgid "付款描述"
-msgstr ""
-
-#: includes/paynow-payment/includes/settings/settings-paynow-payment-barcode.php:33
-#: includes/paynow-payment/includes/settings/settings-paynow-payment-credit.php:33
-#: includes/paynow-payment/includes/settings/settings-paynow-payment-virtual-account.php:33
-#: includes/paynow-payment/includes/settings/settings-paynow-payment-webatm.php:33
-msgid "這裡設定使用者選擇這個付款時，看到的描述資訊文字"
-msgstr ""
-
-#: includes/paynow-payment/includes/settings/settings-paynow-payment-barcode.php:34
-msgid "列印條碼繳費單，前往超商繳費"
-msgstr ""
-
-#: includes/paynow-payment/includes/settings/settings-paynow-payment-credit.php:27
-msgid "PayNow 信用卡線上付款"
-msgstr ""
-
-#: includes/paynow-payment/includes/settings/settings-paynow-payment-famiport.php:27
-msgid "Paynow FamiPort Payment"
-msgstr ""
-
-#: includes/paynow-payment/includes/settings/settings-paynow-payment-ibon.php:33
-msgid "這裡設定使用者選擇這個付款時，看到的描述資訊文字."
-msgstr ""
-
-#: includes/paynow-payment/includes/settings/settings-paynow-payment-ibon.php:34
-msgid ""
-"PayNow ibon代碼繳費，取得ibon代碼，前往便利商店輸入代碼，列印繳費單後前往櫃台"
-"繳費付款"
-msgstr ""
-
-#: includes/paynow-payment/includes/settings/settings-paynow-payment-virtual-account.php:34
-msgid "PayNow 虛擬帳號付款，取得虛擬帳號，前往ATM櫃員機轉帳付款"
-msgstr ""
-
-#: includes/paynow-payment/includes/settings/settings-paynow-payment-webatm.php:27
-msgid "PayNow WebATM"
-msgstr ""
-
-#: includes/paynow-payment/includes/settings/settings-paynow-payment-webatm.php:34
-msgid "PayNow WebATM，前往網頁ATM櫃員機，使用晶片卡線上轉帳付款"
-msgstr ""
-
-#: includes/paynow-shipping/includes/admin/meta-boxes/class-paynow-shipping-order-admin.php:75
-#: includes/paynow-shipping/includes/utils/paynow-shipping-functions.php:43
-#: includes/ry-woocommerce-tools/woocommerce/admin/meta-boxes/ecpay-shipping-meta-box.php:50
-#: includes/ry-woocommerce-tools/woocommerce/admin/meta-boxes/newebpay-shipping-meta-box.php:38
-#: includes/ry-woocommerce-tools/woocommerce/admin/meta-boxes/smilepay-shipping-meta-box.php:43
-#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/includes/ecpay-shipping-admin.php:40
-#: includes/ry-woocommerce-tools/woocommerce/shipping/newebpay/includes/newebpay-shipping-admin.php:40
-#: includes/ry-woocommerce-tools/woocommerce/shipping/smilepay/includes/smilepay-shipping-admin.php:43
-msgid "Store ID"
-msgstr ""
-
-#: includes/paynow-shipping/includes/admin/meta-boxes/class-paynow-shipping-order-admin.php:79
-#: includes/paynow-shipping/includes/utils/paynow-shipping-functions.php:33
-#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/ecpay-shipping.php:238
-#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/includes/ecpay-shipping-admin.php:44
-#: includes/ry-woocommerce-tools/woocommerce/shipping/newebpay/includes/newebpay-shipping-admin.php:44
-#: includes/ry-woocommerce-tools/woocommerce/shipping/smilepay/includes/smilepay-shipping-admin.php:47
-msgid "Store Name"
-msgstr ""
-
-#: includes/paynow-shipping/includes/admin/meta-boxes/class-paynow-shipping-order-admin.php:83
-#: includes/paynow-shipping/includes/utils/paynow-shipping-functions.php:53
-#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/ecpay-shipping.php:245
-#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/includes/ecpay-shipping-admin.php:48
-#: includes/ry-woocommerce-tools/woocommerce/shipping/newebpay/includes/newebpay-shipping-admin.php:48
-#: includes/ry-woocommerce-tools/woocommerce/shipping/smilepay/includes/smilepay-shipping-admin.php:51
-msgid "Store Address"
-msgstr ""
-
-#: includes/paynow-shipping/includes/admin/meta-boxes/class-paynow-shipping-order-admin.php:88
-#: includes/paynow-shipping/includes/admin/meta-boxes/class-paynow-shipping-order-admin.php:94
-#: includes/paynow-shipping/includes/utils/paynow-shipping-functions.php:18
-#, fuzzy
-#| msgid "Shipping details"
-msgid "Shipping Phone"
-msgstr "物流資訊"
-
-#: includes/paynow-shipping/includes/admin/meta-boxes/class-paynow-shipping-order-admin.php:115
-msgid "Get new PayNow Logistic Number"
-msgstr ""
-
-#: includes/paynow-shipping/includes/admin/meta-boxes/class-paynow-shipping-order-admin.php:117
-msgid "Create PayNow Shipping Order"
-msgstr ""
-
-#: includes/paynow-shipping/includes/admin/meta-boxes/class-paynow-shipping-order-admin.php:129
-msgid "Change CVS store"
-msgstr ""
-
-#: includes/paynow-shipping/includes/admin/meta-boxes/class-paynow-shipping-order-admin.php:130
-msgid ""
-"The PayNow shipping order will be revoked and recreated after changed the "
-"cvs store."
-msgstr ""
-
-#: includes/paynow-shipping/includes/admin/meta-boxes/class-paynow-shipping-order-meta-box.php:31
-msgid "PayNow Shipping Info"
-msgstr ""
-
-#: includes/paynow-shipping/includes/admin/meta-boxes/class-paynow-shipping-order-meta-box.php:53
-#: includes/paynow-shipping/includes/class-paynow-shipping.php:704
-msgid "PayNow Logistic Number"
-msgstr ""
-
-#: includes/paynow-shipping/includes/admin/meta-boxes/class-paynow-shipping-order-meta-box.php:55
-#: includes/paynow-shipping/includes/class-paynow-shipping.php:707
-msgid "Logistic Service"
-msgstr ""
-
-#: includes/paynow-shipping/includes/admin/meta-boxes/class-paynow-shipping-order-meta-box.php:82
-#: includes/paynow-shipping/includes/class-paynow-shipping.php:716
-#, fuzzy
-#| msgid "payment"
-msgid "Payment NO"
-msgstr "金流"
-
-#: includes/paynow-shipping/includes/admin/meta-boxes/class-paynow-shipping-order-meta-box.php:84
-msgid "Status"
-msgstr ""
-
-#: includes/paynow-shipping/includes/admin/meta-boxes/class-paynow-shipping-order-meta-box.php:85
-msgid "Delivery Status"
-msgstr ""
-
-#: includes/paynow-shipping/includes/admin/meta-boxes/class-paynow-shipping-order-meta-box.php:86
-msgid "Logistic Code"
-msgstr ""
-
-#: includes/paynow-shipping/includes/admin/meta-boxes/class-paynow-shipping-order-meta-box.php:87
-msgid "Logistic Code Description"
-msgstr ""
-
-#: includes/paynow-shipping/includes/admin/meta-boxes/class-paynow-shipping-order-meta-box.php:91
-msgid "Logistic Status Last Query"
-msgstr ""
-
-#: includes/paynow-shipping/includes/class-paynow-shipping.php:349
-msgid "Please select a CVS store."
-msgstr ""
-
-#: includes/paynow-shipping/includes/class-paynow-shipping.php:356
-msgid "Shipping Phone format is invalid"
-msgstr ""
-
-#: includes/paynow-shipping/includes/class-paynow-shipping.php:561
-#, fuzzy
-#| msgid "Shipping details"
-msgid "Shipping status update failed."
-msgstr "物流資訊"
-
-#: includes/paynow-shipping/includes/class-paynow-shipping.php:562
-#, fuzzy
-#| msgid "Shipping details"
-msgid "Shipping order cancel failed."
-msgstr "物流資訊"
-
-#: includes/paynow-shipping/includes/class-paynow-shipping.php:692
-#, fuzzy
-#| msgid "Ecpay Shipping details"
-msgid "PayNow Shipping Detail"
-msgstr "綠界物流資訊"
-
-#: includes/paynow-shipping/includes/class-paynow-shipping.php:713
-msgid "Detail Status Desc"
-msgstr ""
-
-#: includes/paynow-shipping/includes/class-paynow-shipping.php:731
-msgid "Store Date"
-msgstr ""
-
-#: includes/paynow-shipping/includes/class-paynow-shipping.php:735
-msgid "Store Time"
-msgstr ""
-
-#: includes/paynow-shipping/includes/class-paynow-shipping.php:849
-#, fuzzy
-#| msgid "Print HCT shipping booking note"
-msgid "Print Shipping Label"
-msgstr "匯出新竹物流報表"
-
-#: includes/paynow-shipping/includes/class-paynow-shipping.php:855
-#: includes/paynow-shipping/includes/shippings/api/class-paynow-shipping-request.php:181
-#: includes/paynow-shipping/includes/shippings/api/class-paynow-shipping-request.php:228
-#: includes/paynow-shipping/includes/shippings/api/class-paynow-shipping-request.php:273
-msgid "Missing Ajax Parameter."
-msgstr ""
-
-#: includes/paynow-shipping/includes/settings/class-paynow-shipping-settings-tab.php:25
-#: includes/paynow-shipping/includes/settings/class-paynow-shipping-settings-tab.php:47
-#, fuzzy
-#| msgid "Shipping details"
-msgid "Shipping Settings"
-msgstr "物流資訊"
-
-#: includes/paynow-shipping/includes/settings/settings-paynow-shipping-c2c-711.php:20
-#: includes/paynow-shipping/includes/shippings/class-paynow-shipping-c2c-711.php:26
-#: includes/paynow-shipping/includes/shippings/class-paynow-shipping-c2c-711.php:27
-msgid "PayNow Shipping C2C 7-11"
-msgstr ""
-
-#: includes/paynow-shipping/includes/settings/settings-paynow-shipping-c2c-711.php:30
-#: includes/paynow-shipping/includes/settings/settings-paynow-shipping-c2c-family.php:30
-#: includes/paynow-shipping/includes/settings/settings-paynow-shipping-c2c-hilife.php:30
-#: includes/paynow-shipping/includes/settings/settings-paynow-shipping-hd-tcat.php:30
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-711-frozen.php:31
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-family-frozen.php:41
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-frozen.php:31
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-refrigerated.php:31
-msgid "Shipping Cost"
-msgstr "運送費用"
-
-#: includes/paynow-shipping/includes/settings/settings-paynow-shipping-c2c-711.php:37
-#: includes/paynow-shipping/includes/settings/settings-paynow-shipping-c2c-family.php:37
-#: includes/paynow-shipping/includes/settings/settings-paynow-shipping-c2c-hilife.php:37
-#: includes/paynow-shipping/includes/settings/settings-paynow-shipping-hd-tcat.php:37
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-711-frozen.php:38
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-family-frozen.php:48
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-frozen.php:38
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-refrigerated.php:38
-msgid "Free shipping requires"
-msgstr "免費運送需要條件"
-
-#: includes/paynow-shipping/includes/settings/settings-paynow-shipping-c2c-711.php:47
-#: includes/paynow-shipping/includes/settings/settings-paynow-shipping-c2c-family.php:47
-#: includes/paynow-shipping/includes/settings/settings-paynow-shipping-c2c-hilife.php:47
-#: includes/paynow-shipping/includes/settings/settings-paynow-shipping-hd-tcat.php:47
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-711-frozen.php:48
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-family-frozen.php:58
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-frozen.php:48
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-refrigerated.php:48
-msgid "Minimum order amount for free shipping"
-msgstr "免費運送最低訂單金額"
-
-#: includes/paynow-shipping/includes/settings/settings-paynow-shipping-c2c-711.php:51
-#: includes/paynow-shipping/includes/settings/settings-paynow-shipping-c2c-family.php:51
-#: includes/paynow-shipping/includes/settings/settings-paynow-shipping-c2c-hilife.php:51
-#: includes/paynow-shipping/includes/settings/settings-paynow-shipping-hd-tcat.php:51
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-711-frozen.php:52
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-family-frozen.php:62
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-frozen.php:52
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-refrigerated.php:52
-msgid "Users will need to spend this amount to get free shipping."
-msgstr ""
-
-#: includes/paynow-shipping/includes/settings/settings-paynow-shipping-c2c-family.php:20
-#: includes/paynow-shipping/includes/shippings/class-paynow-shipping-c2c-family.php:26
-#: includes/paynow-shipping/includes/shippings/class-paynow-shipping-c2c-family.php:27
-#, fuzzy
-#| msgid "Ecpay Shipping details"
-msgid "PayNow Shipping C2C Family"
-msgstr "綠界物流資訊"
-
-#: includes/paynow-shipping/includes/settings/settings-paynow-shipping-c2c-hilife.php:20
-#: includes/paynow-shipping/includes/shippings/class-paynow-shipping-c2c-hilife.php:26
-#: includes/paynow-shipping/includes/shippings/class-paynow-shipping-c2c-hilife.php:27
-msgid "PayNow Shipping C2C Hi-Life"
-msgstr ""
-
-#: includes/paynow-shipping/includes/settings/settings-paynow-shipping-hd-tcat.php:20
-#: includes/paynow-shipping/includes/shippings/class-paynow-shipping-hd-tcat.php:26
-#: includes/paynow-shipping/includes/shippings/class-paynow-shipping-hd-tcat.php:27
-#, fuzzy
-#| msgid "Ecpay Shipping details"
-msgid "PayNow Shipping TCat"
-msgstr "綠界物流資訊"
-
-#: includes/paynow-shipping/includes/shippings/api/class-paynow-shipping-request.php:74
-#: includes/paynow-shipping/includes/shippings/api/class-paynow-shipping-request.php:111
-#: includes/paynow-shipping/includes/shippings/api/class-paynow-shipping-request.php:435
-msgid "Create shipping order failed. "
-msgstr ""
-
-#: includes/paynow-shipping/includes/shippings/api/class-paynow-shipping-request.php:98
-msgid "Create shipping order successed. LogisticNumber: "
-msgstr ""
-
-#: includes/paynow-shipping/includes/shippings/api/class-paynow-shipping-request.php:100
-msgid "Renew shipping order successed. LogisticNumber: "
-msgstr ""
-
-#: includes/paynow-shipping/includes/shippings/api/class-paynow-shipping-request.php:121
-#: includes/paynow-shipping/includes/shippings/api/class-paynow-shipping-request.php:136
-msgid ""
-"PayNow shipping order cancel failed. Please cancel manually and recreate the "
-"shipping order again."
-msgstr ""
-
-#: includes/paynow-shipping/includes/shippings/api/class-paynow-shipping-request.php:174
-#: includes/paynow-shipping/includes/shippings/api/class-paynow-shipping-request.php:221
-msgid "Invalid security token sent."
-msgstr ""
-
-#: includes/paynow-shipping/includes/shippings/api/class-paynow-shipping-request.php:312
-msgid "Unsupported shipping service."
-msgstr ""
-
-#: includes/paynow-shipping/includes/shippings/api/class-paynow-shipping-request.php:332
-msgid "Fail to get print label"
-msgstr ""
-
-#: includes/paynow-shipping/includes/shippings/api/class-paynow-shipping-request.php:356
-#, fuzzy
-#| msgid "Show invoice number"
-msgid "No logistic number"
-msgstr "顯示發票號碼"
-
-#: includes/paynow-shipping/includes/shippings/api/class-paynow-shipping-request.php:512
-msgid "Renew shipping order failed. "
-msgstr ""
-
-#: includes/paynow-shipping/includes/shippings/api/class-paynow-shipping-response.php:71
-#, php-format
-msgid ""
-"CVS store has changed to %1$s. The PayNow shipping order will be revoked and "
-"recreated."
-msgstr ""
-
-#: includes/paynow-shipping/includes/utils/paynow-shipping-functions.php:27
-msgid "Service"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/class.ry-wt.main.php:94
-msgid "(not paid)"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/class.ry-wt.main.php:223
-msgid "required"
-msgstr ""
-
-#. translators: %s: Name of this plugin
-#: includes/ry-woocommerce-tools/class.ry-wt.main.php:258
-#, php-format
-msgid ""
-"<strong>%s</strong> is inactive. It require WooCommerce version 3.0.0 or "
-"newer."
-msgstr ""
-
-#: includes/ry-woocommerce-tools/class.ry-wt.main.php:259
-#: includes/ry-woocommerce-tools/woocommerce/admin/view/html-setting-tools.php:2
-msgid "RY WooCommerce Tools"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/class.ry-wt.main.php:293
-msgid ""
-"Please check your server time setting. Server time is differs from Google "
-"Public NTP more than one minute."
-msgstr ""
-
-#: includes/ry-woocommerce-tools/class.ry-wt.main.php:327
-msgctxt "Bank code"
-msgid "004"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/class.ry-wt.main.php:328
-msgctxt "Bank code"
-msgid "005"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/class.ry-wt.main.php:329
-msgctxt "Bank code"
-msgid "006"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/class.ry-wt.main.php:330
-msgctxt "Bank code"
-msgid "007"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/class.ry-wt.main.php:331
-msgctxt "Bank code"
-msgid "008"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/class.ry-wt.main.php:332
-msgctxt "Bank code"
-msgid "009"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/class.ry-wt.main.php:333
-msgctxt "Bank code"
-msgid "011"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/class.ry-wt.main.php:334
-msgctxt "Bank code"
-msgid "012"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/class.ry-wt.main.php:335
-msgctxt "Bank code"
-msgid "013"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/class.ry-wt.main.php:336
-msgctxt "Bank code"
-msgid "016"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/class.ry-wt.main.php:337
-msgctxt "Bank code"
-msgid "017"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/class.ry-wt.main.php:338
-msgctxt "Bank code"
-msgid "018"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/class.ry-wt.main.php:339
-msgctxt "Bank code"
-msgid "021"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/class.ry-wt.main.php:340
-msgctxt "Bank code"
-msgid "022"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/class.ry-wt.main.php:341
-msgctxt "Bank code"
-msgid "025"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/class.ry-wt.main.php:342
-msgctxt "Bank code"
-msgid "039"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/class.ry-wt.main.php:343
-msgctxt "Bank code"
-msgid "048"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/class.ry-wt.main.php:344
-msgctxt "Bank code"
-msgid "050"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/class.ry-wt.main.php:345
-msgctxt "Bank code"
-msgid "052"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/class.ry-wt.main.php:346
-msgctxt "Bank code"
-msgid "053"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/class.ry-wt.main.php:347
-msgctxt "Bank code"
-msgid "054"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/class.ry-wt.main.php:348
-msgctxt "Bank code"
-msgid "072"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/class.ry-wt.main.php:349
-msgctxt "Bank code"
-msgid "075"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/class.ry-wt.main.php:350
-msgctxt "Bank code"
-msgid "081"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/class.ry-wt.main.php:351
-msgctxt "Bank code"
-msgid "082"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/class.ry-wt.main.php:352
-msgctxt "Bank code"
-msgid "101"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/class.ry-wt.main.php:353
-msgctxt "Bank code"
-msgid "102"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/class.ry-wt.main.php:354
-msgctxt "Bank code"
-msgid "103"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/class.ry-wt.main.php:355
-msgctxt "Bank code"
-msgid "108"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/class.ry-wt.main.php:356
-msgctxt "Bank code"
-msgid "118"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/class.ry-wt.main.php:357
-msgctxt "Bank code"
-msgid "147"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/class.ry-wt.main.php:358
-msgctxt "Bank code"
-msgid "700"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/class.ry-wt.main.php:359
-msgctxt "Bank code"
-msgid "803"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/class.ry-wt.main.php:360
-msgctxt "Bank code"
-msgid "805"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/class.ry-wt.main.php:361
-msgctxt "Bank code"
-msgid "806"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/class.ry-wt.main.php:362
-msgctxt "Bank code"
-msgid "807"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/class.ry-wt.main.php:363
-msgctxt "Bank code"
-msgid "808"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/class.ry-wt.main.php:364
-msgctxt "Bank code"
-msgid "809"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/class.ry-wt.main.php:365
-msgctxt "Bank code"
-msgid "810"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/class.ry-wt.main.php:366
-msgctxt "Bank code"
-msgid "812"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/class.ry-wt.main.php:367
-msgctxt "Bank code"
-msgid "815"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/class.ry-wt.main.php:368
-msgctxt "Bank code"
-msgid "816"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/class.ry-wt.main.php:369
-msgctxt "Bank code"
-msgid "822"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/templates/cart/cart-choose-cvs.php:17
-#, fuzzy
-#| msgid "Update convenience store"
-msgid "Convenience store"
-msgstr "重新選擇超商"
-
-#: includes/ry-woocommerce-tools/templates/cart/cart-choose-cvs.php:19
-#, fuzzy
-#| msgid "Update convenience store"
-msgid "Choose convenience Store"
-msgstr "重新選擇超商"
-
-#: includes/ry-woocommerce-tools/templates/cart/cart-choose-cvs.php:20
-#, fuzzy
-#| msgid "Update convenience store"
-msgid "Choose convenience store"
-msgstr "重新選擇超商"
-
-#: includes/ry-woocommerce-tools/templates/cart/cart-choose-cvs.php:21
-#, fuzzy
-#| msgid "Update convenience store"
-msgid "Convenience store:"
-msgstr "重新選擇超商"
-
-#: includes/ry-woocommerce-tools/templates/emails/customer-cvs-store.php:21
-#: includes/ry-woocommerce-tools/templates/emails/plain/customer-cvs-store.php:19
-msgid "Your order product has been sended to the convenience store."
-msgstr ""
-
-#: includes/ry-woocommerce-tools/templates/emails/customer-cvs-transporting.php:21
-#: includes/ry-woocommerce-tools/templates/emails/plain/customer-cvs-transporting.php:19
-msgid "您訂購的商品已出貨。"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/templates/order/order-ecpay-payment-info-atm.php:25
-#: includes/ry-woocommerce-tools/templates/order/order-ecpay-payment-info-barcode.php:25
-#: includes/ry-woocommerce-tools/templates/order/order-ecpay-payment-info-cvs.php:25
-#: includes/ry-woocommerce-tools/templates/order/order-newebpay-payment-info-atm.php:25
-#: includes/ry-woocommerce-tools/templates/order/order-newebpay-payment-info-barcode.php:25
-#: includes/ry-woocommerce-tools/templates/order/order-newebpay-payment-info-cvs.php:25
-#: includes/ry-woocommerce-tools/templates/order/order-smilepay-payment-info-atm.php:25
-#: includes/ry-woocommerce-tools/templates/order/order-smilepay-payment-info-barcode.php:25
-#: includes/ry-woocommerce-tools/templates/order/order-smilepay-payment-info-cvs-711.php:25
-#: includes/ry-woocommerce-tools/templates/order/order-smilepay-payment-info-cvs-fami.php:25
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/ecpay-gateway-atm.php:82
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/ecpay-gateway-barcode.php:95
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/ecpay-gateway-cvs.php:99
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/newebpay-gateway-atm.php:76
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/newebpay-gateway-barcode.php:96
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/newebpay-gateway-cvs.php:92
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/smilepay-gateway-atm.php:92
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/smilepay-gateway-barcode.php:96
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/smilepay-gateway-cvs-711.php:96
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/smilepay-gateway-cvs-fami.php:92
-msgid "Payment details"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/templates/order/order-ecpay-payment-info-atm.php:31
-#: includes/ry-woocommerce-tools/templates/order/order-newebpay-payment-info-atm.php:31
-#: includes/ry-woocommerce-tools/templates/order/order-smilepay-payment-info-atm.php:31
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/ecpay-gateway-atm.php:86
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/newebpay-gateway-atm.php:80
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/smilepay-gateway-atm.php:96
-msgid "Bank"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/templates/order/order-ecpay-payment-info-atm.php:45
-#: includes/ry-woocommerce-tools/templates/order/order-newebpay-payment-info-atm.php:47
-#: includes/ry-woocommerce-tools/templates/order/order-smilepay-payment-info-atm.php:45
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/ecpay-gateway-atm.php:91
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/newebpay-gateway-atm.php:85
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/smilepay-gateway-atm.php:101
-msgid "ATM Bank account"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/templates/order/order-ecpay-payment-info-cvs.php:31
-#: includes/ry-woocommerce-tools/templates/order/order-newebpay-payment-info-cvs.php:31
-#: includes/ry-woocommerce-tools/templates/order/order-smilepay-payment-info-cvs-711.php:31
-#: includes/ry-woocommerce-tools/templates/order/order-smilepay-payment-info-cvs-fami.php:31
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/ecpay-gateway-cvs.php:103
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/newebpay-gateway-cvs.php:96
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/smilepay-gateway-cvs-711.php:100
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/smilepay-gateway-cvs-fami.php:96
-msgid "CVS code"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/admin/meta-boxes/ecpay-shipping-meta-box.php:14
-#, fuzzy
-#| msgid "Ecpay Shipping details"
-msgid "ECPay shipping info"
-msgstr "綠界物流資訊"
-
-#: includes/ry-woocommerce-tools/woocommerce/admin/meta-boxes/ecpay-shipping-meta-box.php:41
-#, fuzzy
-#| msgid "shipping"
-msgid "ECPay shipping ID"
-msgstr "物流"
-
-#: includes/ry-woocommerce-tools/woocommerce/admin/meta-boxes/ecpay-shipping-meta-box.php:44
-#, fuzzy
-#| msgid "Shipping details"
-msgid "Shipping Type"
-msgstr "物流資訊"
-
-#: includes/ry-woocommerce-tools/woocommerce/admin/meta-boxes/ecpay-shipping-meta-box.php:47
-#: includes/ry-woocommerce-tools/woocommerce/admin/meta-boxes/smilepay-shipping-meta-box.php:40
-#, fuzzy
-#| msgid "shipping"
-msgid "Shipping no"
-msgstr "物流"
-
-#: includes/ry-woocommerce-tools/woocommerce/admin/meta-boxes/ecpay-shipping-meta-box.php:53
-#: includes/ry-woocommerce-tools/woocommerce/admin/meta-boxes/smilepay-shipping-meta-box.php:46
-#, fuzzy
-#| msgid "Shipping details"
-msgid "Shipping status"
-msgstr "物流資訊"
-
-#: includes/ry-woocommerce-tools/woocommerce/admin/meta-boxes/ecpay-shipping-meta-box.php:56
-#: includes/ry-woocommerce-tools/woocommerce/admin/meta-boxes/newebpay-shipping-meta-box.php:40
-#: includes/ry-woocommerce-tools/woocommerce/admin/meta-boxes/smilepay-shipping-meta-box.php:49
-msgid "declare amount"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/admin/meta-boxes/ecpay-shipping-meta-box.php:59
-#: includes/ry-woocommerce-tools/woocommerce/admin/meta-boxes/newebpay-shipping-meta-box.php:42
-#: includes/ry-woocommerce-tools/woocommerce/admin/meta-boxes/smilepay-shipping-meta-box.php:52
-msgid "Collection of money"
-msgstr ""
-
 #: includes/ry-woocommerce-tools/woocommerce/admin/meta-boxes/ecpay-shipping-meta-box.php:62
-#: includes/ry-woocommerce-tools/woocommerce/admin/meta-boxes/newebpay-shipping-meta-box.php:44
-#: includes/ry-woocommerce-tools/woocommerce/admin/meta-boxes/smilepay-shipping-meta-box.php:55
 msgid "Shipping status last change time"
-msgstr ""
+msgstr "更新時間"
 
 #: includes/ry-woocommerce-tools/woocommerce/admin/meta-boxes/ecpay-shipping-meta-box.php:65
-#: includes/ry-woocommerce-tools/woocommerce/admin/meta-boxes/newebpay-shipping-meta-box.php:46
-#: includes/ry-woocommerce-tools/woocommerce/admin/meta-boxes/smilepay-shipping-meta-box.php:58
-#, fuzzy
-#| msgid "Shipping details"
 msgid "Shipping create time"
-msgstr "物流資訊"
+msgstr "建立時間"
 
 #: includes/ry-woocommerce-tools/woocommerce/admin/meta-boxes/ecpay-shipping-meta-box.php:68
-#: includes/ry-woocommerce-tools/woocommerce/admin/meta-boxes/smilepay-shipping-meta-box.php:61
-#, fuzzy
-#| msgid "Print HCT shipping booking note"
 msgid "Shipping booking note"
-msgstr "匯出新竹物流報表"
-
-#: includes/ry-woocommerce-tools/woocommerce/admin/meta-boxes/ecpay-shipping-meta-box.php:78
-msgid "刪除"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/admin/meta-boxes/ecpay-shipping-meta-box.php:85
-msgctxt "shipping type"
-msgid "CVS"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/admin/meta-boxes/ecpay-shipping-meta-box.php:95
-msgctxt "shipping type"
-msgid "Home"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/admin/meta-boxes/ecpay-shipping-meta-box.php:109
-#: includes/ry-woocommerce-tools/woocommerce/admin/meta-boxes/newebpay-shipping-meta-box.php:61
-#: includes/ry-woocommerce-tools/woocommerce/admin/meta-boxes/smilepay-shipping-meta-box.php:86
-msgid "Yes"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/admin/meta-boxes/ecpay-shipping-meta-box.php:109
-#: includes/ry-woocommerce-tools/woocommerce/admin/meta-boxes/newebpay-shipping-meta-box.php:61
-#: includes/ry-woocommerce-tools/woocommerce/admin/meta-boxes/smilepay-shipping-meta-box.php:86
-msgid "No"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/admin/meta-boxes/ecpay-shipping-meta-box.php:119
-#: includes/ry-woocommerce-tools/woocommerce/admin/meta-boxes/smilepay-shipping-meta-box.php:103
-msgid "Print"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/admin/meta-boxes/newebpay-shipping-meta-box.php:14
-msgid "NewebPay shipping info"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/admin/meta-boxes/newebpay-shipping-meta-box.php:36
-msgid "NewebPay shipping ID"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/admin/meta-boxes/smilepay-shipping-meta-box.php:14
-msgid "SmilePay shipping info"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/admin/meta-boxes/smilepay-shipping-meta-box.php:37
-msgid "SmilePay shipping ID"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/admin/meta-boxes/smilepay-shipping-meta-box.php:99
-msgid "Get no"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/admin/view/html-setting-tools.php:2
-msgid "Tools"
-msgstr ""
-
-#. translators: %d: differ time (second)
-#: includes/ry-woocommerce-tools/woocommerce/admin/view/html-setting-tools.php:9
-#, php-format
-msgid "Server time and Google Public NTP differ is %d second"
-msgid_plural "Server time and Google Public NTP differ is %d seconds"
-msgstr[0] ""
-
-#: includes/ry-woocommerce-tools/woocommerce/admin/view/html-setting-tools.php:15
-msgid "Check server time"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/emails/ecpay-shipping-customer-cvs-get-expired.php:9
-#, fuzzy
-#| msgid "超商取貨付款"
-msgid "超商取貨到期"
-msgstr "超商取貨付款"
-
-#: includes/ry-woocommerce-tools/woocommerce/emails/ecpay-shipping-customer-cvs-get-expired.php:10
-msgid "這是在商品經由綠界物流到店取貨到期的通知。"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/emails/ecpay-shipping-customer-cvs-get-expired.php:24
-msgid "您在 {site_title} 訂購的商品今天到期了，請儘速前往取貨"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/emails/ecpay-shipping-customer-cvs-get-expired.php:28
-#, fuzzy
-#| msgid "超商取貨付款"
-msgid "超商取貨逾期提醒"
-msgstr "超商取貨付款"
-
-#: includes/ry-woocommerce-tools/woocommerce/emails/ecpay-shipping-customer-cvs-get-expired.php:75
-#: includes/ry-woocommerce-tools/woocommerce/emails/ecpay-shipping-customer-cvs-get-remind.php:75
-#: includes/ry-woocommerce-tools/woocommerce/emails/ecpay-shipping-customer-cvs-store.php:82
-#: includes/ry-woocommerce-tools/woocommerce/emails/ecpay-shipping-customer-cvs-transporting.php:75
-msgid "We look forward to fulfilling your order soon."
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/emails/ecpay-shipping-customer-cvs-get-remind.php:9
-#: includes/ry-woocommerce-tools/woocommerce/emails/ecpay-shipping-customer-cvs-get-remind.php:28
-#, fuzzy
-#| msgid "超商取貨付款"
-msgid "超商取貨提醒"
-msgstr "超商取貨付款"
-
-#: includes/ry-woocommerce-tools/woocommerce/emails/ecpay-shipping-customer-cvs-get-remind.php:10
-msgid "這是在商品經由綠界物流到店後距離取貨到期日前一天的通知。"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/emails/ecpay-shipping-customer-cvs-get-remind.php:24
-msgid "您在 {site_title} 訂購的商品\b明天就要到期了，請儘速前往取貨"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/emails/ecpay-shipping-customer-cvs-store.php:10
-msgid "Product sended to cvs store"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/emails/ecpay-shipping-customer-cvs-store.php:11
-msgid ""
-"This is an order notification sent to customers after the product send to "
-"CVS store with ECPay shipping."
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/emails/ecpay-shipping-customer-cvs-store.php:26
-msgid "Your {site_title} order product send to CVS store"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/emails/ecpay-shipping-customer-cvs-store.php:31
-msgid "Product Pickup Notice"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/emails/ecpay-shipping-customer-cvs-transporting.php:9
-msgid "商品已出貨"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/emails/ecpay-shipping-customer-cvs-transporting.php:10
-msgid "這是在商品經由綠界物流出貨時時通知訂購人。"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/emails/ecpay-shipping-customer-cvs-transporting.php:24
-msgid "您在 {site_title} 訂購的商品運送中"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/emails/ecpay-shipping-customer-cvs-transporting.php:28
-msgid "商品運送通知"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/ecpay-gateway-atm.php:10
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/newebpay-gateway-atm.php:10
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/smilepay-gateway-atm.php:10
-msgid "Pay via ATM"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/ecpay-gateway-atm.php:11
-msgid "ECPay ATM"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/ecpay-gateway-atm.php:49
-msgid "Pay via ECPay ATM"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/ecpay-gateway-atm.php:64
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/newebpay-gateway-atm.php:64
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/smilepay-gateway-atm.php:68
-msgid "ATM payment deadline out of range. Set as default value."
-msgstr ""
-
-#. translators: %s: Gateway method title
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/ecpay-gateway-atm.php:70
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/ecpay-gateway-barcode.php:78
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/ecpay-gateway-cvs.php:82
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/ecpay-gateway-webatm.php:61
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/includes/ecpay-gateway-base.php:29
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/includes/newebpay-gateway-base.php:29
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/newebpay-gateway-barcode.php:78
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/newebpay-gateway-cvs.php:74
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/includes/smilepay-gateway-base.php:31
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/smilepay-gateway-atm.php:75
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/smilepay-gateway-barcode.php:79
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/smilepay-gateway-credit.php:61
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/smilepay-gateway-cvs-711.php:79
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/smilepay-gateway-cvs-fami.php:75
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/smilepay-gateway-webatm.php:66
-#, php-format
-msgid "%s minimum amount out of range. Set as default value."
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/ecpay-gateway-barcode.php:10
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/newebpay-gateway-barcode.php:10
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/smilepay-gateway-barcode.php:10
-msgid "Pay via BARCODE"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/ecpay-gateway-barcode.php:11
-msgid "ECPay BARCODE"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/ecpay-gateway-barcode.php:56
-msgid "Pay via ECPay BARCODE"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/ecpay-gateway-barcode.php:71
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/newebpay-gateway-barcode.php:71
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/smilepay-gateway-barcode.php:72
-msgid "BARCODE payment deadline out of range. Set as default value."
-msgstr ""
-
-#. translators: %1$s: Gateway method title, %2$d normal maximum
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/ecpay-gateway-barcode.php:84
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/ecpay-gateway-cvs.php:88
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/newebpay-gateway-barcode.php:84
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/newebpay-gateway-cvs.php:80
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/smilepay-gateway-atm.php:81
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/smilepay-gateway-barcode.php:85
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/smilepay-gateway-cvs-711.php:85
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/smilepay-gateway-cvs-fami.php:81
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/smilepay-gateway-webatm.php:72
-#, php-format
-msgid "%1$s maximum amount more then normal maximum (%2$d)."
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/ecpay-gateway-credit-installment.php:10
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/newebpay-gateway-credit-installment.php:10
-msgid "Pay via Credit(installment)"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/ecpay-gateway-credit-installment.php:11
-msgid "ECPay Credit(installment)"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/ecpay-gateway-credit-installment.php:46
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/newebpay-gateway-credit-installment.php:46
-msgctxt "Checkout info"
-msgid "Number of periods"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/ecpay-gateway-credit-installment.php:57
-msgid "Pay via ECPay Credit(installment)"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/ecpay-gateway-credit.php:10
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/newebpay-gateway-credit.php:10
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/smilepay-gateway-credit.php:10
-msgid "Pay via Credit"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/ecpay-gateway-credit.php:11
-msgid "ECPay Credit"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/ecpay-gateway-credit.php:42
-msgid "Pay via ECPay Credit"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/ecpay-gateway-cvs.php:10
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/newebpay-gateway-cvs.php:10
-msgid "Pay via CVS"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/ecpay-gateway-cvs.php:11
-msgid "ECPay CVS"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/ecpay-gateway-cvs.php:19
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-cvs.php:51
-msgid "CVS allowable payment deadline from 1 minute to 60 days."
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/ecpay-gateway-cvs.php:60
-msgid "Pay via ECPay CVS"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/ecpay-gateway-cvs.php:75
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/newebpay-gateway-cvs.php:67
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/smilepay-gateway-cvs-711.php:72
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/smilepay-gateway-cvs-fami.php:68
-msgid "CVS payment deadline out of range. Set as default value."
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/ecpay-gateway-webatm.php:10
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/newebpay-gateway-webatm.php:10
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/smilepay-gateway-webatm.php:10
-msgid "Pay via WebATM"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/ecpay-gateway-webatm.php:11
-msgid "ECPay WebATM"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/ecpay-gateway-webatm.php:46
-msgid "Pay via ECPay WebATM"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/ecpay-gateway.php:59
-msgid "ECPay gateway options"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/ecpay-gateway.php:103
-msgid "ECPay gateway method failed to enable!"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/ecpay-gateway.php:108
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/newebpay-gateway.php:106
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/smilepay-gateway.php:125
-#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/ecpay-shipping.php:143
-#, fuzzy
-#| msgid "The prefix string of order number. Only letters and numbers allowed."
-msgid "Order no prefix only letters and numbers allowed allowed"
-msgstr "訂單前綴字，僅限英數。"
-
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/includes/ecpay-gateway-api.php:88
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/includes/newebpay-gateway-api.php:93
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/includes/smilepay-gateway-base.php:52
-msgid "Please wait.<br>Getting checkout info."
-msgstr ""
-
-#. translators: %d number of periods
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/includes/ecpay-gateway-api.php:125
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/includes/newebpay-gateway-api.php:141
-#, php-format
-msgid "Credit installment to %d"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/includes/ecpay-gateway-base.php:18
-msgid "ECPay"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/includes/ecpay-gateway-response.php:95
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/includes/newebpay-gateway-response.php:85
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/includes/smilepay-gateway-response.php:90
-msgid "Payment completed"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/includes/ecpay-gateway-response.php:138
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/includes/smilepay-gateway-response.php:99
-msgid "Payment failed within paid order"
-msgstr ""
-
-#. translators: Error status message
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/includes/ecpay-gateway-response.php:145
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/includes/smilepay-gateway-response.php:104
-#, php-format
-msgid "Payment failed (%s)"
-msgstr ""
-
-#. translators: %s: Gateway method title
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-atm.php:6
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-barcode.php:6
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-credit-installment.php:6
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-credit.php:6
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-cvs.php:6
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-webatm.php:6
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-atm.php:6
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-barcode.php:6
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-credit-installment.php:6
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-credit.php:6
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-cvs.php:6
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-webatm.php:6
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-atm.php:6
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-barcode.php:6
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-credit.php:6
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-cvs.php:6
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-webatm.php:6
-#, php-format
-msgid "Enable %s"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-atm.php:29
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-barcode.php:29
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-credit-installment.php:29
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-credit.php:29
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-cvs.php:29
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-webatm.php:29
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-atm.php:29
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-barcode.php:29
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-credit-installment.php:29
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-credit.php:29
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-cvs.php:29
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-webatm.php:29
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-atm.php:29
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-barcode.php:29
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-credit.php:29
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-cvs.php:29
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-webatm.php:29
-msgid "0 to disable minimum amount limit."
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-atm.php:36
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-barcode.php:36
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-cvs.php:36
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-webatm.php:36
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-atm.php:36
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-barcode.php:36
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-cvs.php:36
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-webatm.php:36
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-atm.php:36
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-barcode.php:36
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-cvs.php:36
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-webatm.php:36
-msgid "Maximum order amount"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-atm.php:40
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-barcode.php:40
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-cvs.php:40
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-webatm.php:40
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-atm.php:40
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-barcode.php:40
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-cvs.php:40
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-webatm.php:40
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-atm.php:40
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-barcode.php:40
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-cvs.php:40
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-webatm.php:40
-msgid "0 to disable maximum amount limit."
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-atm.php:51
-msgid "ATM allowable payment deadline from 1 day to 60 days."
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-barcode.php:51
-msgid "Barcode allowable payment deadline from 1 day to 60 days."
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-credit-installment.php:36
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-credit-installment.php:36
-msgid "Enable number of periods"
-msgstr ""
-
-#. translators: %d number of periods
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-credit-installment.php:44
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-credit-installment.php:46
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-credit-installment.php:48
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-credit-installment.php:50
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-credit-installment.php:52
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-credit-installment.php:44
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-credit-installment.php:46
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-credit-installment.php:48
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-credit-installment.php:50
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-credit-installment.php:52
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-credit-installment.php:54
-#, php-format
-msgid "%d periods"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-credit-installment.php:56
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-credit-installment.php:58
-msgctxt "Gateway setting"
-msgid "Number of periods"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-cvs.php:47
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-cvs.php:47
-msgid "Payment deadline (minutes)"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/includes/settings-ecpay-gateway.php:4
-#, fuzzy
-#| msgid "金流設定"
-msgid "綠界金流設定"
-msgstr "金流設定"
-
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/includes/settings-ecpay-gateway.php:16
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/includes/settings-newebpay-gateway.php:16
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/includes/settings-smilepay-gateway.php:16
-#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/includes/settings-ecpay-shipping.php:16
-msgid "Debug log"
-msgstr ""
-
-#. translators: %s: Path of log file
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/includes/settings-ecpay-gateway.php:23
-#, php-format
-msgid "Log ECPay gateway events/message, inside %s"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/includes/settings-ecpay-gateway.php:28
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/includes/settings-newebpay-gateway.php:28
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/includes/settings-smilepay-gateway.php:28
-#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/includes/settings-ecpay-shipping.php:87
-#, fuzzy
-#| msgid "Order number prefix"
-msgid "Order no prefix"
-msgstr "訂單號前綴"
-
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/includes/settings-ecpay-gateway.php:31
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/includes/settings-newebpay-gateway.php:31
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/includes/settings-smilepay-gateway.php:31
-#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/includes/settings-ecpay-shipping.php:90
-#, fuzzy
-#| msgid "The prefix string of order number. Only letters and numbers allowed."
-msgid ""
-"The prefix string of order no. Only letters and numbers allowed allowed."
-msgstr "訂單前綴字，僅限英數。"
-
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/includes/settings-ecpay-gateway.php:46
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/includes/settings-newebpay-gateway.php:46
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/includes/settings-smilepay-gateway.php:59
-#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/includes/settings-ecpay-shipping.php:154
-msgid "API credentials"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/includes/settings-ecpay-gateway.php:51
-msgid "ECPay gateway sandbox"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/includes/settings-ecpay-gateway.php:55
-msgid "Enable ECPay gateway sandbox"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/includes/settings-ecpay-gateway.php:58
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/includes/settings-newebpay-gateway.php:58
-#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/includes/settings-ecpay-shipping.php:166
-msgid "MerchantID"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/includes/settings-ecpay-gateway.php:64
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/includes/settings-newebpay-gateway.php:64
-#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/includes/settings-ecpay-shipping.php:172
-msgid "HashKey"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/gateways/ecpay/includes/settings-ecpay-gateway.php:70
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/includes/settings-newebpay-gateway.php:70
-#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/includes/settings-ecpay-shipping.php:178
-msgid "HashIV"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/includes/newebpay-gateway-base.php:18
-msgid "NewebPay"
-msgstr ""
-
-#. translators: 1: Store name 2: Store ID
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/includes/newebpay-gateway-response.php:131
-#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/ecpay-shipping.php:339
-#, php-format
-msgid "CVS store %1$s (%2$s)"
-msgstr ""
-
-#. translators: 1: Error status code 2: Error status message
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/includes/newebpay-gateway-response.php:180
-#, php-format
-msgid "Payment failed: %1$s (%2$s)"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-atm.php:51
-msgid "ATM allowable payment deadline from 1 day to 180 days."
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-barcode.php:51
-msgid "Barcode allowable payment deadline from 1 day to 180 days."
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/includes/settings-newebpay-gateway-cvs.php:51
-msgid "CVS allowable payment deadline from 1 day to 180 days."
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/includes/settings-newebpay-gateway.php:4
-#, fuzzy
-#| msgid "金流設定"
-msgid "藍新金流設定"
-msgstr "金流設定"
-
-#. translators: %s: Path of log file
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/includes/settings-newebpay-gateway.php:23
-#, php-format
-msgid "Log NewebPay gateway events/message, inside %s"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/includes/settings-newebpay-gateway.php:51
-msgid "NewebPay gateway sandbox"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/includes/settings-newebpay-gateway.php:55
-msgid "Enable NewebPay gateway sandbox"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/newebpay-gateway-atm.php:11
-msgid "NewebPay ATM"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/newebpay-gateway-atm.php:49
-msgid "Pay via NewebPay ATM"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/newebpay-gateway-barcode.php:11
-msgid "NewebPay BARCODE"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/newebpay-gateway-barcode.php:56
-msgid "Pay via NewebPay BARCODE"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/newebpay-gateway-credit-installment.php:11
-msgid "NewebPay Credit(installment)"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/newebpay-gateway-credit-installment.php:57
-msgid "Pay via NewebPay Credit(installment)"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/newebpay-gateway-credit.php:11
-msgid "NewebPay Credit"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/newebpay-gateway-credit.php:42
-msgid "Pay via NewebPay Credit"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/newebpay-gateway-cvs.php:11
-msgid "NewebPay CVS"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/newebpay-gateway-cvs.php:52
-msgid "Pay via NewebPay CVS"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/newebpay-gateway-webatm.php:11
-msgid "NewebPay WebATM"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/newebpay-gateway-webatm.php:46
-msgid "Pay via NewebPay WebATM"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/newebpay-gateway.php:61
-msgid "NewebPay gateway options"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/newebpay-gateway.php:94
-msgid "NewebPay gateway method failed to enable!"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/gateways/newebpay/newebpay-gateway.php:100
-#: includes/ry-woocommerce-tools/woocommerce/settings/class-settings-ry-tools.php:50
-#: includes/ry-woocommerce-tools/woocommerce/shipping/newebpay/newebpay-shipping.php:59
-msgid "NewebPay shipping method need enable NewebPay gateway."
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-atm.php:51
-msgid "ATM allowable payment deadline from 1 day to 30 days."
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-barcode.php:51
-msgid "Barcode allowable payment deadline from 1 day to 30 days."
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/includes/settings-smilepay-gateway-cvs.php:51
-msgid "CVS allowable payment deadline from 2 hours to 7 days."
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/includes/settings-smilepay-gateway.php:4
-#, fuzzy
-#| msgid "金流設定"
-msgid "速買配金流設定"
-msgstr "金流設定"
-
-#. translators: %s: Path of log file
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/includes/settings-smilepay-gateway.php:23
-#, php-format
-msgid "Log SmilePay gateway events/message, inside %s"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/includes/settings-smilepay-gateway.php:39
-#, fuzzy
-#| msgid "Invoice options"
-msgid "Gateway options"
-msgstr "電子發票設定"
-
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/includes/settings-smilepay-gateway.php:64
-msgid "SmilePay gateway sandbox"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/includes/settings-smilepay-gateway.php:68
-msgid "Enable SmilePay gateway sandbox"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/includes/settings-smilepay-gateway.php:71
-msgctxt "SmilePay"
-msgid "Dcvc"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/includes/settings-smilepay-gateway.php:77
-msgctxt "SmilePay"
-msgid "Rvg2c"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/includes/settings-smilepay-gateway.php:83
-msgctxt "SmilePay"
-msgid "Verify_key"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/includes/settings-smilepay-gateway.php:89
-msgctxt "SmilePay"
-msgid "Rot_check"
-msgstr ""
-
-#. translators: %1$s Error messade, %2$d Error messade ID
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/includes/smilepay-gateway-api.php:93
-#: includes/ry-woocommerce-tools/woocommerce/shipping/smilepay/includes/smilepay-shipping-api.php:207
-#, php-format
-msgid "Get Smilepay code error: %1$s (%2$d)"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/includes/smilepay-gateway-base.php:20
-msgid "SmilePay"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/smilepay-gateway-atm.php:11
-msgid "SmilePay ATM"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/smilepay-gateway-atm.php:53
-msgid "Pay via SmilePay ATM"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/smilepay-gateway-barcode.php:11
-msgid "SmilePay BARCODE"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/smilepay-gateway-barcode.php:57
-msgid "Pay via SmilePay BARCODE"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/smilepay-gateway-credit.php:11
-msgid "SmilePay Credit"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/smilepay-gateway-credit.php:45
-msgid "Pay via SmilePay Credit"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/smilepay-gateway-cvs-711.php:10
-msgid "Pay via CVS 7-11"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/smilepay-gateway-cvs-711.php:11
-msgid "SmilePay CVS 7-11"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/smilepay-gateway-cvs-711.php:57
-msgid "Pay via SmilePay CVS 711"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/smilepay-gateway-cvs-fami.php:10
-msgid "Pay via CVS Fami"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/smilepay-gateway-cvs-fami.php:11
-msgid "SmilePay CVS Fami"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/smilepay-gateway-cvs-fami.php:53
-msgid "Pay via SmilePay CVS Fami"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/smilepay-gateway-webatm.php:11
-msgid "SmilePay WebATM"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/smilepay-gateway-webatm.php:50
-msgid "Pay via SmilePay WebATM"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/smilepay-gateway.php:59
-msgid "SmilePay gateway options"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/smilepay-gateway.php:93
-msgid "SmilePay gateway method need php simplexml extension."
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/smilepay-gateway.php:113
-msgid "SmilePay gateway method failed to enable!"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/gateways/smilepay/smilepay-gateway.php:119
-#: includes/ry-woocommerce-tools/woocommerce/settings/class-settings-ry-tools.php:57
-#: includes/ry-woocommerce-tools/woocommerce/shipping/smilepay/smilepay-shipping.php:91
-msgid "SmilePay shipping method need enable SmilePay gateway."
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/settings/class-settings-ry-tools.php:7
-msgid "RY 設定"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/settings/class-settings-ry-tools.php:15
-#, fuzzy
-#| msgid "Invoice options"
-msgid "Base options"
-msgstr "電子發票設定"
-
-#: includes/ry-woocommerce-tools/woocommerce/settings/class-settings-ry-tools.php:72
-msgid "ECPay support"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/settings/class-settings-ry-tools.php:77
-#: includes/ry-woocommerce-tools/woocommerce/settings/class-settings-ry-tools.php:102
-#: includes/ry-woocommerce-tools/woocommerce/settings/class-settings-ry-tools.php:127
-msgid "Gateway method"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/settings/class-settings-ry-tools.php:79
-#: includes/ry-woocommerce-tools/woocommerce/settings/class-settings-ry-tools.php:87
-msgid "For correct link with ECPay API, need enable secure checkout."
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/settings/class-settings-ry-tools.php:85
-#: includes/ry-woocommerce-tools/woocommerce/settings/class-settings-ry-tools.php:110
-#: includes/ry-woocommerce-tools/woocommerce/settings/class-settings-ry-tools.php:135
-#, fuzzy
-#| msgid "Shipping payment no"
-msgid "Shipping method"
-msgstr "物流單號"
-
-#: includes/ry-woocommerce-tools/woocommerce/settings/class-settings-ry-tools.php:97
-msgid "NewebPay support"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/settings/class-settings-ry-tools.php:104
-#: includes/ry-woocommerce-tools/woocommerce/settings/class-settings-ry-tools.php:112
-msgid "For correct link with NewebPay API, need enable secure checkout."
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/settings/class-settings-ry-tools.php:122
-msgid "SmilePay support"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/settings/class-settings-ry-tools.php:129
-#: includes/ry-woocommerce-tools/woocommerce/settings/class-settings-ry-tools.php:137
-msgid "For correct link with SmilePay API, need enable secure checkout."
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/settings/class-settings-ry-tools.php:147
-#, fuzzy
-#| msgid "Invoice options"
-msgid "General options"
-msgstr "電子發票設定"
-
-#: includes/ry-woocommerce-tools/woocommerce/settings/class-settings-ry-tools.php:177
-#, fuzzy
-#| msgid "Invoice options"
-msgid "Address options"
-msgstr "電子發票設定"
-
-#: includes/ry-woocommerce-tools/woocommerce/settings/settings-ry-tools-pro.php:4
-msgid "Pro version"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/ecpay-shipping-cvs-711.php:11
-#, fuzzy
-#| msgid "Print ECPay shipping booking note (711)"
-msgid "ECPay shipping CVS 7-11"
-msgstr "列印統一超商託運單（綠界）"
-
-#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/ecpay-shipping-cvs-family.php:11
-#, fuzzy
-#| msgid "Ecpay Shipping details"
-msgid "ECPay shipping CVS Family"
-msgstr "綠界物流資訊"
-
-#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/ecpay-shipping-cvs-hilife.php:11
-#, fuzzy
-#| msgid "Print ECPay shipping booking note (hilife)"
-msgid "ECPay shipping CVS Hilife"
-msgstr "列印萊爾富超商託運單（綠界）"
-
-#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/ecpay-shipping-home-ecan.php:11
-#, fuzzy
-#| msgid "Print ECPay shipping booking note (ecan)"
-msgid "ECPay shipping home Ecan"
-msgstr "列印宅配通託運單（綠界）"
-
-#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/ecpay-shipping-home-tcat.php:11
-#, fuzzy
-#| msgid "Print ECPay shipping booking note (tcat)"
-msgid "ECPay shipping home Tcat"
-msgstr "列印黑貓託運單（綠界）"
-
-#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/ecpay-shipping.php:84
-#, fuzzy
-#| msgid "Ecpay Shipping details"
-msgid "ECPay shipping options"
-msgstr "綠界物流資訊"
-
-#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/ecpay-shipping.php:96
-msgctxt "Cvs type"
-msgid "Disable"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/ecpay-shipping.php:98
-#: includes/ry-woocommerce-tools/woocommerce/shipping/newebpay/newebpay-shipping.php:48
-#: includes/ry-woocommerce-tools/woocommerce/shipping/smilepay/smilepay-shipping.php:75
-msgid ""
-"Cvs only can enable with shipping destination not force to billing address."
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/ecpay-shipping.php:111
-#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/ecpay-shipping.php:117
-#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/ecpay-shipping.php:123
-#, fuzzy
-#| msgid "certification"
-msgid "Verification failed!"
-msgstr "自然人憑證"
-
-#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/ecpay-shipping.php:111
-msgid "Name length between 1 to 10 letter (5 if chinese)"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/ecpay-shipping.php:117
-#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/includes/settings-ecpay-shipping.php:121
-msgid "Phone format (0x)xxxxxxx#xx"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/ecpay-shipping.php:123
-#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/includes/settings-ecpay-shipping.php:132
-msgid "Cellphone format 09xxxxxxxx"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/ecpay-shipping.php:138
-msgid "ECPay shipping method failed to enable!"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/ecpay-shipping.php:230
-#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/includes/ecpay-shipping-admin.php:58
-#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/includes/ecpay-shipping-admin.php:62
-#: includes/ry-woocommerce-tools/woocommerce/shipping/newebpay/includes/newebpay-shipping-admin.php:52
-#: includes/ry-woocommerce-tools/woocommerce/shipping/smilepay/includes/smilepay-shipping-admin.php:55
-#: includes/ry-woocommerce-tools/woocommerce/shipping/smilepay/smilepay-shipping.php:114
-msgid "Phone"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/ecpay-shipping.php:252
-#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/includes/ecpay-shipping-admin.php:52
-msgid "Store Telephone"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/includes/ecpay-shipping-admin.php:108
-#: includes/ry-woocommerce-tools/woocommerce/shipping/newebpay/includes/newebpay-shipping-admin.php:96
-#: includes/ry-woocommerce-tools/woocommerce/shipping/smilepay/includes/smilepay-shipping-admin.php:99
-msgid "All cvs shipping methods set to disable."
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/includes/ecpay-shipping-admin.php:125
-msgid "Get new Ecpay shipping no"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/includes/ecpay-shipping-admin.php:127
-msgid "Get new Ecpay shipping no with cod"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/includes/ecpay-shipping-admin.php:130
-#: includes/ry-woocommerce-tools/woocommerce/shipping/newebpay/includes/newebpay-shipping-admin.php:110
-#: includes/ry-woocommerce-tools/woocommerce/shipping/smilepay/includes/smilepay-shipping-admin.php:117
-msgid "Resend at cvs notification"
-msgstr ""
-
-#. translators: %s Error messade
-#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/includes/ecpay-shipping-api.php:191
-#, php-format
-msgid "Get shipping code error: %s"
-msgstr ""
-
-#. translators: 1: EcPay ID 2: Old status mag 3: Old status no 4: New status mag 5: New status no
-#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/includes/ecpay-shipping-response.php:136
-#, php-format
-msgid "%1$s shipping status from %2$s(%3$d) to %4$s(%5$d)"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/includes/settings-ecpay-shipping-base.php:21
-#: includes/ry-woocommerce-tools/woocommerce/shipping/newebpay/includes/settings-newebpay-shipping-cvs.php:21
-#: includes/ry-woocommerce-tools/woocommerce/shipping/smilepay/includes/settings-smilepay-shipping-base.php:21
-#, fuzzy
-#| msgid "Shipping details"
-msgid "Shipping cost"
-msgstr "物流資訊"
-
-#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/includes/settings-ecpay-shipping-base.php:63
-#: includes/ry-woocommerce-tools/woocommerce/shipping/newebpay/includes/settings-newebpay-shipping-cvs.php:63
-#: includes/ry-woocommerce-tools/woocommerce/shipping/smilepay/includes/settings-smilepay-shipping-base.php:63
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-711-frozen.php:64
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-family-frozen.php:73
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-frozen.php:64
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-refrigerated.php:63
-msgid "Shipping available"
-msgstr "運送類別費用"
-
-#. translators: %s: shipping class setting url
-#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/includes/settings-ecpay-shipping-base.php:67
-#: includes/ry-woocommerce-tools/woocommerce/shipping/newebpay/includes/settings-newebpay-shipping-cvs.php:67
-#: includes/ry-woocommerce-tools/woocommerce/shipping/smilepay/includes/settings-smilepay-shipping-base.php:67
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-711-frozen.php:68
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-family-frozen.php:77
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-frozen.php:68
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-refrigerated.php:67
-#, php-format
-msgid ""
-"These shipping available based on the <a href=\"%s\">product shipping class</"
-"a>."
-msgstr ""
-"設定 <a href=\"%s\"> 商品運送類別</a>是否可使用，並可以根據商品運送類別加收費"
-"用。"
-
-#. translators: %s: shipping class name
-#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/includes/settings-ecpay-shipping-base.php:75
-#: includes/ry-woocommerce-tools/woocommerce/shipping/newebpay/includes/settings-newebpay-shipping-cvs.php:75
-#: includes/ry-woocommerce-tools/woocommerce/shipping/smilepay/includes/settings-smilepay-shipping-base.php:75
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-711-frozen.php:76
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-family-frozen.php:85
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-frozen.php:76
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-refrigerated.php:75
-#, php-format
-msgid "\"%s\" available"
-msgstr "\"%s\" 運送類別可運送"
-
-#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/includes/settings-ecpay-shipping.php:4
-#, fuzzy
-#| msgid "物流設定"
-msgid "綠界物流設定"
-msgstr "物流設定"
-
-#. translators: %s: Path of log file
-#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/includes/settings-ecpay-shipping.php:23
-#, php-format
-msgid "Log ECPay shipping events/message, inside %s"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/includes/settings-ecpay-shipping.php:28
-#: includes/ry-woocommerce-tools/woocommerce/shipping/smilepay/includes/settings-smilepay-shipping.php:16
-msgid "Log status change"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/includes/settings-ecpay-shipping.php:32
-#: includes/ry-woocommerce-tools/woocommerce/shipping/smilepay/includes/settings-smilepay-shipping.php:20
-msgid "Log status change at order notes."
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/includes/settings-ecpay-shipping.php:35
-msgid "Clean up receiver name"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/includes/settings-ecpay-shipping.php:39
-msgid "Clean up receiver name to comply with EcPay request."
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/includes/settings-ecpay-shipping.php:42
-#: includes/ry-woocommerce-tools/woocommerce/shipping/smilepay/includes/settings-smilepay-shipping.php:23
-#, fuzzy
-#| msgid "Shipping payment no"
-msgid "Auto get shipping payment no"
-msgstr "物流單號"
-
-#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/includes/settings-ecpay-shipping.php:46
-#: includes/ry-woocommerce-tools/woocommerce/shipping/smilepay/includes/settings-smilepay-shipping.php:27
-msgid "Auto get shipping payment no when order status is change to processing."
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/includes/settings-ecpay-shipping.php:53
-msgid "Get shipping payment no use scheduler action."
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/includes/settings-ecpay-shipping.php:56
-#: includes/ry-woocommerce-tools/woocommerce/shipping/smilepay/includes/settings-smilepay-shipping.php:37
-msgid "Keep shipping phone"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/includes/settings-ecpay-shipping.php:60
-#: includes/ry-woocommerce-tools/woocommerce/shipping/smilepay/includes/settings-smilepay-shipping.php:41
-msgid "Always show shipping phone field in checkout form."
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/includes/settings-ecpay-shipping.php:63
-#: includes/ry-woocommerce-tools/woocommerce/shipping/smilepay/includes/settings-smilepay-shipping.php:44
-msgid "Auto completed order"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/includes/settings-ecpay-shipping.php:67
-#: includes/ry-woocommerce-tools/woocommerce/shipping/smilepay/includes/settings-smilepay-shipping.php:48
-msgid "Auto completed order when user getted products."
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/includes/settings-ecpay-shipping.php:82
-#: includes/ry-woocommerce-tools/woocommerce/shipping/smilepay/includes/settings-smilepay-shipping.php:63
-#, fuzzy
-#| msgid "Shipping details"
-msgid "Shipping note options"
-msgstr "物流資訊"
-
-#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/includes/settings-ecpay-shipping.php:94
-#: includes/ry-woocommerce-tools/woocommerce/shipping/smilepay/includes/settings-smilepay-shipping.php:68
-#, fuzzy
-#| msgid "shipping"
-msgid "shipping item name"
-msgstr "物流"
-
-#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/includes/settings-ecpay-shipping.php:98
-#: includes/ry-woocommerce-tools/woocommerce/shipping/smilepay/includes/settings-smilepay-shipping.php:72
-msgid "If empty use the first product name."
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/includes/settings-ecpay-shipping.php:102
-#: includes/ry-woocommerce-tools/woocommerce/shipping/smilepay/includes/settings-smilepay-shipping.php:76
-#, fuzzy
-#| msgid "shipping"
-msgid "Cvs shipping type"
-msgstr "物流"
-
-#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/includes/settings-ecpay-shipping.php:107
-#: includes/ry-woocommerce-tools/woocommerce/shipping/smilepay/includes/settings-smilepay-shipping.php:81
-msgctxt "Cvs type"
-msgid "C2C"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/includes/settings-ecpay-shipping.php:111
-msgid "Sender name"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/includes/settings-ecpay-shipping.php:114
-msgid "Name length between 1 to 10 letter"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/includes/settings-ecpay-shipping.php:118
-msgid "Sender phone"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/includes/settings-ecpay-shipping.php:129
-msgid "Sender cellphone"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/includes/settings-ecpay-shipping.php:140
-msgid "Sender zipcode"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/includes/settings-ecpay-shipping.php:145
-msgid "Sender address"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/includes/settings-ecpay-shipping.php:159
-msgid "ECPay shipping sandbox"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/includes/settings-ecpay-shipping.php:163
-msgid "Enable ECPay shipping sandbox"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/shipping/newebpay/includes/settings-newebpay-shipping.php:4
-#, fuzzy
-#| msgid "物流設定"
-msgid "藍新物流設定"
-msgstr "物流設定"
-
-#: includes/ry-woocommerce-tools/woocommerce/shipping/newebpay/includes/settings-newebpay-shipping.php:7
-msgid ""
-"Because NewebPay limit, the shipping note no or shipping status can not show "
-"in site admin."
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/shipping/newebpay/newebpay-shipping-cvs.php:8
-msgid "NewebPay shipping CVS"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/shipping/newebpay/newebpay-shipping.php:38
-msgid "NewebPay shipping options"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/shipping/newebpay/newebpay-shipping.php:66
-msgid "NewebPay shipping method failed to enable!"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/shipping/ry-base.php:27
-#: includes/ry-woocommerce-tools/woocommerce/shipping/ry-base.php:52
-msgctxt "Order status"
-msgid "Wait pickup (cvs)"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/shipping/ry-base.php:28
-#: includes/ry-woocommerce-tools/woocommerce/shipping/ry-base.php:62
-msgctxt "Order status"
-msgid "Overdue return (cvs)"
-msgstr ""
-
-#. translators: %s: number of orders
-#: includes/ry-woocommerce-tools/woocommerce/shipping/ry-base.php:58
-#, php-format
-msgid "Wait pickup (cvs) <span class=\"count\">(%s)</span>"
-msgid_plural "Wait pickup (cvs) <span class=\"count\">(%s)</span>"
-msgstr[0] ""
-
-#. translators: %s: number of orders
-#: includes/ry-woocommerce-tools/woocommerce/shipping/ry-base.php:68
-#, php-format
-msgid "Overdue return (cvs) <span class=\"count\">(%s)</span>"
-msgid_plural "Overdue return (cvs) <span class=\"count\">(%s)</span>"
-msgstr[0] ""
-
-#: includes/ry-woocommerce-tools/woocommerce/shipping/ry-base.php:206
-msgid "Complete"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/shipping/smilepay/includes/settings-smilepay-shipping.php:4
-#, fuzzy
-#| msgid "物流設定"
-msgid "速買配物流設定"
-msgstr "物流設定"
-
-#: includes/ry-woocommerce-tools/woocommerce/shipping/smilepay/includes/smilepay-shipping-admin.php:112
-msgid "Get new SmilePay shipping no"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/shipping/smilepay/includes/smilepay-shipping-admin.php:114
-msgid "Get new SmilePay shipping no with cod"
-msgstr ""
-
-#. translators: 1: EcPay ID 2: Old status no 3: New status no
-#: includes/ry-woocommerce-tools/woocommerce/shipping/smilepay/includes/smilepay-shipping-response.php:179
-#, php-format
-msgid "%1$s shipping status from %2$s to %3$s"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/shipping/smilepay/smilepay-shipping-cvs-711.php:10
-msgid "SmilePay shipping CVS 711"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/shipping/smilepay/smilepay-shipping-cvs-fami.php:10
-msgid "SmilePay shipping CVS Fami"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/shipping/smilepay/smilepay-shipping.php:65
-msgid "SmilePay shipping options"
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/shipping/smilepay/smilepay-shipping.php:84
-msgid "SmilePay shipping method need php simplexml extension."
-msgstr ""
-
-#: includes/ry-woocommerce-tools/woocommerce/shipping/smilepay/smilepay-shipping.php:98
-msgid "SmilePay shipping method failed to enable!"
-msgstr ""
+msgstr "託運單"
+
+#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/ecpay-shipping-cvs-okmart.php:11
+msgid "ECPay shipping CVS OKMart"
+msgstr "綠界物流 超商取貨 OK超商"
 
 #: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:185
 msgid "<b>Invoice issue result</b>"
@@ -4209,6 +676,11 @@ msgstr "捐贈"
 msgid "Individual Invoice Type"
 msgstr "個人發票類型"
 
+#: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Metabox.php:86
+#: includes/woomp-ecpay-invoice/src/templates/Checkout.php:61
+msgid "Carrier Number"
+msgstr "載具"
+
 #: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Metabox.php:90
 #: includes/woomp-ecpay-invoice/src/templates/Checkout.php:71
 msgid "Company Name"
@@ -4224,82 +696,13 @@ msgstr "統一編號"
 msgid "Donate Number"
 msgstr "捐贈碼"
 
-#: includes/woomp-ecpay-invoice/src/templates/Checkout.php:134
-msgid ""
-"<strong>電子發票 載具</strong> 請輸入前 2 位大寫英文與 14 位數字自然人憑證號"
-"碼"
-msgstr ""
-
-#: includes/woomp-ecpay-invoice/src/templates/Checkout.php:139
-msgid ""
-"<strong>電子發票 載具</strong> 請輸入第 1 碼為「/」，後 7 碼為大寫英文、數"
-"字、「+」、「-」或「.」"
-msgstr ""
-
-#: includes/woomp-ecpay-invoice/src/templates/Checkout.php:144
-msgid "<strong>統一編號</strong> 請輸入 8 位數字組成統一編號"
-msgstr ""
-
-#: includes/woomp-ecpay-invoice/src/templates/Checkout.php:148
-msgid "<strong>公司名稱</strong> 為必填欄位"
-msgstr ""
-
-#: includes/woomp-ecpay-invoice/src/templates/Checkout.php:153
-msgid "<strong>捐贈碼</strong> 請輸入 3~7 位數字"
-msgstr ""
-
-#: includes/woomp-paynow-shipping/src/class-woomp-paynow-shipping.php:106
-msgid "Reserved NO"
-msgstr ""
-
-#: includes/woomp-paynow-shipping/src/class-woomp-paynow-shipping.php:116
-#: includes/woomp-paynow-shipping/src/class-woomp-paynow-shipping.php:167
-msgid "Ship Date"
-msgstr ""
-
 #: includes/woomp-paynow-shipping/src/class-woomp-paynow-shipping.php:166
 msgid "Reserved No"
 msgstr ""
 
-#: includes/woomp-paynow-shipping/src/class-woomp-paynow-shipping.php:179
-#, fuzzy
-#| msgid "Print HCT shipping booking note"
-msgid "Print 7-11 shipping Label"
-msgstr "匯出新竹物流報表"
-
-#: includes/woomp-paynow-shipping/src/class-woomp-paynow-shipping.php:180
-msgid "Print 7-11 Bulk shipping Label"
+#: includes/woomp-paynow-shipping/src/class-woomp-paynow-shipping.php:167
+msgid "Ship Date"
 msgstr ""
-
-#: includes/woomp-paynow-shipping/src/class-woomp-paynow-shipping.php:181
-msgid "Print 7-11 Frozen shipping Label"
-msgstr ""
-
-#: includes/woomp-paynow-shipping/src/class-woomp-paynow-shipping.php:182
-#, fuzzy
-#| msgid "Print HCT shipping booking note"
-msgid "Print Family shipping Label"
-msgstr "匯出新竹物流報表"
-
-#: includes/woomp-paynow-shipping/src/class-woomp-paynow-shipping.php:183
-msgid "Print Family Bulk shipping Label"
-msgstr ""
-
-#: includes/woomp-paynow-shipping/src/class-woomp-paynow-shipping.php:184
-msgid "Print Family Frozen shipping Label"
-msgstr ""
-
-#: includes/woomp-paynow-shipping/src/class-woomp-paynow-shipping.php:185
-#, fuzzy
-#| msgid "Print HCT shipping booking note"
-msgid "Print HiLfe shipping Label"
-msgstr "匯出新竹物流報表"
-
-#: includes/woomp-paynow-shipping/src/class-woomp-paynow-shipping.php:186
-#, fuzzy
-#| msgid "Print HCT shipping booking note"
-msgid "Print TCat shipping Label"
-msgstr "匯出新竹物流報表"
 
 #: includes/woomp-paynow-shipping/src/class-woomp-paynow-shipping.php:221
 #, fuzzy
@@ -4318,9 +721,106 @@ msgid ""
 "number."
 msgstr ""
 
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-711-frozen.php:18
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-family-frozen.php:18
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-frozen.php:18
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-refrigerated.php:18
+msgid "Title"
+msgstr "標題"
+
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-711-frozen.php:20
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-family-frozen.php:20
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-frozen.php:20
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-refrigerated.php:20
+msgid "This controls the title which the user sees during checkout."
+msgstr ""
+
 #: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-711-frozen.php:21
 msgid "PayNow Shipping C2C 7-11 Frozen"
 msgstr ""
+
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-711-frozen.php:25
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-family-frozen.php:25
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-frozen.php:25
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-refrigerated.php:25
+msgid "Description"
+msgstr "說明"
+
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-711-frozen.php:27
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-family-frozen.php:27
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-frozen.php:27
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-refrigerated.php:27
+msgid "This controls the description which the user sees during checkout."
+msgstr ""
+
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-711-frozen.php:31
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-family-frozen.php:41
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-frozen.php:31
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-refrigerated.php:31
+msgid "Shipping Cost"
+msgstr "運送費用"
+
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-711-frozen.php:38
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-family-frozen.php:48
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-frozen.php:38
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-refrigerated.php:38
+msgid "Free shipping requires"
+msgstr "免費運送需要條件"
+
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-711-frozen.php:43
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-family-frozen.php:53
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-frozen.php:43
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-refrigerated.php:43
+msgid "N/A"
+msgstr ""
+
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-711-frozen.php:44
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-family-frozen.php:54
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-frozen.php:44
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-refrigerated.php:44
+msgid "A minimum order amount"
+msgstr "一個最低訂單金額"
+
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-711-frozen.php:48
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-family-frozen.php:58
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-frozen.php:48
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-refrigerated.php:48
+msgid "Minimum order amount for free shipping"
+msgstr "免費運送最低訂單金額"
+
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-711-frozen.php:52
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-family-frozen.php:62
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-frozen.php:52
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-refrigerated.php:52
+msgid "Users will need to spend this amount to get free shipping."
+msgstr ""
+
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-711-frozen.php:64
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-family-frozen.php:73
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-frozen.php:64
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-refrigerated.php:63
+msgid "Shipping available"
+msgstr "運送類別費用"
+
+#. translators: %s: shipping class setting url
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-711-frozen.php:68
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-family-frozen.php:77
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-frozen.php:68
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-refrigerated.php:67
+msgid ""
+"These shipping available based on the <a href=\"%s\">product shipping class</"
+"a>."
+msgstr ""
+"設定 <a href=\"%s\"> 商品運送類別</a>是否可使用，並可以根據商品運送類別加收費"
+"用。"
+
+#. translators: %s: shipping class name
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-711-frozen.php:76
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-family-frozen.php:85
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-frozen.php:76
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-refrigerated.php:75
+msgid "\"%s\" available"
+msgstr "\"%s\" 運送類別可運送"
 
 #: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-family-frozen.php:21
 #: includes/woomp-paynow-shipping/src/shippings/class-woomp-paynow-shipping-c2c-family-frozen.php:28
@@ -4353,133 +853,6 @@ msgstr ""
 msgid "PayNow Shipping C2C 711 Frozen"
 msgstr "PayNow 7-11 冷凍超取"
 
-#: lib/plugin-update-checker/Puc/v4p4/Plugin/UpdateChecker.php:395
-msgid "Check for updates"
-msgstr ""
-
-#: lib/plugin-update-checker/Puc/v4p4/Plugin/UpdateChecker.php:432
-#, fuzzy
-#| msgid "Shipping details"
-msgid "View details"
-msgstr "物流資訊"
-
-#: lib/plugin-update-checker/Puc/v4p4/Plugin/UpdateChecker.php:456
-#, php-format
-msgid "More information about %s"
-msgstr ""
-
-#: lib/plugin-update-checker/Puc/v4p4/Plugin/UpdateChecker.php:549
-#, php-format
-msgctxt "the plugin title"
-msgid "The %s plugin is up to date."
-msgstr ""
-
-#: lib/plugin-update-checker/Puc/v4p4/Plugin/UpdateChecker.php:551
-#, php-format
-msgctxt "the plugin title"
-msgid "A new version of the %s plugin is available."
-msgstr ""
-
-#: lib/plugin-update-checker/Puc/v4p4/Plugin/UpdateChecker.php:553
-#, php-format
-msgctxt "the plugin title"
-msgid "Could not determine if updates are available for %s."
-msgstr ""
-
-#: lib/plugin-update-checker/Puc/v4p4/Plugin/UpdateChecker.php:559
-#, php-format
-msgid "Unknown update checker status \"%s\""
-msgstr ""
-
-#: lib/plugin-update-checker/Puc/v4p4/Vcs/PluginUpdateChecker.php:98
-msgid "There is no changelog available."
-msgstr ""
-
-#: lib/wp-package-updater/class-wp-package-updater.php:204
-msgid "Sorry, you are not allowed to access this page."
-msgstr ""
-
-#: lib/wp-package-updater/class-wp-package-updater.php:251
-msgid "Theme License - "
-msgstr ""
-
-#: lib/wp-package-updater/class-wp-package-updater.php:396
-#: lib/wp-package-updater/class-wp-package-updater.php:405
-msgid ""
-"Unexpected Error! The query to retrieve the license data returned a "
-"malformed response."
-msgstr ""
-
-#: lib/wp-package-updater/class-wp-package-updater.php:423
-msgid "The license is already in use for this domain."
-msgstr ""
-
-#: lib/wp-package-updater/class-wp-package-updater.php:426
-msgid ""
-"The license has reached the maximum number of activations and cannot be "
-"activated for this domain."
-msgstr ""
-
-#: lib/wp-package-updater/class-wp-package-updater.php:432
-msgid "The license is already inactive for this domain."
-msgstr ""
-
-#. translators: the license expiry date
-#: lib/wp-package-updater/class-wp-package-updater.php:443
-#, php-format
-msgid "The license expired on %s and needs to be renewed to be updated."
-msgstr ""
-
-#: lib/wp-package-updater/class-wp-package-updater.php:447
-msgid "The license expired and needs to be renewed to be updated."
-msgstr ""
-
-#: lib/wp-package-updater/class-wp-package-updater.php:453
-msgid ""
-"The license is blocked and cannot be updated anymore. Please use another "
-"license key."
-msgstr ""
-
-#: lib/wp-package-updater/class-wp-package-updater.php:456
-msgid "The provided license key does not appear to be valid."
-msgstr ""
-
-#: lib/wp-package-updater/class-wp-package-updater.php:460
-msgid ""
-"An active license is required to update the plugin. Please provide a valid "
-"license key in Plugins > Installed Plugins."
-msgstr ""
-
-#: lib/wp-package-updater/class-wp-package-updater.php:462
-msgid ""
-"An active license is required to update the theme. Please provide a valid "
-"license key in Appearence > Theme License."
-msgstr ""
-
-#: lib/wp-package-updater/class-wp-package-updater.php:468
-msgid ""
-"An unexpected error has occured. Please try again. If the problem persists, "
-"please contact the author of the plugin."
-msgstr ""
-
-#: lib/wp-package-updater/class-wp-package-updater.php:470
-msgid ""
-"An unexpected error has occured. Please try again. If the problem persists, "
-"please contact the author of the theme."
-msgstr ""
-
-#: lib/wp-package-updater/templates/license-form.php:6
-msgid "Current license key:"
-msgstr ""
-
-#: lib/wp-package-updater/templates/license-form.php:9
-msgid "License key to change:"
-msgstr ""
-
-#: public/class-woomp-checkout.php:337
-msgid "optional"
-msgstr ""
-
 #: public/class-woomp-order.php:38
 msgid "Ecpay Shipping details"
 msgstr "綠界物流資訊"
@@ -4492,53 +865,471 @@ msgstr "物流單號"
 msgid "Shipping details"
 msgstr "物流資訊"
 
-#: public/class-woomp-public.php:118
-msgid "Returning customer?"
-msgstr ""
+#, fuzzy
+#~| msgid "settings"
+#~ msgid "Settings"
+#~ msgstr "設定"
 
-#: public/class-woomp-public.php:119
-msgid "Click here to login"
-msgstr ""
+#, fuzzy
+#~| msgid "Shipping payment no"
+#~ msgid "Select shipping methods"
+#~ msgstr "物流單號"
 
-#: public/class-woomp-public.php:120
-msgid "Have a coupon?"
-msgstr ""
+#~ msgid "Free shipping requires..."
+#~ msgstr "如果要免運費的話需要.."
 
-#: public/class-woomp-public.php:121
-msgid "Click here to enter your code"
-msgstr ""
+#, fuzzy
+#~| msgid "Shipping payment no"
+#~ msgid "Shipping class costs"
+#~ msgstr "物流單號"
 
-#: woocommerce/checkout/form-checkout.php:30
-msgid "You must be logged in to checkout."
-msgstr ""
+#, fuzzy
+#~| msgid "金流設定"
+#~ msgid "立吉富金流設定"
+#~ msgstr "金流設定"
 
-#: woocommerce/checkout/form-checkout.php:58
-msgid "Your order"
-msgstr ""
+#, fuzzy
+#~| msgid "settings"
+#~ msgid "API Settings"
+#~ msgstr "設定"
 
-#. Plugin Name of the plugin/theme
-msgid "好用版擴充 MorePower Addon for WooCommerce"
-msgstr "好用版擴充 MorePower Addon for WooCommerce"
+#, fuzzy
+#~| msgid "payment"
+#~ msgid "Payment Type"
+#~ msgstr "金流"
 
-#. Plugin URI of the plugin/theme
-msgid "https://morepower.club/morepower-addon/"
-msgstr "https://morepower.club/morepower-addon/"
+#, fuzzy
+#~| msgid "Generate invoice"
+#~ msgid "General Logo Size"
+#~ msgstr "開立發票"
 
-#. Description of the plugin/theme
-msgid ""
-"WooCommerce 好用版擴充，改善結帳流程與可變商品等區塊，讓 WooCommerce 更符合亞"
-"洲人使用習慣。"
-msgstr ""
-"WooCommerce 好用版擴充，改善結帳流程與可變商品等區塊，讓 WooCommerce 更符合亞"
-"洲人使用習慣。"
+#, fuzzy
+#~| msgid "Issue Manual"
+#~ msgid "Issue Mode"
+#~ msgstr "手動開立"
 
-#. Author of the plugin/theme
-msgid "MorePower"
-msgstr "MorePower"
+#~ msgid "Failed"
+#~ msgstr "失敗"
 
-#. Author URI of the plugin/theme
-msgid "https://morepower.club"
-msgstr "https://morepower.club"
+#, fuzzy
+#~| msgid "Carrier Number"
+#~ msgid "Carrier Type"
+#~ msgstr "載具"
+
+#, fuzzy
+#~| msgid "mobile-barcode"
+#~ msgid "Mobile Code"
+#~ msgstr "手機條碼"
+
+#, fuzzy
+#~| msgid "電子發票設定"
+#~ msgid "立吉富電子發票設定"
+#~ msgstr "電子發票設定"
+
+#, fuzzy
+#~| msgid "Issue automatic"
+#~ msgid "Automatic"
+#~ msgstr "自動開立"
+
+#, fuzzy
+#~| msgid "Issue Manual"
+#~ msgid "Manual"
+#~ msgstr "手動開立"
+
+#, fuzzy
+#~| msgid "Allowed Order Status for issue"
+#~ msgid "Allowed Order Status"
+#~ msgstr "自動開立的訂單狀態"
+
+#, fuzzy
+#~| msgid "Ecpay Shipping details"
+#~ msgid "General Shipping Settings"
+#~ msgstr "綠界物流資訊"
+
+#, fuzzy
+#~| msgid "settings"
+#~ msgid "Store Settings"
+#~ msgstr "設定"
+
+#, fuzzy
+#~| msgid "Shipping details"
+#~ msgid "Shipping Order Status Settings"
+#~ msgstr "物流資訊"
+
+#, fuzzy
+#~| msgid "Invalid Ecpay invoice error!"
+#~ msgid "Enable ECPay invoice method"
+#~ msgstr "作廢發票發生錯誤！"
+
+#, fuzzy
+#~| msgid "商品相關設定"
+#~ msgid "運送相關設定"
+#~ msgstr "商品相關設定"
+
+#, fuzzy
+#~| msgid "LINE Pay"
+#~ msgid "Line Pay"
+#~ msgstr "LINE Pay"
+
+#, fuzzy
+#~| msgid "<b>Invoice issue result</b>"
+#~ msgid "E-Invoice issued successfully."
+#~ msgstr "<b>發票開立結果</b>"
+
+#, fuzzy
+#~| msgid "<b>Invoice issue faild</b>"
+#~ msgid "E-Invoice issued failed."
+#~ msgstr "<b>發票開立失敗</b>"
+
+#, fuzzy
+#~| msgid "<b>Invoice issue faild</b>"
+#~ msgid "E-Invoice issued failed"
+#~ msgstr "<b>發票開立失敗</b>"
+
+#, fuzzy
+#~| msgid "<b>Invoice issue result</b>"
+#~ msgid "E-Invoice issued successfully:"
+#~ msgstr "<b>發票開立結果</b>"
+
+#, fuzzy
+#~| msgid "<b>Invoice issue faild</b>"
+#~ msgid "E-Invoice issued failed:"
+#~ msgstr "<b>發票開立失敗</b>"
+
+#, fuzzy
+#~| msgid "Invalid Ecpay invoice successful!"
+#~ msgid "Cancel E-Invoice Successfully:"
+#~ msgstr "電子發票作廢成功！"
+
+#, fuzzy
+#~| msgid "Paper Invoice"
+#~ msgid "PayNow E-Invoice"
+#~ msgstr "紙本發票"
+
+#, fuzzy
+#~| msgid "Invoice Type"
+#~ msgid "E-Invoice NO"
+#~ msgstr "電子發票類型"
+
+#, fuzzy
+#~| msgid "Paper Invoice"
+#~ msgid "Cancel E-Invoice"
+#~ msgstr "紙本發票"
+
+#, fuzzy
+#~| msgid "Paper Invoice"
+#~ msgid "Issue E-Invoice"
+#~ msgstr "紙本發票"
+
+#, fuzzy
+#~| msgid "Invoice Type"
+#~ msgctxt "checkout"
+#~ msgid "Issue Type"
+#~ msgstr "電子發票類型"
+
+#, fuzzy
+#~| msgid "Issue automatic"
+#~ msgid "Issue S\btatus"
+#~ msgstr "自動開立"
+
+#, fuzzy
+#~| msgid "Invoice Type"
+#~ msgctxt "checkout"
+#~ msgid "I\bssue Type"
+#~ msgstr "電子發票類型"
+
+#, fuzzy
+#~| msgid "Paper Invoice"
+#~ msgid "Personal E-Invoice"
+#~ msgstr "紙本發票"
+
+#, fuzzy
+#~| msgid "Cloud Invoice"
+#~ msgid "Company E-Invoice"
+#~ msgstr "雲端發票"
+
+#, fuzzy
+#~| msgid "donate"
+#~ msgid "Donate"
+#~ msgstr "捐贈"
+
+#, fuzzy
+#~| msgid "Carrier Number"
+#~ msgid "Please input the Carrier Number"
+#~ msgstr "載具"
+
+#, fuzzy
+#~| msgid "電子發票設定"
+#~ msgid "PayNow 電子發票"
+#~ msgstr "電子發票設定"
+
+#, fuzzy
+#~| msgid "Invoice options"
+#~ msgid "E-Invoice Settings"
+#~ msgstr "電子發票設定"
+
+#, fuzzy
+#~| msgid "LINE Pay Gateway"
+#~ msgid "Paynow Payment Gateway"
+#~ msgstr "LINE Pay 支付"
+
+#, fuzzy
+#~| msgid "Shipping details"
+#~ msgid "Shipping Phone"
+#~ msgstr "物流資訊"
+
+#, fuzzy
+#~| msgid "payment"
+#~ msgid "Payment NO"
+#~ msgstr "金流"
+
+#, fuzzy
+#~| msgid "Shipping details"
+#~ msgid "Shipping order cancel failed."
+#~ msgstr "物流資訊"
+
+#, fuzzy
+#~| msgid "Ecpay Shipping details"
+#~ msgid "PayNow Shipping Detail"
+#~ msgstr "綠界物流資訊"
+
+#, fuzzy
+#~| msgid "Print HCT shipping booking note"
+#~ msgid "Print Shipping Label"
+#~ msgstr "匯出新竹物流報表"
+
+#, fuzzy
+#~| msgid "Shipping details"
+#~ msgid "Shipping Settings"
+#~ msgstr "物流資訊"
+
+#, fuzzy
+#~| msgid "Ecpay Shipping details"
+#~ msgid "PayNow Shipping C2C Family"
+#~ msgstr "綠界物流資訊"
+
+#, fuzzy
+#~| msgid "Ecpay Shipping details"
+#~ msgid "PayNow Shipping TCat"
+#~ msgstr "綠界物流資訊"
+
+#, fuzzy
+#~| msgid "Show invoice number"
+#~ msgid "No logistic number"
+#~ msgstr "顯示發票號碼"
+
+#, fuzzy
+#~| msgid "Update convenience store"
+#~ msgid "Convenience store"
+#~ msgstr "重新選擇超商"
+
+#, fuzzy
+#~| msgid "Update convenience store"
+#~ msgid "Choose convenience Store"
+#~ msgstr "重新選擇超商"
+
+#, fuzzy
+#~| msgid "Update convenience store"
+#~ msgid "Choose convenience store"
+#~ msgstr "重新選擇超商"
+
+#, fuzzy
+#~| msgid "Update convenience store"
+#~ msgid "Convenience store:"
+#~ msgstr "重新選擇超商"
+
+#, fuzzy
+#~| msgid "Ecpay Shipping details"
+#~ msgid "ECPay shipping info"
+#~ msgstr "綠界物流資訊"
+
+#, fuzzy
+#~| msgid "shipping"
+#~ msgid "ECPay shipping ID"
+#~ msgstr "物流"
+
+#, fuzzy
+#~| msgid "Shipping details"
+#~ msgid "Shipping Type"
+#~ msgstr "物流資訊"
+
+#, fuzzy
+#~| msgid "shipping"
+#~ msgid "Shipping no"
+#~ msgstr "物流"
+
+#, fuzzy
+#~| msgid "Shipping details"
+#~ msgid "Shipping status"
+#~ msgstr "物流資訊"
+
+#, fuzzy
+#~| msgid "超商取貨付款"
+#~ msgid "超商取貨到期"
+#~ msgstr "超商取貨付款"
+
+#, fuzzy
+#~| msgid "超商取貨付款"
+#~ msgid "超商取貨逾期提醒"
+#~ msgstr "超商取貨付款"
+
+#, fuzzy
+#~| msgid "超商取貨付款"
+#~ msgid "超商取貨提醒"
+#~ msgstr "超商取貨付款"
+
+#, fuzzy
+#~| msgid ""
+#~| "The prefix string of order number. Only letters and numbers allowed."
+#~ msgid "Order no prefix only letters and numbers allowed allowed"
+#~ msgstr "訂單前綴字，僅限英數。"
+
+#, fuzzy
+#~| msgid "金流設定"
+#~ msgid "綠界金流設定"
+#~ msgstr "金流設定"
+
+#, fuzzy
+#~| msgid "Order number prefix"
+#~ msgid "Order no prefix"
+#~ msgstr "訂單號前綴"
+
+#, fuzzy
+#~| msgid ""
+#~| "The prefix string of order number. Only letters and numbers allowed."
+#~ msgid ""
+#~ "The prefix string of order no. Only letters and numbers allowed allowed."
+#~ msgstr "訂單前綴字，僅限英數。"
+
+#, fuzzy
+#~| msgid "金流設定"
+#~ msgid "藍新金流設定"
+#~ msgstr "金流設定"
+
+#, fuzzy
+#~| msgid "金流設定"
+#~ msgid "速買配金流設定"
+#~ msgstr "金流設定"
+
+#, fuzzy
+#~| msgid "Invoice options"
+#~ msgid "Gateway options"
+#~ msgstr "電子發票設定"
+
+#, fuzzy
+#~| msgid "Invoice options"
+#~ msgid "Base options"
+#~ msgstr "電子發票設定"
+
+#, fuzzy
+#~| msgid "Shipping payment no"
+#~ msgid "Shipping method"
+#~ msgstr "物流單號"
+
+#, fuzzy
+#~| msgid "Invoice options"
+#~ msgid "General options"
+#~ msgstr "電子發票設定"
+
+#, fuzzy
+#~| msgid "Invoice options"
+#~ msgid "Address options"
+#~ msgstr "電子發票設定"
+
+#, fuzzy
+#~| msgid "Print ECPay shipping booking note (711)"
+#~ msgid "ECPay shipping CVS 7-11"
+#~ msgstr "列印統一超商託運單（綠界）"
+
+#, fuzzy
+#~| msgid "Print ECPay shipping booking note (hilife)"
+#~ msgid "ECPay shipping CVS Hilife"
+#~ msgstr "列印萊爾富超商託運單（綠界）"
+
+#, fuzzy
+#~| msgid "Print ECPay shipping booking note (ecan)"
+#~ msgid "ECPay shipping home Ecan"
+#~ msgstr "列印宅配通託運單（綠界）"
+
+#, fuzzy
+#~| msgid "Print ECPay shipping booking note (tcat)"
+#~ msgid "ECPay shipping home Tcat"
+#~ msgstr "列印黑貓託運單（綠界）"
+
+#, fuzzy
+#~| msgid "Ecpay Shipping details"
+#~ msgid "ECPay shipping options"
+#~ msgstr "綠界物流資訊"
+
+#, fuzzy
+#~| msgid "certification"
+#~ msgid "Verification failed!"
+#~ msgstr "自然人憑證"
+
+#, fuzzy
+#~| msgid "Shipping details"
+#~ msgid "Shipping cost"
+#~ msgstr "物流資訊"
+
+#, fuzzy
+#~| msgid "物流設定"
+#~ msgid "綠界物流設定"
+#~ msgstr "物流設定"
+
+#, fuzzy
+#~| msgid "Shipping payment no"
+#~ msgid "Auto get shipping payment no"
+#~ msgstr "物流單號"
+
+#, fuzzy
+#~| msgid "Shipping details"
+#~ msgid "Shipping note options"
+#~ msgstr "物流資訊"
+
+#, fuzzy
+#~| msgid "shipping"
+#~ msgid "shipping item name"
+#~ msgstr "物流"
+
+#, fuzzy
+#~| msgid "shipping"
+#~ msgid "Cvs shipping type"
+#~ msgstr "物流"
+
+#, fuzzy
+#~| msgid "物流設定"
+#~ msgid "藍新物流設定"
+#~ msgstr "物流設定"
+
+#, fuzzy
+#~| msgid "物流設定"
+#~ msgid "速買配物流設定"
+#~ msgstr "物流設定"
+
+#, fuzzy
+#~| msgid "Print HCT shipping booking note"
+#~ msgid "Print 7-11 shipping Label"
+#~ msgstr "匯出新竹物流報表"
+
+#, fuzzy
+#~| msgid "Print HCT shipping booking note"
+#~ msgid "Print Family shipping Label"
+#~ msgstr "匯出新竹物流報表"
+
+#, fuzzy
+#~| msgid "Print HCT shipping booking note"
+#~ msgid "Print HiLfe shipping Label"
+#~ msgstr "匯出新竹物流報表"
+
+#, fuzzy
+#~| msgid "Print HCT shipping booking note"
+#~ msgid "Print TCat shipping Label"
+#~ msgstr "匯出新竹物流報表"
+
+#, fuzzy
+#~| msgid "Shipping details"
+#~ msgid "View details"
+#~ msgstr "物流資訊"
 
 #~ msgid "Zero total fee without invoice"
 #~ msgstr "零元訂單不開立發票"

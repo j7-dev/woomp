@@ -59,13 +59,13 @@ class RY_ECPay_Shipping_Meta_Box
                 <?=__('Collection of money', 'ry-woocommerce-tools') ?>
             </th>
             <th>
-                <?=__('Shipping status last change time', 'ry-woocommerce-tools') ?>
+                <?=__('Shipping status last change time', 'woomp') ?>
             </th>
             <th>
-                <?=__('Shipping create time', 'ry-woocommerce-tools') ?>
+                <?=__('Shipping create time', 'woomp') ?>
             </th>
             <th>
-                <?=__('Shipping booking note', 'ry-woocommerce-tools') ?>
+                <?=__('Shipping booking note', 'woomp') ?>
             </th>
         </tr>
     </thead>

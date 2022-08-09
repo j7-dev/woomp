@@ -8,6 +8,7 @@ final class RY_ECPay_Shipping
     public static $support_methods = [
         'ry_ecpay_shipping_cvs_711' => 'RY_ECPay_Shipping_CVS_711',
         'ry_ecpay_shipping_cvs_hilife' => 'RY_ECPay_Shipping_CVS_Hilife',
+        'ry_ecpay_shipping_cvs_okmart' => 'RY_ECPay_Shipping_CVS_OKMart',
         'ry_ecpay_shipping_cvs_family' => 'RY_ECPay_Shipping_CVS_Family',
         'ry_ecpay_shipping_home_tcat' => 'RY_ECPay_Shipping_Home_Tcat',
         'ry_ecpay_shipping_home_ecan' => 'RY_ECPay_Shipping_Home_Ecan'
@@ -24,6 +25,7 @@ final class RY_ECPay_Shipping
         include_once RY_WT_PLUGIN_DIR . 'woocommerce/shipping/ecpay/includes/ecpay-shipping-base.php';
         include_once RY_WT_PLUGIN_DIR . 'woocommerce/shipping/ecpay/ecpay-shipping-cvs-711.php';
         include_once RY_WT_PLUGIN_DIR . 'woocommerce/shipping/ecpay/ecpay-shipping-cvs-hilife.php';
+        include_once RY_WT_PLUGIN_DIR . 'woocommerce/shipping/ecpay/ecpay-shipping-cvs-okmart.php';
         include_once RY_WT_PLUGIN_DIR . 'woocommerce/shipping/ecpay/ecpay-shipping-cvs-family.php';
         include_once RY_WT_PLUGIN_DIR . 'woocommerce/shipping/ecpay/ecpay-shipping-home-tcat.php';
         include_once RY_WT_PLUGIN_DIR . 'woocommerce/shipping/ecpay/ecpay-shipping-home-ecan.php';
