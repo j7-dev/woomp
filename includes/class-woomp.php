@@ -186,6 +186,9 @@ class Woomp {
 		$this->loader->add_action( 'wmp_cron_every_morning', $plugin_admin, 'set_ecpay_cvs_get_expired', 10 );
 
 		$this->loader->add_filter( 'woocommerce_shipping_methods', $plugin_admin, 'set_flat_rate_class', 10 );
+
+		$this->loader->add_action( 'admin_init', $plugin_admin, 'register_ATM_deadline_cron_hook', 10 );
+		$this->loader->add_action( 'wmp_cron_ATM_deadline', $plugin_admin, 'set_ATM_deadline', 10 );
 	}
 
 	/**
