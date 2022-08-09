@@ -104,7 +104,8 @@ return [
         'type' => 'select',
         'default' => 'C2C',
         'options' => [
-            'C2C' => _x('C2C', 'Cvs type', 'ry-woocommerce-tools')
+            'C2C' => _x('C2C', 'Cvs type', 'ry-woocommerce-tools'),
+            'B2C' => _x('B2C', 'Cvs type', 'ry-woocommerce-tools'),
         ]
     ],
     [

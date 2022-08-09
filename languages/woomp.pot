@@ -2,14 +2,14 @@
 # This file is distributed under the GPL-2.0+.
 msgid ""
 msgstr ""
-"Project-Id-Version: 好用版擴充 MorePower Addon for WooCommerce 1.7.5\n"
+"Project-Id-Version: 好用版擴充 MorePower Addon for WooCommerce 1.7.6\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/woomp\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-08-09T03:53:42+00:00\n"
+"POT-Creation-Date: 2022-08-09T09:56:19+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.5.0\n"
 "X-Domain: woomp\n"
@@ -54,42 +54,50 @@ msgstr ""
 msgid "invoice"
 msgstr ""
 
-#: admin/class-woomp-order.php:205
-#: admin/class-woomp-order.php:210
+#: admin/class-woomp-order.php:213
+#: admin/class-woomp-order.php:219
 msgid "Print ECPay shipping booking note (711)"
 msgstr ""
 
-#: admin/class-woomp-order.php:206
-#: admin/class-woomp-order.php:211
+#: admin/class-woomp-order.php:214
+msgid "Print ECPay shipping booking note (711 Freeze)"
+msgstr ""
+
+#: admin/class-woomp-order.php:215
+#: admin/class-woomp-order.php:220
 msgid "Print ECPay shipping booking note (family)"
 msgstr ""
 
-#: admin/class-woomp-order.php:207
-#: admin/class-woomp-order.php:212
+#: admin/class-woomp-order.php:216
+#: admin/class-woomp-order.php:221
 msgid "Print ECPay shipping booking note (hilife)"
 msgstr ""
 
-#: admin/class-woomp-order.php:213
+#: admin/class-woomp-order.php:222
 msgid "Print ECPay shipping booking note (okmart)"
 msgstr ""
 
-#: admin/class-woomp-order.php:217
+#: admin/class-woomp-order.php:226
 msgid "Print ECPay shipping booking note (tcat)"
 msgstr ""
 
-#: admin/class-woomp-order.php:218
-msgid "Print ECPay shipping booking note (ecan)"
+#: admin/class-woomp-order.php:227
+msgid "Print ECPay shipping booking note (tcat freeze)"
 msgstr ""
 
-#: admin/class-woomp-order.php:220
+#: admin/class-woomp-order.php:228
+msgid "Print ECPay shipping booking note (tcat frozen)"
+msgstr ""
+
+#: admin/class-woomp-order.php:230
 msgid "Print HCT shipping booking note"
 msgstr ""
 
-#: admin/class-woomp-order.php:298
+#: admin/class-woomp-order.php:308
 msgid "Update convenience store"
 msgstr ""
 
-#: admin/class-woomp-order.php:299
+#: admin/class-woomp-order.php:309
 msgid "After choosing cvs, you need update the order to save changing."
 msgstr ""
 
@@ -558,8 +566,40 @@ msgstr ""
 msgid "Shipping booking note"
 msgstr ""
 
+#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/ecpay-shipping-cvs-711-freeze.php:11
+msgid "ECPay shipping CVS 7-11 Freeze"
+msgstr ""
+
 #: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/ecpay-shipping-cvs-okmart.php:11
 msgid "ECPay shipping CVS OKMart"
+msgstr ""
+
+#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/ecpay-shipping-home-post.php:11
+msgid "ECPay shipping home Post"
+msgstr ""
+
+#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/ecpay-shipping-home-tcat-freeze.php:11
+msgid "ECPay shipping home Tcat Freeze"
+msgstr ""
+
+#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/ecpay-shipping-home-tcat-frozen.php:11
+msgid "ECPay shipping home Tcat Frozen"
+msgstr ""
+
+#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/includes/settings-ecpay-shipping-base.php:11
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-711-frozen.php:25
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-family-frozen.php:25
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-frozen.php:25
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-refrigerated.php:25
+msgid "Description"
+msgstr ""
+
+#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/includes/settings-ecpay-shipping-base.php:13
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-711-frozen.php:27
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-family-frozen.php:27
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-frozen.php:27
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-refrigerated.php:27
+msgid "This controls the description which the user sees during checkout."
 msgstr ""
 
 #: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:185
@@ -703,20 +743,6 @@ msgstr ""
 
 #: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-711-frozen.php:21
 msgid "PayNow Shipping C2C 7-11 Frozen"
-msgstr ""
-
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-711-frozen.php:25
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-family-frozen.php:25
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-frozen.php:25
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-refrigerated.php:25
-msgid "Description"
-msgstr ""
-
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-711-frozen.php:27
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-family-frozen.php:27
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-frozen.php:27
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-refrigerated.php:27
-msgid "This controls the description which the user sees during checkout."
 msgstr ""
 
 #: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-711-frozen.php:31

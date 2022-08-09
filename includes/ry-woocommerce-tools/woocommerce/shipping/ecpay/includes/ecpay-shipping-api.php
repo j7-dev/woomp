@@ -144,12 +144,32 @@ class RY_ECPay_Shipping_Api extends RY_ECPay
                 $args['SenderAddress'] = RY_WT::get_option('ecpay_shipping_sender_address');
                 $args['ReceiverZipCode'] = $order->get_shipping_postcode();
                 $args['ReceiverAddress'] = $full_state . $order->get_shipping_city() . $order->get_shipping_address_1() . $order->get_shipping_address_2();
-                $args['Temperature'] = '0001';
-                $args['Distance'] = '00';
-                $args['Specification'] = '0001';
-                $args['ScheduledPickupTime'] = '4';
-                $args['ScheduledDeliveryTime'] = '4';
+
+				// 溫層判斷
+				switch (array_shift($order->get_shipping_methods())['method_id']) {
+					case 'ry_ecpay_shipping_home_tcat_freeze':
+						$args['Temperature'] = '0002';
+						break;
+					case 'ry_ecpay_shipping_home_tcat_frozen':
+						$args['Temperature'] = '0003';
+						break;
+					default:
+					$args['Temperature'] = '0001';
+						break;
+				}
+
+				if ($method_class::$LogisticsSubType !== 'POST') {
+					$args['Distance'] = '00';
+					$args['Specification'] = '0001';
+					$args['ScheduledPickupTime'] = '4';
+					$args['ScheduledDeliveryTime'] = '4';
+				}
+				
+				if ($method_class::$LogisticsSubType == 'POST') {
+					$args['GoodsWeight'] = 21;
+				}
             }
+
 
             if (RY_ECPay_Shipping::$testmode) {
                 $post_url = self::$api_test_url['create'];

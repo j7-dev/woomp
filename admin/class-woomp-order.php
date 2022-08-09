@@ -156,7 +156,15 @@ if ( ! class_exists( 'WooMP_Order' ) ) {
 				if ( is_array( $shipping_list ) ) {
 					foreach ( $shipping_list as $item ) {
 						if ( $item['LogisticsType'] == 'CVS' ) {
-							echo $item['PaymentNo'] . ' ' . $item['ValidationNo'];
+							echo esc_html( ( ! empty ( $item['PaymentNo'] ) ) ? $item['PaymentNo'] . ' ' . $item['ValidationNo'] : $item['ID'] );
+						}
+
+						if ( $item['LogisticsSubType'] == 'POST' ) {
+							echo $item['BookingNote'];
+						}
+
+						if ( $item['LogisticsType'] == 'HOME' ) {
+							echo esc_html( ( ! empty ( $item['PaymentNo'] ) ) ? $item['PaymentNo'] . ' ' . $item['ValidationNo'] : $item['ID'] );
 						}
 					}
 				} elseif ( get_post_meta( $post_id, '_paynow_shipping_paymentno', true ) ) {
@@ -203,6 +211,7 @@ if ( ! class_exists( 'WooMP_Order' ) ) {
 				switch ( RY_WT::get_option( 'ecpay_shipping_cvs_type' ) ) {
 					case 'B2C':
 						$actions['ry_print_ecpay_cvs_711']    = __( 'Print ECPay shipping booking note (711)', 'woomp' );
+						$actions['ry_print_ecpay_cvs_711_freeze']    = __( 'Print ECPay shipping booking note (711 Freeze)', 'woomp' );
 						$actions['ry_print_ecpay_cvs_family'] = __( 'Print ECPay shipping booking note (family)', 'woomp' );
 						$actions['ry_print_ecpay_cvs_hilife'] = __( 'Print ECPay shipping booking note (hilife)', 'woomp' );
 						break;
@@ -215,7 +224,8 @@ if ( ! class_exists( 'WooMP_Order' ) ) {
 				}
 
 				$actions['ry_print_ecpay_home_tcat'] = __( 'Print ECPay shipping booking note (tcat)', 'woomp' );
-				$actions['ry_print_ecpay_home_ecan'] = __( 'Print ECPay shipping booking note (ecan)', 'woomp' );
+				$actions['ry_print_ecpay_home_tcat_freeze'] = __( 'Print ECPay shipping booking note (tcat freeze)', 'woomp' );
+				$actions['ry_print_ecpay_home_tcat_frozen'] = __( 'Print ECPay shipping booking note (tcat frozen)', 'woomp' );
 			}
 			$actions['wmp_print_hct'] = __( 'Print HCT shipping booking note', 'woomp' );
 

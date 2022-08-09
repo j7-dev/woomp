@@ -125,6 +125,7 @@ if ( ! class_exists( 'WooMP_Checkout' ) ) {
 		public function set_shipping_field( $fields ) {
 			$shipping_method = array(
 				'ry_ecpay_shipping_cvs_711',
+				'ry_ecpay_shipping_cvs_711_freeze',
 				'ry_ecpay_shipping_cvs_hilife',
 				'ry_ecpay_shipping_cvs_family',
 				'ry_ecpay_shipping_cvs_okmart',

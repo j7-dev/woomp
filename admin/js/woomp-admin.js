@@ -252,7 +252,7 @@
 	// 訂單批次操作列印託運單另開視窗
 	$('#bulk-action-selector-top,#bulk-action-selector-bottom').on('change', function () {
 		var action = $(this).val()
-		if (action.includes('ry_print_ecpay_cvs')) {
+		if (action.includes('ry_print_ecpay_cvs') || action.includes('ry_print_ecpay_home_tcat')) {
 			$('#posts-filter').attr('target', '_blank');
 		} else {
 			$('#posts-filter').removeAttr('target');

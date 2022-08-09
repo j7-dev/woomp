@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: woomp\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/woomp\n"
-"POT-Creation-Date: 2022-08-09T03:53:42+00:00\n"
-"PO-Revision-Date: 2022-08-09 11:54+0800\n"
+"POT-Creation-Date: 2022-08-09T09:56:19+00:00\n"
+"PO-Revision-Date: 2022-08-09 18:03+0800\n"
 "Last-Translator: \n"
 "Language-Team: morepower\n"
 "Language: zh_TW\n"
@@ -66,39 +66,47 @@ msgstr "物流"
 msgid "invoice"
 msgstr "電子發票"
 
-#: admin/class-woomp-order.php:205 admin/class-woomp-order.php:210
+#: admin/class-woomp-order.php:213 admin/class-woomp-order.php:219
 msgid "Print ECPay shipping booking note (711)"
-msgstr "列印統一超商託運單（綠界）"
+msgstr "列印 7-ELEVEN 超商託運單（綠界）"
 
-#: admin/class-woomp-order.php:206 admin/class-woomp-order.php:211
+#: admin/class-woomp-order.php:214
+msgid "Print ECPay shipping booking note (711 Freeze)"
+msgstr "列印 7-ELEVEN 超商託運單 冷凍（綠界）"
+
+#: admin/class-woomp-order.php:215 admin/class-woomp-order.php:220
 msgid "Print ECPay shipping booking note (family)"
 msgstr "列印全家超商託運單（綠界）"
 
-#: admin/class-woomp-order.php:207 admin/class-woomp-order.php:212
+#: admin/class-woomp-order.php:216 admin/class-woomp-order.php:221
 msgid "Print ECPay shipping booking note (hilife)"
 msgstr "列印萊爾富超商託運單（綠界）"
 
-#: admin/class-woomp-order.php:213
+#: admin/class-woomp-order.php:222
 msgid "Print ECPay shipping booking note (okmart)"
 msgstr "列印OK超商託運單（綠界）"
 
-#: admin/class-woomp-order.php:217
+#: admin/class-woomp-order.php:226
 msgid "Print ECPay shipping booking note (tcat)"
 msgstr "列印黑貓託運單（綠界）"
 
-#: admin/class-woomp-order.php:218
-msgid "Print ECPay shipping booking note (ecan)"
-msgstr "列印宅配通託運單（綠界）"
+#: admin/class-woomp-order.php:227
+msgid "Print ECPay shipping booking note (tcat freeze)"
+msgstr "列印黑貓冷藏託運單（綠界）"
 
-#: admin/class-woomp-order.php:220
+#: admin/class-woomp-order.php:228
+msgid "Print ECPay shipping booking note (tcat frozen)"
+msgstr "列印黑貓冷凍託運單（綠界）"
+
+#: admin/class-woomp-order.php:230
 msgid "Print HCT shipping booking note"
 msgstr "匯出新竹物流報表"
 
-#: admin/class-woomp-order.php:298
+#: admin/class-woomp-order.php:308
 msgid "Update convenience store"
 msgstr "重新選擇超商"
 
-#: admin/class-woomp-order.php:299
+#: admin/class-woomp-order.php:309
 msgid "After choosing cvs, you need update the order to save changing."
 msgstr "重新選擇超商後記得要更新訂單資料才會被寫入。"
 
@@ -587,9 +595,41 @@ msgstr "建立時間"
 msgid "Shipping booking note"
 msgstr "託運單"
 
+#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/ecpay-shipping-cvs-711-freeze.php:11
+msgid "ECPay shipping CVS 7-11 Freeze"
+msgstr "綠界物流 超商取貨 7-ELEVEN 冷凍"
+
 #: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/ecpay-shipping-cvs-okmart.php:11
 msgid "ECPay shipping CVS OKMart"
 msgstr "綠界物流 超商取貨 OK超商"
+
+#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/ecpay-shipping-home-post.php:11
+msgid "ECPay shipping home Post"
+msgstr "綠界物流 中華郵政"
+
+#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/ecpay-shipping-home-tcat-freeze.php:11
+msgid "ECPay shipping home Tcat Freeze"
+msgstr "綠界物流 宅配 黑貓 冷藏"
+
+#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/ecpay-shipping-home-tcat-frozen.php:11
+msgid "ECPay shipping home Tcat Frozen"
+msgstr "綠界物流 宅配 黑貓 冷凍"
+
+#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/includes/settings-ecpay-shipping-base.php:11
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-711-frozen.php:25
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-family-frozen.php:25
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-frozen.php:25
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-refrigerated.php:25
+msgid "Description"
+msgstr "說明"
+
+#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/includes/settings-ecpay-shipping-base.php:13
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-711-frozen.php:27
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-family-frozen.php:27
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-frozen.php:27
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-refrigerated.php:27
+msgid "This controls the description which the user sees during checkout."
+msgstr ""
 
 #: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:185
 msgid "<b>Invoice issue result</b>"
@@ -705,10 +745,8 @@ msgid "Ship Date"
 msgstr ""
 
 #: includes/woomp-paynow-shipping/src/class-woomp-paynow-shipping.php:221
-#, fuzzy
-#| msgid "Shipping details"
 msgid "TCat Shipping Settings"
-msgstr "物流資訊"
+msgstr "黑貓物流設定"
 
 #: includes/woomp-paynow-shipping/src/class-woomp-paynow-shipping.php:226
 msgid "Estimate shipping date deadline(days)"
@@ -737,20 +775,6 @@ msgstr ""
 
 #: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-711-frozen.php:21
 msgid "PayNow Shipping C2C 7-11 Frozen"
-msgstr ""
-
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-711-frozen.php:25
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-family-frozen.php:25
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-frozen.php:25
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-refrigerated.php:25
-msgid "Description"
-msgstr "說明"
-
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-711-frozen.php:27
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-family-frozen.php:27
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-frozen.php:27
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-refrigerated.php:27
-msgid "This controls the description which the user sees during checkout."
 msgstr ""
 
 #: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-711-frozen.php:31
@@ -842,12 +866,12 @@ msgstr ""
 #: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-frozen.php:21
 #: includes/woomp-paynow-shipping/src/shippings/class-woomp-paynow-shipping-hd-tcat-frozen.php:28
 msgid "PayNow Shipping TCat Frozen"
-msgstr ""
+msgstr "PayNow 黑貓冷凍"
 
 #: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-refrigerated.php:21
 #: includes/woomp-paynow-shipping/src/shippings/class-woomp-paynow-shipping-hd-tcat-refrigerated.php:32
 msgid "PayNow Shipping TCat Refrigerated"
-msgstr ""
+msgstr "PayNow 黑貓冷藏"
 
 #: includes/woomp-paynow-shipping/src/shippings/class-woomp-paynow-shipping-c2c-711-frozen.php:28
 msgid "PayNow Shipping C2C 711 Frozen"
@@ -864,6 +888,9 @@ msgstr "物流單號"
 #: public/class-woomp-order.php:68
 msgid "Shipping details"
 msgstr "物流資訊"
+
+#~ msgid "Print ECPay shipping booking note (ecan)"
+#~ msgstr "列印宅配通託運單（綠界）"
 
 #, fuzzy
 #~| msgid "settings"
@@ -1237,11 +1264,6 @@ msgstr "物流資訊"
 #~ msgstr "電子發票設定"
 
 #, fuzzy
-#~| msgid "Print ECPay shipping booking note (711)"
-#~ msgid "ECPay shipping CVS 7-11"
-#~ msgstr "列印統一超商託運單（綠界）"
-
-#, fuzzy
 #~| msgid "Print ECPay shipping booking note (hilife)"
 #~ msgid "ECPay shipping CVS Hilife"
 #~ msgstr "列印萊爾富超商託運單（綠界）"
@@ -1250,11 +1272,6 @@ msgstr "物流資訊"
 #~| msgid "Print ECPay shipping booking note (ecan)"
 #~ msgid "ECPay shipping home Ecan"
 #~ msgstr "列印宅配通託運單（綠界）"
-
-#, fuzzy
-#~| msgid "Print ECPay shipping booking note (tcat)"
-#~ msgid "ECPay shipping home Tcat"
-#~ msgstr "列印黑貓託運單（綠界）"
 
 #, fuzzy
 #~| msgid "Ecpay Shipping details"

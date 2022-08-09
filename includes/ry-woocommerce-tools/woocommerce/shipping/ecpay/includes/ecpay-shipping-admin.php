@@ -169,7 +169,7 @@ final class RY_ECPay_Shipping_admin
                         switch ($info['LogisticsSubType']) {
                             case 'UNIMART':
                             case 'UNIMARTC2C':
-                                if ($print_type == 'cvs_711') {
+                                if ($print_type == 'cvs_711' || $print_type == 'cvs_711_freeze' ) {
                                     $print_list[] = $info;
                                 }
                                 break;
@@ -190,7 +190,7 @@ final class RY_ECPay_Shipping_admin
                                 }
                                 break;
                             case 'TCAT':
-                                if ($print_type == 'home_tcat') {
+                                if ( $print_type == 'home_tcat' || $print_type == 'home_tcat_freeze' || $print_type == 'home_tcat_frozen' ) {
                                     $print_list[] = $info;
                                 }
                                 break;
