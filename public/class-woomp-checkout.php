@@ -176,6 +176,9 @@ if ( ! class_exists( 'WooMP_Checkout' ) ) {
 						'clear' => true,
 					);
 				}
+
+				$log = new WC_Logger();
+				$log->log( 'info', 'is_virtual_cart' . $this->is_virtual_cart(), array( 'source' => 'ods-log' ) );
 			}
 			return $fields;
 		}
@@ -304,16 +307,23 @@ if ( ! class_exists( 'WooMP_Checkout' ) ) {
 		 */
 		private function is_virtual_cart() {
 			global $woocommerce;
-			$virtual_products = 0;
+			$virtual_products = array();
 			$products         = $woocommerce->cart->get_cart();
 			foreach ( $products as $product ) {
 				if ( 'yes' === get_post_meta( $product['product_id'], '_virtual', true ) || 'yes' === get_post_meta( $product['variation_id'], '_virtual', true ) ) {
-					++$virtual_products;
+					$virtual_products[] = 'is_virtual';
+				} else {
+					$virtual_products[] = 'is_physical';
 				}
 			}
 
-			if ( 1 === $virtual_products && 1 === count( $products ) ) {
-				return true;
+			if ( $virtual_products ) {
+
+				$check_virtual = array_unique( $virtual_products );
+
+				if ( $check_virtual[0] === 'is_virtual' && 1 === count( $check_virtual ) ) {
+					return true;
+				}
 			}
 
 			return false;

@@ -168,9 +168,9 @@ jQuery(function($){
 		}
 		function toggleBillingAddressField( status ){
 			if( status === 'hide' ){
-				$('.woocommerce-shipping-fields,#billing_address_1_field,#billing_address_2_field,#billing_city_field,#billing_state_field,#billing_postcode_field').hide()
+				$('.woocommerce-shipping-fields,#billing_address_1_field,#billing_address_2_field,#billing_city_field,#billing_state_field,#billing_postcode_field,#billing_island_field').hide()
 			} else {
-				$('.woocommerce-shipping-fields,#billing_address_1_field,#billing_address_2_field,#billing_city_field,#billing_state_field,#billing_postcode_field').show();
+				$('.woocommerce-shipping-fields,#billing_address_1_field,#billing_address_2_field,#billing_city_field,#billing_state_field,#billing_postcode_field,#billing_island_field').show();
 			}
 		}	
 
