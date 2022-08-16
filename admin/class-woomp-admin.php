@@ -276,6 +276,7 @@ class Woomp_Admin {
 		$actions[] = 'ry_ecpay_shipping_cvs_to_transporting';
 		$actions[] = 'ry_ecpay_shipping_cvs_get_remind';
 		$actions[] = 'ry_ecpay_shipping_cvs_get_expired';
+		$actions[] = 'ry_ecpay_shipping_atm_transfer_remind';
 		return $actions;
 	}
 
@@ -406,5 +407,65 @@ class Woomp_Admin {
             $order->update_status( 'cancelled' );
         }
 	}
+
+	/**
+	 * ATM 逾期前一日 cron
+	 */
+	public function register_ATM_one_day_before_cron_hook() {
+
+		$cron = array(
+			array(
+				'type'      => 'recurring',
+				'hook_name' => 'wmp_cron_every_day',
+				'start'     => strtotime( '00:00:00' ) - get_option( 'gmt_offset' ) * 3600,
+				'interval'  => DAY_IN_SECONDS,
+			),
+		);
+		
+
+		foreach ( $cron as $arg ) {
+			if ( ! as_next_scheduled_action( $arg['hook_name'] ) ) {
+				as_schedule_recurring_action( $arg['start'], $arg['interval'], $arg['hook_name'] );
+			}
+		}
+		
+    }
+
+	/**
+	 * ATM 逾期前一日通知
+	 */
+	public function set_ecpay_atm_transfer_remind() {
+
+		$atm = WC()->payment_gateways()->get_available_payment_gateways()['ry_ecpay_atm'];
+		$expire_date = $atm->expire_date;
+		$expire_before_day = $expire_date - 1;
+		
+
+		// 取得訂單，date 以秒數計、且為綠界 ATM 支付
+		$args = array(
+			'date_created' => '<=' . (date('Y-m-d', strtotime('-' . $expire_before_day . ' day'))),
+			'payment_method' => 'ry_ecpay_atm',
+			'status' => array('wc-pending', 'wc-on-hold'),
+		);
+		$orders = wc_get_orders( $args );
+
+		if ( $orders ) {
+			$wc_emails = WC_Emails::instance();
+			$emails    = $wc_emails->get_emails();
+			$email     = $emails['RY_ECPay_Shipping_Email_Customer_ATM_Transfer_Remind'];
+			
+			if ( $email ) {
+				if ( $email->is_enabled() ) {
+					foreach ( $orders as $order ) {
+						$email->object    = $order;
+						$email->recipient = $email->object->get_billing_email();
+						$email->send( $email->get_recipient(), $email->get_subject(), $email->get_content(), $email->get_headers(), $email->get_attachments() );
+					}
+				}
+			}
+		}
+	}
+
+
 
 }
