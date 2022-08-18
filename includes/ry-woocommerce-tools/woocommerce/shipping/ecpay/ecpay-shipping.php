@@ -418,8 +418,6 @@ final class RY_ECPay_Shipping
         $emails['RY_ECPay_Shipping_Email_Customer_CVS_Transporting'] = include(RY_WT_PLUGIN_DIR . 'woocommerce/emails/ecpay-shipping-customer-cvs-transporting.php');
         $emails['RY_ECPay_Shipping_Email_Customer_CVS_Get_Remind'] = include(RY_WT_PLUGIN_DIR . 'woocommerce/emails/ecpay-shipping-customer-cvs-get-remind.php');
         $emails['RY_ECPay_Shipping_Email_Customer_CVS_Get_Expired'] = include(RY_WT_PLUGIN_DIR . 'woocommerce/emails/ecpay-shipping-customer-cvs-get-expired.php');
-        $emails['RY_ECPay_Shipping_Email_Customer_ATM_Transfer_Remind'] = include(RY_WT_PLUGIN_DIR . 'woocommerce/emails/ecpay-shipping-customer-atm-transfer-remind.php');
-
 
         return $emails;
     }

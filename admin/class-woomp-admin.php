@@ -181,9 +181,9 @@ class Woomp_Admin {
 		return array_merge(
 			array(
 				'settings' => '<a href="' . admin_url( 'admin.php?page=wc-settings&tab=woomp_setting' ) . '">' . __( 'Settings' ) . '</a>',
-				'gateway' => '<a href="' . admin_url( 'admin.php?page=wc-settings&tab=woomp_setting_gateway' ) . '">' . __( 'payment', 'woomp' ) . '</a>',
+				'gateway'  => '<a href="' . admin_url( 'admin.php?page=wc-settings&tab=woomp_setting_gateway' ) . '">' . __( 'payment', 'woomp' ) . '</a>',
 				'shipping' => '<a href="' . admin_url( 'admin.php?page=wc-settings&tab=woomp_setting_shipping' ) . '">' . __( 'shipping', 'woomp' ) . '</a>',
-				'invoice' => '<a href="' . admin_url( 'admin.php?page=wc-settings&tab=woomp_setting_invoice' ) . '">' . __( 'invoice', 'woomp' ) . '</a>',
+				'invoice'  => '<a href="' . admin_url( 'admin.php?page=wc-settings&tab=woomp_setting_invoice' ) . '">' . __( 'invoice', 'woomp' ) . '</a>',
 			),
 			$links
 		);
@@ -228,7 +228,7 @@ class Woomp_Admin {
 		return $links;
 	}
 
-	
+
 
 	/**
 	 * 增加好用版選單
@@ -366,106 +366,51 @@ class Woomp_Admin {
 	/**
 	 * ATM 排程 Hook 註冊
 	 */
-	public function register_ATM_deadline_cron_hook() {
-		$atm = WC()->payment_gateways()->get_available_payment_gateways()['ry_ecpay_atm'];
-		$expire_date = $atm->expire_date;
-		$expire_sec = $expire_date * 86400;
+	public function set_unpaid_atm_order_cron( $order_id ) {
 
-		// 取得訂單，date 以秒數計、且為綠界 ATM 支付
-		$args = array(
-			'date_created' => '<' . (time() - $expire_sec),
-			'payment_method' => 'ry_ecpay_atm',
-		);
-		$orders = wc_get_orders( $args );
+		$order = new WC_Order( $order_id );
 
-		foreach ($orders as $order){
-			// 不知道為何加這行就無作用了
-			//  if ( ! as_next_scheduled_action('wmp_cron_ATM_deadline' ) ) {
-				as_schedule_single_action ( strtotime($order->get_date_created()->date('Y-m-d H:i:s')) + $expire_sec, 'wmp_cron_ATM_deadline' );
-				// }
-        }
+		if ( $order->get_payment_method() === 'ry_ecpay_atm' ) {
+			$atm        = WC()->payment_gateways()->get_available_payment_gateways()['ry_ecpay_atm'];
+			$expire_sec = $atm->expire_date * 86400;
 
-	}
-
-	/**
-	 * ATM 逾期，自動更改訂單狀態
-	 */
-	public function set_ATM_deadline () {
-		
-		// 取得設定頁面到期日期數值
-		$atm = WC()->payment_gateways()->get_available_payment_gateways()['ry_ecpay_atm'];
-		$expire_date = $atm->expire_date;
-		$expire_sec = $expire_date * 86400;
-
-		// 取得訂單，date 以秒數計、且為綠界 ATM 支付
-		$args = array(
-			'date_created' => '<' . (time() - $expire_sec),
-			'payment_method' => 'ry_ecpay_atm',
-		);
-		$orders = wc_get_orders( $args );
-		foreach ($orders as $order){
-            $order->update_status( 'cancelled' );
-        }
-	}
-
-	/**
-	 * ATM 逾期前一日 cron
-	 */
-	public function register_ATM_one_day_before_cron_hook() {
-
-		$cron = array(
-			array(
-				'type'      => 'recurring',
-				'hook_name' => 'wmp_cron_every_day',
-				'start'     => strtotime( '00:00:00' ) - get_option( 'gmt_offset' ) * 3600,
-				'interval'  => DAY_IN_SECONDS,
-			),
-		);
-		
-
-		foreach ( $cron as $arg ) {
-			if ( ! as_next_scheduled_action( $arg['hook_name'] ) ) {
-				as_schedule_recurring_action( $arg['start'], $arg['interval'], $arg['hook_name'] );
-			}
+			// 註冊取消訂單排程
+			as_schedule_single_action( strtotime( $order->get_date_created()->date( 'Y-m-d H:i:s' ) . ' -8 hour' ) + $expire_sec, 'wmp_cron_atm_deadline', array( $order_id ) );
+			
+			// 註冊發送轉帳提醒通知信排程
+			as_schedule_single_action( strtotime( $order->get_date_created()->date( 'Y-m-d H:i:s' ) . ' -1 day -8 hour' ) + $expire_sec, 'wmp_cron_atm_deadline_remind', array( $order_id ) );
 		}
-		
-    }
+
+	}
+
+	/**
+	 * Cancel unpaid order
+	 */
+	public function cancel_unpaid_order( $order_id ) {
+		$order = new WC_Order( $order_id );
+		$order->update_status( 'cancelled' );
+	}
 
 	/**
 	 * ATM 逾期前一日通知
 	 */
-	public function set_ecpay_atm_transfer_remind() {
+	public function set_ecpay_atm_transfer_remind( $order_id ) {
 
-		$atm = WC()->payment_gateways()->get_available_payment_gateways()['ry_ecpay_atm'];
-		$expire_date = $atm->expire_date;
-		$expire_before_day = $expire_date - 1;
-		
+		$order = new WC_Order( $order_id );
 
-		// 取得訂單，date 以秒數計、且為綠界 ATM 支付
-		$args = array(
-			'date_created' => '<=' . (date('Y-m-d', strtotime('-' . $expire_before_day . ' day'))),
-			'payment_method' => 'ry_ecpay_atm',
-			'status' => array('wc-pending', 'wc-on-hold'),
-		);
-		$orders = wc_get_orders( $args );
-
-		if ( $orders ) {
+		if ( $order ) {
 			$wc_emails = WC_Emails::instance();
 			$emails    = $wc_emails->get_emails();
 			$email     = $emails['RY_ECPay_Shipping_Email_Customer_ATM_Transfer_Remind'];
-			
+
 			if ( $email ) {
 				if ( $email->is_enabled() ) {
-					foreach ( $orders as $order ) {
-						$email->object    = $order;
-						$email->recipient = $email->object->get_billing_email();
-						$email->send( $email->get_recipient(), $email->get_subject(), $email->get_content(), $email->get_headers(), $email->get_attachments() );
-					}
+					$email->object    = $order;
+					$email->recipient = $email->object->get_billing_email();
+					$email->send( $email->get_recipient(), $email->get_subject(), $email->get_content(), $email->get_headers(), $email->get_attachments() );
 				}
 			}
 		}
 	}
-
-
 
 }

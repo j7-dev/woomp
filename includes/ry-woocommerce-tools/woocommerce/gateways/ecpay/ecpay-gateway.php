@@ -38,6 +38,8 @@ final class RY_ECPay_Gateway
             RY_ECPay_Gateway_Response::init();
 
             add_filter('woocommerce_payment_gateways', [__CLASS__, 'add_method']);
+			add_filter('woocommerce_email_classes', [__CLASS__, 'add_email_class']);
+            add_filter('woocommerce_email_actions', [__CLASS__, 'add_email_action']);
         }
     }
 
@@ -157,6 +159,13 @@ final class RY_ECPay_Gateway
         }
 
         return $methods;
+    }
+
+	public static function add_email_class($emails)
+    {
+        $emails['RY_ECPay_Shipping_Email_Customer_ATM_Transfer_Remind'] = include(RY_WT_PLUGIN_DIR . 'woocommerce/emails/ecpay-shipping-customer-atm-transfer-remind.php');
+
+        return $emails;
     }
 }
 

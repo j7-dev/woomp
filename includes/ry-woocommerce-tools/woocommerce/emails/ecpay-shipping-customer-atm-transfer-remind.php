@@ -6,8 +6,8 @@ if ( ! class_exists( 'RY_ECPay_Shipping_Email_Customer_ATM_Transfer_Remind', fal
 			$this->id             = 'ry_ecpay_shipping_customer_atm_transfer_remind';
 			$this->customer_email = true;
 
-			$this->title          = __( 'ATM 轉帳提醒', 'ry-woocommerce-tools' );
-			$this->description    = __( '這是在商品經由綠界金流ATM付款距離轉帳到期日前一天的通知。', 'ry-woocommerce-tools' );
+			$this->title          = __( '綠界 ATM 櫃員機轉帳提醒', 'ry-woocommerce-tools' );
+			$this->description    = __( '這是在商品經由綠界金流 ATM 櫃員機付款距離轉帳到期日前一天的通知。', 'ry-woocommerce-tools' );
 			$this->template_base  = RY_WT_PLUGIN_DIR . 'templates/';
 			$this->template_html  = 'emails/customer-cvs-store.php';
 			$this->template_plain = 'emails/plain/customer-cvs-store.php';
@@ -21,7 +21,7 @@ if ( ! class_exists( 'RY_ECPay_Shipping_Email_Customer_ATM_Transfer_Remind', fal
 		}
 
 		public function get_default_subject() {
-			return __( '您在 {site_title} 訂購的商品明天就要到期了，請儘速使用 ATM 轉帳繳費', 'ry-woocommerce-tools' );
+			return __( '您在 {site_title} 訂購的商品明天就要到期了，請儘速使用 ATM 轉帳繳費', 'ry-woocommerce-tools' );
 		}
 
 		public function get_default_heading() {

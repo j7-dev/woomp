@@ -176,9 +176,6 @@ if ( ! class_exists( 'WooMP_Checkout' ) ) {
 						'clear' => true,
 					);
 				}
-
-				$log = new WC_Logger();
-				$log->log( 'info', 'is_virtual_cart' . $this->is_virtual_cart(), array( 'source' => 'ods-log' ) );
 			}
 			return $fields;
 		}

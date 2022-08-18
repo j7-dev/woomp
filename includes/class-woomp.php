@@ -182,15 +182,15 @@ class Woomp {
 
 		// Cron Job
 		$this->loader->add_action( 'init', $plugin_admin, 'register_cron_hook', 10 );
-		$this->loader->add_action( 'init', $plugin_admin, 'register_ATM_one_day_before_cron_hook', 10 );
 		$this->loader->add_action( 'wmp_cron_every_morning', $plugin_admin, 'set_ecpay_cvs_get_remind', 10 );
 		$this->loader->add_action( 'wmp_cron_every_morning', $plugin_admin, 'set_ecpay_cvs_get_expired', 10 );
 		$this->loader->add_action( 'wmp_cron_every_day', $plugin_admin, 'set_ecpay_atm_transfer_remind', 10 );
 
 		$this->loader->add_filter( 'woocommerce_shipping_methods', $plugin_admin, 'set_flat_rate_class', 10 );
 
-		$this->loader->add_action( 'admin_init', $plugin_admin, 'register_ATM_deadline_cron_hook', 10 );
-		$this->loader->add_action( 'wmp_cron_ATM_deadline', $plugin_admin, 'set_ATM_deadline', 10 );
+		$this->loader->add_action( 'woocommerce_new_order', $plugin_admin, 'set_unpaid_atm_order_cron', 10 );
+		$this->loader->add_action( 'wmp_cron_atm_deadline', $plugin_admin, 'cancel_unpaid_order', 10, 1 );
+		$this->loader->add_action( 'wmp_cron_atm_deadline_remind', $plugin_admin, 'set_ecpay_atm_transfer_remind', 10, 1 );
 	}
 
 	/**
