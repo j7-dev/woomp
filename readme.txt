@@ -19,6 +19,9 @@ WooCommerce 好用版擴充，改善結帳流程與可變商品等區塊，讓 W
 
 == Changelog ==
 
+<p>v1.7.9</p>
+<p>除錯 - WPC Product Bundle 商品停用好用版標籤 UI</p>
+
 <p>v1.7.8</p>
 <p>新增 - 綠界 ATM 轉帳超過繳費期限改變訂單狀態</p>
 <p>新增 - 台灣離島運費設定順序說明</p>

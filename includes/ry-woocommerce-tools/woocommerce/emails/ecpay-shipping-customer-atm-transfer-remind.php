@@ -9,8 +9,8 @@ if ( ! class_exists( 'RY_ECPay_Shipping_Email_Customer_ATM_Transfer_Remind', fal
 			$this->title          = __( '綠界 ATM 櫃員機轉帳提醒', 'ry-woocommerce-tools' );
 			$this->description    = __( '這是在商品經由綠界金流 ATM 櫃員機付款距離轉帳到期日前一天的通知。', 'ry-woocommerce-tools' );
 			$this->template_base  = RY_WT_PLUGIN_DIR . 'templates/';
-			$this->template_html  = 'emails/customer-cvs-store.php';
-			$this->template_plain = 'emails/plain/customer-cvs-store.php';
+			$this->template_html  = 'emails/customer-atm-remind.php';
+			$this->template_plain = 'emails/plain/customer-atm-remind.php';
 			$this->placeholders   = array(
 				'{site_title}' => $this->get_blogname(),
 			);

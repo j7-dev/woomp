@@ -507,7 +507,10 @@ if ( ! class_exists( 'WooMP_Product' ) ) {
 
 			global $post;
 
-			if( wc_get_product( $post->ID )->get_type() === 'woosg' ) return $html;
+			// 判斷為 WPC Product Bundle 外掛的商品則直接回傳原始的 html 結構
+			if( wc_get_product( $post->ID )->get_type() === 'woosg' || wc_get_product( $post->ID )->get_type() === 'woosb' ) {
+				return $html;
+			}
 
 			$args = wp_parse_args(
 				apply_filters( 'woocommerce_dropdown_variation_attribute_options_args', $args ),
