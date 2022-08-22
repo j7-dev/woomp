@@ -7,6 +7,12 @@ $settings = [
         'description' => __('This controls the title which the user sees during checkout.', 'woocommerce'),
         'desc_tip' => true
     ],
+	'description'              => array(
+		'title'       => __( 'Description', 'woocommerce' ),
+		'type'        => 'textarea',
+		'description' => __( 'This controls the description which the user sees during checkout.', 'woocommerce' ),
+		'desc_tip'    => true,
+	),
     'tax_status' => [
         'title' => __('Tax status', 'woocommerce'),
         'type' => 'select',
@@ -57,6 +63,7 @@ $settings = [
 ];
 
 $shipping_classes = WC()->shipping->get_shipping_classes();
+$cost_desc        = __( 'Enter a cost (excl. tax) or sum, e.g. <code>10.00 * [qty]</code>.', 'woocommerce' ) . '<br/><br/>' . __( 'Use <code>[qty]</code> for the number of items, <br/><code>[cost]</code> for the total cost of items, and <code>[fee percent="10" min_fee="20" max_fee=""]</code> for percentage based fees.', 'woocommerce' );
 
 if (!empty($shipping_classes)) {
     $settings['class_available'] = [
@@ -76,7 +83,28 @@ if (!empty($shipping_classes)) {
             'type' => 'checkbox',
             'default' => $this->get_option('class_available_' . $shipping_class->term_id, 'yes')
         ];
+		$settings[ 'class_cost_' . $shipping_class->term_id ]      = array(
+			/* translators: %s: shipping class name */
+			'title'             => sprintf( __( '"%s" shipping class cost', 'woocommerce' ), esc_html( $shipping_class->name ) ),
+			'type'              => 'text',
+			'placeholder'       => __( 'N/A', 'woocommerce' ),
+			'description'       => $cost_desc,
+			'default'           => $this->get_option( 'class_cost_' . $shipping_class->slug ),
+			'desc_tip'          => true,
+			'sanitize_callback' => array( $this, 'sanitize_cost' ),
+		);
     }
+
+	$settings['type'] = array(
+		'title'   => __( 'Calculation type', 'woocommerce' ),
+		'type'    => 'select',
+		'class'   => 'wc-enhanced-select',
+		'default' => 'class',
+		'options' => array(
+			'class' => __( 'Per class: Charge shipping for each shipping class individually', 'woocommerce' ),
+			'order' => __( 'Per order: Charge shipping for the most expensive shipping class', 'woocommerce' ),
+		),
+	);
 }
 
 return $settings;

@@ -8,9 +8,9 @@ $settings = [
         'desc_tip' => true
     ],
 	'description'              => array(
-		'title'       => __( 'Description', 'woomp' ),
+		'title'       => __( 'Description', 'woocommerce' ),
 		'type'        => 'textarea',
-		'description' => __( 'This controls the description which the user sees during checkout.', 'woomp' ),
+		'description' => __( 'This controls the description which the user sees during checkout.', 'woocommerce' ),
 		'desc_tip'    => true,
 	),
     'tax_status' => [

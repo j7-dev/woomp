@@ -91,10 +91,6 @@ class RY_ECPay_Shipping_Base extends WC_Shipping_Method
                 break;
         }
 
-        if ($set_cost_zero) {
-            $rate['cost'] = 0;
-        }
-
         if ($this->weight_plus_cost > 0) {
             $total = WC()->cart->get_cart_contents_weight();
             if ($total > 0) {
@@ -140,6 +136,10 @@ class RY_ECPay_Shipping_Base extends WC_Shipping_Method
 				$rate['cost'] += $highest_class_cost;
 			}
 		}
+
+		if ($set_cost_zero) {
+            $rate['cost'] = 0;
+        }
 
         $this->add_rate($rate);
         do_action('woocommerce_' . $this->id . '_shipping_add_rate', $this, $rate);
