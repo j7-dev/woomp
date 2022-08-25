@@ -277,10 +277,12 @@ class WC_Gateway_LINEPay_Handler {
 	 */
 	public function change_customer_order_action( $actions, $order ) {
 		$order_status = $order->get_status();
+		$payment_method = get_post_meta( $order->get_id(), '_payment_method' );
+		$refund_expired = strtotime( $order->get_date_created()->date( 'Y-m-d H:i:s' ) . ' -8 hour' ) + (60 * 86400);
 
 		switch ( $order_status ) {
 			case 'failed':
-				$payment_method = get_post_meta( $order->get_id(), '_payment_method' );
+
 				if ( 'linepay' !== $payment_method[0] ) {
 					break;
 				}
@@ -290,8 +292,8 @@ class WC_Gateway_LINEPay_Handler {
 
 				break;
 		}
-
-		if( get_option( 'linepay_customer_refund' ) ){
+		
+		if( get_option( 'linepay_customer_refund' ) && time() < $refund_expired && $payment_method[0] == 'linepay' ){
 			if ( in_array( 'wc-' . $order_status, get_option( 'linepay_customer_refund' ) ) ) {
 				$actions['cancel'] = array(
 					'url'  => esc_url_raw(
@@ -308,6 +310,8 @@ class WC_Gateway_LINEPay_Handler {
 				);
 			}
 		}
+		
+		
 
 		return $actions;
 	}
