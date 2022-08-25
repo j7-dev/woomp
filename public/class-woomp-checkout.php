@@ -353,40 +353,36 @@ if ( ! class_exists( 'WooMP_Checkout' ) ) {
 		 * 免運提示文字
 		 */
 		public function get_free_shipping_amount( $method, $index ) {
-			if ( ! get_option( 'woocommerce_' . str_replace( ':', '_', $method->id ) . '_settings' ) ) {
+
+			$settings = get_option( 'woocommerce_' . str_replace( ':', '_', $method->id ) . '_settings' );
+
+			$requires        = $settings['cost_requires'] ?? '';
+			$amount          = $settings['min_amount'] ?? '';
+			$amount_paynow   = $settings['free_shipping_min_amount'] ?? '';
+			$requires_paynow = $settings['free_shipping_requires'] ?? '';
+
+			$cost_requires = ( strpos( $method->id, 'paynow' ) !== false ) ? $requires_paynow : $requires;
+			$min_amount          = ( strpos( $method->id, 'paynow' ) !== false ) ? $amount_paynow : $amount;
+
+			if ( ! $cost_requires || ! $min_amount ) {
 				return false;
 			}
 
-			// PayNow 跟其他家的設定值不一樣，所以要分開處理.
-			if ( strpos( $method->id, 'paynow' ) !== false ) {
-				if ( empty( get_option( 'woocommerce_' . str_replace( ':', '_', $method->id ) . '_settings' )['free_shipping_requires'] ) ) {
-					return false;
+			if ( $cost_requires === 'min_amount' || $cost_requires === 'min_amount_or_coupon' ) {
+
+				$cart_subtotal    = WC()->cart->get_subtotal();
+				$free_text        = ( get_option( 'wc_woomp_setting_free_shipping_text_free_shipping' ) ) ? get_option( 'wc_woomp_setting_free_shipping_text_free_shipping' ) : '免運';
+				$background_color = ( get_option( 'wc_woomp_setting_free_shipping_bg_color' ) ) ? get_option( 'wc_woomp_setting_free_shipping_bg_color' ) : '#d36f6f';
+				$text_color       = ( get_option( 'wc_woomp_setting_free_shipping_text_color' ) ) ? get_option( 'wc_woomp_setting_free_shipping_text_color' ) : '#fff';
+
+				if ( $min_amount - $cart_subtotal <= 0 ) {
+					echo '<span style="font-size: 14px ;margin: 0 6px; background: ' . esc_attr( $background_color ) . ';padding: 2px 5px;border-radius: 3px;color: ' . esc_attr( $text_color ) . ';
+					">' . esc_html( $free_text ) . '</span>';
+				} else {
+					echo '<span style="position: relative; top: -1px; font-size: 14px ;margin: 0 6px; background: ' . esc_attr( $background_color ) . ';padding: 2px 5px;border-radius: 3px;color: ' . esc_attr( $text_color ) . ';">' . esc_html( str_replace( '{{price}}', ( $min_amount - $cart_subtotal ) . '元', get_option( 'wc_woomp_setting_free_shipping_text_left' ) ) ) . '</span>';
 				}
-			} else {
-				if ( empty( get_option( 'woocommerce_' . str_replace( ':', '_', $method->id ) . '_settings' )['cost_requires'] ) ) {
-					return false;
-				}
-			}
-
-			if ( strpos( $method->id, 'paynow' ) !== false ) {
-				$min_amount = get_option( 'woocommerce_' . str_replace( ':', '_', $method->id ) . '_settings' )['free_shipping_min_amount'];
-			} else {
-				$min_amount = get_option( 'woocommerce_' . str_replace( ':', '_', $method->id ) . '_settings' )['min_amount'];
-			}
-
-			$cart_subtotal    = WC()->cart->get_subtotal();
-			$free_text        = ( get_option( 'wc_woomp_setting_free_shipping_text_free_shipping' ) ) ? get_option( 'wc_woomp_setting_free_shipping_text_free_shipping' ) : '免運';
-			$background_color = ( get_option( 'wc_woomp_setting_free_shipping_bg_color' ) ) ? get_option( 'wc_woomp_setting_free_shipping_bg_color' ) : '#d36f6f';
-			$text_color       = ( get_option( 'wc_woomp_setting_free_shipping_text_color' ) ) ? get_option( 'wc_woomp_setting_free_shipping_text_color' ) : '#fff';
-
-			if ( $min_amount - $cart_subtotal <= 0 ) {
-				echo '<span style="font-size: 14px ;margin: 0 6px; background: ' . esc_attr( $background_color ) . ';padding: 2px 5px;border-radius: 3px;color: ' . esc_attr( $text_color ) . ';
-				">' . esc_html( $free_text ) . '</span>';
-			} else {
-				echo '<span style="position: relative; top: -1px; font-size: 14px ;margin: 0 6px; background: ' . esc_attr( $background_color ) . ';padding: 2px 5px;border-radius: 3px;color: ' . esc_attr( $text_color ) . ';">' . esc_html( str_replace( '{{price}}', ( $min_amount - $cart_subtotal ) . '元', get_option( 'wc_woomp_setting_free_shipping_text_left' ) ) ) . '</span>';
 			}
 		}
-
 	}
 
 	/**
