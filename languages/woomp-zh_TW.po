@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: woomp\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/woomp\n"
-"POT-Creation-Date: 2022-08-09T10:26:50+00:00\n"
-"PO-Revision-Date: 2022-08-09 18:29+0800\n"
+"POT-Creation-Date: 2022-08-25T03:38:49+00:00\n"
+"PO-Revision-Date: 2022-08-25 11:43+0800\n"
 "Last-Translator: \n"
 "Language-Team: morepower\n"
 "Language: zh_TW\n"
@@ -543,36 +543,52 @@ msgid "設定標籤式可變商品規格的文字顏色"
 msgstr ""
 
 #: admin/settings/class-woomp-setting.php:447
-msgid "免運剩餘金額提示文字 ex.「差 {{price}} 即可免運」"
-msgstr ""
+msgid "Free shipping hint"
+msgstr "免費運送提示"
 
 #: admin/settings/class-woomp-setting.php:448
-msgid "設定免費運送門檻提示文字，使用 {{price}} 來帶入免運金額"
-msgstr ""
-
-#: admin/settings/class-woomp-setting.php:455
-msgid "達到免運提示文字 ex.「免運」"
-msgstr ""
+msgid "Show free shipping condition on checkout page"
+msgstr "在結帳頁中顯示免運費門檻"
 
 #: admin/settings/class-woomp-setting.php:456
-msgid "設定達到免運門檻後的顯示文字"
-msgstr ""
+msgid "Free shipping hint condition text"
+msgstr "免運剩餘金額提示文字 ex.「差 {{price}} 即可免運」"
 
-#: admin/settings/class-woomp-setting.php:463
-msgid "免運提示文字背景色"
-msgstr ""
+#: admin/settings/class-woomp-setting.php:457
+msgid "Use {{price}} to display amount"
+msgstr "使用 {{price}} 來帶入還差多少免運的金額"
 
-#: admin/settings/class-woomp-setting.php:464
-msgid "設定免費運送門檻提示文字的背景顏色"
-msgstr ""
+#: admin/settings/class-woomp-setting.php:460
+msgid "Free shipping left amount"
+msgstr "還差多少金額免運"
 
-#: admin/settings/class-woomp-setting.php:470
-msgid "免運提示文字顏色"
-msgstr ""
+#: admin/settings/class-woomp-setting.php:465
+msgid "Achive free shipping text, ex:free"
+msgstr "達到免運提示文字 ex.「免運」"
 
-#: admin/settings/class-woomp-setting.php:471
-msgid "設定免費運送門檻提示文字顏色"
-msgstr ""
+#: admin/settings/class-woomp-setting.php:466
+msgid "Set Achive free shipping text"
+msgstr "設定免運提示文字"
+
+#: admin/settings/class-woomp-setting.php:469
+msgid "Free"
+msgstr "免運"
+
+#: admin/settings/class-woomp-setting.php:474
+msgid "Free shipping hint background color"
+msgstr "免費提示背景顏色"
+
+#: admin/settings/class-woomp-setting.php:475
+msgid "Set hint background"
+msgstr "設定免費運送門檻提示文字的背景顏色"
+
+#: admin/settings/class-woomp-setting.php:482
+msgid "Free shipping hint text color"
+msgstr "免運費提示文字顏色"
+
+#: admin/settings/class-woomp-setting.php:483
+msgid "Set hint text color"
+msgstr "設定免費運送文字顏色"
 
 #: includes/line-pay-for-woo/includes/class-wc-gateway-linepay.php:58
 msgid "Pay with LINE Pay"
@@ -622,22 +638,6 @@ msgstr "綠界物流 宅配 黑貓 冷藏"
 #: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/ecpay-shipping-home-tcat-frozen.php:11
 msgid "ECPay shipping home Tcat Frozen"
 msgstr "綠界物流 宅配 黑貓 冷凍"
-
-#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/includes/settings-ecpay-shipping-base.php:11
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-711-frozen.php:25
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-family-frozen.php:25
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-frozen.php:25
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-refrigerated.php:25
-msgid "Description"
-msgstr "說明"
-
-#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/includes/settings-ecpay-shipping-base.php:13
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-711-frozen.php:27
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-family-frozen.php:27
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-frozen.php:27
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-refrigerated.php:27
-msgid "This controls the description which the user sees during checkout."
-msgstr ""
 
 #: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:185
 msgid "<b>Invoice issue result</b>"
@@ -785,6 +785,20 @@ msgstr ""
 msgid "PayNow Shipping C2C 7-11 Frozen"
 msgstr ""
 
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-711-frozen.php:25
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-family-frozen.php:25
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-frozen.php:25
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-refrigerated.php:25
+msgid "Description"
+msgstr "說明"
+
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-711-frozen.php:27
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-family-frozen.php:27
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-frozen.php:27
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-refrigerated.php:27
+msgid "This controls the description which the user sees during checkout."
+msgstr ""
+
 #: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-711-frozen.php:31
 #: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-family-frozen.php:41
 #: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-frozen.php:31
@@ -896,6 +910,29 @@ msgstr "物流單號"
 #: public/class-woomp-order.php:68
 msgid "Shipping details"
 msgstr "物流資訊"
+
+#~ msgid "Free shipping left amount 差 {{price}} 即可免運"
+#~ msgstr "差 {{price}} 即可免運"
+
+#~ msgid "Set Achive free shipping text 設定達到免運門檻後的顯示文字"
+#~ msgstr "設定達到免運門檻後的顯示文字"
+
+#~ msgid "Free 免運"
+#~ msgstr "免運"
+
+#~ msgid "Set hint background 設定免費運送門檻提示文字的背景顏色"
+#~ msgstr "設定免費運送門檻提示文字的背景顏色"
+
+#~ msgid "Free shipping hint text color免運提示文字顏色"
+#~ msgstr "免運提示文字顏色"
+
+#~ msgid "Set hint text color 設定免費運送門檻提示文字顏色"
+#~ msgstr "設定免費運送門檻提示文字顏色"
+
+#~ msgid ""
+#~ "Use {{price}} to display amount 設定免費運送門檻提示文字，使用 {{price}} "
+#~ "來帶入免運金額"
+#~ msgstr "設定免費運送門檻提示文字，使用 {{price}} 來帶入免運金額"
 
 #~ msgid "啟用綠界金流"
 #~ msgstr "啟用綠界金流"

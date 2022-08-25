@@ -186,6 +186,7 @@
 			$('body').find('.save_attributes').trigger('click');
 		})
 	}
+
 	$(document.body).on('woocommerce_added_attribute', function () {
 		triggerSaveAtrributes()
 	})
@@ -280,6 +281,20 @@
 		$('#wc_woomp_setting_mode_twopage_message').parent().parent().show()
 	} else {
 		$('#wc_woomp_setting_mode_twopage_message').parent().parent().hide()
+	}
+
+	// 判斷設定頁免運標籤選項顯示
+	$('#wc_woomp_setting_free_shipping_hint').change(function(){
+		if( $(this).is(':checked') ){
+			$('.free-shipping-hint-setting').parent().parent().show()
+		} else {
+			$('.free-shipping-hint-setting').parent().parent().hide()
+		}
+	})
+	if( $('#wc_woomp_setting_free_shipping_hint').is(':checked') ){
+		$('.free-shipping-hint-setting').parent().parent().show()
+	} else {
+		$('.free-shipping-hint-setting').parent().parent().hide()
 	}
 
 })(jQuery);

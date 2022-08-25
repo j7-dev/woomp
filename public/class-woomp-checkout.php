@@ -362,7 +362,7 @@ if ( ! class_exists( 'WooMP_Checkout' ) ) {
 			$requires_paynow = $settings['free_shipping_requires'] ?? '';
 
 			$cost_requires = ( strpos( $method->id, 'paynow' ) !== false ) ? $requires_paynow : $requires;
-			$min_amount          = ( strpos( $method->id, 'paynow' ) !== false ) ? $amount_paynow : $amount;
+			$min_amount    = ( strpos( $method->id, 'paynow' ) !== false ) ? $amount_paynow : $amount;
 
 			if ( ! $cost_requires || ! $min_amount ) {
 				return false;
@@ -411,7 +411,7 @@ if ( ! empty( get_option( ' wc_woomp_setting_place_order_text' ) ) ) {
 	add_filter( 'woocommerce_order_button_text', array( $checkout, 'custom_button_text' ), 99, 1 );
 }
 
-if ( ! empty( get_option( ' wc_woomp_setting_free_shipping_text_left' ) ) ) {
+if ( wc_string_to_bool( get_option( ' wc_woomp_setting_free_shipping_hint' ) ) ) {
 	add_action( 'woocommerce_after_shipping_rate', array( $checkout, 'get_free_shipping_amount' ), 99, 2 );
 }
 

@@ -19,6 +19,10 @@ WooCommerce 好用版擴充，改善結帳流程與可變商品等區塊，讓 W
 
 == Changelog ==
 
+<p>v1.8.0</p>
+<p>除錯 - 僅針對最小訂購金額顯示免運標籤</p>
+<p>新增 - 設定項加入免運標籤設定 Toggle</p>
+
 <p>v1.7.9</p>
 <p>除錯 - WPC Product Bundle 商品停用好用版標籤 UI</p>
 
