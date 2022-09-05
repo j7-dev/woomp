@@ -226,6 +226,7 @@ if ( ! class_exists( 'WooMP_Order' ) ) {
 				$actions['ry_print_ecpay_home_tcat'] = __( 'Print ECPay shipping booking note (tcat)', 'woomp' );
 				$actions['ry_print_ecpay_home_tcat_freeze'] = __( 'Print ECPay shipping booking note (tcat freeze)', 'woomp' );
 				$actions['ry_print_ecpay_home_tcat_frozen'] = __( 'Print ECPay shipping booking note (tcat frozen)', 'woomp' );
+				$actions['ry_print_ecpay_home_post'] = __( 'Print POST booking note', 'woomp' );
 			}
 			$actions['wmp_print_hct'] = __( 'Print HCT shipping booking note', 'woomp' );
 

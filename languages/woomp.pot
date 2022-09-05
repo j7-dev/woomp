@@ -2,14 +2,14 @@
 # This file is distributed under the GPL-2.0+.
 msgid ""
 msgstr ""
-"Project-Id-Version: 好用版擴充 MorePower Addon for WooCommerce 1.7.9\n"
+"Project-Id-Version: 好用版擴充 MorePower Addon for WooCommerce 1.8.1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/woomp\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-08-25T03:38:49+00:00\n"
+"POT-Creation-Date: 2022-09-05T08:37:59+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.5.0\n"
 "X-Domain: woomp\n"
@@ -89,15 +89,19 @@ msgstr ""
 msgid "Print ECPay shipping booking note (tcat frozen)"
 msgstr ""
 
-#: admin/class-woomp-order.php:230
+#: admin/class-woomp-order.php:229
+msgid "Print POST booking note"
+msgstr ""
+
+#: admin/class-woomp-order.php:231
 msgid "Print HCT shipping booking note"
 msgstr ""
 
-#: admin/class-woomp-order.php:308
+#: admin/class-woomp-order.php:309
 msgid "Update convenience store"
 msgstr ""
 
-#: admin/class-woomp-order.php:309
+#: admin/class-woomp-order.php:310
 msgid "After choosing cvs, you need update the order to save changing."
 msgstr ""
 

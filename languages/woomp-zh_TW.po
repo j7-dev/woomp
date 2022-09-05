@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: woomp\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/woomp\n"
-"POT-Creation-Date: 2022-08-25T03:38:49+00:00\n"
-"PO-Revision-Date: 2022-08-25 11:43+0800\n"
+"POT-Creation-Date: 2022-09-05T08:37:59+00:00\n"
+"PO-Revision-Date: 2022-09-05 16:38+0800\n"
 "Last-Translator: \n"
 "Language-Team: morepower\n"
 "Language: zh_TW\n"
@@ -98,15 +98,19 @@ msgstr "列印黑貓冷藏託運單（綠界）"
 msgid "Print ECPay shipping booking note (tcat frozen)"
 msgstr "列印黑貓冷凍託運單（綠界）"
 
-#: admin/class-woomp-order.php:230
+#: admin/class-woomp-order.php:229
+msgid "Print POST booking note"
+msgstr "列印中華郵政託運單"
+
+#: admin/class-woomp-order.php:231
 msgid "Print HCT shipping booking note"
 msgstr "匯出新竹物流報表"
 
-#: admin/class-woomp-order.php:308
+#: admin/class-woomp-order.php:309
 msgid "Update convenience store"
 msgstr "重新選擇超商"
 
-#: admin/class-woomp-order.php:309
+#: admin/class-woomp-order.php:310
 msgid "After choosing cvs, you need update the order to save changing."
 msgstr "重新選擇超商後記得要更新訂單資料才會被寫入。"
 

@@ -189,6 +189,11 @@ final class RY_ECPay_Shipping_admin
                                     $print_list[] = $info;
                                 }
                                 break;
+                            case 'POST':
+                                if ($print_type == 'home_post') {
+                                    $print_list[] = $info;
+                                }
+                                break;
                             case 'TCAT':
                                 if ( $print_type == 'home_tcat' || $print_type == 'home_tcat_freeze' || $print_type == 'home_tcat_frozen' ) {
                                     $print_list[] = $info;
