@@ -10,35 +10,42 @@
  *
  * @version 1.2.9
  */
-defined('ABSPATH') || exit;
+defined( 'ABSPATH' ) || exit;
 
 echo "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n";
-echo esc_html(wp_strip_all_tags($email_heading));
+echo esc_html( wp_strip_all_tags( $email_heading ) );
 echo "\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n\n";
 
-echo __("您的未付款訂單即將取消，請記得前往繳費！", 'ry-woocommerce-tools') . "\n\n";
+echo __( '您的未付款訂單即將取消，請記得前往繳費！', 'ry-woocommerce-tools' ) . "\n\n";
+
+echo _x( $order->get_meta( '_ecpay_atm_BankCode' ), 'Bank code', 'ry-woocommerce-tools' ) . $order->get_meta( '_ecpay_atm_BankCode' ) . "\n\n";
+
+echo __( 'ATM Bank account', 'ry-woocommerce-tools' ) . ' : ' . $order->get_meta( '_ecpay_atm_vAccount' ) . "\n\n";
+
+
+echo __( 'Payment deadline', 'ry-woocommerce-tools' ) . ' : ' . date_i18n( 'Y-m-d H:i:s', $order->get_meta( '_ecpay_atm_ExpireDate' ) ) . "\n\n";
 
 echo "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n\n";
 
 /*
  * @hooked WC_Emails::order_meta() Shows order meta data.
  */
-do_action('woocommerce_email_order_meta', $order, $sent_to_admin, $plain_text, $email);
+do_action( 'woocommerce_email_order_meta', $order, $sent_to_admin, $plain_text, $email );
 
 /*
  * @hooked WC_Emails::customer_details() Shows customer details
  * @hooked WC_Emails::email_address() Shows email address
  */
-do_action('woocommerce_email_customer_details', $order, $sent_to_admin, $plain_text, $email);
+do_action( 'woocommerce_email_customer_details', $order, $sent_to_admin, $plain_text, $email );
 
 echo "\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n\n";
 
 /**
  * Show user-defined additonal content - this is set in each email's settings.
  */
-if ($additional_content) {
-    echo esc_html(wp_strip_all_tags(wptexturize($additional_content)));
-    echo "\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n\n";
+if ( $additional_content ) {
+	echo esc_html( wp_strip_all_tags( wptexturize( $additional_content ) ) );
+	echo "\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n\n";
 }
 
-echo wp_kses_post(apply_filters('woocommerce_email_footer_text', get_option('woocommerce_email_footer_text')));
+echo wp_kses_post( apply_filters( 'woocommerce_email_footer_text', get_option( 'woocommerce_email_footer_text' ) ) );

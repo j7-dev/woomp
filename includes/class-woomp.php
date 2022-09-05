@@ -184,7 +184,6 @@ class Woomp {
 		$this->loader->add_action( 'init', $plugin_admin, 'register_cron_hook', 10 );
 		$this->loader->add_action( 'wmp_cron_every_morning', $plugin_admin, 'set_ecpay_cvs_get_remind', 10 );
 		$this->loader->add_action( 'wmp_cron_every_morning', $plugin_admin, 'set_ecpay_cvs_get_expired', 10 );
-		$this->loader->add_action( 'wmp_cron_every_day', $plugin_admin, 'set_ecpay_atm_transfer_remind', 10 );
 
 		$this->loader->add_filter( 'woocommerce_shipping_methods', $plugin_admin, 'set_flat_rate_class', 10 );
 
