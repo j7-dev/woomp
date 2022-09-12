@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: woomp\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/woomp\n"
-"POT-Creation-Date: 2022-09-12T04:16:27+00:00\n"
-"PO-Revision-Date: 2022-09-12 12:16+0800\n"
+"POT-Creation-Date: 2022-09-12T08:42:34+00:00\n"
+"PO-Revision-Date: 2022-09-12 16:43+0800\n"
 "Last-Translator: \n"
 "Language-Team: morepower\n"
 "Language: zh_TW\n"
@@ -924,6 +924,20 @@ msgstr "PayNow 黑貓冷藏"
 msgid "PayNow Shipping C2C 711 Frozen"
 msgstr "PayNow 7-11 冷凍超取"
 
+#: public/class-woomp-checkout.php:393 public/class-woomp-checkout.php:398
+msgid "No shipping class"
+msgstr "無運送類別"
+
+#. translators: %1$s: Cart shipping class, %2$s: Product shipping class.
+#: public/class-woomp-checkout.php:401
+msgid ""
+"<b>Cart error occured.</b>The cart can't be added the products with "
+"different shipping classes.<br>Cart shipping class: <b>%1$s</b><br>Product "
+"shipping class: <b>%2$s</b>"
+msgstr ""
+"<b>購物車發生錯誤！</b>同一訂單不可加入不同運送類別之商品。<br>購物車運送類"
+"別：<b>%1$s</b><br>商品運送類別：<b>%2$s</b>"
+
 #: public/class-woomp-order.php:38
 msgid "Ecpay Shipping details"
 msgstr "綠界物流資訊"
@@ -1348,11 +1362,6 @@ msgstr "物流資訊"
 #~| msgid "certification"
 #~ msgid "Verification failed!"
 #~ msgstr "自然人憑證"
-
-#, fuzzy
-#~| msgid "Shipping details"
-#~ msgid "Shipping cost"
-#~ msgstr "物流資訊"
 
 #, fuzzy
 #~| msgid "物流設定"

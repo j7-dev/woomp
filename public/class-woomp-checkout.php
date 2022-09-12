@@ -383,6 +383,31 @@ if ( ! class_exists( 'WooMP_Checkout' ) ) {
 				}
 			}
 		}
+
+		/**
+		 * 購物車運送類別判斷
+		 */
+		public function set_one_shipping_class( $passed, $product_id, $quantity ) {
+
+			$product       = wc_get_product( $product_id );
+			$product_class = ( $product->get_shipping_class_id() === 0 ) ? __( 'No shipping class', 'woomp' ) : get_term( $product->get_shipping_class_id(), 'product_shipping_class' )->name;
+
+			if ( count( WC()->cart->get_cart() ) > 0 ) {
+				foreach ( WC()->cart->get_cart() as $key => $values ) {
+					$cart_item  = $values['data'];
+					$cart_class = ( $cart_item->get_shipping_class_id() === 0 ) ? __( 'No shipping class', 'woomp' ) : get_term( $cart_item->get_shipping_class_id(), 'product_shipping_class' )->name;
+					if ( $cart_class !== $product_class ) {
+						// translators: %1$s: Cart shipping class, %2$s: Product shipping class.
+						wc_add_notice( sprintf( __( '<b>Cart error occured.</b>The cart can\'t be added the products with different shipping classes.<br>Cart shipping class: <b>%1$s</b><br>Product shipping class: <b>%2$s</b>', 'woomp' ), $cart_class, $product_class ), 'error' );
+						return false;
+					} else {
+						return $passed;
+					}
+				}
+			} else {
+				return $passed;
+			}
+		}
 	}
 
 	/**
@@ -416,6 +441,7 @@ if ( wc_string_to_bool( get_option( ' wc_woomp_setting_free_shipping_hint' ) ) )
 }
 
 add_filter( 'woocommerce_form_field', array( $checkout, 'remove_checkout_optional_fields_label' ), 10, 4 );
+add_filter( 'woocommerce_add_to_cart_validation', array( $checkout, 'set_one_shipping_class' ), 10, 3 );
 
 
 WooMP_Checkout::init();

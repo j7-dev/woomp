@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-09-12T04:16:27+00:00\n"
+"POT-Creation-Date: 2022-09-12T08:42:34+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.5.0\n"
 "X-Domain: woomp\n"
@@ -873,6 +873,16 @@ msgstr ""
 
 #: includes/woomp-paynow-shipping/src/shippings/class-woomp-paynow-shipping-c2c-711-frozen.php:28
 msgid "PayNow Shipping C2C 711 Frozen"
+msgstr ""
+
+#: public/class-woomp-checkout.php:393
+#: public/class-woomp-checkout.php:398
+msgid "No shipping class"
+msgstr ""
+
+#. translators: %1$s: Cart shipping class, %2$s: Product shipping class.
+#: public/class-woomp-checkout.php:401
+msgid "<b>Cart error occured.</b>The cart can't be added the products with different shipping classes.<br>Cart shipping class: <b>%1$s</b><br>Product shipping class: <b>%2$s</b>"
 msgstr ""
 
 #: public/class-woomp-order.php:38
