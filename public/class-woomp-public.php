@@ -139,7 +139,7 @@ class Woomp_Public {
 	}
 
 	/**
-	 *
+	 * 虛擬商品自動完成訂單
 	 */
 	public function auto_complete_virtual( $order_id ) {
 

@@ -299,25 +299,24 @@ class WC_Gateway_LINEPay_Handler
 
                 break;
         }
-        if ($order->get_date_paid()) {
-            $refund_expired = strtotime($order->get_date_paid()->date('Y-m-d H:i:s') . ' -8 hour') + (60 * 86400);
+        
+        $refund_expired = strtotime($order->get_date_created()->date('Y-m-d H:i:s') . ' -8 hour') + (60 * 86400);
 
-            if (get_option('linepay_customer_refund') && time() < $refund_expired && $payment_method[0] == 'linepay') {
-                if (in_array('wc-' . $order_status, get_option('linepay_customer_refund'))) {
-                    $actions['cancel'] = array(
-                        'url' => esc_url_raw(
-                            add_query_arg(
-                                array(
-                                    'request_type' => WC_Gateway_LINEPay_Const::REQUEST_TYPE_REFUND,
-                                    'order_id' => $order->get_id(),
-                                    'cancel_amount' => $order->get_total(),
-                                ),
-                                home_url(WC_Gateway_LINEPay_Const::URI_CALLBACK_HANDLER)
-                            )
-                        ),
-                        'name' => __('Cancel', 'woocommerce-gateway-linepay'),
-                    );
-                }
+        if (get_option('linepay_customer_refund') && time() < $refund_expired && $payment_method[0] == 'linepay') {
+            if (in_array('wc-' . $order_status, get_option('linepay_customer_refund'))) {
+                $actions['cancel'] = array(
+                    'url' => esc_url_raw(
+                        add_query_arg(
+                            array(
+                                'request_type' => WC_Gateway_LINEPay_Const::REQUEST_TYPE_REFUND,
+                                'order_id' => $order->get_id(),
+                                'cancel_amount' => $order->get_total(),
+                            ),
+                            home_url(WC_Gateway_LINEPay_Const::URI_CALLBACK_HANDLER)
+                        )
+                    ),
+                    'name' => __('Cancel', 'woocommerce-gateway-linepay'),
+                );
             }
         }
 
@@ -330,7 +329,7 @@ class WC_Gateway_LINEPay_Handler
 
             $order_status = $order->get_status();
             $payment_method = get_post_meta($order->get_id(), '_payment_method');
-            $refund_expired = strtotime($order->get_date_paid()->date('Y-m-d H:i:s') . ' -8 hour') + (60 * 86400);
+            $refund_expired = strtotime($order->get_date_created()->date('Y-m-d H:i:s') . ' -8 hour') + (60 * 86400);
             $output = '';
             if (get_option('linepay_customer_refund') && time() > $refund_expired && $payment_method[0] == 'linepay') {
 

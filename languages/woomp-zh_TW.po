@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: woomp\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/woomp\n"
-"POT-Creation-Date: 2022-09-05T08:37:59+00:00\n"
-"PO-Revision-Date: 2022-09-05 16:38+0800\n"
+"POT-Creation-Date: 2022-09-12T04:16:27+00:00\n"
+"PO-Revision-Date: 2022-09-12 12:16+0800\n"
 "Last-Translator: \n"
 "Language-Team: morepower\n"
 "Language: zh_TW\n"
@@ -643,6 +643,27 @@ msgstr "綠界物流 宅配 黑貓 冷藏"
 msgid "ECPay shipping home Tcat Frozen"
 msgstr "綠界物流 宅配 黑貓 冷凍"
 
+#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/includes/settings-ecpay-shipping-base.php:66
+msgid ""
+"Use <code>[qty]</code> for the number of items, <br/><code>[cost]</code> for "
+"the total cost of items, and <code>[fee percent=\"10\" min_fee=\"20\" "
+"max_fee=\"\"]</code> for percentage based fees. Also there is only one "
+"shipping class in the cart allowed. You can't add the products of different "
+"shipping classes."
+msgstr ""
+"<code>[qty]</code> 設定商品數量，<code>[cost]</code> 代表商品總金額，用 "
+"<code>[fee percent=“10” min_fee=“20” max_fee=“”]</code> 以百分比的方式來設定"
+"運費。另外購物車中只能有一個商品類別的商品，例如限定購物車只能有「冷藏運送」"
+"的商品，不允許「冷凍運送」的商品合併在同一個購物車。"
+
+#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/includes/settings-ecpay-shipping-base.php:70
+msgid "Single shipping class limited"
+msgstr "限定單一運送類別"
+
+#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/includes/settings-ecpay-shipping-base.php:90
+msgid "There is only one shipping class in the cart."
+msgstr "當購物車有此運送類別的商品時，不可加入其他運送類別的商品。"
+
 #: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:185
 msgid "<b>Invoice issue result</b>"
 msgstr "<b>發票開立結果</b>"
@@ -959,11 +980,6 @@ msgstr "物流資訊"
 
 #~ msgid "Free shipping requires..."
 #~ msgstr "如果要免運費的話需要.."
-
-#, fuzzy
-#~| msgid "Shipping payment no"
-#~ msgid "Shipping class costs"
-#~ msgstr "物流單號"
 
 #, fuzzy
 #~| msgid "金流設定"
