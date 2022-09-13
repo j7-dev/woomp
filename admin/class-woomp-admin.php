@@ -376,7 +376,7 @@ class Woomp_Admin {
 
 			// 註冊取消訂單排程
 			as_schedule_single_action( strtotime( $order->get_date_created()->date( 'Y-m-d H:i:s' ) . ' -8 hour' ) + $expire_sec, 'wmp_cron_atm_deadline', array( $order_id ) );
-			
+
 			// 註冊發送轉帳提醒通知信排程
 			as_schedule_single_action( strtotime( $order->get_date_created()->date( 'Y-m-d H:i:s' ) . ' -1 day -8 hour' ) + $expire_sec, 'wmp_cron_atm_deadline_remind', array( $order_id ) );
 		}
@@ -388,7 +388,9 @@ class Woomp_Admin {
 	 */
 	public function cancel_unpaid_order( $order_id ) {
 		$order = new WC_Order( $order_id );
-		$order->update_status( 'cancelled' );
+		if ( 'pending' === $order->get_status() ) {
+			$order->update_status( 'cancelled' );
+		}
 	}
 
 	/**

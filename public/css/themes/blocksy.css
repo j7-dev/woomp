@@ -1,32 +1,3 @@
-@media screen and (max-width: 920px) {
-  .shop_table .product-mobile-actions .remove {
-    padding-right: 10px;
-  }
-
-  .woocommerce-shipping-totals.shipping th,
-  .woocommerce #order_review table.shop_table tfoot th {
-    width: 110px !important;
-  }
-
-  .woocommerce-checkout #paymentWrap th {
-    width: 110px !important;
-  }
-
-  .woocommerce-checkout-payment .place-order {
-    padding: 0;
-    margin-top: 15px;
-  }
-
-  .woocommerce-checkout-payment {
-    margin-left: 0 !important;
-    margin-top: 0 !important;
-  }
-
-  .woocommerce-checkout #payment .payment_methods > li .payment_box {
-    padding: 0 0 15px 25px;
-  }
-}
-
 .payment_methods > li .payment_box p {
   font-size: 14px;
 }
@@ -171,20 +142,34 @@ table.shop_table tr > td:last-child {
 }
 
 @media screen and (max-width: 920px) {
-  .woocommerce #order_review
- table.shop_table tfoot th {
-    width: 80px;
-    padding-left: 0;
+  .shop_table .product-mobile-actions .remove {
+    padding-right: 10px;
   }
 
-  .woocommerce-checkout #paymentWrap
- th {
-    padding-left: 0px !important;
+  .woocommerce-checkout-payment .place-order {
+    padding: 0;
+    margin-top: 15px;
   }
 
-  .woocommerce-checkout #payment
- .payment_methods > li .payment_box {
-    padding-right: 5px !important;
+  .woocommerce-checkout-payment {
+    margin-left: 0 !important;
+    margin-top: 0 !important;
+  }
+
+  .woocommerce-checkout #payment .payment_methods > li .payment_box {
+    padding: 0 0 15px 25px;
+  }
+  
+  .woocommerce-checkout .woocommerce #order_review table.shop_table tfoot th {
+    width: 80px !important;
+  }
+
+  .woocommerce-checkout #paymentWrap th {
+    width: 80px !important;
+  }
+
+  #payment .payment_methods > li > label img {
+    max-width: 28%;
   }
 }
 
@@ -205,31 +190,31 @@ form.checkout.woocommerce-checkout {
 
 .ct-order-review {
   position: relative !important;
-  top: auto!important;
+  top: auto !important;
   width: 100%;
   order: 1;
 }
 
 .ct-customer-details {
-	margin-top: 30px;
+  margin-top: 30px;
   order: 2;
 }
 
 .woocommerce-input-wrapper .select2-container {
-	width: 100%!important;
-	background-color: #fff;
+  width: 100% !important;
+  background-color: #fff;
 }
 
 span.select2-container .select2-selection--single .select2-selection__rendered,
 .select2-results__option {
-	outline: 0;
+  outline: 0;
 }
 
 table.shop_table th {
-	vertical-align: middle;
+  vertical-align: middle;
 }
 
 table.shop_table tfoot td {
-	text-align: left;
+  text-align: left;
 }
 
