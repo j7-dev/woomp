@@ -388,7 +388,7 @@ class Woomp_Admin {
 	 */
 	public function cancel_unpaid_order( $order_id ) {
 		$order = new WC_Order( $order_id );
-		if ( 'pending' === $order->get_status() ) {
+		if ( 'pending' === $order->get_status() || 'on-hold' === $order->get_status() ) {
 			$order->update_status( 'cancelled' );
 		}
 	}

@@ -1,11 +1,11 @@
 <?php
-defined('ABSPATH') || exit;
+defined( 'ABSPATH' ) || exit;
 ?>
 
 <script>
-    jQuery(document).ready(function(){
-        if(!window.location.hash) {
-            window.location.reload();
-        }
-    });
+	jQuery(document).ready(function(){
+		if(!window.location.hash) {
+			window.location.reload();
+		}
+	});
 </script>

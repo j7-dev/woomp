@@ -410,7 +410,7 @@ if (!class_exists('WooMP_Checkout')) {
         /**
          * Overwrite 結帳頁面錯誤範本
          */
-        public function checkout_error_template($template)
+        public static function checkout_error_template($template)
         {
 
             if ('checkout/cart-errors.php' === basename($template)) {
