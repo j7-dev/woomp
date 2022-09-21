@@ -401,15 +401,17 @@ class Woomp_Admin {
 		$order = new WC_Order( $order_id );
 
 		if ( $order ) {
-			$wc_emails = WC_Emails::instance();
-			$emails    = $wc_emails->get_emails();
-			$email     = $emails['RY_ECPay_Shipping_Email_Customer_ATM_Transfer_Remind'];
-
-			if ( $email ) {
-				if ( $email->is_enabled() ) {
-					$email->object    = $order;
-					$email->recipient = $email->object->get_billing_email();
-					$email->send( $email->get_recipient(), $email->get_subject(), $email->get_content(), $email->get_headers(), $email->get_attachments() );
+			if ( 'pending' === $order->get_status() || 'on-hold' === $order->get_status() ) {
+				$wc_emails = WC_Emails::instance();
+				$emails    = $wc_emails->get_emails();
+				$email     = $emails['RY_ECPay_Shipping_Email_Customer_ATM_Transfer_Remind'];
+	
+				if ( $email ) {
+					if ( $email->is_enabled() ) {
+						$email->object    = $order;
+						$email->recipient = $email->object->get_billing_email();
+						$email->send( $email->get_recipient(), $email->get_subject(), $email->get_content(), $email->get_headers(), $email->get_attachments() );
+					}
 				}
 			}
 		}

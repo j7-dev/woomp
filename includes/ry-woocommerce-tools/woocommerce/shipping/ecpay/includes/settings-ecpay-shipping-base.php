@@ -67,7 +67,7 @@ $cost_desc        = __( 'Enter a cost (excl. tax) or sum, e.g. <code>10.00 * [qt
 
 if (!empty($shipping_classes)) {
     $settings['class_available'] = [
-        'title' => __('Single shipping class limited', 'woomp'),
+        'title' => __('Shipping available', 'ry-woocommerce-tools'),
         'type' => 'title',
         'default' => '',
         /* translators: %s: shipping class setting url */
@@ -83,11 +83,21 @@ if (!empty($shipping_classes)) {
             'type' => 'checkbox',
             'default' => $this->get_option('class_available_' . $shipping_class->term_id, 'yes')
         ];
+        $settings['class_limit_' . $shipping_class->term_id] = [
+            /* translators: %s: shipping class name */
+            'title' => sprintf(__('"%s" shipping class limits', 'woomp'), esc_html($shipping_class->name)),
+            'type' => 'select',
+            'default' => $this->get_option('class_limit_' . $shipping_class->term_id, 'yes'),
+			'options' => array(
+				'unlimit' => __( 'No, by the calculation type', 'woomp' ),
+				'limit' => __( 'Yes, adding to cart is not allowed if there are different shipping classes in it', 'woomp' ),
+			),
+        ];
 		$settings[ 'class_cost_' . $shipping_class->term_id ]      = array(
 			/* translators: %s: shipping class name */
 			'title'             => sprintf( __( '"%s" shipping class cost', 'woocommerce' ), esc_html( $shipping_class->name ) ),
 			'type'              => 'text',
-			'placeholder'       => __( 'There is only one shipping class in the cart.', 'woomp' ),
+			'placeholder'       => __( 'N/A', 'woocommerce' ),
 			'description'       => $cost_desc,
 			'default'           => $this->get_option( 'class_cost_' . $shipping_class->slug ),
 			'desc_tip'          => true,
