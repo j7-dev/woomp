@@ -34,25 +34,6 @@ class PayNow_Shipping_HD_TCat extends PayNow_Abstract_Shipping_Method {
 	}
 
 	/**
-	 * Caculate shipping fee.
-	 *
-	 * @param array $package The shipping package.
-	 * @return void
-	 */
-	public function calculate_shipping( $package = array() ) {
-		$rate = array(
-			'id'      => $this->get_rate_id(),
-			'label'   => $this->title,
-			'cost'    => $this->get_cost(),
-			'taxes'   => true,
-			'package' => $package,
-		);
-
-		$this->add_rate( $rate );
-		do_action( 'woocommerce_' . $this->id . '_shipping_add_rate', $this, $rate );
-	}
-
-	/**
 	 * Check if this shipping method available or not.
 	 *
 	 * @param array $package The shipping package array.
@@ -79,13 +60,14 @@ class PayNow_Shipping_HD_TCat extends PayNow_Abstract_Shipping_Method {
 	 */
 	public function init() {
 
-		$this->init_settings();
 		$this->instance_form_fields = include PAYNOW_SHIPPING_PLUGIN_DIR . 'includes/settings/settings-paynow-shipping-hd-tcat.php';
+		$this->init_settings();
 
 		$this->title                    = $this->get_option( 'title' );
 		$this->cost                     = $this->get_option( 'cost' );
 		$this->free_shipping_requires   = $this->get_option( 'free_shipping_requires' );
 		$this->free_shipping_min_amount = $this->get_option( 'free_shipping_min_amount', 0 );
+		$this->type                     = $this->get_option( 'type', 'class' );
 
 	}
 

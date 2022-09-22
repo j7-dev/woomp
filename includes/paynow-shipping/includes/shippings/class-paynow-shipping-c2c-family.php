@@ -33,25 +33,6 @@ class PayNow_Shipping_C2C_Family extends PayNow_Abstract_Shipping_Method {
 
 	}
 
-	/**
-	 * Caculate shipping fee.
-	 *
-	 * @param array $package The shipping package.
-	 * @return void
-	 */
-	public function calculate_shipping( $package = array() ) {
-		$rate = array(
-			'id'      => $this->get_rate_id(),
-			'label'   => $this->title,
-			'cost'    => $this->get_cost(),
-			'taxes'   => true,
-			'package' => $package,
-		);
-
-		$this->add_rate( $rate );
-		do_action( 'woocommerce_' . $this->id . '_shipping_add_rate', $this, $rate );
-	}
-
 	// FIXME: not working.
 	/**
 	 * Check if this shipping method available or not.
@@ -64,13 +45,32 @@ class PayNow_Shipping_C2C_Family extends PayNow_Abstract_Shipping_Method {
 		$max_amount   = 20000;
 		$is_available = $this->is_enabled();
 
-		if ( 'no' === $this->enabled ) {
-			return false;
-		}
-
 		$total = WC()->cart->get_cart_contents_total();
 		if ( $total >= $max_amount ) {
 			$is_available = false;
+		}
+
+		if ( $is_available ) {
+			$shipping_classes = WC()->shipping->get_shipping_classes();
+			if ( ! empty( $shipping_classes ) ) {
+				$found_shipping_class = array();
+				foreach ( $package['contents'] as $item_id => $values ) {
+					if ( $values['data']->needs_shipping() ) {
+						$shipping_class_slug = $values['data']->get_shipping_class();
+						$shipping_class      = get_term_by( 'slug', $shipping_class_slug, 'product_shipping_class' );
+						if ( $shipping_class && $shipping_class->term_id ) {
+							$found_shipping_class[ $shipping_class->term_id ] = true;
+						}
+					}
+				}
+
+				foreach ( $found_shipping_class as $shipping_class_term_id => $value ) {
+					if ( 'yes' !== $this->get_option( 'class_available_' . $shipping_class_term_id, 'yes' ) ) {
+						$is_available = false;
+						break;
+					}
+				}
+			}
 		}
 
 		return apply_filters( 'woocommerce_shipping_' . $this->id . '_is_available', $is_available, $package, $this );
@@ -83,13 +83,14 @@ class PayNow_Shipping_C2C_Family extends PayNow_Abstract_Shipping_Method {
 	 */
 	public function init() {
 
-		$this->init_settings();
 		$this->instance_form_fields = include PAYNOW_SHIPPING_PLUGIN_DIR . 'includes/settings/settings-paynow-shipping-c2c-family.php';
+		$this->init_settings();
 
 		$this->title                    = $this->get_option( 'title' );
 		$this->cost                     = $this->get_option( 'cost' );
 		$this->free_shipping_requires   = $this->get_option( 'free_shipping_requires' );
 		$this->free_shipping_min_amount = $this->get_option( 'free_shipping_min_amount', 0 );
+		$this->type                     = $this->get_option( 'type', 'class' );
 
 	}
 }
