@@ -109,7 +109,7 @@ if ( ! class_exists( 'WooMP_Product' ) ) {
 						/**
 						 * Feature - 商品資料下拉選單右側增加切回舊版的選項
 						 */
-						var toolbarHeader = $('#woocommerce-product-data .postbox-header h2 span')
+						var toolbarHeader = $('#woocommerce-product-data .postbox-header h2 > span')
 						toolbarHeader.append(`
 						<form action="${window.location.href}" method="post" style="display: inline-block">
 							<input type="hidden" name="woomp_ui" value="no">
@@ -410,7 +410,7 @@ if ( ! class_exists( 'WooMP_Product' ) ) {
 						/**
 						 * Feature - 商品資料下拉選單右側增加切回新版的選項
 						 */
-						var toolbarHeader = $('#woocommerce-product-data .postbox-header h2 span')
+						var toolbarHeader = $('#woocommerce-product-data .postbox-header h2 > span')
 						toolbarHeader.append(`
 						<form action="${window.location.href}" method="post" style="display: inline-block">
 							<input type="hidden" name="woomp_ui" value="yes">
