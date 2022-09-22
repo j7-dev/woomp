@@ -410,7 +410,7 @@ class Woomp_Setting
                 'class' => '',
                 'desc_tip' => true,
             ),
-            array(
+            'virtual_product_order_auto_complete' => array(
                 'title' => __('虛擬商品自動完成訂單', 'woomp'),
                 'desc' => __('開啟此選項虛擬商品完成結帳後自動完成訂單', 'woomp'),
                 'id' => 'wc_woomp_setting_virtual_product_order_auto_complete',
