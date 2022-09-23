@@ -15,20 +15,6 @@ defined( 'ABSPATH' ) || exit;
 abstract class PayNow_Abstract_Shipping_Method extends WC_Shipping_Method {
 
 	/**
-	 * Plugin name.
-	 *
-	 * @var string
-	 */
-	protected $plugin_name = 'paynow-shipping';
-
-	/**
-	 * Plugin version.
-	 *
-	 * @var string
-	 */
-	protected $version = '1.0.0';
-
-	/**
 	 * Javascript data for api call.
 	 *
 	 * @var array
@@ -58,6 +44,13 @@ abstract class PayNow_Abstract_Shipping_Method extends WC_Shipping_Method {
 	public $free_shipping_min_amount;
 
 	/**
+	 * Max order amount that can use this shipping method.
+	 *
+	 * @var int
+	 */
+	public $max_amount;
+
+	/**
 	 * Constructor function
 	 */
 	public function __construct() {
@@ -68,6 +61,58 @@ abstract class PayNow_Abstract_Shipping_Method extends WC_Shipping_Method {
 		);
 
 	}
+
+	/**
+	 * Check if shipping method abvailable
+	 *
+	 * @param array $package The shipping package.
+	 * @return boolean
+	 */
+	public function is_available( $package ) {
+
+		$is_available = $this->is_enabled();
+
+		$total = WC()->cart->get_cart_contents_total();
+		if ( isset( $this->max_amount ) && $total >= $this->max_amount ) {
+			$is_available = false;
+		}
+
+		if ( $is_available ) {
+			$shipping_classes = WC()->shipping->get_shipping_classes();
+			if ( ! empty( $shipping_classes ) ) {
+				$found_shipping_class = array();
+				foreach ( $package['contents'] as $item_id => $values ) {
+					if ( $values['data']->needs_shipping() ) {
+						$shipping_class_slug = $values['data']->get_shipping_class();
+						$shipping_class      = get_term_by( 'slug', $shipping_class_slug, 'product_shipping_class' );
+						if ( $shipping_class && $shipping_class->term_id ) {
+							$found_shipping_class[ $shipping_class->term_id ] = true;
+						}
+					}
+				}
+
+				foreach ( $found_shipping_class as $shipping_class_term_id => $value ) {
+					if ( 'yes' !== $this->get_option( 'class_available_' . $shipping_class_term_id, 'yes' ) ) {
+						$is_available = false;
+						break;
+					}
+				}
+			}
+		}
+
+		/**
+		 * Allow to filter if the shipping method is available or not.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param boolean                         $is_available If the shipping method is available or not.
+		 * @param array                           $package The shipping package.
+		 * @param PayNow_Abstract_Shipping_Method $this The shipping method instance.
+		 */
+		return apply_filters( 'woocommerce_shipping_' . $this->id . '_is_available', $is_available, $package, $this );
+
+	}
+
 
 	/**
 	 * Caculate shipping fee.
@@ -300,47 +345,4 @@ abstract class PayNow_Abstract_Shipping_Method extends WC_Shipping_Method {
 		return $found_shipping_classes;
 	}
 
-
-	/**
-	 * Get shipping cost and check if met free shipping
-	 *
-	 * @return int
-	 */
-	protected function get_cost() {
-
-		if ( 'min_amount' === $this->free_shipping_requires ) {
-			$total = WC()->cart->get_displayed_subtotal();
-
-			if ( WC()->cart->display_prices_including_tax() ) {
-				$total = $total - WC()->cart->get_discount_tax();
-			}
-
-			$total = round( $total, wc_get_price_decimals() );
-
-			if ( $total >= $this->free_shipping_min_amount ) {
-				return 0;
-			}
-		}
-
-		return $this->cost;
-
-	}
-
-	/**
-	 * Get plugin name.
-	 *
-	 * @return string
-	 */
-	public function get_plugin_name() {
-		return $this->plugin_name;
-	}
-
-	/**
-	 * Get plugin version.
-	 *
-	 * @return string
-	 */
-	public function get_version() {
-		return $this->version;
-	}
 }

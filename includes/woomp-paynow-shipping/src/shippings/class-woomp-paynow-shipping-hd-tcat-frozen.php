@@ -36,57 +36,6 @@ class WOOMP_PayNow_Shipping_HD_TCat_Frozen extends PayNow_Abstract_Shipping_Meth
 	}
 
 	/**
-	 * Check if shipping method abvailable
-	 *
-	 * @param array $package Shipping package.
-	 * @return boolean
-	 */
-	public function is_available( $package ) {
-
-		$max_amount = 100000;
-
-		$is_available = $this->is_enabled();
-
-		$total = WC()->cart->get_cart_contents_total();
-		if ( $total >= $max_amount ) {
-			$is_available = false;
-		}
-
-		if ( $is_available ) {
-			$shipping_classes = WC()->shipping->get_shipping_classes();
-			if ( ! empty( $shipping_classes ) ) {
-				$found_shipping_class = array();
-				foreach ( $package['contents'] as $item_id => $values ) {
-					if ( $values['data']->needs_shipping() ) {
-						$shipping_class_slug = $values['data']->get_shipping_class();
-						$shipping_class      = get_term_by( 'slug', $shipping_class_slug, 'product_shipping_class' );
-						if ( $shipping_class && $shipping_class->term_id ) {
-							$found_shipping_class[ $shipping_class->term_id ] = true;
-						}
-					}
-				}
-				foreach ( $found_shipping_class as $shipping_class_term_id => $value ) {
-					if ( 'yes' !== $this->get_option( 'class_available_' . $shipping_class_term_id, 'yes' ) ) {
-						$is_available = false;
-						break;
-					}
-				}
-			}
-		}
-
-		/**
-		 * Allow to filter if the shipping method is available or not.
-		 *
-		 * @since 1.0.0
-		 *
-		 * @param boolean                                    $is_available If the shipping method is available or not.
-		 * @param array                                      $package The shipping package.
-		 * @param WOOMP_PayNow_Shipping_HD_TCat_Frozen $this The shipping method instance.
-		 */
-		return apply_filters( 'woocommerce_shipping_' . $this->id . '_is_available', $is_available, $package, $this );
-	}
-
-	/**
 	 * Initialize settings
 	 *
 	 * @return void
@@ -101,6 +50,7 @@ class WOOMP_PayNow_Shipping_HD_TCat_Frozen extends PayNow_Abstract_Shipping_Meth
 		$this->free_shipping_requires   = $this->get_option( 'free_shipping_requires' );
 		$this->free_shipping_min_amount = $this->get_option( 'free_shipping_min_amount', 0 );
 		$this->type                     = $this->get_option( 'type', 'class' );
+		$this->max_amount               = 100000;
 
 	}
 
