@@ -152,6 +152,9 @@ class Woomp_Public {
 		$order               = wc_get_order( $order_id );
 		$enable_autocomplete = wc_string_to_bool( get_option( 'wc_woomp_setting_virtual_product_order_auto_complete' ) );
 
+		$log = new WC_Logger();
+		$log->log( 'info', $enable_autocomplete, array( 'source' => 'ods-log' ) );
+
 		if ( $enable_autocomplete ) {
 			if ( 'processing' === $order->data['status'] ) {
 

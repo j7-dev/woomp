@@ -206,6 +206,8 @@ class Woomp {
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
 		$this->loader->add_action( 'woocommerce_order_status_changed', $plugin_public, 'auto_complete_virtual' );
+		$this->loader->add_action( 'woocommerce_order_status_processing', $plugin_public, 'auto_complete_virtual' );
+		$this->loader->add_action( 'save_post_shop_order', $plugin_public, 'auto_complete_virtual' );
 
 	}
 
