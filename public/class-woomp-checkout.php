@@ -17,7 +17,7 @@ if ( ! class_exists( 'WooMP_Checkout' ) ) {
 			if ( is_wc_endpoint_url( 'order-received' ) ) {
 				return;
 			}
-			echo do_shortcode( '[woocommerce_cart]' );
+			echo '<div class="cart-shortcode">' . do_shortcode( '[woocommerce_cart]' ) . '</div>';
 		}
 
 		/**
@@ -114,7 +114,6 @@ if ( ! class_exists( 'WooMP_Checkout' ) ) {
 		 */
 		public static function init() {
 			add_action( 'wp_enqueue_scripts', array( __CLASS__, 'load_scripts' ), 20 );
-			add_filter( 'woocommerce_locate_template', array( __CLASS__, 'checkout_error_template' ) );
 		}
 
 		/**
@@ -433,15 +432,6 @@ if ( ! class_exists( 'WooMP_Checkout' ) ) {
 			}
 		}
 
-		/**
-		 * Overwrite 結帳頁面錯誤範本
-		 */
-		public static function checkout_error_template( $template ) {
-			if ( 'checkout/cart-errors.php' === basename( $template ) ) {
-				$template = WOOMP_PLUGIN_DIR . 'woocommerce/checkout/cart-errors.php';
-			}
-			return $template;
-		}
 	}
 
 	/**

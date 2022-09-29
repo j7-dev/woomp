@@ -212,6 +212,10 @@ if ( ! $checkout->is_registration_enabled() && $checkout->is_registration_requir
 		vertical-align: middle;
 	}
 
+	.cart-shortcode .woocommerce-notices-wrapper {
+		display: none!important;
+	}
+
 	@media screen and (max-width: 920px){
 		#paymentWrap th {
 			width: 80px!important;
