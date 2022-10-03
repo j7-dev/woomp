@@ -28,8 +28,8 @@ jQuery(document).ready(function ($) {
 		// 發票類型為個人，顯示載具類別區塊
 		if (selection == 'individual') {
 			$('#individual-invoice_field').show();
-			// 預設為 索取紙本，避免載具區域顯示
-			$('#individual-invoice').val('0');
+			// 預設為雲端發票，避免載具區域顯示
+			$('#individual-invoice').val('雲端發票');
 			$('#taxid-number_field').hide();
 			$('#donate-number_field').hide();
 			$('#company-name_field').hide();

@@ -130,13 +130,13 @@ class Checkout {
 	 */
 	public function set_invoice_field_validate() {
 		// 如果選了自然人憑證，就要參加資料驗證。比對前 2 碼大寫英文，後 14 碼數字
-		if ( $_POST['individual-invoice'] == '2' && preg_match( '/^[A-Z]{2}\d{14}$/', $_POST['carrier-number'] ) == false ) {
-			wc_add_notice( __( '<strong>電子發票 載具</strong> 請輸入前 2 位大寫英文與 14 位數字自然人憑證號碼' ), 'error' );
+		if ( $_POST['individual-invoice'] == '自然人憑證' && preg_match( '/^[A-Z]{2}\d{14}$/', $_POST['carrier-number'] ) == false ) {
+			wc_add_notice( __( '<strong>電子發票 自然人憑證</strong> 請輸入前 2 位大寫英文與 14 位數字自然人憑證號碼' ), 'error' );
 		}
 
 		// 如果選了手機條碼，就要參加資料驗證。比對 7 位英數字
-		if ( $_POST['individual-invoice'] == '3' && preg_match( '/^\/[A-Za-z0-9+-\.]{7}$/', $_POST['carrier-number'] ) == false ) {
-			wc_add_notice( __( '<strong>電子發票 載具</strong> 請輸入第 1 碼為「/」，後 7 碼為大寫英文、數字、「+」、「-」或「.」' ), 'error' );
+		if ( $_POST['individual-invoice'] == '手機代碼' && preg_match( '/^\/[A-Za-z0-9+-\.]{7}$/', $_POST['carrier-number'] ) == false ) {
+			wc_add_notice( __( '<strong>電子發票 手機代碼</strong> 請輸入第 1 碼為「/」，後 7 碼為大寫英文、數字、「+」、「-」或「.」' ), 'error' );
 		}
 
 		// 如果選了公司，就要參加資料驗證。比對 8 位數字資料，如果失敗顯示錯誤訊息。
