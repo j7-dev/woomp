@@ -68,6 +68,11 @@ class Woomp_Activator {
 			update_option( 'woocommerce_woomp_cod_gateway_settings', $gateway_setting );
 		}
 
+		// 啟動外掛自動調整物流項目到預設的顧客帳單地址
+		if ( 'billing' !== get_option( 'woocommerce_ship_to_destination' ) ) {
+			update_option( 'woocommerce_ship_to_destination', 'billing' );
+		}
+
 		// 將預設貨到付款文字改為超商取貨付款
 		if ( ! get_option( 'woocommerce_cod_settings' ) ) {
 			$gateway_setting = array(
