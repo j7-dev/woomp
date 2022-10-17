@@ -14,7 +14,7 @@ class Admin {
 		add_action( 'admin_enqueue_scripts', array( $class, 'enqueue_script' ) );
 		add_filter( 'manage_shop_order_posts_columns', array( $class, 'shop_order_columns' ), 11, 1 );
 		add_action( 'manage_shop_order_posts_custom_column', array( $class, 'shop_order_column' ), 11, 2 );
-		add_action( 'save_post', array( $class, 'update_invoice_data' ), 10, 3 );
+		add_action( 'save_post_shop_order', array( $class, 'update_invoice_data' ), 10, 3 );
 		add_action( 'admin_init', array( $class, 'update_invoice_exist_data' ), 20 );
 
 		if ( 'auto' === get_option( 'wc_woomp_ecpay_invoice_issue_mode' ) ) {
@@ -70,41 +70,42 @@ class Admin {
 	 */
 	public function update_invoice_data( $post_id, $post, $update ) {
 
-		global $pagenow;
-		if ( get_option( 'wc_woomp_enabled_ecpay_invoice' ) && 'post.php' === $pagenow && 'shop_order' === get_post_type( $_GET['post'] ) ) {
+		if ( get_option( 'wc_woomp_enabled_ecpay_invoice' ) ) {
 
 			$order        = wc_get_order( $post_id );
 			$invoice_data = array();
 
-			if ( isset( $_POST['_invoice_type'] ) ) {
-				$invoice_data['_invoice_type'] = wp_unslash( $_POST['_invoice_type'] );
-			}
+			if ( $order ) {
+				if ( isset( $_POST['_invoice_type'] ) ) {
+					$invoice_data['_invoice_type'] = wp_unslash( $_POST['_invoice_type'] );
+				}
 
-			if ( isset( $_POST['_invoice_individual'] ) ) {
-				$invoice_data['_invoice_individual'] = wp_unslash( $_POST['_invoice_individual'] );
-			} else {
-				$invoice_data['_invoice_individual'] = false;
-			}
+				if ( isset( $_POST['_invoice_individual'] ) ) {
+					$invoice_data['_invoice_individual'] = wp_unslash( $_POST['_invoice_individual'] );
+				} else {
+					$invoice_data['_invoice_individual'] = false;
+				}
 
-			if ( isset( $_POST['_invoice_carrier'] ) && ! empty( $_POST['_invoice_carrier'] ) ) {
-				$invoice_data['_invoice_carrier'] = wp_unslash( $_POST['_invoice_carrier'] );
-			}
+				if ( isset( $_POST['_invoice_carrier'] ) && ! empty( $_POST['_invoice_carrier'] ) ) {
+					$invoice_data['_invoice_carrier'] = wp_unslash( $_POST['_invoice_carrier'] );
+				}
 
-			if ( isset( $_POST['_invoice_company_name'] ) && ! empty( $_POST['_invoice_company_name'] ) ) {
-				$invoice_data['_invoice_company_name'] = wp_unslash( $_POST['_invoice_company_name'] );
-			}
+				if ( isset( $_POST['_invoice_company_name'] ) && ! empty( $_POST['_invoice_company_name'] ) ) {
+					$invoice_data['_invoice_company_name'] = wp_unslash( $_POST['_invoice_company_name'] );
+				}
 
-			if ( isset( $_POST['_invoice_tax_id'] ) && ! empty( $_POST['_invoice_tax_id'] ) ) {
-				$invoice_data['_invoice_tax_id'] = wp_unslash( $_POST['_invoice_tax_id'] );
-			}
+				if ( isset( $_POST['_invoice_tax_id'] ) && ! empty( $_POST['_invoice_tax_id'] ) ) {
+					$invoice_data['_invoice_tax_id'] = wp_unslash( $_POST['_invoice_tax_id'] );
+				}
 
-			if ( isset( $_POST['_invoice_donate'] ) && ! empty( $_POST['_invoice_donate'] ) ) {
-				$invoice_data['_invoice_donate'] = wp_unslash( $_POST['_invoice_donate'] );
-			}
+				if ( isset( $_POST['_invoice_donate'] ) && ! empty( $_POST['_invoice_donate'] ) ) {
+					$invoice_data['_invoice_donate'] = wp_unslash( $_POST['_invoice_donate'] );
+				}
 
-			if ( $invoice_data && count( $invoice_data ) > 0 ) {
-				$order->update_meta_data( '_ecpay_invoice_data', $invoice_data );
-				$order->save();
+				if ( $invoice_data && count( $invoice_data ) > 0 ) {
+					$order->update_meta_data( '_ecpay_invoice_data', $invoice_data );
+					$order->save();
+				}
 			}
 		}
 	}
@@ -132,13 +133,13 @@ class Admin {
 				if ( $order->get_meta( '_invoice_carruer_type' ) && ! empty( $order->get_meta( '_invoice_carruer_type' ) ) ) {
 					switch ( $order->get_meta( '_invoice_carruer_type' ) ) {
 						case 'ecpay_host':
-							$invoice_data['_invoice_individual'] = '1';
+							$invoice_data['_invoice_individual'] = '雲端發票';
 							break;
 						case 'MOICA':
-							$invoice_data['_invoice_individual'] = '2';
+							$invoice_data['_invoice_individual'] = '自然人憑證';
 							break;
 						case 'phone_barcode':
-							$invoice_data['_invoice_individual'] = '3';
+							$invoice_data['_invoice_individual'] = '手機代碼';
 							break;
 						default:
 							// code...
