@@ -72,7 +72,7 @@ class Admin {
 
 		if ( get_option( 'wc_woomp_enabled_ecpay_invoice' ) ) {
 
-			$order        = wc_get_order( $post_id );
+			$order        = \wc_get_order( $post_id );
 			$invoice_data = array();
 
 			if ( $order ) {
@@ -117,7 +117,7 @@ class Admin {
 		global $pagenow;
 		if ( get_option( 'wc_woomp_enabled_ecpay_invoice' ) && 'post.php' === $pagenow && 'shop_order' === get_post_type( $_GET['post'] ) ) {
 
-			$order        = wc_get_order( $_GET['post'] );
+			$order        = \wc_get_order( $_GET['post'] );
 			$invoice_data = array();
 
 			// 電子發票類型.
@@ -192,7 +192,7 @@ class Admin {
 	public function issue_invoice( $order_id ) {
 		$order = \wc_get_order( $order_id );
 
-		if ( ! isset( $order->get_meta( '_ecpay_invoice_status' )[0] ) || $order->get_meta( '_ecpay_invoice_status' )[0] == 0 ) {
+		if ( $order->get_meta( '_ecpay_invoice_status' ) === '0' || $order->get_meta( '_ecpay_invoice_number' ) === '' ) {
 			$invoice = new EcpayInvoiceHandler();
 			$invoice->generate_invoice( $order_id );
 		}
@@ -203,7 +203,7 @@ class Admin {
 	 */
 	public function invalid_invoice( $order_id ) {
 		$order = \wc_get_order( $order_id );
-		if ( isset( $order->get_meta( '_ecpay_invoice_status' )[0] ) || $order->get_meta( '_ecpay_invoice_status' )[0] == 1 ) {
+		if ( $order->get_meta( '_ecpay_invoice_status' ) === '1' ) {
 			$invoice = new EcpayInvoiceHandler();
 			$invoice->invalid_invoice( $order_id );
 		}

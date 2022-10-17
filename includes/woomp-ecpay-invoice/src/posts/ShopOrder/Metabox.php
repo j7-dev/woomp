@@ -127,7 +127,7 @@ class Field {
 		$output .= '<div style="display:flex;justify-content:space-between">';
 
 		// 產生按鈕，傳送 order id 給ajax js
-		if ( $gen_invoice && $order->get_meta( '_ecpay_invoice_number' ) == '' ) {
+		if ( $gen_invoice && $order->get_meta( '_ecpay_invoice_number' ) == '' && $order->get_meta( '_ecpay_invoice_status' ) === '0' ) {
 			$output .= "<button class='button btnGenerateInvoice' type='button' value='" . $order_id . "'>開立發票</button><button class='button save_order button-primary' id='btnUpdateInvoiceData' type='submit' value='" . $order_id . "' disabled>更新發票資料</button>";
 		} else {
 			$output .= "<button class='button btnInvalidInvoice' type='button' value='" . $order_id . "'>作廢發票</button>";
