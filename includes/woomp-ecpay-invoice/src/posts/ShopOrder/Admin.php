@@ -56,11 +56,12 @@ class Admin {
 	public function shop_order_column( $column, $post_id ) {
 		$order = wc_get_order( $post_id );
 		if ( 'wmp_invoice_no' === $column && '0' !== $order->get_total() ) {
-			if ( get_post_meta( $post_id, '_ecpay_invoice_number', true ) ) {
-				echo get_post_meta( $post_id, '_ecpay_invoice_number', true );
-				echo '<br><button type="button" class="button btnInvalidInvoice" value="' . $post_id . '">' . __( 'Invalid invoice', 'woomp' ) . '</button>';
+
+			if ( ! empty( $order->get_meta( '_ecpay_invoice_number' ) ) ) {
+				echo esc_html( $order->get_meta( '_ecpay_invoice_number' ) );
+				echo '<br><button type="button" class="button btnInvalidInvoice" value="' . esc_attr( $post_id ) . '">' . __( 'Invalid invoice', 'woomp' ) . '</button>';
 			} else {
-				echo '<button type="button" class="button btnGenerateInvoice" value="' . $post_id . '">' . __( 'Generate invoice', 'woomp' ) . '</button>';
+				echo '<button type="button" class="button btnGenerateInvoice" value="' . esc_attr( $post_id ) . '">' . __( 'Generate invoice', 'woomp' ) . '</button>';
 			}
 		}
 	}
@@ -75,7 +76,7 @@ class Admin {
 			$order        = \wc_get_order( $post_id );
 			$invoice_data = array();
 
-			if ( $order ) {
+			if ( $order && $update ) {
 				if ( isset( $_POST['_invoice_type'] ) ) {
 					$invoice_data['_invoice_type'] = wp_unslash( $_POST['_invoice_type'] );
 				}
