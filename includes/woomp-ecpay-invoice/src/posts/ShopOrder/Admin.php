@@ -103,7 +103,7 @@ class Admin {
 					$invoice_data['_invoice_donate'] = wp_unslash( $_POST['_invoice_donate'] );
 				}
 
-				if ( $invoice_data && count( $invoice_data ) > 0 ) {
+				if ( isset( $_POST['_invoice_type'] ) && $invoice_data && count( $invoice_data ) > 0 ) {
 					$order->update_meta_data( '_ecpay_invoice_data', $invoice_data );
 					$order->save();
 				}
