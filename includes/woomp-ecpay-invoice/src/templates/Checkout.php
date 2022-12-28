@@ -18,7 +18,7 @@ class Checkout {
 	 */
 	public function set_invoice_field() {
 
-		if ( '0' === WC()->cart->total ) {
+		if ( '0' === WC()->cart->total && strpos( $this->get_cart_info( 'product_type' ), 'subscription' ) === false ) {
 			return;
 		}
 
@@ -161,7 +161,11 @@ class Checkout {
 	public function set_invoice_meta( $order_id ) {
 		$order = wc_get_order( $order_id );
 
-		if ( '0' === $order->get_total() ) {
+		foreach ( $order->get_items() as $item ) {
+			$product_type = \WC_Product_Factory::get_product_type( $item->get_product_id() );
+		}
+
+		if ( '0' === $order->get_total() && strpos( $product_type, 'subscription' ) === false ) {
 			return;
 		}
 
@@ -199,15 +203,42 @@ class Checkout {
 		}
 	}
 
+	private function get_cart_info( $type = null ) {
+
+		if ( $type === 'product_type' ) {
+			$product_type = '';
+			foreach ( WC()->cart->get_cart() as $cart_item ) {
+				$product      = wc_get_product( $cart_item['product_id'] );
+				$product_type = $product->get_type();
+			}
+
+			return $product_type;
+		}
+
+		if ( $type === 'total' ) {
+			return WC()->cart->total;
+		}
+
+	}
+
 	/**
 	 * 引入 JS
 	 */
 	public function enqueue_scripts() {
 		if ( is_checkout() ) {
-			wp_enqueue_script( 'woomp-ecpay-invoice', ECPAYINVOICE_PLUGIN_URL . 'assets/js/checkout.js', array( 'jquery' ), '1.0.3', true );
+
+			wp_register_script( 'woomp_ecpay_invoice', ECPAYINVOICE_PLUGIN_URL . 'assets/js/checkout.js', array( 'jquery' ), '1.0.8', true );
+			wp_localize_script(
+				'woomp_ecpay_invoice',
+				'woomp_ecpay_invoice_params',
+				array(
+					'product_type' => $this->get_cart_info( 'product_type' ),
+					'cart_total'   => $this->get_cart_info( 'total' ),
+				)
+			);
+			wp_enqueue_script( 'woomp_ecpay_invoice' );
 		}
 	}
-
 
 }
 

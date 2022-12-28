@@ -2,8 +2,10 @@ jQuery(document).ready(function ($) {
 	var prefix = 'ecpay_invoice';
 
 	$(document.body).on('updated_checkout',function(){
-		var total = parseInt($('tr.order-total span.woocommerce-Price-amount bdi').text().match(/\d+/));
-        if( total === 0 ){
+		var total = woomp_ecpay_invoice_params.cart_total;
+		var productType = woomp_ecpay_invoice_params.product_type;
+		
+        if( total === '0' && !productType.includes('subscription') ){
 			$('#invoice-type_field,#individual-invoice_field').hide()
 		} else {
 			$('#invoice-type_field,#individual-invoice_field').show()
