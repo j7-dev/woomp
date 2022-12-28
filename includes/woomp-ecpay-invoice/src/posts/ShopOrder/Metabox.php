@@ -33,11 +33,17 @@ class Field {
 
 		$order = wc_get_order( $_GET['post'] );
 
+		if ( ! $order ) {
+			return;
+		}
+
+		$product_type = '';
+
 		foreach ( $order->get_items() as $item ) {
 			$product_type = \WC_Product_Factory::get_product_type( $item->get_product_id() );
 		}
 
-		if ( ! $order || ( '0' === $order->get_total() && strpos( $product_type, 'subscription' ) === false ) ) {
+		if ( '0' === $order->get_total() && strpos( $product_type, 'subscription' ) === false ) {
 			return;
 		}
 
