@@ -19,6 +19,11 @@ if ( ! class_exists( 'WooMP_Product' ) ) {
 			add_action( 'admin_head', __CLASS__ . '::is_active_woomp_ui' );
 			add_filter( 'admin_head', __CLASS__ . '::enqueue_proudcts_style', 99 );
 			add_filter( 'admin_footer', __CLASS__ . '::enqueue_proudcts_script', 99 );
+
+			// 一頁式商品設定&儲存
+			add_filter( 'product_type_options', __CLASS__ . '::add_onepage_checkout_setting', 99, 1 );
+			add_action( 'woocommerce_admin_process_product_object', __CLASS__ . '::save_onepage_checkout_setting', 99, 1 );
+
 			add_action( 'wp_ajax_woocommerce_save_attributes', __CLASS__ . '::wcb_ajax_woocommerce_save_attributes', 1 );
 			add_action( 'save_post', __CLASS__ . '::save_post_attribute_type', 10, 3 );
 			add_filter( 'woocommerce_variation_is_active', __CLASS__ . '::variation_check', 10, 2 );
@@ -106,9 +111,7 @@ if ( ! class_exists( 'WooMP_Product' ) ) {
 						var saveAttributeBtn = $('#product_attributes .save_attributes')
 						saveAttributeBtn.appendTo(toolbar)
 
-						/**
-						 * Feature - 商品資料下拉選單右側增加切回舊版的選項
-						 */
+						
 						var toolbarHeader = $('#woocommerce-product-data .postbox-header h2 > span')
 						toolbarHeader.append(`
 						<form action="${window.location.href}" method="post" style="display: inline-block">
@@ -418,7 +421,7 @@ if ( ! class_exists( 'WooMP_Product' ) ) {
 						toolbarHeader.append(`
 						<form action="${window.location.href}" method="post" style="display: inline-block">
 							<input type="hidden" name="woomp_ui" value="yes">
-						<button type="submit" class="button"><?php _e( '切換好用版 Woo 變化類型介面', 'woomp' ); ?></button>
+						<button type="submit" class="button"><?php _e( '切換好用���� Woo 變化類型介面', 'woomp' ); ?></button>
 						</form>
 						`)
 					})
@@ -451,14 +454,14 @@ if ( ! class_exists( 'WooMP_Product' ) ) {
 					<div class="enable_highlighted">
 						<label><?php _e( '設定前台變化類型介面:', 'woomp' ); ?></label>
 						<select name="attribute_type[<?php echo esc_attr( $i ); ?>]">
-							<?php if( wc_string_to_bool( get_option( 'wc_woomp_setting_product_variations_frontend_ui＿default' ) ) ): ?>
+							<?php if ( wc_string_to_bool( get_option( 'wc_woomp_setting_product_variations_frontend_ui＿default' ) ) ) : ?>
 								<option value="tag" <?php echo ( 'tag' === $value || 'default' === $value ) ? 'selected' : ''; ?>><?php _e( '標籤式選項', 'woomp' ); ?></option>
 							<?php endif; ?>
 							<option value="select" <?php echo ( 'select' === $value ) ? 'selected' : ''; ?>><?php _e( '下拉選單', 'woomp' ); ?></option>
 							<option value="radio" <?php echo ( 'radio' === $value ) ? 'selected' : ''; ?>><?php _e( '單選方塊(不斷行)', 'woomp' ); ?></option>
 							<option value="radio-one" <?php echo ( 'radio-one' === $value ) ? 'selected' : ''; ?>><?php _e( '單選方塊(每行放1個選項)', 'woomp' ); ?></option>
 							<option value="radio-two" <?php echo ( 'radio-two' === $value ) ? 'selected' : ''; ?>><?php _e( '單選方塊(每行放2個選項) ', 'woomp' ); ?></option>
-							<?php if( ! wc_string_to_bool( get_option( 'wc_woomp_setting_product_variations_frontend_ui＿default' ) ) ): ?>
+							<?php if ( ! wc_string_to_bool( get_option( 'wc_woomp_setting_product_variations_frontend_ui＿default' ) ) ) : ?>
 							<option value="tag" <?php echo ( 'tag' === $value ) ? 'selected' : ''; ?>><?php _e( '標籤式選項', 'woomp' ); ?></option>
 							<?php endif; ?>
 						</select>
@@ -497,6 +500,10 @@ if ( ! class_exists( 'WooMP_Product' ) ) {
 						update_post_meta( $post_id, 'attribute_' . $attr_name . '_type', $val );
 					}
 				}
+
+				if ( $_POST['_onepagecheckout'] ) {
+					update_post_meta( $post_id, '_onepagecheckout', $_POST['_onepagecheckout'] );
+				}
 			}
 		}
 
@@ -512,7 +519,7 @@ if ( ! class_exists( 'WooMP_Product' ) ) {
 			global $post;
 
 			// 判斷為 WPC Product Bundle 外掛的商品則直接回傳原始的 html 結構
-			if( wc_get_product( $post->ID )->get_type() === 'woosg' || wc_get_product( $post->ID )->get_type() === 'woosb' ) {
+			if ( wc_get_product( $post->ID )->get_type() === 'woosg' || wc_get_product( $post->ID )->get_type() === 'woosb' ) {
 				return $html;
 			}
 
@@ -635,35 +642,35 @@ if ( ! class_exists( 'WooMP_Product' ) ) {
 				jQuery(function($){
 				   $(document).ready(function(){
 					   var mainColor = $(".woocommerce-variation-add-to-cart button").css("background-color");';
-					   if( get_option( 'wc_woomp_setting_product_variations_frontend_ui＿bg_color' ) )  {
-						   $radios .= '$(this).find("input:checked + label").css("background-color", "' . get_option( 'wc_woomp_setting_product_variations_frontend_ui＿bg_color' ) . '");';
-					   } else {
-							$radios .='$(this).find("input:checked + label").css("background-color",mainColor);';
-					   }
+				if ( get_option( 'wc_woomp_setting_product_variations_frontend_ui＿bg_color' ) ) {
+					$radios .= '$(this).find("input:checked + label").css("background-color", "' . get_option( 'wc_woomp_setting_product_variations_frontend_ui＿bg_color' ) . '");';
+				} else {
+					 $radios .= '$(this).find("input:checked + label").css("background-color",mainColor);';
+				}
 
-					   if( get_option( 'wc_woomp_setting_product_variations_frontend_ui＿text_color' ) )  {
-							$radios .= '$(this).find("input:checked + label").css("color", "' . get_option( 'wc_woomp_setting_product_variations_frontend_ui＿text_color' ) . '");';
-						} else {
-							 $radios .='$(this).find("input:checked + label").css("color","#fff");';
-						}
-					 
-					   $radios .='
+				if ( get_option( 'wc_woomp_setting_product_variations_frontend_ui＿text_color' ) ) {
+					 $radios .= '$(this).find("input:checked + label").css("color", "' . get_option( 'wc_woomp_setting_product_variations_frontend_ui＿text_color' ) . '");';
+				} else {
+					 $radios .= '$(this).find("input:checked + label").css("color","#fff");';
+				}
+
+					   $radios .= '
 				       $(".variation-radios.tag").click(function(){
 				           $(this).find("input + label").css("background-color","#efefef");
 						   $(this).find("input + label").css("color","#000");';
 
-						   if( get_option( 'wc_woomp_setting_product_variations_frontend_ui＿bg_color' ) )  {
-							$radios .= '$(this).find("input:checked + label").css("background-color", "' . get_option( 'wc_woomp_setting_product_variations_frontend_ui＿bg_color' ) . '");';
-							} else {
-								 $radios .='$(this).find("input:checked + label").css("background-color",mainColor);';
-							}
+				if ( get_option( 'wc_woomp_setting_product_variations_frontend_ui＿bg_color' ) ) {
+					$radios .= '$(this).find("input:checked + label").css("background-color", "' . get_option( 'wc_woomp_setting_product_variations_frontend_ui＿bg_color' ) . '");';
+				} else {
+					 $radios .= '$(this).find("input:checked + label").css("background-color",mainColor);';
+				}
 
-						   if( get_option( 'wc_woomp_setting_product_variations_frontend_ui＿text_color' ) )  {
-							$radios .= '$(this).find("input:checked + label").css("color", "' . get_option( 'wc_woomp_setting_product_variations_frontend_ui＿text_color' ) . '");';
-							} else {
-								 $radios .='$(this).find("input:checked + label").css("color","#fff");';
-							}
-						  $radios.='
+				if ( get_option( 'wc_woomp_setting_product_variations_frontend_ui＿text_color' ) ) {
+					$radios .= '$(this).find("input:checked + label").css("color", "' . get_option( 'wc_woomp_setting_product_variations_frontend_ui＿text_color' ) . '");';
+				} else {
+					 $radios .= '$(this).find("input:checked + label").css("color","#fff");';
+				}
+						  $radios .= '
 				       })
 				   }) 
 				})
@@ -730,7 +737,26 @@ if ( ! class_exists( 'WooMP_Product' ) ) {
 			}
 		}
 
+		/**
+		 * 增加一頁式設定
+		 */
+		public static function add_onepage_checkout_setting( $options ) {
+			$options['onepagecheckout'] = array(
+				'id'            => '_onepagecheckout',
+				'wrapper_class' => '',
+				'label'         => __( '一頁式結帳', 'woocommerce' ),
+				'description'   => __( '讓顧客可以在商品頁直接完成結帳', 'woocommerce' ),
+				'default'       => 'no',
+			);
+			return $options;
+		}
 
+		/**
+		 * 儲存一頁式商品設定
+		 */
+		public static function save_onepage_checkout_setting( $product ) {
+			$product->update_meta_data( '_onepagecheckout', ! empty( $_POST['_onepagecheckout'] ) ? 'yes' : 'no' );
+		}
 	}
 	WooMP_Product::init();
 }
