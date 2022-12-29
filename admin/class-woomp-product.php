@@ -345,7 +345,9 @@ if ( ! class_exists( 'WooMP_Product' ) ) {
 						$('.product_data_tabs li.variations_options').on('click',function(){
 							$('.hint-variable-update').fadeOut(300,function(){$(this).remove()})
 							remove_empty_variations()
-							add_variations_price_input_field();
+							if($('#product-type').val()!=='variable-subscription'){
+								add_variations_price_input_field();
+							}
 							add_variations_price_empty_hint();
 							
 							// 觸發資料更新
@@ -379,7 +381,9 @@ if ( ! class_exists( 'WooMP_Product' ) ) {
 
 						// Event - 在變化類型資料載入完成
 						$( '#woocommerce-product-data' ).on( 'woocommerce_variations_loaded', function() {
-							add_variations_price_input_field();
+							if($('#product-type').val()!=='variable-subscription'){
+								add_variations_price_input_field();
+							}
 							add_variations_price_empty_hint();
 							remove_empty_variations()
 						});
