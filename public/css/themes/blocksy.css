@@ -112,6 +112,10 @@ table.shop_table tr > td:last-child {
   flex-direction: row !important;
 }
 
+.woocommerce-shipping-methods li label {
+  flex: none!important;
+}
+
 .woocommerce-shipping-methods li input {
   margin: 2px 5px 0 0 !important;
 }

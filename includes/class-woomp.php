@@ -131,6 +131,7 @@ class Woomp {
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-woomp-public.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-woomp-checkout.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-woomp-order.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-woomp-product.php';
 		// require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/transient.php';
 
 		$this->loader = new Woomp_Loader();

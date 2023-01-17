@@ -379,10 +379,10 @@ if ( ! class_exists( 'WooMP_Checkout' ) ) {
 			$text_color       = ( get_option( 'wc_woomp_setting_free_shipping_text_color' ) ) ? get_option( 'wc_woomp_setting_free_shipping_text_color' ) : '#fff';
 
 			if ( $min_amount - $cart_subtotal <= 0 ) {
-				echo '<span style="font-size: 14px ;margin: 0 6px; background: ' . esc_attr( $background_color ) . ';padding: 2px 5px;border-radius: 3px;color: ' . esc_attr( $text_color ) . ';
+				echo '<span style="width:auto; font-size: 14px ;margin: 0 6px; background: ' . esc_attr( $background_color ) . ';padding: 2px 8px;border-radius: 3px;color: ' . esc_attr( $text_color ) . ';
 				">' . esc_html( $free_text ) . '</span>';
 			} else {
-				echo '<span style="position: relative; top: -1px; font-size: 14px ;margin: 0 6px; background: ' . esc_attr( $background_color ) . ';padding: 2px 5px;border-radius: 3px;color: ' . esc_attr( $text_color ) . ';">' . esc_html( str_replace( '{{price}}', ( $min_amount - $cart_subtotal ) . '元', get_option( 'wc_woomp_setting_free_shipping_text_left' ) ) ) . '</span>';
+				echo '<span style="width:auto; position: relative; top: -1px; font-size: 14px ;margin: 0 6px; background: ' . esc_attr( $background_color ) . ';padding: 2px 8px;border-radius: 3px;color: ' . esc_attr( $text_color ) . ';">' . esc_html( str_replace( '{{price}}', ( $min_amount - $cart_subtotal ) . '元', get_option( 'wc_woomp_setting_free_shipping_text_left' ) ) ) . '</span>';
 			}
 		}
 
