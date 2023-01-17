@@ -116,6 +116,13 @@ table.shop_table tr > td:last-child {
   flex: none!important;
 }
 
+.woocommerce-shipping-methods li label {
+	flex: unset;
+}
+.woocommerce-shipping-methods li label~* {
+	height: fit-content;
+}
+
 .woocommerce-shipping-methods li input {
   margin: 2px 5px 0 0 !important;
 }
