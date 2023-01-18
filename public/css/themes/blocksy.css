@@ -113,10 +113,6 @@ table.shop_table tr > td:last-child {
 }
 
 .woocommerce-shipping-methods li label {
-  flex: none!important;
-}
-
-.woocommerce-shipping-methods li label {
 	flex: unset;
 }
 .woocommerce-shipping-methods li label~* {
