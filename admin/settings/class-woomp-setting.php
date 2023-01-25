@@ -212,6 +212,23 @@ class Woomp_Setting
             'section_linepay_end' => array(
                 'type' => 'sectionend',
             ),
+            'section_pchomepay' => array(
+                'name' => __('支付連設定', 'woomp'),
+                'type' => 'title',
+                'id' => 'wc_woomp_setting_pchomepay',
+            ),
+            'pchomepay_gateway' => array(
+                'name' => __('啟用支付連金流', 'woomp'),
+                'type' => 'checkbox',
+                'desc' => '啟用支付連金流模組',
+                'id' => 'woocommerce_pchomepay_enabled',
+                'class' => 'toggle',
+                'default' => 'no',
+                'desc_tip' => true,
+            ),
+            'section_pchomepay_end' => array(
+                'type' => 'sectionend',
+            ),
             'section_checkout_title' => array(
                 'name' => __('結帳相關設定', 'woomp'),
                 'type' => 'title',

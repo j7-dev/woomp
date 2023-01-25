@@ -61,11 +61,12 @@ class Woomp_Setting_Gateway extends WC_Settings_Page {
 	}
 
 	public function get_sections() {
-		$sections['ecpay']    = __( '綠界', 'woomp' );
-		$sections['newebpay'] = __( '藍新', 'woomp' );
-		$sections['smilepay'] = __( '速買配', 'woomp' );
-		$sections['paynow']   = __( '立吉富', 'woomp' );
-		$sections['linepay']  = __( 'LINE Pay', 'woomp' );
+		$sections['ecpay']     = __( '綠界', 'woomp' );
+		$sections['newebpay']  = __( '藍新', 'woomp' );
+		$sections['smilepay']  = __( '速買配', 'woomp' );
+		$sections['paynow']    = __( '立吉富', 'woomp' );
+		$sections['linepay']   = __( 'LINE Pay', 'woomp' );
+		$sections['pchomepay'] = __( '支付連', 'woomp' );
 		return apply_filters( 'woocommerce_get_sections_' . $this->id, $sections );
 	}
 
@@ -320,6 +321,106 @@ class Woomp_Setting_Gateway extends WC_Settings_Page {
 					return $settings;
 				} else {
 					$this->set_setting_default( 'LINE Pay' );
+					$settings = $this->setting_default;
+					return $settings;
+				}
+				break;
+			case 'pchomepay':
+				if ( wc_string_to_bool( get_option( 'woocommerce_pchomepay_enabled' ) ) ) {
+					$settings = array(
+						array(
+							'title' => __( '支付連金流設定', 'woomp' ),
+							'type'  => 'title',
+							'id'    => 'payment_general_setting',
+						),
+						array(
+							'id'      => 'test_mode',
+							'title'   => __( '測試模式', 'woocommerce' ),
+							'type'    => 'checkbox',
+							'desc'    => __( '使用支付連 SandBox 測試環境。', 'woocommerce' ),
+							'default' => 'no',
+						),
+						array(
+							'id'      => 'app_id',
+							'title'   => __( 'APP ID', 'woocommerce' ),
+							'type'    => 'text',
+							'default' => '',
+						),
+						array(
+							'id'      => 'secret',
+							'title'   => __( 'SECRET', 'woocommerce' ),
+							'type'    => 'text',
+							'desc'    => __( '供正式環境使用之Secret。', 'woocommerce' ),
+							'default' => '',
+						),
+						array(
+							'id'      => 'sandbox_secret',
+							'title'   => __( 'SECRET for test mode', 'woocommerce' ),
+							'type'    => 'text',
+							'desc'    => __( '供測試環境使用之Secret。', 'woocommerce' ),
+							'default' => '',
+						),
+						array(
+							'id'      => 'debug',
+							'title'   => __( 'Debug log', 'woocommerce' ),
+							'type'    => 'checkbox',
+							'default' => '',
+							'desc'    => sprintf( __( '記錄 PChomePay 事件，位於 %s', 'woocommerce' ), '<code>' . WC_Log_Handler_File::get_log_file_path( 'pchomepay' ) . '</code>' ),
+						),
+						array(
+							'id'      => 'payment_methods',
+							'title'   => __( '付款方式', 'woocommerce' ),
+							'type'    => 'multiselect',
+							'class'   => 'chosen_select',
+							'desc'    => __( '按下 CTRL 與 滑鼠右鍵 以選擇多種付款方式<br>7-11超商取貨不適用金額低於65元之訂單。', 'woocommerce' ),
+							'options' => array(
+								'CARD' => __( '信用卡' ),
+								'ATM'  => __( 'ATM' ),
+								'EACH' => __( '銀行支付' ),
+								'ACCT' => __( '支付連餘額支付' ),
+								'IPL7' => __( '7-11超商取貨' ),
+							),
+						),
+						array(
+							'id'      => 'card_installment',
+							'title'   => __( '信用卡分期', 'woocommerce' ),
+							'type'    => 'multiselect',
+							'class'   => 'chosen_select',
+							'desc'    => __( '信用卡分期不適用於金額低於30元之訂單。', 'woocommerce' ),
+							'options' => array(
+								'CRD_0'  => __( '一次付清', 'woocommerce' ),
+								'CRD_3'  => __( '3 期', 'woocommerce' ),
+								'CRD_6'  => __( '6 期', 'woocommerce' ),
+								'CRD_12' => __( '12 期', 'woocommerce' ),
+							),
+						),
+						array(
+							'id'      => 'atm_expiredate',
+							'title'   => __( 'ATM 虛擬帳號繳費期限', 'woocommerce' ),
+							'type'    => 'text',
+							'desc'    => __( '請輸入 ATM 虛擬帳號繳費期限 (1~5 天)，預設 5 天。', 'woocommerce' ),
+							'default' => 5,
+						),
+						array(
+							'id'      => 'card_last_number',
+							'title'   => __( '記錄信用卡末四碼', 'woocommerce' ),
+							'type'    => 'checkbox',
+							'desc'    => __( '紀錄買家信用卡末四碼資訊於訂單備註。', 'woocommerce' ),
+							'default' => 'yes',
+						),
+						array(
+							'id'    => 'customize_order_received_text',
+							'title' => __( '訂單成立後顯示訊息', 'woocommerce' ),
+							'type'  => 'textarea',
+						),
+						array(
+							'type' => 'sectionend',
+							'id'   => 'payment_general_setting',
+						),
+					);
+					return $settings;
+				} else {
+					$this->set_setting_default( '支付連' );
 					$settings = $this->setting_default;
 					return $settings;
 				}
