@@ -308,6 +308,11 @@ require_once WOOMP_PLUGIN_DIR . 'includes/line-pay-for-woo/line-pay-for-woo.php'
 require_once WOOMP_PLUGIN_DIR . 'includes/woomp-ecpay-invoice/woomp-ecpay-invoice.php';
 
 /**
+ * 引入 wmp-ezpay-invoice
+ */
+require_once WOOMP_PLUGIN_DIR . 'includes/woomp-ezpay-invoice/woomp-ezpay-invoice.php';
+
+/**
  * 引入 woomp-paynow-shipping
  */
 

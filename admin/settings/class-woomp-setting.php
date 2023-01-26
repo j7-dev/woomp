@@ -131,6 +131,15 @@ class Woomp_Setting
                 'default' => 'no',
                 'desc_tip' => true,
             ),
+			'ezpay_invoice' => array(
+                'name' => __('啟用藍新電子發票', 'woomp'),
+                'type' => 'checkbox',
+                'desc' => __('啟用 ezPay 藍新電子發票模組', 'woomp'),
+                'id' => 'wc_woomp_enabled_ezpay_invoice',
+                'class' => 'toggle',
+                'default' => 'no',
+                'desc_tip' => true,
+            ),
             'section_newebpay_end' => array(
                 'type' => 'sectionend',
             ),
