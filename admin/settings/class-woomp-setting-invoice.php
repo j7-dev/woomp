@@ -311,7 +311,7 @@ class Woomp_Setting_Invoice extends WC_Settings_Page {
 							'options' => array(
 								__( 'Mobile Code', 'paynow-einvoice' ) => __( 'Mobile Code', 'paynow-einvoice' ),
 								__( 'Citizen Digital Certificate', 'paynow-einvoice' )    => __( 'Citizen Digital Certificate', 'paynow-einvoice' ),
-								__( 'ezPay', 'woomp' )  => __( 'ezPay 電子發票載具', 'woomp' ),
+								__( 'ezPay 電子發票載具', 'woomp' )  => __( 'ezPay 電子發票載具', 'woomp' ),
 							),
 						),
 

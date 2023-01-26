@@ -1933,7 +1933,7 @@ if( ! class_exists( 'ECPay_ALLOWANCE' ) ){
 /**
  *  C2線上開立折讓(通知開立)
  */
-if( ! class_exists( 'ECPay_ALLOWANCE_BY_CO' ) ){
+if( ! class_exists( 'ECPay_ALLOWANCE_BY_COLLEGIATE' ) ){
 	class ECPay_ALLOWANCE_BY_COLLEGIATE
 	{
 	    // 所需參數

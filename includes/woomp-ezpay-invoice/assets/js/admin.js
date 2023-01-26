@@ -16,7 +16,7 @@ jQuery(function ($) {
 
 	$(document).ready(function () {
 
-		$('.btnGenerateInvoice').click(function () {
+		$('.btnGenerateInvoiceEzPay').click(function () {
 
 			$.blockUI({ message: '<p>處理中...</p>' });
 
@@ -33,7 +33,7 @@ jQuery(function ($) {
 			});
 		})
 
-		$('.btnInvalidInvoice').click(function () {
+		$('.btnInvalidInvoiceEzPay').click(function () {
 
 			if (confirm("確定要刪除此筆發票")) {
 
@@ -59,22 +59,22 @@ jQuery(function ($) {
 		fieldDisplay($('select[name="wc_woomp_ezpay_invoice_invalid_mode"'), 'auto', $('#wc_woomp_ezpay_invoice_invalid_at').parent().parent());
 
 		// 訂單電子發票欄位顯示判斷
-		fieldDisplay($('select[name="_invoice_type"'), 'individual', $('select[name="_invoice_individual"]'));
-		fieldDisplay($('select[name="_invoice_type"'), 'individual', $('#invoiceIndividual'));
-		fieldDisplay($('select[name="_invoice_type"'), 'individual', $('#invoiceCarrier'));
-		fieldDisplay($('select[name="_invoice_type"'), 'company', $('#invoiceCompanyName'));
-		fieldDisplay($('select[name="_invoice_type"'), 'company', $('#invoiceTaxId'));
-		fieldDisplay($('select[name="_invoice_type"'), 'donate', $('#invoiceDonate'));
+		fieldDisplay($('select[name="_ezpay_invoice_type"'), 'individual', $('select[name="_ezpay_invoice_individual"]'));
+		fieldDisplay($('select[name="_ezpay_invoice_type"'), 'individual', $('#ezPayInvoiceIndividual'));
+		fieldDisplay($('select[name="_ezpay_invoice_type"'), 'individual', $('#ezPayInvoiceCarrier'));
+		fieldDisplay($('select[name="_ezpay_invoice_type"'), 'company', $('#ezPayInvoiceCompanyName'));
+		fieldDisplay($('select[name="_ezpay_invoice_type"'), 'company', $('#ezPayInvoiceTaxId'));
+		fieldDisplay($('select[name="_ezpay_invoice_type"'), 'donate', $('#ezPayInvoiceDonate'));
 
-		$('select[name="_invoice_individual"]').on('change', function () {
-			if ($('select[name="_invoice_individual"] option:selected').text() === '自然人憑證' || $('select[name="_invoice_individual"] option:selected').text() === '手機代碼') {
+		$('select[name="_ezpay_invoice_individual"]').on('change', function () {
+			if ($('select[name="_ezpay_invoice_individual"] option:selected').text() === '自然人憑證' || $('select[name="_ezpay_invoice_individual"] option:selected').text() === '手機代碼') {
 				$('#invoiceCarrier').show()
 			} else {
 				$('#invoiceCarrier').hide()
 			}
 		})
 		
-		if ($('select[name="_invoice_individual"] option:selected').text() === '自然人憑證' || $('select[name="_invoice_individual"] option:selected').text() === '手機代碼') {
+		if ($('select[name="_ezpay_invoice_individual"] option:selected').text() === '自然人憑證' || $('select[name="_ezpay_invoice_individual"] option:selected').text() === '手機代碼') {
 			$('#invoiceCarrier').show()
 		} else {
 			$('#invoiceCarrier').hide()
@@ -82,13 +82,13 @@ jQuery(function ($) {
 
 
 		// 觸發變更發票資料按鈕
-		$('#ecpay_invoice select,#ecpay_invoice input[type="text"]').on('click', function () {
-			$('#btnUpdateInvoiceData').prop('disabled', false)
-			$('.btnGenerateInvoice').prop('disabled', true);
+		$('#ezpay_invoice select,#ezpay_invoice input[type="text"]').on('click', function () {
+			$('#btnUpdateInvoiceDataEzPay').prop('disabled', false)
+			$('.btnGenerateInvoiceEzPay').prop('disabled', true);
 		})
 
-		$('select[name="_invoice_type"]').on('change', function () {
-			$('#ecpay_invoice input').val('');
+		$('select[name="_ezpay_invoice_type"]').on('change', function () {
+			$('#ezpay_invoice input').val('');
 		})
 
 	})

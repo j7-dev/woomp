@@ -24,7 +24,7 @@ class Checkout {
 
 		// 發票開立類型。個人、公司、捐贈發票
 		$this->add_wc_field(
-			'invoice-type',
+			'ezpay-invoice-type',
 			'select',
 			__( 'Invoice Type', 'woomp' ),
 			array(),
@@ -37,16 +37,16 @@ class Checkout {
 		);
 
 		// 個人發票選項
-		if ( ! get_option( 'wc_woomp_ecpay_invoice_carrier_type' ) ) {
-			update_option( 'wc_woomp_ecpay_invoice_carrier_type', array( '雲端發票', '手機代碼', '自然人憑證', '紙本發票' ) );
+		if ( ! get_option( 'wc_woomp_ezpay_invoice_carrier_type' ) ) {
+			update_option( 'wc_woomp_ezpay_invoice_carrier_type', array( '手機代碼', '自然人憑證', 'ezPay 電子發票載具' ) );
 		}
 		$type_option = array();
-		foreach ( get_option( 'wc_woomp_ecpay_invoice_carrier_type' ) as $value ) {
+		foreach ( get_option( 'wc_woomp_ezpay_invoice_carrier_type' ) as $value ) {
 			$type_option[ $value ] = $value;
 		}
 
 		$this->add_wc_field(
-			'individual-invoice',
+			'ezpay-individual-invoice',
 			'select',
 			__( 'Individual Invoice Type', 'woomp' ),
 			array(),
@@ -56,7 +56,7 @@ class Checkout {
 
 		// 自然人憑證與手機條碼 載具編號欄位
 		$this->add_wc_field(
-			'carrier-number',
+			'ezpay-carrier-number',
 			'text',
 			__( 'Carrier Number', 'woomp' ),
 			array( 'hide-option-field' ),
@@ -64,18 +64,8 @@ class Checkout {
 			array()
 		);
 
-		// 公司統一編號欄位
 		$this->add_wc_field(
-			'company-name',
-			'text',
-			__( 'Company Name', 'woomp' ),
-			array( 'hide-option-field' ),
-			'invoice-label',
-			array()
-		);
-
-		$this->add_wc_field(
-			'taxid-number',
+			'ezpay-taxid-number',
 			'text',
 			__( 'TaxID', 'woomp' ),
 			array( 'hide-option-field' ),
@@ -83,9 +73,19 @@ class Checkout {
 			array()
 		);
 
+		// 公司統一編號欄位
+		$this->add_wc_field(
+			'ezpay-company-name',
+			'text',
+			__( 'Company Name', 'woomp' ),
+			array( 'hide-option-field' ),
+			'invoice-label',
+			array()
+		);
+
 		// 捐贈捐贈碼欄位
 		$this->add_wc_field(
-			'donate-number',
+			'ezpay-donate-number',
 			'select',
 			__( 'Donate Number', 'woomp' ),
 			array( 'hide-option-field' ),
@@ -113,7 +113,7 @@ class Checkout {
 		$orgs = array(
 			'' => '請選擇',
 		);
-		if ( get_option( 'wc_woomp_ecpay_invoice_donate_org' ) ) {
+		if ( get_option( 'wc_woomp_ezpay_invoice_donate_org' ) ) {
 			$org_strings = array_map( 'trim', explode( "\n", get_option( 'wc_woomp_ecpay_invoice_donate_org' ) ) );
 			foreach ( $org_strings as $value ) {
 				list($k, $v) = explode( '|', $value );
@@ -130,26 +130,26 @@ class Checkout {
 	 */
 	public function set_invoice_field_validate() {
 		// 如果選了自然人憑證，就要參加資料驗證。比對前 2 碼大寫英文，後 14 碼數字
-		if ( $_POST['individual-invoice'] == '自然人憑證' && preg_match( '/^[A-Z]{2}\d{14}$/', $_POST['carrier-number'] ) == false ) {
+		if ( $_POST['ezpay-individual-invoice'] == '自然人憑證' && preg_match( '/^[A-Z]{2}\d{14}$/', $_POST['ezpay-carrier-number'] ) == false ) {
 			wc_add_notice( __( '<strong>電子發票 自然人憑證</strong> 請輸入前 2 位大寫英文與 14 位數字自然人憑證號碼' ), 'error' );
 		}
 
 		// 如果選了手機條碼，就要參加資料驗證。比對 7 位英數字
-		if ( $_POST['individual-invoice'] == '手機代碼' && preg_match( '/^\/[A-Za-z0-9+-\.]{7}$/', $_POST['carrier-number'] ) == false ) {
+		if ( $_POST['ezpay-individual-invoice'] == '手機代碼' && preg_match( '/^\/[A-Za-z0-9+-\.]{7}$/', $_POST['ezpay-carrier-number'] ) == false ) {
 			wc_add_notice( __( '<strong>電子發票 手機代碼</strong> 請輸入第 1 碼為「/」，後 7 碼為大寫英文、數字、「+」、「-」或「.」' ), 'error' );
 		}
 
 		// 如果選了公司，就要參加資料驗證。比對 8 位數字資料，如果失敗顯示錯誤訊息。
-		if ( $_POST['invoice-type'] == 'company' && preg_match( '/^\d{8}$/', $_POST['taxid-number'] ) == false ) {
+		if ( $_POST['ezpay-invoice-type'] == 'company' && preg_match( '/^\d{8}$/', $_POST['ezpay-taxid-number'] ) == false ) {
 			wc_add_notice( __( '<strong>統一編號</strong> 請輸入 8 位數字組成統一編號' ), 'error' );
 		}
 
-		if ( $_POST['invoice-type'] == 'company' && preg_match( '/./s', $_POST['company-name'] ) == false ) {
+		if ( $_POST['ezpay-invoice-type'] == 'company' && preg_match( '/./s', $_POST['ezpay-company-name'] ) == false ) {
 			wc_add_notice( __( '<strong>公司名稱</strong> 為必填欄位' ), 'error' );
 		}
 
 		// 如果選了捐贈發票，就要參加資料驗證。比對 3~7 位數字資料，如果失敗顯示錯誤訊息。
-		if ( $_POST['invoice-type'] == 'donate' && preg_match( '/^\d{3,7}$/', $_POST['donate-number'] ) == false ) {
+		if ( $_POST['ezpay-invoice-type'] == 'donate' && preg_match( '/^\d{3,7}$/', $_POST['ezpay-donate-number'] ) == false ) {
 			wc_add_notice( __( '<strong>捐贈碼</strong> 請輸入 3~7 位數字' ), 'error' );
 		}
 
@@ -171,34 +171,34 @@ class Checkout {
 
 		$invoice_data = array();
 		// 新增發票開立類型
-		if ( isset( $_POST['invoice-type'] ) ) {
-			$invoice_data['_invoice_type'] = wp_unslash( $_POST['invoice-type'] );
+		if ( isset( $_POST['ezpay-invoice-type'] ) ) {
+			$invoice_data['_ezpay_invoice_type'] = wp_unslash( $_POST['ezpay-invoice-type'] );
 		}
 		// 新增個人發票選項
-		if ( isset( $_POST['individual-invoice'] ) ) {
-			$invoice_data['_invoice_individual'] = wp_unslash( $_POST['individual-invoice'] );
+		if ( isset( $_POST['ezpay-individual-invoice'] ) ) {
+			$invoice_data['_ezpay_invoice_individual'] = wp_unslash( $_POST['ezpay-individual-invoice'] );
 		} else {
-			$invoice_data['_invoice_individual'] = false;
+			$invoice_data['_ezpay_invoice_individual'] = false;
 		}
 		// 新增載具編號
-		if ( isset( $_POST['carrier-number'] ) && ( $_POST['individual-invoice'] == '手機代碼' || $_POST['individual-invoice'] == '自然人憑證' ) ) {
-			$invoice_data['_invoice_carrier'] = wp_unslash( $_POST['carrier-number'] );
+		if ( isset( $_POST['ezpay-carrier-number'] ) && ( $_POST['ezpay-individual-invoice'] == '手機代碼' || $_POST['individual-invoice'] == '自然人憑證' ) ) {
+			$invoice_data['_ezpay_invoice_carrier'] = wp_unslash( $_POST['ezpay-carrier-number'] );
 		}
 		// 新增公司名稱
-		if ( isset( $_POST['company-name'] ) ) {
-			$invoice_data['_invoice_company_name'] = wp_unslash( $_POST['company-name'] );
+		if ( isset( $_POST['ezpay-company-name'] ) ) {
+			$invoice_data['_ezpay_invoice_company_name'] = wp_unslash( $_POST['ezpay-company-name'] );
 		}
 		// 新增統一編號
-		if ( isset( $_POST['taxid-number'] ) ) {
-			$invoice_data['_invoice_tax_id'] = wp_unslash( $_POST['taxid-number'] );
+		if ( isset( $_POST['ezpay-taxid-number'] ) ) {
+			$invoice_data['_ezpay_invoice_tax_id'] = wp_unslash( $_POST['ezpay-taxid-number'] );
 		}
 		// 新增捐贈碼
-		if ( isset( $_POST['donate-number'] ) ) {
-			$invoice_data['_invoice_donate'] = wp_unslash( $_POST['donate-number'] );
+		if ( isset( $_POST['ezpay-donate-number'] ) ) {
+			$invoice_data['_ezpay_invoice_donate'] = wp_unslash( $_POST['ezpay-donate-number'] );
 		}
 
 		if ( count( $invoice_data ) > 0 ) {
-			$order->update_meta_data( '_ecpay_invoice_data', $invoice_data );
+			$order->update_meta_data( '_ezpay_invoice_data', $invoice_data );
 			$order->save();
 		}
 	}
@@ -227,16 +227,16 @@ class Checkout {
 	public function enqueue_scripts() {
 		if ( is_checkout() ) {
 
-			wp_register_script( 'woomp_ecpay_invoice', ECPAYINVOICE_PLUGIN_URL . 'assets/js/checkout.js', array( 'jquery' ), '1.0.8', true );
+			wp_register_script( 'woomp_ezpay_invoice', EZPAYINVOICE_PLUGIN_URL . 'assets/js/checkout.js', array( 'jquery' ), '1.0.0', true );
 			wp_localize_script(
-				'woomp_ecpay_invoice',
-				'woomp_ecpay_invoice_params',
+				'woomp_ezpay_invoice',
+				'woomp_ezpay_invoice_params',
 				array(
 					'product_type' => $this->get_cart_info( 'product_type' ),
 					'cart_total'   => $this->get_cart_info( 'total' ),
 				)
 			);
-			wp_enqueue_script( 'woomp_ecpay_invoice' );
+			wp_enqueue_script( 'woomp_ezpay_invoice' );
 		}
 	}
 
