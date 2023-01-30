@@ -2,14 +2,14 @@
 
  /**
   * @link              https://morepower.club
-  * @since             1.9.8
+  * @since             1.9.9
   * @package           woomp
   *
   * @wordpress-plugin
   * Plugin Name:       好用版擴充 MorePower Addon for WooCommerce
   * Plugin URI:        https://morepower.club/morepower-addon/
   * Description:       WooCommerce 好用版擴充，改善結帳流程與可變商品等區塊，讓 WooCommerce 更符合亞洲人使用習慣。
-  * Version:           1.9.8
+  * Version:           1.9.9
   * Author:            MorePower
   * Author URI:        https://morepower.club
   * License:           GPL-2.0+
@@ -51,7 +51,7 @@ if ( ! in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins',
  * Start at version 1.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define( 'WOOMP_VERSION', '1.9.8' );
+define( 'WOOMP_VERSION', '1.9.9' );
 define( 'WOOMP_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'WOOMP_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'WOOMP_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
@@ -136,7 +136,7 @@ $prefix_updater = new WP_Package_Updater(
  */
 
 if ( ! defined( 'RY_WT_VERSION' ) ) {
-	define( 'RY_WT_VERSION', '1.9.8' );
+	define( 'RY_WT_VERSION', '1.9.9' );
 	define( 'RY_WT_PLUGIN_URL', plugin_dir_url( __FILE__ ) . 'includes/ry-woocommerce-tools/' );
 	define( 'RY_WT_PLUGIN_DIR', plugin_dir_path( __FILE__ ) . 'includes/ry-woocommerce-tools/' );
 	define( 'RY_WT_PLUGIN_BASENAME', plugin_basename( __FILE__ ) . 'includes/ry-woocommerce-tools/' );
@@ -310,7 +310,7 @@ require_once WOOMP_PLUGIN_DIR . 'includes/woomp-ecpay-invoice/woomp-ecpay-invoic
 /**
  * 引入 wmp-ezpay-invoice
  */
-require_once WOOMP_PLUGIN_DIR . 'includes/woomp-ezpay-invoice/woomp-ezpay-invoice.php';
+//require_once WOOMP_PLUGIN_DIR . 'includes/woomp-ezpay-invoice/woomp-ezpay-invoice.php';
 
 /**
  * 引入 woomp-paynow-shipping
@@ -324,11 +324,10 @@ if ( ! defined( 'WOOMP_PAYNOW_SHIPPING_PLUGIN_URL' ) && 'yes' === get_option( 'w
 	define( 'WOOMP_PAYNOW_SHIPPING_VERSION', '1.0.0' );
 
 	require_once WOOMP_PLUGIN_DIR . 'includes/woomp-paynow-shipping/woomp-paynow-shipping.php';
-
 }
 
 /**
  * 引入支付連
  */
-require_once WOOMP_PLUGIN_DIR . 'includes/PChomePay-Cart-for-WooCommerce/PChomePay.php';
+//require_once WOOMP_PLUGIN_DIR . 'includes/PChomePay-Cart-for-WooCommerce/PChomePay.php';
 

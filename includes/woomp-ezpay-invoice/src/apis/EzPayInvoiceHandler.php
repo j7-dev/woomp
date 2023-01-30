@@ -159,7 +159,7 @@ class EzPayInvoiceHandler {
 			$order->update_meta_data( '_ezpay_invoice_result', $this->invoice->getErrorMessage() );
 			$order->add_order_note( json_encode( $this->invoice->getErrorMessage() ) );
 		}
-		$order->save()
+		$order->save();
 
 		// dd(
 		// $this->invoice->isOK(),

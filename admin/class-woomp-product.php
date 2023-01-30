@@ -21,8 +21,8 @@ if ( ! class_exists( 'WooMP_Product' ) ) {
 			add_filter( 'admin_footer', __CLASS__ . '::enqueue_proudcts_script', 99 );
 
 			// 一頁式商品設定&儲存
-			add_filter( 'product_type_options', __CLASS__ . '::add_onepage_checkout_setting', 99, 1 );
-			add_action( 'woocommerce_admin_process_product_object', __CLASS__ . '::save_onepage_checkout_setting', 99, 1 );
+			//add_filter( 'product_type_options', __CLASS__ . '::add_onepage_checkout_setting', 99, 1 );
+			//add_action( 'woocommerce_admin_process_product_object', __CLASS__ . '::save_onepage_checkout_setting', 99, 1 );
 
 			add_action( 'wp_ajax_woocommerce_save_attributes', __CLASS__ . '::wcb_ajax_woocommerce_save_attributes', 1 );
 			add_action( 'save_post', __CLASS__ . '::save_post_attribute_type', 10, 3 );
