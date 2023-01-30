@@ -50,6 +50,7 @@ class EzPayInvoiceHandler {
 			return;
 		}
 
+		// 取得顧客發票資訊.
 		$invoice_type       = ( array_key_exists( '_ezpay_invoice_type', $order->get_meta( '_ezpay_invoice_data' ) ) ) ? $order->get_meta( '_ezpay_invoice_data' )['_ezpay_invoice_type'] : '';
 		$invoice_individual = ( array_key_exists( '_ezpay_invoice_individual', $order->get_meta( '_ezpay_invoice_data' ) ) ) ? $order->get_meta( '_ezpay_invoice_data' )['_ezpay_invoice_individual'] : '';
 
@@ -73,13 +74,14 @@ class EzPayInvoiceHandler {
 		$invoice_tax_id       = ( array_key_exists( '_ezpay_invoice_tax_id', $order->get_meta( '_ezpay_invoice_data' ) ) ) ? $order->get_meta( '_ezpay_invoice_data' )['_ezpay_invoice_tax_id'] : '';
 		$invoice_donate       = ( array_key_exists( '_ezpay_invoice_donate', $order->get_meta( '_ezpay_invoice_data' ) ) ) ? $order->get_meta( '_ezpay_invoice_data' )['_ezpay_invoice_donate'] : '';
 
+		// 取得商品相關資訊.
 		$i             = 0;
 		$product_name  = '';
 		$product_count = '';
 		$product_unit  = '';
 		$product_price = '';
 		$product_amt   = '';
-		
+
 		foreach ( $order->get_items() as $item ) {
 			// print_r($item);
 			$divide         = ( $i > 0 ) ? '|' : '';
@@ -149,128 +151,38 @@ class EzPayInvoiceHandler {
 
 		$this->invoice->create( $issue_data );
 
-		//dd(
-		//	$this->invoice->isOK(),
-		//	$this->invoice->getResponse(),
-		//	$this->invoice->getResult(),
-		//	$this->invoice->getErrorMessage()
-		//);
+		if ( $this->invoice->isOK() ) {
+			$result_data = $this->invoice->getResult();
+			$order->update_meta_data( '_ezpay_invoice_result', $result_data );
+			$order->add_order_note( json_encode( $result_data ) );
+		} else {
+			$order->update_meta_data( '_ezpay_invoice_result', $this->invoice->getErrorMessage() );
+			$order->add_order_note( json_encode( $this->invoice->getErrorMessage() ) );
+		}
+		$order->save()
+
+		// dd(
+		// $this->invoice->isOK(),
+		// $this->invoice->getResponse(),
+		// $this->invoice->getResult(),
+		// $this->invoice->getErrorMessage()
+		// );
 	}
 
 	/**
 	 * 作廢發票
 	 */
 	public function invalid_invoice( $order_id ) {
+		$order          = wc_get_order( $order_id );
+		$invoice_result = $order->get_meta( '_ezpay_invoice_result' );
 
-		global $woocommerce, $post;
-
-		$order        = new \WC_Order( $order_id );
-		$orderStatus  = $order->get_status( $order_id );
-		$orderInfo    = get_post_meta( $order_id );
-		$relateNumber = date( 'YmdHis' );
-
-		// 付款成功最後的一次 第一次付款或沒有此欄位則設定為空值
-		// $totalSuccessTimes = ( isset( $orderInfo['_total_success_times'][0] ) && $orderInfo['_total_success_times'][0] == '' ) ? '' : $orderInfo['_total_success_times'][0];
-		$totalSuccessTimes = '';
-
-		// 已經開立發票才允許(找出最後一次)
-		$_ecpay_invoice_status = '_ecpay_invoice_status' . $totalSuccessTimes;
-
-		if ( isset( $orderInfo[ $_ecpay_invoice_status ][0] ) && $orderInfo[ $_ecpay_invoice_status ][0] == 1 ) {
-
-			// 發票號碼
-			$_ecpay_invoice_number = '_ecpay_invoice_number' . $totalSuccessTimes;
-			$invoice_number        = get_post_meta( $order_id, $_ecpay_invoice_number, true );
-
-			// 呼叫SDK 作廢發��
-			try {
-
-				$msg = '';
-
-				$ecpayInvoice = new ECPay_Woo_EcpayInvoice();
-
-				// 2.介接參數
-				$ecpayInvoice->Invoice_Method = 'INVOICE_VOID';
-				$ecpayInvoice->Invoice_Url    = $this->get_api_key()['request_url_invalid'];
-				$ecpayInvoice->MerchantID     = $this->get_api_key()['merchant_id'];
-				$ecpayInvoice->HashKey        = $this->get_api_key()['hashkey'];
-				$ecpayInvoice->HashIV         = $this->get_api_key()['hashiv'];
-
-				// 3.寫入發票相關資訊
-				$ecpayInvoice->Send['InvoiceNumber'] = $invoice_number;
-				$ecpayInvoice->Send['Reason']        = '發票作廢';
-
-				// 4.送��
-				$return_info = $ecpayInvoice->Check_Out();
-
-			} catch ( Exception $e ) {
-
-				// 例外錯誤處理。
-				$msg = $e->getMessage();
-			}
-
-			// 於備註區寫入發票資訊
-			$invoice_number  = $return_info['InvoiceNumber'];
-			$invoice_message = $return_info['RtnMsg'];
-			$invoiceNote     = __( '<b>Ecpay invalid invoice result</b>', 'woomp' ) . __( '<br>Invoice Number: ', 'woomp' ) . $invoice_number . __( '<br>Invoice Message: ', 'woomp' ) . $invoice_message;
-			$order->add_order_note( $invoiceNote );
-
-			if ( ! empty( $sMsg ) ) {
-				$order->add_order_note( $sMsg );
-			}
-
-			if ( isset( $return_info['RtnCode'] ) && $return_info['RtnCode'] == 1 ) {
-
-				if ( empty( $totalSuccessTimes ) ) {
-					$_ecpay_invoice_stauts = '_ecpay_invoice_status';     // 欄位名稱 記錄狀態
-					$_ecpay_invoice_number = '_ecpay_invoice_number';     // 欄位名稱 記錄發票號碼
-				} else {
-					$_ecpay_invoice_stauts = '_ecpay_invoice_status' . $totalSuccessTimes;  // 欄位 記錄狀態
-					$_ecpay_invoice_number = '_ecpay_invoice_number' . $totalSuccessTimes;  // 欄位��稱 記錄發票號碼
-				}
-
-				// 異動已經開立發票的狀態 1.已經開�� 0.尚未開立
-				$order->update_meta_data( $_ecpay_invoice_stauts, 0 );
-
-				// 清除發票號碼
-				$order->update_meta_data( $_ecpay_invoice_number, '' );
-
-				$order->save();
-			}
-
-			return __( 'Invalid Ecpay invoice successful!', 'woomp' );
-		} else {
-			return __( 'Invalid Ecpay invoice error!', 'woomp' );
+		if ( 'SUCCESS' === $invoice_result['Status'] ) {
+			$this->invoice->invalid(
+				array(
+					'InvoiceNumber' => $invoice_result['InvoiceNumber'], // 發票號碼.
+					'InvalidReason' => '訂單取消', // 作廢原因.
+				)
+			);
 		}
-	}
-
-	/**
-	 * 取得 API 資料
-	 */
-	private function get_api_key() {
-		$api_data = array();
-
-		if ( wc_string_to_bool( get_option( 'wc_woomp_ecpay_invoice_testmode_enabled' ) ) ) {
-			$api_data['request_url_issue']   = 'https://einvoice-stage.ecpay.com.tw/Invoice/Issue';
-			$api_data['request_url_invalid'] = 'https://einvoice-stage.ecpay.com.tw/Invoice/IssueInvalid';
-			$api_data['merchant_id']         = '2000132';
-			$api_data['hashkey']             = 'ejCk326UnaZWKisg';
-			$api_data['hashiv']              = 'q9jcZX8Ib9LM8wYk';
-		} else {
-			$api_data['request_url_issue']   = 'https://einvoice.ecpay.com.tw/Invoice/Issue';
-			$api_data['request_url_invalid'] = 'https://einvoice.ecpay.com.tw/Invoice/IssueInvalid';
-
-			if ( get_option( 'RY_WEI_ecpay_MerchantID' ) && get_option( 'RY_WEI_ecpay_HashKey' ) && get_option( 'RY_WEI_ecpay_HashIV' ) ) {
-				$api_data['merchant_id'] = get_option( 'RY_WEI_ecpay_MerchantID' );
-				$api_data['hashkey']     = get_option( 'RY_WEI_ecpay_HashKey' );
-				$api_data['hashiv']      = get_option( 'RY_WEI_ecpay_HashIV' );
-			} else {
-				$api_data['merchant_id'] = get_option( 'wc_woomp_ecpay_invoice_merchant_id' );
-				$api_data['hashkey']     = get_option( 'wc_woomp_ecpay_invoice_hashkey' );
-				$api_data['hashiv']      = get_option( 'wc_woomp_ecpay_invoice_hashiv' );
-			}
-		}
-
-		return $api_data;
 	}
 }
