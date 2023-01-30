@@ -65,20 +65,8 @@ jQuery(function ($) {
 		fieldDisplay($('select[name="_ezpay_invoice_type"'), 'company', $('#ezPayInvoiceCompanyName'));
 		fieldDisplay($('select[name="_ezpay_invoice_type"'), 'company', $('#ezPayInvoiceTaxId'));
 		fieldDisplay($('select[name="_ezpay_invoice_type"'), 'donate', $('#ezPayInvoiceDonate'));
-
-		$('select[name="_ezpay_invoice_individual"]').on('change', function () {
-			if ($('select[name="_ezpay_invoice_individual"] option:selected').text() === '自然人憑證' || $('select[name="_ezpay_invoice_individual"] option:selected').text() === '手機代碼') {
-				$('#invoiceCarrier').show()
-			} else {
-				$('#invoiceCarrier').hide()
-			}
-		})
-		
-		if ($('select[name="_ezpay_invoice_individual"] option:selected').text() === '自然人憑證' || $('select[name="_ezpay_invoice_individual"] option:selected').text() === '手機代碼') {
-			$('#invoiceCarrier').show()
-		} else {
-			$('#invoiceCarrier').hide()
-		}
+		//fieldDisplay($('select[name="_ezpay_invoice_individual"'), '自然人憑證', $('#ezPayInvoiceCarrier'));
+		//fieldDisplay($('select[name="_ezpay_invoice_individual"'), '手機代碼', $('#ezPayInvoiceCarrier'));
 
 
 		// 觸發變更發票資料按鈕

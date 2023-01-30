@@ -335,7 +335,7 @@ class Woomp_Setting_Invoice extends WC_Settings_Page {
 						array(
 							'title' => '測試模式',
 							'type'  => 'checkbox',
-							'desc'  => '請勾選時會測試模式，未勾選則會使用下方資料作為正式交易環境',
+							'desc'  => '勾選時為測試模式，未勾選則會使用下方資料作為正式交易環境',
 							'id'    => 'wc_woomp_ezpay_invoice_testmode_enabled',
 						),
 						array(
