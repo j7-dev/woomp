@@ -210,6 +210,11 @@ if ( ! class_exists( 'WooMP_Checkout' ) ) {
 		 */
 		public function field_validate( $fields, $errors ) {
 
+			// 確保國家欄位有啟用
+			if ( ! array_key_exists( 'shipping_country', $fields ) ) {
+				return;
+			}
+
 			// 台灣限定
 			if ( 'TW' !== $fields['shipping_country'] ) {
 				return;

@@ -29,6 +29,13 @@ class EzpayInvoice extends AbstractInvoice
     public $hashIV;
 
     /**
+     * API Gate
+     *
+     * @var string
+     */
+    private $gate;
+
+    /**
      * Class constructor
      * 
      * @param array $account
@@ -39,6 +46,7 @@ class EzpayInvoice extends AbstractInvoice
         parent::__construct($isProduction);
 
         $this->config = (require_once dirname(dirname(__FILE__)) . '/config/config.php')['ezpay'];
+		$this->gate =  ( wc_string_to_bool( get_option('wc_woomp_ezpay_invoice_testmode_enabled') ) ) ? 'https://cinv.ezpay.com.tw/Api/' : 'https://inv.ezpay.com.tw/Api/';
 
         $this->merchantID = $account['merchantID'];
         $this->hashKey = $account['hashKey'];
@@ -48,7 +56,7 @@ class EzpayInvoice extends AbstractInvoice
     public function create($postData)
     {
         $api = [
-            'uri' => 'invoice_issue',
+            'uri' => $this->gate . 'invoice_issue',
             'version' => '1.4',
         ];
 

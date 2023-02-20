@@ -21,9 +21,9 @@ class EzPayInvoiceHandler {
 	public function __construct() {
 		if ( get_option( 'wc_woomp_ezpay_invoice_testmode_enabled' ) ) {
 			$account       = array(
-				'merchantID' => '32365158',
-				'hashKey'    => 'qJtVQeJtMBqKh49gYLr6hUpsZNEZ8ucz',
-				'hashIV'     => 'CRNTAlz9rdtGfGsP',
+				'merchantID' => '329538037',
+				'hashKey'    => '9y28EekDh3ubujdLhPEv3jGnKEm3fUOd',
+				'hashIV'     => 'P9OZ2VjGRnF8iSuC',
 			);
 			$is_production = false;
 		} else {
@@ -151,15 +151,24 @@ class EzPayInvoiceHandler {
 
 		$this->invoice->create( $issue_data );
 
-		if ( $this->invoice->isOK() ) {
-			$result_data = $this->invoice->getResult();
-			$order->update_meta_data( '_ezpay_invoice_result', $result_data );
-			$order->add_order_note( json_encode( $result_data ) );
-		} else {
-			$order->update_meta_data( '_ezpay_invoice_result', $this->invoice->getErrorMessage() );
-			$order->add_order_note( json_encode( $this->invoice->getErrorMessage() ) );
-		}
+		//$log = new \WC_Logger();
+		//$log->log( 'info', wc_print_r( $this->invoice->getResult(), true ), array( 'source' => 'ods-log' ) );
+
+		$result_data = $this->invoice->getResponse();
+		
+		$order->update_meta_data( '_ezpay_invoice_result', $result_data );
+		$order->add_order_note( 'ezPay電子發票開立結果<br>回傳訊息：' . $result_data->message . '<br>回應代碼：' . $result_data->code );
+		
+		//if ( $this->invoice->isOK() ) {
+		//} else {
+		//	$order->update_meta_data( '_ezpay_invoice_result', $this->invoice->getErrorMessage() );
+		//	$order->add_order_note( 'ezPay電子發票開立結果<br>回傳訊息：' . $this->invoice->getErrorMessage() );
+		//}
 		$order->save();
+
+		print_r($result_data);
+
+		//print_r( $this->invoice->getResponse());
 
 		// dd(
 		// $this->invoice->isOK(),
