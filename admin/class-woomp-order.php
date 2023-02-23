@@ -8,6 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+
 if ( ! class_exists( 'WooMP_Order' ) ) {
 	class WooMP_Order {
 		/**

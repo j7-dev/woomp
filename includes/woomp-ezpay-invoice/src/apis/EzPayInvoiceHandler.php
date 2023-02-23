@@ -151,31 +151,22 @@ class EzPayInvoiceHandler {
 
 		$this->invoice->create( $issue_data );
 
-		//$log = new \WC_Logger();
-		//$log->log( 'info', wc_print_r( $this->invoice->getResult(), true ), array( 'source' => 'ods-log' ) );
-
 		$result_data = $this->invoice->getResponse();
-		
-		$order->update_meta_data( '_ezpay_invoice_result', $result_data );
-		$order->add_order_note( 'ezPay電子發票開立結果<br>回傳訊息：' . $result_data->message . '<br>回應代碼：' . $result_data->code );
-		
-		//if ( $this->invoice->isOK() ) {
-		//} else {
-		//	$order->update_meta_data( '_ezpay_invoice_result', $this->invoice->getErrorMessage() );
-		//	$order->add_order_note( 'ezPay電子發票開立結果<br>回傳訊息：' . $this->invoice->getErrorMessage() );
-		//}
+
+		if ( $this->invoice->isOK() ) {
+			$order->update_meta_data( '_ezpay_invoice_result', $result_data );
+			$order_note = "ezPay電子發票開立結果<br>回傳訊息：{$result_data->message}<br>回應代碼：{$result_data->code}";
+			if ( 'SUCCESS' === $result_data->code ) {
+				$order_note .= "<br>發票號碼：{$result_data->code->InvoiceNumber}";
+				$order_note .= "<br>開立時間：{$result_data->code->CreateTime}";
+			}
+			$order->add_order_note( $order_note );
+		} else {
+			$order->update_meta_data( '_ezpay_invoice_result', $this->invoice->getErrorMessage() );
+			$order->add_order_note( 'ezPay電子發票開立結果<br>回傳訊息：' . $this->invoice->getErrorMessage() );
+		}
 		$order->save();
-
-		print_r($result_data);
-
-		//print_r( $this->invoice->getResponse());
-
-		// dd(
-		// $this->invoice->isOK(),
-		// $this->invoice->getResponse(),
-		// $this->invoice->getResult(),
-		// $this->invoice->getErrorMessage()
-		// );
+		echo '開立結果：' . esc_html( $result_data->message );
 	}
 
 	/**
