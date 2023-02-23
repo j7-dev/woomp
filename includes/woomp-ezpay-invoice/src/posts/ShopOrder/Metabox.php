@@ -71,7 +71,7 @@ class Field {
 
 		$output  = '<p><strong>' . __( 'Invoice Type', 'woomp' ) . '</strong></p>';
 		$output .= '
-			<select name="_ezpay_invoice_type" style="display:block;width:100%;margin-top:-8px;">
+			<select name="_ezpay_invoice_type" style="display:block;width:100%;margin-top:-8px;' . $this->set_edit_disable_style( $_GET['post'] ) . '">
 				<option value="individual" ' . selected( $_invoice_type, 'individual', false ) . ' >' . __( 'individual', 'woomp' ) . '</option>
 				<option value="company" ' . selected( $_invoice_type, 'company', false ) . ' >' . __( 'company', 'woomp' ) . '</option>
 				<option value="donate" ' . selected( $_invoice_type, 'donate', false ) . ' >' . __( 'donate', 'woomp' ) . '</option>
@@ -80,8 +80,8 @@ class Field {
 
 		// 顯示個人發票類型
 		if ( $_invoice_individual >= 0 ) {
-			$output .= '<div id="ezPayInvoiceIndividual" style="display:none"><p><strong>' . __( 'Individual Invoice Type', 'woomp' ) . '</strong></p>';
-			$output .= '<select name="_ezpay_invoice_individual" style="display:block;width:100%;margin-top:-8px;">';
+			$output .= '<div id="ezPayInvoiceIndividual" style="display:none;"><p><strong>' . __( 'Individual Invoice Type', 'woomp' ) . '</strong></p>';
+			$output .= '<select name="_ezpay_invoice_individual" style="display:block;width:100%;margin-top:-8px;' . $this->set_edit_disable_style( $_GET['post'] ) . '">';
 			if ( get_option( 'wc_woomp_ezpay_invoice_carrier_type' ) ) {
 				foreach ( get_option( 'wc_woomp_ezpay_invoice_carrier_type' ) as $key => $value ) {
 					$output .= '<option value="' . $value . '" ' . selected( $_invoice_individual, $value, false ) . '>' . $value . '</option>';
@@ -94,26 +94,24 @@ class Field {
 
 		// 顯示載具編號
 		$output .= '<div id="ezPayInvoiceCarrier" style="display:none"><p><strong>' . __( 'Carrier Number', 'woomp' ) . '</strong></p>';
-		$output .= '<p><input type="text" name="_ezpay_invoice_carrier" value="' . $_invoice_carrier . '" style="margin-top:-10px;width:100%" /><p></div>';
+		$output .= '<p><input type="text" name="_ezpay_invoice_carrier" value="' . $_invoice_carrier . '" style="margin-top:-10px;width:100%;' . $this->set_edit_disable_style( $_GET['post'] ) . '" /><p></div>';
 
 		// 顯示公司名稱
 		$output .= '<div id="ezPayInvoiceCompanyName" style="display:none"><p><strong>' . __( 'Company Name', 'woomp' ) . '</strong></p>';
-		$output .= '<p><input type="text" name="_ezpay_invoice_company_name" value="' . $_invoice_company_name . '" style="margin-top:-10px;width:100%" /><p></div>';
+		$output .= '<p><input type="text" name="_ezpay_invoice_company_name" value="' . $_invoice_company_name . '" style="margin-top:-10px;width:100%;' . $this->set_edit_disable_style( $_GET['post'] ) . '" /><p></div>';
 
 		// 顯示統一編號
 		$output .= '<div id="ezPayInvoiceTaxId" style="display:none"><p><strong>' . __( 'TaxID', 'woomp' ) . '</strong></p>';
-		$output .= '<p><input type="text" name="_ezpay_invoice_tax_id" value="' . $_invoice_tax_id . '" style="margin-top:-10px;width:100%" /><p></div>';
+		$output .= '<p><input type="text" name="_ezpay_invoice_tax_id" value="' . $_invoice_tax_id . '" style="margin-top:-10px;width:100%;' . $this->set_edit_disable_style( $_GET['post'] ) . '" /><p></div>';
 
 		// 顯示捐贈碼
 		$output .= '<div id="ezPayInvoiceDonate" style="display:none"><p><strong>' . __( 'Donate Number', 'woomp' ) . '</strong></p>';
-		$output .= '<p><input type="text" name="_ezpay_invoice_donate" value="' . $_invoice_donate . '" style="margin-top:-10px;width:100%" /><p></div>';
-
-		$output .= $this->set_invoice_button( $_GET['post'] );
+		$output .= '<p><input type="text" name="_ezpay_invoice_donate" value="' . $_invoice_donate . '" style="margin-top:-10px;width:100%;' . $this->set_edit_disable_style( $_GET['post'] ) . '" /><p></div>';
 
 		$this->metabox->addHtml(
 			array(
 				'id'   => 'ezpay_invoice_section',
-				'html' => $output,
+				'html' => $output . $this->set_invoice_button( $_GET['post'] ),
 			),
 		);
 	}
@@ -136,6 +134,16 @@ class Field {
 		$output .= '</div>';
 
 		return $output;
+	}
+
+	/**
+	 * 已開立發票禁止編輯
+	 */
+	private function set_edit_disable_style( $order_id ) {
+		$order = wc_get_order( $order_id );
+		if ( $order->get_meta( '_ezpay_invoice_number' ) ) {
+			return 'pointer-events:none;border:0;appearance:none;background-image:none;background-color:#efefef;';
+		}
 	}
 
 }
