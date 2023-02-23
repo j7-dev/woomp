@@ -35,9 +35,7 @@ class Ajax {
 		if ( ! empty( $order_id ) ) {
 			$msg = $this->invoice_handler->generate_invoice( $order_id );
 			echo $msg;
-		} else {
-			echo $msg;
-		}
+		} 
 
 		wp_die();
 	}
@@ -56,8 +54,6 @@ class Ajax {
 
 		if ( ! empty( $order_id ) ) {
 			$msg = $this->invoice_handler->invalid_invoice( $order_id );
-			echo $msg;
-		} else {
 			echo $msg;
 		}
 

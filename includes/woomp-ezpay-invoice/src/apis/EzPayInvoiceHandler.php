@@ -38,15 +38,17 @@ class EzPayInvoiceHandler {
 	}
 
 	/**
-	 * 開立發票
+	 * Get issue data.
+	 *
+	 * @param int $order_id Order Id.
+	 *
+	 * @return array $issue_data Invoice issue data.
 	 */
-	public function generate_invoice( $order_id ) {
+	private function get_issue_data( $order_id ) {
 
-		$order       = wc_get_order( $order_id );
-		$order_total = $order->get_total();
-		$issue_data  = array();
+		$order = wc_get_order( $order_id );
 
-		if ( '0' === $order_total || ! $order->get_meta( '_ezpay_invoice_data' ) ) {
+		if ( '0' === $order->get_total() || ! $order->get_meta( '_ezpay_invoice_data' ) ) {
 			return;
 		}
 
@@ -149,16 +151,30 @@ class EzPayInvoiceHandler {
 			$issue_data['LoveCode']    = $invoice_donate;
 		}
 
-		$this->invoice->create( $issue_data );
+		return $issue_data;
+	}
 
+	/**
+	 * 開立發票
+	 */
+	public function generate_invoice( $order_id ) {
+		$order      = wc_get_order( $order_id );
+		$issue_data = $this->get_issue_data( $order_id );
+
+		if ( ! $issue_data ) {
+			return;
+		}
+
+		$this->invoice->create( $issue_data );
 		$result_data = $this->invoice->getResponse();
 
 		if ( $this->invoice->isOK() ) {
 			$order->update_meta_data( '_ezpay_invoice_result', $result_data );
+			$order->update_meta_data( '_ezpay_invoice_number', $this->invoice->getResult( 'InvoiceNumber' ) );
 			$order_note = "ezPay電子發票開立結果<br>回傳訊息：{$result_data->message}<br>回應代碼：{$result_data->code}";
 			if ( 'SUCCESS' === $result_data->code ) {
-				$order_note .= "<br>發票號碼：{$result_data->code->InvoiceNumber}";
-				$order_note .= "<br>開立時間：{$result_data->code->CreateTime}";
+				$order_note .= "<br>發票號碼：{$result_data->result->InvoiceNumber}";
+				$order_note .= "<br>開立時間：{$result_data->result->CreateTime}";
 			}
 			$order->add_order_note( $order_note );
 		} else {
@@ -166,7 +182,7 @@ class EzPayInvoiceHandler {
 			$order->add_order_note( 'ezPay電子發票開立結果<br>回傳訊息：' . $this->invoice->getErrorMessage() );
 		}
 		$order->save();
-		echo '開立結果：' . esc_html( $result_data->message );
+		return '開立結果：' . esc_html( $result_data->message );
 	}
 
 	/**
@@ -174,15 +190,36 @@ class EzPayInvoiceHandler {
 	 */
 	public function invalid_invoice( $order_id ) {
 		$order          = wc_get_order( $order_id );
-		$invoice_result = $order->get_meta( '_ezpay_invoice_result' );
+		$invoice_number = $order->get_meta( '_ezpay_invoice_number' );
 
-		if ( 'SUCCESS' === $invoice_result['Status'] ) {
+		if ( $invoice_number ) {
+
+			$issue_data = $this->get_issue_data( $order_id );
+			$this->invoice->create( $issue_data );
+
 			$this->invoice->invalid(
 				array(
-					'InvoiceNumber' => $invoice_result['InvoiceNumber'], // 發票號碼.
-					'InvalidReason' => '訂單取消', // 作廢原因.
+					'InvoiceNumber' => $this->invoice->getResult( 'InvoiceNumber' ), // 發票號碼.
+					'InvalidReason' => '發票作廢', // 作廢原因.
+					'RandomNum'     => $this->invoice->getResult( 'RandomNum' ),
 				)
 			);
+			$result_data = $this->invoice->getResponse();
+
+			if ( $this->invoice->isOK() ) {
+				$order_note = "ezPay電子發票作廢結果<br>回傳訊息：{$result_data->message}<br>回應代碼：{$result_data->code}";
+				if ( 'SUCCESS' === $result_data->code ) {
+					$order_note .= "<br>發票號碼：{$result_data->result->InvoiceNumber}";
+					$order_note .= "<br>作廢時間：{$result_data->result->CreateTime}";
+				}
+				$order->add_order_note( $order_note );
+				$order->update_meta_data( '_ezpay_invoice_number', '' );
+				$order->update_meta_data( '_ezpay_invoice_result', '' );
+				$order->save();
+			} else {
+				$order->add_order_note( 'ezPay電子發票作廢結果<br>回傳訊息：' . $this->invoice->getErrorMessage()['message'] . '<br>回傳代碼：' . $this->invoice->getErrorMessage()['code'] );
+			}
+			return '作廢結果：' . esc_html( $result_data->message );
 		}
 	}
 }

@@ -127,7 +127,7 @@ class Field {
 		$output = '<div style="display:flex;justify-content:space-between">';
 
 		// 產生按鈕，傳送 order id 給ajax js
-		if ( empty( $order->get_meta( '_ezpay_invoice_number' ) ) ) {
+		if ( ! $order->get_meta( '_ezpay_invoice_number' ) ) {
 			$output .= "<button class='button btnGenerateInvoiceEzPay' type='button' value='" . $order_id . "'>開立發票</button><button class='button save_order button-primary' id='btnUpdateInvoiceDataEzPay' type='submit' value='" . $order_id . "' disabled>更新發票資料</button>";
 		} else {
 			$output .= "<button class='button btnInvalidInvoiceEzPay' type='button' value='" . $order_id . "'>作廢發票</button>";

@@ -2,7 +2,7 @@ jQuery(function ($) {
 
 	function fieldDisplay(fieldControlName, fieldControlNameValue, fieldDisplay) {
 		function condition(fieldControlName) {
-			if (fieldControlName.val() === fieldControlNameValue) {
+			if (fieldControlNameValue.includes(fieldControlName.val())) {
 				fieldDisplay.show()
 			} else {
 				fieldDisplay.hide()
@@ -41,7 +41,7 @@ jQuery(function ($) {
 
 				var data = {
 					action: "invalid_invoice",
-					nonce: woomp_ecpay_invoice_params.ajax_nonce,
+					nonce: woomp_ezpay_invoice_params.ajax_nonce,
 					orderId: $(this).val(),
 				};
 
@@ -65,8 +65,7 @@ jQuery(function ($) {
 		fieldDisplay($('select[name="_ezpay_invoice_type"'), 'company', $('#ezPayInvoiceCompanyName'));
 		fieldDisplay($('select[name="_ezpay_invoice_type"'), 'company', $('#ezPayInvoiceTaxId'));
 		fieldDisplay($('select[name="_ezpay_invoice_type"'), 'donate', $('#ezPayInvoiceDonate'));
-		//fieldDisplay($('select[name="_ezpay_invoice_individual"'), '自然人憑證', $('#ezPayInvoiceCarrier'));
-		//fieldDisplay($('select[name="_ezpay_invoice_individual"'), '手機代碼', $('#ezPayInvoiceCarrier'));
+		fieldDisplay($('select[name="_ezpay_invoice_individual"'), ['自然人憑證','手機代碼'], $('#ezPayInvoiceCarrier'));
 
 
 		// 觸發變更發票資料按鈕

@@ -70,6 +70,7 @@ class EzpayInvoice extends AbstractInvoice
         $api = [
             'uri' => 'invoice_search',
             'version' => '1.2',
+			'TimeStamp' => time()
         ];
 
         // 判斷是否為轉址至平台
