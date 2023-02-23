@@ -57,9 +57,9 @@ class Admin {
 
 			if ( ! empty( $order->get_meta( '_ezpay_invoice_number' ) ) ) {
 				echo esc_html( $order->get_meta( '_ezpay_invoice_number' ) );
-				echo '<br><button type="button" class="button btnInvalidInvoice" value="' . esc_attr( $post_id ) . '">' . __( 'Invalid invoice', 'woomp' ) . '</button>';
+				echo '<br><button type="button" class="button btnInvalidInvoiceEzPay" value="' . esc_attr( $post_id ) . '">' . __( 'Invalid invoice', 'woomp' ) . '</button>';
 			} else {
-				echo '<button type="button" class="button btnGenerateInvoice" value="' . esc_attr( $post_id ) . '">' . __( 'Generate invoice', 'woomp' ) . '</button>';
+				echo '<button type="button" class="button btnGenerateInvoiceEzPay" value="' . esc_attr( $post_id ) . '">' . __( 'Generate invoice', 'woomp' ) . '</button>';
 			}
 		}
 	}
