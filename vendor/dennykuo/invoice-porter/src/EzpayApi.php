@@ -20,9 +20,9 @@ class EzpayApi implements ApiRequest
     {
         $this->instance = $instance;
 
-        $apiGate = $this->instance->isProduction
-                   ? $this->instance->config['api-gate']
-                   : $this->instance->config['api-gate-testing'];
+        $apiGate = ( wc_string_to_bool( get_option( 'wc_woomp_ezpay_invoice_testmode_enabled' ) ) )
+                   ? $this->instance->config['api-gate-testing']
+                   : $this->instance->config['api-gate'];
 
         $this->httpClient = new GuzzleHttp\Client([
             'base_uri' => $apiGate,
@@ -31,7 +31,7 @@ class EzpayApi implements ApiRequest
 
     public function send(string $apiUri, array $postData, $doCheckCode = true, $invoiceData = null)
     {
-        $response = $this->httpClient->request('post', $apiUri, [
+		$response = $this->httpClient->request('post', $apiUri, [
             'form_params' => [
                 'MerchantID_' => $this->instance->merchantID,
                 'PostData_' => $this->encryptPostData($postData),

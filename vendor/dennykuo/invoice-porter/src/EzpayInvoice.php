@@ -5,174 +5,173 @@ namespace InvoicePorter;
 use InvoicePorter\AbstractInvoice;
 use InvoicePorter\EzpayApi;
 
-class EzpayInvoice extends AbstractInvoice
-{
-    /**
-     * 商店代號
-     *
-     * @var string
-     */
-    public $merchantID;
+class EzpayInvoice extends AbstractInvoice {
 
-    /**
-     * hashKey
-     *
-     * @var string
-     */
-    public $hashKey;
+	/**
+	 * 商店代號
+	 *
+	 * @var string
+	 */
+	public $merchantID;
 
-    /**
-     * hashIV
-     *
-     * @var string
-     */
-    public $hashIV;
+	/**
+	 * hashKey
+	 *
+	 * @var string
+	 */
+	public $hashKey;
 
-    /**
-     * API Gate
-     *
-     * @var string
-     */
-    private $gate;
+	/**
+	 * hashIV
+	 *
+	 * @var string
+	 */
+	public $hashIV;
 
-    /**
-     * Class constructor
-     * 
-     * @param array $account
-     * @param bool $isProduction
-     */
-    public function __construct(array $account, $isProduction = true)
-    {
-        parent::__construct($isProduction);
+	/**
+	 * API Gate
+	 *
+	 * @var string
+	 */
+	private $gate;
 
-        $this->config = (require_once dirname(dirname(__FILE__)) . '/config/config.php')['ezpay'];
-		$this->gate =  ( wc_string_to_bool( get_option('wc_woomp_ezpay_invoice_testmode_enabled') ) ) ? 'https://cinv.ezpay.com.tw/Api/' : 'https://inv.ezpay.com.tw/Api/';
+	/**
+	 * Class constructor
+	 *
+	 * @param array $account
+	 * @param bool  $isProduction
+	 */
+	public function __construct( array $account, $isProduction = true ) {
+		parent::__construct( $isProduction );
 
-        $this->merchantID = $account['merchantID'];
-        $this->hashKey = $account['hashKey'];
-        $this->hashIV = $account['hashIV'];
-    }
+		$this->config = array(
+			'response-type'    => 'JSON',
+			'api-gate'         => 'https://inv.ezpay.com.tw/Api/',
+			'api-gate-testing' => 'https://cinv.ezpay.com.tw/Api/',
+			'success-code'     => 'SUCCESS',
+		);
+		$this->gate   = ( wc_string_to_bool( get_option( 'wc_woomp_ezpay_invoice_testmode_enabled' ) ) ) ? 'https://cinv.ezpay.com.tw/Api/' : 'https://inv.ezpay.com.tw/Api/';
 
-    public function create($postData)
-    {
-        $api = [
-            'uri' => $this->gate . 'invoice_issue',
-            'version' => '1.4',
-        ];
+		$this->merchantID = $account['merchantID'];
+		$this->hashKey    = $account['hashKey'];
+		$this->hashIV     = $account['hashIV'];
+	}
 
-        self::sendRequest($postData, $api);
+	public function create( $postData ) {
+		$api = array(
+			'uri'     => $this->gate . 'invoice_issue',
+			'version' => '1.4',
+		);
 
-        return $this;
-    }
+		self::sendRequest( $postData, $api );
 
-    public function info($postData)
-    {
-        $api = [
-            'uri' => 'invoice_search',
-            'version' => '1.2',
-			'TimeStamp' => time()
-        ];
+		return $this;
+	}
 
-        // 判斷是否為轉址至平台
-        if (isset($postData['DisplayFlag']) && $postData['DisplayFlag'] == 1) {
-            self::infoRedirect($postData, $api);
-            die;
-        }
+	public function info( $postData ) {
+		$api = array(
+			'uri'       => 'invoice_search',
+			'version'   => '1.2',
+			'TimeStamp' => time(),
+		);
 
-        self::sendRequest($postData, $api);
+		// 判斷是否為轉址至平台
+		if ( isset( $postData['DisplayFlag'] ) && $postData['DisplayFlag'] == 1 ) {
+			self::infoRedirect( $postData, $api );
+			die;
+		}
 
-        return $this;
-    }
+		self::sendRequest( $postData, $api );
 
-    public function invalid($postData)
-    {
-        /**
-         * 測試用資料
-         * MerchantID: 32365158
-         * MerchantOrderNo: 1589331622
-         * InvoiceNumber: AA00000076
-         * TotalAmt: 500
-         * InvoiceTransNo: 20051309002377869
-         * RandomNum: 0991
-         */
+		return $this;
+	}
 
-        /**
-         * 作廢發票預設不檢查 checkcode，因官方回應缺少屬性，
-         * 需預先做次發票查詢，取回需要的參數，
-         * 若 $postData 中有「發票隨機碼 RandomNum」時，則進行 checkcode 檢查
-         */
-        
-        $api = [
-            'uri' => 'invoice_invalid',
-            'version' => '1.0',
-        ];
+	public function invalid( $postData ) {
+		/**
+		 * 測試用資料
+		 * MerchantID: 32365158
+		 * MerchantOrderNo: 1589331622
+		 * InvoiceNumber: AA00000076
+		 * TotalAmt: 500
+		 * InvoiceTransNo: 20051309002377869
+		 * RandomNum: 0991
+		 */
 
-        $doCheckCode = false;
-        $invoiceData = null;
+		/**
+		 * 作廢發票預設不檢查 checkcode，因官方回應缺少屬性，
+		 * 需預先做次發票查詢，取回需要的參數，
+		 * 若 $postData 中有「發票隨機碼 RandomNum」時，則進行 checkcode 檢查
+		 */
 
-        if (array_key_exists('RandomNum', $postData)) {
-            // 先查詢發票資訊，用於帶入檢查 checkcode 時的參數
-            $invoiceData = $this->info([
-                // 使用發票號碼及隨機碼查詢
-                'SearchType' => 0,
-                'InvoiceNumber' => $postData['InvoiceNumber'],
-                'RandomNum' => $postData['RandomNum'],
-            ])->getResult();
-        }
+		$api = array(
+			'uri'     => 'invoice_invalid',
+			'version' => '1.0',
+		);
 
-        if ($invoiceData) {
-            $doCheckCode = true;
-        }
-        
-        self::sendRequest($postData, $api, $doCheckCode, $invoiceData);
+		$doCheckCode = false;
+		$invoiceData = null;
 
-        return $this;
-    }
+		if ( array_key_exists( 'RandomNum', $postData ) ) {
+			// 先查詢發票資訊，用於帶入檢查 checkcode 時的參數
+			$invoiceData = $this->info(
+				array(
+					// 使用發票號碼及隨機碼查詢
+					'SearchType'    => 0,
+					'InvoiceNumber' => $postData['InvoiceNumber'],
+					'RandomNum'     => $postData['RandomNum'],
+				)
+			)->getResult();
+		}
 
-    protected function sendRequest($postData, $api, $doCheckCode = true, $invoiceData = null)
-    {
-        $postData = $this->mergeCommonPostData($postData, $api['version']);
+		if ( $invoiceData ) {
+			$doCheckCode = true;
+		}
 
-        $response = (new EzpayApi($this))->send($api['uri'], $postData, $doCheckCode, $invoiceData);
+		self::sendRequest( $postData, $api, $doCheckCode, $invoiceData );
 
-        self::handleResponse($response);
-    }
+		return $this;
+	}
 
-    protected function mergeCommonPostData($postData, $apiVersion)
-    {
-        $default = [
-            'Version' => $apiVersion, // 每支 API 不同
-            'RespondType' => $this->config['response-type'],
-            'TimeStamp' => time(), // 請以 time() 格式
-        ];
+	protected function sendRequest( $postData, $api, $doCheckCode = true, $invoiceData = null ) {
+		$postData = $this->mergeCommonPostData( $postData, $api['version'] );
 
-        return array_merge($default, $postData);
-    }
+		$response = ( new EzpayApi( $this ) )->send( $api['uri'], $postData, $doCheckCode, $invoiceData );
 
-    protected function handleResponse($response)
-    {
-        $rawResponse = (object) [
-            'raw' => $response,
-            'message' => $response->message,
-            'code' => $response->status,
-            'result' => $response->result,
-        ];
+		self::handleResponse( $response );
+	}
 
-        parent::setResponse($rawResponse, $code = $response->status);
-    }
+	protected function mergeCommonPostData( $postData, $apiVersion ) {
+		$default = array(
+			'Version'     => $apiVersion, // 每支 API 不同
+			'RespondType' => $this->config['response-type'],
+			'TimeStamp'   => time(), // 請以 time() 格式
+		);
 
-    protected function infoRedirect($postData, $api)
-    {
-        $postData = $this->mergeCommonPostData($postData, $api['version']);
-        $postData = (new EzpayApi($this))->encryptPostData($postData);
+		return array_merge( $default, $postData );
+	}
 
-        $apiGate = $this->isProduction
-                   ? $this->config['api-gate']
-                   : $this->config['api-gate-testing'];
-        
-        $url = $apiGate . $api['uri'];
+	protected function handleResponse( $response ) {
+		$rawResponse = (object) array(
+			'raw'     => $response,
+			'message' => $response->message,
+			'code'    => $response->status,
+			'result'  => $response->result,
+		);
 
-echo <<<EOT
+		parent::setResponse( $rawResponse, $code = $response->status );
+	}
+
+	protected function infoRedirect( $postData, $api ) {
+		$postData = $this->mergeCommonPostData( $postData, $api['version'] );
+		$postData = ( new EzpayApi( $this ) )->encryptPostData( $postData );
+
+		$apiGate = $this->isProduction
+				   ? $this->config['api-gate']
+				   : $this->config['api-gate-testing'];
+
+		$url = $apiGate . $api['uri'];
+
+		echo <<<EOT
 <!DOCTYPE html>
 <html>
     <head>
@@ -187,5 +186,5 @@ echo <<<EOT
 </body>
 </html>
 EOT;
-    }
+	}
 }

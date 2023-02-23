@@ -108,7 +108,7 @@ class EzPayInvoiceHandler {
 		/**
 		 * B2C
 		 */
-		$issue_data['MerchantOrderNo'] = get_option( 'wc_woomp_ezpay_invoice_order_prefix' ) . $order_id;
+		$issue_data['MerchantOrderNo'] = substr( get_option( 'wc_woomp_ezpay_invoice_order_prefix' ) . $order_id . '_' . time(), 0, 20 );
 		$issue_data['Status']          = 1;
 		$issue_data['Category']        = 'B2C';
 		$issue_data['BuyerName']       = $order->get_billing_last_name() . $order->get_billing_first_name();
@@ -178,8 +178,8 @@ class EzPayInvoiceHandler {
 			}
 			$order->add_order_note( $order_note );
 		} else {
-			$order->update_meta_data( '_ezpay_invoice_result', $this->invoice->getErrorMessage() );
-			$order->add_order_note( 'ezPay電子發票開立結果<br>回傳訊息：' . $this->invoice->getErrorMessage() );
+			$order->update_meta_data( '_ezpay_invoice_result', $this->invoice->getErrorMessage()['message'] );
+			$order->add_order_note( 'ezPay電子發票開立結果<br>回傳訊息：' . $this->invoice->getErrorMessage()['message'] );
 		}
 		$order->save();
 		return '開立結果：' . esc_html( $result_data->message );
@@ -191,11 +191,18 @@ class EzPayInvoiceHandler {
 	public function invalid_invoice( $order_id ) {
 		$order          = wc_get_order( $order_id );
 		$invoice_number = $order->get_meta( '_ezpay_invoice_number' );
+		$result_data    = $order->get_meta( '_ezpay_invoice_result' );
 
 		if ( $invoice_number ) {
 
-			$issue_data = $this->get_issue_data( $order_id );
-			$this->invoice->create( $issue_data );
+			$this->invoice = $this->invoice->info(
+				array(
+					'SearchType'      => 0,
+					'MerchantOrderNo' => $result_data->result->MerchantOrderNo,
+					'InvoiceNumber'   => $result_data->result->InvoiceNumber,
+					'RandomNum'       => $result_data->result->RandomNum,
+				)
+			);
 
 			$this->invoice->invalid(
 				array(
@@ -207,7 +214,7 @@ class EzPayInvoiceHandler {
 			$result_data = $this->invoice->getResponse();
 
 			if ( $this->invoice->isOK() ) {
-				$order_note = "ezPay電子發票作廢結果<br>回傳訊息：{$result_data->message}<br>回應代碼：{$result_data->code}";
+				$order_note = "ezPay電子發票作廢結果<br>回傳訊息：發票作廢成功<br>回應代碼：{$result_data->code}";
 				if ( 'SUCCESS' === $result_data->code ) {
 					$order_note .= "<br>發票號碼：{$result_data->result->InvoiceNumber}";
 					$order_note .= "<br>作廢時間：{$result_data->result->CreateTime}";
@@ -219,7 +226,7 @@ class EzPayInvoiceHandler {
 			} else {
 				$order->add_order_note( 'ezPay電子發票作廢結果<br>回傳訊息：' . $this->invoice->getErrorMessage()['message'] . '<br>回傳代碼：' . $this->invoice->getErrorMessage()['code'] );
 			}
-			return '作廢結果：' . esc_html( $result_data->message );
+			return '作廢結果：' . esc_html( '發票作廢成功' );
 		}
 	}
 }
