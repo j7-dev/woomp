@@ -339,7 +339,7 @@ if ( in_array( 'woomp/woomp.php', WOOMP_ACTIVE_PLUGINS, true ) ) {
 		deactivate_plugins( 'PChomePay-Cart-for-WooCommerce/pchomepay.php' );
 		deactivate_plugins( 'PChomePay-Cart-for-WooCommerce/pchomepay-master.php' );
 		function require_woocommerce_notice() {
-			echo '<div class="notice"><p>PChomePay Gateway for WooCommerce 已停用，請使用好用版擴充支付連金流</p></div>';
+			echo '<div class="notice notice-warning"><p>PChomePay Gateway for WooCommerce 已停用，請使用好用版擴充支付連金流</p></div>';
 		}
 		add_action( 'admin_notices', 'require_woocommerce_notice' );
 		return;

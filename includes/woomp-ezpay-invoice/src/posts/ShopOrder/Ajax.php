@@ -12,8 +12,8 @@ class Ajax {
 
 	public static function init() {
 		$class = new self();
-		add_action( 'wp_ajax_gen_invoice', array( $class, 'generate_invoice' ) );
-		add_action( 'wp_ajax_invalid_invoice', array( $class, 'invalid_invoice' ) );
+		add_action( 'wp_ajax_gen_invoice_ezpay', array( $class, 'generate_invoice' ) );
+		add_action( 'wp_ajax_invalid_invoice_ezpay', array( $class, 'invalid_invoice' ) );
 	}
 
 	public function __construct(){

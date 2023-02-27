@@ -21,7 +21,7 @@ jQuery(function ($) {
 			$.blockUI({ message: '<p>處理中...</p>' });
 
 			var data = {
-				action: "gen_invoice",
+				action: "gen_invoice_ezpay",
 				nonce: woomp_ezpay_invoice_params.ajax_nonce,
 				orderId: $(this).val(),
 			};
@@ -40,7 +40,7 @@ jQuery(function ($) {
 				$.blockUI({ message: '<p>處理中...</p>' });
 
 				var data = {
-					action: "invalid_invoice",
+					action: "invalid_invoice_ezpay",
 					nonce: woomp_ezpay_invoice_params.ajax_nonce,
 					orderId: $(this).val(),
 				};
