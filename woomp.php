@@ -55,6 +55,7 @@ define( 'WOOMP_VERSION', '2.0.0' );
 define( 'WOOMP_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'WOOMP_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'WOOMP_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
+define( 'WOOMP_ACTIVE_PLUGINS', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) );
 
 require WOOMP_PLUGIN_DIR . 'vendor/autoload.php';
 
@@ -328,5 +329,20 @@ if ( ! defined( 'WOOMP_PAYNOW_SHIPPING_PLUGIN_URL' ) && 'yes' === get_option( 'w
 /**
  * 引入支付連
  */
-require_once WOOMP_PLUGIN_DIR . 'includes/PChomePay-Cart-for-WooCommerce/PChomePay.php';
+if ( ! in_array( 'PChomePay-Cart-for-WooCommerce/pchomepay.php', WOOMP_ACTIVE_PLUGINS, true ) && ! in_array( 'PChomePay-Cart-for-WooCommerce-master/pchomepay.php', WOOMP_ACTIVE_PLUGINS, true ) ) {
+	require_once WOOMP_PLUGIN_DIR . 'includes/PChomePay-Cart-for-WooCommerce/PChomePay.php';
+}
+
+if ( in_array( 'woomp/woomp.php', WOOMP_ACTIVE_PLUGINS, true ) ) {
+	require_once ABSPATH . 'wp-admin/includes/plugin.php';
+	if ( is_plugin_active( 'PChomePay-Cart-for-WooCommerce/pchomepay.php' ) || is_plugin_active( 'PChomePay-Cart-for-WooCommerce/pchomepay-master.php' ) ) {
+		deactivate_plugins( 'PChomePay-Cart-for-WooCommerce/pchomepay.php' );
+		deactivate_plugins( 'PChomePay-Cart-for-WooCommerce/pchomepay-master.php' );
+		function require_woocommerce_notice() {
+			echo '<div class="notice"><p>PChomePay Gateway for WooCommerce 已停用，請使用好用版擴充支付連金流</p></div>';
+		}
+		add_action( 'admin_notices', 'require_woocommerce_notice' );
+		return;
+	}
+}
 

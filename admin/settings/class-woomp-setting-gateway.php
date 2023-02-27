@@ -66,7 +66,9 @@ class Woomp_Setting_Gateway extends WC_Settings_Page {
 		$sections['smilepay']  = __( '速買配', 'woomp' );
 		$sections['paynow']    = __( '立吉富', 'woomp' );
 		$sections['linepay']   = __( 'LINE Pay', 'woomp' );
-		$sections['pchomepay'] = __( '支付連', 'woomp' );
+		if ( ! in_array( 'PChomePay-Cart-for-WooCommerce/pchomepay.php', WOOMP_ACTIVE_PLUGINS, true ) && ! in_array( 'PChomePay-Cart-for-WooCommerce-master/pchomepay.php', WOOMP_ACTIVE_PLUGINS, true ) ) {
+			$sections['pchomepay'] = __( '支付連', 'woomp' );
+		}
 		return apply_filters( 'woocommerce_get_sections_' . $this->id, $sections );
 	}
 
