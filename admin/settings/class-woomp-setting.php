@@ -64,6 +64,32 @@ class Woomp_Setting
                 'id' => 'wc_woomp_setting_link',
                 'desc' => __('<a target="_blank" href="https://morepower.club/know_cate/addon/">好用版擴充 教學文件</a>', 'woomp'),
             ),
+			'section_payuni' => array(
+                'name' => __('Payuni setting', 'woomp'),
+                'type' => 'title',
+                'id' => 'wc_woomp_setting_payuni',
+            ),
+            'payuni_gateway' => array(
+                'name' => __('Enable Payuni gateway', 'woomp'),
+                'type' => 'checkbox',
+                'desc' => __('Enable Payuni gateway method', 'woomp'),
+                'id' => 'wc_woomp_enabled_payuni_gateway',
+                'class' => 'toggle',
+                'default' => 'no',
+                'desc_tip' => true,
+            ),
+            'payuni_shipping' => array(
+                'name' => __('Enable payuni shipping', 'woomp'),
+                'type' => 'checkbox',
+                'desc' => __('Enable payuni shipping method', 'woomp'),
+                'id' => 'wc_woomp_enabled_payuni_shipping',
+                'class' => 'toggle',
+                'default' => 'no',
+                'desc_tip' => true,
+            ),
+            'section_payuni_end' => array(
+                'type' => 'sectionend',
+            ),
             'section_ecpay' => array(
                 'name' => __('綠界設定', 'woomp'),
                 'type' => 'title',

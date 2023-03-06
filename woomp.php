@@ -346,3 +346,7 @@ if ( in_array( 'woomp/woomp.php', WOOMP_ACTIVE_PLUGINS, true ) ) {
 	}
 }
 
+/**
+ * 引入統一金物流
+ */
+require_once WOOMP_PLUGIN_DIR . 'includes/payuni/payuni.php';

@@ -61,14 +61,15 @@ class Woomp_Setting_Gateway extends WC_Settings_Page {
 	}
 
 	public function get_sections() {
-		$sections['ecpay']     = __( '綠界', 'woomp' );
-		$sections['newebpay']  = __( '藍新', 'woomp' );
-		$sections['smilepay']  = __( '速買配', 'woomp' );
-		$sections['paynow']    = __( '立吉富', 'woomp' );
-		$sections['linepay']   = __( 'LINE Pay', 'woomp' );
+		$sections['ecpay']    = __( '綠界', 'woomp' );
+		$sections['newebpay'] = __( '藍新', 'woomp' );
+		$sections['smilepay'] = __( '速買配', 'woomp' );
+		$sections['paynow']   = __( '立吉富', 'woomp' );
+		$sections['linepay']  = __( 'LINE Pay', 'woomp' );
 		if ( ! in_array( 'PChomePay-Cart-for-WooCommerce/pchomepay.php', WOOMP_ACTIVE_PLUGINS, true ) && ! in_array( 'PChomePay-Cart-for-WooCommerce-master/pchomepay.php', WOOMP_ACTIVE_PLUGINS, true ) ) {
 			$sections['pchomepay'] = __( '支付連', 'woomp' );
 		}
+		$sections['payuni']   = __( 'PAYUNi', 'woomp' );
 		return apply_filters( 'woocommerce_get_sections_' . $this->id, $sections );
 	}
 
@@ -81,6 +82,16 @@ class Woomp_Setting_Gateway extends WC_Settings_Page {
 	public function get_settings( $section = null ) {
 
 		switch ( $section ) {
+			case 'payuni':
+				if ( get_option( 'wc_woomp_enabled_payuni_gateway', 1 ) === 'yes' ) {
+					$settings = include WOOMP_PLUGIN_DIR . 'includes/payuni/src/settings/gateway.php';
+					return $settings;
+				} else {
+					$this->set_setting_default( '統一金流' );
+					$settings = $this->setting_default;
+					return $settings;
+				}
+				break;
 			case 'ecpay':
 				if ( get_option( RY_WT::$option_prefix . 'enabled_ecpay_gateway', 1 ) === 'yes' ) {
 					$settings = include RY_WT_PLUGIN_DIR . 'woocommerce/gateways/ecpay/includes/settings-ecpay-gateway.php';

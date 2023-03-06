@@ -65,6 +65,7 @@ class Woomp_Setting_Shipping extends WC_Settings_Page {
 		$sections['newebpay'] = __( '藍新', 'woomp' );
 		$sections['smilepay'] = __( '速買配', 'woomp' );
 		$sections['paynow']   = __( '立吉富', 'woomp' );
+		$sections['payuni']   = __( 'PAYUNi', 'woomp' );
 		return apply_filters( 'woocommerce_get_sections_' . $this->id, $sections );
 	}
 
@@ -227,7 +228,8 @@ class Woomp_Setting_Shipping extends WC_Settings_Page {
 								'type' => 'sectionend',
 								'id'   => 'paynow_shipping_api_settings',
 							),
-					));
+						)
+					);
 					return $settings;
 				} else {
 					$this->set_setting_default( '立吉富' );
@@ -235,7 +237,16 @@ class Woomp_Setting_Shipping extends WC_Settings_Page {
 					return $settings;
 				}
 				break;
-
+			case 'payuni':
+				if ( get_option( 'wc_woomp_enabled_payuni_shipping', 1 ) === 'yes' ) {
+					$settings = include WOOMP_PLUGIN_DIR . 'includes/payuni/src/settings/shipping.php';
+					return $settings;
+				} else {
+					$this->set_setting_default( '統一' );
+					$settings = $this->setting_default;
+					return $settings;
+				}
+				break;
 			default:
 				// code...
 				break;

@@ -1,17 +1,17 @@
-# Copyright (C) 2022 MorePower
+# Copyright (C) 2023 MorePower
 # This file is distributed under the GPL-2.0+.
 msgid ""
 msgstr ""
-"Project-Id-Version: 好用版擴充 MorePower Addon for WooCommerce 1.8.4\n"
+"Project-Id-Version: 好用版擴充 MorePower Addon for WooCommerce 2.0.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/woomp\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-09-19T08:22:39+00:00\n"
+"POT-Creation-Date: 2023-03-06T09:57:27+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.5.0\n"
+"X-Generator: WP-CLI 2.7.1\n"
 "X-Domain: woomp\n"
 
 #. Plugin Name of the plugin
@@ -54,54 +54,54 @@ msgstr ""
 msgid "invoice"
 msgstr ""
 
-#: admin/class-woomp-order.php:174
-#: admin/class-woomp-order.php:180
+#: admin/class-woomp-order.php:175
+#: admin/class-woomp-order.php:181
 msgid "Print ECPay shipping booking note (711)"
 msgstr ""
 
-#: admin/class-woomp-order.php:175
-msgid "Print ECPay shipping booking note (711 Freeze)"
-msgstr ""
-
 #: admin/class-woomp-order.php:176
-#: admin/class-woomp-order.php:181
-msgid "Print ECPay shipping booking note (family)"
+msgid "Print ECPay shipping booking note (711 Freeze)"
 msgstr ""
 
 #: admin/class-woomp-order.php:177
 #: admin/class-woomp-order.php:182
+msgid "Print ECPay shipping booking note (family)"
+msgstr ""
+
+#: admin/class-woomp-order.php:178
+#: admin/class-woomp-order.php:183
 msgid "Print ECPay shipping booking note (hilife)"
 msgstr ""
 
-#: admin/class-woomp-order.php:183
+#: admin/class-woomp-order.php:184
 msgid "Print ECPay shipping booking note (okmart)"
 msgstr ""
 
-#: admin/class-woomp-order.php:187
+#: admin/class-woomp-order.php:188
 msgid "Print ECPay shipping booking note (tcat)"
 msgstr ""
 
-#: admin/class-woomp-order.php:188
+#: admin/class-woomp-order.php:189
 msgid "Print ECPay shipping booking note (tcat freeze)"
 msgstr ""
 
-#: admin/class-woomp-order.php:189
+#: admin/class-woomp-order.php:190
 msgid "Print ECPay shipping booking note (tcat frozen)"
 msgstr ""
 
-#: admin/class-woomp-order.php:190
+#: admin/class-woomp-order.php:191
 msgid "Print POST booking note"
 msgstr ""
 
-#: admin/class-woomp-order.php:192
+#: admin/class-woomp-order.php:193
 msgid "Print HCT shipping booking note"
 msgstr ""
 
-#: admin/class-woomp-order.php:270
+#: admin/class-woomp-order.php:271
 msgid "Update convenience store"
 msgstr ""
 
-#: admin/class-woomp-order.php:271
+#: admin/class-woomp-order.php:272
 msgid "After choosing cvs, you need update the order to save changing."
 msgstr ""
 
@@ -145,60 +145,60 @@ msgstr ""
 msgid "啟用超商取貨付款"
 msgstr ""
 
-#: admin/class-woomp-product.php:80
+#: admin/class-woomp-product.php:85
 msgid "商品屬性"
 msgstr ""
 
-#: admin/class-woomp-product.php:116
+#: admin/class-woomp-product.php:119
 msgid "切換原版變化類型介面"
 msgstr ""
 
-#: admin/class-woomp-product.php:125
+#: admin/class-woomp-product.php:128
 msgid "請輸入變化類型規格，一次輸入一個"
 msgstr ""
 
-#: admin/class-woomp-product.php:219
+#: admin/class-woomp-product.php:222
 msgid "變化類型已更新"
 msgstr ""
 
-#: admin/class-woomp-product.php:304
+#: admin/class-woomp-product.php:307
 msgid "必填"
 msgstr ""
 
-#: admin/class-woomp-product.php:306
+#: admin/class-woomp-product.php:309
 msgid "須小於定價"
 msgstr ""
 
-#: admin/class-woomp-product.php:335
+#: admin/class-woomp-product.php:338
 msgid "定價未填"
 msgstr ""
 
-#: admin/class-woomp-product.php:417
-msgid "切換好用版 Woo 變化類型介面"
-msgstr ""
-
-#: admin/class-woomp-product.php:448
-msgid "設定前台變化類型介面:"
-msgstr ""
-
-#: admin/class-woomp-product.php:451
-#: admin/class-woomp-product.php:458
-msgid "標籤式選項"
-msgstr ""
-
-#: admin/class-woomp-product.php:453
-msgid "下拉選單"
-msgstr ""
-
-#: admin/class-woomp-product.php:454
-msgid "單選方塊(不斷行)"
+#: admin/class-woomp-product.php:424
+msgid "切換好用���� Woo 變化類型介面"
 msgstr ""
 
 #: admin/class-woomp-product.php:455
+msgid "設定前台變化類型介面:"
+msgstr ""
+
+#: admin/class-woomp-product.php:458
+#: admin/class-woomp-product.php:465
+msgid "標籤式選項"
+msgstr ""
+
+#: admin/class-woomp-product.php:460
+msgid "下拉選單"
+msgstr ""
+
+#: admin/class-woomp-product.php:461
+msgid "單選方塊(不斷行)"
+msgstr ""
+
+#: admin/class-woomp-product.php:462
 msgid "單選方塊(每行放1個選項)"
 msgstr ""
 
-#: admin/class-woomp-product.php:456
+#: admin/class-woomp-product.php:463
 msgid "單選方塊(每行放2個選項) "
 msgstr ""
 
@@ -208,32 +208,45 @@ msgid "金流設定"
 msgstr ""
 
 #: admin/settings/class-woomp-setting-gateway.php:64
+#: admin/settings/class-woomp-setting-shipping.php:68
+msgid "PAYUNi"
+msgstr ""
+
+#: admin/settings/class-woomp-setting-gateway.php:65
 #: admin/settings/class-woomp-setting-shipping.php:64
 msgid "綠界"
 msgstr ""
 
-#: admin/settings/class-woomp-setting-gateway.php:65
+#: admin/settings/class-woomp-setting-gateway.php:66
 #: admin/settings/class-woomp-setting-shipping.php:65
 msgid "藍新"
 msgstr ""
 
-#: admin/settings/class-woomp-setting-gateway.php:66
+#: admin/settings/class-woomp-setting-gateway.php:67
 #: admin/settings/class-woomp-setting-shipping.php:66
 msgid "速買配"
 msgstr ""
 
-#: admin/settings/class-woomp-setting-gateway.php:67
-#: admin/settings/class-woomp-setting-invoice.php:66
+#: admin/settings/class-woomp-setting-gateway.php:68
+#: admin/settings/class-woomp-setting-invoice.php:67
 #: admin/settings/class-woomp-setting-shipping.php:67
 msgid "立吉富"
 msgstr ""
 
-#: admin/settings/class-woomp-setting-gateway.php:68
+#: admin/settings/class-woomp-setting-gateway.php:69
 msgid "LINE Pay"
 msgstr ""
 
-#: admin/settings/class-woomp-setting-gateway.php:186
+#: admin/settings/class-woomp-setting-gateway.php:71
+msgid "支付連"
+msgstr ""
+
+#: admin/settings/class-woomp-setting-gateway.php:200
 msgid "LINE Pay 金流設定"
+msgstr ""
+
+#: admin/settings/class-woomp-setting-gateway.php:345
+msgid "支付連金流設定"
 msgstr ""
 
 #: admin/settings/class-woomp-setting-invoice.php:12
@@ -245,56 +258,75 @@ msgstr ""
 msgid "綠界(好用版)"
 msgstr ""
 
-#: admin/settings/class-woomp-setting-invoice.php:105
+#: admin/settings/class-woomp-setting-invoice.php:66
+msgid "藍新 ezPay"
+msgstr ""
+
+#: admin/settings/class-woomp-setting-invoice.php:96
+#: admin/settings/class-woomp-setting-invoice.php:242
 msgid "Order number prefix"
 msgstr ""
 
-#: admin/settings/class-woomp-setting-invoice.php:108
+#: admin/settings/class-woomp-setting-invoice.php:99
+#: admin/settings/class-woomp-setting-invoice.php:245
 msgid "The prefix string of order number. Only letters and numbers allowed."
 msgstr ""
 
-#: admin/settings/class-woomp-setting-invoice.php:117
+#: admin/settings/class-woomp-setting-invoice.php:108
+#: admin/settings/class-woomp-setting-invoice.php:254
 msgid "Invoice options"
 msgstr ""
 
-#: admin/settings/class-woomp-setting-invoice.php:129
+#: admin/settings/class-woomp-setting-invoice.php:120
+#: admin/settings/class-woomp-setting-invoice.php:266
 msgid "Issue Manual"
 msgstr ""
 
-#: admin/settings/class-woomp-setting-invoice.php:130
+#: admin/settings/class-woomp-setting-invoice.php:121
+#: admin/settings/class-woomp-setting-invoice.php:267
 msgid "Issue automatic"
 msgstr ""
 
-#: admin/settings/class-woomp-setting-invoice.php:135
+#: admin/settings/class-woomp-setting-invoice.php:126
+#: admin/settings/class-woomp-setting-invoice.php:272
 msgid "Allowed Order Status for issue"
 msgstr ""
 
-#: admin/settings/class-woomp-setting-invoice.php:144
+#: admin/settings/class-woomp-setting-invoice.php:135
+#: admin/settings/class-woomp-setting-invoice.php:281
 msgid "Invalid mode"
 msgstr ""
 
-#: admin/settings/class-woomp-setting-invoice.php:151
+#: admin/settings/class-woomp-setting-invoice.php:142
+#: admin/settings/class-woomp-setting-invoice.php:288
 msgid "Invalid manual"
 msgstr ""
 
-#: admin/settings/class-woomp-setting-invoice.php:152
+#: admin/settings/class-woomp-setting-invoice.php:143
+#: admin/settings/class-woomp-setting-invoice.php:289
 msgid "Invalid automatic"
 msgstr ""
 
-#: admin/settings/class-woomp-setting-invoice.php:157
+#: admin/settings/class-woomp-setting-invoice.php:148
+#: admin/settings/class-woomp-setting-invoice.php:294
 msgid "Allowed Order Status for invalid"
 msgstr ""
 
-#: admin/settings/class-woomp-setting-invoice.php:170
+#: admin/settings/class-woomp-setting-invoice.php:161
+#: admin/settings/class-woomp-setting-invoice.php:307
 msgid "Allowed invoice carrier type"
 msgstr ""
 
-#: admin/settings/class-woomp-setting-invoice.php:175
+#: admin/settings/class-woomp-setting-invoice.php:166
 msgid "Cloud Invoice"
 msgstr ""
 
-#: admin/settings/class-woomp-setting-invoice.php:178
+#: admin/settings/class-woomp-setting-invoice.php:169
 msgid "Paper Invoice"
+msgstr ""
+
+#: admin/settings/class-woomp-setting-invoice.php:314
+msgid "ezPay 電子發票載具"
 msgstr ""
 
 #: admin/settings/class-woomp-setting-shipping.php:12
@@ -311,266 +343,302 @@ msgid "<a target=\"_blank\" href=\"https://morepower.club/know_cate/addon/\">好
 msgstr ""
 
 #: admin/settings/class-woomp-setting.php:68
-msgid "綠界設定"
+msgid "Payuni setting"
 msgstr ""
 
 #: admin/settings/class-woomp-setting.php:73
-msgid "Enable ECPay gateway"
+msgid "Enable Payuni gateway"
+msgstr ""
+
+#: admin/settings/class-woomp-setting.php:75
+msgid "Enable Payuni gateway method"
 msgstr ""
 
 #: admin/settings/class-woomp-setting.php:82
-msgid "Enable ECPay shipping"
+msgid "Enable payuni shipping"
 msgstr ""
 
 #: admin/settings/class-woomp-setting.php:84
+msgid "Enable payuni shipping method"
+msgstr ""
+
+#: admin/settings/class-woomp-setting.php:94
+msgid "綠界設定"
+msgstr ""
+
+#: admin/settings/class-woomp-setting.php:99
+msgid "Enable ECPay gateway"
+msgstr ""
+
+#: admin/settings/class-woomp-setting.php:108
+msgid "Enable ECPay shipping"
+msgstr ""
+
+#: admin/settings/class-woomp-setting.php:110
 msgid "Enable ECPay shipping method. The POST method doesn't support goods' weight rule. You should notice that your goods can not over 20kg by yourself."
 msgstr ""
 
-#: admin/settings/class-woomp-setting.php:100
+#: admin/settings/class-woomp-setting.php:126
 msgid "啟用綠界電子發票(好用版)"
 msgstr ""
 
-#: admin/settings/class-woomp-setting.php:112
+#: admin/settings/class-woomp-setting.php:138
 msgid "藍新設定"
 msgstr ""
 
-#: admin/settings/class-woomp-setting.php:117
+#: admin/settings/class-woomp-setting.php:143
 msgid "啟用藍新金流"
 msgstr ""
 
-#: admin/settings/class-woomp-setting.php:126
+#: admin/settings/class-woomp-setting.php:152
 msgid "啟用藍新物流"
 msgstr ""
 
-#: admin/settings/class-woomp-setting.php:138
+#: admin/settings/class-woomp-setting.php:161
+msgid "啟用藍新電子發票"
+msgstr ""
+
+#: admin/settings/class-woomp-setting.php:163
+msgid "啟用 ezPay 藍新電子發票模組"
+msgstr ""
+
+#: admin/settings/class-woomp-setting.php:173
 msgid "速買配設定"
 msgstr ""
 
-#: admin/settings/class-woomp-setting.php:143
+#: admin/settings/class-woomp-setting.php:178
 msgid "啟用速買配金流"
 msgstr ""
 
-#: admin/settings/class-woomp-setting.php:152
+#: admin/settings/class-woomp-setting.php:187
 msgid "啟用速買配物流"
 msgstr ""
 
-#: admin/settings/class-woomp-setting.php:164
+#: admin/settings/class-woomp-setting.php:199
 msgid "立吉富設定"
 msgstr ""
 
-#: admin/settings/class-woomp-setting.php:169
+#: admin/settings/class-woomp-setting.php:204
 msgid "啟用立吉富金流"
 msgstr ""
 
-#: admin/settings/class-woomp-setting.php:171
+#: admin/settings/class-woomp-setting.php:206
 msgid "啟用 立吉富金流 模組"
 msgstr ""
 
-#: admin/settings/class-woomp-setting.php:178
+#: admin/settings/class-woomp-setting.php:213
 msgid "啟用立吉富物流"
 msgstr ""
 
-#: admin/settings/class-woomp-setting.php:180
+#: admin/settings/class-woomp-setting.php:215
 msgid "啟用 立吉富物流 模組"
 msgstr ""
 
-#: admin/settings/class-woomp-setting.php:187
+#: admin/settings/class-woomp-setting.php:222
 msgid "啟用立吉富電子發票"
 msgstr ""
 
-#: admin/settings/class-woomp-setting.php:189
+#: admin/settings/class-woomp-setting.php:224
 msgid "啟用 立吉富電子發票 模組"
 msgstr ""
 
-#: admin/settings/class-woomp-setting.php:199
+#: admin/settings/class-woomp-setting.php:234
 msgid "LINE Pay 設定"
 msgstr ""
 
-#: admin/settings/class-woomp-setting.php:204
+#: admin/settings/class-woomp-setting.php:239
 msgid "啟用 LINE Pay 金流"
 msgstr ""
 
-#: admin/settings/class-woomp-setting.php:216
+#: admin/settings/class-woomp-setting.php:251
+msgid "支付連設定"
+msgstr ""
+
+#: admin/settings/class-woomp-setting.php:256
+msgid "啟用支付連金流"
+msgstr ""
+
+#: admin/settings/class-woomp-setting.php:268
 msgid "結帳相關設定"
 msgstr ""
 
-#: admin/settings/class-woomp-setting.php:231
+#: admin/settings/class-woomp-setting.php:283
 msgid "結帳流程設定"
 msgstr ""
 
-#: admin/settings/class-woomp-setting.php:233
+#: admin/settings/class-woomp-setting.php:285
 msgid "將原本兩段式結帳改成一頁式或兩頁式結帳，並改變結帳順序為 「選物流 -> 選金流 -> 填��帳欄位」，以適應超商取貨等物流模式"
 msgstr ""
 
-#: admin/settings/class-woomp-setting.php:245
+#: admin/settings/class-woomp-setting.php:297
 msgid "兩頁式結帳返回購物車文字"
 msgstr ""
 
-#: admin/settings/class-woomp-setting.php:247
+#: admin/settings/class-woomp-setting.php:299
 msgid "啟用兩頁式結帳後顯示於結帳頁最上方的返回購物車說明文字"
 msgstr ""
 
-#: admin/settings/class-woomp-setting.php:253
+#: admin/settings/class-woomp-setting.php:305
 msgid "結帳頁國家欄位置頂"
 msgstr ""
 
-#: admin/settings/class-woomp-setting.php:255
+#: admin/settings/class-woomp-setting.php:307
 msgid "若需運送至多個國家，建議開啟此選項，將國家欄位移至物流選項之前"
 msgstr ""
 
-#: admin/settings/class-woomp-setting.php:263
+#: admin/settings/class-woomp-setting.php:315
 msgid "縣市/鄉鎮市下拉式選單"
 msgstr ""
 
-#: admin/settings/class-woomp-setting.php:265
+#: admin/settings/class-woomp-setting.php:317
 msgid "開啟此選項套用結帳中的台灣地址下拉選單"
 msgstr ""
 
-#: admin/settings/class-woomp-setting.php:273
+#: admin/settings/class-woomp-setting.php:325
 msgid "訂單地址欄位整併"
 msgstr ""
 
-#: admin/settings/class-woomp-setting.php:275
+#: admin/settings/class-woomp-setting.php:327
 msgid "開啟此選項套用後台訂單管理地址欄位整合為一行"
 msgstr ""
 
-#: admin/settings/class-woomp-setting.php:283
+#: admin/settings/class-woomp-setting.php:335
 msgid "顯示訂單電話資訊"
 msgstr ""
 
-#: admin/settings/class-woomp-setting.php:285
+#: admin/settings/class-woomp-setting.php:337
 msgid "開啟此選項套用後台訂單管理列表顯示帳單電話與運送電話"
 msgstr ""
 
-#: admin/settings/class-woomp-setting.php:293
+#: admin/settings/class-woomp-setting.php:345
 msgid "Validate the length of name and phone"
 msgstr ""
 
-#: admin/settings/class-woomp-setting.php:295
+#: admin/settings/class-woomp-setting.php:347
 msgid "Check the box to set the validate rule of name and phone."
 msgstr ""
 
-#: admin/settings/class-woomp-setting.php:303
+#: admin/settings/class-woomp-setting.php:355
 msgid "虛擬商品隱藏地址欄位"
 msgstr ""
 
-#: admin/settings/class-woomp-setting.php:305
+#: admin/settings/class-woomp-setting.php:357
 msgid "開啟此選項套用結帳虛擬商品時隱藏地址欄位"
 msgstr ""
 
-#: admin/settings/class-woomp-setting.php:313
+#: admin/settings/class-woomp-setting.php:365
 msgid "新增取代貨到付款方式"
 msgstr ""
 
-#: admin/settings/class-woomp-setting.php:315
+#: admin/settings/class-woomp-setting.php:367
 msgid "開啟此選項以取代貨到付款方式"
 msgstr ""
 
-#: admin/settings/class-woomp-setting.php:350
+#: admin/settings/class-woomp-setting.php:402
 msgid "結帳按鈕文字設定"
 msgstr ""
 
-#: admin/settings/class-woomp-setting.php:352
+#: admin/settings/class-woomp-setting.php:404
 msgid "設定結帳頁確定購買按鈕的文字內容"
 msgstr ""
 
-#: admin/settings/class-woomp-setting.php:363
+#: admin/settings/class-woomp-setting.php:415
 msgid "商品相關設定"
 msgstr ""
 
-#: admin/settings/class-woomp-setting.php:368
+#: admin/settings/class-woomp-setting.php:420
 msgid "可變商品編輯介面"
 msgstr ""
 
-#: admin/settings/class-woomp-setting.php:370
+#: admin/settings/class-woomp-setting.php:422
 msgid "開啟此選項以套用好用版可變商品操作介面"
 msgstr ""
 
-#: admin/settings/class-woomp-setting.php:378
+#: admin/settings/class-woomp-setting.php:430
 msgid "可變商品前台顯示介面"
 msgstr ""
 
-#: admin/settings/class-woomp-setting.php:380
+#: admin/settings/class-woomp-setting.php:432
 msgid "開啟此選項以套用好用版可變商品前台顯示介面"
 msgstr ""
 
-#: admin/settings/class-woomp-setting.php:388
+#: admin/settings/class-woomp-setting.php:440
 msgid "可變商品規格預設為標籤式"
 msgstr ""
 
-#: admin/settings/class-woomp-setting.php:390
+#: admin/settings/class-woomp-setting.php:442
 msgid "開啟此選項以套用好用版可變商品規格預設為標籤式"
 msgstr ""
 
-#: admin/settings/class-woomp-setting.php:398
+#: admin/settings/class-woomp-setting.php:450
 msgid "可變商品規格標籤背景顏色"
 msgstr ""
 
-#: admin/settings/class-woomp-setting.php:400
+#: admin/settings/class-woomp-setting.php:452
 msgid "設定標籤式可變商品規格的背景顏色"
 msgstr ""
 
-#: admin/settings/class-woomp-setting.php:406
+#: admin/settings/class-woomp-setting.php:458
 msgid "可變商品規格標籤文字顏色"
 msgstr ""
 
-#: admin/settings/class-woomp-setting.php:408
+#: admin/settings/class-woomp-setting.php:460
 msgid "設定標籤式可變商品規格的文字顏色"
 msgstr ""
 
-#: admin/settings/class-woomp-setting.php:414
+#: admin/settings/class-woomp-setting.php:466
 msgid "虛擬商品自動完成訂單"
 msgstr ""
 
-#: admin/settings/class-woomp-setting.php:415
+#: admin/settings/class-woomp-setting.php:467
 msgid "開啟此選項虛擬商品完成結帳後自動完成訂單"
 msgstr ""
 
-#: admin/settings/class-woomp-setting.php:459
+#: admin/settings/class-woomp-setting.php:511
 msgid "Free shipping hint"
 msgstr ""
 
-#: admin/settings/class-woomp-setting.php:460
+#: admin/settings/class-woomp-setting.php:512
 msgid "Show free shipping condition on checkout page"
 msgstr ""
 
-#: admin/settings/class-woomp-setting.php:468
+#: admin/settings/class-woomp-setting.php:520
 msgid "Free shipping hint condition text"
 msgstr ""
 
-#: admin/settings/class-woomp-setting.php:469
+#: admin/settings/class-woomp-setting.php:521
 msgid "Use {{price}} to display amount"
 msgstr ""
 
-#: admin/settings/class-woomp-setting.php:472
+#: admin/settings/class-woomp-setting.php:524
 msgid "Free shipping left amount"
 msgstr ""
 
-#: admin/settings/class-woomp-setting.php:477
+#: admin/settings/class-woomp-setting.php:529
 msgid "Achive free shipping text, ex:free"
 msgstr ""
 
-#: admin/settings/class-woomp-setting.php:478
+#: admin/settings/class-woomp-setting.php:530
 msgid "Set Achive free shipping text"
 msgstr ""
 
-#: admin/settings/class-woomp-setting.php:481
+#: admin/settings/class-woomp-setting.php:533
 msgid "Free"
 msgstr ""
 
-#: admin/settings/class-woomp-setting.php:486
+#: admin/settings/class-woomp-setting.php:538
 msgid "Free shipping hint background color"
 msgstr ""
 
-#: admin/settings/class-woomp-setting.php:487
+#: admin/settings/class-woomp-setting.php:539
 msgid "Set hint background"
 msgstr ""
 
-#: admin/settings/class-woomp-setting.php:494
+#: admin/settings/class-woomp-setting.php:546
 msgid "Free shipping hint text color"
 msgstr ""
 
-#: admin/settings/class-woomp-setting.php:495
+#: admin/settings/class-woomp-setting.php:547
 msgid "Set hint text color"
 msgstr ""
 
@@ -584,6 +652,164 @@ msgstr ""
 
 #: includes/line-pay-for-woo/includes/class-wc-gateway-linepay.php:60
 msgid "Payments are received through the LINE Pay gateway, which supports USD, JPY, TWD, and THB. In order to use LINE Pay, you must have a Channel ID and Channel SecretKey."
+msgstr ""
+
+#: includes/paynow-shipping/includes/settings/settings-paynow-shipping-c2c-711.php:63
+#: includes/paynow-shipping/includes/settings/settings-paynow-shipping-c2c-family.php:63
+#: includes/paynow-shipping/includes/settings/settings-paynow-shipping-c2c-hilife.php:63
+#: includes/paynow-shipping/includes/settings/settings-paynow-shipping-hd-tcat.php:61
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-711-frozen.php:64
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-family-frozen.php:73
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-frozen.php:64
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-refrigerated.php:63
+msgid "Shipping available"
+msgstr ""
+
+#. translators: %s: shipping class setting url
+#: includes/paynow-shipping/includes/settings/settings-paynow-shipping-c2c-711.php:67
+#: includes/paynow-shipping/includes/settings/settings-paynow-shipping-c2c-family.php:67
+#: includes/paynow-shipping/includes/settings/settings-paynow-shipping-c2c-hilife.php:67
+#: includes/paynow-shipping/includes/settings/settings-paynow-shipping-hd-tcat.php:65
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-711-frozen.php:68
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-family-frozen.php:77
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-frozen.php:68
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-refrigerated.php:67
+msgid "These shipping available based on the <a href=\"%s\">product shipping class</a>."
+msgstr ""
+
+#. translators: %s: shipping class name
+#: includes/paynow-shipping/includes/settings/settings-paynow-shipping-c2c-711.php:75
+#: includes/paynow-shipping/includes/settings/settings-paynow-shipping-c2c-family.php:75
+#: includes/paynow-shipping/includes/settings/settings-paynow-shipping-c2c-hilife.php:75
+#: includes/paynow-shipping/includes/settings/settings-paynow-shipping-hd-tcat.php:73
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-711-frozen.php:76
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-family-frozen.php:85
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-frozen.php:76
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-refrigerated.php:75
+msgid "\"%s\" available"
+msgstr ""
+
+#: includes/payuni/src/settings/gateway.php:5
+msgid "PAYUNi Gateway Setting"
+msgstr ""
+
+#. translators: %s: Path of log file
+#: includes/payuni/src/settings/gateway.php:17
+msgid "Log PAYUNi payemnt events/message, inside %s"
+msgstr ""
+
+#: includes/payuni/src/settings/gateway.php:26
+msgid "API Settings"
+msgstr ""
+
+#: includes/payuni/src/settings/gateway.php:28
+msgid "Enter your payuni API credentials"
+msgstr ""
+
+#: includes/payuni/src/settings/gateway.php:32
+msgid "Sandbox"
+msgstr ""
+
+#: includes/payuni/src/settings/gateway.php:35
+msgid "Check this box if you want to use test/sandbox mode."
+msgstr ""
+
+#: includes/payuni/src/settings/gateway.php:39
+#: includes/payuni/src/settings/shipping.php:111
+msgid "MerchantID"
+msgstr ""
+
+#: includes/payuni/src/settings/gateway.php:41
+msgid "This is the Merchant ID when you apply PAYUNi API"
+msgstr ""
+
+#: includes/payuni/src/settings/gateway.php:46
+msgid "Hash Key"
+msgstr ""
+
+#: includes/payuni/src/settings/gateway.php:48
+msgid "This is the Hash Key when you apply PAYUNi API"
+msgstr ""
+
+#: includes/payuni/src/settings/gateway.php:53
+msgid "Hash IV"
+msgstr ""
+
+#: includes/payuni/src/settings/gateway.php:55
+msgid "This is the Hash IV when you apply PAYUNi API"
+msgstr ""
+
+#: includes/payuni/src/settings/shipping.php:4
+msgid "PAYUNi Shipping Setting"
+msgstr ""
+
+#. translators: %s: Path of log file
+#: includes/payuni/src/settings/shipping.php:17
+msgid "Log PAYUNi shipping events/message, inside %s"
+msgstr ""
+
+#: includes/payuni/src/settings/shipping.php:27
+msgid "Shipping note options"
+msgstr ""
+
+#: includes/payuni/src/settings/shipping.php:32
+msgid "Order no prefix"
+msgstr ""
+
+#: includes/payuni/src/settings/shipping.php:35
+msgid "The prefix string of order no. Only letters and numbers allowed allowed."
+msgstr ""
+
+#: includes/payuni/src/settings/shipping.php:56
+msgid "Sender name"
+msgstr ""
+
+#: includes/payuni/src/settings/shipping.php:59
+msgid "Name length between 1 to 10 letter"
+msgstr ""
+
+#: includes/payuni/src/settings/shipping.php:63
+msgid "Sender phone"
+msgstr ""
+
+#: includes/payuni/src/settings/shipping.php:66
+msgid "Phone format (0x)xxxxxxx#xx"
+msgstr ""
+
+#: includes/payuni/src/settings/shipping.php:74
+msgid "Sender cellphone"
+msgstr ""
+
+#: includes/payuni/src/settings/shipping.php:77
+msgid "Cellphone format 09xxxxxxxx"
+msgstr ""
+
+#: includes/payuni/src/settings/shipping.php:85
+msgid "Sender zipcode"
+msgstr ""
+
+#: includes/payuni/src/settings/shipping.php:90
+msgid "Sender address"
+msgstr ""
+
+#: includes/payuni/src/settings/shipping.php:99
+msgid "API credentials"
+msgstr ""
+
+#: includes/payuni/src/settings/shipping.php:104
+msgid "payuni shipping sandbox"
+msgstr ""
+
+#: includes/payuni/src/settings/shipping.php:108
+msgid "Enable payuni shipping sandbox"
+msgstr ""
+
+#: includes/payuni/src/settings/shipping.php:117
+msgid "HashKey"
+msgstr ""
+
+#: includes/payuni/src/settings/shipping.php:123
+msgid "HashIV"
 msgstr ""
 
 #: includes/ry-woocommerce-tools/woocommerce/admin/meta-boxes/ecpay-shipping-meta-box.php:62
@@ -675,69 +901,97 @@ msgstr ""
 
 #: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Admin.php:51
 #: includes/woomp-ecpay-invoice/src/templates/MyAccount.php:25
+#: includes/woomp-ezpay-invoice/src/posts/ShopOrder/Admin.php:49
+#: includes/woomp-ezpay-invoice/src/templates/MyAccount.php:25
 msgid "Invoice number"
 msgstr ""
 
-#: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Admin.php:61
+#: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Admin.php:62
+#: includes/woomp-ezpay-invoice/src/posts/ShopOrder/Admin.php:60
 msgid "Invalid invoice"
 msgstr ""
 
-#: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Admin.php:63
+#: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Admin.php:64
+#: includes/woomp-ezpay-invoice/src/posts/ShopOrder/Admin.php:62
 msgid "Generate invoice"
 msgstr ""
 
 #: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Ajax.php:29
 #: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Ajax.php:51
+#: includes/woomp-ezpay-invoice/src/posts/ShopOrder/Ajax.php:29
+#: includes/woomp-ezpay-invoice/src/posts/ShopOrder/Ajax.php:49
 msgid "發生錯誤，不合法的請求來源！"
 msgstr ""
 
-#: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Metabox.php:43
+#: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Metabox.php:53
 msgid "綠界電子發票(好用版)"
 msgstr ""
 
-#: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Metabox.php:62
+#: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Metabox.php:72
 #: includes/woomp-ecpay-invoice/src/templates/Checkout.php:29
+#: includes/woomp-ezpay-invoice/src/posts/ShopOrder/Metabox.php:72
+#: includes/woomp-ezpay-invoice/src/templates/Checkout.php:29
 msgid "Invoice Type"
 msgstr ""
 
-#: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Metabox.php:65
+#: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Metabox.php:75
 #: includes/woomp-ecpay-invoice/src/templates/Checkout.php:33
+#: includes/woomp-ezpay-invoice/src/posts/ShopOrder/Metabox.php:75
+#: includes/woomp-ezpay-invoice/src/templates/Checkout.php:33
 msgid "individual"
 msgstr ""
 
-#: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Metabox.php:66
+#: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Metabox.php:76
 #: includes/woomp-ecpay-invoice/src/templates/Checkout.php:34
+#: includes/woomp-ezpay-invoice/src/posts/ShopOrder/Metabox.php:76
+#: includes/woomp-ezpay-invoice/src/templates/Checkout.php:34
 msgid "company"
 msgstr ""
 
-#: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Metabox.php:67
+#: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Metabox.php:77
 #: includes/woomp-ecpay-invoice/src/templates/Checkout.php:35
+#: includes/woomp-ezpay-invoice/src/posts/ShopOrder/Metabox.php:77
+#: includes/woomp-ezpay-invoice/src/templates/Checkout.php:35
 msgid "donate"
 msgstr ""
 
-#: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Metabox.php:73
+#: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Metabox.php:83
 #: includes/woomp-ecpay-invoice/src/templates/Checkout.php:51
+#: includes/woomp-ezpay-invoice/src/posts/ShopOrder/Metabox.php:83
+#: includes/woomp-ezpay-invoice/src/templates/Checkout.php:51
 msgid "Individual Invoice Type"
 msgstr ""
 
-#: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Metabox.php:86
+#: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Metabox.php:96
 #: includes/woomp-ecpay-invoice/src/templates/Checkout.php:61
+#: includes/woomp-ezpay-invoice/src/posts/ShopOrder/Metabox.php:96
+#: includes/woomp-ezpay-invoice/src/templates/Checkout.php:61
 msgid "Carrier Number"
 msgstr ""
 
-#: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Metabox.php:90
+#: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Metabox.php:100
 #: includes/woomp-ecpay-invoice/src/templates/Checkout.php:71
+#: includes/woomp-ezpay-invoice/src/posts/ShopOrder/Metabox.php:100
+#: includes/woomp-ezpay-invoice/src/templates/Checkout.php:80
 msgid "Company Name"
 msgstr ""
 
-#: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Metabox.php:94
+#: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Metabox.php:104
 #: includes/woomp-ecpay-invoice/src/templates/Checkout.php:80
+#: includes/woomp-ezpay-invoice/src/posts/ShopOrder/Metabox.php:104
+#: includes/woomp-ezpay-invoice/src/templates/Checkout.php:70
 msgid "TaxID"
 msgstr ""
 
-#: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Metabox.php:98
+#: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Metabox.php:108
 #: includes/woomp-ecpay-invoice/src/templates/Checkout.php:90
+#: includes/woomp-ezpay-invoice/src/posts/ShopOrder/Metabox.php:108
+#: includes/woomp-ezpay-invoice/src/templates/Checkout.php:90
 msgid "Donate Number"
+msgstr ""
+
+#: includes/woomp-ezpay-invoice/src/posts/ShopOrder/Metabox.php:53
+msgid "藍新 ezPay 電子發票"
 msgstr ""
 
 #: includes/woomp-paynow-shipping/src/class-woomp-paynow-shipping.php:166
@@ -834,29 +1088,6 @@ msgstr ""
 msgid "Users will need to spend this amount to get free shipping."
 msgstr ""
 
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-711-frozen.php:64
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-family-frozen.php:73
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-frozen.php:64
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-refrigerated.php:63
-msgid "Shipping available"
-msgstr ""
-
-#. translators: %s: shipping class setting url
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-711-frozen.php:68
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-family-frozen.php:77
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-frozen.php:68
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-refrigerated.php:67
-msgid "These shipping available based on the <a href=\"%s\">product shipping class</a>."
-msgstr ""
-
-#. translators: %s: shipping class name
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-711-frozen.php:76
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-family-frozen.php:85
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-frozen.php:76
-#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-refrigerated.php:75
-msgid "\"%s\" available"
-msgstr ""
-
 #: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-family-frozen.php:21
 #: includes/woomp-paynow-shipping/src/shippings/class-woomp-paynow-shipping-c2c-family-frozen.php:28
 msgid "PayNow Shipping C2C Family Frozen"
@@ -886,6 +1117,16 @@ msgstr ""
 
 #: includes/woomp-paynow-shipping/src/shippings/class-woomp-paynow-shipping-c2c-711-frozen.php:28
 msgid "PayNow Shipping C2C 711 Frozen"
+msgstr ""
+
+#: public/class-woomp-checkout.php:400
+#: public/class-woomp-checkout.php:405
+msgid "No shipping class"
+msgstr ""
+
+#. translators: %1$s: Cart shipping class, %2$s: Product shipping class.
+#: public/class-woomp-checkout.php:409
+msgid "<b>Cart error occured.</b>The cart can't be added the products with different shipping classes.<br>Cart shipping class: <b>%1$s</b><br>Product shipping class: <b>%2$s</b>"
 msgstr ""
 
 #: public/class-woomp-order.php:38
