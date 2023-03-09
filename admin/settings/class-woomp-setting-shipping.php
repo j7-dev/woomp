@@ -239,7 +239,7 @@ class Woomp_Setting_Shipping extends WC_Settings_Page {
 				break;
 			case 'payuni':
 				if ( get_option( 'wc_woomp_enabled_payuni_shipping', 1 ) === 'yes' ) {
-					$settings = include WOOMP_PLUGIN_DIR . 'includes/payuni/src/settings/shipping.php';
+					$settings = include WOOMP_PLUGIN_DIR . 'includes/payuni/settings/shipping.php';
 					return $settings;
 				} else {
 					$this->set_setting_default( '統一' );

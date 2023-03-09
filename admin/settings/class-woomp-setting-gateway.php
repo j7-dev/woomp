@@ -84,7 +84,7 @@ class Woomp_Setting_Gateway extends WC_Settings_Page {
 		switch ( $section ) {
 			case 'payuni':
 				if ( get_option( 'wc_woomp_enabled_payuni_gateway', 1 ) === 'yes' ) {
-					$settings = include WOOMP_PLUGIN_DIR . 'includes/payuni/src/settings/gateway.php';
+					$settings = include WOOMP_PLUGIN_DIR . 'includes/payuni/settings/gateway.php';
 					return $settings;
 				} else {
 					$this->set_setting_default( '統一金流' );
