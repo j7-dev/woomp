@@ -16,7 +16,7 @@ if ( ! class_exists( 'WooMP_Order' ) ) {
 		 */
 		public static function init() {
 			$class = new self();
-			add_action( 'init', array( $class, 'add_order_status_in_transit' ) );
+			add_action( 'init', array( $class, 'add_order_status' ) );
 			add_filter( 'wc_order_statuses', array( $class, 'add_order_statuses' ) );
 			add_filter( 'woocommerce_reports_order_statuses', array( $class, 'add_order_statuses' ) );
 			add_filter( 'woocommerce_order_is_paid_statuses', array( $class, 'add_report_paid_statuses' ) );
@@ -36,12 +36,23 @@ if ( ! class_exists( 'WooMP_Order' ) ) {
 		/**
 		 * 增加訂單狀態
 		 */
-		public function add_order_status_in_transit() {
+		public function add_order_status() {
 
 			register_post_status(
 				'wc-wmp-in-transit',
 				array(
 					'label'                     => '配送中',
+					'public'                    => true,
+					'show_in_admin_status_list' => true,
+					'show_in_admin_all_list'    => true,
+					'exclude_from_search'       => false,
+				)
+			);
+
+			register_post_status(
+				'wc-wmp-shipped',
+				array(
+					'label'                     => '已出貨',
 					'public'                    => true,
 					'show_in_admin_status_list' => true,
 					'show_in_admin_all_list'    => true,
@@ -56,6 +67,7 @@ if ( ! class_exists( 'WooMP_Order' ) ) {
 				$new_order_statuses[ $key ] = $status;
 				if ( 'wc-processing' === $key ) {
 					$new_order_statuses['wc-wmp-in-transit'] = '配送中';
+					$new_order_statuses['wc-wmp-shipped'] = '已出貨';
 				}
 			}
 			return $new_order_statuses;
@@ -63,11 +75,13 @@ if ( ! class_exists( 'WooMP_Order' ) ) {
 
 		public function add_report_paid_statuses( $statues ) {
 			$statues[] = 'wmp-in-transit';
+			$statues[] = 'wmp-in-shipped';
 			return $statues;
 		}
 
 		public function add_order_is_paid_statuses( $statues ) {
 			$statues[] = 'wmp-in-transit';
+			$statues[] = 'wmp-in-shipped';
 			return $statues;
 		}
 
