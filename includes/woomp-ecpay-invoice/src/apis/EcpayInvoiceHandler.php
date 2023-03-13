@@ -23,7 +23,7 @@ class EcpayInvoiceHandler {
 		// 訂購人資料.
 		$customerName = $order_info['last_name'] . $order_info['first_name'];
 		$orderEmail   = $order_info['email'];
-		$orderPhone   = str_replace( '+886','0', $order_info['phone'] );
+		$orderPhone   = str_replace( '+886', '0', $order_info['phone'] );
 		$orderAddress = $order_info['country'] . $order_info['state'] . $order_info['city'] . $order_info['address_1'] . $order_info['address_2'];
 
 		$customerIdentifier = EcpayInvoiceFields::get_meta( $order_id, 'tax_id' ); // 統一編號
@@ -77,7 +77,7 @@ class EcpayInvoiceHandler {
 			// // 有統一編號 則取得公司名稱
 			$sCompany_Name = EcpayInvoiceFields::get_meta( $order_id, 'company_name' ); // 公司名稱
 			$customerName  = ( ! empty( $sCompany_Name ) ) ? $sCompany_Name : $customerName;
-			$carruerType = $carruerNum = '';
+			$carruerType   = $carruerNum = '';
 		}
 
 		// 無載具 強制列印
@@ -109,16 +109,24 @@ class EcpayInvoiceHandler {
 			$items    = array();
 			$itemsTmp = $order->get_items();
 
-			// 商品資訊
+			// 取得費用
+			$fee_amount = 0;
+			$fees       = $order->get_fees();
+			foreach ( $fees as $fee ) {
+				$fee_amount += $fee->get_amount();
+			}
+			$fee_amount = round( $fee_amount / count( $itemsTmp ) );
 
+			// 商品資訊
 			foreach ( $itemsTmp as $key1 => $value1 ) {
 
-				$items[ $key1 ]['ItemName']   = wp_strip_all_tags( str_replace( '|', '-', $value1['name'] ), true ); // 商品名稱 ItemName
+				$items[ $key1 ]['ItemName']   = wp_strip_all_tags( str_replace( '|', '-', $value1['name'] ), true ); //		 商品名稱 ItemName
 				$items[ $key1 ]['ItemCount']  = $value1['quantity']; // 數量 ItemCount
-				$items[ $key1 ]['ItemAmount'] = round( $value1['total'] + $value1['total_tax'] ); // 小計 ItemAmount
+				$items[ $key1 ]['ItemAmount'] = round( $value1['total'] + $value1['total_tax'] ) + $fee_amount; // 小計 ItemAmount
 				$items[ $key1 ]['ItemPrice']  = $items[ $key1 ]['ItemAmount'] / $items[ $key1 ]['ItemCount']; // 單價 ItemPrice
 			}
 
+			// 組合商品
 			foreach ( $items as $key2 => $value2 ) {
 
 				array_push(
@@ -173,6 +181,8 @@ class EcpayInvoiceHandler {
 			$ecpay_invoice->Send['InvoiceRemark']      = $invoiceRemark;
 			$ecpay_invoice->Send['InvType']            = '07';
 			$ecpay_invoice->Send['vat']                = '';
+
+			return $ecpay_invoice->Send['Items'];
 
 			// 4.送出
 			$return_info = $ecpay_invoice->Check_Out();
