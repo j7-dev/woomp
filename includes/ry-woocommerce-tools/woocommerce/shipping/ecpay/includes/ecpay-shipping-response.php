@@ -7,11 +7,21 @@ class RY_ECPay_Shipping_Response extends RY_ECPay_Shipping_Api {
 		add_action( 'woocommerce_api_ry_ecpay_shipping_callback', array( __CLASS__, 'check_shipping_callback' ) );
 		add_action( 'valid_ecpay_shipping_request', array( __CLASS__, 'shipping_callback' ) );
 
-		// 物流返回代號文件 https://www.ecpay.com.tw/Content/files/ecpay_030.pdf.
+		// 物流返回代號文件 https://github.com/ECPay/SDK_PHP/blob/master/example/Logistics/logistics_status.xlsx
 
+		// 超商
 		add_action( 'ry_ecpay_shipping_response_status_2030', array( __CLASS__, 'shipping_transporting' ), 10, 2 );
 		add_action( 'ry_ecpay_shipping_response_status_3024', array( __CLASS__, 'shipping_transporting' ), 10, 2 );
 		add_action( 'ry_ecpay_shipping_response_status_3032', array( __CLASS__, 'shipping_transporting' ), 10, 2 );
+		
+		// 黑貓
+		add_action( 'ry_ecpay_shipping_response_status_3001', array( __CLASS__, 'shipping_transporting' ), 10, 2 );
+		add_action( 'ry_ecpay_shipping_response_status_3006', array( __CLASS__, 'shipping_transporting' ), 10, 2 );
+		add_action( 'ry_ecpay_shipping_response_status_3003', array( __CLASS__, 'shipping_completed' ), 10, 2 );
+		
+		// 郵局
+		add_action( 'ry_ecpay_shipping_response_status_3113', array( __CLASS__, 'shipping_transporting' ), 10, 2 );
+		add_action( 'ry_ecpay_shipping_response_status_3308', array( __CLASS__, 'shipping_completed' ), 10, 2 );
 
 		add_action( 'ry_ecpay_shipping_response_status_2063', array( __CLASS__, 'shipping_at_cvs' ), 10, 2 );
 		add_action( 'ry_ecpay_shipping_response_status_2073', array( __CLASS__, 'shipping_at_cvs' ), 10, 2 );
