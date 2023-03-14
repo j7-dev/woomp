@@ -42,13 +42,15 @@ class Request {
 			'payuni_transaction_args_' . $this->gateway->id,
 			array(
 				'MerID'      => $this->gateway->get_mer_id(),
-				'Version'    => '1.0',
 				'MerTradeNo' => $order->get_order_number(),
 				'TradeAmt'   => 1000,
 				'Timestamp'  => time(),
 				'UsrMail'    => 'm615926@gmail.com',
 				'ProdDesc'   => '商品名稱',
-				'API3D'      => 1,
+				//'API3D'      => 1,
+				'CardNo'      => '4667260017259305',
+				'CardExpired' => '0124',
+				'CardCVC'     => '123',
 			),
 			$order
 		);
@@ -57,6 +59,8 @@ class Request {
 		$parameter['Version']     = '1.0';
 		$parameter['EncryptInfo'] = $this->gateway->encrypt( $args );
 		$parameter['HashInfo']    = $this->gateway->hash_info( $parameter['EncryptInfo'] );
+
+		\PAYUNI\APIs\Payment::log( $parameter );
 
 		return $parameter;
 	}
@@ -68,7 +72,6 @@ class Request {
 	 * @return void
 	 */
 	public function build_request( $order ) {
-		$order   = wc_get_order( $order );
 		$options = array(
 			'method'  => 'POST',
 			'timeout' => 60,
@@ -76,6 +79,9 @@ class Request {
 		);
 
 		$response = wp_remote_request( $this->gateway->get_api_url() . $this->gateway->get_api_endpoint_url(), $options );
+
+		$resp = wp_remote_retrieve_body( $response );
+		print_r($resp);
 
 		if ( ! is_wp_error( $response ) ) {
 

@@ -116,7 +116,7 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 			$this->min_amount = 10;
 
 			$this->testmode = wc_string_to_bool( get_option( 'payuni_payment_testmode' ) );
-			$this->api_url  = ( $this->testmode ) ? 'https://sandbox.payuni.com.tw/' : 'https://www.payuni.com.tw/';
+			$this->api_url  = ( $this->testmode ) ? 'https://sandbox-api.payuni.com.tw/' : 'https://api.payuni.com.tw/';
 
 			add_action( 'woocommerce_order_details_before_order_table', array( $this, 'get_detail_after_order_table' ), 10, 1 );
 
@@ -321,35 +321,35 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 					);
 				}
 			}
-			if ( isset( $resultArr['EncryptInfo'] ) ) {
-				if ( isset( $resultArr['HashInfo'] ) ) {
-					$chkHash = $this->hash_info( $resultArr['EncryptInfo'] );
-					if ( $chkHash != $resultArr['HashInfo'] ) {
-						$msg = 'Hash mismatch';
-						return array(
-							'success' => false,
-							'message' => $msg,
-						);
-					}
-					$resultArr['EncryptInfo'] = $this->decrypt( $resultArr['EncryptInfo'] );
-					return array(
-						'success' => true,
-						'message' => $resultArr,
-					);
-				} else {
-					$msg = 'missing HashInfo';
-					return array(
-						'success' => false,
-						'message' => $msg,
-					);
-				}
-			} else {
-				$msg = 'missing EncryptInfo';
-				return array(
-					'success' => false,
-					'message' => $msg,
-				);
-			}
+			//if ( isset( $resultArr['EncryptInfo'] ) ) {
+			//	if ( isset( $resultArr['HashInfo'] ) ) {
+			//		$chkHash = $this->hash_info( $resultArr['EncryptInfo'] );
+			//		if ( $chkHash != $resultArr['HashInfo'] ) {
+			//			$msg = 'Hash mismatch';
+			//			return array(
+			//				'success' => false,
+			//				'message' => $msg,
+			//			);
+			//		}
+			//		$resultArr['EncryptInfo'] = $this->decrypt( $resultArr['EncryptInfo'] );
+			//		return array(
+			//			'success' => true,
+			//			'message' => $resultArr,
+			//		);
+			//	} else {
+			//		$msg = 'missing HashInfo';
+			//		return array(
+			//			'success' => false,
+			//			'message' => $msg,
+			//		);
+			//	}
+			//} else {
+			//	$msg = 'missing EncryptInfo';
+			//	return array(
+			//		'success' => false,
+			//		'message' => $msg,
+			//	);
+			//}
 		}
 	}
 }

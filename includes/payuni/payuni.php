@@ -14,17 +14,18 @@ add_action(
 	function() {
 		if ( wc_string_to_bool( get_option( 'wc_woomp_enabled_payuni_gateway' ) ) || wc_string_to_bool( get_option( 'wc_woomp_enabled_payuni_shipping' ) ) ) {
 			\A7\autoload( WOOMP_PLUGIN_DIR . 'includes/payuni/src' );
+
+			if ( ! class_exists( 'WC_Payment_Gateway' ) ) {
+				wp_die( 'WC_Payment_Gateway not found' );
+			}
+			\PAYUNI\APIs\Payment::init();
 		}
 	}
 );
 
-/**
- * Add payment gateway
- */
-function payuni_payment() {
-	if ( ! class_exists( 'WC_Payment_Gateway' ) ) {
-		wp_die( 'WC_Payment_Gateway not found' );
+add_action(
+	'wp_enqueue_scripts',
+	function() {
+		wp_enqueue_script( 'card', PAYUNI_PLUGIN_URL . 'assets/card.js', array(), '1.0.0', true );
 	}
-	\PAYUNI\APIs\Payment::init();
-}
-add_action( 'plugins_loaded', 'payuni_payment' );
+);

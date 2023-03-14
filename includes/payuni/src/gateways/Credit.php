@@ -23,6 +23,7 @@ class Credit extends AbstractGateway {
 
 		$this->plugin_name        = 'payuni-payment-credit';
 		$this->version            = '1.0.0';
+		$this->has_fields         = true;
 		$this->order_button_text  = __( 'PAYUNi Credit Card', 'woomp' );
 		$this->id                 = 'payuni-credit';
 		$this->method_title       = __( 'PAYUNi Credit Card Payment', 'woomp' );
@@ -35,9 +36,9 @@ class Credit extends AbstractGateway {
 		$this->description      = $this->get_option( 'description' );
 		$this->api_endpoint_url = 'api/credit';
 
-		//add_action( 'woocommerce_update_options_payment_gateways_' . $this->id, array( $this, 'process_admin_options' ) );
-		//add_action( 'woocommerce_receipt_' . $this->id, array( $this, 'receipt_page' ) );
-		//add_filter( 'payuni_transaction_args_' . $this->id, array( $this, 'add_args' ), 10, 2 );
+		// add_action( 'woocommerce_update_options_payment_gateways_' . $this->id, array( $this, 'process_admin_options' ) );
+		// add_action( 'woocommerce_receipt_' . $this->id, array( $this, 'receipt_page' ) );
+		// add_filter( 'payuni_transaction_args_' . $this->id, array( $this, 'add_args' ), 10, 2 );
 	}
 
 	/**
@@ -73,19 +74,61 @@ class Credit extends AbstractGateway {
 	}
 
 	/**
+	 * Payment fields
+	 */
+	public function payment_fields() { ?>
+	<div class='card-wrapper' style="float:left"></div>
+	<form id="payuniCreditForm" style="clear:both; padding-top:10px">
+		<input type="text" id="payuni_card_number" name="payuni_card_number" placeholder="請輸入卡號，ex:1234 1234 1234 12345" style="width: 100%; max-width:350px; margin-bottom:5px; border-radius:5px">
+		<br>
+		<input type="text" id="payuni_card_expiry" name="payuni_card_expiry" placeholder="請輸入到期日，ex:01/24"/ style="width: 100%; max-width:350px; margin-bottom:5px; border-radius:5px" maxlength="7">
+		<br>
+		<input type="text" id="payuni_card_cvc" name="payuni_card_cvc" maxlength="3" placeholder="請輸入驗證碼，ex:123" style="width: 100%; max-width:350px; border-radius:5px"/>
+	</form>
+	<script>
+		jQuery(function($){
+			$(document).ready(function(){
+				$('#payuniCreditForm').card({
+					container: '.card-wrapper',
+					formSelectors: {
+						numberInput: 'input#payuni_card_number',
+						expiryInput: 'input#payuni_card_expiry',
+						cvcInput: 'input#payuni_card_cvc',
+					},
+				});	
+			}) 
+		})
+	</script>
+		<?php
+	}
+
+	/**
 	 * Process payment
 	 *
 	 * @param string $order_id The order id.
 	 * @return array
 	 */
 	public function process_payment( $order_id ) {
-		global $woocommerce;
+
+		if ( isset( $_POST['payuni_card_number'] ) && ! empty( $_POST['payuni_card_number'] ) ) {
+			$order->update_meta_data( 'payuni_card_number', $_POST['payuni_card_number'] );
+		}
+
+		if ( isset( $_POST['payuni_card_expiry'] ) && ! empty( $_POST['payuni_card_expiry'] ) ) {
+			$order->update_meta_data( 'payuni_card_expiry', $_POST['payuni_card_expiry'] );
+		}
+
+		if ( isset( $_POST['payuni_card_cvs'] ) && ! empty( $_POST['payuni_card_cvs'] ) ) {
+			$order->update_meta_data( 'payuni_card_cvs', $_POST['payuni_card_cvs'] );
+		}
+
 		$order   = new \WC_Order( $order_id );
 		$request = new Request( new self() );
 		$resp    = $request->build_request( $order );
+		
 		return array(
 			'result'   => 'success',
-			'redirect' => home_url(),
+			'redirect' => $this->get_return_url( $order ),
 		);
 	}
 
@@ -100,8 +143,9 @@ class Credit extends AbstractGateway {
 		return array_merge(
 			$args,
 			array(
-				'ReturnURL' => home_url( 'wc-api/payuni_payment' ),
-				// 'backurl'         => home_url( 'wc-api/payuni_payment_offline' ),
+				'CardNo'      => $order->get_meta( 'payuni_card_number' ),
+				'CardExpired' => $order->get_meta( 'payuni_card_expiry' ),
+				'CardCVC'     => $order->get_meta( 'payuni_card_cvc' ),
 			)
 		);
 	}
