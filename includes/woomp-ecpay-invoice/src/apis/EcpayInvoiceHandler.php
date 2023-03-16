@@ -182,7 +182,7 @@ class EcpayInvoiceHandler {
 			$ecpay_invoice->Send['InvType']            = '07';
 			$ecpay_invoice->Send['vat']                = '';
 
-			return $ecpay_invoice->Send['Items'];
+			$ecpay_invoice->Send['Items'];
 
 			// 4.送出
 			$return_info = $ecpay_invoice->Check_Out();
