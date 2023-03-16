@@ -216,6 +216,10 @@ if ( ! $checkout->is_registration_enabled() && $checkout->is_registration_requir
 		display: none!important;
 	}
 
+	::placeholder {
+		color: #666!important;
+	}
+
 	@media screen and (max-width: 920px){
 		#paymentWrap th {
 			width: 80px!important;

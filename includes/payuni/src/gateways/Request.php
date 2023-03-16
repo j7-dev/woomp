@@ -48,9 +48,9 @@ class Request {
 				'UsrMail'    => 'm615926@gmail.com',
 				'ProdDesc'   => '商品名稱',
 				//'API3D'      => 1,
-				'CardNo'      => '4667260017259305',
-				'CardExpired' => '0124',
-				'CardCVC'     => '123',
+				'CardNo'      => $order->get_meta('_payuni_card_number'),
+				'CardExpired' => $order->get_meta('_payuni_card_expiry'),
+				'CardCVC'     => $order->get_meta('_payuni_card_cvc'),
 			),
 			$order
 		);
@@ -60,7 +60,7 @@ class Request {
 		$parameter['EncryptInfo'] = $this->gateway->encrypt( $args );
 		$parameter['HashInfo']    = $this->gateway->hash_info( $parameter['EncryptInfo'] );
 
-		\PAYUNI\APIs\Payment::log( $parameter );
+		\PAYUNI\APIs\Payment::log( $args );
 
 		return $parameter;
 	}
@@ -78,10 +78,11 @@ class Request {
 			'body'    => $this->get_transaction_args( $order ),
 		);
 
+		return;
+
 		$response = wp_remote_request( $this->gateway->get_api_url() . $this->gateway->get_api_endpoint_url(), $options );
 
 		$resp = wp_remote_retrieve_body( $response );
-		print_r($resp);
 
 		if ( ! is_wp_error( $response ) ) {
 
