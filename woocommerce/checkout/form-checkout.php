@@ -217,7 +217,7 @@ if ( ! $checkout->is_registration_enabled() && $checkout->is_registration_requir
 	}
 
 	::placeholder {
-		color: #666!important;
+		color: #999!important;
 	}
 
 	@media screen and (max-width: 920px){

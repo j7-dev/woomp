@@ -27,7 +27,7 @@ add_action(
 	'wp_enqueue_scripts',
 	function() {
 		wp_enqueue_script( 'card-mask', 'https://cdnjs.cloudflare.com/ajax/libs/imask/3.4.0/imask.min.js', array(), '1.0.0', true );
-		wp_enqueue_script( 'card', PAYUNI_PLUGIN_URL . 'assets/card.js', array(), '1.0.4', true );
-		wp_enqueue_style( 'card', PAYUNI_PLUGIN_URL . 'assets/card.css', array(), '1.0.1' );
+		wp_enqueue_script( 'card', PAYUNI_PLUGIN_URL . 'assets/card.js', array(), '1.0.9', true );
+		wp_enqueue_style( 'card', PAYUNI_PLUGIN_URL . 'assets/card.css', array(), '1.0.4' );
 	}
 );
