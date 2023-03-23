@@ -215,7 +215,7 @@ jQuery(function($){
 		
 		
 		// CREDIT CARD IMAGE JS
-		document.querySelector('.preload').classList.remove('preload');
+		//document.querySelector('.preload').classList.remove('preload');
 		document.querySelector('.creditcard').addEventListener('click', function () {
 			if (this.classList.contains('flipped')) {
 				this.classList.remove('flipped');
@@ -247,7 +247,7 @@ jQuery(function($){
 			if (securitycode_mask.value.length == 0) {
 				document.getElementById('svgsecurity').innerHTML = '985';
 			} else {
-				document.getElementById('svgsecurity').innerHTML = securitycode_mask.value;
+				//document.getElementById('svgsecurity').innerHTML = securitycode_mask.value;
 			}
 		});
 		

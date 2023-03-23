@@ -1,9 +1,9 @@
 === 好用版擴充 MorePower Addon for WooCommerce ===
 Requires at least: 4.9.8
-Tested up to: 6.0.0
+Tested up to: 6.1.1
 Requires PHP: 7.0
 WC requires at least: 5
-WC tested up to: 6.6.1
+WC tested up to: 7.5.1
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -18,6 +18,10 @@ WooCommerce 好用版擴充，改善結帳流程與可變商品等區塊，讓 W
 安裝說明
 
 == Changelog ==
+
+<p>v2.0.4</p>
+<p>修改 - 綠界電子發票相容點數開立</p>
+<p>修改 - ezPay 電子發票加入測試環境設定</p>
 
 <p>v2.0.3</p>
 <p>除錯 - 綠界電子發票無法開立</p>
