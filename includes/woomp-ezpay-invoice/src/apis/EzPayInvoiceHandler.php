@@ -21,9 +21,9 @@ class EzPayInvoiceHandler {
 	public function __construct() {
 		if ( get_option( 'wc_woomp_ezpay_invoice_testmode_enabled' ) ) {
 			$account       = array(
-				'merchantID' => '329538037',
-				'hashKey'    => '9y28EekDh3ubujdLhPEv3jGnKEm3fUOd',
-				'hashIV'     => 'P9OZ2VjGRnF8iSuC',
+				'merchantID' => get_option( 'wc_woomp_ezpay_invoice_merchant_id_test' ),
+				'hashKey'    => get_option( 'wc_woomp_ezpay_invoice_hashkey_test' ),
+				'hashIV'     => get_option( 'wc_woomp_ezpay_invoice_hashiv_test' ),
 			);
 			$is_production = false;
 		} else {

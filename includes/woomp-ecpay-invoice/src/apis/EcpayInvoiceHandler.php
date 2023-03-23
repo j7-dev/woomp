@@ -199,9 +199,6 @@ class EcpayInvoiceHandler {
 			// 4.送出
 			$return_info = $ecpay_invoice->Check_Out();
 
-			$log = new \WC_Logger();
-			$log->log( '$ecpay_invoice', wc_print_r($ecpay_invoice,true), array( 'source' => 'ods-log' ) );
-
 			// 於備註區寫入發票資訊
 			$invoice_date    = $return_info['InvoiceDate'];
 			$invoice_number  = $return_info['InvoiceNumber'];

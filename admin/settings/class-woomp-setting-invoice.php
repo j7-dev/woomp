@@ -328,18 +328,47 @@ class Woomp_Setting_Invoice extends WC_Settings_Page {
 							'type' => 'sectionend',
 						),
 						array(
-							'title' => '商家資料設定',
+							'title' => '商家資料設定（測試模式）',
+							'desc'  => '請於 ezPay 電子發票測試平台 <a href="https://cinv.ezpay.com.tw/">https://cinv.ezpay.com.tw/</a> 申請會員並建立測試商店',
 							'type'  => 'title',
-							'id'    => 'wc_woomp_ezpay_invoice_api_settings',
+							'id'    => 'wc_woomp_ezpay_invoice_api_settings_test',
 						),
 						array(
 							'title' => '測試模式',
 							'type'  => 'checkbox',
-							'desc'  => '勾選時為測試模式，未勾選則會使用下方資料作為正式交易環境',
+							'desc'  => '勾選時為測試模式',
 							'id'    => 'wc_woomp_ezpay_invoice_testmode_enabled',
 						),
 						array(
-							'title' => '商家編號',
+							'title' => '測試商家編號',
+							'type'  => 'text',
+							'desc'  => '請輸入測試商家代號',
+							'id'    => 'wc_woomp_ezpay_invoice_merchant_id_test',
+						),
+						array(
+							'title' => '測試 HashKey',
+							'type'  => 'text',
+							'desc'  => '請輸入測試 HashKey',
+							'id'    => 'wc_woomp_ezpay_invoice_hashkey_test',
+						),
+						array(
+							'title' => '測試 HashIV',
+							'type'  => 'text',
+							'desc'  => '請輸入測試 HashIV',
+							'id'    => 'wc_woomp_ezpay_invoice_hashiv_test',
+						),
+						array(
+							'type' => 'sectionend',
+							'id'   => 'wc_woomp_ezpay_invoice_api_settings_test',
+						),
+						array(
+							'title' => '商家資料設定（正式環境）',
+							'desc'  => '請於 ezPay 電子發票加值服務平台 <a href="https://inv.ezpay.com.tw/">https://inv.ezpay.com.tw/</a> 申請會員並建立商店',
+							'type'  => 'title',
+							'id'    => 'wc_woomp_ezpay_invoice_api_settings',
+						),
+						array(
+							'title' => '正式商家編號',
 							'type'  => 'text',
 							'desc'  => '請輸入正式商家代號',
 							'id'    => 'wc_woomp_ezpay_invoice_merchant_id',
@@ -347,13 +376,13 @@ class Woomp_Setting_Invoice extends WC_Settings_Page {
 						array(
 							'title' => '正式 HashKey',
 							'type'  => 'text',
-							'desc'  => '請輸入 HashKey',
+							'desc'  => '請輸入正式 HashKey',
 							'id'    => 'wc_woomp_ezpay_invoice_hashkey',
 						),
 						array(
 							'title' => '正式 HashIV',
 							'type'  => 'text',
-							'desc'  => '請輸入 HashIV',
+							'desc'  => '請輸入正式 HashIV',
 							'id'    => 'wc_woomp_ezpay_invoice_hashiv',
 						),
 						array(
