@@ -109,20 +109,12 @@ class EcpayInvoiceHandler {
 			$items    = array();
 			$itemsTmp = $order->get_items();
 
-			// 取得費用
-			$fee_amount = 0;
-			$fees       = $order->get_fees();
-			foreach ( $fees as $fee ) {
-				$fee_amount += $fee->get_amount();
-			}
-			$fee_amount = round( $fee_amount / count( $itemsTmp ) );
-
 			// 商品資訊
 			foreach ( $itemsTmp as $key1 => $value1 ) {
 
-				$items[ $key1 ]['ItemName']   = wp_strip_all_tags( str_replace( '|', '-', $value1['name'] ), true ); //		 商品名稱 ItemName
+				$items[ $key1 ]['ItemName']   = wp_strip_all_tags( str_replace( '|', '-', $value1['name'] ), true ); // 商品名稱 ItemName
 				$items[ $key1 ]['ItemCount']  = $value1['quantity']; // 數量 ItemCount
-				$items[ $key1 ]['ItemAmount'] = round( $value1['total'] + $value1['total_tax'] ) + $fee_amount; // 小計 ItemAmount
+				$items[ $key1 ]['ItemAmount'] = round( $value1['total'] + $value1['total_tax'] ); // 小計 ItemAmount
 				$items[ $key1 ]['ItemPrice']  = $items[ $key1 ]['ItemAmount'] / $items[ $key1 ]['ItemCount']; // 單價 ItemPrice
 			}
 
@@ -160,6 +152,26 @@ class EcpayInvoiceHandler {
 				);
 			}
 
+			// 取得費用
+			$fee_amount = 0;
+			$fees       = $order->get_fees();
+			foreach ( $fees as $fee ) {
+				$fee_amount += $fee->get_amount();
+			}
+			if ( $fee_amount !== 0 ) {
+				array_push(
+					$ecpay_invoice->Send['Items'],
+					array(
+						'ItemName'    => '費用',
+						'ItemCount'   => 1,
+						'ItemWord'    => '式',
+						'ItemPrice'   => $fee_amount,
+						'ItemTaxType' => 1,
+						'ItemAmount'  => $fee_amount,
+					)
+				);
+			}
+
 			// 測試用使用時間標記，正式上線只能單一不重複。
 			$relateNumber = date( 'YmdHis' );
 
@@ -186,6 +198,9 @@ class EcpayInvoiceHandler {
 
 			// 4.送出
 			$return_info = $ecpay_invoice->Check_Out();
+
+			$log = new \WC_Logger();
+			$log->log( '$ecpay_invoice', wc_print_r($ecpay_invoice,true), array( 'source' => 'ods-log' ) );
 
 			// 於備註區寫入發票資訊
 			$invoice_date    = $return_info['InvoiceDate'];
@@ -234,7 +249,7 @@ class EcpayInvoiceHandler {
 		$orderInfo    = get_post_meta( $order_id );
 		$relateNumber = date( 'YmdHis' );
 
-		// 付款成功最後的一次 第一次付款或沒有此欄位則設定為空值
+		// 付款成功最後的���次 第一次付款或沒有此欄位則設定為空值
 		// $totalSuccessTimes = ( isset( $orderInfo['_total_success_times'][0] ) && $orderInfo['_total_success_times'][0] == '' ) ? '' : $orderInfo['_total_success_times'][0];
 		$totalSuccessTimes = '';
 
