@@ -74,6 +74,48 @@ class Credit extends AbstractGateway {
 	}
 
 	/**
+	 * 檢查是否有記憶卡號
+	 */
+	private function has_token() {
+		if ( is_user_logged_in() ) {
+			$user_id = get_current_user_id();
+			if ( get_user_meta( $user_id, '_payuni_card_4no' ) ) {
+				return true;
+			}
+			return false;
+		}
+		return false;
+	}
+
+	/**
+	 * 信用卡表單
+	 */
+	private function render_card_form() {
+		$html = '
+		<div class="payuni-field-container">
+			<label for="cardnumber">卡號</label>
+			<input id="cardnumber" placeholder="ex:0123 4567 8910 1112" type="text" pattern="[0-9]*" inputmode="numeric" name="payuni_card_number" value="">
+			<svg id="ccicon" class="ccicon" width="750" height="471" viewBox="0 0 750 471" version="1.1" xmlns="http://www.w3.org/2000/svg"
+				xmlns:xlink="http://www.w3.org/1999/xlink">
+
+			</svg>
+		</div>
+		<div class="payuni-field-container">
+			<label for="expirationdate">到期日 (mm/yy)</label>
+			<input id="expirationdate" placeholder="ex:01/23" type="text" pattern="[0-9]*" inputmode="numeric" name="payuni_card_expiry">
+		</div>
+		<div class="payuni-field-container">
+			<label for="securitycode">安全碼</label>
+			<input id="securitycode" placeholder="ex:123" type="text" maxlength=3 pattern="[0-9]*" inputmode="numeric" name="payuni_card_cvc">
+		</div>
+		<div>
+			<input id="remember" type="checkbox" name="payuni_card_remember" style="width:auto; margin:0">
+			<label for="remember" style="padding:0; position:relative; top:-2px; cursor:pointer">記憶卡號</label>
+		</div>';
+		return $html;
+	}
+
+	/**
 	 * Payment fields
 	 */
 	public function payment_fields() { ?>
@@ -148,26 +190,23 @@ class Credit extends AbstractGateway {
 		</div>
 			<?php do_action( 'woocommerce_credit_card_form_start', $this->id ); ?>
 		<div class="payuni-form-container">
-			<div class="payuni-field-container">
-				<label for="cardnumber">卡號</label>
-				<input id="cardnumber" placeholder="ex:0123 4567 8910 1112" type="text" pattern="[0-9]*" inputmode="numeric" name="payuni_card_number">
-				<svg id="ccicon" class="ccicon" width="750" height="471" viewBox="0 0 750 471" version="1.1" xmlns="http://www.w3.org/2000/svg"
-					xmlns:xlink="http://www.w3.org/1999/xlink">
-
-				</svg>
+			<?php if ( ! $this->has_token() ) : ?>
+				<?php echo $this->render_card_form(); ?>
+			<?php else : ?>
+			<div>
+				<div>使用上次紀錄的信用卡結帳
+					<p style="background:#efefef;padding:5px 10px; margin-top:5px"> **** **** **** <?php echo esc_html( get_user_meta( get_current_user_id(), '_payuni_card_4no', true ) ); ?></p>
+					<input type="hidden" name="payuni_card_hash" value="hash">
+				</div>
+				<!--<div>
+					<input id="change" type="checkbox" name="payuni_card_change" style="width:auto; margin:0">
+					<label for="change" style="padding:0; position:relative; top:-2px; cursor:pointer">更換信用卡</label>
+				</div>-->
+				<!--<div style="display:none" >
+					<?php echo $this->render_card_form(); ?>
+				</div>-->
 			</div>
-			<div class="payuni-field-container">
-				<label for="expirationdate">到期日 (mm/yy)</label>
-				<input id="expirationdate" placeholder="ex:01/23" type="text" pattern="[0-9]*" inputmode="numeric" name="payuni_card_expiry">
-			</div>
-			<div class="payuni-field-container">
-				<label for="securitycode">安全碼</label>
-				<input id="securitycode" placeholder="ex:123" type="text" maxlength=3 pattern="[0-9]*" inputmode="numeric" name="payuni_card_cvc">
-			</div>
-			<!--<div>
-				<input id="remember" type="checkbox" name="payuni_card_remember" style="width:auto; margin:0">
-				<label for="remember" style="padding:0; position:relative; top:-2px; cursor:pointer">記憶卡號</label>
-			</div>-->
+			<?php endif; ?>
 		</div>
 		<?php
 		do_action( 'woocommerce_credit_card_form_end', $this->id );
@@ -175,17 +214,20 @@ class Credit extends AbstractGateway {
 
 	public function validate_fields() {
 
-		if ( empty( $_POST['payuni_card_number'] ) ) {
-			wc_add_notice( __( 'Credit card number is required', 'woomp' ), 'error' );
+		if ( ! $this->has_token() ) {
+			if ( empty( $_POST['payuni_card_number'] ) ) {
+				wc_add_notice( __( 'Credit card number is required', 'woomp' ), 'error' );
+			}
+
+			if ( empty( $_POST['payuni_card_expiry'] ) ) {
+				wc_add_notice( __( 'Credit card expired date is required', 'woomp' ), 'error' );
+			}
+
+			if ( empty( $_POST['payuni_card_cvc'] ) ) {
+				wc_add_notice( __( 'Credit card security code is required', 'woomp' ), 'error' );
+			}
 		}
 
-		if ( empty( $_POST['payuni_card_expiry'] ) ) {
-			wc_add_notice( __( 'Credit card expired date is required', 'woomp' ), 'error' );
-		}
-
-		if ( empty( $_POST['payuni_card_cvc'] ) ) {
-			wc_add_notice( __( 'Credit card security code is required', 'woomp' ), 'error' );
-		}
 	}
 
 	/**
@@ -215,6 +257,10 @@ class Credit extends AbstractGateway {
 		if ( isset( $_POST['payuni_card_remember'] ) && ! empty( $_POST['payuni_card_remember'] ) ) {
 			$order->update_meta_data( '_payuni_card_remember', sanitize_text_field( $_POST['payuni_card_remember'] ) );
 		}
+
+		if ( isset( $_POST['payuni_card_hash'] ) && 'hash' === $_POST['payuni_card_hash'] ) {
+			$order->update_meta_data( '_payuni_card_hash', get_user_meta( get_current_user_id(), '_payuni_card_hash', true ) );
+		}
 		$order->save();
 
 		$request = new Request( new self() );
@@ -234,14 +280,23 @@ class Credit extends AbstractGateway {
 	 * @return array
 	 */
 	public function add_args( $args, $order ) {
-		return array_merge(
-			$args,
-			array(
+		if ( $order->get_meta( '_payuni_card_hash' ) ) {
+			// 有記憶卡號的情況
+			$data = array(
+				'CreditToken' => $order->get_billing_email(),
+				'CreditHash'  => $order->get_meta( '_payuni_card_hash' ),
+			);
+		} else {
+			$data = array(
 				'CardNo'      => $order->get_meta( '_payuni_card_number' ),
 				'CardExpired' => $order->get_meta( '_payuni_card_expiry' ),
 				'CardCVC'     => $order->get_meta( '_payuni_card_cvc' ),
 				'CreditToken' => $order->get_billing_email(),
-			)
+			);
+		}
+		return array_merge(
+			$args,
+			$data
 		);
 	}
 
@@ -261,13 +316,13 @@ class Credit extends AbstractGateway {
 	 *
 	 * @return array
 	 */
-	//public static function order_metas() {
-	//	return array(
-	//		'_payuni_tran_id'     => __( 'Transaction No', 'woomp' ),
-	//		'_payuni_pan_no4'     => __( 'Card Last 4 Num', 'woomp' ),
-	//		'_payuni_tran_status' => __( 'Tran Status', 'woomp' ),
-	//	);
-	//}
+	// public static function order_metas() {
+	// return array(
+	// '_payuni_tran_id'     => __( 'Transaction No', 'woomp' ),
+	// '_payuni_pan_no4'     => __( 'Card Last 4 Num', 'woomp' ),
+	// '_payuni_tran_status' => __( 'Tran Status', 'woomp' ),
+	// );
+	// }
 
 	/**
 	 * Display payment detail after order table
