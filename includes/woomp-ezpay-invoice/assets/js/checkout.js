@@ -16,7 +16,7 @@ jQuery(document).ready(function ($) {
 	$("#ezpay-donate-number,#ezpay-invoice-type,#ezpay-individual-invoice").selectWoo();
 
 	// 當頁面載入，藏起所有表格額外欄位
-	//$('#ezpay-carrier-number_field').hide();
+	$('#ezpay-carrier-number_field').hide();
 	$('#ezpay-taxid-number_field').hide();
 	$('#ezpay-donate-number_field').hide();
 	$('#ezpay-company-name_field').hide();
