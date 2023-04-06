@@ -38,7 +38,6 @@ class Credit extends AbstractGateway {
 		$this->api_endpoint_url = 'api/credit';
 
 		add_action( 'woocommerce_update_options_payment_gateways_' . $this->id, array( $this, 'process_admin_options' ) );
-		// add_filter( 'payuni_transaction_args_' . $this->id, array( $this, 'add_args' ), 10, 2 );
 	}
 
 	/**
@@ -155,34 +154,6 @@ class Credit extends AbstractGateway {
 			'redirect' => $this->get_return_url( $order ),
 		);
 	}
-
-	/**
-	 * Filter payment api arguments for virtual account payment
-	 *
-	 * @param array    $args The payment api arguments.
-	 * @param WC_Order $order The order object.
-	 * @return array
-	 */
-	// public function add_args( $args, $order ) {
-	// if ( $order->get_meta( '_payuni_card_hash' ) ) {
-	// 有記憶卡號的情況
-	// $data = array(
-	// 'CreditToken' => $order->get_billing_email(),
-	// 'CreditHash'  => $order->get_meta( '_payuni_card_hash' ),
-	// );
-	// } else {
-	// $data = array(
-	// 'CardNo'      => $order->get_meta( '_payuni_card_number' ),
-	// 'CardExpired' => $order->get_meta( '_payuni_card_expiry' ),
-	// 'CardCVC'     => $order->get_meta( '_payuni_card_cvc' ),
-	// 'CreditToken' => $order->get_billing_email(),
-	// );
-	// }
-	// return array_merge(
-	// $args,
-	// $data
-	// );
-	// }
 
 	/**
 	 * Display payment detail after order table

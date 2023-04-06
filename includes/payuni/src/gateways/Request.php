@@ -46,14 +46,14 @@ class Request {
 				'TradeAmt'   => $order->get_total(),
 				'Timestamp'  => time(),
 				'UsrMail'    => $order->get_billing_email(),
-				'ProdDesc'   => '商品名稱',
+				'ProdDesc'   => $this->get_product_name( $order ),
 			),
 			$order
 		);
 
 		if ( $card_data ) {
 			if ( $order->get_meta( '_' . $this->gateway->id . '-card_hash' ) ) {
-				// 有記憶卡號的情況
+				// 有記憶卡號的情況.
 				$data = array(
 					'CreditToken' => $order->get_billing_email(),
 					'CreditHash'  => $order->get_meta( '_' . $this->gateway->id . '-card_hash' ),
@@ -66,16 +66,12 @@ class Request {
 					'CreditToken' => $order->get_billing_email(),
 				);
 			}
-		}
 
-		if ( 'payuni-credit-installment' === $this->gateway->id ) {
-			$data['CardInst'] = $order->get_meta( '_' . $this->gateway->id . '-period' );
+			$args = array_merge(
+				$args,
+				$data
+			);
 		}
-
-		$args = array_merge(
-			$args,
-			$data
-		);
 
 		\PAYUNI\APIs\Payment::log( $args );
 
@@ -85,6 +81,21 @@ class Request {
 		$parameter['HashInfo']    = \Payuni\APIs\Payment::hash_info( $parameter['EncryptInfo'] );
 
 		return $parameter;
+	}
+
+	/**
+	 * Get product name
+	 *
+	 * @param WC_Order $order The order object.
+	 */
+	public function get_product_name( $order ) {
+		$items = $order->get_items();
+		if ( ! empty( $items ) ) {
+			foreach ( $items as $item ) {
+				return $item->get_name();
+			}
+		}
+		return '商品名稱';
 	}
 
 	/**
@@ -104,6 +115,12 @@ class Request {
 
 		$resp = json_decode( wp_remote_retrieve_body( $response ) );
 
-		Response::init( $resp );
+		if ( $card_data ) {
+			Response::card_response( $resp );
+			return;
+		}
+
+		Response::atm_response( $resp );
+
 	}
 }

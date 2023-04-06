@@ -65,6 +65,7 @@ class Payment {
 		self::$allowed_payments = array(
 			'payuni-credit'             => '\PAYUNI\Gateways\Credit',
 			'payuni-credit-installment' => '\PAYUNI\Gateways\CreditInstallment',
+			'payuni-atm'                => '\PAYUNI\Gateways\Atm',
 			// 'payuni-credit-subscription' => 'Payuni_Payment_Credit_Subscription',
 			// 'payuni-atm'                 => 'Payuni_Payment_Atm',
 			// 'payuni-cvs'                 => 'Payuni_Payment_Cvs',
@@ -133,5 +134,22 @@ class Payment {
 		$encryptInfo             = openssl_decrypt( $encryptData, 'aes-256-gcm', trim( get_option( 'payuni_payment_hash_key' ) ), 0, trim( get_option( 'payuni_payment_hash_iv' ) ), base64_decode( $tag ) );
 		parse_str( $encryptInfo, $encryptArr );
 		return $encryptArr;
+	}
+
+	public static function get_bank_name( $type ){
+		switch ($type) {
+			case '004':
+				return '台灣銀行';
+				break;
+			case '812':
+				return '台新銀行';
+				break;
+			case '822':
+				return '中信銀行';
+				break;
+			default:
+				# code...
+				break;
+		}
 	}
 }

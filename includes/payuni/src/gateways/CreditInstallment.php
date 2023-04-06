@@ -37,9 +37,8 @@ class CreditInstallment extends AbstractGateway {
 		$this->api_endpoint_url  = 'api/credit';
 		$this->number_of_periods = $this->get_option( 'number_of_periods', array() );
 
-		 add_action( 'woocommerce_update_options_payment_gateways_' . $this->id, array( $this, 'process_admin_options' ) );
-		// add_action( 'woocommerce_receipt_' . $this->id, array( $this, 'receipt_page' ) );
-		// add_filter( 'payuni_transaction_args_' . $this->id, array( $this, 'add_args' ), 10, 2 );
+		add_action( 'woocommerce_update_options_payment_gateways_' . $this->id, array( $this, 'process_admin_options' ) );
+		add_filter( 'payuni_transaction_args_' . $this->id, array( $this, 'add_args' ), 10, 2 );
 	}
 
 	/**
@@ -216,23 +215,9 @@ class CreditInstallment extends AbstractGateway {
 	 * @return array
 	 */
 	public function add_args( $args, $order ) {
-		if ( $order->get_meta( '_payuni_card_hash' ) ) {
-			// 有記憶卡號的情況.
-			$data = array(
-				'CreditToken' => $order->get_billing_email(),
-				'CreditHash'  => $order->get_meta( '_payuni_card_hash' ),
-			);
-		} else {
-			$data = array(
-				'CardNo'      => $order->get_meta( '_payuni_card_number' ),
-				'CardExpired' => $order->get_meta( '_payuni_card_expiry' ),
-				'CardCVC'     => $order->get_meta( '_payuni_card_cvc' ),
-				'CreditToken' => $order->get_billing_email(),
-			);
-		}
-
-		$data['CardInst'] = $order->get_meta( '_payuni_card_installment_period' );
-
+		$data = array(
+			'CardInst' => $order->get_meta( '_' . $this->id . '-period' ),
+		);
 		return array_merge(
 			$args,
 			$data
