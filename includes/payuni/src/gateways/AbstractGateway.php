@@ -284,5 +284,43 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 			return $this->api_endpoint_url;
 		}
 
+		/**
+		 * 檢查是否有記憶卡號
+		 */
+		public function has_token() {
+			if ( is_user_logged_in() ) {
+				$user_id = get_current_user_id();
+				if ( get_user_meta( $user_id, '_payuni_card_hash' ) ) {
+					return true;
+				}
+				return false;
+			}
+			return false;
+		}
+
+		/**
+		 * 信用卡表單
+		 */
+		public function render_card_form() {
+			$html = '
+			<div class="payuni-field-container">
+				<label for="' . $this->id . '-cardnumber">卡號</label>
+				<input id="' . $this->id . '-cardnumber" class="cardnumber" placeholder="ex:0123 4567 8910 1112" type="text" pattern="[0-9]*" inputmode="numeric" name="' . $this->id . '-card_number" value="" style="background:#fff">
+			</div>
+			<div class="payuni-field-container">
+				<label for="' . $this->id . '-expirationdate">到期日 (mm/yy)</label>
+				<input id="' . $this->id . '-expirationdate" class="expirationdate" placeholder="ex:01/23" type="text" pattern="[0-9]*" inputmode="numeric" name="' . $this->id . '-card_expiry" style="background:#fff">
+			</div>
+			<div class="payuni-field-container">
+				<label for="' . $this->id . '-securitycode">安全碼</label>
+				<input id="' . $this->id . '-securitycode" class="securitycode" placeholder="ex:123" type="text" maxlength=3 pattern="[0-9]*" inputmode="numeric" name="' . $this->id . '-card_cvc" style="background:#fff">
+			</div>
+			<div style="display:flex ">
+				<input id="' . $this->id . '-remember" type="checkbox" name="' . $this->id . '-card_remember" style="width:auto; margin:0">
+				<label for="' . $this->id . '-remember" style="padding:0 0 0 5px; position:relative; margin-bottom:0; cursor:pointer">記憶卡號</label>
+			</div>';
+			return $html;
+		}
+
 	}
 }

@@ -86,44 +86,48 @@ class Response {
 		$card_bank      = $data['CardBank'];
 		$card_bank_name = $data['AuthBankName'];
 		$card_4no       = $data['Card4No'];
+		$card_hash      = $data['CreditHash'];
 
-		$order->update_meta_data( '_payuni_payment_resp_status', $status );
-		$order->update_meta_data( '_payuni_payment_resp_message', $message );
-		$order->update_meta_data( '_payuni_payment_resp_trande_no', $trade_no );
-		$order->update_meta_data( '_payuni_payment_resp_card_bank', "({$card_bank}){$card_bank_name}" );
+		$card_inst = $data['CardInst']; // 分期資料：分期數
+		$first_amt = $data['FirstAmt']; // 分期資料：首期金額
+		$each_amt  = $data['EachAmt']; // 分期資料：每期金額
+
+		$order->update_meta_data( '_payuni_resp_status', $status );
+		$order->update_meta_data( '_payuni_resp_message', $message );
+		$order->update_meta_data( '_payuni_resp_trande_no', $trade_no );
+		$order->update_meta_data( '_payuni_resp_card_bank', "({$card_bank}){$card_bank_name}" );
 		$order->update_meta_data( '_payuni_card_number', $card_4no );
-		$order->delete_meta_data( '_payuni_card_cvc' );
+		$order->update_meta_data( '_payuni_resp_card_inst', $card_inst );
+		$order->update_meta_data( '_payuni_resp_first_amt', $first_amt );
+		$order->update_meta_data( '_payuni_resp_each_amt', $each_amt );
 
 		$order->add_order_note( "<strong>統一金流交易紀錄<strong><br>狀態碼：{$status}<br>交易訊息：{$message}<br>交易編號：{$trade_no}<br>卡號末四碼：{$card_4no}", true );
 
 		if ( 'SUCCESS' === $status ) {
 			$user_id  = $order->get_customer_id();
-			$remember = $order->get_meta( '_payuni_card_remember' );
+			$method   = $order->get_meta( '_payment_method' );
+			$remember = $order->get_meta( '_' . $method . '-card_remember' );
+
 			if ( $user_id && $remember ) {
 				update_user_meta( $user_id, '_payuni_card_4no', $card_4no );
-				update_user_meta( $user_id, '_payuni_card_hash', $data['CreditHash'] );
+				update_user_meta( $user_id, '_payuni_card_hash', $card_hash );
 			}
 			$order->update_status( 'processing' );
 		} else {
 			$order->update_status( 'failed' );
 		}
-		
+
 		$woocommerce->cart->empty_cart();
 		$order->save();
 
 		// $trade_status = $data['TradeStatus']; // 付款狀態 1=已付款 2=付款失敗 3=付款取消
 
-		$CardInst = $data['CardInst']; // 分期資料：分期數
-		$FirstAmt = $data['FirstAmt']; // 分期資料：首期金額
-		$EachAmt  = $data['EachAmt']; // 分期資料：每期金額
-
-		$AuthBank     = $data['AuthBank'];
-		$AuthBankName = $data['AuthBankName'];
-		$AuthType     = $data['AuthType']; // 授權類型 1=一次 2=分期 3=紅利 7=銀聯
-		$AuthDay      = $data['AuthDay'];
-		$AuthTime     = $data['AuthTime'];
-		$CreditLife   = $data['CreditLife']; // Token 期限
-
+		// $AuthBank     = $data['AuthBank'];
+		// $AuthBankName = $data['AuthBankName'];
+		// $AuthType     = $data['AuthType']; // 授權類型 1=一次 2=分期 3=紅利 7=銀聯
+		// $AuthDay      = $data['AuthDay'];
+		// $AuthTime     = $data['AuthTime'];
+		// $CreditLife   = $data['CreditLife']; // Token 期限
 	}
 
 	// 信用卡即時通知結果

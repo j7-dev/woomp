@@ -36,7 +36,7 @@ class Request {
 	 * @param WC_Order $order The order object.
 	 * @return array
 	 */
-	public function get_transaction_args( $order ) {
+	public function get_transaction_args( $order, $card_data = null ) {
 
 		$args = apply_filters(
 			'payuni_transaction_args_' . $this->gateway->id,
@@ -50,6 +50,34 @@ class Request {
 			),
 			$order
 		);
+
+		if ( $card_data ) {
+			if ( $order->get_meta( '_' . $this->gateway->id . '-card_hash' ) ) {
+				// 有記憶卡號的情況
+				$data = array(
+					'CreditToken' => $order->get_billing_email(),
+					'CreditHash'  => $order->get_meta( '_' . $this->gateway->id . '-card_hash' ),
+				);
+			} else {
+				$data = array(
+					'CardNo'      => $card_data['number'],
+					'CardExpired' => $card_data['expiry'],
+					'CardCVC'     => $card_data['cvc'],
+					'CreditToken' => $order->get_billing_email(),
+				);
+			}
+		}
+
+		if ( 'payuni-credit-installment' === $this->gateway->id ) {
+			$data['CardInst'] = $order->get_meta( '_' . $this->gateway->id . '-period' );
+		}
+
+		$args = array_merge(
+			$args,
+			$data
+		);
+
+		\PAYUNI\APIs\Payment::log( $args );
 
 		$parameter['MerID']       = $this->gateway->get_mer_id();
 		$parameter['Version']     = '1.0';
@@ -65,11 +93,11 @@ class Request {
 	 * @param WC_Order $order The order object.
 	 * @return void
 	 */
-	public function build_request( $order ) {
+	public function build_request( $order, $card_data = null ) {
 		$options = array(
 			'method'  => 'POST',
 			'timeout' => 60,
-			'body'    => $this->get_transaction_args( $order ),
+			'body'    => $this->get_transaction_args( $order, $card_data ),
 		);
 
 		$response = wp_remote_request( $this->gateway->get_api_url() . $this->gateway->get_api_endpoint_url(), $options );

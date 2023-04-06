@@ -25,7 +25,7 @@ if ( wc_string_to_bool( get_option( 'woocommerce_pchomepay_enabled' ) ) ) {
 			return WC_Gateway_PChomePay::$customize_order_received_text;
 		}
 
-		add_filter( 'woocommerce_thankyou_order_received_text', 'customize_order_received_text', 10, 2 );
+		//add_filter( 'woocommerce_thankyou_order_received_text', 'customize_order_received_text', 10, 2 );
 	}
 
 	// 審單功能

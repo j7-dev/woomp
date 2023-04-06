@@ -63,8 +63,8 @@ class Payment {
 		// Payuni_Payment_Response::init();
 
 		self::$allowed_payments = array(
-			'payuni-credit' => '\PAYUNI\Gateways\Credit',
-			// 'payuni-credit-installment'  => 'Payuni_Payment_Credit_Installment',
+			'payuni-credit'             => '\PAYUNI\Gateways\Credit',
+			'payuni-credit-installment' => '\PAYUNI\Gateways\CreditInstallment',
 			// 'payuni-credit-subscription' => 'Payuni_Payment_Credit_Subscription',
 			// 'payuni-atm'                 => 'Payuni_Payment_Atm',
 			// 'payuni-cvs'                 => 'Payuni_Payment_Cvs',
