@@ -48,8 +48,8 @@ class Response {
 	 */
 	public static function init() {
 		$class = self::get_instance();
-
-		add_action( 'woocommerce_api_payuni_notify_atm', array( self::get_instance(), 'atm_response' ) );
+		add_action( 'woocommerce_api_payuni_notify_atm', array( $class, 'atm_response' ) );
+		add_action( 'woocommerce_api_payuni_notify_cvs', array( $class, 'cvs_response' ) );
 	}
 
 	/**
@@ -160,6 +160,65 @@ class Response {
 
 			// 超過繳費期限取消訂單.
 			as_schedule_single_action( strtotime( $bank_expire . '-8 hour' ), 'payuni_atm_check', array( $data['MerTradeNo'] ) );
+
+			$woocommerce->cart->empty_cart();
+			$order->save();
+		}
+	}
+	/**
+	 * Receive response from Payuni cvs payment
+	 *
+	 * @param object $resp payuni response.
+	 * @return void
+	 */
+	public static function cvs_response( $resp ) {
+
+		// 背景通知付款結果.
+		if ( $_REQUEST['Status'] ) {
+			if ( 'SUCCESS' === $_REQUEST['Status'] ) {
+				$data  = \Payuni\APIs\Payment::decrypt( $_REQUEST['EncryptInfo'] );
+				$time  = date( 'Y-m-d H:i:s', time() );
+				$order = wc_get_order( $data['MerTradeNo'] );
+				$order->update_status( 'processing' );
+				$order->add_order_note( "<strong>統一金流繳費紀錄</strong><br>狀態碼：{$data['Status']}<br>繳費結果：{$data['Message']}<br>繳費時間：{$data['PayTime']}<br>轉帳後五碼：{$data['Account5No']}", true );
+				$order->save();
+			}
+		}
+
+		// 付款完成取號.
+		if ( $resp ) {
+			global $woocommerce;
+			$encrypt_info = $resp->EncryptInfo;
+			$data         = \Payuni\APIs\Payment::decrypt( $encrypt_info );
+
+			\PAYUNI\APIs\Payment::log( $data );
+			return;
+
+			$status       = $data['Status'];
+			$message      = $data['Message'];
+			$trade_no     = $data['TradeNo'];
+			$bank         = '(' . $data['BankType'] . ')' . \PAYUNI\APIs\Payment::get_bank_name( $data['BankType'] );
+			$bank_no      = $data['PayNo'];
+			$bank_expire  = date( 'Y-m-d H:i:s', strtotime( $data['ExpireDate'] ) );
+
+			$order = wc_get_order( $data['MerTradeNo'] );
+			$order->update_meta_data( '_payuni_resp_status', $status );
+			$order->update_meta_data( '_payuni_resp_message', $message );
+			$order->update_meta_data( '_payuni_resp_trande_no', $trade_no );
+			$order->update_meta_data( '_payuni_resp_bank', $bank );
+			$order->update_meta_data( '_payuni_resp_bank_no', $bank_no );
+			$order->update_meta_data( '_payuni_resp_bank_expire', $bank_expire );
+
+			$order->add_order_note( "<strong>統一金流交易紀錄</strong><br>狀態碼：{$status}<br>交易訊息：{$message}<br>交易編號：{$trade_no}<br>轉帳銀行：{$bank}<br>轉帳帳號：${bank_no}<br>轉帳期限：{$bank_expire}", true );
+
+			if ( 'SUCCESS' === $status ) {
+				$order->update_status( 'pending' );
+			} else {
+				$order->update_status( 'failed' );
+			}
+
+			// 超過繳費期限取消訂單.
+			as_schedule_single_action( strtotime( $bank_expire . '-8 hour' ), 'payuni_cvs_check', array( $data['MerTradeNo'] ) );
 
 			$woocommerce->cart->empty_cart();
 			$order->save();

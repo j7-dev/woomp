@@ -107,26 +107,7 @@ class CreditInstallment extends AbstractGateway {
 	public function payment_fields() { ?>
 		<?php do_action( 'woocommerce_credit_card_form_start', $this->id ); ?>
 		<div>
-			<?php if ( ! $this->has_token() ) : ?>
-			<div class="payuni-form-container">
-				<?php echo $this->render_card_form(); ?>
-			</div>
-			<?php else : ?>
-			<div>
-				<div>
-					使用上次紀錄的信用卡結帳
-					<p style="background:#efefef;padding:10px 20px; margin:5px 0 0 0; letter-spacing:5px"> **** **** **** <?php echo esc_html( get_user_meta( get_current_user_id(), '_payuni_card_4no', true ) ); ?></p>
-					<input type="hidden" name="<?php echo esc_html( $this->id ); ?>-card_hash" value="hash">
-				</div>
-				<!--<div>
-					<input id="change" type="checkbox" name="payuni_card_change" style="width:auto; margin:0">
-					<label for="change" style="padding:0; position:relative; top:-2px; cursor:pointer">更換信用卡</label>
-				</div>-->
-				<!--<div style="display:none" >
-					<?php // echo $this->render_card_form(); ?>
-				</div>-->
-			</div>
-			<?php endif; ?>
+			<?php echo $this->render_card_form(); ?>
 			<div style="margin-top: 10px">
 				<p style="margin-bottom:5px">選擇分期期數</p>
 				<div class="payuni_radio">

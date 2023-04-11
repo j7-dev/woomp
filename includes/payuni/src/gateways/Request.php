@@ -120,7 +120,16 @@ class Request {
 			return;
 		}
 
-		Response::atm_response( $resp );
-
+		switch ( $method ) {
+			case 'payuni-atm':
+				Response::atm_response( $resp );
+				break;
+			case 'payuni-cvs':
+				Response::cvs_response( $resp );
+				break;
+			default:
+				// code...
+				break;
+		}
 	}
 }

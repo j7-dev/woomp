@@ -27,7 +27,17 @@ add_action(
 	'wp_enqueue_scripts',
 	function() {
 		wp_enqueue_script( 'card-mask', 'https://cdnjs.cloudflare.com/ajax/libs/imask/3.4.0/imask.min.js', array(), '1.0.0', true );
-		wp_enqueue_script( 'card', PAYUNI_PLUGIN_URL . 'assets/card.js', array(), '1.2.2', true );
 		wp_enqueue_style( 'card', PAYUNI_PLUGIN_URL . 'assets/card.css', array(), '1.0.6' );
+		wp_register_script( 'card', PAYUNI_PLUGIN_URL . 'assets/card.js', array( 'jquery' ), '1.3.3', true );
+		wp_localize_script(
+			'card',
+			'card_params',
+			array(
+				'ajax_url'   => admin_url( 'admin-ajax.php' ),
+				'ajax_nonce' => wp_create_nonce( 'payuni_card_change' ),
+				'user_id'    => get_current_user_id(),
+			)
+		);
+		wp_enqueue_script( 'card' );
 	}
 );

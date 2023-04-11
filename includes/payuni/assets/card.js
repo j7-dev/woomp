@@ -1,12 +1,12 @@
-jQuery(function($){
+jQuery(function ($) {
 	$(document.body).on('updated_checkout', function () {
-        
+
 		const cardnumber = document.querySelectorAll('.cardnumber');
 		const expirationdate = document.querySelectorAll('.expirationdate');
 		const securitycode = document.querySelectorAll('.securitycode');
-		
+
 		//Mask the Credit Card Number Input
-		if(cardnumber){
+		if (cardnumber) {
 			cardnumber.forEach(function (e) {
 				new IMask(e, {
 					mask: [
@@ -77,7 +77,7 @@ jQuery(function($){
 					],
 					dispatch: function (appended, dynamicMasked) {
 						var number = (dynamicMasked.value + appended).replace(/\D/g, '');
-				
+
 						for (var i = 0; i < dynamicMasked.compiledMasks.length; i++) {
 							let re = new RegExp(dynamicMasked.compiledMasks[i].regex);
 							if (number.match(re) != null) {
@@ -88,9 +88,9 @@ jQuery(function($){
 				});
 			})
 		}
-		
+
 		//Mask the Expiration Date
-		if(expirationdate){
+		if (expirationdate) {
 			expirationdate.forEach(function (e) {
 				new IMask(e, {
 					mask: 'MM{/}YY',
@@ -101,15 +101,42 @@ jQuery(function($){
 				});
 			})
 		}
-		
+
 		//Mask the security code
-		if( securitycode ){
+		if (securitycode) {
 			securitycode.forEach(function (e) {
 				new IMask(e, {
 					mask: '000',
 				});
 			})
 		}
-	
+
+		$('.card-change').on('change', function () {
+			
+			var data = {
+				action: "payuni_card_change",
+				nonce: card_params.ajax_nonce,
+				user_id: card_params.user_id
+			};
+
+			if(confirm('確定要更換信用卡嗎？')){
+				$('body').trigger( 'update_checkout' )
+				$.ajax({
+					url: card_params.ajax_url,
+					data: data,
+					type: 'POST',
+					dataType: "json",
+					success: function (data) {
+						if(data){
+							$('body').trigger( 'update_checkout' )
+						} else {
+							alert('發生錯誤，請稍候再試')
+						}
+					}
+				})
+			}
+
+		})
+
 	});
 })

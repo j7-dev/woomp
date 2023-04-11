@@ -66,12 +66,16 @@ class Payment {
 			'payuni-credit'             => '\PAYUNI\Gateways\Credit',
 			'payuni-credit-installment' => '\PAYUNI\Gateways\CreditInstallment',
 			'payuni-atm'                => '\PAYUNI\Gateways\Atm',
+			'payuni-cvs'                => '\PAYUNI\Gateways\Cvs',
 			// 'payuni-credit-subscription' => 'Payuni_Payment_Credit_Subscription',
 			// 'payuni-atm'                 => 'Payuni_Payment_Atm',
 			// 'payuni-cvs'                 => 'Payuni_Payment_Cvs',
 			// 'payuni-aftee'               => 'Payuni_Payment_Aftee',
 		);
 		add_filter( 'woocommerce_payment_gateways', array( self::get_instance(), 'add_payment_gateway' ) );
+		// add_action( 'rest_api_init', array( self::get_instance(), 'register_api_route' ) );
+		add_action( 'wp_ajax_payuni_card_change', array( self::get_instance(), 'card_change' ) );
+
 	}
 
 	/**
@@ -136,8 +140,14 @@ class Payment {
 		return $encryptArr;
 	}
 
-	public static function get_bank_name( $type ){
-		switch ($type) {
+	/**
+	 * Get bank name
+	 *
+	 * @param string $type bank code.
+	 * @return string bank name.
+	 */
+	public static function get_bank_name( $type ) {
+		switch ( $type ) {
 			case '004':
 				return '台灣銀行';
 				break;
@@ -148,8 +158,28 @@ class Payment {
 				return '中信銀行';
 				break;
 			default:
-				# code...
+				// code...
 				break;
 		}
+	}
+
+	/**
+	 * API Callback
+	 */
+	public function card_change() {
+		if ( ! wp_verify_nonce( $_POST['nonce'], 'payuni_card_change' ) ) {
+			return rest_ensure_response( 'Nonce Error' );
+		}
+
+		$user_id = $_POST['user_id'];
+
+		$result = delete_user_meta( $user_id, '_payuni_card_4no' );
+		$result = delete_user_meta( $user_id, '_payuni_card_hash' );
+
+		// _payuni_card_4no 0001
+		// _payuni_card_hash 0526DE570FD17065F82534D57FC303EE8AAD16EB15C029C74734EBE87DE607C2
+
+		echo $result;
+		die;
 	}
 }

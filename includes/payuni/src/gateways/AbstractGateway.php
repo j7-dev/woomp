@@ -302,23 +302,40 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 		 * 信用卡表單
 		 */
 		public function render_card_form() {
-			$html = '
-			<div class="payuni-field-container">
-				<label for="' . $this->id . '-cardnumber">卡號</label>
-				<input id="' . $this->id . '-cardnumber" class="cardnumber" placeholder="ex:0123 4567 8910 1112" type="text" pattern="[0-9]*" inputmode="numeric" name="' . $this->id . '-card_number" value="" style="background:#fff">
-			</div>
-			<div class="payuni-field-container">
-				<label for="' . $this->id . '-expirationdate">到期日 (mm/yy)</label>
-				<input id="' . $this->id . '-expirationdate" class="expirationdate" placeholder="ex:01/23" type="text" pattern="[0-9]*" inputmode="numeric" name="' . $this->id . '-card_expiry" style="background:#fff">
-			</div>
-			<div class="payuni-field-container">
-				<label for="' . $this->id . '-securitycode">安全碼</label>
-				<input id="' . $this->id . '-securitycode" class="securitycode" placeholder="ex:123" type="text" maxlength=3 pattern="[0-9]*" inputmode="numeric" name="' . $this->id . '-card_cvc" style="background:#fff">
-			</div>
-			<div style="display:flex ">
-				<input id="' . $this->id . '-remember" type="checkbox" name="' . $this->id . '-card_remember" style="width:auto; margin:0">
-				<label for="' . $this->id . '-remember" style="padding:0 0 0 5px; position:relative; margin-bottom:0; cursor:pointer">記憶卡號</label>
-			</div>';
+			if ( ! $this->has_token() ) {
+				$html = '
+				<div class="payuni-form-container">
+					<div class="payuni-field-container">
+						<label for="' . $this->id . '-cardnumber">卡號</label>
+						<input id="' . $this->id . '-cardnumber" class="cardnumber" placeholder="ex:0123 4567 8910 1112" type="text" pattern="[0-9]*" inputmode="numeric" name="' . $this->id . '-card_number" value="" style="background:#fff">
+					</div>
+					<div class="payuni-field-container">
+						<label for="' . $this->id . '-expirationdate">到期日 (mm/yy)</label>
+						<input id="' . $this->id . '-expirationdate" class="expirationdate" placeholder="ex:01/23" type="text" pattern="[0-9]*" inputmode="numeric" name="' . $this->id . '-card_expiry" style="background:#fff">
+					</div>
+					<div class="payuni-field-container">
+						<label for="' . $this->id . '-securitycode">安全碼</label>
+						<input id="' . $this->id . '-securitycode" class="securitycode" placeholder="ex:123" type="text" maxlength=3 pattern="[0-9]*" inputmode="numeric" name="' . $this->id . '-card_cvc" style="background:#fff">
+					</div>
+					<div style="display:flex ">
+						<input id="' . $this->id . '-remember" type="checkbox" name="' . $this->id . '-card_remember" style="width:auto; margin:0">
+						<label for="' . $this->id . '-remember" style="padding:0 0 0 5px; position:relative; margin-bottom:0; cursor:pointer">記憶卡號</label>
+					</div>
+				</div>';
+			} else {
+				$html = '
+				<div>
+					<div>使用上次紀錄的信用卡結帳
+						<p style="background:#efefef;padding:10px 20px; margin:5px 0 0 0; letter-spacing:5px; border:1px solid #ccc;"> **** **** ****  ' . esc_html( get_user_meta( get_current_user_id(), '_payuni_card_4no', true ) ) . '</p>
+						<input type="hidden" name="' . esc_html( $this->id ) . '-card_hash" value="hash">
+					</div>
+					<div style="display:flex; margin-top: 5px;">
+						<input id="<?php echo esc_html( $this->id ); ?>-card_change" class="card-change" type="checkbox" style="width:auto; margin:0">
+						<label for="<?php echo esc_html( $this->id ); ?>-card_change" style="padding:0; position:relative; margin:0 0 0 5px; cursor:pointer">更換信用卡</label>
+					</div>
+				</div>
+				';
+			}
 			return $html;
 		}
 
