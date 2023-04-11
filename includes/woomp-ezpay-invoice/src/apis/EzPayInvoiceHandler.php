@@ -19,7 +19,7 @@ class EzPayInvoiceHandler {
 	 * Construct
 	 */
 	public function __construct() {
-		if ( get_option( 'wc_woomp_ezpay_invoice_testmode_enabled' ) ) {
+		if ( ( wc_string_to_bool( get_option( 'wc_woomp_ezpay_invoice_testmode_enabled' ) ) ) ) {
 			$account       = array(
 				'merchantID' => get_option( 'wc_woomp_ezpay_invoice_merchant_id_test' ),
 				'hashKey'    => get_option( 'wc_woomp_ezpay_invoice_hashkey_test' ),
