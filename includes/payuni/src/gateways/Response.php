@@ -48,6 +48,7 @@ class Response {
 	 */
 	public static function init() {
 		$class = self::get_instance();
+		add_action( 'woocommerce_api_payuni_notify_card', array( $class, 'card_response' ) );
 		add_action( 'woocommerce_api_payuni_notify_atm', array( $class, 'atm_response' ) );
 		add_action( 'woocommerce_api_payuni_notify_cvs', array( $class, 'cvs_response' ) );
 	}
@@ -57,13 +58,14 @@ class Response {
 	 *
 	 * @return void
 	 */
-	public static function card_response( $resp ) {
+	public static function card_response() {
+
+		// 背景通知付款結果.
 
 		global $woocommerce;
 
-		$encrypt_info = $resp->EncryptInfo;
-		$hash_info    = $resp->HashInfo;
-		$data         = \Payuni\APIs\Payment::decrypt( $encrypt_info );
+		$data = \Payuni\APIs\Payment::decrypt( $_REQUEST['EncryptInfo'] );
+
 		\PAYUNI\APIs\Payment::log( $data );
 
 		$order    = wc_get_order( $data['MerTradeNo'] );
@@ -194,12 +196,12 @@ class Response {
 			\PAYUNI\APIs\Payment::log( $data );
 			return;
 
-			$status       = $data['Status'];
-			$message      = $data['Message'];
-			$trade_no     = $data['TradeNo'];
-			$bank         = '(' . $data['BankType'] . ')' . \PAYUNI\APIs\Payment::get_bank_name( $data['BankType'] );
-			$bank_no      = $data['PayNo'];
-			$bank_expire  = date( 'Y-m-d H:i:s', strtotime( $data['ExpireDate'] ) );
+			$status      = $data['Status'];
+			$message     = $data['Message'];
+			$trade_no    = $data['TradeNo'];
+			$bank        = '(' . $data['BankType'] . ')' . \PAYUNI\APIs\Payment::get_bank_name( $data['BankType'] );
+			$bank_no     = $data['PayNo'];
+			$bank_expire = date( 'Y-m-d H:i:s', strtotime( $data['ExpireDate'] ) );
 
 			$order = wc_get_order( $data['MerTradeNo'] );
 			$order->update_meta_data( '_payuni_resp_status', $status );

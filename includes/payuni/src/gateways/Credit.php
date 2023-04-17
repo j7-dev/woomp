@@ -38,6 +38,7 @@ class Credit extends AbstractGateway {
 		$this->api_endpoint_url = 'api/credit';
 
 		add_action( 'woocommerce_update_options_payment_gateways_' . $this->id, array( $this, 'process_admin_options' ) );
+		add_filter( 'payuni_transaction_args_' . $this->id, array( $this, 'add_args' ), 10, 2 );
 	}
 
 	/**
@@ -99,8 +100,27 @@ class Credit extends AbstractGateway {
 				wc_add_notice( __( 'Credit card security code is required', 'woomp' ), 'error' );
 			}
 		}
-
 	}
+
+	/**
+	 * Filter payment api arguments for atm
+	 *
+	 * @param array    $args The payment api arguments.
+	 * @param WC_Order $order The order object.
+	 * @return array
+	 */
+	public function add_args( $args, $order ) {
+		$data = array(
+			'API3D'     => 1,
+			'NotifyURL' => home_url( 'wc-api/payuni_notify_card' ),
+			'ReturnURL' => $this->get_return_url( $order ),
+		);
+		return array_merge(
+			$args,
+			$data
+		);
+	}
+
 
 	/**
 	 * Process payment
@@ -128,12 +148,12 @@ class Credit extends AbstractGateway {
 
 		$order->save();
 
-		$request = new Request( new self() );
-		$resp    = $request->build_request( $order, $card_data );
+		$request  = new Request( new self() );
+		$redirect = $request->build_request( $order, $card_data );
 
 		return array(
 			'result'   => 'success',
-			'redirect' => $this->get_return_url( $order ),
+			'redirect' => $redirect,
 		);
 	}
 
