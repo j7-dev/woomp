@@ -155,7 +155,7 @@ class Response {
 			$order->add_order_note( "<strong>統一金流交易紀錄</strong><br>狀態碼：{$status}<br>交易訊息：{$message}<br>交易編號：{$trade_no}<br>轉帳銀行：{$bank}<br>轉帳帳號：${bank_no}<br>轉帳期限：{$bank_expire}", true );
 
 			if ( 'SUCCESS' === $status ) {
-				$order->update_status( 'pending' );
+				$order->update_status( 'on-hold' );
 			} else {
 				$order->update_status( 'failed' );
 			}
@@ -214,7 +214,7 @@ class Response {
 			$order->add_order_note( "<strong>統一金流交易紀錄</strong><br>狀態碼：{$status}<br>交易訊息：{$message}<br>交易編號：{$trade_no}<br>轉帳銀行：{$bank}<br>轉帳帳號：${bank_no}<br>轉帳期限：{$bank_expire}", true );
 
 			if ( 'SUCCESS' === $status ) {
-				$order->update_status( 'pending' );
+				$order->update_status( 'on-hold' );
 			} else {
 				$order->update_status( 'failed' );
 			}

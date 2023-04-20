@@ -85,7 +85,7 @@ class PayNow_Payment_WebATM extends PayNow_Abstract_Payment_Gateway {
 			'_paynow_tran_id'    => __( 'Transaction No', 'paynow-payment' ),
 			'_paynow_bank_code'  => __( 'Bank Code', 'paynow-payment' ),
 			'_paynow_atm_no'     => __( 'ATM No', 'paynow-payment' ),
-			'_paynow_new_date'   => __( 'New Date', 'paynow-payment' ),
+			'_paynow_new_date'   => __( 'New Date', 'paynow-payment' ),
 			'_paynow_due_date'   => __( 'Due Date', 'paynow-payment' ),
 			'_paynow_pay_status' => __( 'Pay Status', 'paynow-payment' ),
 		);
@@ -99,7 +99,7 @@ class PayNow_Payment_WebATM extends PayNow_Abstract_Payment_Gateway {
 	 */
 	public function paynow_payment_detail_after_order_table( $order ) {
 
-		if ( get_post_meta( $order->get_id(), '_payment_method', true ) === $this->id ) {
+		if ( $order->get_payment_method() === $this->id ) {
 
 			echo '<h2>' . esc_html( __( 'PayNow Payment Detail', 'paynow-payment' ) ) . '</h2><table class="shop_table paynow_payment_details"><tbody>';
 
@@ -112,7 +112,7 @@ class PayNow_Payment_WebATM extends PayNow_Abstract_Payment_Gateway {
 			echo '<tr><td><strong>' . esc_html( __( 'ATM No', 'paynow-payment' ) ) . '</strong></td>';
 			echo '<td>' . esc_html( get_post_meta( $order->get_id(), '_paynow_atm_no', true ) ) . '</td></tr>';
 
-			echo '<tr><td><strong>' . esc_html( __( 'New Date', 'paynow-payment' ) ) . '</strong></td>';
+			echo '<tr><td><strong>' . esc_html( __( 'New Date', 'paynow-payment' ) ) . '</strong></td>';
 			echo '<td>' . esc_html( get_post_meta( $order->get_id(), '_paynow_new_date', true ) ) . '</td></tr>';
 
 			echo '<tr><td><strong>' . esc_html( __( 'Due Date', 'paynow-payment' ) ) . '</strong></td>';

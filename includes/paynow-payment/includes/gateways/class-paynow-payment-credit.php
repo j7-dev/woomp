@@ -96,7 +96,7 @@ class PayNow_Payment_Credit extends PayNow_Abstract_Payment_Gateway {
 	 */
 	public function paynow_payment_detail_after_order_table( $order ) {
 
-		if ( get_post_meta( $order->get_id(), '_payment_method', true ) === $this->id ) {
+		if ( $order->get_payment_method() === $this->id ) {
 
 			echo '<h2>' . esc_html( __( 'PayNow Payment Detail', 'paynow-payment' ) ) . '</h2><table class="shop_table paynow_payment_details"><tbody>';
 

@@ -23,7 +23,7 @@ if ( ! class_exists( 'WooMP_Email' ) ) {
 		 */
 		public function add_payment_info( $order, $sent_to_admin, $plain_text, $email ) {
 			if ( 'customer_on_hold_order' === $email->id ) {
-				$payment_method = get_post_meta( $order->get_id(), '_payment_method', true );
+				$payment_method = $order->get_payment_method();
 				switch ( $payment_method ) {
 					case 'ry_ecpay_atm':
 						echo '<h2 style="color: #96588a;font-family: &quot;Helvetica Neue&quot;, Helvetica, Roboto, Arial, sans-serif;font-size: 18px;font-weight: bold;line-height: 130%;margin: 0 0 18px;text-align: left">付款資訊</h2>

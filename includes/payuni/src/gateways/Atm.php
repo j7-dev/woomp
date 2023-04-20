@@ -40,6 +40,7 @@ class Atm extends AbstractGateway {
 		add_action( 'woocommerce_update_options_payment_gateways_' . $this->id, array( $this, 'process_admin_options' ) );
 		add_filter( 'payuni_transaction_args_' . $this->id, array( $this, 'add_args' ), 10, 2 );
 		add_action( 'payuni_atm_check', array( $this, 'atm_expire' ), 10, 1 );
+		add_action( 'woocommerce_email_order_meta', array( $this, 'get_account_info' ), 10, 3 );
 	}
 
 	/**
@@ -139,7 +140,7 @@ class Atm extends AbstractGateway {
 	 * @return void
 	 */
 	public function get_detail_after_order_table( $order ) {
-		if ( get_post_meta( $order->get_id(), '_payment_method', true ) === $this->id ) {
+		if ( $order->get_payment_method() === $this->id ) {
 
 			$status      = $order->get_meta( '_payuni_resp_status', true );
 			$message     = $order->get_meta( '_payuni_resp_message', true );
@@ -160,26 +161,32 @@ class Atm extends AbstractGateway {
 							<tr>
 								<th>交易訊息：</th>
 								<td>' . esc_html( $message ) . '</td>
-							</tr>
-							<tr>
-								<th>交易編號：</th>
-								<td>' . esc_html( $trade_no ) . '</td>
-							</tr>
-							<tr>
-								<th>轉帳銀行代碼：</th>
-								<td>' . esc_html( $bank ) . '</td>
-							</tr>
-							<tr>
-								<th>轉帳銀行帳號：</th>
-								<td>' . esc_html( $bank_no ) . '</td>
-							</tr>
-							<tr>
-								<th>轉帳期限：</th>
-								<td>' . esc_html( $bank_expire ) . '</td>
-							</tr>
-						</tbody>
-					</table>
-				</div>
+							</tr>';
+
+			if ( 'SUCCESS' === $state ) {
+				$html .= '
+					<tr>
+					<th>交易編號：</th>
+						<td>' . esc_html( $trade_no ) . '</td>
+					</tr>
+					<tr>
+						<th>轉帳銀行代碼：</th>
+						<td>' . esc_html( $bank ) . '</td>
+					</tr>
+					<tr>
+						<th>轉帳銀行帳號：</th>
+						<td>' . esc_html( $bank_no ) . '</td>
+					</tr>
+					<tr>
+						<th>轉帳期限：</th>
+						<td>' . esc_html( $bank_expire ) . '</td>
+					</tr>
+				';
+			}
+			$html .= '
+					</tbody>
+				</table>
+			</div>
 			';
 			echo $html;
 		}
@@ -196,5 +203,53 @@ class Atm extends AbstractGateway {
 		$order->update_status( 'cancelled' );
 		$order->add_order_note( '<strong>統一金流繳費紀錄</strong><br>超過繳費期限，該訂單已取消！', true );
 		$order->save();
+	}
+
+	/**
+	 * Display payment detail in email
+	 *
+	 * @param WC_Order $order The order object.
+	 * @param bool     $sent_to_admin Whether the email is for admin.
+	 * @param bool     $plain_text Whether the email is plain text.
+	 *
+	 * @return void
+	 */
+	public function get_account_info( $order, $sent_to_admin, $plain_text ) {
+		if ( $order->get_payment_method() === $this->id && 'on-hold' === $order->get_status() && $order->get_meta( '_payuni_resp_bank', true ) ) {
+
+			$trade_no    = $order->get_meta( '_payuni_resp_trande_no', true );
+			$bank        = $order->get_meta( '_payuni_resp_bank', true );
+			$bank_no     = $order->get_meta( '_payuni_resp_bank_no', true );
+			$bank_expire = $order->get_meta( '_payuni_resp_bank_expire', true );
+
+			$html = '
+				<div style="margin-bottom:40px">
+					<h2 class="woocommerce-order-details__title">轉帳資訊</h2>
+					<div class="responsive-table">
+						<table class="woocommerce-table woocommerce-table--order-details shop_table order_details">
+							<tbody>
+								<tr>
+									<th>交易編號：</th>
+									<td>' . esc_html( $trade_no ) . '</td>
+								</tr>
+								<tr>
+									<th>轉帳銀行代碼：</th>
+									<td>' . esc_html( $bank ) . '</td>
+								</tr>
+								<tr>
+									<th>轉帳銀行帳號：</th>
+									<td>' . esc_html( $bank_no ) . '</td>
+								</tr>
+								<tr>
+									<th>轉帳期限：</th>
+									<td>' . esc_html( $bank_expire ) . '</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			';
+			echo $html;
+		}
 	}
 }

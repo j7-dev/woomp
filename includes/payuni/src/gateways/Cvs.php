@@ -117,7 +117,7 @@ class Cvs extends AbstractGateway {
 	 * @return void
 	 */
 	public function get_detail_after_order_table( $order ) {
-		if ( get_post_meta( $order->get_id(), '_payment_method', true ) === $this->id ) {
+		if ( $order->get_payment_method() === $this->id ) {
 
 			$status      = $order->get_meta( '_payuni_resp_status', true );
 			$message     = $order->get_meta( '_payuni_resp_message', true );

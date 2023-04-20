@@ -114,6 +114,9 @@ class Request {
 		$response = wp_remote_request( $this->gateway->get_api_url() . $this->gateway->get_api_endpoint_url(), $options );
 
 		$resp = json_decode( wp_remote_retrieve_body( $response ) );
+
+		\PAYUNI\APIs\Payment::log( $resp );
+
 		$data = \Payuni\APIs\Payment::decrypt( $resp->EncryptInfo );
 
 		if ( $data['URL'] ) {
@@ -125,7 +128,7 @@ class Request {
 		//	return;
 		//}
 
-		switch ( $method ) {
+		switch ( $order->get_payment_method() ) {
 			case 'payuni-atm':
 				Response::atm_response( $resp );
 				break;
