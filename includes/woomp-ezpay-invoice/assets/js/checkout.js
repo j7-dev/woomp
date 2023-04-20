@@ -86,4 +86,9 @@ jQuery(document).ready(function ($) {
 	$('#ezpay-taxid-number').on('focusout',function(){
 		get_company($(this).val())
 	})
+
+	$('#ezpay-invoice-type,#ezpay-individual-invoice').select2({
+		minimumResultsForSearch: Infinity, // 禁用搜尋框
+	});
+
 });

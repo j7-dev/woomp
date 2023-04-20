@@ -49,7 +49,7 @@ class Checkout {
 			'individual-invoice',
 			'select',
 			__( 'Individual Invoice Type', 'woomp' ),
-			array(),
+			array( 'no-search' ),
 			'invoice-label',
 			$type_option,
 		);
@@ -227,7 +227,7 @@ class Checkout {
 	public function enqueue_scripts() {
 		if ( is_checkout() ) {
 
-			wp_register_script( 'woomp_ecpay_invoice', ECPAYINVOICE_PLUGIN_URL . 'assets/js/checkout.js', array( 'jquery' ), '1.0.8', true );
+			wp_register_script( 'woomp_ecpay_invoice', ECPAYINVOICE_PLUGIN_URL . 'assets/js/checkout.js', array( 'jquery' ), '1.0.9', true );
 			wp_localize_script(
 				'woomp_ecpay_invoice',
 				'woomp_ecpay_invoice_params',

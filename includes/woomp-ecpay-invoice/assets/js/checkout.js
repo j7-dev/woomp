@@ -76,4 +76,8 @@ jQuery(document).ready(function ($) {
 	//$(options[3]).insertAfter($(options[1]));
 	//$('#individual-invoice option').eq(0).prop('selected',true)
 
+	$('#invoice-type,#individual-invoice').select2({
+		minimumResultsForSearch: Infinity, // 禁用搜尋框
+	});
+
 });
