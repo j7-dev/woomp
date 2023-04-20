@@ -107,9 +107,7 @@ if ( ! class_exists( 'WooMP_Product' ) ) {
 						/**
 						 * Feature - 儲存屬性按鈕移至新增按鈕右邊
 						 */
-						var toolbar = $('#product_attributes .toolbar.toolbar-top')
-						var saveAttributeBtn = $('#product_attributes .save_attributes')
-						saveAttributeBtn.appendTo(toolbar)
+						var toolbar = $('#product_attributes .toolbar.toolbar-top .button.add_attribute').after($('#product_attributes .save_attributes'))
 
 						
 						var toolbarHeader = $('#woocommerce-product-data .postbox-header h2 > span')
@@ -182,9 +180,12 @@ if ( ! class_exists( 'WooMP_Product' ) ) {
 
 							wooAttr.find('.attributeValuesWrap').on('keypress','.attributeValue',function(e){
 								var code = e.key;
-								if(code === "Enter") e.preventDefault()
 								if(code === "Enter"){
-								addAttrbute($(this))
+									e.preventDefault()
+									addAttrbute($(this))
+									setTimeout(() => {
+										$('button.save_attributes').removeAttr('disabled')
+									}, 100);
 								}
 							})
 
@@ -466,7 +467,7 @@ if ( ! class_exists( 'WooMP_Product' ) ) {
 							<?php endif; ?>
 						</select>
 					</div>
-					<a href='#' class="button save_attributes_after button-primary" style="margin-top: 1rem">儲存屬性</a>
+					<a href='#' class="button save_attributes_after button-primary" style="margin-top: 1rem">儲存屬性-xxx</a>
 				</td>
 			</tr>
 			<?php
