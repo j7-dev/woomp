@@ -421,7 +421,7 @@ if ( ! class_exists( 'WooMP_Product' ) ) {
 						toolbarHeader.append(`
 						<form action="${window.location.href}" method="post" style="display: inline-block">
 							<input type="hidden" name="woomp_ui" value="yes">
-						<button type="submit" class="button"><?php _e( '切換好用���� Woo 變化類型介面', 'woomp' ); ?></button>
+						<button type="submit" class="button"><?php _e( '切換好用版 Woo 變化類型介面', 'woomp' ); ?></button>
 						</form>
 						`)
 					})

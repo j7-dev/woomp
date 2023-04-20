@@ -174,7 +174,7 @@ msgid "定價未填"
 msgstr ""
 
 #: admin/class-woomp-product.php:424
-msgid "切換好用���� Woo 變化類型介面"
+msgid "切換好用版 Woo 變化類型介面"
 msgstr ""
 
 #: admin/class-woomp-product.php:455

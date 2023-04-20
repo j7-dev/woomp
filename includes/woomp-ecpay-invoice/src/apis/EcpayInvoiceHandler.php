@@ -246,7 +246,7 @@ class EcpayInvoiceHandler {
 		$orderInfo    = get_post_meta( $order_id );
 		$relateNumber = date( 'YmdHis' );
 
-		// 付款成功最後的���次 第一次付款或沒有此欄位則設定為空值
+		// 付款成功最後的次 第一次付款或沒有此欄位則設定為空值
 		// $totalSuccessTimes = ( isset( $orderInfo['_total_success_times'][0] ) && $orderInfo['_total_success_times'][0] == '' ) ? '' : $orderInfo['_total_success_times'][0];
 		$totalSuccessTimes = '';
 
@@ -259,7 +259,7 @@ class EcpayInvoiceHandler {
 			$_ecpay_invoice_number = '_ecpay_invoice_number' . $totalSuccessTimes;
 			$invoice_number        = get_post_meta( $order_id, $_ecpay_invoice_number, true );
 
-			// 呼叫SDK 作廢發��
+			// 呼叫SDK 作廢發票
 			try {
 
 				$msg = '';
@@ -277,7 +277,7 @@ class EcpayInvoiceHandler {
 				$ecpayInvoice->Send['InvoiceNumber'] = $invoice_number;
 				$ecpayInvoice->Send['Reason']        = '發票作廢';
 
-				// 4.送��
+				// 4.送出
 				$return_info = $ecpayInvoice->Check_Out();
 
 			} catch ( Exception $e ) {

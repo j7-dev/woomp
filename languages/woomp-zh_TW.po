@@ -183,7 +183,7 @@ msgstr "定價未填"
 #: admin/class-woomp-product.php:424
 #, fuzzy
 #| msgid "切換好用版 Woo 變化類型介面"
-msgid "切換好用���� Woo 變化類型介面"
+msgid "切換好用版 Woo 變化類型介面"
 msgstr "切換好用版 Woo 變化類型介面"
 
 #: admin/class-woomp-product.php:455
@@ -493,7 +493,7 @@ msgstr "結帳流程設定"
 #: admin/settings/class-woomp-setting.php:285
 msgid ""
 "將原本兩段式結帳改成一頁式或兩頁式結帳，並改變結帳順序為 「選物流 -> 選金流 -"
-"> 填��帳欄位」，以適應超商取貨等物流模式"
+"> 填結帳欄位」，以適應超商取貨等物流模式"
 msgstr ""
 "將原本兩段式結帳改成一頁式結帳，並改變結帳順序為 「選物流 -> 選金流 -> 填結帳"
 "欄位」，以適應超商取貨等物流模式"
