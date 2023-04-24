@@ -223,7 +223,8 @@ class Atm extends AbstractGateway {
 			$bank_expire = $order->get_meta( '_payuni_resp_bank_expire', true );
 
 			$html = '
-				<div style="margin-bottom:40px">
+				<style>.payuni-account-info+.payuni-account-info{display:none}</style>
+				<div style="margin-bottom:40px" class="payuni-account-info">
 					<h2 class="woocommerce-order-details__title">轉帳資訊</h2>
 					<div class="responsive-table">
 						<table class="woocommerce-table woocommerce-table--order-details shop_table order_details">

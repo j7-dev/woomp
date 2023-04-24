@@ -87,8 +87,8 @@ jQuery(document).ready(function ($) {
 		get_company($(this).val())
 	})
 
-	$('#ezpay-invoice-type,#ezpay-individual-invoice').select2({
-		minimumResultsForSearch: Infinity, // 禁用搜尋框
+	$('#ezpay-invoice-type,#ezpay-individual-invoice').selectWoo({
+		minimumResultsForSearch: Infinity,
 	});
 
 });
