@@ -2,14 +2,14 @@
 # This file is distributed under the GPL-2.0+.
 msgid ""
 msgstr ""
-"Project-Id-Version: 好用版擴充 MorePower Addon for WooCommerce 2.0.0\n"
+"Project-Id-Version: 好用版擴充 MorePower Addon for WooCommerce 2.0.9\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/woomp\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-03-06T09:57:27+00:00\n"
+"POT-Creation-Date: 2023-04-24T09:48:57+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.7.1\n"
 "X-Domain: woomp\n"
@@ -54,54 +54,54 @@ msgstr ""
 msgid "invoice"
 msgstr ""
 
-#: admin/class-woomp-order.php:175
-#: admin/class-woomp-order.php:181
+#: admin/class-woomp-order.php:189
+#: admin/class-woomp-order.php:195
 msgid "Print ECPay shipping booking note (711)"
 msgstr ""
 
-#: admin/class-woomp-order.php:176
+#: admin/class-woomp-order.php:190
 msgid "Print ECPay shipping booking note (711 Freeze)"
 msgstr ""
 
-#: admin/class-woomp-order.php:177
-#: admin/class-woomp-order.php:182
+#: admin/class-woomp-order.php:191
+#: admin/class-woomp-order.php:196
 msgid "Print ECPay shipping booking note (family)"
 msgstr ""
 
-#: admin/class-woomp-order.php:178
-#: admin/class-woomp-order.php:183
+#: admin/class-woomp-order.php:192
+#: admin/class-woomp-order.php:197
 msgid "Print ECPay shipping booking note (hilife)"
 msgstr ""
 
-#: admin/class-woomp-order.php:184
+#: admin/class-woomp-order.php:198
 msgid "Print ECPay shipping booking note (okmart)"
 msgstr ""
 
-#: admin/class-woomp-order.php:188
+#: admin/class-woomp-order.php:202
 msgid "Print ECPay shipping booking note (tcat)"
 msgstr ""
 
-#: admin/class-woomp-order.php:189
+#: admin/class-woomp-order.php:203
 msgid "Print ECPay shipping booking note (tcat freeze)"
 msgstr ""
 
-#: admin/class-woomp-order.php:190
+#: admin/class-woomp-order.php:204
 msgid "Print ECPay shipping booking note (tcat frozen)"
 msgstr ""
 
-#: admin/class-woomp-order.php:191
+#: admin/class-woomp-order.php:205
 msgid "Print POST booking note"
 msgstr ""
 
-#: admin/class-woomp-order.php:193
+#: admin/class-woomp-order.php:207
 msgid "Print HCT shipping booking note"
 msgstr ""
 
-#: admin/class-woomp-order.php:271
+#: admin/class-woomp-order.php:285
 msgid "Update convenience store"
 msgstr ""
 
-#: admin/class-woomp-order.php:272
+#: admin/class-woomp-order.php:286
 msgid "After choosing cvs, you need update the order to save changing."
 msgstr ""
 
@@ -145,7 +145,7 @@ msgstr ""
 msgid "啟用超商取貨付款"
 msgstr ""
 
-#: admin/class-woomp-product.php:85
+#: admin/class-woomp-product.php:87
 msgid "商品屬性"
 msgstr ""
 
@@ -157,49 +157,56 @@ msgstr ""
 msgid "請輸入變化類型規格，一次輸入一個"
 msgstr ""
 
-#: admin/class-woomp-product.php:222
-msgid "變化類型已更新"
-msgstr ""
-
-#: admin/class-woomp-product.php:307
-msgid "必填"
-msgstr ""
-
-#: admin/class-woomp-product.php:309
-msgid "須小於定價"
-msgstr ""
-
-#: admin/class-woomp-product.php:338
-msgid "定價未填"
-msgstr ""
-
-#: admin/class-woomp-product.php:424
-msgid "切換好用版 Woo 變化類型介面"
-msgstr ""
-
-#: admin/class-woomp-product.php:455
+#: admin/class-woomp-product.php:138
+#: admin/class-woomp-product.php:506
 msgid "設定前台變化類型介面:"
 msgstr ""
 
-#: admin/class-woomp-product.php:458
-#: admin/class-woomp-product.php:465
+#: admin/class-woomp-product.php:141
+#: admin/class-woomp-product.php:148
+#: admin/class-woomp-product.php:509
+#: admin/class-woomp-product.php:516
 msgid "標籤式選項"
 msgstr ""
 
-#: admin/class-woomp-product.php:460
+#: admin/class-woomp-product.php:143
+#: admin/class-woomp-product.php:511
 msgid "下拉選單"
 msgstr ""
 
-#: admin/class-woomp-product.php:461
+#: admin/class-woomp-product.php:144
+#: admin/class-woomp-product.php:512
 msgid "單選方塊(不斷行)"
 msgstr ""
 
-#: admin/class-woomp-product.php:462
+#: admin/class-woomp-product.php:145
+#: admin/class-woomp-product.php:513
 msgid "單選方塊(每行放1個選項)"
 msgstr ""
 
-#: admin/class-woomp-product.php:463
+#: admin/class-woomp-product.php:146
+#: admin/class-woomp-product.php:514
 msgid "單選方塊(每行放2個選項) "
+msgstr ""
+
+#: admin/class-woomp-product.php:271
+msgid "變化類型已更新"
+msgstr ""
+
+#: admin/class-woomp-product.php:357
+msgid "必填"
+msgstr ""
+
+#: admin/class-woomp-product.php:359
+msgid "須小於定價"
+msgstr ""
+
+#: admin/class-woomp-product.php:388
+msgid "定價未填"
+msgstr ""
+
+#: admin/class-woomp-product.php:475
+msgid "切換好用版 Woo 變化類型介面"
 msgstr ""
 
 #: admin/settings/class-woomp-setting-gateway.php:12
@@ -208,37 +215,37 @@ msgid "金流設定"
 msgstr ""
 
 #: admin/settings/class-woomp-setting-gateway.php:64
-#: admin/settings/class-woomp-setting-shipping.php:68
-msgid "PAYUNi"
-msgstr ""
-
-#: admin/settings/class-woomp-setting-gateway.php:65
 #: admin/settings/class-woomp-setting-shipping.php:64
 msgid "綠界"
 msgstr ""
 
-#: admin/settings/class-woomp-setting-gateway.php:66
+#: admin/settings/class-woomp-setting-gateway.php:65
 #: admin/settings/class-woomp-setting-shipping.php:65
 msgid "藍新"
 msgstr ""
 
-#: admin/settings/class-woomp-setting-gateway.php:67
+#: admin/settings/class-woomp-setting-gateway.php:66
 #: admin/settings/class-woomp-setting-shipping.php:66
 msgid "速買配"
 msgstr ""
 
-#: admin/settings/class-woomp-setting-gateway.php:68
+#: admin/settings/class-woomp-setting-gateway.php:67
 #: admin/settings/class-woomp-setting-invoice.php:67
 #: admin/settings/class-woomp-setting-shipping.php:67
 msgid "立吉富"
 msgstr ""
 
-#: admin/settings/class-woomp-setting-gateway.php:69
+#: admin/settings/class-woomp-setting-gateway.php:68
 msgid "LINE Pay"
 msgstr ""
 
-#: admin/settings/class-woomp-setting-gateway.php:71
+#: admin/settings/class-woomp-setting-gateway.php:70
 msgid "支付連"
+msgstr ""
+
+#: admin/settings/class-woomp-setting-gateway.php:72
+#: admin/settings/class-woomp-setting-shipping.php:68
+msgid "PAYUNi"
 msgstr ""
 
 #: admin/settings/class-woomp-setting-gateway.php:200
@@ -325,7 +332,7 @@ msgstr ""
 msgid "Paper Invoice"
 msgstr ""
 
-#: admin/settings/class-woomp-setting-invoice.php:314
+#: admin/settings/class-woomp-setting-invoice.php:312
 msgid "ezPay 電子發票載具"
 msgstr ""
 
@@ -689,127 +696,226 @@ msgstr ""
 msgid "\"%s\" available"
 msgstr ""
 
-#: includes/payuni/src/settings/gateway.php:5
+#: includes/payuni/settings/gateway.php:5
 msgid "PAYUNi Gateway Setting"
 msgstr ""
 
 #. translators: %s: Path of log file
-#: includes/payuni/src/settings/gateway.php:17
+#: includes/payuni/settings/gateway.php:17
 msgid "Log PAYUNi payemnt events/message, inside %s"
 msgstr ""
 
-#: includes/payuni/src/settings/gateway.php:26
+#: includes/payuni/settings/gateway.php:26
 msgid "API Settings"
 msgstr ""
 
-#: includes/payuni/src/settings/gateway.php:28
+#: includes/payuni/settings/gateway.php:28
 msgid "Enter your payuni API credentials"
 msgstr ""
 
-#: includes/payuni/src/settings/gateway.php:32
+#: includes/payuni/settings/gateway.php:32
 msgid "Sandbox"
 msgstr ""
 
-#: includes/payuni/src/settings/gateway.php:35
+#: includes/payuni/settings/gateway.php:35
 msgid "Check this box if you want to use test/sandbox mode."
 msgstr ""
 
-#: includes/payuni/src/settings/gateway.php:39
-#: includes/payuni/src/settings/shipping.php:111
+#: includes/payuni/settings/gateway.php:39
+#: includes/payuni/settings/shipping.php:111
 msgid "MerchantID"
 msgstr ""
 
-#: includes/payuni/src/settings/gateway.php:41
+#: includes/payuni/settings/gateway.php:41
 msgid "This is the Merchant ID when you apply PAYUNi API"
 msgstr ""
 
-#: includes/payuni/src/settings/gateway.php:46
+#: includes/payuni/settings/gateway.php:46
 msgid "Hash Key"
 msgstr ""
 
-#: includes/payuni/src/settings/gateway.php:48
+#: includes/payuni/settings/gateway.php:48
 msgid "This is the Hash Key when you apply PAYUNi API"
 msgstr ""
 
-#: includes/payuni/src/settings/gateway.php:53
+#: includes/payuni/settings/gateway.php:53
 msgid "Hash IV"
 msgstr ""
 
-#: includes/payuni/src/settings/gateway.php:55
+#: includes/payuni/settings/gateway.php:55
 msgid "This is the Hash IV when you apply PAYUNi API"
 msgstr ""
 
-#: includes/payuni/src/settings/shipping.php:4
+#: includes/payuni/settings/shipping.php:4
 msgid "PAYUNi Shipping Setting"
 msgstr ""
 
 #. translators: %s: Path of log file
-#: includes/payuni/src/settings/shipping.php:17
+#: includes/payuni/settings/shipping.php:17
 msgid "Log PAYUNi shipping events/message, inside %s"
 msgstr ""
 
-#: includes/payuni/src/settings/shipping.php:27
+#: includes/payuni/settings/shipping.php:27
 msgid "Shipping note options"
 msgstr ""
 
-#: includes/payuni/src/settings/shipping.php:32
+#: includes/payuni/settings/shipping.php:32
 msgid "Order no prefix"
 msgstr ""
 
-#: includes/payuni/src/settings/shipping.php:35
+#: includes/payuni/settings/shipping.php:35
 msgid "The prefix string of order no. Only letters and numbers allowed allowed."
 msgstr ""
 
-#: includes/payuni/src/settings/shipping.php:56
+#: includes/payuni/settings/shipping.php:56
 msgid "Sender name"
 msgstr ""
 
-#: includes/payuni/src/settings/shipping.php:59
+#: includes/payuni/settings/shipping.php:59
 msgid "Name length between 1 to 10 letter"
 msgstr ""
 
-#: includes/payuni/src/settings/shipping.php:63
+#: includes/payuni/settings/shipping.php:63
 msgid "Sender phone"
 msgstr ""
 
-#: includes/payuni/src/settings/shipping.php:66
+#: includes/payuni/settings/shipping.php:66
 msgid "Phone format (0x)xxxxxxx#xx"
 msgstr ""
 
-#: includes/payuni/src/settings/shipping.php:74
+#: includes/payuni/settings/shipping.php:74
 msgid "Sender cellphone"
 msgstr ""
 
-#: includes/payuni/src/settings/shipping.php:77
+#: includes/payuni/settings/shipping.php:77
 msgid "Cellphone format 09xxxxxxxx"
 msgstr ""
 
-#: includes/payuni/src/settings/shipping.php:85
+#: includes/payuni/settings/shipping.php:85
 msgid "Sender zipcode"
 msgstr ""
 
-#: includes/payuni/src/settings/shipping.php:90
+#: includes/payuni/settings/shipping.php:90
 msgid "Sender address"
 msgstr ""
 
-#: includes/payuni/src/settings/shipping.php:99
+#: includes/payuni/settings/shipping.php:99
 msgid "API credentials"
 msgstr ""
 
-#: includes/payuni/src/settings/shipping.php:104
+#: includes/payuni/settings/shipping.php:104
 msgid "payuni shipping sandbox"
 msgstr ""
 
-#: includes/payuni/src/settings/shipping.php:108
+#: includes/payuni/settings/shipping.php:108
 msgid "Enable payuni shipping sandbox"
 msgstr ""
 
-#: includes/payuni/src/settings/shipping.php:117
+#: includes/payuni/settings/shipping.php:117
 msgid "HashKey"
 msgstr ""
 
-#: includes/payuni/src/settings/shipping.php:123
+#: includes/payuni/settings/shipping.php:123
 msgid "HashIV"
+msgstr ""
+
+#: includes/payuni/src/gateways/AbstractGateway.php:163
+msgid "PAYUNi Payment Gateway"
+msgstr ""
+
+#: includes/payuni/src/gateways/Atm.php:27
+msgid "PAYUNi ATM"
+msgstr ""
+
+#: includes/payuni/src/gateways/Atm.php:30
+msgid "PAYUNi ATM Payment"
+msgstr ""
+
+#: includes/payuni/src/gateways/Atm.php:31
+msgid "Pay with PAYUNi ATM"
+msgstr ""
+
+#. translators: %s: Gateway method title
+#: includes/payuni/src/gateways/Atm.php:57
+#: includes/payuni/src/gateways/Credit.php:55
+#: includes/payuni/src/gateways/CreditInstallment.php:55
+#: includes/payuni/src/gateways/Cvs.php:55
+msgid "Enable %s"
+msgstr ""
+
+#: includes/payuni/src/gateways/Credit.php:27
+msgid "PAYUNi Credit Card"
+msgstr ""
+
+#: includes/payuni/src/gateways/Credit.php:30
+msgid "PAYUNi Credit Card Payment"
+msgstr ""
+
+#: includes/payuni/src/gateways/Credit.php:31
+msgid "Pay with PAYUNi Credit Card"
+msgstr ""
+
+#: includes/payuni/src/gateways/Credit.php:92
+#: includes/payuni/src/gateways/CreditInstallment.php:134
+msgid "Credit card number is required"
+msgstr ""
+
+#: includes/payuni/src/gateways/Credit.php:96
+#: includes/payuni/src/gateways/CreditInstallment.php:138
+msgid "Credit card expired date is required"
+msgstr ""
+
+#: includes/payuni/src/gateways/Credit.php:100
+#: includes/payuni/src/gateways/CreditInstallment.php:142
+msgid "Credit card security code is required"
+msgstr ""
+
+#: includes/payuni/src/gateways/CreditInstallment.php:27
+msgid "PAYUNi Credit Card Installment"
+msgstr ""
+
+#: includes/payuni/src/gateways/CreditInstallment.php:29
+msgid "PAYUNi Credit Card Installment Payment"
+msgstr ""
+
+#: includes/payuni/src/gateways/CreditInstallment.php:30
+msgid "Pay with PAYUNi Credit Card Installment"
+msgstr ""
+
+#: includes/payuni/src/gateways/CreditInstallment.php:74
+msgid "Enable number of periods"
+msgstr ""
+
+#. translators: %d number of periods
+#: includes/payuni/src/gateways/CreditInstallment.php:82
+#: includes/payuni/src/gateways/CreditInstallment.php:84
+#: includes/payuni/src/gateways/CreditInstallment.php:86
+#: includes/payuni/src/gateways/CreditInstallment.php:88
+#: includes/payuni/src/gateways/CreditInstallment.php:90
+#: includes/payuni/src/gateways/CreditInstallment.php:92
+#: includes/payuni/src/gateways/CreditInstallment.php:94
+msgid "%d periods"
+msgstr ""
+
+#: includes/payuni/src/gateways/CreditInstallment.php:98
+msgctxt "Gateway setting"
+msgid "Number of periods"
+msgstr ""
+
+#: includes/payuni/src/gateways/CreditInstallment.php:147
+msgid "Credit card installment period is required"
+msgstr ""
+
+#: includes/payuni/src/gateways/Cvs.php:27
+msgid "PAYUNi CVS"
+msgstr ""
+
+#: includes/payuni/src/gateways/Cvs.php:30
+msgid "PAYUNi CVS Payment"
+msgstr ""
+
+#: includes/payuni/src/gateways/Cvs.php:31
+msgid "Pay with PAYUNi CVS"
 msgstr ""
 
 #: includes/ry-woocommerce-tools/woocommerce/admin/meta-boxes/ecpay-shipping-meta-box.php:62
@@ -861,41 +967,41 @@ msgstr ""
 msgid "Yes, adding to cart is not allowed if there are different shipping classes in it"
 msgstr ""
 
-#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:185
+#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:207
 msgid "<b>Invoice issue result</b>"
 msgstr ""
 
-#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:185
+#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:207
 msgid "<b>Invoice issue faild</b>"
 msgstr ""
 
-#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:187
+#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:209
 msgid "<br>Generate Time: "
 msgstr ""
 
-#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:188
-#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:270
+#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:210
+#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:292
 msgid "<br>Invoice Number: "
 msgstr ""
 
-#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:189
-#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:270
+#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:211
+#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:292
 msgid "<br>Invoice Message: "
 msgstr ""
 
-#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:206
+#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:228
 msgid "Generate Ecpay invoice issue finish!"
 msgstr ""
 
-#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:270
+#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:292
 msgid "<b>Ecpay invalid invoice result</b>"
 msgstr ""
 
-#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:296
+#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:318
 msgid "Invalid Ecpay invoice successful!"
 msgstr ""
 
-#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:298
+#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:320
 msgid "Invalid Ecpay invoice error!"
 msgstr ""
 
