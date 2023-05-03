@@ -88,7 +88,7 @@ class EzPayInvoiceHandler {
 			// print_r($item);
 			$divide         = ( $i > 0 ) ? '|' : '';
 			$product        = $item->get_product();
-			$product_name  .= $divide . str_replace( ' ', '', $item->get_name() );
+			$product_name  .= $divide . preg_replace( '/[\s｜（）]+/u', '-', $item->get_name() );
 			$product_count .= $divide . str_replace( ' ', '', $item->get_quantity() );
 			$product_unit  .= $divide . '件';
 
@@ -122,7 +122,7 @@ class EzPayInvoiceHandler {
 		$issue_data['Amt']             = round( $order->get_total() / 1.05 ); // 未稅.
 		$issue_data['TaxAmt']          = $order->get_total() - round( $order->get_total() / 1.05 ); // 稅額.
 		$issue_data['TotalAmt']        = $order->get_total(); // 發票金額.
-		$issue_data['ItemName']        = substr( $product_name, 0, 30 ); // 商品名稱.
+		$issue_data['ItemName']        = mb_substr( $product_name, 0, 30, 'UTF-8' ); // 商品名稱.
 		$issue_data['ItemCount']       = $product_count; // 商品數量.
 		$issue_data['ItemUnit']        = $product_unit; // 商品單位.
 		$issue_data['ItemPrice']       = $product_price; // 商品單價.

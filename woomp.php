@@ -9,7 +9,7 @@
   * Plugin Name:       好用版擴充 MorePower Addon for WooCommerce
   * Plugin URI:        https://morepower.club/morepower-addon/
   * Description:       WooCommerce 好用版擴充，改善結帳流程與可變商品等區塊，讓 WooCommerce 更符合亞洲人使用習慣。
-  * Version:           2.1.0
+  * Version:           2.1.1
   * Author:            MorePower
   * Author URI:        https://morepower.club
   * License:           GPL-2.0+

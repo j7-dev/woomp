@@ -109,7 +109,8 @@ if ( ! class_exists( 'WooMP_Product' ) ) {
 						/**
 						 * Feature - 儲存屬性按鈕移至新增按鈕右邊
 						 */
-						var toolbar = $('#product_attributes .toolbar.toolbar-top .button.add_attribute').after($('#product_attributes .save_attributes'))
+						//var toolbar = $('#product_attributes .toolbar.toolbar-top .button.add_attribute').after($('#product_attributes .save_attributes'))
+						$('#product_attributes .save_attributes').hide()
 
 						
 						var toolbarHeader = $('#woocommerce-product-data .postbox-header h2 > span')
@@ -129,47 +130,6 @@ if ( ! class_exists( 'WooMP_Product' ) ) {
 							<input type="button" class="button attrListAdd" value="新增" style="width: 80px; min-width: auto;">
 						</div>
 						<ul class="attributeValuesList tagchecklist" role="list"></ul>`;
-						
-
-						function generateAttributeTypeUI(index){
-							return `<tr>
-								<td>
-									<div class="enable_highlighted" style="margin-top:20px">
-										<label><?php echo esc_html__( '設定前台變化類型介面:', 'woomp' ); ?></label>
-										<select name="attribute_type[${index}]">
-											<?php if ( wc_string_to_bool( get_option( 'wc_woomp_setting_product_variations_frontend_ui＿default' ) ) ) : ?>
-												<option value="tag"><?php echo esc_html__( '標籤式選項', 'woomp' ); ?></option>
-											<?php endif; ?>
-											<option value="select"><?php echo esc_html__( '下拉選單', 'woomp' ); ?></option>
-											<option value="radio"><?php echo esc_html__( '單選方塊(不斷行)', 'woomp' ); ?></option>
-											<option value="radio-one"><?php echo esc_html__( '單選方塊(每行放1個選項)', 'woomp' ); ?></option>
-											<option value="radio-two"><?php echo esc_html__( '單選方塊(每行放2個選項) ', 'woomp' ); ?></option>
-											<?php if ( ! wc_string_to_bool( get_option( 'wc_woomp_setting_product_variations_frontend_ui＿default' ) ) ) : ?>
-											<option value="tag"><?php echo esc_html__( '標籤式選項', 'woomp' ); ?></option>
-											<?php endif; ?>
-										</select>
-									</div>
-								</td>
-							</tr>`
-						}
-
-						// 取得已儲存的變化類型介面
-						function getAttributeTypeValue(attrName,select){
-							$.ajax({
-								url: woocommerce_admin_meta_boxes_variations.ajax_url,
-								type: 'POST',
-								async: false,
-								data: {
-									action: 'woomp_get_attribute_type',
-									postId: woocommerce_admin_meta_boxes_variations.post_id,
-									attrName: attrName
-								},
-								success: function (data) {
-									console.log(data)
-									select.val(data).prop('selected',true)
-								}
-							});
-						}
 						
 						function generateAttrListLi( text ){
 							return `
@@ -215,11 +175,8 @@ if ( ! class_exists( 'WooMP_Product' ) ) {
 
 						// 封裝
 						function loadAttributeFeature( wooAttr, isNew = null ){
-							$('button.save_attributes').removeAttr('disabled')
 							wooAttr.each(function(index){
 								$(this).find('td.attribute_name + td label').after(inputUI)
-								$(this).find('.enable_variation.show_if_variable').after(generateAttributeTypeUI(index))
-								getAttributeTypeValue($(this).find('td .attribute_name').val(),$(this).find(`select[name="attribute_type[${index}]"]`));
 							})
 							
 							wooAttr.find('.attributeValuesWrap').on('click','.attrListAdd',function(){
@@ -231,9 +188,6 @@ if ( ! class_exists( 'WooMP_Product' ) ) {
 								if(code === "Enter"){
 									e.preventDefault()
 									addAttrbute($(this))
-									setTimeout(() => {
-										$('button.save_attributes').removeAttr('disabled')
-									}, 100);
 								}
 							})
 
