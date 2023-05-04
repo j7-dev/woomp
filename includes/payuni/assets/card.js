@@ -1,6 +1,6 @@
 jQuery(function ($) {
-	$(document.body).on('updated_checkout', function () {
 
+	function enable_mask(){
 		const cardnumber = document.querySelectorAll('.cardnumber');
 		const expirationdate = document.querySelectorAll('.expirationdate');
 		const securitycode = document.querySelectorAll('.securitycode');
@@ -137,6 +137,11 @@ jQuery(function ($) {
 			}
 
 		})
+	}
 
+	enable_mask()
+
+	$(document.body).on('updated_checkout', function () {
+		enable_mask()
 	});
 })
