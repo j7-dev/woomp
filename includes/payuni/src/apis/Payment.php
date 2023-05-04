@@ -122,20 +122,30 @@ class Payment {
 	 */
 	public static function encrypt( $encryptInfo ) {
 		$tag       = '';
-		$encrypted = openssl_encrypt( http_build_query( $encryptInfo ), 'aes-256-gcm', trim( get_option( 'payuni_payment_hash_key' ) ), 0, trim( get_option( 'payuni_payment_hash_iv' ) ), $tag );
+		$test_mode = wc_string_to_bool( get_option( 'payuni_payment_testmode' ) );
+		$hash_key  = $test_mode ? get_option( 'payuni_payment_hash_key_test' ) : get_option( 'payuni_payment_hash_key' );
+		$hash_iv   = $test_mode ? get_option( 'payuni_payment_hash_iv_test' ) : get_option( 'payuni_payment_hash_iv' );
+		$encrypted = openssl_encrypt( http_build_query( $encryptInfo ), 'aes-256-gcm', trim( $hash_key ), 0, trim( $hash_iv ), $tag );
 		return trim( bin2hex( $encrypted . ':::' . base64_encode( $tag ) ) );
 	}
 
 	public static function hash_info( string $encrypt = '' ) {
-		return strtoupper( hash( 'sha256', get_option( 'payuni_payment_hash_key' ) . $encrypt . get_option( 'payuni_payment_hash_iv' ) ) );
+		$test_mode = wc_string_to_bool( get_option( 'payuni_payment_testmode' ) );
+		$hash_key  = $test_mode ? get_option( 'payuni_payment_hash_key_test' ) : get_option( 'payuni_payment_hash_key' );
+		$hash_iv   = $test_mode ? get_option( 'payuni_payment_hash_iv_test' ) : get_option( 'payuni_payment_hash_iv' );
+		return strtoupper( hash( 'sha256', $hash_key . $encrypt . $hash_iv ) );
 	}
 
 	/**
 	 * PAYUNi decrypt
 	 */
 	public static function decrypt( string $encryptStr = '' ) {
+		$test_mode = wc_string_to_bool( get_option( 'payuni_payment_testmode' ) );
+		$hash_key  = $test_mode ? get_option( 'payuni_payment_hash_key_test' ) : get_option( 'payuni_payment_hash_key' );
+		$hash_iv   = $test_mode ? get_option( 'payuni_payment_hash_iv_test' ) : get_option( 'payuni_payment_hash_iv' );
+
 		list($encryptData, $tag) = explode( ':::', hex2bin( $encryptStr ), 2 );
-		$encryptInfo             = openssl_decrypt( $encryptData, 'aes-256-gcm', trim( get_option( 'payuni_payment_hash_key' ) ), 0, trim( get_option( 'payuni_payment_hash_iv' ) ), base64_decode( $tag ) );
+		$encryptInfo             = openssl_decrypt( $encryptData, 'aes-256-gcm', trim( $hash_key ), 0, trim( $hash_iv ), base64_decode( $tag ) );
 		parse_str( $encryptInfo, $encryptArr );
 		return $encryptArr;
 	}

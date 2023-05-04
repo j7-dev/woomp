@@ -29,10 +29,10 @@ $settings = array(
 		'id'   => 'payment_general_setting',
 	),
 	array(
-		'title' => __( 'API Settings', 'woomp' ),
+		'title' => __( 'API Settings Test', 'woomp' ),
 		'type'  => 'title',
-		'desc'  => __( 'Enter your payuni API credentials', 'woomp' ),
-		'id'    => 'payuni_payment_api_settings',
+		'desc'  => __( 'Enter your payuni testing API credentials', 'woomp' ),
+		'id'    => 'payuni_payment_api_settings_test',
 	),
 	array(
 		'title'   => __( 'Sandbox', 'woomp' ),
@@ -40,6 +40,37 @@ $settings = array(
 		'default' => 'no',
 		'desc'    => __( 'Check this box if you want to use test/sandbox mode.', 'woomp' ),
 		'id'      => 'payuni_payment_testmode',
+	),
+	array(
+		'title'    => __( 'MerchantID test', 'woomp' ),
+		'type'     => 'text',
+		'desc'     => __( 'This is the Merchant ID when you apply PAYUNi API', 'woomp' ),
+		'desc_tip' => true,
+		'id'       => 'payuni_payment_merchant_no_test',
+	),
+	array(
+		'title'    => __( 'Hash Key test', 'woomp' ),
+		'type'     => 'text',
+		'desc'     => __( 'This is the Hash Key when you apply PAYUNi API', 'woomp' ),
+		'desc_tip' => true,
+		'id'       => 'payuni_payment_hash_key_test',
+	),
+	array(
+		'title'    => __( 'Hash IV test', 'woomp' ),
+		'type'     => 'text',
+		'desc'     => __( 'This is the Hash IV when you apply PAYUNi API', 'woomp' ),
+		'desc_tip' => true,
+		'id'       => 'payuni_payment_hash_iv_test',
+	),
+	array(
+		'type' => 'sectionend',
+		'id'   => 'payuni_payment_api_settings_test',
+	),
+	array(
+		'title' => __( 'API Settings', 'woomp' ),
+		'type'  => 'title',
+		'desc'  => __( 'Enter your payuni API credentials', 'woomp' ),
+		'id'    => 'payuni_payment_api_settings',
 	),
 	array(
 		'title'    => __( 'MerchantID', 'woomp' ),

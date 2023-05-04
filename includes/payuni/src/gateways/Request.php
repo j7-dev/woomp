@@ -112,8 +112,9 @@ class Request {
 		);
 
 		$response = wp_remote_request( $this->gateway->get_api_url() . $this->gateway->get_api_endpoint_url(), $options );
-
+		
 		$resp = json_decode( wp_remote_retrieve_body( $response ) );
+
 		$data = \Payuni\APIs\Payment::decrypt( $resp->EncryptInfo );
 		
 		\PAYUNI\APIs\Payment::log( $data );

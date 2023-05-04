@@ -110,13 +110,12 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 				'products',
 			);
 
-			$this->mer_id     = strtoupper( get_option( 'payuni_payment_merchant_no' ) );
-			$this->hash_key   = get_option( 'payuni_payment_hash_key' );
-			$this->hash_iv    = get_option( 'payuni_payment_hash_iv' );
+			$this->testmode   = wc_string_to_bool( get_option( 'payuni_payment_testmode' ) );
+			$this->mer_id     = strtoupper( ( $this->testmode ) ? get_option( 'payuni_payment_merchant_no_test' ) : get_option( 'payuni_payment_merchant_no' ) );
+			$this->hash_key   = ( $this->testmode ) ? get_option( 'payuni_payment_hash_key_test' ) : get_option( 'payuni_payment_hash_key' );
+			$this->hash_iv    = ( $this->testmode ) ? get_option( 'payuni_payment_hash_iv_test' ) : get_option( 'payuni_payment_hash_iv' );
 			$this->min_amount = 10;
-
-			$this->testmode = wc_string_to_bool( get_option( 'payuni_payment_testmode' ) );
-			$this->api_url  = ( $this->testmode ) ? 'https://sandbox-api.payuni.com.tw/' : 'https://api.payuni.com.tw/';
+			$this->api_url    = ( $this->testmode ) ? 'https://sandbox-api.payuni.com.tw/' : 'https://api.payuni.com.tw/';
 
 			add_action( 'woocommerce_order_details_before_order_table', array( $this, 'get_detail_after_order_table' ), 10, 1 );
 
