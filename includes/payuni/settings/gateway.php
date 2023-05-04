@@ -7,6 +7,12 @@ $settings = array(
 		'id'    => 'payment_general_setting',
 	),
 	array(
+		'title' => '',
+		'id'    => 'payuni_payment_doc',
+		'type'  => 'title',
+		'desc'  => '<p>預設信用卡金流手續費為2.8%，欲申請優惠費率2.4%，請<a href="https://www.newpay.com.tw/index.php/product/secend/339-morepower" target="_blank">點此填表</a></p><p>遇到問題請至 <a href="https://cloud.luke.cafe" target="_blank">站長路可網站</a>右下角對話框詢問</p>',
+	),
+	array(
 		'title'   => __( 'Debug log', 'woocommerce' ),
 		'id'      => 'payuni_payment_log',
 		'type'    => 'checkbox',

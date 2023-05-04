@@ -24,10 +24,10 @@ class CreditInstallment extends AbstractGateway {
 		$this->plugin_name        = 'payuni-payment-credit-installment';
 		$this->version            = '1.0.0';
 		$this->has_fields         = true;
-		$this->order_button_text  = __( 'PAYUNi Credit Card Installment', 'woomp' );
+		//$this->order_button_text  = __( '統一金流 PAYUNi 信用卡分期', 'woomp' );
 		$this->id                 = 'payuni-credit-installment';
-		$this->method_title       = __( 'PAYUNi Credit Card Installment Payment', 'woomp' );
-		$this->method_description = __( 'Pay with PAYUNi Credit Card Installment', 'woomp' );
+		$this->method_title       = __( '統一金流 PAYUNi 信用卡分期', 'woomp' );
+		//$this->method_description = __( 'Pay with PAYUNi Credit Card Installment', 'woomp' );
 
 		$this->init_form_fields();
 		$this->init_settings();

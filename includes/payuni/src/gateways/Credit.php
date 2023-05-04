@@ -24,11 +24,11 @@ class Credit extends AbstractGateway {
 		$this->plugin_name       = 'payuni-payment-credit';
 		$this->version           = '1.0.0';
 		$this->has_fields        = true;
-		$this->order_button_text = __( 'PAYUNi Credit Card', 'woomp' );
+		//$this->order_button_text = __( '統一金流 PAYUNi 信用卡', 'woomp' );
 
 		$this->id                 = 'payuni-credit';
-		$this->method_title       = __( 'PAYUNi Credit Card Payment', 'woomp' );
-		$this->method_description = __( 'Pay with PAYUNi Credit Card', 'woomp' );
+		$this->method_title       = __( '統一金流 PAYUNi 信用卡', 'woomp' );
+		//$this->method_description = __( '統一金流 PAYUNi 信用卡', 'woomp' );
 
 		$this->init_form_fields();
 		$this->init_settings();

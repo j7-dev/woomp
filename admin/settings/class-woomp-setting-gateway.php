@@ -61,6 +61,7 @@ class Woomp_Setting_Gateway extends WC_Settings_Page {
 	}
 
 	public function get_sections() {
+		$sections['payuni']   = __( '統一金流 PAYUNi', 'woomp' );
 		$sections['ecpay']    = __( '綠界', 'woomp' );
 		$sections['newebpay'] = __( '藍新', 'woomp' );
 		$sections['smilepay'] = __( '速買配', 'woomp' );
@@ -69,7 +70,6 @@ class Woomp_Setting_Gateway extends WC_Settings_Page {
 		if ( ! in_array( 'PChomePay-Cart-for-WooCommerce/pchomepay.php', WOOMP_ACTIVE_PLUGINS, true ) && ! in_array( 'PChomePay-Cart-for-WooCommerce-master/pchomepay.php', WOOMP_ACTIVE_PLUGINS, true ) ) {
 			$sections['pchomepay'] = __( '支付連', 'woomp' );
 		}
-		$sections['payuni']   = __( 'PAYUNi', 'woomp' );
 		return apply_filters( 'woocommerce_get_sections_' . $this->id, $sections );
 	}
 
@@ -447,7 +447,7 @@ class Woomp_Setting_Gateway extends WC_Settings_Page {
 	public function output() {
 		global $current_section, $hide_save_button;
 		if ( $current_section == '' ) {
-			wp_safe_redirect( admin_url( 'admin.php?page=wc-settings&tab=woomp_setting_gateway&section=ecpay' ) );
+			wp_safe_redirect( admin_url( 'admin.php?page=wc-settings&tab=woomp_setting_gateway&section=payuni' ) );
 		}
 		$settings = $this->get_settings( $current_section );
 		WC_Admin_Settings::output_fields( $settings );

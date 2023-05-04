@@ -21,14 +21,14 @@ class Atm extends AbstractGateway {
 
 		parent::__construct();
 
-		$this->plugin_name       = 'payuni-payment-atm';
-		$this->version           = '1.0.0';
-		$this->has_fields        = true;
-		$this->order_button_text = __( 'PAYUNi ATM', 'woomp' );
+		$this->plugin_name = 'payuni-payment-atm';
+		$this->version     = '1.0.0';
+		$this->has_fields  = true;
+		// $this->order_button_text = __( 'PAYUNi ATM', 'woomp' );
 
-		$this->id                 = 'payuni-atm';
-		$this->method_title       = __( 'PAYUNi ATM Payment', 'woomp' );
-		$this->method_description = __( 'Pay with PAYUNi ATM', 'woomp' );
+		$this->id           = 'payuni-atm';
+		$this->method_title = __( '統一金流 PAYUNi ATM', 'woomp' );
+		// $this->method_description = __( 'Pay with PAYUNi ATM', 'woomp' );
 
 		$this->init_form_fields();
 		$this->init_settings();
