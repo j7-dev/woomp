@@ -26,9 +26,9 @@ class Atm extends AbstractGateway {
 		$this->has_fields  = true;
 		// $this->order_button_text = __( 'PAYUNi ATM', 'woomp' );
 
-		$this->id           = 'payuni-atm';
-		$this->method_title = __( '統一金流 PAYUNi ATM', 'woomp' );
-		// $this->method_description = __( 'Pay with PAYUNi ATM', 'woomp' );
+		$this->id                 = 'payuni-atm';
+		$this->method_title       = __( '統一金流 PAYUNi ATM', 'woomp' );
+		$this->method_description = __( '透過統一金流 PAYUNi ATM 進行付款', 'woomp' );
 
 		$this->init_form_fields();
 		$this->init_settings();
@@ -36,6 +36,7 @@ class Atm extends AbstractGateway {
 		$this->title            = $this->get_option( 'title' );
 		$this->description      = $this->get_option( 'description' );
 		$this->api_endpoint_url = 'api/atm';
+		$this->supports         = array( 'products', 'refunds' );
 
 		add_action( 'woocommerce_update_options_payment_gateways_' . $this->id, array( $this, 'process_admin_options' ) );
 		add_filter( 'payuni_transaction_args_' . $this->id, array( $this, 'add_args' ), 10, 2 );

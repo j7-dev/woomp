@@ -21,20 +21,21 @@ class Credit extends AbstractGateway {
 
 		parent::__construct();
 
-		$this->plugin_name       = 'payuni-payment-credit';
-		$this->version           = '1.0.0';
-		$this->has_fields        = true;
-		//$this->order_button_text = __( '統一金流 PAYUNi 信用卡', 'woomp' );
+		$this->plugin_name = 'payuni-payment-credit';
+		$this->version     = '1.0.0';
+		$this->has_fields  = true;
+		// $this->order_button_text = __( '統一金流 PAYUNi 信用卡', 'woomp' );
 
 		$this->id                 = 'payuni-credit';
 		$this->method_title       = __( '統一金流 PAYUNi 信用卡', 'woomp' );
-		//$this->method_description = __( '統一金流 PAYUNi 信用卡', 'woomp' );
+		$this->method_description = __( '透過統一金流 PAYUNi 信用卡進行站內付款', 'woomp' );
 
 		$this->init_form_fields();
 		$this->init_settings();
 
 		$this->title            = $this->get_option( 'title' );
 		$this->description      = $this->get_option( 'description' );
+		$this->supports         = array( 'products', 'refunds' );
 		$this->api_endpoint_url = 'api/credit';
 
 		add_action( 'woocommerce_update_options_payment_gateways_' . $this->id, array( $this, 'process_admin_options' ) );
@@ -113,7 +114,7 @@ class Credit extends AbstractGateway {
 		$data = array(
 			'API3D'     => 1,
 			'NotifyURL' => home_url( 'wc-api/payuni_notify_card' ),
-			'ReturnURL' => $this->get_return_url( $order ),
+			'ReturnURL' => home_url( 'wc-api/payuni_notify_card' ),
 		);
 		return array_merge(
 			$args,

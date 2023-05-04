@@ -51,6 +51,8 @@ class Request {
 			$order
 		);
 
+		\PAYUNI\APIs\Payment::log( $args );
+
 		if ( $card_data ) {
 			if ( $order->get_meta( '_' . $this->gateway->id . '-card_hash' ) ) {
 				// 有記憶卡號的情況.
@@ -72,8 +74,6 @@ class Request {
 				$data
 			);
 		}
-
-		\PAYUNI\APIs\Payment::log( $args );
 
 		$parameter['MerID']       = $this->gateway->get_mer_id();
 		$parameter['Version']     = '1.0';
@@ -114,10 +114,9 @@ class Request {
 		$response = wp_remote_request( $this->gateway->get_api_url() . $this->gateway->get_api_endpoint_url(), $options );
 
 		$resp = json_decode( wp_remote_retrieve_body( $response ) );
-
-		\PAYUNI\APIs\Payment::log( $resp );
-
 		$data = \Payuni\APIs\Payment::decrypt( $resp->EncryptInfo );
+		
+		\PAYUNI\APIs\Payment::log( $data );
 
 		if ( $data['URL'] ) {
 			return $data['URL'];

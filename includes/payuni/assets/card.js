@@ -111,7 +111,7 @@ jQuery(function ($) {
 			})
 		}
 
-		$('.card-change').on('change', function () {
+		$('.card-change').on('click', function () {
 			
 			var data = {
 				action: "payuni_card_change",

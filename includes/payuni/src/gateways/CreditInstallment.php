@@ -21,13 +21,13 @@ class CreditInstallment extends AbstractGateway {
 
 		parent::__construct();
 
-		$this->plugin_name        = 'payuni-payment-credit-installment';
-		$this->version            = '1.0.0';
-		$this->has_fields         = true;
-		//$this->order_button_text  = __( '統一金流 PAYUNi 信用卡分期', 'woomp' );
+		$this->plugin_name = 'payuni-payment-credit-installment';
+		$this->version     = '1.0.0';
+		$this->has_fields  = true;
+		// $this->order_button_text  = __( '統一金流 PAYUNi 信用卡分期', 'woomp' );
 		$this->id                 = 'payuni-credit-installment';
 		$this->method_title       = __( '統一金流 PAYUNi 信用卡分期', 'woomp' );
-		//$this->method_description = __( 'Pay with PAYUNi Credit Card Installment', 'woomp' );
+		$this->method_description = __( '透過統一金流 PAYUNi 信用卡分期進行站內付款', 'woomp' );
 
 		$this->init_form_fields();
 		$this->init_settings();
@@ -35,6 +35,7 @@ class CreditInstallment extends AbstractGateway {
 		$this->title             = $this->get_option( 'title' );
 		$this->description       = $this->get_option( 'description' );
 		$this->api_endpoint_url  = 'api/credit';
+		$this->supports          = array( 'products', 'refunds' );
 		$this->number_of_periods = $this->get_option( 'number_of_periods', array() );
 
 		add_action( 'woocommerce_update_options_payment_gateways_' . $this->id, array( $this, 'process_admin_options' ) );
@@ -184,7 +185,7 @@ class CreditInstallment extends AbstractGateway {
 
 		return array(
 			'result'   => 'success',
-			'redirect' => $this->get_return_url( $order ),
+			'redirect' => $resp,
 		);
 	}
 
@@ -200,7 +201,7 @@ class CreditInstallment extends AbstractGateway {
 			'CardInst'  => $order->get_meta( '_' . $this->id . '-period' ),
 			'API3D'     => 1,
 			'NotifyURL' => home_url( 'wc-api/payuni_notify_card' ),
-			'ReturnURL' => $this->get_return_url( $order ),
+			'ReturnURL' => home_url( 'wc-api/payuni_notify_card' ),
 		);
 		return array_merge(
 			$args,
@@ -215,7 +216,7 @@ class CreditInstallment extends AbstractGateway {
 	 * @return void
 	 */
 	public function get_detail_after_order_table( $order ) {
-		if ($order->get_payment_method() === $this->id ) {
+		if ( $order->get_payment_method() === $this->id ) {
 
 			$status    = $order->get_meta( '_payuni_resp_status', true );
 			$message   = $order->get_meta( '_payuni_resp_message', true );

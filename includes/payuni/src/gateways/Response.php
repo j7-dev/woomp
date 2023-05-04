@@ -110,6 +110,9 @@ class Response {
 
 		$woocommerce->cart->empty_cart();
 		$order->save();
+
+		wp_safe_redirect( $order->get_checkout_order_received_url() );
+		exit;
 	}
 
 	/**
