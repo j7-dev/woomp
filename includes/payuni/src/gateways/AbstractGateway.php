@@ -289,7 +289,7 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 		public function has_token() {
 			if ( is_user_logged_in() ) {
 				$user_id = get_current_user_id();
-				if ( get_user_meta( $user_id, '_payuni_card_hash' ) ) {
+				if ( get_user_meta( $user_id, '_' . $this->id . '_hash' ) ) {
 					return true;
 				}
 				return false;
@@ -325,12 +325,11 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 				$html = '
 				<div>
 					<div>使用上次紀錄的信用卡結帳
-						<p style="background:#efefef;padding:10px 20px; margin:5px 0 0 0; letter-spacing:5px; border:1px solid #ccc;"> **** **** ****  ' . esc_html( get_user_meta( get_current_user_id(), '_payuni_card_4no', true ) ) . '</p>
+						<p style="background:#efefef;padding:10px 20px; margin:5px 0 0 0; letter-spacing:5px; border:1px solid #ccc;"> **** **** ****  ' . esc_html( get_user_meta( get_current_user_id(), '_' . $this->id . '_4no', true ) ) . '</p>
 						<input type="hidden" name="' . esc_html( $this->id ) . '-card_hash" value="hash">
 					</div>
 					<div style="display:flex; margin-top: 5px;">
-						<input id="<?php echo esc_html( $this->id ); ?>-card_change" class="card-change" type="checkbox" style="width:auto; margin:0">
-						<label for="<?php echo esc_html( $this->id ); ?>-card_change" style="padding:0; position:relative; margin:0 0 0 5px; cursor:pointer">更換信用卡</label>
+						<a id="' . esc_html( $this->id ) . '" class="card-change" style="padding:0; position:relative; cursor:pointer; font-size:14px">更換信用卡?</a>
 					</div>
 				</div>
 				';

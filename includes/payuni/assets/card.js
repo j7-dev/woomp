@@ -110,38 +110,39 @@ jQuery(function ($) {
 				});
 			})
 		}
-
-		$('.card-change').on('click', function () {
-			
-			var data = {
-				action: "payuni_card_change",
-				nonce: card_params.ajax_nonce,
-				user_id: card_params.user_id
-			};
-
-			if(confirm('確定要更換信用卡嗎？')){
-				$('body').trigger( 'update_checkout' )
-				$.ajax({
-					url: card_params.ajax_url,
-					data: data,
-					type: 'POST',
-					dataType: "json",
-					success: function (data) {
-						if(data){
-							$('body').trigger( 'update_checkout' )
-						} else {
-							alert('發生錯誤，請稍候再試')
-						}
-					}
-				})
-			}
-
-		})
 	}
 
 	enable_mask()
 
 	$(document.body).on('updated_checkout', function () {
 		enable_mask()
+	});
+
+	$(document.body).on('click', '.card-change', function (event) {
+		var data = {
+			action: "payuni_card_change",
+			nonce: card_params.ajax_nonce,
+			user_id: card_params.user_id,
+			method: $(this).attr('id')
+		};
+
+		var change = confirm('確定要更換信用卡嗎？')
+
+		if(change){
+			$('body').trigger( 'update_checkout' )
+			$.ajax({
+				url: card_params.ajax_url,
+				data: data,
+				type: 'POST',
+				dataType: "json",
+				success: function (data) {
+					if(data){
+						$('body').trigger( 'update_checkout' )
+					} else {
+						alert('發生錯誤，請稍候再試')
+					}
+				}
+			})
+		}
 	});
 })

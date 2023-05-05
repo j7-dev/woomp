@@ -100,8 +100,8 @@ class Response {
 			$remember = $order->get_meta( '_' . $method . '-card_remember' );
 
 			if ( $user_id && $remember ) {
-				update_user_meta( $user_id, '_payuni_card_4no', $card_4no );
-				update_user_meta( $user_id, '_payuni_card_hash', $card_hash );
+				update_user_meta( $user_id, '_' . $method . '_4no', $card_4no );
+				update_user_meta( $user_id, '_' . $method . '_hash', $card_hash );
 			}
 			$order->update_status( 'processing' );
 		} else {

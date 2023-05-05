@@ -171,7 +171,7 @@ class CreditInstallment extends AbstractGateway {
 		}
 
 		if ( isset( $_POST[ $this->id . '-card_hash' ] ) && 'hash' === $_POST[ $this->id . '-card_hash' ] ) {
-			$order->update_meta_data( '_' . $this->id . '-card_hash', get_user_meta( get_current_user_id(), '_payuni_card_hash', true ) );
+			$order->update_meta_data( '_' . $this->id . '-card_hash', get_user_meta( get_current_user_id(), '_' . $this->id . '_hash', true ) );
 		}
 
 		if ( isset( $_POST[ $this->id . '-period' ] ) && ! empty( $_POST[ $this->id . '-period' ] ) ) {
