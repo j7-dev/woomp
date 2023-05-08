@@ -458,7 +458,7 @@ if ( ! class_exists( 'WooMP_Product' ) ) {
 				<td>
 					<div class="enable_highlighted">
 						<label><?php _e( '設定前台變化類型介面:', 'woomp' ); ?></label>
-						<select name="attribute_type[${index}]">
+						<select name="attribute_type[<?php echo esc_attr( $i ); ?>]">
 							<?php if ( wc_string_to_bool( get_option( 'wc_woomp_setting_product_variations_frontend_ui＿default' ) ) ) : ?>
 								<option value="tag" <?php echo ( 'tag' === $value || 'default' === $value ) ? 'selected' : ''; ?>><?php _e( '標籤式選項', 'woomp' ); ?></option>
 							<?php endif; ?>
@@ -484,6 +484,7 @@ if ( ! class_exists( 'WooMP_Product' ) ) {
 			check_ajax_referer( 'save-attributes', 'security' );
 			parse_str( $_POST['data'], $data );
 			$post_id = absint( $_POST['post_id'] );
+
 			if ( array_key_exists( 'attribute_type', $data ) && is_array( $data['attribute_type'] ) ) {
 				foreach ( $data['attribute_type'] as $i => $val ) {
 					$attr_name = sanitize_title( $data['attribute_names'][ $i ] );
@@ -707,6 +708,8 @@ if ( ! class_exists( 'WooMP_Product' ) ) {
 				}
 				$radios .= '</div>';
 				return $radios . $html;
+			} else {
+				return $html;
 			}
 
 		}

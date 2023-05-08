@@ -225,6 +225,11 @@ class EzPayInvoiceHandler {
 				$order->save();
 			} else {
 				$order->add_order_note( 'ezPay電子發票作廢結果<br>回傳訊息：' . $this->invoice->getErrorMessage()['message'] . '<br>回傳代碼：' . $this->invoice->getErrorMessage()['code'] );
+				if ( 'LIB10005' === $this->invoice->getErrorMessage()['code'] ) {
+					$order->update_meta_data( '_ezpay_invoice_number', '' );
+					$order->update_meta_data( '_ezpay_invoice_result', '' );
+					$order->save();
+				}
 			}
 			return '作廢結果：' . esc_html( '發票作廢成功' );
 		}
