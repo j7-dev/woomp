@@ -1,5 +1,7 @@
 <?php
 
+
+
 $settings = array(
 	array(
 		'title' => __( '統一金流 PAYUNi 設定', 'woomp' ),
@@ -23,6 +25,24 @@ $settings = array(
 				__( 'Log PAYUNi payemnt events/message, inside %s', 'woomp' ),
 				'<code>' . WC_Log_Handler_File::get_log_file_path( 'payuni_payment' ) . '</code>'
 			),
+	),
+	array(
+		'title'    => __( 'Statuses that Allow Managers to Refund Orders', 'woocommerce-gateway-linepay' ),
+		'type'     => 'multiselect',
+		'class'    => 'chosen_select',
+		'desc'     => __( 'Please select the statuses in which managers can refund orders.', 'woocommerce-gateway-linepay' ),
+		'desc_tip' => true,
+		'options'  => wc_get_order_statuses(),
+		'id'       => 'payuni_admin_refund',
+	),
+	array(
+		'title'    => __( 'Statuses that Allow Customers to Request Refunds', 'woocommerce-gateway-linepay' ),
+		'type'     => 'multiselect',
+		'class'    => 'chosen_select',
+		'desc'     => __( 'Please select the statuses that allow customers to request refunds. Some statuses do not allow refunds.', 'woocommerce-gateway-linepay' ),
+		'desc_tip' => true,
+		'options'  => wc_get_order_statuses(),
+		'id'       => 'payuni_customer_refund',
 	),
 	array(
 		'type' => 'sectionend',
