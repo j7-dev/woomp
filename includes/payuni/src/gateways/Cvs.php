@@ -121,7 +121,7 @@ class Cvs extends AbstractGateway {
 
 			$status      = $order->get_meta( '_payuni_resp_status', true );
 			$message     = $order->get_meta( '_payuni_resp_message', true );
-			$trade_no    = $order->get_meta( '_payuni_resp_trande_no', true );
+			$trade_no    = $order->get_meta( '_payuni_resp_trade_no', true );
 			$bank        = $order->get_meta( '_payuni_resp_bank', true );
 			$bank_no     = $order->get_meta( '_payuni_resp_bank_no', true );
 			$bank_expire = $order->get_meta( '_payuni_resp_bank_expire', true );

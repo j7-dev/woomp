@@ -74,7 +74,7 @@ class Response {
 		$trade_no = $data['TradeNo'];
 		$order->update_meta_data( '_payuni_resp_status', $status );
 		$order->update_meta_data( '_payuni_resp_message', $message );
-		$order->update_meta_data( '_payuni_resp_trande_no', $trade_no );
+		$order->update_meta_data( '_payuni_resp_trade_no', $trade_no );
 
 		// 處理信用卡.
 		$card_bank      = $data['CardBank'];
@@ -150,7 +150,7 @@ class Response {
 			$order = wc_get_order( $data['MerTradeNo'] );
 			$order->update_meta_data( '_payuni_resp_status', $status );
 			$order->update_meta_data( '_payuni_resp_message', $message );
-			$order->update_meta_data( '_payuni_resp_trande_no', $trade_no );
+			$order->update_meta_data( '_payuni_resp_trade_no', $trade_no );
 			$order->update_meta_data( '_payuni_resp_bank', $bank );
 			$order->update_meta_data( '_payuni_resp_bank_no', $bank_no );
 			$order->update_meta_data( '_payuni_resp_bank_expire', $bank_expire );
@@ -209,7 +209,7 @@ class Response {
 			$order = wc_get_order( $data['MerTradeNo'] );
 			$order->update_meta_data( '_payuni_resp_status', $status );
 			$order->update_meta_data( '_payuni_resp_message', $message );
-			$order->update_meta_data( '_payuni_resp_trande_no', $trade_no );
+			$order->update_meta_data( '_payuni_resp_trade_no', $trade_no );
 			$order->update_meta_data( '_payuni_resp_bank', $bank );
 			$order->update_meta_data( '_payuni_resp_bank_no', $bank_no );
 			$order->update_meta_data( '_payuni_resp_bank_expire', $bank_expire );

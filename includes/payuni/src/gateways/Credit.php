@@ -37,6 +37,7 @@ class Credit extends AbstractGateway {
 		$this->description      = $this->get_option( 'description' );
 		$this->supports         = array( 'products', 'refunds' );
 		$this->api_endpoint_url = 'api/credit';
+		$this->api_refund_url   = 'api/trade/close';
 
 		add_action( 'woocommerce_update_options_payment_gateways_' . $this->id, array( $this, 'process_admin_options' ) );
 		add_filter( 'payuni_transaction_args_' . $this->id, array( $this, 'add_args' ), 10, 2 );
@@ -159,6 +160,54 @@ class Credit extends AbstractGateway {
 	}
 
 	/**
+	 * Process refund
+	 *
+	 * @param string $order_id The order id.
+	 * @param string $amount The refund amount.
+	 * @param string $reason The refund reason.
+	 *
+	 * @return bool
+	 */
+	public function process_refund( $order_id, $amount = null, $reason = '' ) {
+		$order = \wc_get_order( $order_id );
+
+		$args = array(
+			'MerID'     => $this->get_mer_id(),
+			'TradeNo'   => $order->get_meta( '_payuni_resp_trade_no' ),
+			'TradeAmt'  => $amount,
+			'Timestamp' => time(),
+			'CloseType' => 2,
+		);
+
+		$parameter['MerID']       = $this->get_mer_id();
+		$parameter['Version']     = '1.0';
+		$parameter['EncryptInfo'] = \Payuni\APIs\Payment::encrypt( $args );
+		$parameter['HashInfo']    = \Payuni\APIs\Payment::hash_info( $parameter['EncryptInfo'] );
+
+		$options = array(
+			'method'  => 'POST',
+			'timeout' => 60,
+			'body'    => $parameter,
+		);
+
+		$request = wp_remote_request( $this->get_api_url() . $this->api_refund_url, $options );
+		$resp    = json_decode( wp_remote_retrieve_body( $request ) );
+		$data    = \Payuni\APIs\Payment::decrypt( $resp->EncryptInfo );
+
+		if ( 'SUCCESS' === $data['Status'] ) {
+			$note = '<strong>統一金流退費紀錄</strong><br>退費結果：' . $data['Message'];
+			if ( $reason ) {
+				$note .= '<br>退費原因：' . $reason;
+			}
+			$order->add_order_note( $note, true );
+			$order->save();
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	/**
 	 * Display payment detail after order table
 	 *
 	 * @param WC_Order $order The order object.
@@ -169,7 +218,7 @@ class Credit extends AbstractGateway {
 
 			$status   = $order->get_meta( '_payuni_resp_status', true );
 			$message  = $order->get_meta( '_payuni_resp_message', true );
-			$trade_no = $order->get_meta( '_payuni_resp_trande_no', true );
+			$trade_no = $order->get_meta( '_payuni_resp_trade_no', true );
 			$card_4no = $order->get_meta( '_payuni_card_number', true );
 
 			$html = '

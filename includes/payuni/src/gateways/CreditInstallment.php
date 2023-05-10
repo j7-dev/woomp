@@ -220,7 +220,7 @@ class CreditInstallment extends AbstractGateway {
 
 			$status    = $order->get_meta( '_payuni_resp_status', true );
 			$message   = $order->get_meta( '_payuni_resp_message', true );
-			$trade_no  = $order->get_meta( '_payuni_resp_trande_no', true );
+			$trade_no  = $order->get_meta( '_payuni_resp_trade_no', true );
 			$card_inst = $order->get_meta( '_payuni_resp_card_inst', true );
 			$first_amt = $order->get_meta( '_payuni_resp_first_amt', true );
 			$each_amt  = $order->get_meta( '_payuni_resp_each_amt', true );

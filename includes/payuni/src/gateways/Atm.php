@@ -36,7 +36,7 @@ class Atm extends AbstractGateway {
 		$this->title            = $this->get_option( 'title' );
 		$this->description      = $this->get_option( 'description' );
 		$this->api_endpoint_url = 'api/atm';
-		$this->supports         = array( 'products', 'refunds' );
+		$this->supports         = array( 'products' );
 
 		add_action( 'woocommerce_update_options_payment_gateways_' . $this->id, array( $this, 'process_admin_options' ) );
 		add_filter( 'payuni_transaction_args_' . $this->id, array( $this, 'add_args' ), 10, 2 );
@@ -145,7 +145,7 @@ class Atm extends AbstractGateway {
 
 			$status      = $order->get_meta( '_payuni_resp_status', true );
 			$message     = $order->get_meta( '_payuni_resp_message', true );
-			$trade_no    = $order->get_meta( '_payuni_resp_trande_no', true );
+			$trade_no    = $order->get_meta( '_payuni_resp_trade_no', true );
 			$bank        = $order->get_meta( '_payuni_resp_bank', true );
 			$bank_no     = $order->get_meta( '_payuni_resp_bank_no', true );
 			$bank_expire = $order->get_meta( '_payuni_resp_bank_expire', true );
@@ -218,7 +218,7 @@ class Atm extends AbstractGateway {
 	public function get_account_info( $order, $sent_to_admin, $plain_text ) {
 		if ( $order->get_payment_method() === $this->id && 'on-hold' === $order->get_status() && $order->get_meta( '_payuni_resp_bank', true ) ) {
 
-			$trade_no    = $order->get_meta( '_payuni_resp_trande_no', true );
+			$trade_no    = $order->get_meta( '_payuni_resp_trade_no', true );
 			$bank        = $order->get_meta( '_payuni_resp_bank', true );
 			$bank_no     = $order->get_meta( '_payuni_resp_bank_no', true );
 			$bank_expire = $order->get_meta( '_payuni_resp_bank_expire', true );
