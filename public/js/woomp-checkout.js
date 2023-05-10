@@ -56,13 +56,15 @@ jQuery(function($){
 
 	// 台灣鄉鎮下拉選單隱藏
 	function setTwCountyStatus( county, status ){
-		if( status === 'hide' ){
-			for (let i = 0; i < county.length; i++) {
-				$('select[name="county"] option[value="'+ county[i] +'"]').attr('disabled','disabled');
-			}
-		} else {
-			for (let i = 0; i < county.length; i++) {
-				$('select[name="county"] option[value="'+ county[i] +'"]').removeAttr('disabled');
+		if( woomp_checkout_params.enableWoomp === 'yes' ){
+			if( status === 'hide' ){
+				for (let i = 0; i < county.length; i++) {
+					$('select[name="county"] option[value="'+ county[i] +'"]').attr('disabled','disabled');
+				}
+			} else {
+				for (let i = 0; i < county.length; i++) {
+					$('select[name="county"] option[value="'+ county[i] +'"]').removeAttr('disabled');
+				}
 			}
 		}
 	}

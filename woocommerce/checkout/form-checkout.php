@@ -212,6 +212,10 @@ if ( ! $checkout->is_registration_enabled() && $checkout->is_registration_requir
 		vertical-align: middle;
 	}
 
+	.woocommerce-checkout #payment ul.payment_methods li img {
+		display: none;
+	}
+
 	.cart-shortcode .woocommerce-notices-wrapper {
 		display: none!important;
 	}
