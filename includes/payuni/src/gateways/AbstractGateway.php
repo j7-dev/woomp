@@ -110,12 +110,13 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 				'products',
 			);
 
-			$this->testmode   = wc_string_to_bool( get_option( 'payuni_payment_testmode' ) );
-			$this->mer_id     = strtoupper( ( $this->testmode ) ? get_option( 'payuni_payment_merchant_no_test' ) : get_option( 'payuni_payment_merchant_no' ) );
-			$this->hash_key   = ( $this->testmode ) ? get_option( 'payuni_payment_hash_key_test' ) : get_option( 'payuni_payment_hash_key' );
-			$this->hash_iv    = ( $this->testmode ) ? get_option( 'payuni_payment_hash_iv_test' ) : get_option( 'payuni_payment_hash_iv' );
-			$this->min_amount = 10;
-			$this->api_url    = ( $this->testmode ) ? 'https://sandbox-api.payuni.com.tw/' : 'https://api.payuni.com.tw/';
+			$this->testmode       = wc_string_to_bool( get_option( 'payuni_payment_testmode' ) );
+			$this->mer_id         = strtoupper( ( $this->testmode ) ? get_option( 'payuni_payment_merchant_no_test' ) : get_option( 'payuni_payment_merchant_no' ) );
+			$this->hash_key       = ( $this->testmode ) ? get_option( 'payuni_payment_hash_key_test' ) : get_option( 'payuni_payment_hash_key' );
+			$this->hash_iv        = ( $this->testmode ) ? get_option( 'payuni_payment_hash_iv_test' ) : get_option( 'payuni_payment_hash_iv' );
+			$this->min_amount     = 10;
+			$this->api_url        = ( $this->testmode ) ? 'https://sandbox-api.payuni.com.tw/' : 'https://api.payuni.com.tw/';
+			$this->api_refund_url = 'api/trade/close';
 
 			add_action( 'woocommerce_order_details_before_order_table', array( $this, 'get_detail_after_order_table' ), 10, 1 );
 
@@ -335,6 +336,60 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 				';
 			}
 			return $html;
+		}
+
+		/**
+		 * Process refund
+		 *
+		 * @param string $order_id The order id.
+		 * @param string $amount The refund amount.
+		 * @param string $reason The refund reason.
+		 *
+		 * @return bool
+		 */
+		public function process_refund( $order_id, $amount = null, $reason = '' ) {
+			$order        = \wc_get_order( $order_id );
+			$order_status = $order->get_status();
+
+			if ( ! in_array( 'wc-' . $order_status, get_option( 'payuni_admin_refund' ) ) ) {
+				$order->add_order_note( '<strong>統一金流退費紀錄</strong><br>退費結果：該訂單狀態不允許退費', true );
+				return false;
+			}
+
+			$args = array(
+				'MerID'     => $this->get_mer_id(),
+				'TradeNo'   => $order->get_meta( '_payuni_resp_trade_no' ),
+				'TradeAmt'  => $amount,
+				'Timestamp' => time(),
+				'CloseType' => 2,
+			);
+
+			$parameter['MerID']       = $this->get_mer_id();
+			$parameter['Version']     = '1.0';
+			$parameter['EncryptInfo'] = \Payuni\APIs\Payment::encrypt( $args );
+			$parameter['HashInfo']    = \Payuni\APIs\Payment::hash_info( $parameter['EncryptInfo'] );
+
+			$options = array(
+				'method'  => 'POST',
+				'timeout' => 60,
+				'body'    => $parameter,
+			);
+
+			$request = wp_remote_request( $this->get_api_url() . $this->api_refund_url, $options );
+			$resp    = json_decode( wp_remote_retrieve_body( $request ) );
+			$data    = \Payuni\APIs\Payment::decrypt( $resp->EncryptInfo );
+
+			if ( 'SUCCESS' === $data['Status'] ) {
+				$note = '<strong>統一金流退費紀錄</strong><br>退費結果：' . $data['Message'];
+				if ( $reason ) {
+					$note .= '<br>退費原因：' . $reason;
+				}
+				$order->add_order_note( $note, true );
+				$order->save();
+				return true;
+			} else {
+				return false;
+			}
 		}
 
 	}
