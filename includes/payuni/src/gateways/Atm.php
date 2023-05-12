@@ -156,15 +156,11 @@ class Atm extends AbstractGateway {
 					<table class="woocommerce-table woocommerce-table--order-details shop_table order_details">
 						<tbody>
 							<tr>
-								<th>狀態碼：</th>
-								<td>' . esc_html( $status ) . '</td>
-							</tr>
-							<tr>
 								<th>交易訊息：</th>
 								<td>' . esc_html( $message ) . '</td>
 							</tr>';
 
-			if ( 'SUCCESS' === $state ) {
+			if ( 'SUCCESS' === $status ) {
 				$html .= '
 					<tr>
 					<th>交易編號：</th>
