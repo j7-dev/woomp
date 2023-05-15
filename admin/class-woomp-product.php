@@ -152,8 +152,10 @@ if ( ! class_exists( 'WooMP_Product' ) ) {
 								btn.parent().next().next().val( currentAttr + ' | '+attrText )
 								btn.parent().find('.attributeValue').val('')
 							}
-
-							$('button.save_attributes').removeAttr('disabled')
+							setTimeout(() => {
+								$('button.save_attributes').removeClass('disabled')
+								$('button.save_attributes').removeAttr('aria-disabled')
+							}, 200);
 						}
 
 						// 移除 List
@@ -189,6 +191,10 @@ if ( ! class_exists( 'WooMP_Product' ) ) {
 									e.preventDefault()
 									addAttrbute($(this))
 								}
+								setTimeout(() => {
+									$('button.save_attributes').removeClass('disabled')
+									$('button.save_attributes').removeAttr('aria-disabled')
+								}, 200);
 							})
 
 							wooAttr.find('.attributeValuesList').on('click', '.attrListRemove', function(){

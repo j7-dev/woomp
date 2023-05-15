@@ -183,7 +183,13 @@
 	function triggerSaveAtrributes() {
 		$('body').find('.save_attributes_after').on('click', function (e) {
 			e.preventDefault();
-			$('body').find('.save_attributes').trigger('click');
+			$('.save_attributes').trigger('click');
+		})
+		$('body').find('.attribute_name').on('keypress', function (e) {
+			setTimeout(() => {
+				$('.save_attributes').removeClass('disabled');
+				$('.save_attributes').removeAttr('aria-disabled');
+			}, 200);
 		})
 	}
 

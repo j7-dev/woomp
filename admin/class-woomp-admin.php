@@ -100,7 +100,7 @@ class Woomp_Admin {
 		 * class.
 		 */
 
-		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/woomp-admin.js', array( 'jquery' ), '2.0.7', true );
+		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/woomp-admin.js', array( 'jquery' ), '2.2.5', true );
 
 	}
 
