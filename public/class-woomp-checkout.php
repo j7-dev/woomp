@@ -236,7 +236,7 @@ if ( ! class_exists( 'WooMP_Checkout' ) ) {
 
 			// 在沒有勾選運送到離島的狀況下選擇離島超商取貨.
 			if ( array_key_exists( 'CVSAddress', $fields ) ) {
-				if ( 1 !== $fields['billing_postcode'] && ! empty( $fields['CVSAddress'] ) ) {
+				if ( 1 !== $fields['billing_island'] && ! empty( $fields['CVSAddress'] ) ) {
 					if ( strpos( $fields['CVSAddress'], '金門縣' ) > -1 || strpos( $fields['CVSAddress'], '澎湖縣' ) > -1 || strpos( $fields['CVSAddress'], '連江縣' ) > -1 ) {
 						$errors->add( 'validation', '<strong>外島超商</strong> 您選擇的運送方式不在運送範圍內' );
 					}

@@ -224,7 +224,7 @@ jQuery(function($){
 					setTwCountyStatus( island, 'show' )
 					setTwCountyStatus( countyHide, 'hide' )
 					$(".woocommerce-billing-fields,.woocommerce-shipping-fields").twzipcode('set', {
-						'zipcode': $('#billing_island_field').attr('class')
+						'zipcode': 209
 					});
 					$(document.body).on('updated_checkout', function () {
 						if( $('.woocommerce-shipping-totals td ul').length === 0  ){
