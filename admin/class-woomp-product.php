@@ -212,53 +212,72 @@ if ( ! class_exists( 'WooMP_Product' ) ) {
 						loadAttributeFeature($('.woocommerce_attribute'))
 
 						/**
+						 * Feature - 檢查是否有未輸入價格的變化類型
+						 */
+						function add_variations_price_empty_hint(){
+							$('.wc_input_price_clone').each(function(){
+								$('.hint-variable-price-empty').remove()
+								if( $(this).val() == ''){
+									$('.product_data_tabs li.variations_options a').append('<span class="hint-variable-price-empty"><?php _e( '定價未填', 'woomp' ); ?></span>')
+									return false;
+								} else {
+									$('.hint-variable-price-empty').remove()
+								}
+							})
+						}
+
+						/**
 						 * Feature - 變化類型資料更新
 						 */
 						function save_variations(){
-							$('#field_to_edit option[value="link_all_variations"]').attr('selected','selected');
-							// $('#field_to_edit + a.do_variation_action').trigger('click');
-							// wc_meta_boxes_product_variations_ajax.block();
 
-							var dataLink = {
-								action: 'woocommerce_link_all_variations',
-								post_id: woocommerce_admin_meta_boxes_variations.post_id,
-								security: woocommerce_admin_meta_boxes_variations.link_variation_nonce
-							};
+							autoAdd = window.confirm('<?php _e( '商品屬性已更新，是否自動新增變化類型？', 'woomp' ); ?>')
 
-							$.post( woocommerce_admin_meta_boxes_variations.ajax_url, dataLink, function( response ) {
-								var count = parseInt( response, 10 );
-
-								window.alert('<?php _e( '變化類型已更新', 'woomp' ); ?>')
-
-								if ( count > 0 ) {
-									$( '#variable_product_options' ).trigger( 'woocommerce_variations_added', count );
-								}
-							});
-
-							var do_variation_action = $( 'select.variation_actions' ).val(),
-								data       = {},
-								changes    = 0,
-								value;
-
-							$.ajax({
-								url: woocommerce_admin_meta_boxes_variations.ajax_url,
-								data: {
-									action:       'woocommerce_bulk_edit_variations',
-									security:     woocommerce_admin_meta_boxes_variations.bulk_edit_variations_nonce,
-									product_id:   woocommerce_admin_meta_boxes_variations.post_id,
-									product_type: $( '#product-type' ).val(),
-									bulk_action:  do_variation_action,
-									data:         data
-								},
-								type: 'POST',
-								success: function() {
-									// wc_meta_boxes_product_variations_pagenav.go_to_page( 1, changes );
-
-								}
-							});
-
-							if( $('.hint-variable-update').length == 0 ){
-								$('.product_data_tabs li.variations_options a').append('<span class="hint-variable-update">已更新</span>')
+							if(autoAdd){
+								$('#field_to_edit option[value="link_all_variations"]').attr('selected','selected');
+								// $('#field_to_edit + a.do_variation_action').trigger('click');
+								// wc_meta_boxes_product_variations_ajax.block();
+	
+								var dataLink = {
+									action: 'woocommerce_link_all_variations',
+									post_id: woocommerce_admin_meta_boxes_variations.post_id,
+									security: woocommerce_admin_meta_boxes_variations.link_variation_nonce
+								};
+	
+								$.post( woocommerce_admin_meta_boxes_variations.ajax_url, dataLink, function( response ) {
+									var count = parseInt( response, 10 );
+	
+									if ( count > 0 ) {
+										$( '#variable_product_options' ).trigger( 'woocommerce_variations_added', count );
+										if( $('.hint-variable-update').length == 0 ){
+											$('.product_data_tabs li.variations_options a').append('<span class="hint-variable-update">已更新</span>')
+											add_variations_price_empty_hint();
+											$('.add-variation-container').hide();
+										}
+									}
+								});
+	
+								var do_variation_action = $( 'select.variation_actions' ).val(),
+									data       = {},
+									changes    = 0,
+									value;
+	
+								$.ajax({
+									url: woocommerce_admin_meta_boxes_variations.ajax_url,
+									data: {
+										action:       'woocommerce_bulk_edit_variations',
+										security:     woocommerce_admin_meta_boxes_variations.bulk_edit_variations_nonce,
+										product_id:   woocommerce_admin_meta_boxes_variations.post_id,
+										product_type: $( '#product-type' ).val(),
+										bulk_action:  do_variation_action,
+										data:         data
+									},
+									type: 'POST',
+									success: function() {
+										// wc_meta_boxes_product_variations_pagenav.go_to_page( 1, changes );
+	
+									}
+								});
 							}
 						}
 
@@ -337,22 +356,6 @@ if ( ! class_exists( 'WooMP_Product' ) ) {
 								$( 'button.cancel-variation-changes, button.save-variation-changes' ).removeAttr( 'disabled' );
 							})
 						}
-
-						/**
-						 * Feature - 檢查是否有未輸入價格的變化類型
-						 */
-						function add_variations_price_empty_hint(){
-							$('.wc_input_price_clone').each(function(){
-								$('.hint-variable-price-empty').remove()
-								if( $(this).val() == ''){
-									$('.product_data_tabs li.variations_options a').append('<span class="hint-variable-price-empty"><?php _e( '定價未填', 'woomp' ); ?></span>')
-									return false;
-								} else {
-									$('.hint-variable-price-empty').remove()
-								}
-							})
-						}
-						add_variations_price_empty_hint();
 
 						// Event - 按下變化類型 Tab
 						$('.product_data_tabs li.variations_options').on('click',function(){
