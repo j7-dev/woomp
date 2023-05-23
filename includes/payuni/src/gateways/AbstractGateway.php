@@ -303,6 +303,9 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 		 */
 		public function render_card_form() {
 			if ( ! $this->has_token() ) {
+				$style   = ( 'payuni-credit-subscription' === $this->id ) ? 'none' : 'flex';
+				$checked = ( 'payuni-credit-subscription' === $this->id ) ? 'checked' : '';
+
 				$html = '
 				<div class="payuni-form-container">
 					<div class="payuni-field-container">
@@ -317,8 +320,8 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 						<label for="' . $this->id . '-securitycode">安全碼</label>
 						<input id="' . $this->id . '-securitycode" class="securitycode" placeholder="ex:123" type="text" maxlength=3 pattern="[0-9]*" inputmode="numeric" name="' . $this->id . '-card_cvc" style="background:#fff">
 					</div>
-					<div style="display:flex ">
-						<input id="' . $this->id . '-remember" type="checkbox" name="' . $this->id . '-card_remember" style="width:auto; margin:0">
+					<div style="display:' . $style . '">
+						<input id="' . $this->id . '-remember" type="checkbox" name="' . $this->id . '-card_remember" style="width:auto; margin:0" ' . $checked . '>
 						<label for="' . $this->id . '-remember" style="padding:0 0 0 5px; position:relative; margin-bottom:0; cursor:pointer">記憶卡號</label>
 					</div>
 				</div>';

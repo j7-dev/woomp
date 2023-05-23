@@ -1,6 +1,6 @@
 <?php
 
-namespace PAYUNI;
+namespace PAYUNI\Pages;
 
 defined( 'ABSPATH' ) || exit;
 
