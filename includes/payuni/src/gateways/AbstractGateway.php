@@ -303,10 +303,11 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 		 */
 		public function render_card_form() {
 			if ( ! $this->has_token() ) {
-				$style   = ( 'payuni-credit-subscription' === $this->id ) ? 'none' : 'flex';
-				$checked = ( 'payuni-credit-subscription' === $this->id ) ? 'checked' : '';
+				$style       = ( 'payuni-credit-subscription' === $this->id ) ? 'none' : 'flex';
+				$checked     = ( 'payuni-credit-subscription' === $this->id ) ? 'checked' : '';
+				$description = ( $this->description ) ? '<p style="margin:0;padding:10px">' . $this->description . '</p>' : '';
 
-				$html = '
+				$html = $description . '
 				<div class="payuni-form-container">
 					<div class="payuni-field-container">
 						<label for="' . $this->id . '-cardnumber">卡號</label>
