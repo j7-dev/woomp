@@ -37,12 +37,13 @@ class Request {
 	 * @return array
 	 */
 	public function get_transaction_args( $order, $card_data = null ) {
-
+		$order_suffix = ( $order->get_meta( '_payuni_order_suffix' ) ) ? '-' . $order->get_meta( '_payuni_order_suffix' ) : '';
+		
 		$args = apply_filters(
 			'payuni_transaction_args_' . $this->gateway->id,
 			array(
 				'MerID'      => $this->gateway->get_mer_id(),
-				'MerTradeNo' => $order->get_order_number(),
+				'MerTradeNo' => $order->get_order_number() . $order_suffix,
 				'TradeAmt'   => $order->get_total(),
 				'Timestamp'  => time(),
 				'UsrMail'    => $order->get_billing_email(),
@@ -50,8 +51,6 @@ class Request {
 			),
 			$order
 		);
-
-		\PAYUNI\APIs\Payment::log( $args );
 
 		if ( $card_data ) {
 			if ( $order->get_meta( '_' . $this->gateway->id . '-card_hash' ) ) {
@@ -112,21 +111,23 @@ class Request {
 		);
 
 		$response = wp_remote_request( $this->gateway->get_api_url() . $this->gateway->get_api_endpoint_url(), $options );
-		
 		$resp = json_decode( wp_remote_retrieve_body( $response ) );
 
 		$data = \Payuni\APIs\Payment::decrypt( $resp->EncryptInfo );
-		
-		\PAYUNI\APIs\Payment::log( $data );
 
-		if ( $data['URL'] ) {
-			return $data['URL'];
+		\PAYUNI\APIs\Payment::log( $data, 'request' );
+
+		// 結帳頁顯示錯誤訊息.
+		if ( 'SUCCESS' !== $data['Status'] ) {
+			wc_add_notice( $data['Message'], 'error' );
 		}
 
-		//if ( $card_data ) {
-		//	Response::card_response( $resp );
-		//	return;
-		//}
+		if ( $data['URL'] ) {
+			return array(
+				'result'   => 'success',
+				'redirect' => $data['URL'],
+			);
+		}
 
 		switch ( $order->get_payment_method() ) {
 			case 'payuni-atm':

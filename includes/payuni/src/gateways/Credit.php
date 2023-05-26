@@ -150,12 +150,7 @@ class Credit extends AbstractGateway {
 		$order->save();
 
 		$request  = new Request( new self() );
-		$redirect = $request->build_request( $order, $card_data );
-
-		return array(
-			'result'   => 'success',
-			'redirect' => $redirect,
-		);
+		return $request->build_request( $order, $card_data );
 	}
 
 	/**

@@ -69,7 +69,7 @@ class Response {
 
 		\PAYUNI\APIs\Payment::log( $data );
 
-		$order    = wc_get_order( $data['MerTradeNo'] );
+		$order    = wc_get_order( explode( '-', $data['MerTradeNo'] )[0] );
 		$status   = $data['Status'];
 		$message  = $data['Message'];
 		$trade_no = $data['TradeNo'];
@@ -106,6 +106,7 @@ class Response {
 			}
 			$order->update_status( 'processing' );
 		} else {
+			$order->update_meta_data( '_payuni_order_suffix', (int) $order->get_meta( '_payuni_order_suffix' ) + 1 );
 			$order->update_status( 'failed' );
 		}
 

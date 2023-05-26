@@ -181,12 +181,9 @@ class CreditInstallment extends AbstractGateway {
 		$order->save();
 
 		$request = new Request( new self() );
-		$resp    = $request->build_request( $order, $card_data );
+		return $request->build_request( $order, $card_data );
 
-		return array(
-			'result'   => 'success',
-			'redirect' => $resp,
-		);
+		
 	}
 
 	/**
