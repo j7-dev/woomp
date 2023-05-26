@@ -73,48 +73,55 @@ class Response {
 		$status   = $data['Status'];
 		$message  = $data['Message'];
 		$trade_no = $data['TradeNo'];
-		$order->update_meta_data( '_payuni_resp_status', $status );
-		$order->update_meta_data( '_payuni_resp_message', $message );
-		$order->update_meta_data( '_payuni_resp_trade_no', $trade_no );
 
-		// 處理信用卡.
-		$card_bank      = $data['CardBank'];
-		$card_bank_name = $data['AuthBankName'];
-		$card_4no       = $data['Card4No'];
-		$card_hash      = $data['CreditHash'];
-
-		$card_inst = $data['CardInst'];
-		$first_amt = $data['FirstAmt'];
-		$each_amt  = $data['EachAmt'];
-
-		$order->update_meta_data( '_payuni_resp_card_bank', "({$card_bank}){$card_bank_name}" );
-		$order->update_meta_data( '_payuni_card_number', $card_4no );
-		$order->update_meta_data( '_payuni_resp_card_inst', $card_inst );
-		$order->update_meta_data( '_payuni_resp_first_amt', $first_amt );
-		$order->update_meta_data( '_payuni_resp_each_amt', $each_amt );
-
-		$order->add_order_note( "<strong>統一金流交易紀錄</strong><br>狀態碼：{$status}<br>交易訊息：{$message}<br>交易編號：{$trade_no}<br>卡號末四碼：{$card_4no}", true );
-
-		if ( 'SUCCESS' === $status ) {
-			$user_id  = $order->get_customer_id();
-			$method   = $order->get_meta( '_payment_method' );
-			$remember = $order->get_meta( '_' . $method . '-card_remember' );
-
-			if ( $user_id && $remember ) {
-				update_user_meta( $user_id, '_' . $method . '_4no', $card_4no );
-				update_user_meta( $user_id, '_' . $method . '_hash', $card_hash );
-			}
-			$order->update_status( 'processing' );
+		if ( $order->get_meta( '_payuni_resp_status' ) ) {
+			wp_safe_redirect( $order->get_checkout_order_received_url() );
+			exit;
 		} else {
-			$order->update_meta_data( '_payuni_order_suffix', (int) $order->get_meta( '_payuni_order_suffix' ) + 1 );
-			$order->update_status( 'failed' );
+			$order->update_meta_data( '_payuni_resp_status', $status );
+			$order->update_meta_data( '_payuni_resp_message', $message );
+			$order->update_meta_data( '_payuni_resp_trade_no', $trade_no );
+
+			// 處理信用卡.
+			$card_bank      = $data['CardBank'];
+			$card_bank_name = $data['AuthBankName'];
+			$card_4no       = $data['Card4No'];
+			$card_hash      = $data['CreditHash'];
+
+			$card_inst = $data['CardInst'];
+			$first_amt = $data['FirstAmt'];
+			$each_amt  = $data['EachAmt'];
+
+			$order->update_meta_data( '_payuni_resp_card_bank', "({$card_bank}){$card_bank_name}" );
+			$order->update_meta_data( '_payuni_card_number', $card_4no );
+			$order->update_meta_data( '_payuni_resp_card_inst', $card_inst );
+			$order->update_meta_data( '_payuni_resp_first_amt', $first_amt );
+			$order->update_meta_data( '_payuni_resp_each_amt', $each_amt );
+
+			$order->add_order_note( "<strong>統一金流交易紀錄</strong><br>狀態碼：{$status}<br>交易訊息：{$message}<br>交易編號：{$trade_no}<br>卡號末四碼：{$card_4no}", true );
+
+			if ( 'SUCCESS' === $status ) {
+				$user_id  = $order->get_customer_id();
+				$method   = $order->get_meta( '_payment_method' );
+				$remember = $order->get_meta( '_' . $method . '-card_remember' );
+
+				if ( $user_id && $remember ) {
+					update_user_meta( $user_id, '_' . $method . '_4no', $card_4no );
+					update_user_meta( $user_id, '_' . $method . '_hash', $card_hash );
+				}
+				$order->update_status( 'processing' );
+			} else {
+				$order->update_meta_data( '_payuni_order_suffix', (int) $order->get_meta( '_payuni_order_suffix' ) + 1 );
+				$order->update_status( 'failed' );
+			}
+
+			$woocommerce->cart->empty_cart();
+			$order->save();
+
+			wp_safe_redirect( $order->get_checkout_order_received_url() );
+			exit;
 		}
 
-		$woocommerce->cart->empty_cart();
-		$order->save();
-
-		wp_safe_redirect( $order->get_checkout_order_received_url() );
-		exit;
 	}
 
 	/**
