@@ -197,9 +197,11 @@ class Atm extends AbstractGateway {
 	 */
 	public function atm_expire( $order_id ) {
 		$order = wc_get_order( $order_id );
-		$order->update_status( 'cancelled' );
-		$order->add_order_note( '<strong>統一金流繳費紀錄</strong><br>超過繳費期限，該訂單已取消！', true );
-		$order->save();
+		if ( 'pending' === $order->get_status() ) {
+			$order->update_status( 'cancelled' );
+			$order->add_order_note( '<strong>統一金流繳費紀錄</strong><br>超過繳費期限，該訂單已取消！', true );
+			$order->save();
+		}
 	}
 
 	/**
