@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PayNow E-Invoice\n"
 "POT-Creation-Date: 2021-03-17 07:35+0800\n"
-"PO-Revision-Date: 2021-03-17 07:35+0800\n"
+"PO-Revision-Date: 2023-06-02 17:56+0800\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: zh_TW\n"
@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 2.4.2\n"
+"X-Generator: Poedit 3.2.2\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-Flags-xgettext: --add-comments=translators:\n"
 "X-Poedit-WPHeader: paynow-einvoice.php\n"
@@ -175,7 +175,7 @@ msgstr "捐贈單位"
 #: includes/class-paynow-einvoice.php:824
 #: includes/settings/class-paynow-einvoice-settings-tab.php:130
 msgid "Mobile Code"
-msgstr "手機代碼"
+msgstr "手機條碼"
 
 #: includes/class-paynow-einvoice.php:828
 #: includes/settings/class-paynow-einvoice-settings-tab.php:136

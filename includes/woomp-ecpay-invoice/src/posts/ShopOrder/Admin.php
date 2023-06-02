@@ -144,7 +144,7 @@ class Admin {
 							$invoice_data['_invoice_individual'] = '自然人憑證';
 							break;
 						case 'phone_barcode':
-							$invoice_data['_invoice_individual'] = '手機代碼';
+							$invoice_data['_invoice_individual'] = '手機條碼';
 							break;
 						default:
 							// code...

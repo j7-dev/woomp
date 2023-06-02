@@ -67,14 +67,14 @@ jQuery(function ($) {
 		fieldDisplay($('select[name="_invoice_type"'), 'donate', $('#invoiceDonate'));
 
 		$('select[name="_invoice_individual"]').on('change', function () {
-			if ($('select[name="_invoice_individual"] option:selected').text() === '自然人憑證' || $('select[name="_invoice_individual"] option:selected').text() === '手機代碼') {
+			if ($('select[name="_invoice_individual"] option:selected').text() === '自然人憑證' || $('select[name="_invoice_individual"] option:selected').text() === '手機條碼') {
 				$('#invoiceCarrier').show()
 			} else {
 				$('#invoiceCarrier').hide()
 			}
 		})
 		
-		if ($('select[name="_invoice_individual"] option:selected').text() === '自然人憑證' || $('select[name="_invoice_individual"] option:selected').text() === '手機代碼') {
+		if ($('select[name="_invoice_individual"] option:selected').text() === '自然人憑證' || $('select[name="_invoice_individual"] option:selected').text() === '手機條碼') {
 			$('#invoiceCarrier').show()
 		} else {
 			$('#invoiceCarrier').hide()

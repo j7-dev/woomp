@@ -57,7 +57,7 @@ class EzPayInvoiceHandler {
 		$invoice_individual = ( array_key_exists( '_ezpay_invoice_individual', $order->get_meta( '_ezpay_invoice_data' ) ) ) ? $order->get_meta( '_ezpay_invoice_data' )['_ezpay_invoice_individual'] : '';
 
 		switch ( $invoice_individual ) {
-			case '手機代碼':
+			case '手機條碼':
 				$invoice_individual = 0;
 				break;
 			case '自然人憑證':

@@ -65,7 +65,7 @@ jQuery(function ($) {
 		fieldDisplay($('select[name="_ezpay_invoice_type"'), 'company', $('#ezPayInvoiceCompanyName'));
 		fieldDisplay($('select[name="_ezpay_invoice_type"'), 'company', $('#ezPayInvoiceTaxId'));
 		fieldDisplay($('select[name="_ezpay_invoice_type"'), 'donate', $('#ezPayInvoiceDonate'));
-		fieldDisplay($('select[name="_ezpay_invoice_individual"'), ['自然人憑證','手機代碼'], $('#ezPayInvoiceCarrier'));
+		fieldDisplay($('select[name="_ezpay_invoice_individual"'), ['自然人憑證','手機條碼'], $('#ezPayInvoiceCarrier'));
 
 
 		// 觸發變更發票資料按鈕

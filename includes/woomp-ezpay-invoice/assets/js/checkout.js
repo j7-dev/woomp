@@ -62,7 +62,7 @@ jQuery(document).ready(function ($) {
 	// 發票類型為個人，且選擇為自然人憑證或手機條碼
 	$("#ezpay-individual-invoice").change(function () {
 		var individualOption = $('#ezpay-individual-invoice option:selected').text();
-		if (individualOption == '自然人憑證' || individualOption == '手機代碼') {
+		if (individualOption == '自然人憑證' || individualOption == '手機條碼') {
 			$('#ezpay-carrier-number_field').show();
 		}
 		else {

@@ -38,7 +38,7 @@ class Checkout {
 
 		// 個人發票選項
 		if ( ! get_option( 'wc_woomp_ezpay_invoice_carrier_type' ) ) {
-			update_option( 'wc_woomp_ezpay_invoice_carrier_type', array( '手機代碼', '自然人憑證', 'ezPay 電子發票載具' ) );
+			update_option( 'wc_woomp_ezpay_invoice_carrier_type', array( '手機條碼', '自然人憑證', 'ezPay 電子發票載具' ) );
 		}
 		$type_option = array();
 		foreach ( get_option( 'wc_woomp_ezpay_invoice_carrier_type' ) as $value ) {
@@ -135,8 +135,8 @@ class Checkout {
 		}
 
 		// 如果選了手機條碼，就要參加資料驗證。比對 7 位英數字
-		if ( $_POST['ezpay-individual-invoice'] == '手機代碼' && preg_match( '/^\/[A-Za-z0-9+-\.]{7}$/', $_POST['ezpay-carrier-number'] ) == false ) {
-			wc_add_notice( __( '<strong>電子發票 手機代碼</strong> 請輸入第 1 碼為「/」，後 7 碼為大寫英文、數字、「+」、「-」或「.」' ), 'error' );
+		if ( $_POST['ezpay-individual-invoice'] == '手機條碼' && preg_match( '/^\/[A-Za-z0-9+-\.]{7}$/', $_POST['ezpay-carrier-number'] ) == false ) {
+			wc_add_notice( __( '<strong>電子發票 手機條碼</strong> 請輸入第 1 碼為「/」，後 7 碼為大寫英文、數字、「+」、「-」或「.」' ), 'error' );
 		}
 
 		// 如果選了公司，就要參加資料驗證。比對 8 位數字資料，如果失敗顯示錯誤訊息。
@@ -181,7 +181,7 @@ class Checkout {
 			$invoice_data['_ezpay_invoice_individual'] = false;
 		}
 		// 新增載具編號
-		if ( isset( $_POST['ezpay-carrier-number'] ) && ( $_POST['ezpay-individual-invoice'] == '手機代碼' || $_POST['ezpay-individual-invoice'] == '自然人憑證' ) ) {
+		if ( isset( $_POST['ezpay-carrier-number'] ) && ( $_POST['ezpay-individual-invoice'] == '手機條碼' || $_POST['ezpay-individual-invoice'] == '自然人憑證' ) ) {
 			$invoice_data['_ezpay_invoice_carrier'] = wp_unslash( $_POST['ezpay-carrier-number'] );
 		}
 		// 新增公司名稱

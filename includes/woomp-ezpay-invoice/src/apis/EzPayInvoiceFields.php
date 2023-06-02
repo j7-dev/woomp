@@ -52,7 +52,7 @@ class EzPayInvoiceFields {
 				case '自然人憑證':
 					return 2;
 					break;
-				case '手機代碼':
+				case '手機條碼':
 					return 3;
 					break;
 				case '紙本發票':
