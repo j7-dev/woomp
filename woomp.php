@@ -62,7 +62,7 @@ require WOOMP_PLUGIN_DIR . 'vendor/autoload.php';
 /**
  * Appsero Update
  */
-$client = new Appsero\Client( 'aefa9ca9-6e4d-422b-a8af-a1b646ad4f05', '好用版擴充 MorePower Addon for WooCommerce', __FILE__ );
+$client = new Appsero\Client( '34ad679c-148e-4d52-b70c-f85dd747932e', '好用版擴充 MorePower Addon for WooCommerce', __FILE__ );
 $client->insights()->init();
 $client->updater();
 
