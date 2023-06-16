@@ -135,7 +135,12 @@ $prefix_updater = new WP_Package_Updater(
 /**
  * Appsero 更新機制
  */
+if ( ! class_exists( 'Appsero\Client' ) ) {
+	require_once __DIR__ . '/appsero/src/Client.php';
+  }
+
 $client = new Appsero\Client( '2e479425-782b-4b93-97ef-c21aa893a4f2', '好用版擴充 MorePower Addon for WooCommerce', __FILE__ );
+$client->insights()->init();
 $client->updater();
 
 /**
