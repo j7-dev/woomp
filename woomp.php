@@ -60,6 +60,13 @@ define( 'WOOMP_ACTIVE_PLUGINS', apply_filters( 'active_plugins', get_option( 'ac
 require WOOMP_PLUGIN_DIR . 'vendor/autoload.php';
 
 /**
+ * Appsero Update
+ */
+$client = new Appsero\Client( 'aefa9ca9-6e4d-422b-a8af-a1b646ad4f05', '好用版擴充 MorePower Addon for WooCommerce', __FILE__ );
+$client->insights()->init();
+$client->updater();
+
+/**
  * The code that runs during plugin activation.
  * This action is documented in includes/class-woomp-activator.php
  */
@@ -131,17 +138,6 @@ $prefix_updater = new WP_Package_Updater(
 	wp_normalize_path( __FILE__ ),
 	wp_normalize_path( plugin_dir_path( __FILE__ ) ),
 );
-
-/**
- * Appsero 更新機制
- */
-if ( ! class_exists( 'Appsero\Client' ) ) {
-	require_once __DIR__ . '/appsero/src/Client.php';
-}
-
-$client = new Appsero\Client( 'aefa9ca9-6e4d-422b-a8af-a1b646ad4f05', '好用版擴充 MorePower Addon for WooCommerce', __FILE__ );
-$client->insights()->init();
-$client->updater();
 
 /**
  * 引入 ry-woocommerce-tools
