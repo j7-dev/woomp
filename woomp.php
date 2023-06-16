@@ -62,9 +62,23 @@ require WOOMP_PLUGIN_DIR . 'vendor/autoload.php';
 /**
  * Appsero Update
  */
-$client = new Appsero\Client( 'cfefd42a-c007-4ef7-8112-58ff5b1d2a8b', '好用版擴充 MorePower Addon for WooCommerce', __FILE__ );
-$client->insights()->init();
-$client->updater();
+function appsero_init_tracker_woomp() {
+
+	if ( ! class_exists( 'Appsero\Client' ) ) {
+		require_once __DIR__ . '/appsero/src/Client.php';
+	}
+
+	$client = new Appsero\Client( '50635500-a963-46d2-a5cd-14af822b4b47', '好用版擴充 MorePower Addon for WooCommerce', __FILE__ );
+
+	// Active insights
+	$client->insights()->init();
+
+	// Active automatic updater
+	$client->updater();
+
+}
+
+appsero_init_tracker_woomp();
 
 /**
  * The code that runs during plugin activation.
