@@ -2,14 +2,14 @@
 
  /**
   * @link              https://morepower.club
-  * @since             2.2.3
+  * @since             2.2.4
   * @package           woomp
   *
   * @wordpress-plugin
   * Plugin Name:       好用版擴充 MorePower Addon for WooCommerce
   * Plugin URI:        https://morepower.club/morepower-addon/
   * Description:       WooCommerce 好用版擴充，改善結帳流程與可變商品等區塊，讓 WooCommerce 更符合亞洲人使用習慣。
-  * Version:           2.2.3
+  * Version:           2.2.4
   * Author:            MorePower
   * Author URI:        https://morepower.club
   * License:           GPL-2.0+
@@ -51,7 +51,7 @@ if ( ! in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins',
  * Start at version 1.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define( 'WOOMP_VERSION', '2.2.3' );
+define( 'WOOMP_VERSION', '2.2.4' );
 define( 'WOOMP_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'WOOMP_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'WOOMP_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
@@ -133,11 +133,27 @@ $prefix_updater = new WP_Package_Updater(
 );
 
 /**
+ * Appsero 更新機制
+ */
+function appsero_init_tracker_woomp() {
+
+	if ( ! class_exists( 'Appsero\Client' ) ) {
+		require_once __DIR__ . '/appsero/src/Client.php';
+	}
+
+	$client = new Appsero\Client( '420a4587-bfeb-42c4-9aad-d4d38bfac6d1', '好用版擴充 MorePower Addon for WooCommerce', __FILE__ );
+	$client->updater();
+
+}
+
+appsero_init_tracker_woomp();
+
+/**
  * 引入 ry-woocommerce-tools
  */
 
 if ( ! defined( 'RY_WT_VERSION' ) ) {
-	define( 'RY_WT_VERSION', '2.2.3' );
+	define( 'RY_WT_VERSION', '2.2.4' );
 	define( 'RY_WT_PLUGIN_URL', plugin_dir_url( __FILE__ ) . 'includes/ry-woocommerce-tools/' );
 	define( 'RY_WT_PLUGIN_DIR', plugin_dir_path( __FILE__ ) . 'includes/ry-woocommerce-tools/' );
 	define( 'RY_WT_PLUGIN_BASENAME', plugin_basename( __FILE__ ) . 'includes/ry-woocommerce-tools/' );
