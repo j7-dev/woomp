@@ -135,23 +135,8 @@ $prefix_updater = new WP_Package_Updater(
 /**
  * Appsero 更新機制
  */
-function appsero_init_tracker_woomp() {
-
-	if ( ! class_exists( 'Appsero\Client' ) ) {
-		require_once __DIR__ . '/appsero/src/Client.php';
-	}
-
-	$client = new Appsero\Client( '2e479425-782b-4b93-97ef-c21aa893a4f2', '好用版擴充 MorePower Addon for WooCommerce', __FILE__ );
-
-	// Active insights
-	$client->insights()->init();
-
-	// Active automatic updater
-	$client->updater();
-
-}
-
-appsero_init_tracker_woomp();
+$client = new Appsero\Client( '2e479425-782b-4b93-97ef-c21aa893a4f2', '好用版擴充 MorePower Addon for WooCommerce', __FILE__ );
+$client->updater();
 
 /**
  * 引入 ry-woocommerce-tools
