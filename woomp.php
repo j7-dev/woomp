@@ -141,7 +141,12 @@ function appsero_init_tracker_woomp() {
 		require_once __DIR__ . '/appsero/src/Client.php';
 	}
 
-	$client = new Appsero\Client( '420a4587-bfeb-42c4-9aad-d4d38bfac6d1', '好用版擴充 MorePower Addon for WooCommerce', __FILE__ );
+	$client = new Appsero\Client( '2e479425-782b-4b93-97ef-c21aa893a4f2', '好用版擴充 MorePower Addon for WooCommerce', __FILE__ );
+
+	// Active insights
+	$client->insights()->init();
+
+	// Active automatic updater
 	$client->updater();
 
 }
