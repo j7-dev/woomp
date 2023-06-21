@@ -60,27 +60,6 @@ define( 'WOOMP_ACTIVE_PLUGINS', apply_filters( 'active_plugins', get_option( 'ac
 require WOOMP_PLUGIN_DIR . 'vendor/autoload.php';
 
 /**
- * Appsero Update
- */
-function appsero_init_tracker_woomp() {
-
-	if ( ! class_exists( 'Appsero\Client' ) ) {
-		require_once __DIR__ . '/appsero/src/Client.php';
-	}
-
-	$client = new Appsero\Client( '50635500-a963-46d2-a5cd-14af822b4b47', '好用版擴充 MorePower Addon for WooCommerce', __FILE__ );
-
-	// Active insights
-	$client->insights()->init();
-
-	// Active automatic updater
-	$client->updater();
-
-}
-
-appsero_init_tracker_woomp();
-
-/**
  * The code that runs during plugin activation.
  * This action is documented in includes/class-woomp-activator.php
  */
@@ -152,6 +131,41 @@ $prefix_updater = new WP_Package_Updater(
 	wp_normalize_path( __FILE__ ),
 	wp_normalize_path( plugin_dir_path( __FILE__ ) ),
 );
+
+if ( ! function_exists( 'woomp_fs' ) ) {
+	// Create a helper function for easy SDK access.
+	function woomp_fs() {
+		global $woomp_fs;
+
+		if ( ! isset( $woomp_fs ) ) {
+			// Include Freemius SDK.
+			require_once dirname( __FILE__ ) . '/freemius/start.php';
+
+			$woomp_fs = fs_dynamic_init(
+				array(
+					'id'               => '12957',
+					'slug'             => 'woomp',
+					'type'             => 'plugin',
+					'public_key'       => 'pk_f48f3aacefd89a004428213eef74b',
+					'is_premium'       => false,
+					'has_addons'       => false,
+					'has_paid_plans'   => false,
+					'is_org_compliant' => false,
+					'menu'             => array(
+						'first-path' => 'plugins.php',
+					),
+				)
+			);
+		}
+
+		return $woomp_fs;
+	}
+
+	// Init Freemius.
+	woomp_fs();
+	// Signal that SDK was initiated.
+	do_action( 'woomp_fs_loaded' );
+}
 
 /**
  * 引入 ry-woocommerce-tools

@@ -1,6 +1,5 @@
 {
     "require": {
-        "appsero/client": "^1.2",
         "oberonlai/wp-metabox": "^1.0",
         "a7/autoload": "^2.1",
         "dennykuo/invoice-porter": "^0.2.2"
