@@ -38,7 +38,7 @@ class Request {
 	 */
 	public function get_transaction_args( $order, $card_data = null ) {
 		$order_suffix = ( $order->get_meta( '_payuni_order_suffix' ) ) ? '-' . $order->get_meta( '_payuni_order_suffix' ) : '';
-		
+
 		$args = apply_filters(
 			'payuni_transaction_args_' . $this->gateway->id,
 			array(
@@ -111,10 +111,12 @@ class Request {
 		);
 
 		$response = wp_remote_request( $this->gateway->get_api_url() . $this->gateway->get_api_endpoint_url(), $options );
-		$resp = json_decode( wp_remote_retrieve_body( $response ) );
+		$resp     = json_decode( wp_remote_retrieve_body( $response ) );
 
 		$data = \Payuni\APIs\Payment::decrypt( $resp->EncryptInfo );
 
+		unset( $data['Card6No'] ); // remove card number from log.
+		
 		\PAYUNI\APIs\Payment::log( $data, 'request' );
 
 		// 結帳頁顯示錯誤訊息.
@@ -127,9 +129,22 @@ class Request {
 				'result'   => 'success',
 				'redirect' => $data['URL'],
 			);
+		} else {
+			$this->set_response( $order->get_payment_method(), $resp );
+			return array(
+				'result'   => 'success',
+				'redirect' => $this->gateway->get_return_url( $order ),
+			);
 		}
 
-		switch ( $order->get_payment_method() ) {
+	}
+
+	private function set_response( $payment_method, $resp ) {
+		switch ( $payment_method ) {
+			case 'payuni-credit':
+			case 'payuni-credit-installment':
+				Response::card_response( $resp );
+				break;
 			case 'payuni-atm':
 				Response::atm_response( $resp );
 				break;

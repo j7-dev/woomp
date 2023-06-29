@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: woomp\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/woomp\n"
-"POT-Creation-Date: 2023-05-04T09:00:04+00:00\n"
-"PO-Revision-Date: 2023-05-04 17:02+0800\n"
+"POT-Creation-Date: 2023-06-29T03:40:43+00:00\n"
+"PO-Revision-Date: 2023-06-29 11:41+0800\n"
 "Last-Translator: \n"
 "Language-Team: morepower\n"
 "Language: zh_TW\n"
@@ -164,47 +164,47 @@ msgstr "切換原版變化類型介面"
 msgid "請輸入變化類型規格，一次輸入一個"
 msgstr "請輸入變化類型規格，一次輸入一個"
 
-#: admin/class-woomp-product.php:225
-msgid "變化類型已更新"
-msgstr "變化類型已更新"
-
-#: admin/class-woomp-product.php:311
-msgid "必填"
-msgstr "必填"
-
-#: admin/class-woomp-product.php:313
-msgid "須小於定價"
-msgstr "須小於定價"
-
-#: admin/class-woomp-product.php:342
+#: admin/class-woomp-product.php:221
 msgid "定價未填"
 msgstr "定價未填"
 
-#: admin/class-woomp-product.php:429
+#: admin/class-woomp-product.php:234
+msgid "商品屬性已更新，是否自動新增變化類型？"
+msgstr ""
+
+#: admin/class-woomp-product.php:336
+msgid "必填"
+msgstr "必填"
+
+#: admin/class-woomp-product.php:338
+msgid "須小於定價"
+msgstr "須小於定價"
+
+#: admin/class-woomp-product.php:438
 msgid "切換好用版 Woo 變化類型介面"
 msgstr "切換好用版 Woo 變化類型介面"
 
-#: admin/class-woomp-product.php:460
+#: admin/class-woomp-product.php:469
 msgid "設定前台變化類型介面:"
 msgstr "設定前台變化類型介面:"
 
-#: admin/class-woomp-product.php:463 admin/class-woomp-product.php:470
+#: admin/class-woomp-product.php:472 admin/class-woomp-product.php:479
 msgid "標籤式選項"
 msgstr "標籤式選項"
 
-#: admin/class-woomp-product.php:465
+#: admin/class-woomp-product.php:474
 msgid "下拉選單"
 msgstr "下拉選單"
 
-#: admin/class-woomp-product.php:466
+#: admin/class-woomp-product.php:475
 msgid "單選方塊(不斷行)"
 msgstr "單選方塊(不斷行)"
 
-#: admin/class-woomp-product.php:467
+#: admin/class-woomp-product.php:476
 msgid "單選方塊(每行放1個選項)"
 msgstr "單選方塊(每行放1個選項)"
 
-#: admin/class-woomp-product.php:468
+#: admin/class-woomp-product.php:477
 msgid "單選方塊(每行放2個選項) "
 msgstr "單選方塊(每行放2個選項) "
 
@@ -356,7 +356,7 @@ msgstr ""
 "教學文件</a>"
 
 #: admin/settings/class-woomp-setting.php:68
-#: includes/payuni/settings/gateway.php:5
+#: includes/payuni/settings/gateway.php:7
 msgid "統一金流 PAYUNi 設定"
 msgstr ""
 
@@ -723,71 +723,79 @@ msgid "\"%s\" available"
 msgstr "\"%s\" 運送類別可運送"
 
 #. translators: %s: Path of log file
-#: includes/payuni/settings/gateway.php:23
+#: includes/payuni/settings/gateway.php:25
 msgid "Log PAYUNi payemnt events/message, inside %s"
 msgstr "將統一金流日誌記錄在 %s"
 
-#: includes/payuni/settings/gateway.php:32
+#: includes/payuni/settings/gateway.php:48
+msgid "3D Authorization"
+msgstr "3D 驗證"
+
+#: includes/payuni/settings/gateway.php:51
+msgid "Enable 3D Authorization"
+msgstr "啟用 3D 驗證"
+
+#: includes/payuni/settings/gateway.php:59
 msgid "API Settings Test"
 msgstr "API 測試環境設定"
 
-#: includes/payuni/settings/gateway.php:34
+#: includes/payuni/settings/gateway.php:61
 msgid "Enter your payuni testing API credentials"
 msgstr "輸入您的測試 API 憑證"
 
-#: includes/payuni/settings/gateway.php:38
+#: includes/payuni/settings/gateway.php:65
 msgid "Sandbox"
 msgstr "測試模式"
 
-#: includes/payuni/settings/gateway.php:41
+#: includes/payuni/settings/gateway.php:68
 msgid "Check this box if you want to use test/sandbox mode."
 msgstr "啟用金流測試環境。"
 
-#: includes/payuni/settings/gateway.php:45
+#: includes/payuni/settings/gateway.php:72
 msgid "MerchantID test"
 msgstr "測試商店代號"
 
-#: includes/payuni/settings/gateway.php:47
-#: includes/payuni/settings/gateway.php:78
+#: includes/payuni/settings/gateway.php:74
+#: includes/payuni/settings/gateway.php:105
 msgid "This is the Merchant ID when you apply PAYUNi API"
 msgstr "輸入統一金流商店代號"
 
-#: includes/payuni/settings/gateway.php:52
+#: includes/payuni/settings/gateway.php:79
 msgid "Hash Key test"
 msgstr "測試 Hash Key"
 
-#: includes/payuni/settings/gateway.php:54
-#: includes/payuni/settings/gateway.php:85
+#: includes/payuni/settings/gateway.php:81
+#: includes/payuni/settings/gateway.php:112
 msgid "This is the Hash Key when you apply PAYUNi API"
 msgstr "輸入統一金流 Hash Key"
 
-#: includes/payuni/settings/gateway.php:59
+#: includes/payuni/settings/gateway.php:86
 msgid "Hash IV test"
 msgstr "測試 Hash IV"
 
-#: includes/payuni/settings/gateway.php:61
-#: includes/payuni/settings/gateway.php:92
+#: includes/payuni/settings/gateway.php:88
+#: includes/payuni/settings/gateway.php:119
 msgid "This is the Hash IV when you apply PAYUNi API"
 msgstr "輸入統一金流 Hash IV"
 
-#: includes/payuni/settings/gateway.php:70
+#: includes/payuni/settings/gateway.php:97
 msgid "API Settings"
 msgstr "API 設定"
 
-#: includes/payuni/settings/gateway.php:72
+#: includes/payuni/settings/gateway.php:99
 msgid "Enter your payuni API credentials"
 msgstr "輸入您的 API 憑證"
 
-#: includes/payuni/settings/gateway.php:76
+#: includes/payuni/settings/gateway.php:103
 #: includes/payuni/settings/shipping.php:111
 msgid "MerchantID"
 msgstr "商店代號"
 
-#: includes/payuni/settings/gateway.php:83
+#: includes/payuni/settings/gateway.php:110
 msgid "Hash Key"
 msgstr "Hash Key"
 
-#: includes/payuni/settings/gateway.php:90
+#: includes/payuni/settings/gateway.php:117
 msgid "Hash IV"
 msgstr "Hash IV"
 
@@ -865,7 +873,7 @@ msgstr "Hash Key"
 msgid "HashIV"
 msgstr "Hash IV"
 
-#: includes/payuni/src/gateways/AbstractGateway.php:162
+#: includes/payuni/src/gateways/AbstractGateway.php:163
 msgid "PAYUNi Payment Gateway"
 msgstr "統一金流設定"
 
@@ -883,6 +891,7 @@ msgstr ""
 #: includes/payuni/src/gateways/Atm.php:58
 #: includes/payuni/src/gateways/Credit.php:56
 #: includes/payuni/src/gateways/CreditInstallment.php:56
+#: includes/payuni/src/gateways/CreditSubscription.php:68
 #: includes/payuni/src/gateways/Cvs.php:55
 msgid "Enable %s"
 msgstr "啟用 %s"
@@ -897,16 +906,19 @@ msgstr ""
 
 #: includes/payuni/src/gateways/Credit.php:93
 #: includes/payuni/src/gateways/CreditInstallment.php:135
+#: includes/payuni/src/gateways/CreditSubscription.php:105
 msgid "Credit card number is required"
 msgstr "請填寫信用卡卡號"
 
 #: includes/payuni/src/gateways/Credit.php:97
 #: includes/payuni/src/gateways/CreditInstallment.php:139
+#: includes/payuni/src/gateways/CreditSubscription.php:109
 msgid "Credit card expired date is required"
 msgstr "請填寫信用卡到期日"
 
 #: includes/payuni/src/gateways/Credit.php:101
 #: includes/payuni/src/gateways/CreditInstallment.php:143
+#: includes/payuni/src/gateways/CreditSubscription.php:113
 msgid "Credit card security code is required"
 msgstr "請填寫信用卡安全碼"
 
@@ -942,6 +954,16 @@ msgstr "分期期數"
 msgid "Credit card installment period is required"
 msgstr "使用統一金流信用卡分期付款"
 
+#: includes/payuni/src/gateways/CreditSubscription.php:30
+#, fuzzy
+#| msgid "PAYUNi ATM"
+msgid "統一金流 PAYUNi 信用卡定期定額"
+msgstr "統一金流 ATM"
+
+#: includes/payuni/src/gateways/CreditSubscription.php:31
+msgid "透過統一金流 PAYUNi 信用卡定期定額付款"
+msgstr ""
+
 #: includes/payuni/src/gateways/Cvs.php:27
 msgid "PAYUNi CVS"
 msgstr "統一金流超商代碼"
@@ -953,6 +975,10 @@ msgstr "統一金流超商代碼付款"
 #: includes/payuni/src/gateways/Cvs.php:31
 msgid "Pay with PAYUNi CVS"
 msgstr "使用統一金流超商代碼付款"
+
+#: includes/payuni/src/posts/ShopOrder/Metabox.php:44
+msgid "統一金流定期定額"
+msgstr ""
 
 #: includes/ry-woocommerce-tools/woocommerce/admin/meta-boxes/ecpay-shipping-meta-box.php:62
 msgid "Shipping status last change time"
@@ -1300,6 +1326,9 @@ msgstr "物流單號"
 #: public/class-woomp-order.php:68
 msgid "Shipping details"
 msgstr "物流資訊"
+
+#~ msgid "變化類型已更新"
+#~ msgstr "變化類型已更新"
 
 #~ msgid "Payuni setting"
 #~ msgstr "統一設定"

@@ -59,15 +59,17 @@ class Response {
 	 *
 	 * @return void
 	 */
-	public static function card_response() {
-
-		// 背景通知付款結果.
+	public static function card_response( $resp = null ) {
 
 		global $woocommerce;
 
-		$data = \Payuni\APIs\Payment::decrypt( $_REQUEST['EncryptInfo'] );
+		$encrypt_info = ( $resp ) ? $resp->EncryptInfo : $_REQUEST['EncryptInfo'];
 
-		\PAYUNI\APIs\Payment::log( $data );
+		$data = \Payuni\APIs\Payment::decrypt( $encrypt_info );
+
+		unset( $data['Card6No'] ); // remove card number from log.
+
+		\PAYUNI\APIs\Payment::log( $data, 'response' );
 
 		$order    = wc_get_order( explode( '-', $data['MerTradeNo'] )[0] );
 		$status   = $data['Status'];
@@ -118,8 +120,10 @@ class Response {
 			$woocommerce->cart->empty_cart();
 			$order->save();
 
-			wp_safe_redirect( $order->get_checkout_order_received_url() );
-			exit;
+			if ( ! $resp ) {
+				wp_safe_redirect( $order->get_checkout_order_received_url() );
+				exit;
+			}
 		}
 
 	}

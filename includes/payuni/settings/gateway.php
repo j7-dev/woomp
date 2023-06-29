@@ -45,6 +45,13 @@ $settings = array(
 		'id'       => 'payuni_customer_refund',
 	),
 	array(
+		'title'   => __( '3D Authorization', 'woomp' ),
+		'type'    => 'checkbox',
+		'default' => 'no',
+		'desc'    => __( 'Enable 3D Authorization', 'woomp' ),
+		'id'      => 'payuni_3d_auth',
+	),
+	array(
 		'type' => 'sectionend',
 		'id'   => 'payment_general_setting',
 	),

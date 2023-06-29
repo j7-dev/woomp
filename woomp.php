@@ -2,14 +2,14 @@
 
 /**
  * @link              https://morepower.club
- * @since             2.2.4
+ * @since             2.2.5
  * @package           woomp
  *
  * @wordpress-plugin
  * Plugin Name:       好用版擴充 MorePower Addon for WooCommerce
  * Plugin URI:        https://morepower.club/morepower-addon/
  * Description:       WooCommerce 好用版擴充，改善結帳流程與可變商品等區塊，讓 WooCommerce 更符合亞洲人使用習慣。
- * Version:           2.2.4
+ * Version:           2.2.5
  * Author:            MorePower
  * Author URI:        https://morepower.club
  * License:           GPL-2.0+
@@ -48,7 +48,7 @@ if ( ! in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins',
  * Start at version 1.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define( 'WOOMP_VERSION', '2.2.4' );
+define( 'WOOMP_VERSION', '2.2.5' );
 define( 'WOOMP_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'WOOMP_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'WOOMP_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
@@ -134,7 +134,7 @@ $prefix_updater = new WP_Package_Updater(
  */
 
 if ( ! defined( 'RY_WT_VERSION' ) ) {
-	define( 'RY_WT_VERSION', '2.2.4' );
+	define( 'RY_WT_VERSION', '2.2.5' );
 	define( 'RY_WT_PLUGIN_URL', plugin_dir_url( __FILE__ ) . 'includes/ry-woocommerce-tools/' );
 	define( 'RY_WT_PLUGIN_DIR', plugin_dir_path( __FILE__ ) . 'includes/ry-woocommerce-tools/' );
 	define( 'RY_WT_PLUGIN_BASENAME', plugin_basename( __FILE__ ) . 'includes/ry-woocommerce-tools/' );

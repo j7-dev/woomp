@@ -123,11 +123,12 @@ class CreditSubscription extends AbstractGateway {
 	 * @return array
 	 */
 	public function add_args( $args, $order ) {
-		$data = array(
-			'API3D'     => 1,
-			'NotifyURL' => home_url( 'wc-api/payuni_notify_card' ),
-			'ReturnURL' => home_url( 'wc-api/payuni_notify_card' ),
-		);
+		$data = array();
+		if ( wc_string_to_bool( get_option( 'payuni_3d_auth' ) ) ) {
+			$data['API3D']     = 1;
+			$data['NotifyURL'] = home_url( 'wc-api/payuni_notify_card' );
+			$data['ReturnURL'] = home_url( 'wc-api/payuni_notify_card' );
+		}
 		return array_merge(
 			$args,
 			$data

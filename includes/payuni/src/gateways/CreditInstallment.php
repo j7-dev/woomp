@@ -196,10 +196,12 @@ class CreditInstallment extends AbstractGateway {
 	public function add_args( $args, $order ) {
 		$data = array(
 			'CardInst'  => $order->get_meta( '_' . $this->id . '-period' ),
-			'API3D'     => 1,
-			'NotifyURL' => home_url( 'wc-api/payuni_notify_card' ),
-			'ReturnURL' => home_url( 'wc-api/payuni_notify_card' ),
 		);
+		if ( wc_string_to_bool( get_option( 'payuni_3d_auth' ) ) ) {
+			$data['API3D'] = 1;
+			$data['NotifyURL'] = home_url( 'wc-api/payuni_notify_card' );
+			$data['ReturnURL'] = home_url( 'wc-api/payuni_notify_card' );
+		}
 		return array_merge(
 			$args,
 			$data
