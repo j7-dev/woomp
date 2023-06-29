@@ -1,10 +1,10 @@
 === 好用版擴充 MorePower Addon for WooCommerce ===
 Requires at least: 4.9.8
-Tested up to: 6.1.1
+Tested up to: 6.2.2
 Requires PHP: 7.0
 WC requires at least: 5
 WC tested up to: 7.5.1
-Stable Tag: 2.2.4
+Stable Tag: 2.2.6
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -19,6 +19,9 @@ WooCommerce 好用版擴充，改善結帳流程與可變商品等區塊，讓 W
 安裝說明
 
 == Changelog ==
+
+<p>v2.2.6</p>
+<p>新增 - 自主託管更新伺服器</p>
 
 <p>v2.2.5</p>
 <p>修改 - 統一金流加入 3D 驗證設定</p>
@@ -450,14 +453,3 @@ v1.0.13
 &nbsp;
 
 v1.0.12 - 整合外掛更新機制
-
-
-== Privacy Policy ==
-
-好用版擴充 MorePower Addon for WooCommerce uses [Appsero](https://appsero.com) SDK to collect some telemetry data upon user's confirmation. This helps us to troubleshoot problems faster & make product improvements.
-
-Appsero SDK **does not gather any data by default.** The SDK only starts gathering basic telemetry data **when a user allows it via the admin notice**. We collect the data to ensure a great user experience for all our users.
-
-Integrating Appsero SDK **DOES NOT IMMEDIATELY** start gathering data, **without confirmation from users in any case.**
-
-Learn more about how [Appsero collects and uses this data](https://appsero.com/privacy-policy/).

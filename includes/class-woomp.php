@@ -119,6 +119,7 @@ class Woomp {
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-woomp-product.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-woomp-order.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-woomp-email.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-woomp-updater.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-woomp-payment-cod-clone.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-woomp-shipping-flat-rate.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/settings/class-woomp-setting.php';

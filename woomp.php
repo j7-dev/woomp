@@ -2,14 +2,14 @@
 
 /**
  * @link              https://morepower.club
- * @since             2.2.5
+ * @since             2.2.6
  * @package           woomp
  *
  * @wordpress-plugin
  * Plugin Name:       好用版擴充 MorePower Addon for WooCommerce
  * Plugin URI:        https://morepower.club/morepower-addon/
  * Description:       WooCommerce 好用版擴充，改善結帳流程與可變商品等區塊，讓 WooCommerce 更符合亞洲人使用習慣。
- * Version:           2.2.5
+ * Version:           2.2.6
  * Author:            MorePower
  * Author URI:        https://morepower.club
  * License:           GPL-2.0+
@@ -48,7 +48,7 @@ if ( ! in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins',
  * Start at version 1.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define( 'WOOMP_VERSION', '2.2.5' );
+define( 'WOOMP_VERSION', '2.2.6' );
 define( 'WOOMP_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'WOOMP_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'WOOMP_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
@@ -121,20 +121,21 @@ if ( get_option( 'wc_woomp_setting_mode', 1 ) === 'onepage' || get_option( 'wc_w
 /**
  * 加入更新機制
  */
-require_once plugin_dir_path( __FILE__ ) . 'lib/wp-package-updater/class-wp-package-updater.php';
+new WooMP_Updater();
+//require_once plugin_dir_path( __FILE__ ) . 'lib/wp-package-updater/class-wp-package-updater.php';
 
-$prefix_updater = new WP_Package_Updater(
-	'https://wmp.oberonlai.blog',
-	wp_normalize_path( __FILE__ ),
-	wp_normalize_path( plugin_dir_path( __FILE__ ) ),
-);
+//$prefix_updater = new WP_Package_Updater(
+//	'https://wmp.oberonlai.blog',
+//	wp_normalize_path( __FILE__ ),
+//	wp_normalize_path( plugin_dir_path( __FILE__ ) ),
+//);
 
 /**
  * 引入 ry-woocommerce-tools
  */
 
 if ( ! defined( 'RY_WT_VERSION' ) ) {
-	define( 'RY_WT_VERSION', '2.2.5' );
+	define( 'RY_WT_VERSION', '2.2.6' );
 	define( 'RY_WT_PLUGIN_URL', plugin_dir_url( __FILE__ ) . 'includes/ry-woocommerce-tools/' );
 	define( 'RY_WT_PLUGIN_DIR', plugin_dir_path( __FILE__ ) . 'includes/ry-woocommerce-tools/' );
 	define( 'RY_WT_PLUGIN_BASENAME', plugin_basename( __FILE__ ) . 'includes/ry-woocommerce-tools/' );
