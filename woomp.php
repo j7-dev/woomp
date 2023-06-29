@@ -30,17 +30,18 @@ if ( ! defined( 'WPINC' ) ) {
  */
 if ( ! in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ), true ) ) {
 	require_once ABSPATH . 'wp-admin/includes/plugin.php';
+
+	function require_woocommerce_notice() {
+		echo '<div class="error"><p>好用版擴充啟用失敗，需要安裝並啟用 WooCommerce 5.3 以上版本。</p></div>';
+	}
+	
 	if ( is_plugin_active( plugin_basename( __FILE__ ) ) ) {
 		deactivate_plugins( plugin_basename( __FILE__ ) );
-		/**
-		 * Error admin notice
-		 */
-		function require_woocommerce_notice() {
-			echo '<div class="error"><p>好用版擴充啟用失敗，需要安裝並啟用 WooCommerce 5.3 以上版本。</p></div>';
-		}
 		add_action( 'admin_notices', 'require_woocommerce_notice' );
 		return;
 	}
+	add_action( 'admin_notices', 'require_woocommerce_notice' );
+	return;
 }
 
 /**
@@ -122,13 +123,6 @@ if ( get_option( 'wc_woomp_setting_mode', 1 ) === 'onepage' || get_option( 'wc_w
  * 加入更新機制
  */
 new WooMP_Updater();
-//require_once plugin_dir_path( __FILE__ ) . 'lib/wp-package-updater/class-wp-package-updater.php';
-
-//$prefix_updater = new WP_Package_Updater(
-//	'https://wmp.oberonlai.blog',
-//	wp_normalize_path( __FILE__ ),
-//	wp_normalize_path( plugin_dir_path( __FILE__ ) ),
-//);
 
 /**
  * 引入 ry-woocommerce-tools

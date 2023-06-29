@@ -58,7 +58,6 @@ class WooMP_Updater {
 		$response->requires       = $remote->requires;
 		$response->author         = $remote->author;
 		$response->author_profile = $remote->author_profile;
-		$response->donate_link    = $remote->donate_link;
 		$response->homepage       = $remote->homepage;
 		$response->download_link  = $remote->download_url;
 		$response->trunk          = $remote->download_url;
@@ -120,7 +119,7 @@ class WooMP_Updater {
 
 		$remote = $this->request();
 
-		if ( $remote && version_compare( $this->version, $remote->version, '<' ) ) {
+		if ( $remote && version_compare( $this->version, $remote->version, '<' ) && version_compare( $remote->requires, get_bloginfo( 'version' ), '<=' ) && version_compare( $remote->requires_php, PHP_VERSION, '<' ) ) {
 			$response              = new \stdClass();
 			$response->slug        = $this->plugin_slug;
 			$response->plugin      = "{$this->plugin_slug}/{$this->plugin_slug}.php";

@@ -6,6 +6,10 @@
 
 use Automattic\WooCommerce\Utilities\NumberUtil;
 
+if ( ! class_exists( 'WC_Shipping_Flat_Rate' ) ) {
+	return;
+}
+
 class WooMP_Shipping_Flat_Rate extends WC_Shipping_Flat_Rate {
 
 	/**
@@ -81,15 +85,15 @@ class WooMP_Shipping_Flat_Rate extends WC_Shipping_Flat_Rate {
 				'default'     => 'no',
 				'desc_tip'    => true,
 			),
-			'weight_plus_cost' => [
+			'weight_plus_cost' => array(
 				// translators: %s WooCommerce weight unit
-				'title' => sprintf(__('Every weight (%s) to plus times of cost', 'ry-woocommerce-tools'), __(get_option('woocommerce_weight_unit'), 'woocommerce')),
-				'type' => 'number',
-				'default' => 0,
+				'title'       => sprintf( __( 'Every weight (%s) to plus times of cost', 'ry-woocommerce-tools' ), __( get_option( 'woocommerce_weight_unit' ), 'woocommerce' ) ),
+				'type'        => 'number',
+				'default'     => 0,
 				'placeholder' => 0,
-				'description' => __('Calculate free shipping first. 0 to disable plus cost by weight.', 'ry-woocommerce-tools'),
-				'desc_tip' => true
-			]
+				'description' => __( 'Calculate free shipping first. 0 to disable plus cost by weight.', 'ry-woocommerce-tools' ),
+				'desc_tip'    => true,
+			),
 		);
 
 		$shipping_classes = WC()->shipping()->get_shipping_classes();
