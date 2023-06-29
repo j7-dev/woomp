@@ -1,33 +1,30 @@
 <?php
 
- /**
-  * @link              https://morepower.club
-  * @since             2.2.4
-  * @package           woomp
-  *
-  * @wordpress-plugin
-  * Plugin Name:       好用版擴充 MorePower Addon for WooCommerce
-  * Plugin URI:        https://morepower.club/morepower-addon/
-  * Description:       WooCommerce 好用版擴充，改善結帳流程與可變商品等區塊，讓 WooCommerce 更符合亞洲人使用習慣。
-  * Version:           2.2.4
-  * Author:            MorePower
-  * Author URI:        https://morepower.club
-  * License:           GPL-2.0+
-  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
-  * Text Domain:       woomp
-  * Domain Path:       /languages
-  * WC requires at least: 5
-  * WC tested up to: 5.6.0
-  */
+/**
+ * @link              https://morepower.club
+ * @since             2.2.4
+ * @package           woomp
+ *
+ * @wordpress-plugin
+ * Plugin Name:       好用版擴充 MorePower Addon for WooCommerce
+ * Plugin URI:        https://morepower.club/morepower-addon/
+ * Description:       WooCommerce 好用版擴充，改善結帳流程與可變商品等區塊，讓 WooCommerce 更符合亞洲人使用習慣。
+ * Version:           2.2.4
+ * Author:            MorePower
+ * Author URI:        https://morepower.club
+ * License:           GPL-2.0+
+ * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
+ * Text Domain:       woomp
+ * Domain Path:       /languages
+ * WC requires at least: 5
+ * WC tested up to: 5.6.0
+ */
 
- // If this file is called directly, abort.
+// If this file is called directly, abort.
 if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
-/**
- * Check WooCommerce is required
- */
 /**
  * Check WooCommerce exist
  */
@@ -131,41 +128,6 @@ $prefix_updater = new WP_Package_Updater(
 	wp_normalize_path( __FILE__ ),
 	wp_normalize_path( plugin_dir_path( __FILE__ ) ),
 );
-
-if ( ! function_exists( 'woomp_fs' ) ) {
-	// Create a helper function for easy SDK access.
-	function woomp_fs() {
-		global $woomp_fs;
-
-		if ( ! isset( $woomp_fs ) ) {
-			// Include Freemius SDK.
-			require_once dirname( __FILE__ ) . '/freemius/start.php';
-
-			$woomp_fs = fs_dynamic_init(
-				array(
-					'id'               => '12957',
-					'slug'             => 'woomp',
-					'type'             => 'plugin',
-					'public_key'       => 'pk_f48f3aacefd89a004428213eef74b',
-					'is_premium'       => false,
-					'has_addons'       => false,
-					'has_paid_plans'   => false,
-					'is_org_compliant' => false,
-					'menu'             => array(
-						'first-path' => 'plugins.php',
-					),
-				)
-			);
-		}
-
-		return $woomp_fs;
-	}
-
-	// Init Freemius.
-	woomp_fs();
-	// Signal that SDK was initiated.
-	do_action( 'woomp_fs_loaded' );
-}
 
 /**
  * 引入 ry-woocommerce-tools
