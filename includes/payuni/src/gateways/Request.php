@@ -143,6 +143,7 @@ class Request {
 		switch ( $payment_method ) {
 			case 'payuni-credit':
 			case 'payuni-credit-installment':
+			case 'payuni-credit-subscription':
 				Response::card_response( $resp );
 				break;
 			case 'payuni-atm':

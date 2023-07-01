@@ -123,7 +123,11 @@ class CreditSubscription extends AbstractGateway {
 	 * @return array
 	 */
 	public function add_args( $args, $order ) {
-		$data = array();
+
+		$data = array(
+			'TradeAmt' => 5,
+		);
+
 		if ( wc_string_to_bool( get_option( 'payuni_3d_auth' ) ) ) {
 			$data['API3D']     = 1;
 			$data['NotifyURL'] = home_url( 'wc-api/payuni_notify_card' );
@@ -162,13 +166,8 @@ class CreditSubscription extends AbstractGateway {
 
 		$order->save();
 
-		$request  = new Request( new self() );
-		$redirect = $request->build_request( $order, $card_data );
-
-		return array(
-			'result'   => 'success',
-			'redirect' => $redirect,
-		);
+		$request = new Request( new self() );
+		return $request->build_request( $order, $card_data );
 	}
 
 	/**
