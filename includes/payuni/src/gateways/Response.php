@@ -116,11 +116,14 @@ class Response {
 				$order->update_status( 'failed' );
 			}
 
-			$woocommerce->cart->empty_cart();
+			if ( $woocommerce->cart ) {
+				$woocommerce->cart->empty_cart();
+			}
+
 			$order->save();
 
 			if ( 0 === (int) \WC_Subscriptions_Order::get_total_initial_payment( $order ) ) {
-				
+
 				$data = array(
 					'nonce'   => wp_create_nonce( 'payuni_refund' ),
 					'order'   => $order,
@@ -129,7 +132,7 @@ class Response {
 				);
 
 				$refund = new Refund();
-				$refund->card_refund( $data );
+				$refund->card_refund( $data, true );
 			}
 
 			if ( ! $resp ) {
@@ -144,6 +147,7 @@ class Response {
 	 * Receive response from Payuni atm payment
 	 *
 	 * @param object $resp payuni response.
+	 *
 	 * @return void
 	 */
 	public static function atm_response( $resp ) {
@@ -195,10 +199,12 @@ class Response {
 			$order->save();
 		}
 	}
+
 	/**
 	 * Receive response from Payuni cvs payment
 	 *
 	 * @param object $resp payuni response.
+	 *
 	 * @return void
 	 */
 	public static function cvs_response( $resp ) {
@@ -222,6 +228,7 @@ class Response {
 			$data         = \Payuni\APIs\Payment::decrypt( $encrypt_info );
 
 			\PAYUNI\APIs\Payment::log( $data );
+
 			return;
 
 			$status      = $data['Status'];
@@ -253,6 +260,10 @@ class Response {
 			$woocommerce->cart->empty_cart();
 			$order->save();
 		}
+	}
+
+	public static function subscription_response( $resp ) {
+
 	}
 }
 

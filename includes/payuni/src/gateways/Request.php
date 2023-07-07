@@ -24,7 +24,7 @@ class Request {
 	/**
 	 * Constructor
 	 *
-	 * @param  WC_Payment_Gateway $gateway The payment gateway instance.
+	 * @param WC_Payment_Gateway $gateway The payment gateway instance.
 	 */
 	public function __construct( $gateway ) {
 		$this->gateway = $gateway;
@@ -34,6 +34,7 @@ class Request {
 	 * Build transaction args.
 	 *
 	 * @param WC_Order $order The order object.
+	 *
 	 * @return array
 	 */
 	public function get_transaction_args( $order, $card_data = null ) {
@@ -94,6 +95,7 @@ class Request {
 				return $item->get_name();
 			}
 		}
+
 		return '商品名稱';
 	}
 
@@ -101,7 +103,8 @@ class Request {
 	 * Generate the form and redirect to PayNow
 	 *
 	 * @param WC_Order $order The order object.
-	 * @return void
+	 *
+	 * @return array
 	 */
 	public function build_request( $order, $card_data = null ) {
 		$options = array(
@@ -116,7 +119,7 @@ class Request {
 		$data = \Payuni\APIs\Payment::decrypt( $resp->EncryptInfo );
 
 		unset( $data['Card6No'] ); // remove card number from log.
-		
+
 		\PAYUNI\APIs\Payment::log( $data, 'request' );
 
 		// 結帳頁顯示錯誤訊息.
@@ -131,12 +134,48 @@ class Request {
 			);
 		} else {
 			$this->set_response( $order->get_payment_method(), $resp );
+
 			return array(
 				'result'   => 'success',
 				'redirect' => $this->gateway->get_return_url( $order ),
 			);
 		}
 
+	}
+
+	public function build_subscription_request( $amount, $order ) {
+		$order_suffix = ( $order->get_meta( '_payuni_order_suffix' ) ) ? '-' . $order->get_meta( '_payuni_order_suffix' ) : '';
+
+		$args = array(
+			'MerID'       => $this->gateway->get_mer_id(),
+			'MerTradeNo'  => $order->get_order_number() . $order_suffix,
+			'TradeAmt'    => $amount,
+			'Timestamp'   => time(),
+			'UsrMail'     => $order->get_billing_email(),
+			'ProdDesc'    => $this->get_product_name( $order ),
+			'CreditToken' => $order->get_billing_email(),
+			'CreditHash'  => get_user_meta( $order->get_customer_id(), '_' . $this->gateway->get_id() . '_hash', true ),
+		);
+
+		$parameter = array(
+			'MerID'       => $this->gateway->get_mer_id(),
+			'Version'     => '1.0',
+			'EncryptInfo' => \Payuni\APIs\Payment::encrypt( $args ),
+			'HashInfo'    => \Payuni\APIs\Payment::hash_info( \Payuni\APIs\Payment::encrypt( $args ) ),
+		);
+
+		$options = array(
+			'method'  => 'POST',
+			'timeout' => 60,
+			'body'    => $parameter
+		);
+
+		$response = wp_remote_request( $this->gateway->get_api_url() . $this->gateway->get_api_endpoint_url(), $options );
+		$resp     = json_decode( wp_remote_retrieve_body( $response ) );
+
+		\WC_Subscriptions_Manager::process_subscription_payments_on_order( $order );
+
+		$this->set_response( $order->get_payment_method(), $resp );
 	}
 
 	private function set_response( $payment_method, $resp ) {
