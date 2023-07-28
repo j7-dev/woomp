@@ -113,7 +113,9 @@ class WooMP_Updater {
 
 	public function update( $transient ) {
 
-		if ( empty( $transient->last_checked ) ) {
+		return $transient;
+
+		if ( empty( $transient->checked ) ) {
 			return $transient;
 		}
 
