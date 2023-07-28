@@ -7,6 +7,8 @@
 
 namespace PAYUNI\Gateways;
 
+use WC_Order;
+
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -47,18 +49,18 @@ class CreditSubscription extends AbstractGateway {
 			'subscription_payment_method_change_customer',
 			'subscription_payment_method_change_admin',
 			'multiple_subscriptions',
+			'tokenization',
 		);
 		$this->api_endpoint_url = 'api/credit';
 
-		add_action( 'woocommerce_update_options_payment_gateways_' . $this->id, array(
-			$this,
-			'process_admin_options'
-		) );
+		add_action(
+			'woocommerce_update_options_payment_gateways_' . $this->id,
+			array(
+				$this,
+				'process_admin_options',
+			)
+		);
 		add_filter( 'payuni_transaction_args_' . $this->id, array( $this, 'add_args' ), 10, 2 );
-		add_action( 'woocommerce_scheduled_subscription_payment_' . $this->id, array(
-			$this,
-			'process_subscription_payment'
-		), 10, 2 );
 	}
 
 	/**
@@ -94,35 +96,6 @@ class CreditSubscription extends AbstractGateway {
 	}
 
 	/**
-	 * Payment fields
-	 */
-	public function payment_fields() { ?>
-		<?php do_action( 'woocommerce_credit_card_form_start', $this->id ); ?>
-		<div>
-			<?php echo $this->render_card_form(); ?>
-		</div>
-		<?php
-		do_action( 'woocommerce_credit_card_form_end', $this->id );
-	}
-
-	public function validate_fields() {
-
-		if ( ! $this->has_token() ) {
-			if ( empty( $_POST[ $this->id . '-card_number' ] ) ) {
-				wc_add_notice( __( 'Credit card number is required', 'woomp' ), 'error' );
-			}
-
-			if ( empty( $_POST[ $this->id . '-card_expiry' ] ) ) {
-				wc_add_notice( __( 'Credit card expired date is required', 'woomp' ), 'error' );
-			}
-
-			if ( empty( $_POST[ $this->id . '-card_cvc' ] ) ) {
-				wc_add_notice( __( 'Credit card security code is required', 'woomp' ), 'error' );
-			}
-		}
-	}
-
-	/**
 	 * Filter payment api arguments for atm
 	 *
 	 * @param array    $args  The payment api arguments.
@@ -130,7 +103,7 @@ class CreditSubscription extends AbstractGateway {
 	 *
 	 * @return array
 	 */
-	public function add_args( $args, $order ) {
+	public function add_args( array $args, WC_Order $order ): array {
 
 		$data = array(
 			'TradeAmt' => 5,
@@ -148,6 +121,79 @@ class CreditSubscription extends AbstractGateway {
 		);
 	}
 
+	/**
+	 * Payment form on checkout page copy from WC_Payment_Gateway_CC
+	 * To add the input name and get value with $_POST
+	 *
+	 * @return void
+	 */
+
+	public function form() {
+		wp_enqueue_script( 'wc-credit-card-form' );
+
+		$fields = array();
+
+		$cvc_field = '<p class="form-row form-row-last">
+			<label for="' . esc_attr( $this->id ) . '-card-cvc">' . esc_html__( 'Card code', 'woocommerce' ) . '&nbsp;<span class="required">*</span></label>
+			<input id="' . esc_attr( $this->id ) . '-card-cvc" name="' . esc_attr( $this->id ) . '-card-cvc" class="input-text wc-credit-card-form-card-cvc" inputmode="numeric" autocomplete="off" autocorrect="no" autocapitalize="no" spellcheck="no" type="tel" maxlength="4" placeholder="' . esc_attr__( 'CVC', 'woocommerce' ) . '" ' . $this->field_name( 'card-cvc' ) . ' style="width:100px;font-size:15px" />
+		</p>';
+
+		$default_fields = array(
+			'card-number-field' => '<p class="form-row form-row-wide">
+				<label for="' . esc_attr( $this->id ) . '-card-number">' . esc_html__( 'Card number', 'woocommerce' ) . '&nbsp;<span class="required">*</span></label>
+				<input id="' . esc_attr( $this->id ) . '-card-number" name="' . esc_attr( $this->id ) . '-card-number" class="input-text wc-credit-card-form-card-number" inputmode="numeric" autocomplete="cc-number" autocorrect="no" autocapitalize="no" spellcheck="no" style="font-size:15px" type="tel" placeholder="&bull;&bull;&bull;&bull; &bull;&bull;&bull;&bull; &bull;&bull;&bull;&bull; &bull;&bull;&bull;&bull;" ' . $this->field_name( 'card-number' ) . ' />
+			</p>',
+			'card-expiry-field' => '<p class="form-row form-row-first">
+				<label for="' . esc_attr( $this->id ) . '-card-expiry">' . esc_html__( 'Expiry (MM/YY)', 'woocommerce' ) . '&nbsp;<span class="required">*</span></label>
+				<input id="' . esc_attr( $this->id ) . '-card-expiry" name="' . esc_attr( $this->id ) . '-card-expiry" class="input-text wc-credit-card-form-card-expiry" inputmode="numeric" autocomplete="cc-exp" autocorrect="no" maxlength="7" autocapitalize="no" spellcheck="no" style="font-size:15px" type="tel" placeholder="' . esc_attr__( 'MM / YY', 'woocommerce' ) . '" ' . $this->field_name( 'card-expiry' ) . ' />
+			</p>',
+		);
+
+		if ( ! $this->supports( 'credit_card_form_cvc_on_saved_method' ) ) {
+			$default_fields['card-cvc-field'] = $cvc_field;
+		}
+
+		$fields = wp_parse_args( $fields, apply_filters( 'woocommerce_credit_card_form_fields', $default_fields, $this->id ) );
+		?>
+
+		<fieldset id="wc-<?php echo esc_attr( $this->id ); ?>-cc-form" class='wc-credit-card-form wc-payment-form'>
+			<?php do_action( 'woocommerce_credit_card_form_start', $this->id ); ?>
+			<?php
+			foreach ( $fields as $field ) {
+				echo $field; // phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped
+			}
+			?>
+			<?php do_action( 'woocommerce_credit_card_form_end', $this->id ); ?>
+			<div class="clear"></div>
+		</fieldset>
+		<?php
+
+		if ( $this->supports( 'credit_card_form_cvc_on_saved_method' ) ) {
+			echo '<fieldset>' . $cvc_field . '</fieldset>'; // phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped
+		}
+	}
+
+
+	public function validate_fields() {
+		if ( $this->id !== $_POST['payment_method'] ) {
+			return false;
+		}
+		if ( 'new' !== $_POST[ 'wc-' . $this->id . '-payment-token' ] && isset( $_POST[ 'wc-' . $this->id . '-payment-token' ] ) ) {
+			return false;
+		}
+
+		if ( empty( $_POST[ $this->id . '-card-number' ] ) ) {
+			wc_add_notice( __( 'Credit card number is required', 'woomp' ), 'error' );
+		}
+
+		if ( empty( $_POST[ $this->id . '-card-expiry' ] ) ) {
+			wc_add_notice( __( 'Credit card expired date is required', 'woomp' ), 'error' );
+		}
+
+		if ( empty( $_POST[ $this->id . '-card-cvc' ] ) ) {
+			wc_add_notice( __( 'Credit card security code is required', 'woomp' ), 'error' );
+		}
+	}
 
 	/**
 	 * Process payment
@@ -156,33 +202,66 @@ class CreditSubscription extends AbstractGateway {
 	 *
 	 * @return array
 	 */
-	public function process_payment( $order_id ) {
+	public function process_payment( $order_id ): array {
 
-		$order = new \WC_Order( $order_id );
+		$order = new WC_Order( $order_id );
+
+		//@codingStandardsIgnoreStart
+		$number   = ( isset( $_POST[ $this->id . '-card-number' ] ) ) ? wc_clean( wp_unslash( $_POST[ $this->id . '-card-number' ] ) ) : '';
+		$expiry   = ( isset( $_POST[ $this->id . '-card-expiry' ] ) ) ? wc_clean( wp_unslash( str_replace( ' ', '', $_POST[ $this->id . '-card-expiry' ] ) ) ) : '';
+		$cvc      = ( isset( $_POST[ $this->id . '-card-cvc' ] ) ) ? wc_clean( wp_unslash( $_POST[ $this->id . '-card-cvc' ] ) ) : '';
+		$token_id = ( isset( $_POST[ 'wc-' . $this->id . '-payment-token' ] ) ) ? wc_clean( wp_unslash( $_POST[ 'wc-' . $this->id . '-payment-token' ] ) ) : '';
+		$new      = ( isset( $_POST[ 'wc-' . $this->id . '-new-payment-method' ] ) ) ? wc_clean( wp_unslash( $_POST[ 'wc-' . $this->id . '-new-payment-method' ] ) ) : '';
+		//@codingStandardsIgnoreEnd
 
 		$card_data = array(
-			'number' => str_replace( ' ', '', sanitize_text_field( $_POST[ $this->id . '-card_number' ] ) ),
-			'expiry' => str_replace( '/', '', sanitize_text_field( $_POST[ $this->id . '-card_expiry' ] ) ),
-			'cvc'    => sanitize_text_field( $_POST[ $this->id . '-card_cvc' ] ),
+			'number'   => str_replace( ' ', '', $number ),
+			'expiry'   => str_replace( '/', '', $expiry ),
+			'cvc'      => $cvc,
+			'token_id' => $token_id,
+			'new'      => $new,
 		);
 
-		if ( isset( $_POST[ $this->id . '-card_remember' ] ) && ! empty( $_POST[ $this->id . '-card_remember' ] ) ) {
-			$order->update_meta_data( '_' . $this->id . '-card_remember', sanitize_text_field( $_POST[ $this->id . '-card_remember' ] ) );
-		}
-
-		if ( isset( $_POST[ $this->id . '-card_hash' ] ) && 'hash' === $_POST[ $this->id . '-card_hash' ] ) {
-			$order->update_meta_data( '_' . $this->id . '-card_hash', get_user_meta( get_current_user_id(), '_' . $this->id . '_hash', true ) );
-		}
-
-		$order->save();
-
 		$request = new Request( new self() );
+
 		return $request->build_request( $order, $card_data );
 	}
 
-	public function process_subscription_payment( $amount, $order ) {
+	/**
+	 * My Account page change payment method
+	 *
+	 * @return array
+	 */
+	public function add_payment_method(): array {
+
+		//@codingStandardsIgnoreStart
+		$number   = ( isset( $_POST[ $this->id . '-card-number' ] ) ) ? wc_clean( wp_unslash( $_POST[ $this->id . '-card-number' ] ) ) : '';
+		$expiry   = ( isset( $_POST[ $this->id . '-card-expiry' ] ) ) ? wc_clean( wp_unslash( str_replace( ' ', '', $_POST[ $this->id . '-card-expiry' ] ) ) ) : '';
+		$cvc      = ( isset( $_POST[ $this->id . '-card-cvc' ] ) ) ? wc_clean( wp_unslash( $_POST[ $this->id . '-card-cvc' ] ) ) : '';
+		$token_id = ( isset( $_POST[ 'wc-' . $this->id . '-payment-token' ] ) ) ? wc_clean( wp_unslash( $_POST[ 'wc-' . $this->id . '-payment-token' ] ) ) : '';
+		$new      = ( isset( $_POST[ 'wc-' . $this->id . '-new-payment-method' ] ) ) ? wc_clean( wp_unslash( $_POST[ 'wc-' . $this->id . '-new-payment-method' ] ) ) : '';
+		//@codingStandardsIgnoreEnd
+
+		$card_data = array(
+			'number'   => str_replace( ' ', '', $number ),
+			'expiry'   => str_replace( '/', '', $expiry ),
+			'cvc'      => $cvc,
+			'token_id' => $token_id,
+			'new'      => $new,
+		);
+
 		$request = new Request( new self() );
-		$request->build_subscription_request( $amount, $order );
+		$result  = $request->build_hash_request( $card_data );
+
+		if ( $result ) {
+			$return['result'] = 'success';
+		} else {
+			$return['result'] = 'failure';
+		}
+
+		$return['redirect'] = wc_get_endpoint_url( 'payment-methods' );
+
+		return $return;
 	}
 
 	/**

@@ -14,7 +14,7 @@ class Metabox {
 		$class = new self();
 		add_action( 'admin_init', array( $class, 'set_metabox' ), 99 );
 	}
-	
+
 	/**
 	 * 建立發票資訊欄位
 	 */
@@ -38,6 +38,14 @@ class Metabox {
 			return;
 		}
 
+		if ( 'SUCCESS' === $order->get_meta( '_payuni_resp_status' ) ) {
+			return;
+		}
+
+		if ( 'pending' !== $order->get_status() ) {
+			return;
+		}
+
 		$this->metabox = new ODSMetabox(
 			array(
 				'id'       => 'payuni_subscripiton',
@@ -51,20 +59,20 @@ class Metabox {
 		$this->metabox->addHtml(
 			array(
 				'id'   => 'payuni_subscripiton_section',
-				'html' => $this->set_invoice_button( $_GET['post'] ),
+				'html' => $this->set_request_button( $_GET['post'] ),
 			),
 		);
 	}
 
 	/**
-	 * 建立發票開立按鈕
+	 * 建立重新請款按鈕
 	 */
-	private function set_invoice_button( $order_id ) {
+	private function set_request_button( $order_id ) {
 
 		$order  = \wc_get_order( $order_id );
 		$output = '<div style="margin-top:20px">';
 
-		$output .= "<button class='button btnPayuniSubscriptionCheck' type='button' value='" . $order_id . "'>查詢扣款狀態</button>";
+		$output .= "<button class='button button-primary btnPayuniSubscriptionPayManual' type='button' value='" . $order_id . "'>手動扣款</button>";
 
 		// 產生按鈕，傳送 order id 給ajax js
 		// if ( ! $order->get_meta( '_ezpay_invoice_number' ) ) {
@@ -78,15 +86,6 @@ class Metabox {
 		return $output;
 	}
 
-	/**
-	 * 已開立發票禁止編輯
-	 */
-	private function set_edit_disable_style( $order_id ) {
-		$order = wc_get_order( $order_id );
-		if ( $order->get_meta( '_ezpay_invoice_number' ) ) {
-			return 'pointer-events:none;border:0;appearance:none;background-image:none;background-color:#efefef;';
-		}
-	}
 
 }
 

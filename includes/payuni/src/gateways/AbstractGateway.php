@@ -13,7 +13,7 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 	/**
 	 * Payuni Payment main class for handling all checkout related process.
 	 */
-	abstract class AbstractGateway extends \WC_Payment_Gateway {
+	abstract class AbstractGateway extends \WC_Payment_Gateway_CC {
 
 		/**
 		 * Plugin name
@@ -118,7 +118,15 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 			$this->api_url        = ( $this->testmode ) ? 'https://sandbox-api.payuni.com.tw/' : 'https://api.payuni.com.tw/';
 			$this->api_refund_url = 'api/trade/close';
 
-			add_action( 'woocommerce_order_details_before_order_table', array( $this, 'get_detail_after_order_table' ), 10, 1 );
+			add_action(
+				'woocommerce_order_details_before_order_table',
+				array(
+					$this,
+					'get_detail_after_order_table',
+				),
+				10,
+				1
+			);
 
 		}
 
@@ -161,6 +169,7 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 		public function get_icon() {
 			$icon_html  = '';
 			$icon_html .= '<img src="' . WOOMP_PLUGIN_URL . 'includes/payuni/assets/img/logo_p.png " style="background:#5c3a93" alt="' . __( 'PAYUNi Payment Gateway', 'woomp' ) . '" />';
+
 			return apply_filters( 'woocommerce_gateway_icon', $icon_html, $this->id );
 		}
 
@@ -222,6 +231,7 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 		 * Build items as string
 		 *
 		 * @param WC_Order $order The order object.
+		 *
 		 * @return string
 		 */
 		public function get_items_infos( $order ) {
@@ -234,6 +244,7 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 				}
 			}
 			$resp = ( mb_strlen( $item_s ) > 200 ) ? mb_substr( $item_s, 0, 200 ) : $item_s;
+
 			return $resp;
 		}
 
@@ -262,6 +273,7 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 		 */
 		public function get_orgno() {
 			$this->orgno = ( 'yes' === get_option( 'payuni_payment_testmode_enabled' ) ) ? get_option( 'payuni_payment_testmode_orgno' ) : get_option( 'payuni_payment_orgno' );
+
 			return $this->orgno;
 		}
 
@@ -272,6 +284,7 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 		 */
 		public function get_secret() {
 			$this->secret = ( 'yes' === get_option( 'payuni_payment_testmode_enabled' ) ) ? get_option( 'payuni_payment_testmode_secret' ) : get_option( 'payuni_payment_secret' );
+
 			return $this->secret;
 		}
 
@@ -293,8 +306,10 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 				if ( get_user_meta( $user_id, '_' . $this->id . '_hash' ) ) {
 					return true;
 				}
+
 				return false;
 			}
+
 			return false;
 		}
 
@@ -306,8 +321,7 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 				$style       = ( 'payuni-credit-subscription' === $this->id ) ? 'none' : 'flex';
 				$checked     = ( 'payuni-credit-subscription' === $this->id ) ? 'checked' : '';
 				$description = ( $this->description ) ? '<p style="margin:0;padding:10px">' . $this->description . '</p>' : '';
-
-				$html = $description . '
+				$html        = $description . '
 				<div class="payuni-form-container">
 					<div class="payuni-field-container">
 						<label for="' . $this->id . '-cardnumber">卡號</label>
@@ -327,10 +341,11 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 					</div>
 				</div>';
 			} else {
-				$html = '
+				$card4 = get_user_meta( get_current_user_id(), '_' . $this->id . '_4no', true );
+				$html  = '
 				<div>
 					<div>使用上次紀錄的信用卡結帳
-						<p style="background:#efefef;padding:10px 20px; margin:5px 0 0 0; letter-spacing:5px; border:1px solid #ccc;"> **** **** ****  ' . esc_html( get_user_meta( get_current_user_id(), '_' . $this->id . '_4no', true ) ) . '</p>
+						<p style="background:#efefef;padding:10px 20px; margin:5px 0 0 0; letter-spacing:5px; border:1px solid #ccc;"> **** **** ****  ' . esc_html( $card4 ) . '</p>
 						<input type="hidden" name="' . esc_html( $this->id ) . '-card_hash" value="hash">
 					</div>
 					<div style="display:flex; margin-top: 5px;">
@@ -339,6 +354,7 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 				</div>
 				';
 			}
+
 			return $html;
 		}
 
@@ -346,8 +362,8 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 		 * Process refund
 		 *
 		 * @param string $order_id The order id.
-		 * @param string $amount The refund amount.
-		 * @param string $reason The refund reason.
+		 * @param string $amount   The refund amount.
+		 * @param string $reason   The refund reason.
 		 *
 		 * @return bool
 		 */
@@ -357,6 +373,7 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 
 			if ( ! in_array( 'wc-' . $order_status, get_option( 'payuni_admin_refund' ) ) ) {
 				$order->add_order_note( '<strong>統一金流退費紀錄</strong><br>退費結果：該訂單狀態不允許退費', true );
+
 				return false;
 			}
 
@@ -390,10 +407,15 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 				}
 				$order->add_order_note( $note, true );
 				$order->save();
+
 				return true;
 			} else {
 				return false;
 			}
+		}
+
+		public function get_id(): string {
+			return $this->id;
 		}
 
 	}

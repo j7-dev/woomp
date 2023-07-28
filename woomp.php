@@ -2,14 +2,14 @@
 
 /**
  * @link              https://morepower.club
- * @since             2.2.6
+ * @since             2.2.7
  * @package           woomp
  *
  * @wordpress-plugin
  * Plugin Name:       好用版擴充 MorePower Addon for WooCommerce
  * Plugin URI:        https://morepower.club/morepower-addon/
  * Description:       WooCommerce 好用版擴充，改善結帳流程與可變商品等區塊，讓 WooCommerce 更符合亞洲人使用習慣。
- * Version:           2.2.6
+ * Version:           2.2.7
  * Author:            MorePower
  * Author URI:        https://morepower.club
  * License:           GPL-2.0+
@@ -34,13 +34,15 @@ if ( ! in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins',
 	function require_woocommerce_notice() {
 		echo '<div class="error"><p>好用版擴充啟用失敗，需要安裝並啟用 WooCommerce 5.3 以上版本。</p></div>';
 	}
-	
+
 	if ( is_plugin_active( plugin_basename( __FILE__ ) ) ) {
 		deactivate_plugins( plugin_basename( __FILE__ ) );
 		add_action( 'admin_notices', 'require_woocommerce_notice' );
+
 		return;
 	}
 	add_action( 'admin_notices', 'require_woocommerce_notice' );
+
 	return;
 }
 
@@ -49,7 +51,7 @@ if ( ! in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins',
  * Start at version 1.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define( 'WOOMP_VERSION', '2.2.6' );
+define( 'WOOMP_VERSION', '2.2.7' );
 define( 'WOOMP_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'WOOMP_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'WOOMP_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
@@ -99,6 +101,7 @@ function run_woomp() {
 	$plugin->run();
 
 }
+
 run_woomp();
 
 /**
@@ -115,6 +118,7 @@ if ( get_option( 'wc_woomp_setting_mode', 1 ) === 'onepage' || get_option( 'wc_w
 	function intercept_wc_template( $template, $template_name, $template_path ) {
 		$template_directory = trailingslashit( plugin_dir_path( __FILE__ ) ) . 'woocommerce/';
 		$path               = $template_directory . $template_name;
+
 		return file_exists( $path ) ? $path : $template;
 	}
 }
@@ -129,7 +133,7 @@ new WooMP_Updater();
  */
 
 if ( ! defined( 'RY_WT_VERSION' ) ) {
-	define( 'RY_WT_VERSION', '2.2.6' );
+	define( 'RY_WT_VERSION', '2.2.7' );
 	define( 'RY_WT_PLUGIN_URL', plugin_dir_url( __FILE__ ) . 'includes/ry-woocommerce-tools/' );
 	define( 'RY_WT_PLUGIN_DIR', plugin_dir_path( __FILE__ ) . 'includes/ry-woocommerce-tools/' );
 	define( 'RY_WT_PLUGIN_BASENAME', plugin_basename( __FILE__ ) . 'includes/ry-woocommerce-tools/' );
@@ -181,6 +185,7 @@ if ( ! defined( 'PAYNOW_SHIPPING_PLUGIN_URL' ) && 'yes' === get_option( 'wc_woom
 	 * Add PayNow shipping methods.
 	 *
 	 * @param array $methods Payment methods.
+	 *
 	 * @return array
 	 */
 	function add_paynow_shipping_methods( $methods ) {
@@ -188,6 +193,7 @@ if ( ! defined( 'PAYNOW_SHIPPING_PLUGIN_URL' ) && 'yes' === get_option( 'wc_woom
 		$methods['paynow_shipping_c2c_family'] = 'PayNow_Shipping_C2C_Family';
 		$methods['paynow_shipping_c2c_hilife'] = 'PayNow_Shipping_C2C_Hilife';
 		$methods['paynow_shipping_hd_tcat']    = 'PayNow_Shipping_HD_TCat';
+
 		return $methods;
 	}
 
@@ -225,6 +231,7 @@ if ( ! defined( 'PAYNOW_SHIPPING_PLUGIN_URL' ) && 'yes' === get_option( 'wc_woom
 		PayNow_Shipping_Response::init();
 
 	}
+
 	add_action( 'plugins_loaded', 'run_paynow_shipping' );
 }
 
@@ -286,6 +293,7 @@ if ( ! defined( 'PAYNOW_EINVOICE_PLUGIN_URL' ) && 'yes' === get_option( 'wc_sett
 		$plugin->run();
 
 	}
+
 	run_paynow_einvoice();
 
 }
@@ -333,7 +341,9 @@ if ( in_array( 'woomp/woomp.php', WOOMP_ACTIVE_PLUGINS, true ) ) {
 		function require_woocommerce_notice() {
 			echo '<div class="notice notice-warning"><p>PChomePay Gateway for WooCommerce 已停用，請使用好用版擴充支付連金流</p></div>';
 		}
+
 		add_action( 'admin_notices', 'require_woocommerce_notice' );
+
 		return;
 	}
 }

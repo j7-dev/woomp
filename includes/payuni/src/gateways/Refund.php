@@ -19,8 +19,9 @@ class Refund {
 	 * Handle refund
 	 *
 	 * @param array $auto_refund The data of 0 dollar order.
+	 * @param bool  $force       Force refund for subscription 0 dollar order.
 	 */
-	public function card_refund( $auto_refund = null ) {
+	public function card_refund( $auto_refund = null, $force = false ) {
 
 		$nonce = ( $auto_refund ) ? $auto_refund['nonce'] : $_POST['nonce'];
 		if ( ! wp_verify_nonce( $nonce, 'payuni_refund' ) ) {
@@ -47,7 +48,7 @@ class Refund {
 
 		$order_status = $order->get_status();
 
-		if ( ! in_array( 'wc-' . $order_status, get_option( 'payuni_admin_refund' ) ) ) {
+		if ( ! in_array( 'wc-' . $order_status, (array) get_option( 'payuni_admin_refund' ) ) && ! $force ) {
 			$order->add_order_note( '<strong>統一金流退費紀錄</strong><br>退費結果：該訂單狀態不允許退費', true );
 			echo wp_json_encode( '該訂單狀態不允許退費' );
 			die();
@@ -77,14 +78,7 @@ class Refund {
 		$resp    = json_decode( wp_remote_retrieve_body( $request ) );
 		$data    = \Payuni\APIs\Payment::decrypt( $resp->EncryptInfo );
 
-		if ( 'SUCCESS' === $data['Status'] ) {
-			$note = '<strong>統一金流退費紀錄</strong><br>退費結果：' . $data['Message'];
-			if ( $reason ) {
-				$note .= '<br>退費原因：' . $reason;
-			}
-		} else {
-			$note = '<strong>統一金流退費紀錄</strong><br>退費結果：' . $data['Message'];
-		}
+		$note = '<strong>統一金流退費紀錄</strong><br>退費結果：' . $data['Message'];
 
 		if ( $auto_refund ) {
 			return;

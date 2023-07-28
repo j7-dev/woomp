@@ -38,7 +38,10 @@ class Atm extends AbstractGateway {
 		$this->api_endpoint_url = 'api/atm';
 		$this->supports         = array( 'products' );
 
-		add_action( 'woocommerce_update_options_payment_gateways_' . $this->id, array( $this, 'process_admin_options' ) );
+		add_action( 'woocommerce_update_options_payment_gateways_' . $this->id, array(
+			$this,
+			'process_admin_options'
+		) );
 		add_filter( 'payuni_transaction_args_' . $this->id, array( $this, 'add_args' ), 10, 2 );
 		add_action( 'payuni_atm_check', array( $this, 'atm_expire' ), 10, 1 );
 		add_action( 'woocommerce_email_order_meta', array( $this, 'get_account_info' ), 10, 3 );
@@ -85,19 +88,19 @@ class Atm extends AbstractGateway {
 			<div class="payuni_radio">
 				<select name="<?php echo esc_html( $this->id ); ?>-bank" class="select">
 					<option value="004">台灣銀行</option>
-					<option value="812">台新銀行</option>
 					<option value="822">中信銀行</option>
 				</select>
 			</div>
-		</div>	
+		</div>
 		<?php
 	}
 
 	/**
 	 * Filter payment api arguments for atm
 	 *
-	 * @param array    $args The payment api arguments.
+	 * @param array    $args  The payment api arguments.
 	 * @param WC_Order $order The order object.
+	 *
 	 * @return array
 	 */
 	public function add_args( $args, $order ) {
@@ -105,6 +108,7 @@ class Atm extends AbstractGateway {
 			'BankType'  => (string) $order->get_meta( '_' . $this->id . '-bank' ),
 			'NotifyURL' => home_url( 'wc-api/payuni_notify_atm' ),
 		);
+
 		return array_merge(
 			$args,
 			$data
@@ -115,6 +119,7 @@ class Atm extends AbstractGateway {
 	 * Process payment
 	 *
 	 * @param string $order_id The order id.
+	 *
 	 * @return array
 	 */
 	public function process_payment( $order_id ) {
@@ -138,6 +143,7 @@ class Atm extends AbstractGateway {
 	 * Display payment detail after order table
 	 *
 	 * @param WC_Order $order The order object.
+	 *
 	 * @return void
 	 */
 	public function get_detail_after_order_table( $order ) {
@@ -193,6 +199,7 @@ class Atm extends AbstractGateway {
 	 * Set atm transfer expire check
 	 *
 	 * @param int $order_id The order id.
+	 *
 	 * @return void
 	 */
 	public function atm_expire( $order_id ) {
@@ -207,9 +214,9 @@ class Atm extends AbstractGateway {
 	/**
 	 * Display payment detail in email
 	 *
-	 * @param WC_Order $order The order object.
+	 * @param WC_Order $order         The order object.
 	 * @param bool     $sent_to_admin Whether the email is for admin.
-	 * @param bool     $plain_text Whether the email is plain text.
+	 * @param bool     $plain_text    Whether the email is plain text.
 	 *
 	 * @return void
 	 */
