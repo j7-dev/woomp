@@ -199,18 +199,32 @@ class Request {
 		$this->set_response( $order->get_payment_method(), $resp );
 	}
 
-	public function build_hash_request( $card_data ) {
+	/**
+	 * The request for get card hash without order.
+	 *
+	 * @param array $card_data The card data.
+	 *
+	 * @return bool
+	 */
+	public function build_hash_request( array $card_data ): bool {
+
+		if ( ! is_user_logged_in() ) {
+			return false;
+		}
+
+		$user_id = get_current_user_id();
+
 		$args = array(
 			'MerID'       => $this->gateway->get_mer_id(),
 			'MerTradeNo'  => time(),
 			'TradeAmt'    => 5,
 			'Timestamp'   => time(),
-			'UsrMail'     => get_userdata( get_current_user_id() )->user_email,
+			'UsrMail'     => get_userdata( $user_id )->user_email,
 			'ProdDesc'    => '新增信用卡',
 			'CardNo'      => $card_data['number'],
 			'CardExpired' => $card_data['expiry'],
 			'CardCVC'     => $card_data['cvc'],
-			'CreditToken' => get_userdata( get_current_user_id() )->user_email,
+			'CreditToken' => get_userdata( $user_id )->user_email,
 		);
 
 		$parameter = array(

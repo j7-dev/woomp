@@ -135,7 +135,7 @@ class CreditSubscription extends AbstractGateway {
 
 		$cvc_field = '<p class="form-row form-row-last">
 			<label for="' . esc_attr( $this->id ) . '-card-cvc">' . esc_html__( 'Card code', 'woocommerce' ) . '&nbsp;<span class="required">*</span></label>
-			<input id="' . esc_attr( $this->id ) . '-card-cvc" name="' . esc_attr( $this->id ) . '-card-cvc" class="input-text wc-credit-card-form-card-cvc" inputmode="numeric" autocomplete="off" autocorrect="no" autocapitalize="no" spellcheck="no" type="tel" maxlength="4" placeholder="' . esc_attr__( 'CVC', 'woocommerce' ) . '" ' . $this->field_name( 'card-cvc' ) . ' style="width:100px;font-size:15px" />
+			<input id="' . esc_attr( $this->id ) . '-card-cvc" name="' . esc_attr( $this->id ) . '-card-cvc" class="input-text wc-credit-card-form-card-cvc" inputmode="numeric" autocomplete="off" autocorrect="no" autocapitalize="no" spellcheck="no" type="tel" maxlength="3" placeholder="' . esc_attr__( 'CVC', 'woocommerce' ) . '" ' . $this->field_name( 'card-cvc' ) . ' style="width:100px;font-size:15px" />
 		</p>';
 
 		$default_fields = array(
@@ -174,10 +174,21 @@ class CreditSubscription extends AbstractGateway {
 	}
 
 
+	/**
+	 * Validate payment fields
+	 *
+	 * @return void|bool
+	 */
 	public function validate_fields() {
+		//@codingStandardsIgnoreStart
 		if ( $this->id !== $_POST['payment_method'] ) {
 			return false;
 		}
+
+		if ( ! isset( $_POST[ 'wc-' . $this->id . '-payment-token' ] ) ) {
+			return false;
+		}
+
 		if ( 'new' !== $_POST[ 'wc-' . $this->id . '-payment-token' ] && isset( $_POST[ 'wc-' . $this->id . '-payment-token' ] ) ) {
 			return false;
 		}
@@ -193,6 +204,7 @@ class CreditSubscription extends AbstractGateway {
 		if ( empty( $_POST[ $this->id . '-card-cvc' ] ) ) {
 			wc_add_notice( __( 'Credit card security code is required', 'woomp' ), 'error' );
 		}
+		//@codingStandardsIgnoreEnd
 	}
 
 	/**

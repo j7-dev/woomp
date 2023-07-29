@@ -8,6 +8,7 @@
 namespace PAYUNI\Gateways;
 
 use Payuni\APIs\Payment;
+use WC_Subscriptions_Order;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -142,17 +143,9 @@ class Response {
 		$order->save();
 
 		// 0 元訂閱訂單要做退款.
-		if ( 0 === (int) \WC_Subscriptions_Order::get_total_initial_payment( $order ) ) {
-
-			$data = array(
-				'nonce'   => wp_create_nonce( 'payuni_refund' ),
-				'order'   => $order,
-				'amount'  => 5,
-				'user_id' => $order->get_customer_id(),
-			);
-
-			$refund = new Refund();
-			$refund->card_refund( $data, true );
+		if ( 0 === (int) WC_Subscriptions_Order::get_total_initial_payment( $order ) ) {
+			// 要等建立訂單的 API 完成才能進行退款，所以延遲一分鐘再執行.
+			as_schedule_single_action( strtotime( current_time( 'Y-m-d H:i:s' ) . '-8 hour + 1 minute' ), 'payuni_hash_refund', array( $trade_no ) );
 		}
 
 		if ( ! $resp ) {
@@ -162,8 +155,17 @@ class Response {
 
 	}
 
-	public static function hash_response( $resp = null ) {
+	/**
+	 * Hash response
+	 *
+	 * @param object|null $resp payuni response.
+	 *
+	 * @return bool
+	 */
+	public static function hash_response( object|null $resp ): bool {
+		//@codingStandardsIgnoreStart
 		$encrypt_info = ( $resp ) ? $resp->EncryptInfo : $_REQUEST['EncryptInfo'];
+		//@codingStandardsIgnoreEnd
 
 		$data              = Payment::decrypt( $encrypt_info );
 		$status            = $data['Status'];
@@ -171,16 +173,6 @@ class Response {
 		$card_hash         = $data['CreditHash'];
 		$card_expiry_month = substr( $data['CreditLife'], 0, 2 );
 		$card_expiry_year  = '20' . substr( $data['CreditLife'], 2, 2 );
-
-		// $data = array(
-		// 'nonce'   => wp_create_nonce( 'payuni_refund' ),
-		// 'order'   => $order,
-		// 'amount'  => 5,
-		// 'user_id' => get_current_user_id(),
-		// );
-		//
-		// $refund = new Refund();
-		// $refund->card_refund( $data, true );
 
 		if ( 'SUCCESS' === $status ) {
 			$token = new \WC_Payment_Token_CC();
@@ -193,8 +185,12 @@ class Response {
 			$token->set_user_id( get_current_user_id() );
 			$token->save();
 
+			as_schedule_single_action( strtotime( current_time( 'Y-m-d H:i:s' ) . '-8 hour + 1 minute' ), 'payuni_hash_refund', array( $data['TradeNo'] ) );
+
 			return true;
 		}
+
+		wc_add_notice( $data['Message'], 'error' );
 
 		return false;
 	}
@@ -310,7 +306,7 @@ class Response {
 				$order->update_status( 'failed' );
 			}
 
-			// 超過繳費期限取消��單.
+			// 超過繳費期限取消訂單.
 			as_schedule_single_action( strtotime( $bank_expire . '-8 hour' ), 'payuni_cvs_check', array( $data['MerTradeNo'] ) );
 
 			$woocommerce->cart->empty_cart();
