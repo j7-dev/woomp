@@ -8,6 +8,7 @@
 namespace PAYUNI\Gateways;
 
 use WC_Order;
+use WC_Payment_Token;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -401,51 +402,6 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 		}
 
 		/**
-		 * 信用卡表單
-		 */
-		public function render_card_form() {
-			if ( ! $this->has_token() ) {
-				$style       = ( 'payuni-credit-subscription' === $this->id ) ? 'none' : 'flex';
-				$checked     = ( 'payuni-credit-subscription' === $this->id ) ? 'checked' : '';
-				$description = ( $this->description ) ? '<p style="margin:0;padding:10px">' . $this->description . '</p>' : '';
-				$html        = $description . '
-				<div class="payuni-form-container">
-					<div class="payuni-field-container">
-						<label for="' . $this->id . '-cardnumber">卡號</label>
-						<input id="' . $this->id . '-cardnumber" class="cardnumber" placeholder="ex:0123 4567 8910 1112" type="text" pattern="[0-9]*" inputmode="numeric" name="' . $this->id . '-card_number" value="" style="background:#fff">
-					</div>
-					<div class="payuni-field-container">
-						<label for="' . $this->id . '-expirationdate">到期日 (mm/yy)</label>
-						<input id="' . $this->id . '-expirationdate" class="expirationdate" placeholder="ex:01/23" type="text" pattern="[0-9]*" inputmode="numeric" name="' . $this->id . '-card_expiry" style="background:#fff">
-					</div>
-					<div class="payuni-field-container">
-						<label for="' . $this->id . '-securitycode">安全碼</label>
-						<input id="' . $this->id . '-securitycode" class="securitycode" placeholder="ex:123" type="text" maxlength=3 pattern="[0-9]*" inputmode="numeric" name="' . $this->id . '-card_cvc" style="background:#fff">
-					</div>
-					<div style="display:' . $style . '">
-						<input id="' . $this->id . '-remember" type="checkbox" name="' . $this->id . '-card_remember" style="width:auto; margin:0" ' . $checked . '>
-						<label for="' . $this->id . '-remember" style="padding:0 0 0 5px; position:relative; margin-bottom:0; cursor:pointer">記憶卡號</label>
-					</div>
-				</div>';
-			} else {
-				$card4 = get_user_meta( get_current_user_id(), '_' . $this->id . '_4no', true );
-				$html  = '
-				<div>
-					<div>使用上次紀錄的信用卡結帳
-						<p style="background:#efefef;padding:10px 20px; margin:5px 0 0 0; letter-spacing:5px; border:1px solid #ccc;"> **** **** ****  ' . esc_html( $card4 ) . '</p>
-						<input type="hidden" name="' . esc_html( $this->id ) . '-card_hash" value="hash">
-					</div>
-					<div style="display:flex; margin-top: 5px;">
-						<a id="' . esc_html( $this->id ) . '" class="card-change" style="padding:0; position:relative; cursor:pointer; font-size:14px">更換信用卡?</a>
-					</div>
-				</div>
-				';
-			}
-
-			return $html;
-		}
-
-		/**
 		 * Process refund
 		 *
 		 * @param string $order_id The order id.
@@ -503,6 +459,49 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 
 		public function get_id(): string {
 			return $this->id;
+		}
+
+		/**
+		 * Gets saved payment method HTML from a token.
+		 *
+		 * @param WC_Payment_Token $token Payment Token.
+		 *
+		 * @return string Generated payment method HTML
+		 * @since 2.6.0
+		 */
+		public function get_saved_payment_method_option_html( $token ) {
+			$html = sprintf(
+				'<li class="woocommerce-SavedPaymentMethods-token">
+				<input id="wc-%1$s-payment-token-%2$s" type="radio" name="wc-%1$s-payment-token" value="%2$s" style="width:auto;" class="woocommerce-SavedPaymentMethods-tokenInput" %4$s />
+				<label for="wc-%1$s-payment-token-%2$s">%3$s</label>
+			</li>',
+				esc_attr( $this->id ),
+				esc_attr( $token->get_id() ),
+				esc_html( $this->get_display_name( $token ) ),
+				checked( $token->is_default(), true, false )
+			);
+
+			return apply_filters( 'woocommerce_payment_gateway_get_saved_payment_method_option_html', $html, $token, $this );
+		}
+
+		/**
+		 * Get type to display to user.
+		 *
+		 * @param WC_Payment_Token $token Payment Token.
+		 *
+		 * @return string
+		 * @since  2.6.0
+		 */
+		public function get_display_name( WC_Payment_Token $token ): string {
+			$display = sprintf(
+			/* translators: 1: last 4 digits 2: expiry month 3: expiry year */
+				__( '卡號末四碼：%1$s（到期日 %2$s / %3$s ）', 'woomp' ),
+				$token->get_last4(),
+				$token->get_expiry_month(),
+				substr( $token->get_expiry_year(), 2 )
+			);
+
+			return $display;
 		}
 
 	}
