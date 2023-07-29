@@ -39,7 +39,6 @@ class Subscription {
 			2
 		);
 		add_filter( 'woocommerce_available_payment_gateways', array( $class, 'conditional_payment_gateways' ), 10, 1 );
-
 	}
 
 	/**
@@ -100,15 +99,22 @@ class Subscription {
 
 	/**
 	 * 根據可變商品規格顯示付款方式
+	 *
+	 * @param array $available_gateways The available gateways.
 	 */
-	public function conditional_payment_gateways( $available_gateways ) {
+	public function conditional_payment_gateways( array $available_gateways ): array {
 		if ( ! empty( WC()->cart ) ) {
 			$product_type  = array();
 			$cart_contents = WC()->cart->get_cart_contents();
 			foreach ( $cart_contents as $values ) {
 				$product_type[] = WC_Product_Factory::get_product_type( $values['product_id'] );
 			}
-			if ( ! in_array( 'subscription', $product_type, true ) ) {
+
+			if ( count( $product_type ) < 1 ) {
+				return $available_gateways;
+			}
+
+			if ( is_checkout() && ! in_array( 'subscription', $product_type, true ) && ! in_array( 'variable-subscription', $product_type, true ) ) {
 				unset( $available_gateways['payuni-credit-subscription'] );
 			}
 		}

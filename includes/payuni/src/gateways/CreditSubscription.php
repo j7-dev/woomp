@@ -154,43 +154,6 @@ class CreditSubscription extends AbstractGateway {
 	}
 
 	/**
-	 * My Account page change payment method
-	 *
-	 * @return array
-	 */
-	public function add_payment_method(): array {
-
-		//@codingStandardsIgnoreStart
-		$number   = ( isset( $_POST[ $this->id . '-card-number' ] ) ) ? wc_clean( wp_unslash( $_POST[ $this->id . '-card-number' ] ) ) : '';
-		$expiry   = ( isset( $_POST[ $this->id . '-card-expiry' ] ) ) ? wc_clean( wp_unslash( str_replace( ' ', '', $_POST[ $this->id . '-card-expiry' ] ) ) ) : '';
-		$cvc      = ( isset( $_POST[ $this->id . '-card-cvc' ] ) ) ? wc_clean( wp_unslash( $_POST[ $this->id . '-card-cvc' ] ) ) : '';
-		$token_id = ( isset( $_POST[ 'wc-' . $this->id . '-payment-token' ] ) ) ? wc_clean( wp_unslash( $_POST[ 'wc-' . $this->id . '-payment-token' ] ) ) : '';
-		$new      = ( isset( $_POST[ 'wc-' . $this->id . '-new-payment-method' ] ) ) ? wc_clean( wp_unslash( $_POST[ 'wc-' . $this->id . '-new-payment-method' ] ) ) : '';
-		//@codingStandardsIgnoreEnd
-
-		$card_data = array(
-			'number'   => str_replace( ' ', '', $number ),
-			'expiry'   => str_replace( '/', '', $expiry ),
-			'cvc'      => $cvc,
-			'token_id' => $token_id,
-			'new'      => $new,
-		);
-
-		$request = new Request( new self() );
-		$result  = $request->build_hash_request( $card_data );
-
-		if ( $result ) {
-			$return['result'] = 'success';
-		} else {
-			$return['result'] = 'failure';
-		}
-
-		$return['redirect'] = wc_get_endpoint_url( 'payment-methods' );
-
-		return $return;
-	}
-
-	/**
 	 * Display payment detail after order table
 	 *
 	 * @param WC_Order $order The order object.

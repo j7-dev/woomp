@@ -114,12 +114,13 @@ class CreditInstallment extends AbstractGateway {
 	 */
 	public function form() {
 		parent::form(); ?>
-		<div>
-			<div style="margin: 10px 0">
-				<p style="margin-bottom:5px">選擇分期期數</p>
-				<div class="payuni_radio">
-					<select name="<?php echo esc_html( $this->id ); ?>-period"
-							style="
+		<?php if ( is_checkout() ) : ?>
+			<div>
+				<div style="margin: 10px 0">
+					<p style="margin-bottom:5px">選擇分期期數</p>
+					<div class="payuni_radio">
+						<select name="<?php echo esc_html( $this->id ); ?>-period"
+								style="
 							background: #fff url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/PjwhRE9DVFlQRSBzdmcgIFBVQkxJQyAnLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4nICAnaHR0cDovL3d3dy53My5vcmcvR3JhcGhpY3MvU1ZHLzEuMS9EVEQvc3ZnMTEuZHRkJz48c3ZnIGhlaWdodD0iNTEycHgiIGlkPSJMYXllcl8xIiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCA1MTIgNTEyOyIgdmVyc2lvbj0iMS4xIiB2aWV3Qm94PSIwIDAgNTEyIDUxMiIgd2lkdGg9IjUxMnB4IiB4bWw6c3BhY2U9InByZXNlcnZlIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIj48cGF0aCBkPSJNOTguOSwxODQuN2wxLjgsMi4xbDEzNiwxNTYuNWM0LjYsNS4zLDExLjUsOC42LDE5LjIsOC42YzcuNywwLDE0LjYtMy40LDE5LjItOC42TDQxMSwxODcuMWwyLjMtMi42ICBjMS43LTIuNSwyLjctNS41LDIuNy04LjdjMC04LjctNy40LTE1LjgtMTYuNi0xNS44djBIMTEyLjZ2MGMtOS4yLDAtMTYuNiw3LjEtMTYuNiwxNS44Qzk2LDE3OS4xLDk3LjEsMTgyLjIsOTguOSwxODQuN3oiLz48L3N2Zz4=) no-repeat 99% 50% !important;
 							background-size: 16px 12px!important;
 							-moz-appearance: none;
@@ -127,18 +128,19 @@ class CreditInstallment extends AbstractGateway {
 							appearance: none;
 							padding-left: 13px;display:block;width:100%;cursor:pointer
 						">
-						<?php
-						if ( $this->get_option( 'number_of_periods' ) ) {
-							foreach ( $this->get_option( 'number_of_periods' ) as $key => $value ) {
-								echo '<option value="' . esc_attr( $value ) . '">' . esc_html( $value ) . '期</option>';
+							<?php
+							if ( $this->get_option( 'number_of_periods' ) ) {
+								foreach ( $this->get_option( 'number_of_periods' ) as $key => $value ) {
+									echo '<option value="' . esc_attr( $value ) . '">' . esc_html( $value ) . '期</option>';
+								}
 							}
-						}
-						?>
-					</select>
+							?>
+						</select>
+					</div>
 				</div>
 			</div>
-		</div>
-		<?php
+			<?php
+		endif;
 	}
 
 	public function validate_fields() {
