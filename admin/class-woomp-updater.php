@@ -25,7 +25,7 @@ class WooMP_Updater {
 		$this->cache_allowed = false;
 
 		add_filter( 'plugins_api', array( $this, 'info' ), 20, 3 );
-		add_filter( 'site_transient_update_plugins', array( $this, 'update' ) );
+		add_action( 'pre_set_site_transient_update_plugins', array( $this, 'update' ) );
 		add_action( 'upgrader_process_complete', array( $this, 'purge' ), 10, 2 );
 
 	}
@@ -113,8 +113,6 @@ class WooMP_Updater {
 
 	public function update( $transient ) {
 
-		return $transient;
-
 		if ( empty( $transient->checked ) ) {
 			return $transient;
 		}
@@ -140,7 +138,7 @@ class WooMP_Updater {
 	public function purge( $upgrader, $options ) {
 
 		if ( $this->cache_allowed && 'update' === $options['action'] && 'plugin' === $options['type'] ) {
-			// just clean the cache when new plugin version is installed
+			// just clean the cache when new plugin version is installed.
 			delete_transient( $this->cache_key );
 		}
 
