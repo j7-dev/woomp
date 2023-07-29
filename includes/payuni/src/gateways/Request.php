@@ -57,15 +57,18 @@ class Request {
 			$order
 		);
 
-		Payment::log( $args, 'request' );
-
 		if ( $card_data ) {
-			if ( $order->get_meta( '_' . $this->gateway->id . '-card_hash' ) ) {
-				// 有記憶卡號的情況.
-				$data = array(
-					'CreditToken' => $order->get_billing_email(),
-					'CreditHash'  => $order->get_meta( '_' . $this->gateway->id . '-card_hash' ),
-				);
+			$data = array(
+				'CreditToken' => $order->get_billing_email(),
+			);
+
+			$order->update_meta_data( '_payuni_token_id', $card_data['token_id'] );
+			$order->update_meta_data( '_payuni_token_maybe_save', $card_data['new'] );
+			$order->save();
+
+			if ( ! empty( $card_data['token_id'] ) && 'new' !== $card_data['token_id'] ) {
+				$token              = \WC_Payment_Tokens::get( $card_data['token_id'] );
+				$data['CreditHash'] = $token->get_token();
 			} else {
 				$data = array(
 					'CardNo'      => $card_data['number'],
@@ -75,16 +78,8 @@ class Request {
 				);
 			}
 
-			// 如果是定期定額走 WC_Payment_Token 機制.
-			if ( 'payuni-credit-subscription' === $order->get_payment_method() ) {
-				$order->update_meta_data( '_payuni_token_id', $card_data['token_id'] );
-				$order->update_meta_data( '_payuni_token_maybe_save', $card_data['new'] );
-				$order->save();
-
-				if ( ! empty( $card_data['token_id'] ) && 'new' !== $card_data['token_id'] ) {
-					$token              = \WC_Payment_Tokens::get( $card_data['token_id'] );
-					$data['CreditHash'] = $token->get_token();
-				}
+			if ( $card_data['period'] ) {
+				$data['CardInst'] = $card_data['period'];
 			}
 
 			$args = array_merge(
@@ -140,7 +135,7 @@ class Request {
 
 		unset( $data['Card6No'] ); // remove card number from log.
 
-		\PAYUNI\APIs\Payment::log( $data, 'request' );
+		Payment::log( $data, 'request' );
 
 		// 結帳頁顯示錯誤訊息.
 		if ( 'SUCCESS' !== $data['Status'] ) {

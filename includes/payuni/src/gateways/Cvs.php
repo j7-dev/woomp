@@ -37,7 +37,13 @@ class Cvs extends AbstractGateway {
 		$this->description      = $this->get_option( 'description' );
 		$this->api_endpoint_url = 'api/cvs';
 
-		add_action( 'woocommerce_update_options_payment_gateways_' . $this->id, array( $this, 'process_admin_options' ) );
+		add_action(
+			'woocommerce_update_options_payment_gateways_' . $this->id,
+			array(
+				$this,
+				'process_admin_options',
+			)
+		);
 		add_filter( 'payuni_transaction_args_' . $this->id, array( $this, 'add_args' ), 10, 2 );
 	}
 
@@ -77,14 +83,16 @@ class Cvs extends AbstractGateway {
 	/**
 	 * Filter payment api arguments for atm
 	 *
-	 * @param array    $args The payment api arguments.
+	 * @param array    $args  The payment api arguments.
 	 * @param WC_Order $order The order object.
+	 *
 	 * @return array
 	 */
 	public function add_args( $args, $order ) {
 		$data = array(
 			'NotifyURL' => home_url( 'wc-api/payuni_notify_cvs' ),
 		);
+
 		return array_merge(
 			$args,
 			$data
@@ -95,9 +103,10 @@ class Cvs extends AbstractGateway {
 	 * Process payment
 	 *
 	 * @param string $order_id The order id.
+	 *
 	 * @return array
 	 */
-	public function process_payment( $order_id ) {
+	public function process_payment( $order_id ): array {
 
 		$order = new \WC_Order( $order_id );
 
@@ -114,6 +123,7 @@ class Cvs extends AbstractGateway {
 	 * Display payment detail after order table
 	 *
 	 * @param WC_Order $order The order object.
+	 *
 	 * @return void
 	 */
 	public function get_detail_after_order_table( $order ) {

@@ -7,6 +7,8 @@
 
 namespace PAYUNI\Gateways;
 
+use WC_Order;
+
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -35,10 +37,16 @@ class Credit extends AbstractGateway {
 
 		$this->title            = $this->get_option( 'title' );
 		$this->description      = $this->get_option( 'description' );
-		$this->supports         = array( 'products', 'refunds' );
+		$this->supports         = array( 'products', 'refunds', 'tokenization' );
 		$this->api_endpoint_url = 'api/credit';
 
-		add_action( 'woocommerce_update_options_payment_gateways_' . $this->id, array( $this, 'process_admin_options' ) );
+		add_action(
+			'woocommerce_update_options_payment_gateways_' . $this->id,
+			array(
+				$this,
+				'process_admin_options',
+			)
+		);
 		add_filter( 'payuni_transaction_args_' . $this->id, array( $this, 'add_args' ), 10, 2 );
 	}
 
@@ -75,39 +83,11 @@ class Credit extends AbstractGateway {
 	}
 
 	/**
-	 * Payment fields
-	 */
-	public function payment_fields() { ?>
-		<?php do_action( 'woocommerce_credit_card_form_start', $this->id ); ?>
-		<div>
-			<?php echo $this->render_card_form(); ?>
-		</div>
-		<?php
-		do_action( 'woocommerce_credit_card_form_end', $this->id );
-	}
-
-	public function validate_fields() {
-
-		if ( ! $this->has_token() ) {
-			if ( empty( $_POST[ $this->id . '-card_number' ] ) ) {
-				wc_add_notice( __( 'Credit card number is required', 'woomp' ), 'error' );
-			}
-
-			if ( empty( $_POST[ $this->id . '-card_expiry' ] ) ) {
-				wc_add_notice( __( 'Credit card expired date is required', 'woomp' ), 'error' );
-			}
-
-			if ( empty( $_POST[ $this->id . '-card_cvc' ] ) ) {
-				wc_add_notice( __( 'Credit card security code is required', 'woomp' ), 'error' );
-			}
-		}
-	}
-
-	/**
 	 * Filter payment api arguments for atm
 	 *
-	 * @param array    $args The payment api arguments.
+	 * @param array    $args  The payment api arguments.
 	 * @param WC_Order $order The order object.
+	 *
 	 * @return array
 	 */
 	public function add_args( $args, $order ) {
@@ -117,40 +97,42 @@ class Credit extends AbstractGateway {
 			$data['NotifyURL'] = home_url( 'wc-api/payuni_notify_card' );
 			$data['ReturnURL'] = home_url( 'wc-api/payuni_notify_card' );
 		}
+
 		return array_merge(
 			$args,
 			$data
 		);
 	}
 
-
 	/**
 	 * Process payment
 	 *
 	 * @param string $order_id The order id.
+	 *
 	 * @return array
 	 */
-	public function process_payment( $order_id ) {
+	public function process_payment( $order_id ): array {
 
-		$order = new \WC_Order( $order_id );
+		$order = new WC_Order( $order_id );
+
+		//@codingStandardsIgnoreStart
+		$number   = ( isset( $_POST[ $this->id . '-card-number' ] ) ) ? wc_clean( wp_unslash( $_POST[ $this->id . '-card-number' ] ) ) : '';
+		$expiry   = ( isset( $_POST[ $this->id . '-card-expiry' ] ) ) ? wc_clean( wp_unslash( str_replace( ' ', '', $_POST[ $this->id . '-card-expiry' ] ) ) ) : '';
+		$cvc      = ( isset( $_POST[ $this->id . '-card-cvc' ] ) ) ? wc_clean( wp_unslash( $_POST[ $this->id . '-card-cvc' ] ) ) : '';
+		$token_id = ( isset( $_POST[ 'wc-' . $this->id . '-payment-token' ] ) ) ? wc_clean( wp_unslash( $_POST[ 'wc-' . $this->id . '-payment-token' ] ) ) : '';
+		$new      = ( isset( $_POST[ 'wc-' . $this->id . '-new-payment-method' ] ) ) ? wc_clean( wp_unslash( $_POST[ 'wc-' . $this->id . '-new-payment-method' ] ) ) : '';
+		//@codingStandardsIgnoreEnd
 
 		$card_data = array(
-			'number' => str_replace( ' ', '', sanitize_text_field( $_POST[ $this->id . '-card_number' ] ) ),
-			'expiry' => str_replace( '/', '', sanitize_text_field( $_POST[ $this->id . '-card_expiry' ] ) ),
-			'cvc'    => sanitize_text_field( $_POST[ $this->id . '-card_cvc' ] ),
+			'number'   => str_replace( ' ', '', $number ),
+			'expiry'   => str_replace( '/', '', $expiry ),
+			'cvc'      => $cvc,
+			'token_id' => $token_id,
+			'new'      => $new,
 		);
 
-		if ( isset( $_POST[ $this->id . '-card_remember' ] ) && ! empty( $_POST[ $this->id . '-card_remember' ] ) ) {
-			$order->update_meta_data( '_' . $this->id . '-card_remember', sanitize_text_field( $_POST[ $this->id . '-card_remember' ] ) );
-		}
-
-		if ( isset( $_POST[ $this->id . '-card_hash' ] ) && 'hash' === $_POST[ $this->id . '-card_hash' ] ) {
-			$order->update_meta_data( '_' . $this->id . '-card_hash', get_user_meta( get_current_user_id(), '_' . $this->id . '_hash', true ) );
-		}
-
-		$order->save();
-
 		$request = new Request( new self() );
+
 		return $request->build_request( $order, $card_data );
 	}
 
@@ -158,6 +140,7 @@ class Credit extends AbstractGateway {
 	 * Display payment detail after order table
 	 *
 	 * @param WC_Order $order The order object.
+	 *
 	 * @return void
 	 */
 	public function get_detail_after_order_table( $order ) {

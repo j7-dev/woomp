@@ -7,6 +7,8 @@
 
 namespace PAYUNI\Gateways;
 
+use WC_Order;
+
 defined( 'ABSPATH' ) || exit;
 
 if ( class_exists( 'WC_Payment_Gateway' ) ) {
@@ -311,6 +313,91 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 			}
 
 			return false;
+		}
+
+		/**
+		 * Payment form on checkout page copy from WC_Payment_Gateway_CC
+		 * To add the input name and get value with $_POST
+		 *
+		 * @return void
+		 */
+
+		public function form() {
+			wp_enqueue_script( 'wc-credit-card-form' );
+
+			$fields = array();
+
+			$cvc_field = '<p class="form-row form-row-last">
+			<label for="' . esc_attr( $this->id ) . '-card-cvc">' . esc_html__( 'Card code', 'woocommerce' ) . '&nbsp;<span class="required">*</span></label>
+			<input id="' . esc_attr( $this->id ) . '-card-cvc" name="' . esc_attr( $this->id ) . '-card-cvc" class="input-text wc-credit-card-form-card-cvc" inputmode="numeric" autocomplete="off" autocorrect="no" autocapitalize="no" spellcheck="no" type="tel" maxlength="3" placeholder="' . esc_attr__( 'CVC', 'woocommerce' ) . '" ' . $this->field_name( 'card-cvc' ) . ' style="width:100px;font-size:15px" />
+		</p>';
+
+			$default_fields = array(
+				'card-number-field' => '<p class="form-row form-row-wide">
+				<label for="' . esc_attr( $this->id ) . '-card-number">' . esc_html__( 'Card number', 'woocommerce' ) . '&nbsp;<span class="required">*</span></label>
+				<input id="' . esc_attr( $this->id ) . '-card-number" name="' . esc_attr( $this->id ) . '-card-number" class="input-text wc-credit-card-form-card-number" inputmode="numeric" autocomplete="cc-number" autocorrect="no" autocapitalize="no" spellcheck="no" style="font-size:15px" type="tel" placeholder="&bull;&bull;&bull;&bull; &bull;&bull;&bull;&bull; &bull;&bull;&bull;&bull; &bull;&bull;&bull;&bull;" ' . $this->field_name( 'card-number' ) . ' />
+			</p>',
+				'card-expiry-field' => '<p class="form-row form-row-first">
+				<label for="' . esc_attr( $this->id ) . '-card-expiry">' . esc_html__( 'Expiry (MM/YY)', 'woocommerce' ) . '&nbsp;<span class="required">*</span></label>
+				<input id="' . esc_attr( $this->id ) . '-card-expiry" name="' . esc_attr( $this->id ) . '-card-expiry" class="input-text wc-credit-card-form-card-expiry" inputmode="numeric" autocomplete="cc-exp" autocorrect="no" maxlength="7" autocapitalize="no" spellcheck="no" style="font-size:15px" type="tel" placeholder="' . esc_attr__( 'MM / YY', 'woocommerce' ) . '" ' . $this->field_name( 'card-expiry' ) . ' />
+			</p>',
+			);
+
+			if ( ! $this->supports( 'credit_card_form_cvc_on_saved_method' ) ) {
+				$default_fields['card-cvc-field'] = $cvc_field;
+			}
+
+			$fields = wp_parse_args( $fields, apply_filters( 'woocommerce_credit_card_form_fields', $default_fields, $this->id ) );
+			?>
+
+			<fieldset id="wc-<?php echo esc_attr( $this->id ); ?>-cc-form" class='wc-credit-card-form wc-payment-form'>
+				<?php do_action( 'woocommerce_credit_card_form_start', $this->id ); ?>
+				<?php
+				foreach ( $fields as $field ) {
+					echo $field; // phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped
+				}
+				?>
+				<?php do_action( 'woocommerce_credit_card_form_end', $this->id ); ?>
+				<div class="clear"></div>
+			</fieldset>
+			<?php
+
+			if ( $this->supports( 'credit_card_form_cvc_on_saved_method' ) ) {
+				echo '<fieldset>' . $cvc_field . '</fieldset>'; // phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped
+			}
+		}
+
+		/**
+		 * Validate payment fields
+		 *
+		 * @return void|bool
+		 */
+		public function validate_fields() {
+			//@codingStandardsIgnoreStart
+			if ( $this->id !== $_POST['payment_method'] ) {
+				return false;
+			}
+
+			if ( ! isset( $_POST[ 'wc-' . $this->id . '-payment-token' ] ) ) {
+				return false;
+			}
+
+			if ( 'new' !== $_POST[ 'wc-' . $this->id . '-payment-token' ] && isset( $_POST[ 'wc-' . $this->id . '-payment-token' ] ) ) {
+				return false;
+			}
+
+			if ( empty( $_POST[ $this->id . '-card-number' ] ) ) {
+				wc_add_notice( __( 'Credit card number is required', 'woomp' ), 'error' );
+			}
+
+			if ( empty( $_POST[ $this->id . '-card-expiry' ] ) ) {
+				wc_add_notice( __( 'Credit card expired date is required', 'woomp' ), 'error' );
+			}
+
+			if ( empty( $_POST[ $this->id . '-card-cvc' ] ) ) {
+				wc_add_notice( __( 'Credit card security code is required', 'woomp' ), 'error' );
+			}
+			//@codingStandardsIgnoreEnd
 		}
 
 		/**

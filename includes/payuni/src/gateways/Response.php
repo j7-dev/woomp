@@ -109,32 +109,21 @@ class Response {
 		$status_failed  = ( 'WC_Subscription' === get_class( $order ) ) ? 'on-hold' : 'failed';
 
 		if ( 'SUCCESS' === $status ) {
-			$user_id  = $order->get_customer_id();
-			$method   = $order->get_meta( '_payment_method' );
-			$remember = $order->get_meta( '_' . $method . '-card_remember' );
-
-			if ( $user_id && $remember ) {
-				update_user_meta( $user_id, '_' . $method . '_4no', $card_4no );
-				update_user_meta( $user_id, '_' . $method . '_hash', $card_hash );
-			}
+			$method = $order->get_meta( '_payment_method' );
 
 			$order->update_status( $status_success );
+			$order->update_meta_data( '_payuni_card_hash', $card_hash );
 
-			// 設定 WC_Payment_Tokens.
-			if ( 'payuni-credit-subscription' === $method ) {
-				$order->update_meta_data( '_payuni_card_hash', $card_hash );
-
-				if ( $order->get_meta( '_payuni_token_maybe_save' ) ) {
-					$token = new \WC_Payment_Token_CC();
-					$token->set_token( $card_hash );
-					$token->set_gateway_id( $method );
-					$token->set_card_type( 'visa' );
-					$token->set_last4( $card_4no );
-					$token->set_expiry_month( $card_expiry_month );
-					$token->set_expiry_year( $card_expiry_year );
-					$token->set_user_id( $order->get_customer_id() );
-					$token->save();
-				}
+			if ( $order->get_meta( '_payuni_token_maybe_save' ) ) {
+				$token = new \WC_Payment_Token_CC();
+				$token->set_token( $card_hash );
+				$token->set_gateway_id( $method );
+				$token->set_card_type( 'visa' );
+				$token->set_last4( $card_4no );
+				$token->set_expiry_month( $card_expiry_month );
+				$token->set_expiry_year( $card_expiry_year );
+				$token->set_user_id( $order->get_customer_id() );
+				$token->save();
 			}
 		} else {
 			$order->update_status( $status_failed );

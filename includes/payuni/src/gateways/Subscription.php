@@ -108,8 +108,8 @@ class Subscription {
 			foreach ( $cart_contents as $values ) {
 				$product_type[] = WC_Product_Factory::get_product_type( $values['product_id'] );
 			}
-			if ( in_array( 'subscription', $product_type ) ) {
-				unset( $available_gateways['payuni-credit'] );
+			if ( ! in_array( 'subscription', $product_type, true ) ) {
+				unset( $available_gateways['payuni-credit-subscription'] );
 			}
 		}
 

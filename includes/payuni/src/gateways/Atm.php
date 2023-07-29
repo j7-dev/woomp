@@ -38,10 +38,13 @@ class Atm extends AbstractGateway {
 		$this->api_endpoint_url = 'api/atm';
 		$this->supports         = array( 'products' );
 
-		add_action( 'woocommerce_update_options_payment_gateways_' . $this->id, array(
-			$this,
-			'process_admin_options'
-		) );
+		add_action(
+			'woocommerce_update_options_payment_gateways_' . $this->id,
+			array(
+				$this,
+				'process_admin_options',
+			)
+		);
 		add_filter( 'payuni_transaction_args_' . $this->id, array( $this, 'add_args' ), 10, 2 );
 		add_action( 'payuni_atm_check', array( $this, 'atm_expire' ), 10, 1 );
 		add_action( 'woocommerce_email_order_meta', array( $this, 'get_account_info' ), 10, 3 );
@@ -122,7 +125,7 @@ class Atm extends AbstractGateway {
 	 *
 	 * @return array
 	 */
-	public function process_payment( $order_id ) {
+	public function process_payment( $order_id ): array {
 
 		$order = new \WC_Order( $order_id );
 

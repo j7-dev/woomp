@@ -7,6 +7,8 @@
 
 namespace PAYUNI\Gateways;
 
+use WC_Order;
+
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -21,10 +23,9 @@ class CreditInstallment extends AbstractGateway {
 
 		parent::__construct();
 
-		$this->plugin_name = 'payuni-payment-credit-installment';
-		$this->version     = '1.0.0';
-		$this->has_fields  = true;
-		// $this->order_button_text  = __( '統一金流 PAYUNi 信用卡分期', 'woomp' );
+		$this->plugin_name        = 'payuni-payment-credit-installment';
+		$this->version            = '1.0.0';
+		$this->has_fields         = true;
 		$this->id                 = 'payuni-credit-installment';
 		$this->method_title       = __( '統一金流 PAYUNi 信用卡分期', 'woomp' );
 		$this->method_description = __( '透過統一金流 PAYUNi 信用卡分期進行站內付款', 'woomp' );
@@ -35,10 +36,16 @@ class CreditInstallment extends AbstractGateway {
 		$this->title             = $this->get_option( 'title' );
 		$this->description       = $this->get_option( 'description' );
 		$this->api_endpoint_url  = 'api/credit';
-		$this->supports          = array( 'products', 'refunds' );
+		$this->supports          = array( 'products', 'refunds', 'tokenization' );
 		$this->number_of_periods = $this->get_option( 'number_of_periods', array() );
 
-		add_action( 'woocommerce_update_options_payment_gateways_' . $this->id, array( $this, 'process_admin_options' ) );
+		add_action(
+			'woocommerce_update_options_payment_gateways_' . $this->id,
+			array(
+				$this,
+				'process_admin_options',
+			)
+		);
 		add_filter( 'payuni_transaction_args_' . $this->id, array( $this, 'add_args' ), 10, 2 );
 	}
 
@@ -105,44 +112,38 @@ class CreditInstallment extends AbstractGateway {
 	/**
 	 * Payment fields
 	 */
-	public function payment_fields() { ?>
-		<?php do_action( 'woocommerce_credit_card_form_start', $this->id ); ?>
+	public function form() {
+		parent::form(); ?>
 		<div>
-			<?php echo $this->render_card_form(); ?>
-			<div style="margin-top: 10px">
+			<div style="margin: 10px 0">
 				<p style="margin-bottom:5px">選擇分期期數</p>
 				<div class="payuni_radio">
-					<select name="<?php echo esc_html( $this->id ); ?>-period" class="select">
-					<?php
-					if ( $this->get_option( 'number_of_periods' ) ) {
-						foreach ( $this->get_option( 'number_of_periods' ) as $key => $value ) {
-							echo '<option value="' . esc_attr( $value ) . '">' . esc_html( $value ) . '期</option>';
+					<select name="<?php echo esc_html( $this->id ); ?>-period"
+							style="
+							background: #fff url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/PjwhRE9DVFlQRSBzdmcgIFBVQkxJQyAnLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4nICAnaHR0cDovL3d3dy53My5vcmcvR3JhcGhpY3MvU1ZHLzEuMS9EVEQvc3ZnMTEuZHRkJz48c3ZnIGhlaWdodD0iNTEycHgiIGlkPSJMYXllcl8xIiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCA1MTIgNTEyOyIgdmVyc2lvbj0iMS4xIiB2aWV3Qm94PSIwIDAgNTEyIDUxMiIgd2lkdGg9IjUxMnB4IiB4bWw6c3BhY2U9InByZXNlcnZlIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIj48cGF0aCBkPSJNOTguOSwxODQuN2wxLjgsMi4xbDEzNiwxNTYuNWM0LjYsNS4zLDExLjUsOC42LDE5LjIsOC42YzcuNywwLDE0LjYtMy40LDE5LjItOC42TDQxMSwxODcuMWwyLjMtMi42ICBjMS43LTIuNSwyLjctNS41LDIuNy04LjdjMC04LjctNy40LTE1LjgtMTYuNi0xNS44djBIMTEyLjZ2MGMtOS4yLDAtMTYuNiw3LjEtMTYuNiwxNS44Qzk2LDE3OS4xLDk3LjEsMTgyLjIsOTguOSwxODQuN3oiLz48L3N2Zz4=) no-repeat 99% 50% !important;
+							background-size: 16px 12px!important;
+							-moz-appearance: none;
+							-webkit-appearance: none;
+							appearance: none;
+							padding-left: 13px;display:block;width:100%;cursor:pointer
+						">
+						<?php
+						if ( $this->get_option( 'number_of_periods' ) ) {
+							foreach ( $this->get_option( 'number_of_periods' ) as $key => $value ) {
+								echo '<option value="' . esc_attr( $value ) . '">' . esc_html( $value ) . '期</option>';
+							}
 						}
-					}
-					?>
+						?>
 					</select>
 				</div>
-			</div>	
+			</div>
 		</div>
 		<?php
-		do_action( 'woocommerce_credit_card_form_end', $this->id );
 	}
 
 	public function validate_fields() {
 
-		if ( ! $this->has_token() ) {
-			if ( empty( $_POST[ $this->id . '-card_number' ] ) ) {
-				wc_add_notice( __( 'Credit card number is required', 'woomp' ), 'error' );
-			}
-
-			if ( empty( $_POST[ $this->id . '-card_expiry' ] ) ) {
-				wc_add_notice( __( 'Credit card expired date is required', 'woomp' ), 'error' );
-			}
-
-			if ( empty( $_POST[ $this->id . '-card_cvc' ] ) ) {
-				wc_add_notice( __( 'Credit card security code is required', 'woomp' ), 'error' );
-			}
-		}
+		parent::validate_fields();
 
 		if ( empty( $_POST[ $this->id . '-period' ] ) ) {
 			wc_add_notice( __( 'Credit card installment period is required', 'woomp' ), 'error' );
@@ -154,54 +155,53 @@ class CreditInstallment extends AbstractGateway {
 	 * Process payment
 	 *
 	 * @param string $order_id The order id.
+	 *
 	 * @return array
 	 */
-	public function process_payment( $order_id ) {
+	public function process_payment( $order_id ): array {
 
-		$order = new \WC_Order( $order_id );
+		$order = new WC_Order( $order_id );
+
+		//@codingStandardsIgnoreStart
+		$number   = ( isset( $_POST[ $this->id . '-card-number' ] ) ) ? wc_clean( wp_unslash( $_POST[ $this->id . '-card-number' ] ) ) : '';
+		$expiry   = ( isset( $_POST[ $this->id . '-card-expiry' ] ) ) ? wc_clean( wp_unslash( str_replace( ' ', '', $_POST[ $this->id . '-card-expiry' ] ) ) ) : '';
+		$cvc      = ( isset( $_POST[ $this->id . '-card-cvc' ] ) ) ? wc_clean( wp_unslash( $_POST[ $this->id . '-card-cvc' ] ) ) : '';
+		$period   = ( isset( $_POST[ $this->id . '-period' ] ) ) ? wc_clean( wp_unslash( $_POST[ $this->id . '-period' ] ) ) : '';
+		$token_id = ( isset( $_POST[ 'wc-' . $this->id . '-payment-token' ] ) ) ? wc_clean( wp_unslash( $_POST[ 'wc-' . $this->id . '-payment-token' ] ) ) : '';
+		$new      = ( isset( $_POST[ 'wc-' . $this->id . '-new-payment-method' ] ) ) ? wc_clean( wp_unslash( $_POST[ 'wc-' . $this->id . '-new-payment-method' ] ) ) : '';
+		//@codingStandardsIgnoreEnd
 
 		$card_data = array(
-			'number' => str_replace( ' ', '', sanitize_text_field( $_POST[ $this->id . '-card_number' ] ) ),
-			'expiry' => str_replace( '/', '', sanitize_text_field( $_POST[ $this->id . '-card_expiry' ] ) ),
-			'cvc'    => sanitize_text_field( $_POST[ $this->id . '-card_cvc' ] ),
+			'number'   => str_replace( ' ', '', $number ),
+			'expiry'   => str_replace( '/', '', $expiry ),
+			'cvc'      => $cvc,
+			'token_id' => $token_id,
+			'new'      => $new,
+			'period'   => $period,
 		);
 
-		if ( isset( $_POST[ $this->id . '-card_remember' ] ) && ! empty( $_POST[ $this->id . '-card_remember' ] ) ) {
-			$order->update_meta_data( '_' . $this->id . '-card_remember', sanitize_text_field( $_POST[ $this->id . '-card_remember' ] ) );
-		}
-
-		if ( isset( $_POST[ $this->id . '-card_hash' ] ) && 'hash' === $_POST[ $this->id . '-card_hash' ] ) {
-			$order->update_meta_data( '_' . $this->id . '-card_hash', get_user_meta( get_current_user_id(), '_' . $this->id . '_hash', true ) );
-		}
-
-		if ( isset( $_POST[ $this->id . '-period' ] ) && ! empty( $_POST[ $this->id . '-period' ] ) ) {
-			$order->update_meta_data( '_' . $this->id . '-period', sanitize_text_field( $_POST[ $this->id . '-period' ] ) );
-		}
-
-		$order->save();
-
 		$request = new Request( new self() );
+
 		return $request->build_request( $order, $card_data );
 
-		
 	}
 
 	/**
 	 * Filter payment api arguments for virtual account payment
 	 *
-	 * @param array    $args The payment api arguments.
+	 * @param array    $args  The payment api arguments.
 	 * @param WC_Order $order The order object.
+	 *
 	 * @return array
 	 */
 	public function add_args( $args, $order ) {
-		$data = array(
-			'CardInst'  => $order->get_meta( '_' . $this->id . '-period' ),
-		);
+		$data = array();
 		if ( wc_string_to_bool( get_option( 'payuni_3d_auth' ) ) ) {
-			$data['API3D'] = 1;
+			$data['API3D']     = 1;
 			$data['NotifyURL'] = home_url( 'wc-api/payuni_notify_card' );
 			$data['ReturnURL'] = home_url( 'wc-api/payuni_notify_card' );
 		}
+
 		return array_merge(
 			$args,
 			$data
@@ -212,6 +212,7 @@ class CreditInstallment extends AbstractGateway {
 	 * Display payment detail after order table
 	 *
 	 * @param WC_Order $order The order object.
+	 *
 	 * @return void
 	 */
 	public function get_detail_after_order_table( $order ) {
