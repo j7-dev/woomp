@@ -105,6 +105,9 @@ class Response {
 
 		$order->add_order_note( "<strong>統一金流交易紀錄</strong><br>狀態碼：{$status}<br>交易訊息：{$message}<br>交易編號：{$trade_no}<br>卡號末四碼：{$card_4no}", true );
 
+		$status_success = ( 'WC_Subscription' === get_class( $order ) ) ? 'active' : 'processing';
+		$status_failed  = ( 'WC_Subscription' === get_class( $order ) ) ? 'on-hold' : 'failed';
+
 		if ( 'SUCCESS' === $status ) {
 			$user_id  = $order->get_customer_id();
 			$method   = $order->get_meta( '_payment_method' );
@@ -114,7 +117,8 @@ class Response {
 				update_user_meta( $user_id, '_' . $method . '_4no', $card_4no );
 				update_user_meta( $user_id, '_' . $method . '_hash', $card_hash );
 			}
-			$order->update_status( 'processing' );
+
+			$order->update_status( $status_success );
 
 			// 設定 WC_Payment_Tokens.
 			if ( 'payuni-credit-subscription' === $method ) {
@@ -133,7 +137,7 @@ class Response {
 				}
 			}
 		} else {
-			$order->update_status( 'failed' );
+			$order->update_status( $status_failed );
 		}
 
 		if ( $woocommerce->cart ) {
@@ -145,7 +149,9 @@ class Response {
 		// 0 元訂閱訂單要做退款.
 		if ( 0 === (int) WC_Subscriptions_Order::get_total_initial_payment( $order ) ) {
 			// 要等建立訂單的 API 完成才能進行退款，所以延遲一分鐘再執行.
-			as_schedule_single_action( strtotime( current_time( 'Y-m-d H:i:s' ) . '-8 hour + 1 minute' ), 'payuni_hash_refund', array( $trade_no ) );
+			if ( $trade_no ) {
+				as_schedule_single_action( strtotime( current_time( 'Y-m-d H:i:s' ) . '-8 hour + 1 minute' ), 'payuni_hash_refund', array( $trade_no ) );
+			}
 		}
 
 		if ( ! $resp ) {

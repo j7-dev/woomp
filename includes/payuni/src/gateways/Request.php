@@ -7,6 +7,7 @@
 
 namespace PAYUNI\Gateways;
 
+use PAYUNI\APIs\Payment;
 use WC_Order;
 
 defined( 'ABSPATH' ) || exit;
@@ -56,6 +57,8 @@ class Request {
 			$order
 		);
 
+		Payment::log( $args, 'request' );
+
 		if ( $card_data ) {
 			if ( $order->get_meta( '_' . $this->gateway->id . '-card_hash' ) ) {
 				// 有記憶卡號的情況.
@@ -72,7 +75,7 @@ class Request {
 				);
 			}
 
-			// 如果是定期定額走 WC_Payment_Token 機制
+			// 如果是定期定額走 WC_Payment_Token 機制.
 			if ( 'payuni-credit-subscription' === $order->get_payment_method() ) {
 				$order->update_meta_data( '_payuni_token_id', $card_data['token_id'] );
 				$order->update_meta_data( '_payuni_token_maybe_save', $card_data['new'] );
@@ -144,7 +147,7 @@ class Request {
 			wc_add_notice( $data['Message'], 'error' );
 		}
 
-		if ( $data['URL'] ) {
+		if ( key_exists( 'URL', $data ) ) {
 			return array(
 				'result'   => 'success',
 				'redirect' => $data['URL'],
