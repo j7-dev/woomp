@@ -44,12 +44,12 @@ class Subscription {
 	/**
 	 * Process subscription payment
 	 *
-	 * @param float    $amount The amount.
+	 * @param int      $amount The amount.
 	 * @param WC_Order $order  The order object.
 	 *
 	 * @return void
 	 */
-	public function process_subscription_payment( float $amount, WC_Order $order ): void {
+	public function process_subscription_payment( int $amount, WC_Order $order ): void {
 		$request = new Request( new CreditSubscription() );
 		$request->build_subscription_request( $amount, $order );
 	}
