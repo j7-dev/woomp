@@ -433,13 +433,13 @@ class Paynow_Einvoice {
 						'CarrierType'		=>  "'".$carrier_type,
 						'CarrierID_1'		=>  "'".$carrier_id1,
 						'CarrierID_2'		=>  "'".$carrier_id1,//發票隱碼
-						'LoveCode'			=>  "'".$love_code,
+						'LoveCode'			=>  "'".substr($love_code, 0, 8),
 
 						'Description'		=>  "'".$order_item->get_name(),
 						'Quantity'			=>  "'".$qty = ($order_item->get_type() == 'line_item')? $order_item->get_quantity(): '1',
-						'UnitPrice'			=>  "'".($order_item->get_total() / $qty),
-						'Amount'			=>  "'".$order_item->get_total(),
-						'Remark'			=>  "'".$comment,
+						'UnitPrice'			=>  "'".round($order_item->get_total() / $qty),
+						'Amount'			=>  "'".round($order_item->get_total()),
+						'Remark'			=>  "'".substr($comment, 0, 25),
 
 						'ItemTaxtype'		=>  "'".$tax_type,
 						'IsPassCustoms'     =>  "'",//1:未經海關出口,2:經海關出口 (零稅率為必填非零稅率發票請留空)
