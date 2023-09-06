@@ -9,6 +9,6 @@ define( 'ECPAYINVOICE_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 /**
  * Autoload
  */
-if ( wc_string_to_bool( get_option( 'RY_WEI_enabled_invoice' ) ) || wc_string_to_bool( get_option( 'wc_woomp_enabled_ecpay_invoice' ) ) ) {
+if ( wc_string_to_bool( get_option( 'RY_WEI_enabled_invoice' ) ) && wc_string_to_bool( get_option( 'wc_woomp_enabled_ecpay_invoice' ) ) ) {
 	\A7\autoload( WOOMP_PLUGIN_DIR . 'includes/woomp-ecpay-invoice/src' );
 }
