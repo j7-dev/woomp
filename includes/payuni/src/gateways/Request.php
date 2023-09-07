@@ -96,14 +96,14 @@ class Request
 				$args,
 				$data
 			);
-
-			$args = apply_filters(
-				'payuni_transaction_args_' . $this->gateway->id,
-				$args,
-				$order,
-				$card_data
-			);
 		}
+
+		$args = apply_filters(
+			'payuni_transaction_args_' . $this->gateway->id,
+			$args,
+			$order,
+			$card_data
+		);
 
 		$parameter['MerID']       = $this->gateway->get_mer_id();
 		$parameter['Version']     = '1.0';
