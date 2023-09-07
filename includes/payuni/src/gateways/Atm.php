@@ -107,10 +107,9 @@ class Atm extends AbstractGateway {
 	 * @return array
 	 */
 	public function add_args( $args, $order ) {
-		$data = array(
-			'BankType'  => (string) $order->get_meta( '_' . $this->id . '-bank' ),
-			'NotifyURL' => home_url( 'wc-api/payuni_notify_atm' ),
-		);
+		$data = array();
+		$data['BankType'] = (string) $order->get_meta( '_' . $this->id . '-bank' );
+		$data['NotifyURL'] = home_url( 'wc-api/payuni_notify_atm' );
 
 		return array_merge(
 			$args,
