@@ -5,7 +5,7 @@
  * Plugin Name:       好用版擴充 MorePower Addon for WooCommerce
  * Plugin URI:        https://morepower.club/morepower-addon/
  * Description:       WooCommerce 好用版擴充，改善結帳流程與可變商品等區塊，讓 WooCommerce 更符合亞洲人使用習慣。
- * Version:           3.0.9
+ * Version:           3.0.10
  * Author:            MorePower
  * Author URI:        https://morepower.club
  * License:           GPL-2.0+
@@ -15,345 +15,250 @@
  * WC requires at least: 5
  * WC tested up to: 5.6.0
  */
+require_once "init.php";
+require_once "licenser/class-woomp-base.php";
 
-// If this file is called directly, abort.
-if (!defined('WPINC')) {
-	die;
-}
-
-
-/**
- * Check WooCommerce exist
- */
-if (!in_array('woocommerce/woocommerce.php', apply_filters('active_plugins', get_option('active_plugins')), true)) {
-	require_once ABSPATH . 'wp-admin/includes/plugin.php';
-
-	function require_woocommerce_notice()
-	{
-		echo '<div class="error"><p>好用版擴充啟用失敗，需要安裝並啟用 WooCommerce 5.3 以上版本。</p></div>';
-	}
-
-	if (is_plugin_active(plugin_basename(__FILE__))) {
-		deactivate_plugins(plugin_basename(__FILE__));
-		add_action('admin_notices', 'require_woocommerce_notice');
-
-		return;
-	}
-	add_action('admin_notices', 'require_woocommerce_notice');
-
-	return;
-}
-
-/**
- * Currently plugin version.
- * Start at version 1.0.0 and use SemVer - https://semver.org
- * Rename this for your plugin and update it as you release new versions.
- */
-define('WOOMP_VERSION', '3.0.0');
-define('WOOMP_PLUGIN_URL', plugin_dir_url(__FILE__));
-define('WOOMP_PLUGIN_DIR', plugin_dir_path(__FILE__));
-define('WOOMP_PLUGIN_BASENAME', plugin_basename(__FILE__));
-define('WOOMP_ACTIVE_PLUGINS', apply_filters('active_plugins', get_option('active_plugins')));
-
-require WOOMP_PLUGIN_DIR . 'vendor/autoload.php';
-
-/**
- * The code that runs during plugin activation.
- * This action is documented in includes/class-woomp-activator.php
- */
-function activate_woomp()
+class woomp_elite
 {
-	require_once plugin_dir_path(__FILE__) . 'includes/class-woomp-activator.php';
-	Woomp_Activator::activate();
-}
-
-/**
- * The code that runs during plugin deactivation.
- * This action is documented in includes/class-woomp-deactivator.php
- */
-function deactivate_woomp()
-{
-	require_once plugin_dir_path(__FILE__) . 'includes/class-woomp-deactivator.php';
-	Woomp_Deactivator::deactivate();
-}
-
-register_activation_hook(__FILE__, 'activate_woomp');
-register_deactivation_hook(__FILE__, 'deactivate_woomp');
-
-/**
- * The core plugin class that is used to define internationalization,
- * admin-specific hooks, and public-facing site hooks.
- */
-require plugin_dir_path(__FILE__) . 'includes/class-woomp.php';
-
-/**
- * Begins execution of the plugin.
- *
- * Since everything within the plugin is registered via hooks,
- * then kicking off the plugin from this point in the file does
- * not affect the page life cycle.
- *
- * @since    1.0.0
- */
-function run_woomp()
-{
-
-	$plugin = new Woomp();
-	$plugin->run();
-}
-
-run_woomp();
-
-/**
- * 指定 WC 結帳頁模板路徑
- *
- * @param string $template      Default template file path.
- * @param string $template_name Template file slug.
- * @param string $template_path Template file name.
- *
- * @return string The new Template file path.
- */
-if (get_option('wc_woomp_setting_mode', 1) === 'onepage' || get_option('wc_woomp_setting_mode', 1) === 'twopage') {
-	add_filter('wc_get_template', 'intercept_wc_template', 99, 3);
-	function intercept_wc_template($template, $template_name, $template_path)
+	public $plugin_file = __FILE__;
+	public $response_obj;
+	public $license_message;
+	public $show_message = false;
+	public $slug = "woomp";
+	public $plugin_version = '';
+	public $text_domain = '';
+	function __construct()
 	{
-		$template_directory = trailingslashit(plugin_dir_path(__FILE__)) . 'woocommerce/';
-		$path               = $template_directory . $template_name;
-
-		return file_exists($path) ? $path : $template;
-	}
-}
-
-/**
- * 加入更新機制
- */
-new WooMP_Updater();
-
-/**
- * 引入 ry-woocommerce-tools
- */
-
-if (!defined('RY_WT_VERSION')) {
-	define('RY_WT_VERSION', '1.0.0');
-	define('RY_WT_PLUGIN_URL', plugin_dir_url(__FILE__) . 'includes/ry-woocommerce-tools/');
-	define('RY_WT_PLUGIN_DIR', plugin_dir_path(__FILE__) . 'includes/ry-woocommerce-tools/');
-	define('RY_WT_PLUGIN_BASENAME', plugin_basename(__FILE__) . 'includes/ry-woocommerce-tools/');
-
-	require_once RY_WT_PLUGIN_DIR . 'class.ry-wt.main.php';
-
-	register_activation_hook(__FILE__, array('RY_WT', 'plugin_activation'));
-	register_deactivation_hook(__FILE__, array('RY_WT', 'plugin_deactivation'));
-
-	add_action('init', array('RY_WT', 'init'), 10);
-}
-
-/**
- * 引入 paynow-payment
- */
-if (!defined('PAYNOW_PLUGIN_URL') && 'yes' === get_option('wc_woomp_setting_paynow_gateway')) {
-	define('PAYNOW_PLUGIN_URL', plugin_dir_url(__FILE__) . 'includes/paynow-payment/');
-	define('PAYNOW_PLUGIN_DIR', plugin_dir_path(__FILE__) . 'includes/paynow-payment/');
-	define('PAYNOW_BASENAME', plugin_basename(__FILE__) . 'includes/paynow-payment/');
-
-	/**
-	 * Run PayNow Payment plugin.
-	 *
-	 * @return void
-	 */
-	function run_paynow_payment()
-	{
-		if (!class_exists('WC_Payment_Gateway')) {
-			wp_die('WC_Payment_Gateway not found');
+		add_action('admin_print_styles', [$this, 'set_admin_style']);
+		$this->set_plugin_data();
+		$main_lic_key = "woomp_lic_Key";
+		$lic_key_name = woomp_Base::get_lic_key_param($main_lic_key);
+		$license_key = get_option($lic_key_name, "");
+		if (empty($license_key)) {
+			$license_key = get_option($main_lic_key, "");
+			if (!empty($license_key)) {
+				update_option($lic_key_name, $license_key) || add_option($lic_key_name, $license_key);
+			}
 		}
+		$lice_email = get_option("woomp_lic_email", "");
+		woomp_Base::add_on_delete(function () {
+			update_option("woomp_lic_Key", "");
+		});
+		if (woomp_Base::check_wp_plugin($license_key, $lice_email, $this->license_message, $this->response_obj, __FILE__)) {
+			add_action('admin_menu', [$this, 'active_admin_menu'], 99999);
+			add_action('admin_post_woomp_el_deactivate_license', [$this, 'action_deactivate_license']);
+			//$this->licenselMessage=$this->mess;
+			//***Write you plugin's code here***
 
-		require_once PAYNOW_PLUGIN_DIR . 'includes/class-paynow-payment.php';
-		Paynow_Payment::init();
-	}
-
-	add_action('plugins_loaded', 'run_paynow_payment');
-}
-
-/**
- * 引入 paynow-shipping
- */
-if (!defined('PAYNOW_SHIPPING_PLUGIN_URL') && 'yes' === get_option('wc_woomp_setting_paynow_shipping')) {
-
-	define('PAYNOW_SHIPPING_PLUGIN_URL', plugin_dir_url(__FILE__) . 'includes/paynow-shipping/');
-	define('PAYNOW_SHIPPING_PLUGIN_DIR', plugin_dir_path(__FILE__) . 'includes/paynow-shipping/');
-	define('PAYNOW_SHIPPING_BASENAME', plugin_basename(__FILE__) . 'includes/paynow-shipping/');
-	define('PAYNOW_SHIPPING_TEMPLATE_DIR', plugin_dir_path(__FILE__) . 'includes/paynow-shipping//templates/');
-
-	/**
-	 * Add PayNow shipping methods.
-	 *
-	 * @param array $methods Payment methods.
-	 *
-	 * @return array
-	 */
-	function add_paynow_shipping_methods($methods)
-	{
-		$methods['paynow_shipping_c2c_711']    = 'PayNow_Shipping_C2C_711';
-		$methods['paynow_shipping_c2c_family'] = 'PayNow_Shipping_C2C_Family';
-		$methods['paynow_shipping_c2c_hilife'] = 'PayNow_Shipping_C2C_Hilife';
-		$methods['paynow_shipping_hd_tcat']    = 'PayNow_Shipping_HD_TCat';
-
-		return $methods;
-	}
-
-
-	/**
-	 * Initialize PayNow shipping.
-	 *
-	 * @return void
-	 */
-	function run_paynow_shipping()
-	{
-		if (!class_exists('WC_Shipping_Method')) {
-			return;
+		} else {
+			if (!empty($license_key) && !empty($this->license_message)) {
+				$this->show_message = true;
+			}
+			update_option($license_key, "") || add_option($license_key, "");
+			add_action('admin_post_woomp_el_activate_license', [$this, 'action_activate_license']);
+			add_action('admin_menu', [$this, 'inactive_menu']);
 		}
-
-		include_once PAYNOW_SHIPPING_PLUGIN_DIR . 'includes/class-paynow-shipping.php';
-		include_once PAYNOW_SHIPPING_PLUGIN_DIR . 'includes/admin/meta-boxes/class-paynow-shipping-order-meta-box.php';
-		include_once PAYNOW_SHIPPING_PLUGIN_DIR . 'includes/admin/meta-boxes/class-paynow-shipping-order-admin.php';
-		include_once PAYNOW_SHIPPING_PLUGIN_DIR . 'includes/utils/class-paynow-shipping-logistic-service.php';
-		include_once PAYNOW_SHIPPING_PLUGIN_DIR . 'includes/utils/class-paynow-shipping-order-meta.php';
-		include_once PAYNOW_SHIPPING_PLUGIN_DIR . 'includes/utils/class-paynow-shipping-status.php';
-		include_once PAYNOW_SHIPPING_PLUGIN_DIR . 'includes/utils/paynow-shipping-functions.php';
-		include_once PAYNOW_SHIPPING_PLUGIN_DIR . 'includes/shippings/abstract-paynow-shipping.php';
-		include_once PAYNOW_SHIPPING_PLUGIN_DIR . 'includes/shippings/class-paynow-shipping-c2c-711.php';
-		include_once PAYNOW_SHIPPING_PLUGIN_DIR . 'includes/shippings/class-paynow-shipping-c2c-family.php';
-		include_once PAYNOW_SHIPPING_PLUGIN_DIR . 'includes/shippings/class-paynow-shipping-c2c-hilife.php';
-		include_once PAYNOW_SHIPPING_PLUGIN_DIR . 'includes/shippings/class-paynow-shipping-hd-tcat.php';
-		include_once PAYNOW_SHIPPING_PLUGIN_DIR . 'includes/shippings/api/class-paynow-shipping-request.php';
-		include_once PAYNOW_SHIPPING_PLUGIN_DIR . 'includes/shippings/api/class-paynow-shipping-response.php';
-
-		add_filter('woocommerce_shipping_methods', 'add_paynow_shipping_methods');
-
-		PayNow_Shipping_Order_Admin::instance();
-		PayNow_Shipping::init();
-		PayNow_Shipping_Request::init();
-		PayNow_Shipping_Response::init();
 	}
-
-	add_action('plugins_loaded', 'run_paynow_shipping');
-}
-
-/**
- * 引入 paynow-invoice
- */
-if (!defined('PAYNOW_EINVOICE_PLUGIN_URL') && 'yes' === get_option('wc_settings_tab_active_paynow_einvoice')) {
-	define('PAYNOW_EINVOICE_PLUGIN_URL', plugin_dir_url(__FILE__) . 'includes/paynow-einvoice/');
-	define('PAYNOW_EINVOICE_PLUGIN_DIR', plugin_dir_path(__FILE__) . 'includes/paynow-einvoice/');
-	define('PAYNOW_EINVOICE_BASENAME', plugin_basename(__FILE__) . 'includes/paynow-einvoice/');
-
-	/**
-	 * Currently plugin version.
-	 * Start at version 1.0.0 and use SemVer - https://semver.org
-	 * Rename this for your plugin and update it as you release new versions.
-	 */
-	define('PAYNOW_EINVOICE_VERSION', '1.0.0');
-
-	/**
-	 * The code that runs during plugin activation.
-	 * This action is documented in includes/class-paynow-einvoice-activator.php
-	 */
-	function activate_paynow_einvoice()
+	public function set_plugin_data()
 	{
-		require_once PAYNOW_EINVOICE_PLUGIN_DIR . 'includes/class-paynow-einvoice-activator.php';
-		Paynow_Einvoice_Activator::activate();
-	}
-
-	/**
-	 * The code that runs during plugin deactivation.
-	 * This action is documented in includes/class-paynow-einvoice-deactivator.php
-	 */
-	function deactivate_paynow_einvoice()
-	{
-		require_once PAYNOW_EINVOICE_PLUGIN_DIR . 'includes/class-paynow-einvoice-deactivator.php';
-		Paynow_Einvoice_Deactivator::deactivate();
-	}
-
-	register_activation_hook(__FILE__, 'activate_paynow_einvoice');
-	register_deactivation_hook(__FILE__, 'deactivate_paynow_einvoice');
-
-	/**
-	 * The core plugin class that is used to define internationalization,
-	 * admin-specific hooks, and public-facing site hooks.
-	 */
-	require_once PAYNOW_EINVOICE_PLUGIN_DIR . 'includes/class-paynow-einvoice.php';
-
-
-	/**
-	 * Begins execution of the plugin.
-	 *
-	 * Since everything within the plugin is registered via hooks,
-	 * then kicking off the plugin from this point in the file does
-	 * not affect the page life cycle.
-	 *
-	 * @since    1.0.0
-	 */
-	function run_paynow_einvoice()
-	{
-
-		$plugin = new Paynow_Einvoice();
-		$plugin->run();
-	}
-
-	run_paynow_einvoice();
-}
-
-/**
- * 引入 line-pay
- */
-require_once WOOMP_PLUGIN_DIR . 'includes/line-pay-for-woo/line-pay-for-woo.php';
-
-/**
- * 引入 wmp-ecpay-invoice
- */
-require_once WOOMP_PLUGIN_DIR . 'includes/woomp-ecpay-invoice/woomp-ecpay-invoice.php';
-
-/**
- * 引入 wmp-ezpay-invoice
- */
-require_once WOOMP_PLUGIN_DIR . 'includes/woomp-ezpay-invoice/woomp-ezpay-invoice.php';
-
-/**
- * 引入 woomp-paynow-shipping
- */
-if (!defined('WOOMP_PAYNOW_SHIPPING_PLUGIN_URL') && 'yes' === get_option('wc_woomp_setting_paynow_shipping')) {
-
-	define('WOOMP_PAYNOW_SHIPPING_PLUGIN_URL', plugin_dir_url(__FILE__) . 'includes/woomp-paynow-shipping/');
-	define('WOOMP_PAYNOW_SHIPPING_PLUGIN_DIR', plugin_dir_path(__FILE__) . 'includes/woomp-paynow-shipping/');
-	define('WOOMP_PAYNOW_SHIPPING_BASENAME', plugin_basename(__FILE__) . 'includes/woomp-paynow-shipping/');
-	define('WOOMP_PAYNOW_SHIPPING_VERSION', '1.0.0');
-
-	require_once WOOMP_PLUGIN_DIR . 'includes/woomp-paynow-shipping/woomp-paynow-shipping.php';
-}
-
-/**
- * 引入支付連
- */
-if (!in_array('PChomePay-Cart-for-WooCommerce/pchomepay.php', WOOMP_ACTIVE_PLUGINS, true) && !in_array('PChomePay-Cart-for-WooCommerce-master/pchomepay.php', WOOMP_ACTIVE_PLUGINS, true)) {
-	require_once WOOMP_PLUGIN_DIR . 'includes/PChomePay-Cart-for-WooCommerce/PChomePay.php';
-}
-
-if (in_array('woomp/woomp.php', WOOMP_ACTIVE_PLUGINS, true)) {
-	require_once ABSPATH . 'wp-admin/includes/plugin.php';
-	if (is_plugin_active('PChomePay-Cart-for-WooCommerce/pchomepay.php') || is_plugin_active('PChomePay-Cart-for-WooCommerce/pchomepay-master.php')) {
-		deactivate_plugins('PChomePay-Cart-for-WooCommerce/pchomepay.php');
-		deactivate_plugins('PChomePay-Cart-for-WooCommerce/pchomepay-master.php');
-		function require_woocommerce_notice()
-		{
-			echo '<div class="notice notice-warning"><p>PChomePay Gateway for WooCommerce 已停用，請使用好用版擴充支付連金流</p></div>';
+		if (!function_exists('get_plugin_data')) {
+			require_once ABSPATH . 'wp-admin/includes/plugin.php';
 		}
+		if (function_exists('get_plugin_data')) {
+			$data = get_plugin_data($this->plugin_file);
+			if (isset($data['Version'])) {
+				$this->plugin_version = $data['Version'];
+			}
+			if (isset($data['TextDomain'])) {
+				$this->text_domain = $data['TextDomain'];
+			}
+		}
+	}
+	private static function &get_server_array()
+	{
+		return $_SERVER;
+	}
+	private static function get_raw_domain()
+	{
+		if (function_exists("site_url")) {
+			return site_url();
+		}
+		if (defined("WPINC") && function_exists("get_bloginfo")) {
+			return get_bloginfo('url');
+		} else {
+			$server = self::get_server_array();
+			if (!empty($server['HTTP_HOST']) && !empty($server['SCRIPT_NAME'])) {
+				$base_url  = ((isset($server['HTTPS']) && $server['HTTPS'] == 'on') ? 'https' : 'http');
+				$base_url .= '://' . $server['HTTP_HOST'];
+				$base_url .= str_replace(basename($server['SCRIPT_NAME']), '', $server['SCRIPT_NAME']);
 
-		add_action('admin_notices', 'require_woocommerce_notice');
+				return $base_url;
+			}
+		}
+		return '';
+	}
+	private static function get_raw_wp()
+	{
+		$domain = self::get_raw_domain();
+		return preg_replace("(^https?://)", "", $domain);
+	}
+	public static function get_lic_key_param($key)
+	{
+		$raw_url = self::get_raw_wp();
+		return $key . "_s" . hash('crc32b', $raw_url . "vtpbdapps");
+	}
+	public function set_admin_style()
+	{
+		wp_register_style("woompLic", plugins_url("_lic_style.css", $this->plugin_file), 10, time());
+		wp_enqueue_style("woompLic");
+	}
+	public function active_admin_menu()
+	{
 
-		return;
+		add_menu_page("woomp", "woomp", "activate_plugins", $this->slug, [$this, "activated"], " dashicons-star-filled ");
+		//add_submenu_page(  $this->slug, "woomp License", "License Info", "activate_plugins",  $this->slug."_license", [$this,"activated"] );
+
+	}
+	public function inactive_menu()
+	{
+		add_menu_page("woomp", "woomp", 'activate_plugins', $this->slug,  [$this, "license_form"], " dashicons-star-filled ");
+	}
+	function action_activate_license()
+	{
+		check_admin_referer('el-license');
+		$license_key = !empty($_POST['el_license_key']) ? sanitize_text_field(wp_unslash($_POST['el_license_key'])) : "";
+		$license_email = !empty($_POST['el_license_email']) ? sanitize_email(wp_unslash($_POST['el_license_email'])) : "";
+		update_option("woomp_lic_Key", $license_key) || add_option("woomp_lic_Key", $license_key);
+		update_option("woomp_lic_email", $license_email) || add_option("woomp_lic_email", $license_email);
+		update_option('_site_transient_update_plugins', '');
+		wp_safe_redirect(admin_url('admin.php?page=' . $this->slug));
+	}
+	function action_deactivate_license()
+	{
+		check_admin_referer('el-license');
+		$message = "";
+		$main_lic_key = "woomp_lic_Key";
+		$lic_key_name = woomp_Base::get_lic_key_param($main_lic_key);
+		if (woomp_Base::remove_license_key(__FILE__, $message)) {
+			update_option($lic_key_name, "") || add_option($lic_key_name, "");
+			update_option('_site_transient_update_plugins', '');
+		}
+		wp_safe_redirect(admin_url('admin.php?page=' . $this->slug));
+	}
+	function activated()
+	{
+?>
+		<form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>">
+			<input type="hidden" name="action" value="woomp_el_deactivate_license" />
+			<div class="el-license-container">
+				<h3 class="el-license-title"><i class="dashicons-before dashicons-star-filled"></i> <?php esc_html_e("woomp License Info", "woomp"); ?> </h3>
+				<hr>
+				<ul class="el-license-info">
+					<li>
+						<div>
+							<span class="el-license-info-title"><?php esc_html_e("Status", "woomp"); ?></span>
+
+							<?php if ($this->response_obj->is_valid) : ?>
+								<span class="el-license-valid"><?php esc_html_e("Valid", "woomp"); ?></span>
+							<?php else : ?>
+								<span class="el-license-valid"><?php esc_html_e("Invalid", "woomp"); ?></span>
+							<?php endif; ?>
+						</div>
+					</li>
+
+					<li>
+						<div>
+							<span class="el-license-info-title"><?php esc_html_e("License Type", "woomp"); ?></span>
+							<?php echo esc_html($this->response_obj->license_title, "woomp"); ?>
+						</div>
+					</li>
+
+					<li>
+						<div>
+							<span class="el-license-info-title"><?php esc_html_e("License Expired on", "woomp"); ?></span>
+							<?php echo esc_html($this->response_obj->expire_date, "woomp");
+							if (!empty($this->response_obj->expire_renew_link)) {
+							?>
+								<a target="_blank" class="el-blue-btn" href="<?php echo esc_url($this->response_obj->expire_renew_link); ?>">Renew</a>
+							<?php
+							}
+							?>
+						</div>
+					</li>
+
+					<li>
+						<div>
+							<span class="el-license-info-title"><?php esc_html_e("Support Expired on", "woomp"); ?></span>
+							<?php
+							echo esc_html($this->response_obj->support_end, "woomp");;
+							if (!empty($this->response_obj->support_renew_link)) {
+							?>
+								<a target="_blank" class="el-blue-btn" href="<?php echo esc_url($this->response_obj->support_renew_link); ?>">Renew</a>
+							<?php
+							}
+							?>
+						</div>
+					</li>
+					<li>
+						<div>
+							<span class="el-license-info-title"><?php esc_html_e("Your License Key", "woomp"); ?></span>
+							<span class="el-license-key"><?php echo esc_attr(substr($this->response_obj->license_key, 0, 9) . "XXXXXXXX-XXXXXXXX" . substr($this->response_obj->license_key, -9)); ?></span>
+						</div>
+					</li>
+				</ul>
+				<div class="el-license-active-btn">
+					<?php wp_nonce_field('el-license'); ?>
+					<?php submit_button('Deactivate'); ?>
+				</div>
+			</div>
+		</form>
+	<?php
+	}
+
+	function license_form()
+	{
+	?>
+		<form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>">
+			<input type="hidden" name="action" value="woomp_el_activate_license" />
+			<div class="el-license-container">
+				<h3 class="el-license-title"><i class="dashicons-before dashicons-star-filled"></i> <?php esc_html_e("woomp Licensing", "woomp"); ?></h3>
+				<hr>
+				<?php
+				if (!empty($this->show_message) && !empty($this->license_message)) {
+				?>
+					<div class="notice notice-error is-dismissible">
+						<p><?php echo esc_html($this->license_message, "woomp"); ?></p>
+					</div>
+				<?php
+				}
+				?>
+				<p><?php esc_html_e("Enter your license key here, to activate the product, and get full feature updates and premium support.", "woomp"); ?></p>
+				<ol>
+					<li><?php esc_html_e("Write your licnese key details", "woomp"); ?></li>
+					<li><?php esc_html_e("How buyer will get this license key?", "woomp"); ?></li>
+					<li><?php esc_html_e("Describe other info about licensing if required", "woomp"); ?></li>
+					<li>. ...</li>
+				</ol>
+				<div class="el-license-field">
+					<label for="el_license_key"><?php echo esc_html("License code", "woomp"); ?></label>
+					<input type="text" class="regular-text code" name="el_license_key" size="50" placeholder="xxxxxxxx-xxxxxxxx-xxxxxxxx-xxxxxxxx" required="required">
+				</div>
+				<div class="el-license-field">
+					<label for="el_license_key"><?php echo esc_html("Email Address", "woomp"); ?></label>
+					<?php
+					$purchase_email   = get_option("woomp_lic_email", get_bloginfo('admin_email'));
+					?>
+					<input type="text" class="regular-text code" name="el_license_email" size="50" value="<?php echo esc_html($purchase_email); ?>" placeholder="" required="required">
+					<div><small><?php echo esc_html("We will send update news of this product by this email address, don't worry, we hate spam", "woomp"); ?></small></div>
+				</div>
+				<div class="el-license-active-btn">
+					<?php wp_nonce_field('el-license'); ?>
+					<?php submit_button('Activate'); ?>
+				</div>
+			</div>
+		</form>
+<?php
 	}
 }
 
-/**
- * 引入統一金物流
- */
-require_once WOOMP_PLUGIN_DIR . 'includes/payuni/payuni.php';
+new woomp_elite();

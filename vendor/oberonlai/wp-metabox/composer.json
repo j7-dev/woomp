@@ -1,0 +1,22 @@
+{
+    "name": "oberonlai/wp-metabox",
+    "description": "Adding custom field for WordPress Post Type.",
+    "homepage": "https://github.com/oberonlai/wp-metabox",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Oberon Lai",
+            "email": "m615926@gmail.com",
+            "homepage": "https://oberonlai.blog"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "php": ">=7.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "ODS\\": "src/"
+        }
+    }
+}
