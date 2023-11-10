@@ -41,6 +41,11 @@ define('WOOMP_ACTIVE_PLUGINS', apply_filters('active_plugins', get_option('activ
 
 require WOOMP_PLUGIN_DIR . 'vendor/autoload.php';
 
+use Dotenv\Dotenv;
+
+$dotenv = Dotenv::createImmutable(__DIR__, '/.env.production');
+$dotenv->safeLoad();
+
 /**
  * The code that runs during plugin activation.
  * This action is documented in includes/class-woomp-activator.php

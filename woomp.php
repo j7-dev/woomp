@@ -5,7 +5,7 @@
  * Plugin Name:       好用版擴充 MorePower Addon for WooCommerce
  * Plugin URI:        https://morepower.club/morepower-addon/
  * Description:       WooCommerce 好用版擴充，改善結帳流程與可變商品等區塊，讓 WooCommerce 更符合亞洲人使用習慣。
- * Version:           3.0.11
+ * Version:           3.0.12
  * Author:            MorePower
  * Author URI:        https://morepower.club
  * License:           GPL-2.0+
@@ -45,7 +45,7 @@ class woomp_elite
 			update_option("woomp_lic_Key", "");
 		});
 		if (woomp_Base::check_wp_plugin($license_key, $lice_email, $this->license_message, $this->response_obj, __FILE__)) {
-			add_action('admin_menu', [$this, 'active_admin_menu'], 99999);
+			add_action('admin_menu', [$this, 'active_admin_menu'], 60);
 			add_action('admin_post_woomp_el_deactivate_license', [$this, 'action_deactivate_license']);
 			//$this->licenselMessage=$this->mess;
 			//***Write you plugin's code here***
@@ -56,7 +56,7 @@ class woomp_elite
 			}
 			update_option($license_key, "") || add_option($license_key, "");
 			add_action('admin_post_woomp_el_activate_license', [$this, 'action_activate_license']);
-			add_action('admin_menu', [$this, 'inactive_menu']);
+			add_action('admin_menu', [$this, 'inactive_menu'], 60);
 		}
 	}
 	public function set_plugin_data()
@@ -116,14 +116,14 @@ class woomp_elite
 	{
 
 
-		add_submenu_page('woocommerce', 'woomp', '- 好用版授權管理', 'activate_plugins', $this->slug, [$this, "activated"], 11);
+		add_submenu_page('woocommerce', 'woomp-main', '- 好用版授權管理', 'activate_plugins', $this->slug, [$this, "activated"], 150);
 
 		//add_submenu_page(  $this->slug, "woomp License", "License Info", "activate_plugins",  $this->slug."_license", [$this,"activated"] );
 
 	}
 	public function inactive_menu()
 	{
-		add_submenu_page('woocommerce', 'woomp', '- 好用版授權管理', 'activate_plugins', $this->slug, [$this, "license_form"], 11);
+		add_submenu_page('woocommerce', 'woomp-main', '- 好用版授權管理', 'activate_plugins', $this->slug, [$this, "license_form"], 150);
 	}
 	function action_activate_license()
 	{
@@ -223,7 +223,7 @@ class woomp_elite
 		<form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>">
 			<input type="hidden" name="action" value="woomp_el_activate_license" />
 			<div class="el-license-container">
-				<h3 class="el-license-title"><i class="dashicons-before dashicons-star-filled"></i> <?php esc_html_e("woomp Licensing", "woomp"); ?></h3>
+				<h3 class="el-license-title"><i class="dashicons-before dashicons-star-filled"></i> <?php esc_html_e("Woocommerce 好用版授權", "woomp"); ?></h3>
 				<hr>
 				<?php
 				if (!empty($this->show_message) && !empty($this->license_message)) {
@@ -234,13 +234,8 @@ class woomp_elite
 				<?php
 				}
 				?>
-				<p><?php esc_html_e("Enter your license key here, to activate the product, and get full feature updates and premium support.", "woomp"); ?></p>
-				<ol>
-					<li><?php esc_html_e("Write your licnese key details", "woomp"); ?></li>
-					<li><?php esc_html_e("How buyer will get this license key?", "woomp"); ?></li>
-					<li><?php esc_html_e("Describe other info about licensing if required", "woomp"); ?></li>
-					<li>. ...</li>
-				</ol>
+				<p>請輸入授權碼以開通進階功能，購買授權請到<a target="_blank" href="<?= $_ENV['BUY_LICENSE_LINK']; ?>">站長路可網站</a>購買
+					有任何客服問題，請私訊站長路可網站右下方對話框，或是來信 <a href="mailto:<?= $_ENV['SUPPORT_EMAIL']; ?>" target="_blank"><?= $_ENV['SUPPORT_EMAIL']; ?></a></p>
 				<div class="el-license-field">
 					<label for="el_license_key"><?php echo esc_html("License code", "woomp"); ?></label>
 					<input type="text" class="regular-text code" name="el_license_key" size="50" placeholder="xxxxxxxx-xxxxxxxx-xxxxxxxx-xxxxxxxx" required="required">
