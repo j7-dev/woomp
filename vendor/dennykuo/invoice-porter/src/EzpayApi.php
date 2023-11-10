@@ -45,6 +45,7 @@ class EzpayApi implements ApiRequest
 
 		$response = json_decode($response->getBody()->getContents());
 
+
 		$response = (object) [
 			'status' => $response->Status,
 			'message' => $response->Message,

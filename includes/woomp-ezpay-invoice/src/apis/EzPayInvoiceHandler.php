@@ -173,9 +173,7 @@ class EzPayInvoiceHandler
 		$this->invoice->create($issue_data);
 		$result_data = $this->invoice->getResponse();
 
-
-
-		if ($this->invoice->isOK()) {
+		if ($this->invoice->isOK() || $result_data->code === 'SUCCESS') {
 			$order->update_meta_data('_ezpay_invoice_result', $result_data);
 			$order->update_meta_data('_ezpay_invoice_number', $this->invoice->getResult('InvoiceNumber'));
 			$order_note = "ezPay電子發票開立結果<br>回傳訊息：{$result_data->message}<br>回應代碼：{$result_data->code}";
