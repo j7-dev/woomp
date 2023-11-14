@@ -107,32 +107,35 @@ class EcpayInvoiceHandler
 			$ecpay_invoice->MerchantID     = $this->get_api_key()['merchant_id'];
 			$ecpay_invoice->HashKey        = $this->get_api_key()['hashkey'];
 			$ecpay_invoice->HashIV         = $this->get_api_key()['hashiv'];
+			$ecpay_invoice->Send           = [];
 
 			// 取得商品資訊
 			$items    = array();
 			$itemsTmp = $order->get_items();
 
-			// 商品資訊
-			foreach ($itemsTmp as $key1 => $value1) {
 
-				$items[$key1]['ItemName']   = wp_strip_all_tags(str_replace('|', '-', $value1['name']), true); // 商品名稱 ItemName
-				$items[$key1]['ItemCount']  = $value1['quantity']; // 數量 ItemCount
-				$items[$key1]['ItemAmount'] = number_format($value1['total'] + $value1['total_tax'], 2); // 小計 ItemAmount
-				$items[$key1]['ItemPrice']  = number_format($items[$key1]['ItemAmount'] / $items[$key1]['ItemCount'], 2); // 單價 ItemPrice
+
+
+			// 商品資訊
+			foreach ($itemsTmp as $key => $WC_Order_Item_Product) {
+				$items[$key]['ItemName']   = wp_strip_all_tags(str_replace('|', '-', $WC_Order_Item_Product->get_name()), true); // 商品名稱 ItemName
+				$items[$key]['ItemCount']  = $WC_Order_Item_Product->get_quantity(); // 數量 ItemCount
+				$items[$key]['ItemAmount'] = round((float) $WC_Order_Item_Product->get_total() + (float) $WC_Order_Item_Product->get_total_tax(), 2); // 小計 ItemAmount
+				$items[$key]['ItemPrice']  = round((float) $items[$key]['ItemAmount'] / (float) $items[$key]['ItemCount'], 2); // 單價 ItemPrice
 			}
 
 			// 組合商品
-			foreach ($items as $key2 => $value2) {
+			foreach ($items as $key => $value) {
 
 				array_push(
 					$ecpay_invoice->Send['Items'],
 					array(
-						'ItemName'    => str_replace('|', '-', $value2['ItemName']),
-						'ItemCount'   => $value2['ItemCount'],
+						'ItemName'    => str_replace('|', '-', $value['ItemName']),
+						'ItemCount'   => $value['ItemCount'],
 						'ItemWord'    => '批',
-						'ItemPrice'   => number_format($value2['ItemPrice'], 2),
+						'ItemPrice'   => round((float) $value['ItemPrice'], 2),
 						'ItemTaxType' => 1,
-						'ItemAmount'  => number_format($value2['ItemAmount'], 2),
+						'ItemAmount'  => round((float) $value['ItemAmount'], 2),
 					)
 				);
 			}
@@ -148,9 +151,9 @@ class EcpayInvoiceHandler
 						'ItemName'    => '運費',
 						'ItemCount'   => 1,
 						'ItemWord'    => '式',
-						'ItemPrice'   => number_format($shippingTotal, 2),
+						'ItemPrice'   => round((float) $shippingTotal, 2),
 						'ItemTaxType' => 1,
-						'ItemAmount'  => number_format($shippingTotal, 2),
+						'ItemAmount'  => round((float) $shippingTotal, 2),
 					)
 				);
 			}
@@ -168,9 +171,9 @@ class EcpayInvoiceHandler
 						'ItemName'    => '費用',
 						'ItemCount'   => 1,
 						'ItemWord'    => '式',
-						'ItemPrice'   => number_format($fee_amount, 2),
+						'ItemPrice'   => round((float) $fee_amount, 2),
 						'ItemTaxType' => 1,
-						'ItemAmount'  => number_format($fee_amount, 2),
+						'ItemAmount'  => round((float) $fee_amount, 2),
 					)
 				);
 			}
@@ -192,7 +195,7 @@ class EcpayInvoiceHandler
 			$ecpay_invoice->Send['CarruerType']        = $carruerType;
 			$ecpay_invoice->Send['CarruerNum']         = $carruerNum;
 			$ecpay_invoice->Send['TaxType']            = 1;
-			$ecpay_invoice->Send['SalesAmount']        = number_format($order_total);
+			$ecpay_invoice->Send['SalesAmount']        = round((float) $order_total);
 			$ecpay_invoice->Send['InvoiceRemark']      = $invoiceRemark;
 			$ecpay_invoice->Send['InvType']            = '07';
 			$ecpay_invoice->Send['vat']                = '';
@@ -200,10 +203,8 @@ class EcpayInvoiceHandler
 			$ecpay_invoice->Send['Items'];
 
 			// 4.送出
-			error_log('⭐ $ecpay_invoice->Send ' . json_encode($ecpay_invoice->Send));
 
 			$return_info = $ecpay_invoice->Check_Out();
-			error_log('⭐ return_info: ' . json_encode($return_info));
 
 
 			// 於備註區寫入發票資訊

@@ -39,7 +39,6 @@ class Ajax
 
 		if (!empty($order_id)) {
 			$msg = $this->invoice_handler->generate_invoice($order_id);
-			error_log('⭐ msg: ' . $msg);
 			echo $msg;
 		} else {
 			echo $msg;
