@@ -107,10 +107,10 @@ class EcpayInvoiceHandler
 			$ecpay_invoice->MerchantID     = $this->get_api_key()['merchant_id'];
 			$ecpay_invoice->HashKey        = $this->get_api_key()['hashkey'];
 			$ecpay_invoice->HashIV         = $this->get_api_key()['hashiv'];
-			$ecpay_invoice->Send           = [];
+			$ecpay_invoice->Send['Items']  = [];
 
 			// 取得商品資訊
-			$items    = array();
+			$items    = [];
 			$itemsTmp = $order->get_items();
 
 
@@ -206,7 +206,6 @@ class EcpayInvoiceHandler
 
 			$return_info = $ecpay_invoice->Check_Out();
 
-
 			// 於備註區寫入發票資訊
 			$invoice_date    = $return_info['InvoiceDate'];
 			$invoice_number  = $return_info['InvoiceNumber'];
@@ -232,6 +231,8 @@ class EcpayInvoiceHandler
 				$order->update_meta_data('_ecpay_invoice_number', $return_info['InvoiceNumber']);
 				$order->save();
 			}
+
+
 
 			return $invoice_message;
 			// return __('Generate Ecpay invoice issue finish!', 'woomp');
