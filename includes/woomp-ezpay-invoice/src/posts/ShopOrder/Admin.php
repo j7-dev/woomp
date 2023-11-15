@@ -122,6 +122,7 @@ class Admin
 	{
 		$order = \wc_get_order($order_id);
 
+
 		if ($order->get_meta('_ezpay_invoice_status') === '0' || $order->get_meta('_ezpay_invoice_number') === '') {
 			$invoice = new EzpayInvoiceHandler();
 			$invoice->generate_invoice($order_id);

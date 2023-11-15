@@ -164,6 +164,7 @@ class EzPayInvoiceHandler
 	public function generate_invoice($order_id)
 	{
 		$order      = \wc_get_order($order_id);
+
 		$issue_data = $this->get_issue_data($order_id);
 
 		if (!$issue_data) {
@@ -171,7 +172,10 @@ class EzPayInvoiceHandler
 		}
 
 		$this->invoice->create($issue_data);
+
 		$result_data = $this->invoice->getResponse();
+
+
 
 		if ($this->invoice->isOK() || $result_data->code === 'SUCCESS') {
 			$order->update_meta_data('_ezpay_invoice_result', $result_data);
