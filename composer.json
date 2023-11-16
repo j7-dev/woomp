@@ -4,6 +4,7 @@
         "a7/autoload": "^2.1",
         "dennykuo/invoice-porter": "^0.2.2",
         "guzzlehttp/guzzle": "^6.5.8",
-        "vlucas/phpdotenv": "^5.5"
+        "vlucas/phpdotenv": "^5.5",
+        "yahnis-elsts/plugin-update-checker": "^5.3"
     }
 }
