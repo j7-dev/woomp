@@ -5,7 +5,7 @@
  * Plugin Name:       好用版擴充 MorePower Addon for WooCommerce
  * Plugin URI:        https://morepower.club/morepower-addon/
  * Description:       WooCommerce 好用版擴充，改善結帳流程與可變商品等區塊，並整合多項金流，讓 WooCommerce 更符合亞洲人使用習慣。
- * Version:           3.2.2
+ * Version:           3.2.3
  * Author:            MorePower
  * Author URI:        https://morepower.club
  * License:           GPL-2.0+
@@ -61,7 +61,7 @@ class woomp_elite
 			update_option("woomp_lic_Key", "");
 		});
 		if (woomp_Base::check_wp_plugin($license_key, $lice_email, $this->license_message, $this->response_obj, __FILE__)) {
-			add_action('admin_menu', [$this, 'active_admin_menu'], 60);
+			// add_action('admin_menu', [$this, 'active_admin_menu'], 60);
 			add_action('admin_post_woomp_el_deactivate_license', [$this, 'action_deactivate_license']);
 			//$this->licenselMessage=$this->mess;
 			//***Write you plugin's code here***
@@ -72,7 +72,7 @@ class woomp_elite
 			}
 			update_option($license_key, "") || add_option($license_key, "");
 			add_action('admin_post_woomp_el_activate_license', [$this, 'action_activate_license']);
-			add_action('admin_menu', [$this, 'inactive_menu'], 60);
+			// add_action('admin_menu', [$this, 'inactive_menu'], 60);
 		}
 	}
 	public function set_plugin_data()
