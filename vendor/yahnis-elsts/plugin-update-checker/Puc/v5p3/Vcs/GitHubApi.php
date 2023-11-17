@@ -4,9 +4,10 @@ namespace YahnisElsts\PluginUpdateChecker\v5p3\Vcs;
 
 use Parsedown;
 
-if ( !class_exists(GitHubApi::class, false) ):
+if (!class_exists(GitHubApi::class, false)) :
 
-	class GitHubApi extends Api {
+	class GitHubApi extends Api
+	{
 		use ReleaseAssetSupport;
 		use ReleaseFilteringFeature;
 
@@ -34,9 +35,10 @@ if ( !class_exists(GitHubApi::class, false) ):
 		 */
 		private $downloadFilterAdded = false;
 
-		public function __construct($repositoryUrl, $accessToken = null) {
+		public function __construct($repositoryUrl, $accessToken = null)
+		{
 			$path = wp_parse_url($repositoryUrl, PHP_URL_PATH);
-			if ( preg_match('@^/?(?P<username>[^/]+?)/(?P<repository>[^/#?&]+?)/?$@', $path, $matches) ) {
+			if (preg_match('@^/?(?P<username>[^/]+?)/(?P<repository>[^/#?&]+?)/?$@', $path, $matches)) {
 				$this->userName = $matches['username'];
 				$this->repositoryName = $matches['repository'];
 			} else {
@@ -51,7 +53,8 @@ if ( !class_exists(GitHubApi::class, false) ):
 		 *
 		 * @return Reference|null
 		 */
-		public function getLatestRelease() {
+		public function getLatestRelease()
+		{
 			//The "latest release" endpoint returns one release and always skips pre-releases,
 			//so we can only use it if that's compatible with the current filter settings.
 			if (
@@ -62,7 +65,7 @@ if ( !class_exists(GitHubApi::class, false) ):
 			) {
 				//Just get the latest release.
 				$release = $this->api('/repos/:user/:repo/releases/latest');
-				if ( is_wp_error($release) || !is_object($release) || !isset($release->tag_name) ) {
+				if (is_wp_error($release) || !is_object($release) || !isset($release->tag_name)) {
 					return null;
 				}
 				$foundReleases = array($release);
@@ -72,14 +75,14 @@ if ( !class_exists(GitHubApi::class, false) ):
 					'/repos/:user/:repo/releases',
 					array('per_page' => $this->releaseFilterMaxReleases)
 				);
-				if ( is_wp_error($foundReleases) || !is_array($foundReleases) ) {
+				if (is_wp_error($foundReleases) || !is_array($foundReleases)) {
 					return null;
 				}
 			}
 
 			foreach ($foundReleases as $release) {
 				//Always skip drafts.
-				if ( isset($release->draft) && !empty($release->draft) ) {
+				if (isset($release->draft) && !empty($release->draft)) {
 					continue;
 				}
 
@@ -95,9 +98,15 @@ if ( !class_exists(GitHubApi::class, false) ):
 				$versionNumber = ltrim($release->tag_name, 'v'); //Remove the "v" prefix from "v1.2.3".
 
 				//Custom release filtering.
-				if ( !$this->matchesCustomReleaseFilter($versionNumber, $release) ) {
+				if (!$this->matchesCustomReleaseFilter($versionNumber, $release)) {
 					continue;
 				}
+
+				ob_start();
+				print_r($release);
+				$debug = ob_get_clean();
+
+				error_log('⭐ release ' . $debug);
 
 				$reference = new Reference(array(
 					'name'        => $release->tag_name,
@@ -107,20 +116,22 @@ if ( !class_exists(GitHubApi::class, false) ):
 					'apiResponse' => $release,
 				));
 
-				if ( isset($release->assets[0]) ) {
+
+
+				if (isset($release->assets[0])) {
 					$reference->downloadCount = $release->assets[0]->download_count;
 				}
 
-				if ( $this->releaseAssetsEnabled ) {
+				if ($this->releaseAssetsEnabled) {
 					//Use the first release asset that matches the specified regular expression.
-					if ( isset($release->assets, $release->assets[0]) ) {
+					if (isset($release->assets, $release->assets[0])) {
 						$matchingAssets = array_values(array_filter($release->assets, array($this, 'matchesAssetFilter')));
 					} else {
 						$matchingAssets = array();
 					}
 
-					if ( !empty($matchingAssets) ) {
-						if ( $this->isAuthenticationEnabled() ) {
+					if (!empty($matchingAssets)) {
+						if ($this->isAuthenticationEnabled()) {
 							/**
 							 * Keep in mind that we'll need to add an "Accept" header to download this asset.
 							 *
@@ -134,16 +145,22 @@ if ( !class_exists(GitHubApi::class, false) ):
 						}
 
 						$reference->downloadCount = $matchingAssets[0]->download_count;
-					} else if ( $this->releaseAssetPreference === Api::REQUIRE_RELEASE_ASSETS ) {
+					} else if ($this->releaseAssetPreference === Api::REQUIRE_RELEASE_ASSETS) {
 						//None of the assets match the filter, and we're not allowed
 						//to fall back to the auto-generated source ZIP.
 						return null;
 					}
 				}
 
-				if ( !empty($release->body) ) {
+				if (!empty($release->body)) {
 					$reference->changelog = Parsedown::instance()->text($release->body);
 				}
+
+				ob_start();
+				print_r($reference);
+				$debug = ob_get_clean();
+
+				error_log('⭐ reference ' . $debug);
 
 				return $reference;
 			}
@@ -156,15 +173,16 @@ if ( !class_exists(GitHubApi::class, false) ):
 		 *
 		 * @return Reference|null
 		 */
-		public function getLatestTag() {
+		public function getLatestTag()
+		{
 			$tags = $this->api('/repos/:user/:repo/tags');
 
-			if ( is_wp_error($tags) || !is_array($tags) ) {
+			if (is_wp_error($tags) || !is_array($tags)) {
 				return null;
 			}
 
 			$versionTags = $this->sortTagsByVersion($tags);
-			if ( empty($versionTags) ) {
+			if (empty($versionTags)) {
 				return null;
 			}
 
@@ -183,9 +201,10 @@ if ( !class_exists(GitHubApi::class, false) ):
 		 * @param string $branchName
 		 * @return null|Reference
 		 */
-		public function getBranch($branchName) {
+		public function getBranch($branchName)
+		{
 			$branch = $this->api('/repos/:user/:repo/branches/' . $branchName);
-			if ( is_wp_error($branch) || empty($branch) ) {
+			if (is_wp_error($branch) || empty($branch)) {
 				return null;
 			}
 
@@ -195,7 +214,7 @@ if ( !class_exists(GitHubApi::class, false) ):
 				'apiResponse' => $branch,
 			));
 
-			if ( isset($branch->commit, $branch->commit->commit, $branch->commit->commit->author->date) ) {
+			if (isset($branch->commit, $branch->commit->commit, $branch->commit->commit->author->date)) {
 				$reference->updated = $branch->commit->commit->author->date;
 			}
 
@@ -209,7 +228,8 @@ if ( !class_exists(GitHubApi::class, false) ):
 		 * @param string $ref Reference name (e.g. branch or tag).
 		 * @return \StdClass|null
 		 */
-		public function getLatestCommit($filename, $ref = 'master') {
+		public function getLatestCommit($filename, $ref = 'master')
+		{
 			$commits = $this->api(
 				'/repos/:user/:repo/commits',
 				array(
@@ -217,7 +237,7 @@ if ( !class_exists(GitHubApi::class, false) ):
 					'sha'  => $ref,
 				)
 			);
-			if ( !is_wp_error($commits) && isset($commits[0]) ) {
+			if (!is_wp_error($commits) && isset($commits[0])) {
 				return $commits[0];
 			}
 			return null;
@@ -229,9 +249,10 @@ if ( !class_exists(GitHubApi::class, false) ):
 		 * @param string $ref Reference name (e.g. branch or tag).
 		 * @return string|null
 		 */
-		public function getLatestCommitTime($ref) {
+		public function getLatestCommitTime($ref)
+		{
 			$commits = $this->api('/repos/:user/:repo/commits', array('sha' => $ref));
-			if ( !is_wp_error($commits) && isset($commits[0]) ) {
+			if (!is_wp_error($commits) && isset($commits[0])) {
 				return $commits[0]->commit->author->date;
 			}
 			return null;
@@ -244,27 +265,28 @@ if ( !class_exists(GitHubApi::class, false) ):
 		 * @param array $queryParams
 		 * @return mixed|\WP_Error
 		 */
-		protected function api($url, $queryParams = array()) {
+		protected function api($url, $queryParams = array())
+		{
 			$baseUrl = $url;
 			$url = $this->buildApiUrl($url, $queryParams);
 
 			$options = array('timeout' => wp_doing_cron() ? 10 : 3);
-			if ( $this->isAuthenticationEnabled() ) {
+			if ($this->isAuthenticationEnabled()) {
 				$options['headers'] = array('Authorization' => $this->getAuthorizationHeader());
 			}
 
-			if ( !empty($this->httpFilterName) ) {
+			if (!empty($this->httpFilterName)) {
 				$options = apply_filters($this->httpFilterName, $options);
 			}
 			$response = wp_remote_get($url, $options);
-			if ( is_wp_error($response) ) {
+			if (is_wp_error($response)) {
 				do_action('puc_api_error', $response, null, $url, $this->slug);
 				return $response;
 			}
 
 			$code = wp_remote_retrieve_response_code($response);
 			$body = wp_remote_retrieve_body($response);
-			if ( $code === 200 ) {
+			if ($code === 200) {
 				$document = json_decode($body);
 				return $document;
 			}
@@ -285,7 +307,8 @@ if ( !class_exists(GitHubApi::class, false) ):
 		 * @param array $queryParams
 		 * @return string
 		 */
-		protected function buildApiUrl($url, $queryParams) {
+		protected function buildApiUrl($url, $queryParams)
+		{
 			$variables = array(
 				'user' => $this->userName,
 				'repo' => $this->repositoryName,
@@ -295,7 +318,7 @@ if ( !class_exists(GitHubApi::class, false) ):
 			}
 			$url = 'https://api.github.com' . $url;
 
-			if ( !empty($queryParams) ) {
+			if (!empty($queryParams)) {
 				$url = add_query_arg($queryParams, $url);
 			}
 
@@ -309,11 +332,12 @@ if ( !class_exists(GitHubApi::class, false) ):
 		 * @param string $ref
 		 * @return null|string Either the contents of the file, or null if the file doesn't exist or there's an error.
 		 */
-		public function getRemoteFile($path, $ref = 'master') {
+		public function getRemoteFile($path, $ref = 'master')
+		{
 			$apiUrl = '/repos/:user/:repo/contents/' . $path;
 			$response = $this->api($apiUrl, array('ref' => $ref));
 
-			if ( is_wp_error($response) || !isset($response->content) || ($response->encoding !== 'base64') ) {
+			if (is_wp_error($response) || !isset($response->content) || ($response->encoding !== 'base64')) {
 				return null;
 			}
 			return base64_decode($response->content);
@@ -325,7 +349,8 @@ if ( !class_exists(GitHubApi::class, false) ):
 		 * @param string $ref
 		 * @return string
 		 */
-		public function buildArchiveDownloadUrl($ref = 'master') {
+		public function buildArchiveDownloadUrl($ref = 'master')
+		{
 			$url = sprintf(
 				'https://api.github.com/repos/%1$s/%2$s/zipball/%3$s',
 				urlencode($this->userName),
@@ -341,12 +366,14 @@ if ( !class_exists(GitHubApi::class, false) ):
 		 * @param string $tagName
 		 * @return void
 		 */
-		public function getTag($tagName) {
+		public function getTag($tagName)
+		{
 			//The current GitHub update checker doesn't use getTag, so I didn't bother to implement it.
 			throw new \LogicException('The ' . __METHOD__ . ' method is not implemented and should not be used.');
 		}
 
-		public function setAuthentication($credentials) {
+		public function setAuthentication($credentials)
+		{
 			parent::setAuthentication($credentials);
 			$this->accessToken = is_string($credentials) ? $credentials : null;
 
@@ -355,10 +382,11 @@ if ( !class_exists(GitHubApi::class, false) ):
 			add_filter('upgrader_pre_download', array($this, 'addHttpRequestFilter'), 10, 1); //WP 3.7+
 		}
 
-		protected function getUpdateDetectionStrategies($configBranch) {
+		protected function getUpdateDetectionStrategies($configBranch)
+		{
 			$strategies = array();
 
-			if ( $configBranch === 'master' || $configBranch === 'main') {
+			if ($configBranch === 'master' || $configBranch === 'main') {
 				//Use the latest release.
 				$strategies[self::STRATEGY_LATEST_RELEASE] = array($this, 'getLatestRelease');
 				//Failing that, use the tag with the highest version number.
@@ -378,7 +406,8 @@ if ( !class_exists(GitHubApi::class, false) ):
 		 *
 		 * @return string
 		 */
-		protected function getAssetApiBaseUrl() {
+		protected function getAssetApiBaseUrl()
+		{
 			return sprintf(
 				'//api.github.com/repos/%1$s/%2$s/releases/assets/',
 				$this->userName,
@@ -386,8 +415,9 @@ if ( !class_exists(GitHubApi::class, false) ):
 			);
 		}
 
-		protected function getFilterableAssetName($releaseAsset) {
-			if ( isset($releaseAsset->name) ) {
+		protected function getFilterableAssetName($releaseAsset)
+		{
+			if (isset($releaseAsset->name)) {
 				return $releaseAsset->name;
 			}
 			return null;
@@ -398,8 +428,9 @@ if ( !class_exists(GitHubApi::class, false) ):
 		 * @return bool
 		 * @internal
 		 */
-		public function addHttpRequestFilter($result) {
-			if ( !$this->downloadFilterAdded && $this->isAuthenticationEnabled() ) {
+		public function addHttpRequestFilter($result)
+		{
+			if (!$this->downloadFilterAdded && $this->isAuthenticationEnabled()) {
 				//phpcs:ignore WordPressVIPMinimum.Hooks.RestrictedHooks.http_request_args -- The callback doesn't change the timeout.
 				add_filter('http_request_args', array($this, 'setUpdateDownloadHeaders'), 10, 2);
 				add_action('requests-requests.before_redirect', array($this, 'removeAuthHeaderFromRedirects'), 10, 4);
@@ -421,14 +452,15 @@ if ( !class_exists(GitHubApi::class, false) ):
 		 * @param string $url
 		 * @return array
 		 */
-		public function setUpdateDownloadHeaders($requestArgs, $url = '') {
+		public function setUpdateDownloadHeaders($requestArgs, $url = '')
+		{
 			//Is WordPress trying to download one of our release assets?
-			if ( $this->releaseAssetsEnabled && (strpos($url, $this->getAssetApiBaseUrl()) !== false) ) {
+			if ($this->releaseAssetsEnabled && (strpos($url, $this->getAssetApiBaseUrl()) !== false)) {
 				$requestArgs['headers']['Accept'] = 'application/octet-stream';
 			}
 			//Use Basic authentication, but only if the download is from our repository.
 			$repoApiBaseUrl = $this->buildApiUrl('/repos/:user/:repo/', array());
-			if ( $this->isAuthenticationEnabled() && (strpos($url, $repoApiBaseUrl)) === 0 ) {
+			if ($this->isAuthenticationEnabled() && (strpos($url, $repoApiBaseUrl)) === 0) {
 				$requestArgs['headers']['Authorization'] = $this->getAuthorizationHeader();
 			}
 			return $requestArgs;
@@ -443,13 +475,14 @@ if ( !class_exists(GitHubApi::class, false) ):
 		 * @param array $headers
 		 * @internal
 		 */
-		public function removeAuthHeaderFromRedirects(&$location, &$headers) {
+		public function removeAuthHeaderFromRedirects(&$location, &$headers)
+		{
 			$repoApiBaseUrl = $this->buildApiUrl('/repos/:user/:repo/', array());
-			if ( strpos($location, $repoApiBaseUrl) === 0 ) {
+			if (strpos($location, $repoApiBaseUrl) === 0) {
 				return; //This request is going to GitHub, so it's fine.
 			}
 			//Remove the header.
-			if ( isset($headers['Authorization']) ) {
+			if (isset($headers['Authorization'])) {
 				unset($headers['Authorization']);
 			}
 		}
@@ -459,7 +492,8 @@ if ( !class_exists(GitHubApi::class, false) ):
 		 *
 		 * @return string
 		 */
-		protected function getAuthorizationHeader() {
+		protected function getAuthorizationHeader()
+		{
 			return 'Basic ' . base64_encode($this->userName . ':' . $this->accessToken);
 		}
 	}
