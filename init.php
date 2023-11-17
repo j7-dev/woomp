@@ -113,10 +113,6 @@ if (get_option('wc_woomp_setting_mode', 1) === 'onepage' || get_option('wc_woomp
 	}
 }
 
-/**
- * 加入更新機制
- */
-new WooMP_Updater();
 
 /**
  * 引入 ry-woocommerce-tools

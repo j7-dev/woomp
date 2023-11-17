@@ -1,9 +1,9 @@
 === 好用版擴充 MorePower Addon for WooCommerce ===
 Requires at least: 4.9.8
-Tested up to: 6.2.2
-Requires PHP: 7.0
+Tested up to: 6.4.1
+Requires PHP: 8.1
 WC requires at least: 5
-WC tested up to: 7.5.1
+WC tested up to: 6.4.1
 Stable Tag: 2.2.6
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -13,6 +13,13 @@ Empty plugin to demonstrate the WP Plugin Updater.
 == Description ==
 
 WooCommerce 好用版擴充，改善結帳流程與可變商品等區塊，讓 WooCommerce 更符合亞洲人使用習慣。
+
+## MARKDOWN 測試
+
+<img src="https://morepower.club/wp-content/uploads/2020/10/powerlogo-y.png" />
+
+<img src='https://morepower.club/wp-content/uploads/2020/10/powerlogo-y.png' />
+
 
 == Installation ==
 
