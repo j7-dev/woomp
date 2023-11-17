@@ -102,12 +102,6 @@ if (!class_exists(GitHubApi::class, false)) :
 					continue;
 				}
 
-				ob_start();
-				print_r($release);
-				$debug = ob_get_clean();
-
-				error_log('⭐ release ' . $debug);
-
 				$reference = new Reference(array(
 					'name'        => $release->tag_name,
 					'version'     => $versionNumber,
@@ -155,12 +149,6 @@ if (!class_exists(GitHubApi::class, false)) :
 				if (!empty($release->body)) {
 					$reference->changelog = Parsedown::instance()->text($release->body);
 				}
-
-				ob_start();
-				print_r($reference);
-				$debug = ob_get_clean();
-
-				error_log('⭐ reference ' . $debug);
 
 				return $reference;
 			}
