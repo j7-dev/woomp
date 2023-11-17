@@ -11,5 +11,5 @@ $updateChecker = PucFactory::buildUpdateChecker(
 	__FILE__,
 	$_ENV['APP_SLUG']
 );
-// $updateChecker->setBranch('master');
+
 $updateChecker->getVcsApi()->enableReleaseAssets();
