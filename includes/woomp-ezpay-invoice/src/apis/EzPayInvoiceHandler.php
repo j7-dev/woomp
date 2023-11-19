@@ -92,7 +92,8 @@ class EzPayInvoiceHandler
 			// print_r($item);
 			$divide         = ($i > 0) ? '|' : '';
 			$product        = $item->get_product();
-			$product_name  .= $divide . preg_replace('/[\s｜（）]+/u', '-', $item->get_name());
+			// $product_name  .= $divide . preg_replace('/[\s｜（）]+/u', '-', $item->get_name());
+			$product_name  .= $divide . '網路商品';
 			$product_count .= $divide . str_replace(' ', '', $item->get_quantity());
 			$product_unit  .= $divide . '件';
 
@@ -108,6 +109,7 @@ class EzPayInvoiceHandler
 
 			$i++;
 		}
+
 
 		/**
 		 * B2C
@@ -174,8 +176,6 @@ class EzPayInvoiceHandler
 		$this->invoice->create($issue_data);
 
 		$result_data = $this->invoice->getResponse();
-
-
 
 		if ($this->invoice->isOK() || $result_data->code === 'SUCCESS') {
 			$order->update_meta_data('_ezpay_invoice_result', $result_data);
