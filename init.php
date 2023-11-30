@@ -41,16 +41,6 @@ define('WOOMP_ACTIVE_PLUGINS', apply_filters('active_plugins', get_option('activ
 
 require WOOMP_PLUGIN_DIR . 'vendor/autoload.php';
 
-use Dotenv\Dotenv;
-
-$dotenv = Dotenv::createImmutable(__DIR__, '/.env.production');
-$dotenv->safeLoad();
-
-// 新增環境變數
-$_ENV['KEBAB'] = str_replace(' ', '-', strtolower($_ENV['APP_NAME']));
-$_ENV['SNAKE'] = str_replace(' ', '_', strtolower($_ENV['APP_NAME']));
-$_ENV['APP_SLUG'] = $_ENV['KEBAB'];
-
 
 /**
  * The code that runs during plugin activation.

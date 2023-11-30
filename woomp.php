@@ -5,7 +5,7 @@
  * Plugin Name:       好用版擴充 MorePower Addon for WooCommerce
  * Plugin URI:        https://morepower.club/morepower-addon/
  * Description:       WooCommerce 好用版擴充，改善結帳流程與可變商品等區塊，並整合多項金流，讓 WooCommerce 更符合亞洲人使用習慣。
- * Version:           3.2.4
+ * Version:           3.2.5
  * Author:            MorePower
  * Author URI:        https://morepower.club
  * License:           GPL-2.0+
@@ -18,21 +18,7 @@
 require_once "init.php";
 require_once "licenser/class-woomp-base.php";
 
-
-/**
- * wp plugin 更新檢查 update checker
- */
-
 use YahnisElsts\PluginUpdateChecker\v5\PucFactory;
-
-$updateChecker = PucFactory::buildUpdateChecker(
-	$_ENV['GITHUB_REPO'],
-	__FILE__,
-	$_ENV['APP_SLUG']
-);
-
-$updateChecker->getVcsApi()->enableReleaseAssets();
-
 
 class woomp_elite
 {
@@ -43,8 +29,28 @@ class woomp_elite
 	public $slug = "woomp";
 	public $plugin_version = '';
 	public $text_domain = '';
+
+	public static $github_repo = 'https://github.com/j7-dev/woomp';
+	public static $app_slug = 'woomp';
+	public static $buy_license_link = 'https://cloud.luke.cafe/product/woomp';
+	public static $support_email = 'cloud@luke.cafe';
+
 	function __construct()
 	{
+		/**
+		 * wp plugin 更新檢查 update checker
+		 */
+
+		$updateChecker = PucFactory::buildUpdateChecker(
+			self::$github_repo,
+			__FILE__,
+			self::$app_slug
+		);
+
+		$updateChecker->getVcsApi()->enableReleaseAssets();
+
+		// ---
+
 		add_action('admin_print_styles', [$this, 'set_admin_style']);
 		$this->set_plugin_data();
 		$main_lic_key = "woomp_lic_Key";
@@ -185,7 +191,7 @@ class woomp_elite
 					<?php
 					}
 					?>
-					<p class='text-gray-500'>好用版擴充是款免費外掛，但請先到 <a class="font-semibold leading-6 text-primary hover:text-primary-400" target="_blank" href="<?= $_ENV['BUY_LICENSE_LINK']; ?>">站長路可網站</a> 註冊帳號，即可索取授權碼。有任何客服問題，請私訊站長路可網站右下方對話框，或是來信 <a class="font-semibold leading-6 text-primary hover:text-primary-400" href="mailto:<?= $_ENV['SUPPORT_EMAIL']; ?>" target="_blank"><?= $_ENV['SUPPORT_EMAIL']; ?></a></p>
+					<p class='text-gray-500'>好用版擴充是款免費外掛，但請先到 <a class="font-semibold leading-6 text-primary hover:text-primary-400" target="_blank" href="<?= self::$buy_license_link; ?>">站長路可網站</a> 註冊帳號，即可索取授權碼。有任何客服問題，請私訊站長路可網站右下方對話框，或是來信 <a class="font-semibold leading-6 text-primary hover:text-primary-400" href="mailto:<?= self::$support_email; ?>" target="_blank"><?= self::$support_email; ?></a></p>
 				</div>
 
 				<div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
@@ -273,41 +279,34 @@ class woomp_elite
 					<?php
 					}
 					?>
-					<p class='text-gray-500'>好用版擴充是款免費外掛，但請先到 <a class="font-semibold leading-6 text-primary hover:text-primary-400" target="_blank" href="<?= $_ENV['BUY_LICENSE_LINK']; ?>">站長路可網站</a> 註冊帳號，即可索取授權碼。有任何客服問題，請私訊站長路可網站右下方對話框，或是來信 <a class="font-semibold leading-6 text-primary hover:text-primary-400" href="mailto:<?= $_ENV['SUPPORT_EMAIL']; ?>" target="_blank"><?= $_ENV['SUPPORT_EMAIL']; ?></a></p>
-				</div>
-
-				<div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-					<form class="space-y-6" action="#" method="POST">
-						<div class="mb-4">
-							<label for="el_license_key" class="block text-sm font-medium leading-6 text-gray-500">授權碼</label>
-							<div class="mt-2">
-								<input id="el_license_key" type="text" class="h-[36px] block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6" name="el_license_key" size="50" placeholder="xxxxxxxx-xxxxxxxx-xxxxxxxx-xxxxxxxx" required="required">
-							</div>
-						</div>
-
-						<div class="mb-4">
-							<label for="el_license_email" class="block text-sm font-medium leading-6 text-gray-500"><?php echo esc_html("Email", "woomp"); ?></label>
-							<div class="mt-2">
-								<?php
-								$purchase_email   = get_option("woomp_lic_email", get_bloginfo('admin_email'));
-								?>
-								<input id="el_license_email" type="email" class="h-[36px] block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6" name="el_license_email" size="50" value="<?php echo esc_html($purchase_email); ?>" placeholder="" required="required">
-							</div>
-						</div>
-
-						<div class="mt-8">
-							<button type="submit" class="flex w-full justify-center rounded-md bg-primary px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-primary-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary">啟用授權</button>
-						</div>
-					</form>
-
-					<p class="mt-10 text-center text-sm text-gray-400">
-						網站速度不夠快？
-						<a target="_blank" href="https://cloud.luke.cafe/" class="font-semibold leading-6 text-primary hover:text-primary-400">我們的主機代管服務</a> 提供30天免費試用
-					</p>
-					<?php wp_nonce_field('el-license'); ?>
-
+					<p class='text-gray-500'>好用版擴充是款免費外掛，但請先到 <a class="font-semibold leading-6 text-primary hover:text-primary-400" target="_blank" href="<?= self::$buy_license_link; ?>">站長路可網站</a> 註冊帳號，即可索取授權碼。有任何客服問題，請私訊站長路可網站右下方對話框，或是來信 <a class="font-semibold leading-6 text-primary hover:text-primary-400" href="mailto:<?= self::$support_email; ?>" target="_blank"><?= self::$support_email; ?></a></p>
+					<input id="el_license_key" type="text" class="h-[36px] block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6" name="el_license_key" size="50" placeholder="xxxxxxxx-xxxxxxxx-xxxxxxxx-xxxxxxxx" required="required">
 				</div>
 			</div>
+
+			<div class="mb-4">
+				<label for="el_license_email" class="block text-sm font-medium leading-6 text-gray-500"><?php echo esc_html("Email", "woomp"); ?></label>
+				<div class="mt-2">
+					<?php
+					$purchase_email   = get_option("woomp_lic_email", get_bloginfo('admin_email'));
+					?>
+					<input id="el_license_email" type="email" class="h-[36px] block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6" name="el_license_email" size="50" value="<?php echo esc_html($purchase_email); ?>" placeholder="" required="required">
+				</div>
+			</div>
+
+			<div class="mt-8">
+				<button type="submit" class="flex w-full justify-center rounded-md bg-primary px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-primary-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary">啟用授權</button>
+			</div>
+		</form>
+
+		<p class="mt-10 text-center text-sm text-gray-400">
+			網站速度不夠快？
+			<a target="_blank" href="https://cloud.luke.cafe/" class="font-semibold leading-6 text-primary hover:text-primary-400">我們的主機代管服務</a> 提供30天免費試用
+		</p>
+		<?php wp_nonce_field('el-license'); ?>
+
+		</div>
+		</div>
 		</form>
 	<?php
 		$this->get_background_html();

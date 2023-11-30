@@ -44,7 +44,7 @@ class Request
 	 *
 	 * @return array
 	 */
-	public function get_transaction_args(WC_Order $order, array|null $card_data): array
+	public function get_transaction_args(WC_Order $order, array $card_data): array
 	{
 		$order_suffix = ($order->get_meta('_payuni_order_suffix')) ? '-' . $order->get_meta('_payuni_order_suffix') : '';
 

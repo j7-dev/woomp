@@ -162,7 +162,7 @@ class Response
 	 *
 	 * @return bool
 	 */
-	public static function hash_response(object|null $resp): bool
+	public static function hash_response(object $resp): bool
 	{
 		//@codingStandardsIgnoreStart
 		$encrypt_info = ($resp) ? $resp->EncryptInfo : $_REQUEST['EncryptInfo'];
