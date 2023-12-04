@@ -80,9 +80,9 @@ class Response
 
 		Payment::log($data, 'response');
 
-		$order    = wc_get_order(explode('-', $data['MerTradeNo'])[0]);
-		$status   = $data['Status'];
-		$message  = $data['Message'];
+		$order = wc_get_order(explode('-', $data['MerTradeNo'])[0]);
+		$status = $data['Status'];
+		$message = $data['Message'];
 		$trade_no = $data['TradeNo'];
 
 		$order->update_meta_data('_payuni_order_suffix', (int) $order->get_meta('_payuni_order_suffix') + 1);
@@ -92,15 +92,15 @@ class Response
 		$order->update_meta_data('_payuni_resp_trade_no', $trade_no);
 
 		// 處理信用卡.
-		$card_bank         = $data['CardBank'];
-		$card_bank_name    = $data['AuthBankName'];
-		$card_4no          = $data['Card4No'];
-		$card_hash         = $data['CreditHash'];
+		$card_bank = $data['CardBank'];
+		$card_bank_name = $data['AuthBankName'];
+		$card_4no = $data['Card4No'];
+		$card_hash = $data['CreditHash'];
 		$card_expiry_month = substr($data['CreditLife'], 0, 2);
-		$card_expiry_year  = '20' . substr($data['CreditLife'], 2, 2);
+		$card_expiry_year = '20' . substr($data['CreditLife'], 2, 2);
 
 		$card_inst = $data['CardInst'];
-		$each_amt  = $data['EachAmt'];
+		$each_amt = $data['EachAmt'];
 		$first_amt = $data['FirstAmt'];
 
 		$order->update_meta_data('_payuni_resp_card_bank', "({$card_bank}){$card_bank_name}");
@@ -112,7 +112,7 @@ class Response
 		$order->add_order_note("<strong>統一金流交易紀錄</strong><br>狀態碼：{$status}<br>交易訊息：{$message}<br>交易編號：{$trade_no}<br>卡號末四碼：{$card_4no}", true);
 
 		$status_success = ('WC_Subscription' === get_class($order)) ? 'active' : 'processing';
-		$status_failed  = ('WC_Subscription' === get_class($order)) ? 'on-hold' : 'failed';
+		$status_failed = ('WC_Subscription' === get_class($order)) ? 'on-hold' : 'failed';
 
 		if ('SUCCESS' === $status) {
 			$method = $order->get_meta('_payment_method');
@@ -162,18 +162,18 @@ class Response
 	 *
 	 * @return bool
 	 */
-	public static function hash_response(object $resp): bool
+	public static function hash_response(object|null $resp): bool
 	{
 		//@codingStandardsIgnoreStart
 		$encrypt_info = ($resp) ? $resp->EncryptInfo : $_REQUEST['EncryptInfo'];
 		//@codingStandardsIgnoreEnd
 
-		$data              = Payment::decrypt($encrypt_info);
-		$status            = $data['Status'];
-		$card_4no          = $data['Card4No'];
-		$card_hash         = $data['CreditHash'];
+		$data = Payment::decrypt($encrypt_info);
+		$status = $data['Status'];
+		$card_4no = $data['Card4No'];
+		$card_hash = $data['CreditHash'];
 		$card_expiry_month = substr($data['CreditLife'], 0, 2);
-		$card_expiry_year  = '20' . substr($data['CreditLife'], 2, 2);
+		$card_expiry_year = '20' . substr($data['CreditLife'], 2, 2);
 
 		if ('SUCCESS' === $status) {
 			$token = new \WC_Payment_Token_CC();
@@ -209,8 +209,8 @@ class Response
 		// 背景通知付款結果.
 		if ($_REQUEST['Status']) {
 			if ('SUCCESS' === $_REQUEST['Status']) {
-				$data  = Payment::decrypt($_REQUEST['EncryptInfo']);
-				$time  = date('Y-m-d H:i:s', time());
+				$data = Payment::decrypt($_REQUEST['EncryptInfo']);
+				$time = date('Y-m-d H:i:s', time());
 				$order = wc_get_order($data['MerTradeNo']);
 				$order->update_status('processing');
 				$order->add_order_note("<strong>統一金流繳費紀錄</strong><br>狀態碼：{$data['Status']}<br>繳費結果：{$data['Message']}<br>繳費時間：{$data['PayTime']}<br>轉帳後五碼：{$data['Account5No']}", true);
@@ -222,13 +222,13 @@ class Response
 		if ($resp) {
 			global $woocommerce;
 			$encrypt_info = $resp->EncryptInfo;
-			$data         = Payment::decrypt($encrypt_info);
-			$status       = $data['Status'];
-			$message      = $data['Message'];
-			$trade_no     = $data['TradeNo'];
-			$bank         = '(' . $data['BankType'] . ')' . Payment::get_bank_name($data['BankType']);
-			$bank_no      = $data['PayNo'];
-			$bank_expire  = date('Y-m-d H:i:s', strtotime($data['ExpireDate']));
+			$data = Payment::decrypt($encrypt_info);
+			$status = $data['Status'];
+			$message = $data['Message'];
+			$trade_no = $data['TradeNo'];
+			$bank = '(' . $data['BankType'] . ')' . Payment::get_bank_name($data['BankType']);
+			$bank_no = $data['PayNo'];
+			$bank_expire = date('Y-m-d H:i:s', strtotime($data['ExpireDate']));
 
 			$order = wc_get_order($data['MerTradeNo']);
 			$order->update_meta_data('_payuni_resp_status', $status);
@@ -267,8 +267,8 @@ class Response
 		// 背景通知付款結果.
 		if ($_REQUEST['Status']) {
 			if ('SUCCESS' === $_REQUEST['Status']) {
-				$data  = Payment::decrypt($_REQUEST['EncryptInfo']);
-				$time  = date('Y-m-d H:i:s', time());
+				$data = Payment::decrypt($_REQUEST['EncryptInfo']);
+				$time = date('Y-m-d H:i:s', time());
 				$order = wc_get_order($data['MerTradeNo']);
 				$order->update_status('processing');
 				$order->add_order_note("<strong>統一金流繳費紀錄</strong><br>狀態碼：{$data['Status']}<br>繳費結果：{$data['Message']}<br>繳費時間：{$data['PayTime']}<br>轉帳後五碼：{$data['Account5No']}", true);
@@ -280,17 +280,17 @@ class Response
 		if ($resp) {
 			global $woocommerce;
 			$encrypt_info = $resp->EncryptInfo;
-			$data         = Payment::decrypt($encrypt_info);
+			$data = Payment::decrypt($encrypt_info);
 
 			Payment::log($data);
 
 			return;
 
-			$status      = $data['Status'];
-			$message     = $data['Message'];
-			$trade_no    = $data['TradeNo'];
-			$bank        = '(' . $data['BankType'] . ')' . Payment::get_bank_name($data['BankType']);
-			$bank_no     = $data['PayNo'];
+			$status = $data['Status'];
+			$message = $data['Message'];
+			$trade_no = $data['TradeNo'];
+			$bank = '(' . $data['BankType'] . ')' . Payment::get_bank_name($data['BankType']);
+			$bank_no = $data['PayNo'];
 			$bank_expire = date('Y-m-d H:i:s', strtotime($data['ExpireDate']));
 
 			$order = wc_get_order($data['MerTradeNo']);
