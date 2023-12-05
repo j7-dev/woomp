@@ -17,15 +17,48 @@ jQuery(function ($) {
     $(".btnGenerateInvoiceEzPay").click(function () {
       $.blockUI({ message: "<p>處理中...</p>" });
 
-      var data = {
-        action: "gen_invoice_ezpay",
-        nonce: woomp_ezpay_invoice_params.ajax_nonce,
-        orderId: $(this).val(),
-        _ezpay_invoice_type: $('select[name="_ezpay_invoice_type"]').val(),
-        _ezpay_invoice_individual: $(
-          'select[name="_ezpay_invoice_individual"]'
-        ).val(),
+      const getInvoicePayload = () => {
+        const _ezpay_invoice_type = $(
+          'select[name="_ezpay_invoice_type"]'
+        ).val();
+        const defaultPayload = {
+          action: "gen_invoice_ezpay",
+          nonce: woomp_ezpay_invoice_params.ajax_nonce,
+          orderId: $(this).val(),
+          _ezpay_invoice_type,
+        };
+
+        switch (_ezpay_invoice_type) {
+          case "individual":
+            return {
+              ...defaultPayload,
+              _ezpay_invoice_individual: $(
+                'select[name="_ezpay_invoice_individual"]'
+              ).val(),
+            };
+          case "company":
+            return {
+              ...defaultPayload,
+              _ezpay_invoice_company_name: $(
+                'input[name="_ezpay_invoice_company_name"]'
+              ).val(),
+              _ezpay_invoice_tax_id: $(
+                'input[name="_ezpay_invoice_tax_id"]'
+              ).val(),
+            };
+          case "donate":
+            return {
+              ...defaultPayload,
+              _ezpay_invoice_donate: $(
+                'input[name="_ezpay_invoice_donate"]'
+              ).val(),
+            };
+          default:
+            return defaultPayload;
+        }
       };
+
+      const data = getInvoicePayload();
 
       $.post(ajaxurl, data, function (response) {
         $.unblockUI();

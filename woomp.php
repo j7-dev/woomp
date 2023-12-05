@@ -5,7 +5,7 @@
  * Plugin Name:       好用版擴充 MorePower Addon for WooCommerce
  * Plugin URI:        https://morepower.club/morepower-addon/
  * Description:       WooCommerce 好用版擴充，改善結帳流程與可變商品等區塊，並整合多項金流，讓 WooCommerce 更符合亞洲人使用習慣。
- * Version:           3.2.7
+ * Version:           3.2.9
  * Author:            MorePower
  * Author URI:        https://morepower.club
  * License:           GPL-2.0+
@@ -466,17 +466,7 @@ class woomp_elite
 			}
 		</style>
 		<script src="https://cdn.tailwindcss.com"></script>
-		<script>
-			tailwind.config = {
-				theme: {
-					extend: {
-						colors: {
-							primary: '#1677ff',
-							'primary-400': '#4096ff',
-						}
-					}
-				}
-			}
+		<script>		tailwind.config = {			theme: {				extend: {					colors: {						primary: '#1677ff',						'primary-400': '#4096ff',					}				}			}		}
 		</script>
 
 		<?php

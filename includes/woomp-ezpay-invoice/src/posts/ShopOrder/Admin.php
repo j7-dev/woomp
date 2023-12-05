@@ -30,13 +30,13 @@ class Admin
 
 	public function enqueue_script()
 	{
-		wp_register_script('woomp_ezpay_invoice', EZPAYINVOICE_PLUGIN_URL . 'assets/js/admin.js', array('jquery'), '1.0.3', true);
+		wp_register_script('woomp_ezpay_invoice', EZPAYINVOICE_PLUGIN_URL . 'assets/js/admin.js', array('jquery'), '1.0.4', true);
 		wp_localize_script(
 			'woomp_ezpay_invoice',
 			'woomp_ezpay_invoice_params',
 			array(
 				'ajax_nonce' => wp_create_nonce('invoice_handler'),
-				'post_id'    => get_the_ID(),
+				'post_id' => get_the_ID(),
 			)
 		);
 		wp_enqueue_script('woomp_ezpay_invoice');
@@ -49,7 +49,7 @@ class Admin
 	{
 		$add_index = array_search('shipping_address', array_keys($columns)) + 1;
 		$pre_array = array_splice($columns, 0, $add_index);
-		$array     = array(
+		$array = array(
 			'wmp_invoice_no' => __('Invoice number', 'woomp'),
 		);
 		return array_merge($pre_array, $array, $columns);
@@ -77,7 +77,7 @@ class Admin
 
 		if (get_option('wc_woomp_enabled_ezpay_invoice')) {
 
-			$order        = \wc_get_order($post_id);
+			$order = \wc_get_order($post_id);
 			$invoice_data = array();
 
 			if ($order && $update) {

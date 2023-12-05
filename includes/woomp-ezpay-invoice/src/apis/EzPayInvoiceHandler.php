@@ -23,17 +23,17 @@ class EzPayInvoiceHandler
 	public function __construct()
 	{
 		if ((wc_string_to_bool(get_option('wc_woomp_ezpay_invoice_testmode_enabled')))) {
-			$account       = array(
+			$account = array(
 				'merchantID' => get_option('wc_woomp_ezpay_invoice_merchant_id_test'),
-				'hashKey'    => get_option('wc_woomp_ezpay_invoice_hashkey_test'),
-				'hashIV'     => get_option('wc_woomp_ezpay_invoice_hashiv_test'),
+				'hashKey' => get_option('wc_woomp_ezpay_invoice_hashkey_test'),
+				'hashIV' => get_option('wc_woomp_ezpay_invoice_hashiv_test'),
 			);
 			$is_production = false;
 		} else {
-			$account       = array(
+			$account = array(
 				'merchantID' => get_option('wc_woomp_ezpay_invoice_merchant_id'),
-				'hashKey'    => get_option('wc_woomp_ezpay_invoice_hashkey'),
-				'hashIV'     => get_option('wc_woomp_ezpay_invoice_hashiv'),
+				'hashKey' => get_option('wc_woomp_ezpay_invoice_hashkey'),
+				'hashIV' => get_option('wc_woomp_ezpay_invoice_hashiv'),
 			);
 			$is_production = true;
 		}
@@ -57,7 +57,7 @@ class EzPayInvoiceHandler
 		}
 
 		// 取得顧客發票資訊.
-		$invoice_type       = (array_key_exists('_ezpay_invoice_type', $order->get_meta('_ezpay_invoice_data'))) ? $order->get_meta('_ezpay_invoice_data')['_ezpay_invoice_type'] : '';
+		$invoice_type = (array_key_exists('_ezpay_invoice_type', $order->get_meta('_ezpay_invoice_data'))) ? $order->get_meta('_ezpay_invoice_data')['_ezpay_invoice_type'] : '';
 		$invoice_individual = (array_key_exists('_ezpay_invoice_individual', $order->get_meta('_ezpay_invoice_data'))) ? $order->get_meta('_ezpay_invoice_data')['_ezpay_invoice_individual'] : '';
 
 		switch ($invoice_individual) {
@@ -75,36 +75,36 @@ class EzPayInvoiceHandler
 				break;
 		}
 
-		$invoice_carrier      = (array_key_exists('_ezpay_invoice_carrier', $order->get_meta('_ezpay_invoice_data'))) ? $order->get_meta('_ezpay_invoice_data')['_ezpay_invoice_carrier'] : '';
+		$invoice_carrier = (array_key_exists('_ezpay_invoice_carrier', $order->get_meta('_ezpay_invoice_data'))) ? $order->get_meta('_ezpay_invoice_data')['_ezpay_invoice_carrier'] : '';
 		$invoice_company_name = (array_key_exists('_ezpay_invoice_company_name', $order->get_meta('_ezpay_invoice_data'))) ? $order->get_meta('_ezpay_invoice_data')['_ezpay_invoice_company_name'] : '';
-		$invoice_tax_id       = (array_key_exists('_ezpay_invoice_tax_id', $order->get_meta('_ezpay_invoice_data'))) ? $order->get_meta('_ezpay_invoice_data')['_ezpay_invoice_tax_id'] : '';
-		$invoice_donate       = (array_key_exists('_ezpay_invoice_donate', $order->get_meta('_ezpay_invoice_data'))) ? $order->get_meta('_ezpay_invoice_data')['_ezpay_invoice_donate'] : '';
+		$invoice_tax_id = (array_key_exists('_ezpay_invoice_tax_id', $order->get_meta('_ezpay_invoice_data'))) ? $order->get_meta('_ezpay_invoice_data')['_ezpay_invoice_tax_id'] : '';
+		$invoice_donate = (array_key_exists('_ezpay_invoice_donate', $order->get_meta('_ezpay_invoice_data'))) ? $order->get_meta('_ezpay_invoice_data')['_ezpay_invoice_donate'] : '';
 
 		// 取得商品相關資訊.
-		$i             = 0;
-		$product_name  = '';
+		$i = 0;
+		$product_name = '';
 		$product_count = '';
-		$product_unit  = '';
+		$product_unit = '';
 		$product_price = '';
-		$product_amt   = '';
+		$product_amt = '';
 
 		foreach ($order->get_items() as $item) {
 			// print_r($item);
-			$divide         = ($i > 0) ? '|' : '';
-			$product        = $item->get_product();
+			$divide = ($i > 0) ? '|' : '';
+			$product = $item->get_product();
 			// $product_name  .= $divide . preg_replace('/[\s｜（）]+/u', '-', $item->get_name());
-			$product_name  .= $divide . '網路商品';
+			$product_name .= $divide . '網路商品';
 			$product_count .= $divide . str_replace(' ', '', $item->get_quantity());
-			$product_unit  .= $divide . '件';
+			$product_unit .= $divide . '件';
 
 			if ('company' === $invoice_type) {
 				// B2B 未稅金額.
 				$product_price .= $divide . round($product->get_price() / 1.05);
-				$product_amt   .= $divide . round($product->get_price() / 1.05) * $item->get_quantity();
+				$product_amt .= $divide . round($product->get_price() / 1.05) * $item->get_quantity();
 			} else {
 				// B2C 含稅金額.
 				$product_price .= $divide . $product->get_price();
-				$product_amt   .= $divide . $product->get_price() * $item->get_quantity();
+				$product_amt .= $divide . $product->get_price() * $item->get_quantity();
 			}
 
 			$i++;
@@ -115,24 +115,24 @@ class EzPayInvoiceHandler
 		 * B2C
 		 */
 		$issue_data['MerchantOrderNo'] = substr(get_option('wc_woomp_ezpay_invoice_order_prefix') . $order_id . '_' . time(), 0, 20);
-		$issue_data['Status']          = 1;
-		$issue_data['Category']        = 'B2C';
-		$issue_data['BuyerName']       = $order->get_billing_last_name() . $order->get_billing_first_name();
-		$issue_data['BuyerAddress']    = $order->get_billing_postcode() . $order->get_billing_country() . $order->get_billing_state() . $order->get_billing_city() . $order->get_billing_address_1() . $order->get_billing_address_2();
-		$issue_data['BuyerEmail']      = $order->get_billing_email();
-		$issue_data['CarrierType']     = $invoice_individual;
-		$issue_data['CarrierNum']      = (2 === $invoice_individual) ? rawurlencode($order->get_billing_email()) : $invoice_carrier;
-		$issue_data['PrintFlag']       = ('' === $invoice_individual && '' === $invoice_donate) ? 'Y' : 'N'; // 索取紙本發票.
-		$issue_data['TaxType']         = 1; // 課稅別.
-		$issue_data['TaxRate']         = 5; // 稅率5%.
-		$issue_data['Amt']             = round($order->get_total() / 1.05); // 未稅.
-		$issue_data['TaxAmt']          = $order->get_total() - round($order->get_total() / 1.05); // 稅額.
-		$issue_data['TotalAmt']        = $order->get_total(); // 發票金額.
-		$issue_data['ItemName']        = mb_substr($product_name, 0, 30, 'UTF-8'); // 商品名稱.
-		$issue_data['ItemCount']       = $product_count; // 商品數量.
-		$issue_data['ItemUnit']        = $product_unit; // 商品單位.
-		$issue_data['ItemPrice']       = $product_price; // 商品單價.
-		$issue_data['ItemAmt']         = $product_amt; // 商品小計.
+		$issue_data['Status'] = 1;
+		$issue_data['Category'] = 'B2C';
+		$issue_data['BuyerName'] = $order->get_billing_last_name() . $order->get_billing_first_name();
+		$issue_data['BuyerAddress'] = $order->get_billing_postcode() . $order->get_billing_country() . $order->get_billing_state() . $order->get_billing_city() . $order->get_billing_address_1() . $order->get_billing_address_2();
+		$issue_data['BuyerEmail'] = $order->get_billing_email();
+		$issue_data['CarrierType'] = $invoice_individual;
+		$issue_data['CarrierNum'] = (2 === $invoice_individual) ? rawurlencode($order->get_billing_email()) : $invoice_carrier;
+		$issue_data['PrintFlag'] = ('' === $invoice_individual && '' === $invoice_donate) ? 'Y' : 'N'; // 索取紙本發票.
+		$issue_data['TaxType'] = 1; // 課稅別.
+		$issue_data['TaxRate'] = 5; // 稅率5%.
+		$issue_data['Amt'] = round($order->get_total() / 1.05); // 未稅.
+		$issue_data['TaxAmt'] = $order->get_total() - round($order->get_total() / 1.05); // 稅額.
+		$issue_data['TotalAmt'] = $order->get_total(); // 發票金額.
+		$issue_data['ItemName'] = mb_substr($product_name, 0, 30, 'UTF-8'); // 商品名稱.
+		$issue_data['ItemCount'] = $product_count; // 商品數量.
+		$issue_data['ItemUnit'] = $product_unit; // 商品單位.
+		$issue_data['ItemPrice'] = $product_price; // 商品單價.
+		$issue_data['ItemAmt'] = $product_amt; // 商品小計.
 
 		if (2 === $invoice_individual) {
 			$issue_data['KioskPrintFlag'] = 1;
@@ -142,11 +142,11 @@ class EzPayInvoiceHandler
 		 * B2B
 		 */
 		if ('company' === $invoice_type) {
-			$issue_data['Category']    = 'B2B';
-			$issue_data['BuyerName']   = $invoice_company_name;
-			$issue_data['BuyerUBN']    = $invoice_tax_id;
+			$issue_data['Category'] = 'B2B';
+			$issue_data['BuyerName'] = $invoice_company_name; // ''
+			$issue_data['BuyerUBN'] = $invoice_tax_id; // '藍新好像根本不需要這個參數!?'
 			$issue_data['CarrierType'] = '';
-			$issue_data['PrintFlag']   = 'Y';
+			$issue_data['PrintFlag'] = 'Y';
 		}
 
 		/**
@@ -154,7 +154,7 @@ class EzPayInvoiceHandler
 		 */
 		if ('donate' === $invoice_type) {
 			$issue_data['CarrierType'] = '';
-			$issue_data['LoveCode']    = $invoice_donate;
+			$issue_data['LoveCode'] = $invoice_donate;
 		}
 
 		return $issue_data;
@@ -165,7 +165,7 @@ class EzPayInvoiceHandler
 	 */
 	public function generate_invoice($order_id)
 	{
-		$order      = \wc_get_order($order_id);
+		$order = \wc_get_order($order_id);
 
 		$issue_data = $this->get_issue_data($order_id);
 
@@ -199,18 +199,18 @@ class EzPayInvoiceHandler
 	 */
 	public function invalid_invoice($order_id)
 	{
-		$order          = wc_get_order($order_id);
+		$order = wc_get_order($order_id);
 		$invoice_number = $order->get_meta('_ezpay_invoice_number');
-		$result_data    = $order->get_meta('_ezpay_invoice_result');
+		$result_data = $order->get_meta('_ezpay_invoice_result');
 
 		if ($invoice_number) {
 
 			$this->invoice = $this->invoice->info(
 				array(
-					'SearchType'      => 0,
+					'SearchType' => 0,
 					'MerchantOrderNo' => $result_data->result->MerchantOrderNo,
-					'InvoiceNumber'   => $result_data->result->InvoiceNumber,
-					'RandomNum'       => $result_data->result->RandomNum,
+					'InvoiceNumber' => $result_data->result->InvoiceNumber,
+					'RandomNum' => $result_data->result->RandomNum,
 				)
 			);
 
@@ -218,7 +218,7 @@ class EzPayInvoiceHandler
 				array(
 					'InvoiceNumber' => $this->invoice->getResult('InvoiceNumber'), // 發票號碼.
 					'InvalidReason' => '發票作廢', // 作廢原因.
-					'RandomNum'     => $this->invoice->getResult('RandomNum'),
+					'RandomNum' => $this->invoice->getResult('RandomNum'),
 				)
 			);
 			$result_data = $this->invoice->getResponse();

@@ -36,10 +36,12 @@ class Ajax
 
 		$order_id = intval(sanitize_text_field($_POST['orderId']));
 
-
 		$invoice_data = array(
 			'_ezpay_invoice_type' => sanitize_text_field($_POST['_ezpay_invoice_type']),
 			'_ezpay_invoice_individual' => sanitize_text_field($_POST['_ezpay_invoice_individual']),
+			'_ezpay_invoice_company_name' => sanitize_text_field($_POST['_ezpay_invoice_company_name']),
+			'_ezpay_invoice_tax_id' => sanitize_text_field($_POST['_ezpay_invoice_tax_id']),
+			'_ezpay_invoice_donate' => sanitize_text_field($_POST['_ezpay_invoice_donate']),
 		);
 		$order = wc_get_order($order_id);
 		$order->update_meta_data('_ezpay_invoice_data', $invoice_data);
