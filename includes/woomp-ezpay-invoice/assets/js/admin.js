@@ -35,6 +35,9 @@ jQuery(function ($) {
               _ezpay_invoice_individual: $(
                 'select[name="_ezpay_invoice_individual"]'
               ).val(),
+              _ezpay_invoice_carrier: $(
+                'input[name="_ezpay_invoice_carrier"]'
+              ).val(),
             };
           case "company":
             return {
