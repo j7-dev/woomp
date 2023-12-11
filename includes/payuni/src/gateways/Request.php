@@ -19,291 +19,288 @@ defined('ABSPATH') || exit;
 class Request
 {
 
-	/**
-	 * The gateway instance
-	 *
-	 * @var WC_Payment_Gateway
-	 */
-	protected $gateway;
+    /**
+     * The gateway instance
+     *
+     * @var WC_Payment_Gateway
+     */
+    protected $gateway;
 
-	/**
-	 * Constructor
-	 *
-	 * @param WC_Payment_Gateway $gateway The payment gateway instance.
-	 */
-	public function __construct($gateway)
-	{
-		$this->gateway = $gateway;
-	}
+    /**
+     * Constructor
+     *
+     * @param WC_Payment_Gateway $gateway The payment gateway instance.
+     */
+    public function __construct($gateway)
+    {
+        $this->gateway = $gateway;
+    }
 
-	/**
-	 * Build transaction args.
-	 *
-	 * @param WC_Order   $order     The order object.
-	 * @param array|null $card_data The card data.
-	 *
-	 * @return array
-	 */
-	public function get_transaction_args(WC_Order $order, array|null $card_data): array
-	{
-		$order_suffix = ($order->get_meta('_payuni_order_suffix')) ? '-' . $order->get_meta('_payuni_order_suffix') : '';
+    /**
+     * Build transaction args.
+     *
+     * @param WC_Order   $order     The order object.
+     * @param ?array $card_data The card data.
+     *
+     * @return array
+     */
+    public function get_transaction_args(WC_Order $order, ?array $card_data): array
+    {
+        $order_suffix = ($order->get_meta('_payuni_order_suffix')) ? '-' . $order->get_meta('_payuni_order_suffix') : '';
 
+        $args = array(
+            'MerID'      => $this->gateway->get_mer_id(),
+            'MerTradeNo' => $order->get_order_number() . $order_suffix,
+            'TradeAmt'   => $order->get_total(),
+            'Timestamp'  => time(),
+            'UsrMail'    => $order->get_billing_email(),
+            'ProdDesc'   => $this->get_product_name($order),
+        );
 
-		$args = array(
-			'MerID' => $this->gateway->get_mer_id(),
-			'MerTradeNo' => $order->get_order_number() . $order_suffix,
-			'TradeAmt' => $order->get_total(),
-			'Timestamp' => time(),
-			'UsrMail' => $order->get_billing_email(),
-			'ProdDesc' => $this->get_product_name($order),
-		);
+        if ($card_data) {
+            // 取消 token
+            // $data = array(
+            //     'CreditToken' => $order->get_billing_email(),
+            // );
 
-		if ($card_data) {
-			// 取消 token
-			// $data = array(
-			// 	'CreditToken' => $order->get_billing_email(),
-			// );
+            $order->update_meta_data('_payuni_token_id', $card_data[ 'token_id' ]);
+            $order->update_meta_data('_payuni_token_maybe_save', $card_data[ 'new' ]);
+            $order->save();
 
-			$order->update_meta_data('_payuni_token_id', $card_data['token_id']);
-			$order->update_meta_data('_payuni_token_maybe_save', $card_data['new']);
-			$order->save();
+            // 不判斷 token_id 直接傳卡號
+            $data = array(
+                'CardNo'      => $card_data[ 'number' ],
+                'CardExpired' => $card_data[ 'expiry' ],
+                'CardCVC'     => $card_data[ 'cvc' ],
+            );
+            // if (!empty($card_data['token_id']) && 'new' !== $card_data['token_id']) {
+            //     $token              = \WC_Payment_Tokens::get($card_data['token_id']);
+            //     $data['CreditHash'] = $token->get_token();
+            // } else {
+            //     $data = array(
+            //         'CardNo'      => $card_data['number'],
+            //         'CardExpired' => $card_data['expiry'],
+            //         'CardCVC'     => $card_data['cvc'],
+            //         'CreditToken' => $order->get_billing_email(),
+            //     );
+            // }
 
-			// 不判斷 token_id 直接傳卡號
-			$data = array(
-				'CardNo' => $card_data['number'],
-				'CardExpired' => $card_data['expiry'],
-				'CardCVC' => $card_data['cvc'],
-			);
-			// if (!empty($card_data['token_id']) && 'new' !== $card_data['token_id']) {
-			// 	$token              = \WC_Payment_Tokens::get($card_data['token_id']);
-			// 	$data['CreditHash'] = $token->get_token();
-			// } else {
-			// 	$data = array(
-			// 		'CardNo'      => $card_data['number'],
-			// 		'CardExpired' => $card_data['expiry'],
-			// 		'CardCVC'     => $card_data['cvc'],
-			// 		'CreditToken' => $order->get_billing_email(),
-			// 	);
-			// }
+            if ($card_data[ 'period' ]) {
+                $data[ 'CardInst' ] = $card_data[ 'period' ];
+            }
 
+            $args = array_merge(
+                $args,
+                $data
+            );
+        }
 
+        $args = apply_filters(
+            'payuni_transaction_args_' . $this->gateway->id,
+            $args,
+            $order,
+            $card_data
+        );
 
-			if ($card_data['period']) {
-				$data['CardInst'] = $card_data['period'];
-			}
+        $parameter[ 'MerID' ]       = $this->gateway->get_mer_id();
+        $parameter[ 'Version' ]     = '1.0';
+        $parameter[ 'EncryptInfo' ] = \Payuni\APIs\Payment::encrypt($args);
+        $parameter[ 'HashInfo' ]    = \Payuni\APIs\Payment::hash_info($parameter[ 'EncryptInfo' ]);
 
-			$args = array_merge(
-				$args,
-				$data
-			);
-		}
+        return $parameter;
+    }
 
-		$args = apply_filters(
-			'payuni_transaction_args_' . $this->gateway->id,
-			$args,
-			$order,
-			$card_data
-		);
+    /**
+     * Get product name
+     *
+     * @param WC_Order $order The order object.
+     */
+    public function get_product_name($order)
+    {
+        $items = $order->get_items();
+        if (!empty($items)) {
+            foreach ($items as $item) {
+                return $item->get_name();
+            }
+        }
 
-		$parameter['MerID'] = $this->gateway->get_mer_id();
-		$parameter['Version'] = '1.0';
-		$parameter['EncryptInfo'] = \Payuni\APIs\Payment::encrypt($args);
-		$parameter['HashInfo'] = \Payuni\APIs\Payment::hash_info($parameter['EncryptInfo']);
+        return '商品名稱';
+    }
 
-		return $parameter;
-	}
+    /**
+     * Generate the form and redirect to PayNow
+     *
+     * @param WC_Order $order The order object.
+     *
+     * @return array
+     */
+    public function build_request(WC_Order $order, $card_data = null): array
+    {
+        $options = array(
+            'method'  => 'POST',
+            'timeout' => 60,
+            'body'    => $this->get_transaction_args($order, $card_data),
+        );
 
-	/**
-	 * Get product name
-	 *
-	 * @param WC_Order $order The order object.
-	 */
-	public function get_product_name($order)
-	{
-		$items = $order->get_items();
-		if (!empty($items)) {
-			foreach ($items as $item) {
-				return $item->get_name();
-			}
-		}
+        $response = wp_remote_request($this->gateway->get_api_url() . $this->gateway->get_api_endpoint_url(), $options);
+        $resp     = json_decode(wp_remote_retrieve_body($response));
 
-		return '商品名稱';
-	}
+        //@codingStandardsIgnoreStart
+        $data = \Payuni\APIs\Payment::decrypt($resp->EncryptInfo);
+        //@codingStandardsIgnoreEnd
 
-	/**
-	 * Generate the form and redirect to PayNow
-	 *
-	 * @param WC_Order $order The order object.
-	 *
-	 * @return array
-	 */
-	public function build_request(WC_Order $order, $card_data = null): array
-	{
-		$options = array(
-			'method' => 'POST',
-			'timeout' => 60,
-			'body' => $this->get_transaction_args($order, $card_data),
-		);
+        unset($data[ 'Card6No' ]); // remove card number from log.
 
-		$response = wp_remote_request($this->gateway->get_api_url() . $this->gateway->get_api_endpoint_url(), $options);
-		$resp = json_decode(wp_remote_retrieve_body($response));
+        Payment::log($data, 'request');
 
-		//@codingStandardsIgnoreStart
-		$data = \Payuni\APIs\Payment::decrypt($resp->EncryptInfo);
-		//@codingStandardsIgnoreEnd
+        // 結帳頁顯示錯誤訊息.
+        if ('SUCCESS' !== $data[ 'Status' ]) {
+            wc_add_notice($data[ 'Message' ], 'error');
+        }
 
-		unset($data['Card6No']); // remove card number from log.
+        if (key_exists('URL', $data)) {
+            return array(
+                'result'   => 'success',
+                'redirect' => $data[ 'URL' ],
+            );
+        } else {
+            $this->set_response($order->get_payment_method(), $resp);
 
-		Payment::log($data, 'request');
+            return array(
+                'result'   => 'success',
+                'redirect' => $this->gateway->get_return_url($order),
+            );
+        }
+    }
 
-		// 結帳頁顯示錯誤訊息.
-		if ('SUCCESS' !== $data['Status']) {
-			wc_add_notice($data['Message'], 'error');
-		}
+    /**
+     * The request for subscription.
+     *
+     * @param int      $amount The amount.
+     * @param WC_Order $order  The subscription order object.
+     */
+    public function build_subscription_request(int $amount, WC_Order $order): void
+    {
+        $order_suffix = ($order->get_meta('_payuni_order_suffix')) ? '-' . $order->get_meta('_payuni_order_suffix') : '';
 
-		if (key_exists('URL', $data)) {
-			return array(
-				'result' => 'success',
-				'redirect' => $data['URL'],
-			);
-		} else {
-			$this->set_response($order->get_payment_method(), $resp);
+        $args = array(
+            'MerID'       => $this->gateway->get_mer_id(),
+            'MerTradeNo'  => $order->get_order_number() . $order_suffix,
+            'TradeAmt'    => $amount,
+            'Timestamp'   => time(),
+            'UsrMail'     => $order->get_billing_email(),
+            'ProdDesc'    => $this->get_product_name($order),
+            'CreditToken' => $order->get_billing_email(),
+            'CreditHash'  => $this->get_card_hash($order),
+        );
 
-			return array(
-				'result' => 'success',
-				'redirect' => $this->gateway->get_return_url($order),
-			);
-		}
-	}
+        $parameter = array(
+            'MerID'       => $this->gateway->get_mer_id(),
+            'Version'     => '1.0',
+            'EncryptInfo' => \Payuni\APIs\Payment::encrypt($args),
+            'HashInfo'    => \Payuni\APIs\Payment::hash_info(\Payuni\APIs\Payment::encrypt($args)),
+        );
 
-	/**
-	 * The request for subscription.
-	 *
-	 * @param int      $amount The amount.
-	 * @param WC_Order $order  The subscription order object.
-	 */
-	public function build_subscription_request(int $amount, WC_Order $order): void
-	{
-		$order_suffix = ($order->get_meta('_payuni_order_suffix')) ? '-' . $order->get_meta('_payuni_order_suffix') : '';
+        $options = array(
+            'method'  => 'POST',
+            'timeout' => 60,
+            'body'    => $parameter,
+        );
 
-		$args = array(
-			'MerID' => $this->gateway->get_mer_id(),
-			'MerTradeNo' => $order->get_order_number() . $order_suffix,
-			'TradeAmt' => $amount,
-			'Timestamp' => time(),
-			'UsrMail' => $order->get_billing_email(),
-			'ProdDesc' => $this->get_product_name($order),
-			'CreditToken' => $order->get_billing_email(),
-			'CreditHash' => $this->get_card_hash($order),
-		);
+        $response = wp_remote_request($this->gateway->get_api_url() . $this->gateway->get_api_endpoint_url(), $options);
+        $resp     = json_decode(wp_remote_retrieve_body($response));
 
-		$parameter = array(
-			'MerID' => $this->gateway->get_mer_id(),
-			'Version' => '1.0',
-			'EncryptInfo' => \Payuni\APIs\Payment::encrypt($args),
-			'HashInfo' => \Payuni\APIs\Payment::hash_info(\Payuni\APIs\Payment::encrypt($args)),
-		);
+        $this->set_response($order->get_payment_method(), $resp);
+    }
 
-		$options = array(
-			'method' => 'POST',
-			'timeout' => 60,
-			'body' => $parameter,
-		);
+    /**
+     * The request for get card hash without order.
+     *
+     * @param array $card_data The card data.
+     *
+     * @return bool
+     */
+    public function build_hash_request(array $card_data): bool
+    {
 
-		$response = wp_remote_request($this->gateway->get_api_url() . $this->gateway->get_api_endpoint_url(), $options);
-		$resp = json_decode(wp_remote_retrieve_body($response));
+        if (!is_user_logged_in()) {
+            return false;
+        }
 
-		$this->set_response($order->get_payment_method(), $resp);
-	}
+        $user_id = get_current_user_id();
 
-	/**
-	 * The request for get card hash without order.
-	 *
-	 * @param array $card_data The card data.
-	 *
-	 * @return bool
-	 */
-	public function build_hash_request(array $card_data): bool
-	{
+        $args = array(
+            'MerID'       => $this->gateway->get_mer_id(),
+            'MerTradeNo'  => time(),
+            'TradeAmt'    => 5,
+            'Timestamp'   => time(),
+            'UsrMail'     => get_userdata($user_id)->user_email,
+            'ProdDesc'    => '新增信用卡',
+            'CardNo'      => $card_data[ 'number' ],
+            'CardExpired' => $card_data[ 'expiry' ],
+            'CardCVC'     => $card_data[ 'cvc' ],
+            'CreditToken' => get_userdata($user_id)->user_email,
+        );
 
-		if (!is_user_logged_in()) {
-			return false;
-		}
+        $parameter = array(
+            'MerID'       => $this->gateway->get_mer_id(),
+            'Version'     => '1.0',
+            'EncryptInfo' => \Payuni\APIs\Payment::encrypt($args),
+            'HashInfo'    => \Payuni\APIs\Payment::hash_info(\Payuni\APIs\Payment::encrypt($args)),
+        );
 
-		$user_id = get_current_user_id();
+        $options = array(
+            'method'  => 'POST',
+            'timeout' => 60,
+            'body'    => $parameter,
+        );
 
-		$args = array(
-			'MerID' => $this->gateway->get_mer_id(),
-			'MerTradeNo' => time(),
-			'TradeAmt' => 5,
-			'Timestamp' => time(),
-			'UsrMail' => get_userdata($user_id)->user_email,
-			'ProdDesc' => '新增信用卡',
-			'CardNo' => $card_data['number'],
-			'CardExpired' => $card_data['expiry'],
-			'CardCVC' => $card_data['cvc'],
-			'CreditToken' => get_userdata($user_id)->user_email,
-		);
+        $response = wp_remote_request($this->gateway->get_api_url() . $this->gateway->get_api_endpoint_url(), $options);
+        $resp     = json_decode(wp_remote_retrieve_body($response));
 
-		$parameter = array(
-			'MerID' => $this->gateway->get_mer_id(),
-			'Version' => '1.0',
-			'EncryptInfo' => \Payuni\APIs\Payment::encrypt($args),
-			'HashInfo' => \Payuni\APIs\Payment::hash_info(\Payuni\APIs\Payment::encrypt($args)),
-		);
+        return Response::hash_response($resp);
+    }
 
-		$options = array(
-			'method' => 'POST',
-			'timeout' => 60,
-			'body' => $parameter,
-		);
+    private function get_card_hash($order)
+    {
+        $parent_order  = '';
+        $subscriptions = wcs_get_subscriptions_for_order($order->get_id(), array('order_type' => 'any'));
+        if ($subscriptions) {
+            foreach ($subscriptions as $subscription_obj) {
+                $parent_order = wc_get_order($subscription_obj->get_parent_id());
+            }
 
-		$response = wp_remote_request($this->gateway->get_api_url() . $this->gateway->get_api_endpoint_url(), $options);
-		$resp = json_decode(wp_remote_retrieve_body($response));
+            $token_id = $parent_order->get_meta('_payuni_token_id');
 
-		return Response::hash_response($resp);
-	}
+            if (!$token_id || 'new' === $token_id) {
+                return $parent_order->get_meta('_payuni_card_hash');
+            }
 
-	private function get_card_hash($order)
-	{
-		$parent_order = '';
-		$subscriptions = wcs_get_subscriptions_for_order($order->get_id(), array('order_type' => 'any'));
-		if ($subscriptions) {
-			foreach ($subscriptions as $subscription_obj) {
-				$parent_order = wc_get_order($subscription_obj->get_parent_id());
-			}
+            $token = \WC_Payment_Tokens::get($parent_order->get_meta('_payuni_token_id'));
 
-			$token_id = $parent_order->get_meta('_payuni_token_id');
+            return $token->get_token();
+        }
 
-			if (!$token_id || 'new' === $token_id) {
-				return $parent_order->get_meta('_payuni_card_hash');
-			}
+        return '';
+    }
 
-			$token = \WC_Payment_Tokens::get($parent_order->get_meta('_payuni_token_id'));
-
-			return $token->get_token();
-		}
-
-		return '';
-	}
-
-	private function set_response($payment_method, $resp)
-	{
-		switch ($payment_method) {
-			case 'payuni-credit':
-			case 'payuni-credit-installment':
-			case 'payuni-credit-subscription':
-				Response::card_response($resp);
-				break;
-			case 'payuni-atm':
-				Response::atm_response($resp);
-				break;
-			case 'payuni-cvs':
-				Response::cvs_response($resp);
-				break;
-			default:
-				// code...
-				break;
-		}
-	}
+    private function set_response($payment_method, $resp)
+    {
+        switch ($payment_method) {
+            case 'payuni-credit':
+            case 'payuni-credit-installment':
+            case 'payuni-credit-subscription':
+                Response::card_response($resp);
+                break;
+            case 'payuni-atm':
+                Response::atm_response($resp);
+                break;
+            case 'payuni-cvs':
+                Response::cvs_response($resp);
+                break;
+            default:
+                // code...
+                break;
+        }
+    }
 }
