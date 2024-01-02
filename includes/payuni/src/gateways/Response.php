@@ -205,16 +205,19 @@ class Response
      */
     public static function atm_response($resp)
     {
-
         // 背景通知付款結果.
         if ($_REQUEST[ 'Status' ]) {
             if ('SUCCESS' === $_REQUEST[ 'Status' ]) {
-                $data  = Payment::decrypt($_REQUEST[ 'EncryptInfo' ]);
-                $time  = date('Y-m-d H:i:s', time());
-                $order = wc_get_order($data[ 'MerTradeNo' ]);
-                $order->update_status('processing');
+                $data         = Payment::decrypt($_REQUEST[ 'EncryptInfo' ]);
+                $time         = date('Y-m-d H:i:s', time());
+                $order        = wc_get_order($data[ 'MerTradeNo' ]);
+                $order_status = $order->get_status();
+                if ($order_status !== 'completed') {
+                    $order->update_status('processing');
+                }
                 $order->add_order_note("<strong>統一金流繳費紀錄</strong><br>狀態碼：{$data[ 'Status' ]}<br>繳費結果：{$data[ 'Message' ]}<br>繳費時間：{$data[ 'PayTime' ]}<br>轉帳後五碼：{$data[ 'Account5No' ]}", true);
                 $order->save();
+
             }
         }
 
