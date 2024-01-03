@@ -119,7 +119,7 @@ class Checkout
             '' => '請選擇',
         );
         if (get_option('wc_woomp_ezpay_invoice_donate_org')) {
-            $org_strings = array_map('trim', explode("\n", get_option('wc_woomp_ecpay_invoice_donate_org')));
+            $org_strings = array_map('trim', explode("\n", get_option('wc_woomp_ezpay_invoice_donate_org')));
             foreach ($org_strings as $value) {
                 list($k, $v) = explode('|', $value);
                 $orgs[ $k ]  = $v;
