@@ -17,11 +17,43 @@ jQuery(function ($) {
     $(".btnGenerateInvoice").click(function () {
       $.blockUI({ message: "<p>處理中...</p>" });
 
-      const data = {
-        action: "gen_invoice",
-        nonce: woomp_ecpay_invoice_params.ajax_nonce,
-        orderId: $(this).val(),
+      const getInvoicePayload = () => {
+        const _invoice_type = $('select[name="_invoice_type"]').val();
+        const defaultPayload = {
+          action: "gen_invoice",
+          nonce: woomp_ecpay_invoice_params.ajax_nonce,
+          orderId: $(this).val(),
+          _invoice_type,
+        };
+
+        switch (_invoice_type) {
+          case "individual":
+            return {
+              ...defaultPayload,
+              _invoice_individual: $(
+                'select[name="_invoice_individual"]'
+              ).val(),
+              _invoice_carrier: $('input[name="_invoice_carrier"]').val(),
+            };
+          case "company":
+            return {
+              ...defaultPayload,
+              _invoice_company_name: $(
+                'input[name="_invoice_company_name"]'
+              ).val(),
+              _invoice_tax_id: $('input[name="_invoice_tax_id"]').val(),
+            };
+          case "donate":
+            return {
+              ...defaultPayload,
+              _invoice_donate: $('input[name="_invoice_donate"]').val(),
+            };
+          default:
+            return defaultPayload;
+        }
       };
+
+      const data = getInvoicePayload();
 
       $.post(ajaxurl, data, function (response) {
         $.unblockUI();

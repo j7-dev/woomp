@@ -236,9 +236,9 @@ class EcpayInvoiceHandler
 
 			return $invoice_message;
 			// return __('Generate Ecpay invoice issue finish!', 'woomp');
-		} catch (Exception $e) {
+		} catch (\Exception $e) {
 			// 例外錯誤處理.
-			return new WP_Error('error', $e->getMessage());
+			return new \WP_Error('error', $e->getMessage());
 		}
 	}
 
@@ -288,7 +288,7 @@ class EcpayInvoiceHandler
 
 				// 4.送出
 				$return_info = $ecpayInvoice->Check_Out();
-			} catch (Exception $e) {
+			} catch (\Exception $e) {
 
 				// 例外錯誤處理。
 				$msg = $e->getMessage();

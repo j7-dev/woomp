@@ -37,10 +37,21 @@ class Ajax
 
 		$order_id = intval(sanitize_text_field($_POST['orderId']));
 
+		$invoice_data = array(
+			'_invoice_type'         => sanitize_text_field($_POST['_invoice_type']),
+			'_invoice_individual'   => sanitize_text_field($_POST['_invoice_individual']),
+			'_invoice_carrier'      => sanitize_text_field($_POST['_invoice_carrier']),
+			'_invoice_company_name' => sanitize_text_field($_POST['_invoice_company_name']),
+			'_invoice_tax_id'       => sanitize_text_field($_POST['_invoice_tax_id']),
+			'_invoice_donate'       => sanitize_text_field($_POST['_invoice_donate']),
+		);
+
+		$order = wc_get_order($order_id);
+		$order->update_meta_data('_ecpay_invoice_data', $invoice_data);
+		$order->save();
+
 		if (!empty($order_id)) {
 			$msg = $this->invoice_handler->generate_invoice($order_id);
-			echo $msg;
-		} else {
 			echo $msg;
 		}
 
@@ -62,8 +73,6 @@ class Ajax
 
 		if (!empty($order_id)) {
 			$msg = $this->invoice_handler->invalid_invoice($order_id);
-			echo $msg;
-		} else {
 			echo $msg;
 		}
 
