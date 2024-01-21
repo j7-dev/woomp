@@ -338,3 +338,36 @@ if (in_array('woomp/woomp.php', WOOMP_ACTIVE_PLUGINS, true)) {
  * 引入統一金物流
  */
 require_once WOOMP_PLUGIN_DIR . 'includes/payuni/payuni.php';
+
+/**
+ * 整合 WooCommerce Subscriptions
+ */
+\add_action('plugins_loaded', 'integrate_with_ecpay_ezpay_invoice');
+
+function integrate_with_ecpay_ezpay_invoice()
+{
+	if (!class_exists('WC_Subscriptions')) {
+		return;
+	}
+	add_filter("wc_subscriptions_object_data", 'sync_invoice_data_at_renew_subscription', 100, 3);
+}
+
+function sync_invoice_data_at_renew_subscription($to_object, $from_object, $copy_type)
+{
+
+	if (!method_exists($from_object, 'get_meta') || !method_exists($to_object, 'update_meta_data')) {
+		return $to_object;
+	}
+
+	$_ecpay_invoice_data = $from_object->get_meta('_ecpay_invoice_data');
+	if (!empty($_ecpay_invoice_data)) {
+		$to_object->update_meta_data('_ecpay_invoice_data', $_ecpay_invoice_data);
+	}
+
+	$_ezpay_invoice_data = $from_object->get_meta('_ezpay_invoice_data');
+	if (!empty($_ezpay_invoice_data)) {
+		$to_object->update_meta_data('_ezpay_invoice_data', $_ezpay_invoice_data);
+	}
+
+	return $to_object;
+}
