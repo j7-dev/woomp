@@ -352,11 +352,11 @@ function integrate_with_ecpay_ezpay_invoice()
 	add_filter("wc_subscriptions_object_data", 'sync_invoice_data_at_renew_subscription', 100, 3);
 }
 
-function sync_invoice_data_at_renew_subscription($to_object, $from_object, $copy_type)
+function sync_invoice_data_at_renew_subscription($data, $to_object, $from_object, $copy_type)
 {
 
 	if (!method_exists($from_object, 'get_meta') || !method_exists($to_object, 'update_meta_data')) {
-		return $to_object;
+		return $data;
 	}
 
 	$_ecpay_invoice_data = $from_object->get_meta('_ecpay_invoice_data');
@@ -369,5 +369,5 @@ function sync_invoice_data_at_renew_subscription($to_object, $from_object, $copy
 		$to_object->update_meta_data('_ezpay_invoice_data', $_ezpay_invoice_data);
 	}
 
-	return $to_object;
+	return $data;
 }
