@@ -2,8 +2,34 @@
 .single-product .variations th.label {
   text-align: left;
   padding-left: 0;
-} 
+}
 
 #order_review {
-	display: block!important;
+  display: block !important;
+}
+
+label[for*="new-payment-method"] {
+  position: relative;
+}
+.change-save-card-label {
+  cursor: pointer;
+}
+.change-save-card-tooltips {
+  opacity: 0;
+  z-index: -50;
+  background-color: #18181b;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.75rem;
+  border-color: #e5e7eb;
+  font-size: 0.875rem;
+  color: #ecedee;
+  position: absolute;
+  top: calc(100% + 1rem);
+  left: 0rem;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.change-save-card-label:hover + .change-save-card-tooltips {
+  opacity: 1;
+  z-index: 50;
 }
