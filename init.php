@@ -373,6 +373,10 @@ function sync_invoice_data_at_renew_subscription($data, $to_object, $from_object
 	return $data;
 }
 
+/**
+ * 添加統一金信用法付款描述
+ * TODO 應該可以寫得更好才對
+ */
 \add_action('woocommerce_credit_card_form_start', 'add_payment_description', 10);
 
 function add_payment_description(string $payment_method_id)
@@ -383,17 +387,39 @@ function add_payment_description(string $payment_method_id)
 	if ($description) {
 		echo wpautop(wptexturize($description));
 	}
-	ob_start();
-	print_r($description);
-	\J7\WpToolkit\Utils::debug_log('' . ob_get_clean());
-	// if ('paynow' !== $payment_method->id) {
-	// 	return;
-	// }
+}
 
-	// $description = get_option('wc_settings_tab_active_paynow_description');
-	// if (empty($description)) {
-	// 	return;
-	// }
+\add_filter('woocommerce_available_payment_gateways', 'limit_payment_gateway_with_wcs_product', 10, 1);
+function limit_payment_gateway_with_wcs_product(array $payment_gateways = [])
+{
+	if (!class_exists('WC_Subscriptions')) {
+		return $payment_gateways;
+	}
+	$cart = WC()->cart;
 
-	// echo '<p class="form-row form-row-wide">' . $description . '</p>';
+	$include_subscription_product = false;
+
+	if ($cart->is_empty()) {
+		return $payment_gateways;
+	} else {
+		// 遍例購物車內的商品
+		$items = $cart->get_cart() ?? [];
+		foreach ($items as $cart_item) {
+			$product_id = $cart_item['product_id'];
+			$product = wc_get_product($product_id);
+			$type = $product->get_type();
+
+			if ('subscription' === $type) {
+				$include_subscription_product = true;
+				break;
+			}
+		}
+		// 如果購物車內沒有訂閱商品，就不限制付款方式
+		if ($include_subscription_product) {
+			return [$payment_gateways['payuni-credit-subscription']];
+		}
+
+
+		return $payment_gateways;
+	}
 }
