@@ -341,6 +341,8 @@ require_once WOOMP_PLUGIN_DIR . 'includes/payuni/payuni.php';
 
 /**
  * 整合 WooCommerce Subscriptions
+ * 1. 每次訂閱訂單續訂時，複製訂單時觸發，將發票資訊同步至新訂單
+ * 2. 避免有人更換預設的付款方式，結果還是用原始(第一筆)訂單的付款資訊扣款
  */
 \add_action('plugins_loaded', 'integrate_with_ecpay_ezpay_invoice');
 
@@ -354,7 +356,6 @@ function integrate_with_ecpay_ezpay_invoice()
 
 function sync_invoice_data_at_renew_subscription($data, $to_object, $from_object, $copy_type)
 {
-
 	if (!method_exists($from_object, 'get_meta') || !method_exists($to_object, 'update_meta_data')) {
 		return $data;
 	}
@@ -370,4 +371,29 @@ function sync_invoice_data_at_renew_subscription($data, $to_object, $from_object
 	}
 
 	return $data;
+}
+
+\add_action('woocommerce_credit_card_form_start', 'add_payment_description', 10);
+
+function add_payment_description(string $payment_method_id)
+{
+	$selected_payment_method = WC()->payment_gateways()->payment_gateways()[$payment_method_id];
+	$description = $selected_payment_method->get_description();
+
+	if ($description) {
+		echo wpautop(wptexturize($description));
+	}
+	ob_start();
+	print_r($description);
+	\J7\WpToolkit\Utils::debug_log('' . ob_get_clean());
+	// if ('paynow' !== $payment_method->id) {
+	// 	return;
+	// }
+
+	// $description = get_option('wc_settings_tab_active_paynow_description');
+	// if (empty($description)) {
+	// 	return;
+	// }
+
+	// echo '<p class="form-row form-row-wide">' . $description . '</p>';
 }
