@@ -37,23 +37,6 @@ class MyAccount
 
 		// $refund_expired = strtotime($order->get_date_created()->date('Y-m-d H:i:s') . ' -8 hour') + (60 * 86400);
 
-		if (strpos($payment_method, 'payuni-credit') !== false && $order->get_total() - $order->get_total_refunded() > 0) {
-			if (in_array('wc-' . $order_status, get_option('payuni_customer_refund'))) {
-				$actions['payuni-refund'] = array(
-					'url'  => esc_url_raw(
-						add_query_arg(
-							array(
-								'order_id' => $order->get_id(),
-								'amount'   => $order->get_total() - $order->get_total_refunded(),
-							),
-							''
-						)
-					),
-					'name' => '退款',
-				);
-			}
-		}
-
 		return $actions;
 	}
 

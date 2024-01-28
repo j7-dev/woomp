@@ -4,8 +4,6 @@ namespace PAYUNI\Gateways;
 
 defined('ABSPATH') || exit;
 
-// TODO 拔掉 My Account 的退款功能
-
 class Refund
 {
 	/**
@@ -192,17 +190,21 @@ class Refund
 			case 1:
 				// 如果 1=請款申請中 7=請款處理中，取消交易授權
 				$res = $this->cancel_trade_by_order($order);
+				$status = $res['Status'] ?? null;
 				ob_start();
 				print_r($res);
 				$note = ob_get_clean();
+				$note .= 'SUCCESS' === $status ? '<br><br>🚩 統一金流已退款成功 不需再去統一金流後台退款' : '';
 				break;
 			case 2:
 			case 7:
 				// 如果 2=請款成功 ，就申請退款
 				$res = $this->refund_by_order($order);
+				$status = $res['Status'] ?? null;
 				ob_start();
 				print_r($res);
 				$note = ob_get_clean();
+				$note .= 'SUCCESS' === $status ? '<br><br>🚩 統一金流已退款成功 不需再去統一金流後台退款' : '';
 				break;
 			default:
 				// 都不是的話，改回舊狀態
