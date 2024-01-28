@@ -434,12 +434,6 @@ if (class_exists('WC_Payment_Gateway')) {
 			$order        = \wc_get_order($order_id);
 			$order_status = $order->get_status();
 
-			if (!in_array('wc-' . $order_status, get_option('payuni_admin_refund'))) {
-				$order->add_order_note('<strong>統一金流退費紀錄</strong><br>退費結果：該訂單狀態不允許退費', true);
-
-				return false;
-			}
-
 			$args = array(
 				'MerID'     => $this->get_mer_id(),
 				'TradeNo'   => $order->get_meta('_payuni_resp_trade_no'),

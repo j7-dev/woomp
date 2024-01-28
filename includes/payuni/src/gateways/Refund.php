@@ -15,7 +15,7 @@ class Refund
 	{
 		$class = new self();
 		\add_action('payuni_cancel_trade_by_order', array($class, 'cancel_trade_by_order'));
-		\add_action('woocommerce_order_status_changed', array($class, 'handle_refund_by_order_id'), 10, 3);
+		\add_action('woocommerce_order_status_changed', array($class, 'handle_refund'), 10, 3);
 	}
 
 	/**
@@ -26,14 +26,6 @@ class Refund
 	{
 		$trade_no = $order->get_meta('_payuni_resp_trade_no');
 		$amount      = (int) $order->get_total();
-
-		// TODO 這邊設定感覺也可以關閉
-		// $order_status = $order->get_status();
-		// if (!in_array('wc-' . $order_status, (array) get_option('payuni_admin_refund'))) {
-		// 	$order->add_order_note('<strong>統一金流退費紀錄</strong><br>退費結果：該訂單狀態不允許退費', true);
-		// 	echo wp_json_encode('該訂單狀態不允許退費');
-		// 	die();
-		// }
 
 		$args = array(
 			'MerID'     => (wc_string_to_bool(get_option('payuni_payment_testmode'))) ? get_option('payuni_payment_merchant_no_test') : get_option('payuni_payment_merchant_no'),
@@ -175,7 +167,7 @@ class Refund
 	 *
 	 * @return void
 	 */
-	public function handle_refund_by_order_id(int $order_id, string $old_status, string $new_status): void
+	public function handle_refund(int $order_id, string $old_status, string $new_status): void
 	{
 
 		if ('refunded' !== $new_status) {
@@ -188,7 +180,7 @@ class Refund
 
 		switch ($closeStatus) {
 			case 1:
-				// 如果 1=請款申請中 7=請款處理中，取消交易授權
+				// 如果 1=請款申請中，取消交易授權
 				$res = $this->cancel_trade_by_order($order);
 				$status = $res['Status'] ?? null;
 				ob_start();
@@ -198,7 +190,7 @@ class Refund
 				break;
 			case 2:
 			case 7:
-				// 如果 2=請款成功 ，就申請退款
+				// 如果 2=請款成功 7=請款處理中，就申請退款
 				$res = $this->refund_by_order($order);
 				$status = $res['Status'] ?? null;
 				ob_start();
