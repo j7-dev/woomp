@@ -145,7 +145,7 @@ class Response
 		if (class_exists('WC_Subscriptions_Order') && 0 === (int) WC_Subscriptions_Order::get_total_initial_payment($order)) {
 			// 要等建立訂單的 API 完成才能進行退款，所以延遲一分鐘再執行.
 			if ($trade_no) {
-				as_schedule_single_action(strtotime(current_time('Y-m-d H:i:s') . '-8 hour + 1 minute'), 'payuni_hash_refund', array($trade_no));
+				as_schedule_single_action(strtotime(current_time('Y-m-d H:i:s') . '-8 hour + 1 minute'), 'payuni_cancel_trade_by_order', array($order));
 			}
 		}
 
@@ -188,7 +188,7 @@ class Response
 			$token->save();
 
 			// 只執行一次  退款
-			as_schedule_single_action(strtotime(current_time('Y-m-d H:i:s') . '-8 hour + 1 minute'), 'payuni_hash_refund', array($data['TradeNo']));
+			as_schedule_single_action(strtotime(current_time('Y-m-d H:i:s') . '-8 hour + 1 minute'), 'payuni_cancel_trade_by_trade_no', array($data['TradeNo']));
 
 			return true;
 		}
