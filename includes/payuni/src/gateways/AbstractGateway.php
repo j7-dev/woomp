@@ -334,6 +334,7 @@ if (class_exists('WC_Payment_Gateway')) {
 		}
 
 		/**
+		 * Checkout fields 結帳欄位
 		 * Payment form on checkout page copy from WC_Payment_Gateway_CC
 		 * To add the input name and get value with $_POST
 		 *

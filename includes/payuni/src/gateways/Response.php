@@ -120,6 +120,7 @@ class Response
 			$order->update_status($status_success);
 			$order->update_meta_data('_payuni_card_hash', $card_hash);
 
+			// 新增付款方式，存入帳號
 			if ($order->get_meta('_payuni_token_maybe_save')) {
 				$token = new \WC_Payment_Token_CC();
 				$token->set_token($card_hash);
@@ -176,6 +177,7 @@ class Response
 		$card_expiry_year  = '20' . substr($data['CreditLife'], 2, 2);
 
 		if ('SUCCESS' === $status) {
+
 			// TODO can use update_meta_data to save bank info?
 			$token = new \WC_Payment_Token_CC();
 			$token->set_token($card_hash);
