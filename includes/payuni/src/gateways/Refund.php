@@ -2,6 +2,8 @@
 
 namespace PAYUNI\Gateways;
 
+use PAYUNI\APIs\Payment;
+
 defined('ABSPATH') || exit;
 
 class Refund
@@ -37,8 +39,8 @@ class Refund
 
 		$parameter['MerID']       = (wc_string_to_bool(get_option('payuni_payment_testmode'))) ? get_option('payuni_payment_merchant_no_test') : get_option('payuni_payment_merchant_no');
 		$parameter['Version']     = '1.0';
-		$parameter['EncryptInfo'] = \Payuni\APIs\Payment::encrypt($args);
-		$parameter['HashInfo']    = \Payuni\APIs\Payment::hash_info($parameter['EncryptInfo']);
+		$parameter['EncryptInfo'] = Payment::encrypt($args);
+		$parameter['HashInfo']    = Payment::hash_info($parameter['EncryptInfo']);
 
 		$options = array(
 			'method'  => 'POST',
@@ -49,7 +51,7 @@ class Refund
 		$url     = (wc_string_to_bool(get_option('payuni_payment_testmode'))) ? 'https://sandbox-api.payuni.com.tw/' : 'https://api.payuni.com.tw/';
 		$request = wp_remote_request($url . 'api/trade/close', $options);
 		$resp    = json_decode(wp_remote_retrieve_body($request));
-		$data    = \Payuni\APIs\Payment::decrypt($resp->EncryptInfo);
+		$data    = Payment::decrypt($resp->EncryptInfo);
 
 		return $data;
 	}
@@ -74,8 +76,8 @@ class Refund
 
 		$parameter['MerID']       = (wc_string_to_bool(get_option('payuni_payment_testmode'))) ? get_option('payuni_payment_merchant_no_test') : get_option('payuni_payment_merchant_no');
 		$parameter['Version']     = '1.0';
-		$parameter['EncryptInfo'] = \Payuni\APIs\Payment::encrypt($args);
-		$parameter['HashInfo']    = \Payuni\APIs\Payment::hash_info($parameter['EncryptInfo']);
+		$parameter['EncryptInfo'] = Payment::encrypt($args);
+		$parameter['HashInfo']    = Payment::hash_info($parameter['EncryptInfo']);
 
 		$options = array(
 			'method'  => 'POST',
@@ -86,7 +88,7 @@ class Refund
 		$url     = (wc_string_to_bool(get_option('payuni_payment_testmode'))) ? 'https://sandbox-api.payuni.com.tw/' : 'https://api.payuni.com.tw/';
 		$request = wp_remote_request("{$url}api/trade/cancel", $options);
 		$resp    = json_decode(wp_remote_retrieve_body($request));
-		$data    = \Payuni\APIs\Payment::decrypt($resp->EncryptInfo);
+		$data    = Payment::decrypt($resp->EncryptInfo);
 		return $data;
 	}
 
@@ -108,8 +110,8 @@ class Refund
 
 		$parameter['MerID']       = (wc_string_to_bool(get_option('payuni_payment_testmode'))) ? get_option('payuni_payment_merchant_no_test') : get_option('payuni_payment_merchant_no');
 		$parameter['Version']     = '1.0';
-		$parameter['EncryptInfo'] = \Payuni\APIs\Payment::encrypt($args);
-		$parameter['HashInfo']    = \Payuni\APIs\Payment::hash_info($parameter['EncryptInfo']);
+		$parameter['EncryptInfo'] = Payment::encrypt($args);
+		$parameter['HashInfo']    = Payment::hash_info($parameter['EncryptInfo']);
 
 		$options = array(
 			'method'  => 'POST',
@@ -140,8 +142,8 @@ class Refund
 
 		$parameter['MerID']       = (wc_string_to_bool(get_option('payuni_payment_testmode'))) ? get_option('payuni_payment_merchant_no_test') : get_option('payuni_payment_merchant_no');
 		$parameter['Version']     = '2.0';
-		$parameter['EncryptInfo'] = \Payuni\APIs\Payment::encrypt($args);
-		$parameter['HashInfo']    = \Payuni\APIs\Payment::hash_info($parameter['EncryptInfo']);
+		$parameter['EncryptInfo'] = Payment::encrypt($args);
+		$parameter['HashInfo']    = Payment::hash_info($parameter['EncryptInfo']);
 
 		$options = array(
 			'method'  => 'POST',
@@ -152,7 +154,7 @@ class Refund
 		$url     = (wc_string_to_bool(get_option('payuni_payment_testmode'))) ? 'https://sandbox-api.payuni.com.tw/' : 'https://api.payuni.com.tw/';
 		$request = wp_remote_request("{$url}api/trade/query", $options);
 		$resp    = json_decode(wp_remote_retrieve_body($request));
-		$data    = \Payuni\APIs\Payment::decrypt($resp->EncryptInfo);
+		$data    = Payment::decrypt($resp->EncryptInfo);
 
 		return $data;
 	}
@@ -175,6 +177,11 @@ class Refund
 		}
 		$order = \wc_get_order($order_id);
 		$trade_info = $this->get_trade_by_order($order);
+
+		ob_start();
+		print_r($trade_info);
+		$trade_info_log = ob_get_clean();
+		Payment::log($trade_info_log);
 
 		$closeStatus = $trade_info['Result']['0']['CloseStatus'] ?? null;
 
@@ -208,6 +215,8 @@ class Refund
 		}
 
 		$order->add_order_note($note);
+
+		Payment::log($note);
 
 		$order->save();
 
