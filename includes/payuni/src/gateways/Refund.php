@@ -14,7 +14,7 @@ class Refund
 	public static function init()
 	{
 		$class = new self();
-		add_action('wp_ajax_payuni_refund', array($class, 'card_refund'));
+		add_action('wp_ajax_payuni_refund', array($class, 'card_refund')); // 這個好像沒有用
 		add_action('payuni_hash_refund', array($class, 'hash_refund'));
 	}
 
@@ -57,6 +57,8 @@ class Refund
 			echo wp_json_encode('該訂單狀態不允許退費');
 			die();
 		}
+
+		//TODO 1天之內的 訂單可以順利退款嗎?
 
 		$args = array(
 			'MerID'     => (wc_string_to_bool(get_option('payuni_payment_testmode'))) ? get_option('payuni_payment_merchant_no_test') : get_option('payuni_payment_merchant_no'),

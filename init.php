@@ -349,7 +349,7 @@ function integrate_with_ecpay_ezpay_invoice()
 	if (!class_exists('WC_Subscriptions')) {
 		return;
 	}
-	add_filter("wc_subscriptions_object_data", 'sync_invoice_data_at_renew_subscription', 100, 3);
+	add_filter("wc_subscriptions_object_data", 'sync_invoice_data_at_renew_subscription', 100, 4);
 }
 
 function sync_invoice_data_at_renew_subscription($data, $to_object, $from_object, $copy_type)
