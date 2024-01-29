@@ -122,6 +122,12 @@ class Refund
 		$url     = (wc_string_to_bool(get_option('payuni_payment_testmode'))) ? 'https://sandbox-api.payuni.com.tw/' : 'https://api.payuni.com.tw/';
 		$request = wp_remote_request($url . 'api/credit_bind/cancel', $options);
 		$resp    = json_decode(wp_remote_retrieve_body($request));
+
+		ob_start();
+		print_r($resp);
+		$log = ob_get_clean();
+
+		Payment::log($log);
 	}
 
 	/**
@@ -176,6 +182,9 @@ class Refund
 			return;
 		}
 		$order = \wc_get_order($order_id);
+		if (!$order) {
+			return;
+		}
 		$trade_info = $this->get_trade_by_order($order);
 
 		ob_start();
