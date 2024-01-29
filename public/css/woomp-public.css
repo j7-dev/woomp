@@ -8,7 +8,7 @@
   display: block !important;
 }
 
-label[for*="new-payment-method"] {
+label[for$="new-payment-method"] {
   position: relative;
 }
 .change-save-card-label {

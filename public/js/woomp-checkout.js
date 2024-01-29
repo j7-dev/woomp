@@ -420,14 +420,14 @@ jQuery(function ($) {
      * @see https://github.com/j7-dev/woomp/issues/27
      */
     function changeSaveCardLabel() {
-      const label = $('label[for="wc-payuni-credit-new-payment-method"]');
+      const label = $('label[for$="new-payment-method"]');
       label.html(
         "<span class='change-save-card-label'>儲存付款資訊，下次付款更方便</span><div class='change-save-card-tooltips'>網站並不會儲存你的卡號，僅會儲存金流公司的hash，因此不會有卡號外泄問題</div>"
       );
     }
 
     function changeCVCLabel() {
-      const label = $('label[for*="card-cvc"]');
+      const label = $('label[for$="card-cvc"]');
       label.html("安全碼<span class='required'>*</span>");
     }
 
