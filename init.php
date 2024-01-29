@@ -388,38 +388,3 @@ function add_payment_description(string $payment_method_id)
 		echo wpautop(wptexturize($description));
 	}
 }
-
-\add_filter('woocommerce_available_payment_gateways', 'limit_payment_gateway_with_wcs_product', 10, 1);
-function limit_payment_gateway_with_wcs_product(array $payment_gateways = [])
-{
-	if (!class_exists('WC_Subscriptions')) {
-		return $payment_gateways;
-	}
-	$cart = WC()->cart;
-
-	$include_subscription_product = false;
-
-	if ($cart->is_empty()) {
-		return $payment_gateways;
-	} else {
-		// 遍例購物車內的商品
-		$items = $cart->get_cart() ?? [];
-		foreach ($items as $cart_item) {
-			$product_id = $cart_item['product_id'];
-			$product = wc_get_product($product_id);
-			$type = $product->get_type();
-
-			if ('subscription' === $type) {
-				$include_subscription_product = true;
-				break;
-			}
-		}
-		// 如果購物車內沒有訂閱商品，就不限制付款方式
-		if ($include_subscription_product) {
-			return [$payment_gateways['payuni-credit-subscription']];
-		}
-
-
-		return $payment_gateways;
-	}
-}
