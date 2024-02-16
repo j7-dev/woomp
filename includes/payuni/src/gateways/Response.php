@@ -90,11 +90,6 @@ class Response
         $order->update_meta_data('_payuni_resp_status', $status);
         $order->update_meta_data('_payuni_resp_message', $message);
         $order->update_meta_data('_payuni_resp_trade_no', $trade_no);
-
-        ob_start();
-        print_r($data);
-        \J7\WpToolkit\Utils::debug_log('❌card_response data ' . ob_get_clean());
-
         // 處理信用卡.
         $card_bank         = $data[ 'CardBank' ];
         $card_bank_name    = $data[ 'AuthBankName' ];
