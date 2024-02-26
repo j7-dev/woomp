@@ -91,7 +91,7 @@ class EzPayInvoiceHandler
             // print_r($item);
             $divide  = ($i > 0) ? '|' : '';
             $product = $item->get_product();
-            $product_name .= $divide . preg_replace('/[\s｜（）]+/u', '-', mb_substr($item->get_name(), 0, 8, 'UTF-8'));
+            $product_name .= $divide . preg_replace('/[\s｜（）]+/u', '-', mb_substr($item->get_name(), 0, 30, 'UTF-8'));
             // $product_name .= $divide . '網路商品';
             $product_count .= $divide . str_replace(' ', '', $item->get_quantity());
             $product_unit .= $divide . '件';
