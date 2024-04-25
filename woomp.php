@@ -131,7 +131,7 @@ class woomp_elite
     }
     public function set_admin_style()
     {
-        wp_register_style("woompLic", plugins_url("_lic_style.css", $this->plugin_file), 10, time());
+        wp_register_style("woompLic", plugins_url("licenser/_lic_style.css", __FILE__), 10, time());
         wp_enqueue_style("woompLic");
     }
     public function active_admin_menu()

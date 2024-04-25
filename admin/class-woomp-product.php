@@ -32,7 +32,7 @@ if ( ! class_exists( 'WooMP_Product' ) ) {
 				add_filter( 'woocommerce_dropdown_variation_attribute_options_html', __CLASS__ . '::variation_radio_buttons', 20, 2 );
 			}
 
-			add_action('wp_ajax_woomp_get_attribute_type', __CLASS__ . '::get_attribute_type');
+			add_action( 'wp_ajax_woomp_get_attribute_type', __CLASS__ . '::get_attribute_type' );
 		}
 
 		/**
@@ -87,7 +87,7 @@ if ( ! class_exists( 'WooMP_Product' ) ) {
 						$('.attribute_options.attribute_tab a span').html('<?php _e( '商品屬性', 'woomp' ); ?>')
 
 						/**
-						 * Feature 
+						 * Feature
 						 * 1.如果是可變商品預設顯示商品屬性 Tab
 						 * 2.商品屬性與變化類型 tab 移到最上面
 						 */
@@ -101,7 +101,7 @@ if ( ! class_exists( 'WooMP_Product' ) ) {
 							}
 						}
 						set_variable_tab_to_default()
-						
+
 						$('#product-type').on('change',function(){
 							set_variable_tab_to_default()
 						})
@@ -112,7 +112,7 @@ if ( ! class_exists( 'WooMP_Product' ) ) {
 						//var toolbar = $('#product_attributes .toolbar.toolbar-top .button.add_attribute').after($('#product_attributes .save_attributes'))
 						$('#product_attributes .save_attributes').hide()
 
-						
+
 						var toolbarHeader = $('#woocommerce-product-data .postbox-header h2 > span')
 						toolbarHeader.append(`
 						<form action="${window.location.href}" method="post" style="display: inline-block">
@@ -130,7 +130,7 @@ if ( ! class_exists( 'WooMP_Product' ) ) {
 							<input type="button" class="button attrListAdd" value="新增" style="width: 80px; min-width: auto;">
 						</div>
 						<ul class="attributeValuesList tagchecklist" role="list"></ul>`;
-						
+
 						function generateAttrListLi( text ){
 							return `
 							<li>
@@ -139,15 +139,16 @@ if ( ! class_exists( 'WooMP_Product' ) ) {
 								<span class="screen-reader-text">移除分類法詞彙: ${text}</span>
 								</button>
 								<span>&nbsp;${text}</span>
-							</li>` 
-						} 
+							</li>`
+						}
 
 						// 新增 List
 						function addAttrbute(btn){
-							var attrText = btn.parent().find('.attributeValue').val();
-							var currentAttr = btn.parent().next().next().val();
+							const attrText = btn.parent().find('.attributeValue').val();
+							const currentAttr = btn.parent().next().next().val();
+							const currentAttrArray = currentAttr.split(' | ').filter(item => item !== '');
 
-							if( attrText != '' && currentAttr.indexOf(attrText) < 0 ){
+							if( attrText != '' && !currentAttrArray.includes(attrText) ){
 								btn.parent().next().append(generateAttrListLi(attrText))
 								btn.parent().next().next().val( currentAttr + ' | '+attrText )
 								btn.parent().find('.attributeValue').val('')
@@ -180,13 +181,14 @@ if ( ! class_exists( 'WooMP_Product' ) ) {
 							wooAttr.each(function(index){
 								$(this).find('td.attribute_name + td label').after(inputUI)
 							})
-							
+
 							wooAttr.find('.attributeValuesWrap').on('click','.attrListAdd',function(){
 								addAttrbute($(this))
 							})
 
 							wooAttr.find('.attributeValuesWrap').on('keypress','.attributeValue',function(e){
-								var code = e.key;
+								const code = e.key;
+
 								if(code === "Enter"){
 									e.preventDefault()
 									addAttrbute($(this))
@@ -237,16 +239,16 @@ if ( ! class_exists( 'WooMP_Product' ) ) {
 								$('#field_to_edit option[value="link_all_variations"]').attr('selected','selected');
 								// $('#field_to_edit + a.do_variation_action').trigger('click');
 								// wc_meta_boxes_product_variations_ajax.block();
-	
+
 								var dataLink = {
 									action: 'woocommerce_link_all_variations',
 									post_id: woocommerce_admin_meta_boxes_variations.post_id,
 									security: woocommerce_admin_meta_boxes_variations.link_variation_nonce
 								};
-	
+
 								$.post( woocommerce_admin_meta_boxes_variations.ajax_url, dataLink, function( response ) {
 									var count = parseInt( response, 10 );
-	
+
 									if ( count > 0 ) {
 										$( '#variable_product_options' ).trigger( 'woocommerce_variations_added', count );
 										if( $('.hint-variable-update').length == 0 ){
@@ -256,12 +258,12 @@ if ( ! class_exists( 'WooMP_Product' ) ) {
 										}
 									}
 								});
-	
+
 								var do_variation_action = $( 'select.variation_actions' ).val(),
 									data       = {},
 									changes    = 0,
 									value;
-	
+
 								$.ajax({
 									url: woocommerce_admin_meta_boxes_variations.ajax_url,
 									data: {
@@ -275,7 +277,7 @@ if ( ! class_exists( 'WooMP_Product' ) ) {
 									type: 'POST',
 									success: function() {
 										// wc_meta_boxes_product_variations_pagenav.go_to_page( 1, changes );
-	
+
 									}
 								});
 							}
@@ -332,9 +334,9 @@ if ( ! class_exists( 'WooMP_Product' ) ) {
 							$('.woocommerce_variation h3').each(function(){
 								if($(this).find('.wc_input_price_clone').length == 0){
 									$(this).find('select').last().after(`
-									<label><?php echo sprintf( __( 'Regular price (%s)', 'woocommerce' ), get_woocommerce_currency_symbol() ); ?></label>
+									<label><?php printf( __( 'Regular price (%s)', 'woocommerce' ), get_woocommerce_currency_symbol() ); ?></label>
 									<input class="wc_input_price_clone" type="text" placeholder="<?php _e( '必填', 'woomp' ); ?>" style="width: 80px;" required >
-									<label style="margin-left: 5px;"><?php echo sprintf( __( 'Sale price (%s)', 'woocommerce' ), get_woocommerce_currency_symbol() ); ?></label>
+									<label style="margin-left: 5px;"><?php printf( __( 'Sale price (%s)', 'woocommerce' ), get_woocommerce_currency_symbol() ); ?></label>
 									<input class="wc_input_sale_price_clone" type="text" placeholder="<?php _e( '須小於定價', 'woomp' ); ?>" style="width: 90px;">
 									`);
 								}
@@ -365,7 +367,7 @@ if ( ! class_exists( 'WooMP_Product' ) ) {
 								add_variations_price_input_field();
 							}
 							add_variations_price_empty_hint();
-							
+
 							// 觸發資料更新
 							page     = 1;
 							per_page = 10;
@@ -411,7 +413,7 @@ if ( ! class_exists( 'WooMP_Product' ) ) {
 							$('.product_attributes .woocommerce_attribute:last-child .enable_variation.show_if_variable input.checkbox').attr('checked', 'checked');
 						})
 
-						
+
 					})
 				</script>
 				<?php
@@ -439,7 +441,7 @@ if ( ! class_exists( 'WooMP_Product' ) ) {
 						</form>
 						`)
 					})
-				</script>	
+				</script>
 				<?php
 			}
 		}
@@ -660,16 +662,16 @@ if ( ! class_exists( 'WooMP_Product' ) ) {
 				if ( get_option( 'wc_woomp_setting_product_variations_frontend_ui＿bg_color' ) ) {
 					$radios .= '$(this).find("input:checked + label").css("background-color", "' . get_option( 'wc_woomp_setting_product_variations_frontend_ui＿bg_color' ) . '");';
 				} else {
-					 $radios .= '$(this).find("input:checked + label").css("background-color",mainColor);';
+					$radios .= '$(this).find("input:checked + label").css("background-color",mainColor);';
 				}
 
 				if ( get_option( 'wc_woomp_setting_product_variations_frontend_ui＿text_color' ) ) {
-					 $radios .= '$(this).find("input:checked + label").css("color", "' . get_option( 'wc_woomp_setting_product_variations_frontend_ui＿text_color' ) . '");';
+					$radios .= '$(this).find("input:checked + label").css("color", "' . get_option( 'wc_woomp_setting_product_variations_frontend_ui＿text_color' ) . '");';
 				} else {
-					 $radios .= '$(this).find("input:checked + label").css("color","#fff");';
+					$radios .= '$(this).find("input:checked + label").css("color","#fff");';
 				}
 
-					   $radios .= '
+						$radios .= '
 				       $(".variation-radios.tag").click(function(){
 				           $(this).find("input + label").css("background-color","#efefef");
 						   $(this).find("input + label").css("color","#000");';
@@ -677,17 +679,17 @@ if ( ! class_exists( 'WooMP_Product' ) ) {
 				if ( get_option( 'wc_woomp_setting_product_variations_frontend_ui＿bg_color' ) ) {
 					$radios .= '$(this).find("input:checked + label").css("background-color", "' . get_option( 'wc_woomp_setting_product_variations_frontend_ui＿bg_color' ) . '");';
 				} else {
-					 $radios .= '$(this).find("input:checked + label").css("background-color",mainColor);';
+					$radios .= '$(this).find("input:checked + label").css("background-color",mainColor);';
 				}
 
 				if ( get_option( 'wc_woomp_setting_product_variations_frontend_ui＿text_color' ) ) {
 					$radios .= '$(this).find("input:checked + label").css("color", "' . get_option( 'wc_woomp_setting_product_variations_frontend_ui＿text_color' ) . '");';
 				} else {
-					 $radios .= '$(this).find("input:checked + label").css("color","#fff");';
+					$radios .= '$(this).find("input:checked + label").css("color","#fff");';
 				}
-						  $radios .= '
+							$radios .= '
 				       })
-				   }) 
+				   })
 				})
 				</script>
 				<div class="variation-radios ' . $attribute_type . '">';
@@ -720,7 +722,6 @@ if ( ! class_exists( 'WooMP_Product' ) ) {
 			} else {
 				return $html;
 			}
-
 		}
 		public static function variation_check( $active, $variation ) {
 			if ( ! $variation->is_in_stock() && ! $variation->backorders_allowed() ) {
