@@ -16,6 +16,7 @@ class Refund {
 	public static function init() {
 		$class = new self();
 		\add_action( 'payuni_cancel_trade_by_order', array( $class, 'cancel_trade_by_order' ) );
+		\add_action( 'payuni_cancel_trade_by_trade_no', array( $class, 'cancel_trade_by_trade_no' ) );
 		\add_action( 'woocommerce_order_status_changed', array( $class, 'handle_refund' ), 10, 3 );
 	}
 
@@ -55,12 +56,11 @@ class Refund {
 	}
 
 	/**
-	 * 取消交易授權
+	 * 取消交易授權 by order
 	 * 當交易的 CloseStatus 為 7=請款處理中 時，只能用取消授權的方式退款
-	 * 定期定額退款 5 元，取消授權，不是真的退款
 	 *
 	 * @see https://github.com/j7-dev/woomp/issues/20
-	 * @param string $trade_no
+	 * @param \WC_Order $order
 	 *
 	 * @return void
 	 */
@@ -87,6 +87,41 @@ class Refund {
 		$request = wp_remote_request( "{$url}api/trade/cancel", $options );
 		$resp    = json_decode( wp_remote_retrieve_body( $request ) );
 		$data    = Payment::decrypt( $resp->EncryptInfo );
+		return $data;
+	}
+
+	/**
+	 * 取消交易授權 by trade_no
+	 * 定期定額退款 5 元，取消授權，不是真的退款，比較像取消授權交易
+	 *
+	 * @see https://github.com/j7-dev/woomp/issues/20
+	 * @param string $trade_no
+	 *
+	 * @return void
+	 */
+	public function cancel_trade_by_trade_no( string $trade_no ): array {
+		$args = array(
+			'MerID'     => ( wc_string_to_bool( get_option( 'payuni_payment_testmode' ) ) ) ? get_option( 'payuni_payment_merchant_no_test' ) : get_option( 'payuni_payment_merchant_no' ),
+			'TradeNo'   => $trade_no,
+			'Timestamp' => time(),
+		);
+
+		$parameter['MerID']       = ( wc_string_to_bool( get_option( 'payuni_payment_testmode' ) ) ) ? get_option( 'payuni_payment_merchant_no_test' ) : get_option( 'payuni_payment_merchant_no' );
+		$parameter['Version']     = '1.0';
+		$parameter['EncryptInfo'] = Payment::encrypt( $args );
+		$parameter['HashInfo']    = Payment::hash_info( $parameter['EncryptInfo'] );
+
+		$options = array(
+			'method'  => 'POST',
+			'timeout' => 60,
+			'body'    => $parameter,
+		);
+
+		$url     = ( wc_string_to_bool( get_option( 'payuni_payment_testmode' ) ) ) ? 'https://sandbox-api.payuni.com.tw/' : 'https://api.payuni.com.tw/';
+		$request = wp_remote_request( "{$url}api/trade/cancel", $options );
+		$resp    = json_decode( wp_remote_retrieve_body( $request ) );
+		$data    = Payment::decrypt( $resp->EncryptInfo );
+
 		return $data;
 	}
 
@@ -174,7 +209,6 @@ class Refund {
 	 * @return void
 	 */
 	public function handle_refund( int $order_id, string $old_status, string $new_status ): void {
-
 		if ( 'refunded' !== $new_status ) {
 			return;
 		}

@@ -108,28 +108,7 @@ class CreditSubscription extends AbstractGateway {
 	 */
 	public function add_args( array $args, WC_Order $order, array $card_data ): array {
 		try {
-
-			$subscriptions = \wcs_get_subscriptions_for_order( $order );
-			$TradeAmt      = 0;
-			/**
-			 * @see https://github.com/j7-dev/woomp/issues/46#issuecomment-2143679058
-			 * 如果沒有註冊費，需要扣 5 元來取得 token
-			 * 如果有註冊費，那就直接扣訂單金額就好
-		*/
-			foreach ( $subscriptions as $subscription ) {
-				$end_date           = $subscription->get_date( 'trial_end' );
-				$end_date_timestamp = strtotime( $end_date );
-				$current            = time();
-				$is_trial           = $end_date_timestamp > $current;
-				$order_total        = (int) $order->get_total();
-
-				// 如果還在試用期，就扣 5 元，如果不是就是總金額
-				// 用 order total 會有問題，因為 order total 會是第一期的金額
-				$TradeAmt += ( $is_trial && $order_total === 0 ) ? 5 : $order_total;
-			}
-
 			$data = array(
-				'TradeAmt'    => $TradeAmt,
 				'CreditToken' => $order->get_billing_email(),
 			);
 
@@ -171,7 +150,7 @@ class CreditSubscription extends AbstractGateway {
 	 */
 	public function process_payment( $order_id ): array {
 
-		$order = new WC_Order( $order_id );
+		$order = \wc_get_order( $order_id );
 
         //@codingStandardsIgnoreStart
         $number   = (isset($_POST[ $this->id . '-card-number' ])) ? wc_clean(wp_unslash($_POST[ $this->id . '-card-number' ])) : '';
@@ -190,6 +169,20 @@ class CreditSubscription extends AbstractGateway {
 		);
 
 		$request = new Request( new self() );
+
+		/**
+		 * 如果沒有註冊費，需要扣 5 元來取得 token
+		 * 如果有註冊費，那就直接扣訂單金額就好
+		 *
+		 * @see https://github.com/j7-dev/woomp/issues/46#issuecomment-2143679058
+	*/
+
+		$order_total = (int) $order->get_total();
+
+		// 如果總金額為 0 ，就走 hash request 扣 5 元，之後退款.
+		if ( 0 === $order_total ) {
+			return $request->build_hash_request( $order, $card_data );
+		}
 
 		return $request->build_request( $order, $card_data );
 	}
