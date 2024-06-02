@@ -107,23 +107,25 @@ class CreditSubscription extends AbstractGateway {
 	 * @return array
 	 */
 	public function add_args( array $args, WC_Order $order, array $card_data ): array {
-
 		try {
-			unset( $data['CardNo'] );
-			unset( $data['CardExpired'] );
-			unset( $data['CardCVC'] );
 
 			$subscriptions = \wcs_get_subscriptions_for_order( $order );
 			$TradeAmt      = 0;
+			/**
+			 * @see https://github.com/j7-dev/woomp/issues/46#issuecomment-2143679058
+			 * 如果沒有註冊費，需要扣 5 元來取得 token
+			 * 如果有註冊費，那就直接扣訂單金額就好
+		*/
 			foreach ( $subscriptions as $subscription ) {
 				$end_date           = $subscription->get_date( 'trial_end' );
 				$end_date_timestamp = strtotime( $end_date );
 				$current            = time();
 				$is_trial           = $end_date_timestamp > $current;
+				$order_total        = (int) $order->get_total();
 
-				// 如果還在試用期，就扣5元，如果不是就是總金額
+				// 如果還在試用期，就扣 5 元，如果不是就是總金額
 				// 用 order total 會有問題，因為 order total 會是第一期的金額
-				$TradeAmt += $is_trial ? 5 : $order->get_total();
+				$TradeAmt += ( $is_trial && $order_total === 0 ) ? 5 : $order_total;
 			}
 
 			$data = array(
@@ -141,8 +143,16 @@ class CreditSubscription extends AbstractGateway {
 				if ( ! empty( $card_data['token_id'] ) && 'new' !== $card_data['token_id'] ) {
 					$token              = \WC_Payment_Tokens::get( $card_data['token_id'] );
 					$data['CreditHash'] = $token->get_token();
+
+					/**
+					 * 如果有 CreditHash 就不需要再傳卡號、有效期、末三碼
+					 */
+					unset( $args['CardNo'] );
+					unset( $args['CardExpired'] );
+					unset( $args['CardCVC'] );
 				}
 			}
+
 			return array_merge(
 				$args,
 				$data
