@@ -5,7 +5,7 @@
  * Plugin Name:       好用版擴充 MorePower Addon for WooCommerce
  * Plugin URI:        https://morepower.club/morepower-addon/
  * Description:       WooCommerce 好用版擴充，改善結帳流程與可變商品等區塊，並整合多項金流，讓 WooCommerce 更符合亞洲人使用習慣。
- * Version:           3.3.7
+ * Version:           3.3.8
  * Author:            MorePower
  * Author URI:        https://morepower.club
  * License:           GPL-2.0+
@@ -171,26 +171,26 @@ class woomp_elite {
 			<!-- <img class="h-16 mx-auto w-auto" src="https://morepower.club/wp-content/uploads/2020/10/powerlogo-y.png"> -->
 			<h2 class="text-gray-700 text-center text-4xl font-black leading-9 tracking-tight">站長路可</h2>
 			<h2 class="text-gray-700 mt-10 mb-4 text-center text-2xl font-bold leading-9 tracking-tight">
-				<?php esc_html_e( 'WooCommerce 好用版授權', 'woomp' ); ?>
+		<?php esc_html_e( 'WooCommerce 好用版授權', 'woomp' ); ?>
 			</h2>
-			<?php
-			if ( ! empty( $this->show_message ) && ! empty( $this->license_message ) ) {
-				?>
+		<?php
+		if ( ! empty( $this->show_message ) && ! empty( $this->license_message ) ) {
+			?>
 			<div class="notice notice-error is-dismissible">
 				<p>
-					<?php echo esc_html( $this->license_message, 'woomp' ); ?>
+			<?php echo esc_html( $this->license_message, 'woomp' ); ?>
 				</p>
 			</div>
-				<?php
-			}
-			?>
+			<?php
+		}
+		?>
 			<p class='text-gray-500'>好用版擴充是款免費外掛，但請先到 <a
 					class="font-semibold leading-6 text-primary hover:text-primary-400" target="_blank"
 					href="<?php echo self::$buy_license_link; ?>">站長路可網站</a>
 				註冊帳號，即可索取授權碼。有任何客服問題，請私訊站長路可網站右下方對話框，或是來信 <a
 					class="font-semibold leading-6 text-primary hover:text-primary-400"
 					href="mailto:<?php echo self::$support_email; ?>" target="_blank">
-					<?php echo self::$support_email; ?>
+		<?php echo self::$support_email; ?>
 				</a></p>
 		</div>
 
@@ -199,12 +199,12 @@ class woomp_elite {
 				<tbody>
 					<tr>
 						<th>
-							<?php esc_html_e( '狀態', 'woomp' ); ?>
+		<?php esc_html_e( '狀態', 'woomp' ); ?>
 						</th>
 						<td>
-							<?php if ( $this->response_obj->is_valid ) : ?>
+		<?php if ( $this->response_obj->is_valid ) : ?>
 							<span class="text-white bg-teal-400 rounded-md px-2 py-1">
-								<?php esc_html_e( '啟用', 'woomp' ); ?>
+			<?php esc_html_e( '啟用', 'woomp' ); ?>
 							</span>
 							<?php else : ?>
 							<span class="text-white bg-crimson-400 rounded-md px-2 py-1">
@@ -215,51 +215,51 @@ class woomp_elite {
 					</tr>
 					<tr>
 						<th>
-							<?php esc_html_e( '授權種類', 'woomp' ); ?>
+		<?php esc_html_e( '授權種類', 'woomp' ); ?>
 						</th>
 						<td>
-							<?php echo esc_html( $this->response_obj->license_title, 'woomp' ); ?>
+		<?php echo esc_html( $this->response_obj->license_title, 'woomp' ); ?>
 						</td>
 					</tr>
 					<tr>
 						<th>
-							<?php esc_html_e( '到期日', 'woomp' ); ?>
+		<?php esc_html_e( '到期日', 'woomp' ); ?>
 						</th>
 						<td>
-							<?php
-							echo esc_html( $this->response_obj->expire_date, 'woomp' );
-							if ( ! empty( $this->response_obj->expire_renew_link ) ) {
-								?>
+		<?php
+		echo esc_html( $this->response_obj->expire_date, 'woomp' );
+		if ( ! empty( $this->response_obj->expire_renew_link ) ) {
+			?>
 							<a target="_blank" class="el-blue-btn"
 								href="<?php echo esc_url( $this->response_obj->expire_renew_link ); ?>">購買授權</a>
-								<?php
-							}
-							?>
+			<?php
+		}
+		?>
 						</td>
 					</tr>
 					<tr>
 						<th>
-							<?php esc_html_e( '支援更新時間', 'woomp' ); ?>
+		<?php esc_html_e( '支援更新時間', 'woomp' ); ?>
 						</th>
 						<td>
-							<?php
-							echo esc_html( $this->response_obj->support_end, 'woomp' );
+		<?php
+		echo esc_html( $this->response_obj->support_end, 'woomp' );
 
-							if ( ! empty( $this->response_obj->support_renew_link ) ) {
-								?>
+		if ( ! empty( $this->response_obj->support_renew_link ) ) {
+			?>
 							<a target="_blank" class="el-blue-btn"
 								href="<?php echo esc_url( $this->response_obj->support_renew_link ); ?>">購買授權</a>
-								<?php
-							}
-							?>
+			<?php
+		}
+		?>
 						</td>
 					</tr>
 					<tr>
 						<th>
-							<?php esc_html_e( '授權碼', 'woomp' ); ?>
+		<?php esc_html_e( '授權碼', 'woomp' ); ?>
 						</th>
 						<td>
-							<?php echo esc_attr( substr( $this->response_obj->license_key, 0, 9 ) . 'XXXXXXXX-XXXXXXXX' . substr( $this->response_obj->license_key, -9 ) ); ?>
+		<?php echo esc_attr( substr( $this->response_obj->license_key, 0, 9 ) . 'XXXXXXXX-XXXXXXXX' . substr( $this->response_obj->license_key, -9 ) ); ?>
 						</td>
 					</tr>
 				</tbody>
@@ -277,7 +277,7 @@ class woomp_elite {
 					class="font-semibold leading-6 text-primary hover:text-primary-400">我們的主機代管服務</a>
 				提供30天免費試用
 			</p>
-			<?php wp_nonce_field( 'el-license' ); ?>
+		<?php wp_nonce_field( 'el-license' ); ?>
 
 		</div>
 	</div>
@@ -298,26 +298,26 @@ class woomp_elite {
 			<!-- <img class="h-16 mx-auto w-auto" src="https://morepower.club/wp-content/uploads/2020/10/powerlogo-y.png"> -->
 			<h2 class="text-gray-700 text-center text-4xl font-black leading-9 tracking-tight">站長路可</h2>
 			<h2 class="text-gray-700 mt-10 mb-4 text-center text-2xl font-bold leading-9 tracking-tight">
-				<?php esc_html_e( 'WooCommerce 好用版授權', 'woomp' ); ?>
+		<?php esc_html_e( 'WooCommerce 好用版授權', 'woomp' ); ?>
 			</h2>
-			<?php
-			if ( ! empty( $this->show_message ) && ! empty( $this->license_message ) ) {
-				?>
+		<?php
+		if ( ! empty( $this->show_message ) && ! empty( $this->license_message ) ) {
+			?>
 			<div class="notice notice-error is-dismissible">
 				<p>
-					<?php echo esc_html( $this->license_message, 'woomp' ); ?>
+			<?php echo esc_html( $this->license_message, 'woomp' ); ?>
 				</p>
 			</div>
-				<?php
-			}
-			?>
+			<?php
+		}
+		?>
 			<p class='text-gray-500'>好用版擴充是款免費外掛，但請先到 <a
 					class="font-semibold leading-6 text-primary hover:text-primary-400" target="_blank"
 					href="<?php echo self::$buy_license_link; ?>">站長路可網站</a>
 				註冊帳號，即可索取授權碼。有任何客服問題，請私訊站長路可網站右下方對話框，或是來信 <a
 					class="font-semibold leading-6 text-primary hover:text-primary-400"
 					href="mailto:<?php echo self::$support_email; ?>" target="_blank">
-					<?php echo self::$support_email; ?>
+		<?php echo self::$support_email; ?>
 				</a></p>
 			<input id="el_license_key" type="text"
 				class="h-[36px] block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6"
@@ -328,12 +328,12 @@ class woomp_elite {
 
 	<div class="mb-4">
 		<label for="el_license_email" class="block text-sm font-medium leading-6 text-gray-500">
-			<?php echo esc_html( 'Email', 'woomp' ); ?>
+		<?php echo esc_html( 'Email', 'woomp' ); ?>
 		</label>
 		<div class="mt-2">
-			<?php
-			$purchase_email = get_option( 'woomp_lic_email', get_bloginfo( 'admin_email' ) );
-			?>
+		<?php
+		$purchase_email = get_option( 'woomp_lic_email', get_bloginfo( 'admin_email' ) );
+		?>
 			<input id="el_license_email" type="email"
 				class="h-[36px] block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6"
 				name="el_license_email" size="50" value="<?php echo esc_html( $purchase_email ); ?>"
