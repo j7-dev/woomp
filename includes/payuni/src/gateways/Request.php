@@ -48,7 +48,7 @@ class Request {
 
 		$args = array(
 			'MerID'      => $this->gateway->get_mer_id(),
-			'MerTradeNo' => $order->get_order_number() . $order_suffix,
+			'MerTradeNo' => $order->get_id() . $order_suffix,
 			'TradeAmt'   => $order->get_total(),
 			'Timestamp'  => time(),
 			'UsrMail'    => $order->get_billing_email(),
@@ -174,7 +174,7 @@ class Request {
 
 		$args = array(
 			'MerID'       => $this->gateway->get_mer_id(),
-			'MerTradeNo'  => $order->get_order_number() . $order_suffix,
+			'MerTradeNo'  => $order->get_id() . $order_suffix,
 			'TradeAmt'    => $amount,
 			'Timestamp'   => time(),
 			'UsrMail'     => $order->get_billing_email(),
@@ -212,6 +212,12 @@ class Request {
 	 */
 	public function build_hash_request( $order, array $card_data ): array {
 
+		if ( ! ! $order ) {
+			$order_suffix = ( $order->get_meta( '_payuni_order_suffix' ) ) ? '-' . $order->get_meta( '_payuni_order_suffix' ) : '';
+		} else {
+			$order_suffix = '';
+		}
+
 		if ( ! is_user_logged_in() ) {
 			return false;
 		}
@@ -220,7 +226,7 @@ class Request {
 
 		$args = array(
 			'MerID'       => $this->gateway->get_mer_id(),
-			'MerTradeNo'  => time(),
+			'MerTradeNo'  => $order->get_id() . $order_suffix,
 			'TradeAmt'    => 5,
 			'Timestamp'   => time(),
 			'UsrMail'     => get_userdata( $user_id )->user_email,
@@ -230,6 +236,12 @@ class Request {
 			'CardCVC'     => $card_data['cvc'],
 			'CreditToken' => get_userdata( $user_id )->user_email,
 		);
+
+		if ( wc_string_to_bool( get_option( 'payuni_3d_auth', 'yes' ) ) ) {
+			$args['API3D'] = 1;
+			// $data[ 'NotifyURL' ] = home_url('wc-api/payuni_notify_card');
+			$args['ReturnURL'] = home_url( 'wc-api/payuni_notify_card' );
+		}
 
 		$parameter = array(
 			'MerID'       => $this->gateway->get_mer_id(),
@@ -247,19 +259,17 @@ class Request {
 		$response = wp_remote_request( $this->gateway->get_api_url() . $this->gateway->get_api_endpoint_url(), $options );
 		$resp     = json_decode( wp_remote_retrieve_body( $response ) );
 
-		$is_success = Response::hash_response( $resp );
-		$redirect   = $order ? $this->gateway->get_return_url( $order ) : '';
+		$redirect = $order ? $this->gateway->get_return_url( $order ) : '';
+		$result   = Response::handle_response( $resp, $redirect );
 
-		if ( $is_success ) {
-			return array(
-				'result'   => 'success',
-				'redirect' => $redirect,
-			);
+		if ( 'success' === $result['result'] ) {
+			if ( $order ) {
+				// 更新訂單狀態為已完成.
+				$order->update_status( 'completed' );
+				$order->save();
+			}
 		}
-		return array(
-			'result'   => 'failed',
-			'redirect' => $redirect,
-		);
+		return $result;
 	}
 
 	private function get_card_hash( $order ) {

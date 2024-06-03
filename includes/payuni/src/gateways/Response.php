@@ -60,6 +60,7 @@ class Response {
 
 	/**
 	 * Receive response from Payuni
+	 * 好像只有 3D 驗證會進來
 	 * 帶有 $resp 是走 3D 驗證的幕後，帶有 $_REQUEST 是結帳頁直接回傳
 	 *
 	 * @return void
@@ -76,7 +77,20 @@ class Response {
 
 		// Payment::log( $data, 'response' ); 因為呼叫層級錯誤，所以先註解掉
 
-		$order    = wc_get_order( explode( '-', $data['MerTradeNo'] )[0] );
+		// 如果金額是 5 且為 一次授權，就需要執行5元退刷
+		if ( '5' === $data['TradeAmt'] && '1' === $data['AuthType'] ) {
+			// Hash Refund 只執行一次 5 元退款，馬上執行會發生 "訂單處理中，請稍後再試"，所以延遲 1 分鐘再執行.
+			\as_schedule_single_action( strtotime( \current_time( 'Y-m-d H:i:s' ) . '-8 hour + 1 minute' ), 'payuni_cancel_trade_by_trade_no', array( $data['TradeNo'] ) );
+		}
+
+		$order = \wc_get_order( explode( '-', $data['MerTradeNo'] )[0] );
+
+		if ( ! ( $order instanceof \WC_Order ) ) {
+			// '找不到訂單 $order' redirect to home
+			\wp_safe_redirect( site_url() );
+			exit;
+		}
+
 		$status   = $data['Status'];
 		$message  = $data['Message'];
 		$trade_no = $data['TradeNo'];
@@ -116,7 +130,9 @@ class Response {
 			$order->update_meta_data( '_payuni_card_hash', $card_hash );
 
 			// 新增付款方式，存入帳號
-			if ( $order->get_meta( '_payuni_token_maybe_save' ) ) {
+
+			if ( ! ! $card_hash ) {
+				// TODO can use update_meta_data to save bank info?
 				$token = new \WC_Payment_Token_CC();
 				$token->set_token( $card_hash );
 				$token->set_gateway_id( $method );
@@ -147,13 +163,16 @@ class Response {
 
 	/**
 	 * Hash response
-	 * 5 元扣款是否成功
+	 * 將 5 元扣款 API 的 response 處理
+	 * 如果有開 3D 就回要跳轉的 URL $['URL']
+	 * 如果沒開 3D 驗證會記錄卡號
 	 *
 	 * @param ?object $resp payuni response.
+	 * @param string  $redirect redirect url.
 	 *
-	 * @return bool
+	 * @return array
 	 */
-	public static function hash_response( ?object $resp ): bool {
+	public static function handle_response( $resp, $redirect ) {
         //@codingStandardsIgnoreStart
         $encrypt_info = ($resp) ? $resp->EncryptInfo : $_REQUEST[ 'EncryptInfo' ];
         //@codingStandardsIgnoreEnd
@@ -165,7 +184,16 @@ class Response {
 		$card_expiry_month = substr( $data['CreditLife'] ?? '', 0, 2 );
 		$card_expiry_year  = '20' . substr( $data['CreditLife'] ?? '', 2, 2 );
 
-		if ( 'SUCCESS' === $status ) {
+		if ( 'SUCCESS' !== $status ) {
+			\wc_add_notice( $data['Message'], 'error' );
+
+			return array(
+				'result'   => 'failed',
+				'redirect' => $redirect,
+			);
+		}
+
+		if ( ! ! $card_hash ) {
 
 			// TODO can use update_meta_data to save bank info?
 			$token = new \WC_Payment_Token_CC();
@@ -175,18 +203,28 @@ class Response {
 			$token->set_last4( $card_4no );
 			$token->set_expiry_month( $card_expiry_month );
 			$token->set_expiry_year( $card_expiry_year );
-			$token->set_user_id( get_current_user_id() );
+			$token->set_user_id( \get_current_user_id() );
 			$token->save();
-
-			// Hash Refund 只執行一次 5 元退款，馬上執行會發生 "訂單處理中，請稍後再試"，所以延遲 2 分鐘再執行.
-			as_schedule_single_action( strtotime( current_time( 'Y-m-d H:i:s' ) . '-8 hour + 1 minute' ), 'payuni_cancel_trade_by_trade_no', array( $data['TradeNo'] ) );
-
-			return true;
 		}
 
-		wc_add_notice( $data['Message'], 'error' );
+		// 3D 驗證走以下判斷，會 redirect 到 $data['URL']
+		if ( key_exists( 'URL', $data ) ) {
+			return array(
+				'result'   => 'success',
+				'redirect' => $data['URL'],
+			);
+		}
 
-		return false;
+		// 如果金額是 5 且為 一次授權，就需要執行5元退刷
+		if ( '5' === $data['TradeAmt'] && '1' === $data['AuthType'] ) {
+			// Hash Refund 只執行一次 5 元退款，馬上執行會發生 "訂單處理中，請稍後再試"，所以延遲 1 分鐘再執行.
+			\as_schedule_single_action( strtotime( \current_time( 'Y-m-d H:i:s' ) . '-8 hour + 1 minute' ), 'payuni_cancel_trade_by_trade_no', array( $data['TradeNo'] ) );
+		}
+
+		return array(
+			'result'   => 'success',
+			'redirect' => $redirect,
+		);
 	}
 
 	/**
