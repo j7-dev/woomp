@@ -30,7 +30,7 @@ $settings = array(
 		'title'   => __( '3D Authorization', 'woomp' ),
 		'type'    => 'checkbox',
 		'default' => 'yes',
-		'desc'    => __( '啟用 3D 驗證<br>相關設定請參考<a target="_blank" href="https://cloud.luke.cafe/docs/payuni-3d">說明文件</a>', 'woomp' ),
+		// 'desc'    => __( '啟用 3D 驗證<br>相關設定請參考<a target="_blank" href="https://cloud.luke.cafe/docs/payuni-3d">說明文件</a>', 'woomp' ),
 		'id'      => 'payuni_3d_auth',
 	),
 	array(

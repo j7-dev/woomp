@@ -55,7 +55,6 @@ class Woomp_Admin {
 
 		$this->plugin_name = $plugin_name;
 		$this->version     = $version;
-
 	}
 
 	/**
@@ -78,7 +77,6 @@ class Woomp_Admin {
 		 */
 
 		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/woomp-admin.css', array(), $this->version, 'all' );
-
 	}
 
 	/**
@@ -101,7 +99,6 @@ class Woomp_Admin {
 		 */
 
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/woomp-admin.js', array( 'jquery' ), '2.2.5', true );
-
 	}
 
 	/**
@@ -152,7 +149,7 @@ class Woomp_Admin {
 			}</style>';
 			if ( $order->get_meta( '_billing_full-address' ) ) {
 				echo '<style>.order_data_column:nth-child(2) .address:not(.ivoice) p:last-child{display:none;}</style>';
-			};
+			}
 			echo '<p style="font-size: 14px;" id="billingName"><strong>帳單姓名:<br/></strong>' . $order->get_billing_last_name() . $order->get_billing_first_name() . '</p>';
 			echo '<p style="font-size: 14px;" id="fullAddress"><strong>帳單地址:<br/></strong><span>' . $order->get_meta( '_billing_full-address' ) . '</span></p>';
 		}
@@ -216,14 +213,14 @@ class Woomp_Admin {
 	 * 新增教學文件連結
 	 */
 	public function plugin_row_meta( $links, $file ) {
-		if ( 'woomp/woomp.php' === $file ) {
-			return array_merge(
-				$links,
-				array(
-					'doc' => '<a target="_blank" href="https://morepower.club/know_cate/addon/">教學文件</a>',
-				),
-			);
-		}
+		// if ( 'woomp/woomp.php' === $file ) {
+		// return array_merge(
+		// $links,
+		// array(
+		// 'doc' => '<a target="_blank" href="https://morepower.club/know_cate/addon/">教學文件</a>',
+		// ),
+		// );
+		// }
 
 		return $links;
 	}
@@ -326,7 +323,6 @@ class Woomp_Admin {
 				}
 			}
 		}
-
 	}
 
 	/**
@@ -380,7 +376,6 @@ class Woomp_Admin {
 			// 註冊發送轉帳提醒通知信排程
 			as_schedule_single_action( strtotime( $order->get_date_created()->date( 'Y-m-d H:i:s' ) . ' -1 day -8 hour' ) + $expire_sec, 'wmp_cron_atm_deadline_remind', array( $order_id ) );
 		}
-
 	}
 
 	/**
@@ -405,7 +400,7 @@ class Woomp_Admin {
 				$wc_emails = WC_Emails::instance();
 				$emails    = $wc_emails->get_emails();
 				$email     = $emails['RY_ECPay_Shipping_Email_Customer_ATM_Transfer_Remind'];
-	
+
 				if ( $email ) {
 					if ( $email->is_enabled() ) {
 						$email->object    = $order;
@@ -416,5 +411,4 @@ class Woomp_Admin {
 			}
 		}
 	}
-
 }

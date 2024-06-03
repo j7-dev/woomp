@@ -62,7 +62,7 @@ class Woomp_Setting
                 'name' => '教學文件',
                 'type' => 'text',
                 'id' => 'wc_woomp_setting_link',
-                'desc' => __('<a target="_blank" href="https://cloud.luke.cafe/docs/woomp/">好用版擴充 教學文件</a>', 'woomp'),
+                // 'desc' => __('<a target="_blank" href="https://cloud.luke.cafe/docs/woomp/">好用版擴充 教學文件</a>', 'woomp'),
             ),
 			'section_payuni' => array(
                 'name' => __('統一金流 PAYUNi 設定', 'woomp'),
