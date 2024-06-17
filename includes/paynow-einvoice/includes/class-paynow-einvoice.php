@@ -414,7 +414,6 @@ class Paynow_Einvoice
 			$order_items = $order->get_items(array('line_item', 'fee', 'shipping'));
 			if (!is_wp_error($order_items)) {
 				foreach ($order_items as $item_id => $order_item) {
-
 					$ei_datas[] = array(
 
 						'orderno'        	=>  "'" . $order->get_order_number(),  //商店訂單編號
@@ -430,7 +429,7 @@ class Paynow_Einvoice
 						'CarrierID_2'		=>  "'" . $carrier_id1, //發票隱碼
 						'LoveCode'			=>  "'" . substr($love_code, 0, 8),
 
-						'Description'		=>  "'" . $order_item->get_name(),
+						'Description'		=>  "'" . str_replace(',', ' ', $order_item->get_name()),
 						'Quantity'			=>  "'" . $qty = ($order_item->get_type() == 'line_item') ? $order_item->get_quantity() : '1',
 						'UnitPrice'			=>  "'" . round(((float) $order_item->get_total() / $qty), 2),
 						'Amount'			=>  "'" . round($order_item->get_total()),
