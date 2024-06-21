@@ -20,6 +20,7 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 	abstract class AbstractGateway extends \WC_Payment_Gateway_CC {
 
 
+
 		/**
 		 *
 		 * @var string
@@ -108,7 +109,7 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 		 */
 		public function __construct() {
 
-			$this->icon       = $this->get_icon();
+			$this->icon       = ''; // 不需要顯示 icon
 			$this->has_fields = false;
 			$this->supports   = array(
 				'products',
@@ -172,8 +173,8 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 		public function get_icon() {
 			$icon_html  = '';
 			$icon_html .= '<img src="' . WOOMP_PLUGIN_URL . 'includes/payuni/assets/img/logo_p.png " style="background:#5c3a93" alt="' . __( 'PAYUNi Payment Gateway', 'woomp' ) . '" />';
-
-			return apply_filters( 'woocommerce_gateway_icon', $icon_html, $this->id );
+			return '';
+			// return apply_filters( 'woocommerce_gateway_icon', $icon_html, $this->id ); // 不需要顯示 icon
 		}
 
 		/**
@@ -330,17 +331,17 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 
 			$cvc_field = '<p class="form-row form-row-last">
 			<label for="' . esc_attr( $this->id ) . '-card-cvc">' . esc_html__( 'Card code', 'woocommerce' ) . '&nbsp;<span class="required">*</span></label>
-			<input id="' . esc_attr( $this->id ) . '-card-cvc" name="' . esc_attr( $this->id ) . '-card-cvc" class="input-text wc-credit-card-form-card-cvc" inputmode="numeric" autocomplete="off" autocorrect="no" autocapitalize="no" spellcheck="no" type="tel" maxlength="3" placeholder="' . esc_attr__( 'CVC', 'woocommerce' ) . '" ' . $this->field_name( 'card-cvc' ) . ' style="width:100px;font-size:15px" required />
+			<input id="' . esc_attr( $this->id ) . '-card-cvc" name="' . esc_attr( $this->id ) . '-card-cvc" class="input-text wc-credit-card-form-card-cvc" inputmode="numeric" autocomplete="off" autocorrect="no" autocapitalize="no" spellcheck="no" type="tel" maxlength="3" placeholder="' . esc_attr__( 'CVC', 'woocommerce' ) . '" ' . $this->field_name( 'card-cvc' ) . ' style="width:100px;font-size:15px" />
 		</p>';
 
 			$default_fields = array(
 				'card-number-field' => '<p class="form-row form-row-wide">
 				<label for="' . esc_attr( $this->id ) . '-card-number">' . esc_html__( 'Card number', 'woocommerce' ) . '&nbsp;<span class="required">*</span></label>
-				<input id="' . esc_attr( $this->id ) . '-card-number" name="' . esc_attr( $this->id ) . '-card-number" class="input-text wc-credit-card-form-card-number" inputmode="numeric" autocomplete="cc-number" autocorrect="no" autocapitalize="no" spellcheck="no" style="font-size:15px" type="tel" placeholder="&bull;&bull;&bull;&bull; &bull;&bull;&bull;&bull; &bull;&bull;&bull;&bull; &bull;&bull;&bull;&bull;" ' . $this->field_name( 'card-number' ) . ' required />
+				<input id="' . esc_attr( $this->id ) . '-card-number" name="' . esc_attr( $this->id ) . '-card-number" class="input-text wc-credit-card-form-card-number" inputmode="numeric" autocomplete="cc-number" autocorrect="no" autocapitalize="no" spellcheck="no" style="font-size:15px" type="tel" placeholder="&bull;&bull;&bull;&bull; &bull;&bull;&bull;&bull; &bull;&bull;&bull;&bull; &bull;&bull;&bull;&bull;" ' . $this->field_name( 'card-number' ) . ' />
 			</p>',
 				'card-expiry-field' => '<p class="form-row form-row-first">
 				<label for="' . esc_attr( $this->id ) . '-card-expiry">' . esc_html__( 'Expiry (MM/YY)', 'woocommerce' ) . '&nbsp;<span class="required">*</span></label>
-				<input id="' . esc_attr( $this->id ) . '-card-expiry" name="' . esc_attr( $this->id ) . '-card-expiry" class="input-text wc-credit-card-form-card-expiry" inputmode="numeric" autocomplete="cc-exp" autocorrect="no" maxlength="7" autocapitalize="no" spellcheck="no" style="font-size:15px" type="tel" placeholder="' . esc_attr__( 'MM / YY', 'woocommerce' ) . '" ' . $this->field_name( 'card-expiry' ) . ' required />
+				<input id="' . esc_attr( $this->id ) . '-card-expiry" name="' . esc_attr( $this->id ) . '-card-expiry" class="input-text wc-credit-card-form-card-expiry" inputmode="numeric" autocomplete="cc-exp" autocorrect="no" maxlength="7" autocapitalize="no" spellcheck="no" style="font-size:15px" type="tel" placeholder="' . esc_attr__( 'MM / YY', 'woocommerce' ) . '" ' . $this->field_name( 'card-expiry' ) . ' />
 			</p>',
 			);
 
@@ -351,8 +352,7 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 			$fields = wp_parse_args( $fields, apply_filters( 'woocommerce_credit_card_form_fields', $default_fields, $this->id ) );
 			?>
 
-<fieldset id="wc-<?php echo esc_attr( $this->id ); ?>-cc-form"
-	class='wc-credit-card-form wc-payment-form'>
+			<fieldset id="wc-<?php echo esc_attr( $this->id ); ?>-cc-form" class='wc-credit-card-form wc-payment-form'>
 			<?php do_action( 'woocommerce_credit_card_form_start', $this->id ); ?>
 			<?php
 			foreach ( $fields as $field ) {
@@ -360,8 +360,8 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 			}
 			?>
 			<?php do_action( 'woocommerce_credit_card_form_end', $this->id ); ?>
-	<div class="clear"></div>
-</fieldset>
+				<div class="clear"></div>
+			</fieldset>
 			<?php
 
 			if ( $this->supports( 'credit_card_form_cvc_on_saved_method' ) ) {
@@ -375,31 +375,31 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 		 * @return void|bool
 		 */
 		public function validate_fields() {
-            //@codingStandardsIgnoreStart
-            if ($this->id !== $_POST[ 'payment_method' ]) {
-                return false;
-            }
+			//@codingStandardsIgnoreStart
+			if ($this->id !== $_POST['payment_method']) {
+				return false;
+			}
 
-            if (!isset($_POST[ 'wc-' . $this->id . '-payment-token' ])) {
-                return false;
-            }
+			if (!isset($_POST['wc-' . $this->id . '-payment-token'])) {
+				return false;
+			}
 
-            if ('new' !== $_POST[ 'wc-' . $this->id . '-payment-token' ] && isset($_POST[ 'wc-' . $this->id . '-payment-token' ])) {
-                return false;
-            }
+			if ('new' !== $_POST['wc-' . $this->id . '-payment-token'] && isset($_POST['wc-' . $this->id . '-payment-token'])) {
+				return false;
+			}
 
-            if (empty($_POST[ $this->id . '-card-number' ])) {
-                wc_add_notice(__('Credit card number is required', 'woomp'), 'error');
-            }
+			if (empty($_POST[$this->id . '-card-number'])) {
+				wc_add_notice(__('Credit card number is required', 'woomp'), 'error');
+			}
 
-            if (empty($_POST[ $this->id . '-card-expiry' ])) {
-                wc_add_notice(__('Credit card expired date is required', 'woomp'), 'error');
-            }
+			if (empty($_POST[$this->id . '-card-expiry'])) {
+				wc_add_notice(__('Credit card expired date is required', 'woomp'), 'error');
+			}
 
-            if (empty($_POST[ $this->id . '-card-cvc' ])) {
-                wc_add_notice(__('Credit card security code is required', 'woomp'), 'error');
-            }
-            //@codingStandardsIgnoreEnd
+			if (empty($_POST[$this->id . '-card-cvc'])) {
+				wc_add_notice(__('Credit card security code is required', 'woomp'), 'error');
+			}
+			//@codingStandardsIgnoreEnd
 		}
 
 		/**
@@ -463,13 +463,13 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 		 */
 		public function add_payment_method(): array {
 
-            //@codingStandardsIgnoreStart
-            $number   = (isset($_POST[ $this->id . '-card-number' ])) ? wc_clean(wp_unslash($_POST[ $this->id . '-card-number' ])) : '';
-            $expiry   = (isset($_POST[ $this->id . '-card-expiry' ])) ? wc_clean(wp_unslash(str_replace(' ', '', $_POST[ $this->id . '-card-expiry' ]))) : '';
-            $cvc      = (isset($_POST[ $this->id . '-card-cvc' ])) ? wc_clean(wp_unslash($_POST[ $this->id . '-card-cvc' ])) : '';
-            $token_id = (isset($_POST[ 'wc-' . $this->id . '-payment-token' ])) ? wc_clean(wp_unslash($_POST[ 'wc-' . $this->id . '-payment-token' ])) : '';
-            $new      = (isset($_POST[ 'wc-' . $this->id . '-new-payment-method' ])) ? wc_clean(wp_unslash($_POST[ 'wc-' . $this->id . '-new-payment-method' ])) : '';
-            //@codingStandardsIgnoreEnd
+			//@codingStandardsIgnoreStart
+			$number   = (isset($_POST[$this->id . '-card-number'])) ? wc_clean(wp_unslash($_POST[$this->id . '-card-number'])) : '';
+			$expiry   = (isset($_POST[$this->id . '-card-expiry'])) ? wc_clean(wp_unslash(str_replace(' ', '', $_POST[$this->id . '-card-expiry']))) : '';
+			$cvc      = (isset($_POST[$this->id . '-card-cvc'])) ? wc_clean(wp_unslash($_POST[$this->id . '-card-cvc'])) : '';
+			$token_id = (isset($_POST['wc-' . $this->id . '-payment-token'])) ? wc_clean(wp_unslash($_POST['wc-' . $this->id . '-payment-token'])) : '';
+			$new      = (isset($_POST['wc-' . $this->id . '-new-payment-method'])) ? wc_clean(wp_unslash($_POST['wc-' . $this->id . '-new-payment-method'])) : '';
+			//@codingStandardsIgnoreEnd
 
 			$card_data = array(
 				'number'   => str_replace( ' ', '', $number ),
@@ -496,6 +496,13 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 
 			$request = new Request( $class );
 			$result  = $request->build_hash_request( null, $card_data );
+			/*
+			有開 3D 驗證的 response
+			["result"]=>
+			string(7) "success"
+			["redirect"]=>
+			string(63) "https://api.payuni.com.tw/api/credit/api_3d/1718793079849024800"
+			*/
 
 			if ( 'success' === $result['result'] ) {
 				$return['result'] = 'success';
@@ -503,7 +510,14 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 				$return['result'] = 'failure';
 			}
 
-			$return['redirect'] = wc_get_endpoint_url( 'payment-methods' );
+			$is_3d_auth = \wc_string_to_bool( \get_option( 'payuni_3d_auth', 'yes' ) );
+
+			if ( ! $is_3d_auth ) {
+				// 如果不是 3D 驗證，就回到付款方式頁面
+				$return['redirect'] = \wc_get_endpoint_url( 'payment-methods' );
+			} else {
+				$return['redirect'] = $result['redirect'] ?? '';
+			}
 
 			return $return;
 		}

@@ -9,14 +9,13 @@
 namespace PAYUNI\Gateways;
 
 use Payuni\APIs\Payment;
-use WC_Subscriptions_Order;
 
 defined( 'ABSPATH' ) || exit;
 
 /**
  * Receive response from Payuni.
  */
-class Response {
+final class Response {
 
 
 	/**
@@ -34,6 +33,18 @@ class Response {
 	}
 
 	/**
+	 * Initialize and add hooks
+	 *
+	 * @return void
+	 */
+	public static function init() {
+		$class = self::get_instance();
+		add_action( 'woocommerce_api_payuni_notify_card', array( $class, 'card_response' ) );
+		add_action( 'woocommerce_api_payuni_notify_atm', array( $class, 'atm_response' ) );
+		add_action( 'woocommerce_api_payuni_notify_cvs', array( $class, 'cvs_response' ) );
+	}
+
+	/**
 	 * Get the single instance or new one if not exists.
 	 *
 	 * @return Response
@@ -47,21 +58,11 @@ class Response {
 	}
 
 	/**
-	 * Initialize and add hooks
-	 *
-	 * @return void
-	 */
-	public static function init() {
-		$class = self::get_instance();
-		add_action( 'woocommerce_api_payuni_notify_card', array( $class, 'card_response' ) );
-		add_action( 'woocommerce_api_payuni_notify_atm', array( $class, 'atm_response' ) );
-		add_action( 'woocommerce_api_payuni_notify_cvs', array( $class, 'cvs_response' ) );
-	}
-
-	/**
 	 * Receive response from Payuni
 	 * 好像只有 3D 驗證會進來
 	 * 帶有 $resp 是走 3D 驗證的幕後，帶有 $_REQUEST 是結帳頁直接回傳
+	 *
+	 * @param null $resp
 	 *
 	 * @return void
 	 */
@@ -75,6 +76,24 @@ class Response {
 
 		unset( $data['Card6No'] ); // remove card number from log.
 
+		[
+			'status'            => $status,
+			'message'           => $message,
+			'trade_no'          => $trade_no,
+			'card_bank'         => $card_bank,
+			'card_bank_name'    => $card_bank_name,
+			'card_4no'          => $card_4no,
+			'card_hash'         => $card_hash,
+			'card_expiry_month' => $card_expiry_month,
+			'card_expiry_year'  => $card_expiry_year,
+			'card_inst'         => $card_inst,
+			'each_amt'          => $each_amt,
+			'first_amt'         => $first_amt,
+			'is_3d_auth'        => $is_3d_auth,
+		] = self::get_formatted_decrypted_data( $data );
+
+		\wc_add_notice( $message, ( 'SUCCESS' === $status ) ? 'success' : 'error' );
+
 		// Payment::log( $data, 'response' ); 因為呼叫層級錯誤，所以先註解掉
 
 		// 如果金額是 5 且為 一次授權，就需要執行5元退刷
@@ -83,82 +102,114 @@ class Response {
 			\as_schedule_single_action( strtotime( \current_time( 'Y-m-d H:i:s' ) . '-8 hour + 1 minute' ), 'payuni_cancel_trade_by_trade_no', array( $data['TradeNo'] ) );
 		}
 
-		$order = \wc_get_order( explode( '-', $data['MerTradeNo'] )[0] );
+		$order     = \wc_get_order( explode( '-', $data['MerTradeNo'] )[0] );
+		$has_order = ( $order instanceof \WC_Order );
 
-		if ( ! ( $order instanceof \WC_Order ) ) {
-			// '找不到訂單 $order' redirect to home
-			\wp_safe_redirect( site_url() );
-			exit;
-		}
-
-		$status   = $data['Status'];
-		$message  = $data['Message'];
-		$trade_no = $data['TradeNo'];
-
-		$order->update_meta_data( '_payuni_order_suffix', (int) $order->get_meta( '_payuni_order_suffix' ) + 1 );
-
-		$order->update_meta_data( '_payuni_resp_status', $status );
-		$order->update_meta_data( '_payuni_resp_message', $message );
-		$order->update_meta_data( '_payuni_resp_trade_no', $trade_no );
-		// 處理信用卡.
-		$card_bank         = $data['CardBank'];
-		$card_bank_name    = $data['AuthBankName'];
-		$card_4no          = $data['Card4No'];
-		$card_hash         = $data['CreditHash'] ?? '';
-		$card_expiry_month = substr( $data['CreditLife'] ?? '', 0, 2 );
-		$card_expiry_year  = '20' . substr( $data['CreditLife'] ?? '', 2, 2 );
-
-		$card_inst = $data['CardInst'];
-		$each_amt  = $data['EachAmt'];
-		$first_amt = $data['FirstAmt'];
-
-		$order->update_meta_data( '_payuni_resp_card_bank', "({$card_bank}){$card_bank_name}" );
-		$order->update_meta_data( '_payuni_card_number', $card_4no );
-		$order->update_meta_data( '_payuni_resp_card_inst', $card_inst );
-		$order->update_meta_data( '_payuni_resp_first_amt', $first_amt );
-		$order->update_meta_data( '_payuni_resp_each_amt', $each_amt );
-
-		$order->add_order_note( "<strong>統一金流交易紀錄</strong><br>狀態碼：{$status}<br>交易訊息：{$message}<br>交易編號：{$trade_no}<br>卡號末四碼：{$card_4no}", true );
-
-		$status_success = ( 'WC_Subscription' === get_class( $order ) ) ? 'active' : 'processing';
-		$status_failed  = ( 'WC_Subscription' === get_class( $order ) ) ? 'on-hold' : 'failed';
-
-		if ( 'SUCCESS' === $status ) {
-			$method = $order->get_payment_method();
-
-			$order->update_status( $status_success );
-			$order->update_meta_data( '_payuni_card_hash', $card_hash );
-
-			// 新增付款方式，存入帳號
-
-			if ( ! ! $card_hash ) {
-				// TODO can use update_meta_data to save bank info?
-				$token = new \WC_Payment_Token_CC();
-				$token->set_token( $card_hash );
-				$token->set_gateway_id( $method );
-				$token->set_card_type( 'visa' );
-				$token->set_last4( $card_4no );
-				$token->set_expiry_month( $card_expiry_month );
-				$token->set_expiry_year( $card_expiry_year );
-				$token->set_user_id( $order->get_customer_id() );
-				$token->save();
-			}
-		} else {
-			$order->update_status( $status_failed );
-		}
-
+		// 清空購物車
 		if ( $woocommerce->cart ) {
 			$woocommerce->cart->empty_cart();
 		}
 
-		$order->save();
+		if ( $has_order ) {
+			$status_success = ( 'WC_Subscription' === get_class( $order ) ) ? 'active' : 'processing';
+			$status_failed  = ( 'WC_Subscription' === get_class( $order ) ) ? 'on-hold' : 'failed';
 
-		$order_total = (int) $order->get_total();
+			if ( 'SUCCESS' !== $status ) {
+				$order->update_status( $status_failed );
+				$order->save();
+				\wp_safe_redirect( $order->get_checkout_order_received_url() );
+				exit;
+			}
 
-		if ( ! $resp ) {
-			wp_safe_redirect( $order->get_checkout_order_received_url() );
+			$order->update_meta_data( '_payuni_order_suffix', (int) $order->get_meta( '_payuni_order_suffix' ) + 1 );
+			$order->update_meta_data( '_payuni_resp_status', $status );
+			$order->update_meta_data( '_payuni_resp_message', $message );
+			$order->update_meta_data( '_payuni_resp_trade_no', $trade_no );
+			$order->update_meta_data( '_payuni_resp_card_bank', "({$card_bank}){$card_bank_name}" );
+			$order->update_meta_data( '_payuni_card_number', $card_4no );
+			$order->update_meta_data( '_payuni_resp_card_inst', $card_inst );
+			$order->update_meta_data( '_payuni_resp_first_amt', $first_amt );
+			$order->update_meta_data( '_payuni_resp_each_amt', $each_amt );
+			$order->add_order_note( "<strong>統一金流交易紀錄</strong><br>狀態碼：{$status}<br>交易訊息：{$message}<br>交易編號：{$trade_no}<br>卡號末四碼：{$card_4no}", true );
+
+			$method = $order->get_payment_method();
+			// 新增付款方式，存入帳號
+			self::save_card_to_payment_method( $card_hash, $card_4no, $card_expiry_month, $card_expiry_year, $method );
+
+			$order->update_status( $status_success );
+			$order->update_meta_data( '_payuni_card_hash', $card_hash );
+			$order->save();
+			\wp_safe_redirect( $order->get_checkout_order_received_url() );
 			exit;
 		}
+
+		// 新增付款方式，存入帳號
+		self::save_card_to_payment_method( $card_hash, $card_4no, $card_expiry_month, $card_expiry_year );
+		\wp_safe_redirect( \wc_get_account_endpoint_url( 'payment-methods' ) );
+		exit;
+	}
+
+	/**
+	 * Get formatted decrypted data
+	 * Response 後、解密後的資料丟進來 format
+	 *
+	 * @param array $data decrypted data.
+	 *
+	 * @return array
+	 * - status: string
+	 * - card_4no: string
+	 * - card_hash: string
+	 * - card_expiry_month: string
+	 * - card_expiry_year: string
+	 * - is_3d_auth: bool.
+	 */
+	public static function get_formatted_decrypted_data( array $data ): array {
+
+		$formatted_data = [];
+
+		$formatted_data['status']            = (string) ( $data['Status'] ?? '' );
+		$formatted_data['message']           = (string) ( $data['Message'] ?? '' );
+		$formatted_data['trade_no']          = (string) ( $data['TradeNo'] ?? '' );
+		$formatted_data['card_bank']         = (string) ( $data['CardBank'] ?? '' );
+		$formatted_data['card_bank_name']    = (string) ( $data['AuthBankName'] ?? '' );
+		$formatted_data['card_4no']          = (string) ( $data['Card4No'] ?? '' );
+		$formatted_data['card_hash']         = (string) ( $data['CreditHash'] ?? '' );
+		$formatted_data['card_expiry_month'] = (string) substr( $data['CreditLife'] ?? '', 0, 2 );
+		$formatted_data['card_expiry_year']  = (string) '20' . substr( $data['CreditLife'] ?? '', 2, 2 );
+		$formatted_data['card_inst']         = ( $data['CardInst'] ?? '' ); // 分期
+		$formatted_data['each_amt']          = ( $data['EachAmt'] ?? '' ); // 每次多少
+		$formatted_data['first_amt']         = ( $data['FirstAmt'] ?? '' ); // 首次多少
+		$formatted_data['is_3d_auth']        = (bool) ( 'SUCCESS' === $formatted_data['status'] && key_exists( 'URL', $data ) ); // 是否 3D 驗證
+
+		return $formatted_data;
+	}
+
+	/**
+	 * Save card to payment method
+	 * 將信用卡資料存入付款方式
+	 *
+	 * @param string  $card_hash card hash.
+	 * @param string  $card_4no card last 4 number.
+	 * @param string  $card_expiry_month card expiry month.
+	 * @param string  $card_expiry_year card expiry year.
+	 * @param ?string $method payment method.
+	 *
+	 * @return void
+	 */
+	public static function save_card_to_payment_method( string $card_hash, string $card_4no, string $card_expiry_month, string $card_expiry_year, ?string $method = 'payuni-credit-subscription' ): void {
+		if ( ! $card_hash ) {
+			return;
+		}
+
+		$token = new \WC_Payment_Token_CC();
+		$token->set_token( $card_hash );
+		$token->set_gateway_id( $method );
+		$token->set_card_type( 'visa' );
+		$token->set_last4( $card_4no );
+		$token->set_expiry_month( $card_expiry_month );
+		$token->set_expiry_year( $card_expiry_year );
+		$token->set_user_id( \get_current_user_id() );
+		$token->save();
 	}
 
 	/**
@@ -177,12 +228,22 @@ class Response {
         $encrypt_info = ($resp) ? $resp->EncryptInfo : $_REQUEST[ 'EncryptInfo' ];
         //@codingStandardsIgnoreEnd
 
-		$data              = Payment::decrypt( $encrypt_info );
-		$status            = $data['Status'] ?? '';
-		$card_4no          = $data['Card4No'] ?? '';
-		$card_hash         = $data['CreditHash'] ?? '';
-		$card_expiry_month = substr( $data['CreditLife'] ?? '', 0, 2 );
-		$card_expiry_year  = '20' . substr( $data['CreditLife'] ?? '', 2, 2 );
+		$data = Payment::decrypt( $encrypt_info );
+		/*
+		有開 3D 驗證的 response
+		["Status"]=> "SUCCESS"
+		["Message"]=> "建立幕後3D成功"
+		["URL"]=> "https://api.payuni.com.tw/api/credit/api_3d/1711111054055003344"
+		*/
+
+		[
+			'status'            => $status,
+			'card_4no'          => $card_4no,
+			'card_hash'         => $card_hash,
+			'card_expiry_month' => $card_expiry_month,
+			'card_expiry_year'  => $card_expiry_year,
+			'is_3d_auth'        => $is_3d_auth,
+		] = self::get_formatted_decrypted_data( $data );
 
 		if ( 'SUCCESS' !== $status ) {
 			\wc_add_notice( $data['Message'], 'error' );
@@ -193,29 +254,17 @@ class Response {
 			);
 		}
 
-		if ( ! ! $card_hash ) {
-
-			// TODO can use update_meta_data to save bank info?
-			$token = new \WC_Payment_Token_CC();
-			$token->set_token( $card_hash );
-			$token->set_gateway_id( 'payuni-credit-subscription' );
-			$token->set_card_type( 'visa' );
-			$token->set_last4( $card_4no );
-			$token->set_expiry_month( $card_expiry_month );
-			$token->set_expiry_year( $card_expiry_year );
-			$token->set_user_id( \get_current_user_id() );
-			$token->save();
-		}
-
-		// 3D 驗證走以下判斷，會 redirect 到 $data['URL']
-		if ( key_exists( 'URL', $data ) ) {
+		// 3D 驗證走以下判斷，會 redirect 到 $data['URL'] 去做 3D 驗證
+		if ( $is_3d_auth ) {
 			return array(
 				'result'   => 'success',
 				'redirect' => $data['URL'],
 			);
 		}
 
-		// 如果金額是 5 且為 一次授權，就需要執行5元退刷
+		self::save_card_to_payment_method( $card_hash, $card_4no, $card_expiry_month, $card_expiry_year );
+
+		// 如果金額是 5 且為 一次授權，就需要執行 5 元退刷
 		if ( '5' === $data['TradeAmt'] && '1' === $data['AuthType'] ) {
 			// Hash Refund 只執行一次 5 元退款，馬上執行會發生 "訂單處理中，請稍後再試"，所以延遲 1 分鐘再執行.
 			\as_schedule_single_action( strtotime( \current_time( 'Y-m-d H:i:s' ) . '-8 hour + 1 minute' ), 'payuni_cancel_trade_by_trade_no', array( $data['TradeNo'] ) );
@@ -346,9 +395,6 @@ class Response {
 			$woocommerce->cart->empty_cart();
 			$order->save();
 		}
-	}
-
-	public static function subscription_response( $resp ) {
 	}
 }
 
