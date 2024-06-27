@@ -39,9 +39,9 @@ final class Response {
 	 */
 	public static function init() {
 		$class = self::get_instance();
-		add_action( 'woocommerce_api_payuni_notify_card', array( $class, 'card_response' ) );
-		add_action( 'woocommerce_api_payuni_notify_atm', array( $class, 'atm_response' ) );
-		add_action( 'woocommerce_api_payuni_notify_cvs', array( $class, 'cvs_response' ) );
+		add_action( 'woocommerce_api_payuni_notify_card', [ $class, 'card_response' ] );
+		add_action( 'woocommerce_api_payuni_notify_atm', [ $class, 'atm_response' ] );
+		add_action( 'woocommerce_api_payuni_notify_cvs', [ $class, 'cvs_response' ] );
 	}
 
 	/**
@@ -67,7 +67,6 @@ final class Response {
 	 * @return void
 	 */
 	public static function card_response( $resp = null ): void {
-
 		global $woocommerce;
 
 		$encrypt_info = ( $resp ) ? $resp->EncryptInfo : $_REQUEST['EncryptInfo'];
@@ -99,7 +98,11 @@ final class Response {
 		// 如果金額是 5 且為 一次授權，就需要執行5元退刷
 		if ( '5' === $data['TradeAmt'] && '1' === $data['AuthType'] ) {
 			// Hash Refund 只執行一次 5 元退款，馬上執行會發生 "訂單處理中，請稍後再試"，所以延遲 1 分鐘再執行.
-			\as_schedule_single_action( strtotime( \current_time( 'Y-m-d H:i:s' ) . '-8 hour + 1 minute' ), 'payuni_cancel_trade_by_trade_no', array( $data['TradeNo'] ) );
+			\as_schedule_single_action(
+				strtotime( \current_time( 'Y-m-d H:i:s' ) . '-8 hour + 1 minute' ),
+				'payuni_cancel_trade_by_trade_no',
+				[ $data['TradeNo'] ]
+			);
 		}
 
 		$order     = \wc_get_order( explode( '-', $data['MerTradeNo'] )[0] );
@@ -130,7 +133,10 @@ final class Response {
 			$order->update_meta_data( '_payuni_resp_card_inst', $card_inst );
 			$order->update_meta_data( '_payuni_resp_first_amt', $first_amt );
 			$order->update_meta_data( '_payuni_resp_each_amt', $each_amt );
-			$order->add_order_note( "<strong>統一金流交易紀錄</strong><br>狀態碼：{$status}<br>交易訊息：{$message}<br>交易編號：{$trade_no}<br>卡號末四碼：{$card_4no}", true );
+			$order->add_order_note(
+				"<strong>統一金流交易紀錄</strong><br>狀態碼：{$status}<br>交易訊息：{$message}<br>交易編號：{$trade_no}<br>卡號末四碼：{$card_4no}",
+				true
+			);
 
 			$method = $order->get_payment_method();
 			// 新增付款方式，存入帳號
@@ -164,7 +170,6 @@ final class Response {
 	 * - is_3d_auth: bool.
 	 */
 	public static function get_formatted_decrypted_data( array $data ): array {
-
 		$formatted_data = [];
 
 		$formatted_data['status']            = (string) ( $data['Status'] ?? '' );
@@ -179,7 +184,10 @@ final class Response {
 		$formatted_data['card_inst']         = ( $data['CardInst'] ?? '' ); // 分期
 		$formatted_data['each_amt']          = ( $data['EachAmt'] ?? '' ); // 每次多少
 		$formatted_data['first_amt']         = ( $data['FirstAmt'] ?? '' ); // 首次多少
-		$formatted_data['is_3d_auth']        = (bool) ( 'SUCCESS' === $formatted_data['status'] && key_exists( 'URL', $data ) ); // 是否 3D 驗證
+		$formatted_data['is_3d_auth']        = (bool) ( 'SUCCESS' === $formatted_data['status'] && key_exists(
+			'URL',
+			$data
+		) ); // 是否 3D 驗證
 
 		return $formatted_data;
 	}
@@ -196,7 +204,13 @@ final class Response {
 	 *
 	 * @return void
 	 */
-	public static function save_card_to_payment_method( string $card_hash, string $card_4no, string $card_expiry_month, string $card_expiry_year, ?string $method = 'payuni-credit-subscription' ): void {
+	public static function save_card_to_payment_method(
+		string $card_hash,
+		string $card_4no,
+		string $card_expiry_month,
+		string $card_expiry_year,
+		?string $method = 'payuni-credit-subscription'
+	): void {
 		if ( ! $card_hash ) {
 			return;
 		}
@@ -224,9 +238,9 @@ final class Response {
 	 * @return array
 	 */
 	public static function handle_response( $resp, $redirect ) {
-        //@codingStandardsIgnoreStart
-        $encrypt_info = ($resp) ? $resp->EncryptInfo : $_REQUEST[ 'EncryptInfo' ];
-        //@codingStandardsIgnoreEnd
+		//@codingStandardsIgnoreStart
+		$encrypt_info = ( $resp ) ? $resp->EncryptInfo : $_REQUEST['EncryptInfo'];
+		//@codingStandardsIgnoreEnd
 
 		$data = Payment::decrypt( $encrypt_info );
 		/*
@@ -248,18 +262,20 @@ final class Response {
 		if ( 'SUCCESS' !== $status ) {
 			\wc_add_notice( $data['Message'], 'error' );
 
-			return array(
-				'result'   => 'failed',
-				'redirect' => $redirect,
-			);
+			return [
+				'result'     => 'failed',
+				'redirect'   => $redirect,
+				'is_3d_auth' => false,
+			];
 		}
 
 		// 3D 驗證走以下判斷，會 redirect 到 $data['URL'] 去做 3D 驗證
 		if ( $is_3d_auth ) {
-			return array(
-				'result'   => 'success',
-				'redirect' => $data['URL'],
-			);
+			return [
+				'result'     => 'success',
+				'redirect'   => $data['URL'],
+				'is_3d_auth' => true,
+			];
 		}
 
 		self::save_card_to_payment_method( $card_hash, $card_4no, $card_expiry_month, $card_expiry_year );
@@ -267,13 +283,18 @@ final class Response {
 		// 如果金額是 5 且為 一次授權，就需要執行 5 元退刷
 		if ( '5' === $data['TradeAmt'] && '1' === $data['AuthType'] ) {
 			// Hash Refund 只執行一次 5 元退款，馬上執行會發生 "訂單處理中，請稍後再試"，所以延遲 1 分鐘再執行.
-			\as_schedule_single_action( strtotime( \current_time( 'Y-m-d H:i:s' ) . '-8 hour + 1 minute' ), 'payuni_cancel_trade_by_trade_no', array( $data['TradeNo'] ) );
+			\as_schedule_single_action(
+				strtotime( \current_time( 'Y-m-d H:i:s' ) . '-8 hour + 1 minute' ),
+				'payuni_cancel_trade_by_trade_no',
+				[ $data['TradeNo'] ]
+			);
 		}
 
-		return array(
-			'result'   => 'success',
-			'redirect' => $redirect,
-		);
+		return [
+			'result'     => 'success',
+			'redirect'   => $redirect,
+			'is_3d_auth' => false,
+		];
 	}
 
 	/**
@@ -294,7 +315,10 @@ final class Response {
 				if ( $order_status !== 'completed' ) {
 					$order->update_status( 'processing' );
 				}
-				$order->add_order_note( "<strong>統一金流繳費紀錄</strong><br>狀態碼：{$data[ 'Status' ]}<br>繳費結果：{$data[ 'Message' ]}<br>繳費時間：{$data[ 'PayTime' ]}<br>轉帳後五碼：{$data[ 'Account5No' ]}", true );
+				$order->add_order_note(
+					"<strong>統一金流繳費紀錄</strong><br>狀態碼：{$data[ 'Status' ]}<br>繳費結果：{$data[ 'Message' ]}<br>繳費時間：{$data[ 'PayTime' ]}<br>轉帳後五碼：{$data[ 'Account5No' ]}",
+					true
+				);
 				$order->save();
 			}
 		}
@@ -319,7 +343,10 @@ final class Response {
 			$order->update_meta_data( '_payuni_resp_bank_no', $bank_no );
 			$order->update_meta_data( '_payuni_resp_bank_expire', $bank_expire );
 
-			$order->add_order_note( "<strong>統一金流交易紀錄</strong><br>狀態碼：{$status}<br>交易訊息：{$message}<br>交易編號：{$trade_no}<br>轉帳銀行：{$bank}<br>轉帳帳號：${bank_no}<br>轉帳期限：{$bank_expire}", true );
+			$order->add_order_note(
+				"<strong>統一金流交易紀錄</strong><br>狀態碼：{$status}<br>交易訊息：{$message}<br>交易編號：{$trade_no}<br>轉帳銀行：{$bank}<br>轉帳帳號：${bank_no}<br>轉帳期限：{$bank_expire}",
+				true
+			);
 
 			if ( 'SUCCESS' === $status ) {
 				$order->update_status( 'pending' );
@@ -328,7 +355,11 @@ final class Response {
 			}
 
 			// 超過繳費期限取消訂單.
-			as_schedule_single_action( strtotime( $bank_expire . '-8 hour' ), 'payuni_atm_check', array( $data['MerTradeNo'] ) );
+			as_schedule_single_action(
+				strtotime( $bank_expire . '-8 hour' ),
+				'payuni_atm_check',
+				[ $data['MerTradeNo'] ]
+			);
 
 			$woocommerce->cart->empty_cart();
 			$order->save();
@@ -343,7 +374,6 @@ final class Response {
 	 * @return void
 	 */
 	public static function cvs_response( $resp ) {
-
 		// 背景通知付款結果.
 		if ( $_REQUEST['Status'] ) {
 			if ( 'SUCCESS' === $_REQUEST['Status'] ) {
@@ -351,7 +381,10 @@ final class Response {
 				$time  = date( 'Y-m-d H:i:s', time() );
 				$order = wc_get_order( $data['MerTradeNo'] );
 				$order->update_status( 'processing' );
-				$order->add_order_note( "<strong>統一金流繳費紀錄</strong><br>狀態碼：{$data[ 'Status' ]}<br>繳費結果：{$data[ 'Message' ]}<br>繳費時間：{$data[ 'PayTime' ]}<br>轉帳後五碼：{$data[ 'Account5No' ]}", true );
+				$order->add_order_note(
+					"<strong>統一金流繳費紀錄</strong><br>狀態碼：{$data[ 'Status' ]}<br>繳費結果：{$data[ 'Message' ]}<br>繳費時間：{$data[ 'PayTime' ]}<br>轉帳後五碼：{$data[ 'Account5No' ]}",
+					true
+				);
 				$order->save();
 			}
 		}
@@ -381,7 +414,10 @@ final class Response {
 			$order->update_meta_data( '_payuni_resp_bank_no', $bank_no );
 			$order->update_meta_data( '_payuni_resp_bank_expire', $bank_expire );
 
-			$order->add_order_note( "<strong>統一金流交易紀錄</strong><br>狀態碼：{$status}<br>交易訊息：{$message}<br>交易編號：{$trade_no}<br>轉帳銀行：{$bank}<br>轉帳帳號：${bank_no}<br>轉帳期限：{$bank_expire}", true );
+			$order->add_order_note(
+				"<strong>統一金流交易紀錄</strong><br>狀態碼：{$status}<br>交易訊息：{$message}<br>交易編號：{$trade_no}<br>轉帳銀行：{$bank}<br>轉帳帳號：${bank_no}<br>轉帳期限：{$bank_expire}",
+				true
+			);
 
 			if ( 'SUCCESS' === $status ) {
 				$order->update_status( 'on-hold' );
@@ -390,7 +426,11 @@ final class Response {
 			}
 
 			// 超過繳費期限取消訂單.
-			as_schedule_single_action( strtotime( $bank_expire . '-8 hour' ), 'payuni_cvs_check', array( $data['MerTradeNo'] ) );
+			as_schedule_single_action(
+				strtotime( $bank_expire . '-8 hour' ),
+				'payuni_cvs_check',
+				[ $data['MerTradeNo'] ]
+			);
 
 			$woocommerce->cart->empty_cart();
 			$order->save();
