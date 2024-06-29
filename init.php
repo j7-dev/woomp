@@ -9,7 +9,11 @@ if ( ! defined( 'WPINC' ) ) {
 /**
  * Check WooCommerce exist
  */
-if ( ! in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ), true ) ) {
+if ( ! in_array(
+	'woocommerce/woocommerce.php',
+	apply_filters( 'active_plugins', get_option( 'active_plugins' ) ),
+	true
+) ) {
 	require_once ABSPATH . 'wp-admin/includes/plugin.php';
 
 	function require_woocommerce_notice() {
@@ -78,7 +82,6 @@ require plugin_dir_path( __FILE__ ) . 'includes/class-woomp.php';
  * @since    1.0.0
  */
 function run_woomp() {
-
 	$plugin = new Woomp();
 	$plugin->run();
 }
@@ -88,13 +91,16 @@ run_woomp();
 /**
  * 指定 WC 結帳頁模板路徑
  *
- * @param string $template      Default template file path.
+ * @param string $template Default template file path.
  * @param string $template_name Template file slug.
  * @param string $template_path Template file name.
  *
  * @return string The new Template file path.
  */
-if ( get_option( 'wc_woomp_setting_mode', 1 ) === 'onepage' || get_option( 'wc_woomp_setting_mode', 1 ) === 'twopage' ) {
+if ( get_option( 'wc_woomp_setting_mode', 1 ) === 'onepage' || get_option(
+	'wc_woomp_setting_mode',
+	1
+) === 'twopage' ) {
 	add_filter( 'wc_get_template', 'intercept_wc_template', 99, 3 );
 	function intercept_wc_template( $template, $template_name, $template_path ) {
 		$template_directory = trailingslashit( plugin_dir_path( __FILE__ ) ) . 'woocommerce/';
@@ -117,10 +123,10 @@ if ( ! defined( 'RY_WT_VERSION' ) ) {
 
 	require_once RY_WT_PLUGIN_DIR . 'class.ry-wt.main.php';
 
-	register_activation_hook( __FILE__, array( 'RY_WT', 'plugin_activation' ) );
-	register_deactivation_hook( __FILE__, array( 'RY_WT', 'plugin_deactivation' ) );
+	register_activation_hook( __FILE__, [ 'RY_WT', 'plugin_activation' ] );
+	register_deactivation_hook( __FILE__, [ 'RY_WT', 'plugin_deactivation' ] );
 
-	add_action( 'init', array( 'RY_WT', 'init' ), 10 );
+	add_action( 'init', [ 'RY_WT', 'init' ], 10 );
 }
 
 /**
@@ -152,7 +158,6 @@ if ( ! defined( 'PAYNOW_PLUGIN_URL' ) && 'yes' === get_option( 'wc_woomp_setting
  * 引入 paynow-shipping
  */
 if ( ! defined( 'PAYNOW_SHIPPING_PLUGIN_URL' ) && 'yes' === get_option( 'wc_woomp_setting_paynow_shipping' ) ) {
-
 	define( 'PAYNOW_SHIPPING_PLUGIN_URL', plugin_dir_url( __FILE__ ) . 'includes/paynow-shipping/' );
 	define( 'PAYNOW_SHIPPING_PLUGIN_DIR', plugin_dir_path( __FILE__ ) . 'includes/paynow-shipping/' );
 	define( 'PAYNOW_SHIPPING_BASENAME', plugin_basename( __FILE__ ) . 'includes/paynow-shipping/' );
@@ -264,7 +269,6 @@ if ( ! defined( 'PAYNOW_EINVOICE_PLUGIN_URL' ) && 'yes' === get_option( 'wc_sett
 	 * @since    1.0.0
 	 */
 	function run_paynow_einvoice() {
-
 		$plugin = new Paynow_Einvoice();
 		$plugin->run();
 	}
@@ -291,7 +295,6 @@ require_once WOOMP_PLUGIN_DIR . 'includes/woomp-ezpay-invoice/woomp-ezpay-invoic
  * 引入 woomp-paynow-shipping
  */
 if ( ! defined( 'WOOMP_PAYNOW_SHIPPING_PLUGIN_URL' ) && 'yes' === get_option( 'wc_woomp_setting_paynow_shipping' ) ) {
-
 	define( 'WOOMP_PAYNOW_SHIPPING_PLUGIN_URL', plugin_dir_url( __FILE__ ) . 'includes/woomp-paynow-shipping/' );
 	define( 'WOOMP_PAYNOW_SHIPPING_PLUGIN_DIR', plugin_dir_path( __FILE__ ) . 'includes/woomp-paynow-shipping/' );
 	define( 'WOOMP_PAYNOW_SHIPPING_BASENAME', plugin_basename( __FILE__ ) . 'includes/woomp-paynow-shipping/' );
@@ -303,7 +306,11 @@ if ( ! defined( 'WOOMP_PAYNOW_SHIPPING_PLUGIN_URL' ) && 'yes' === get_option( 'w
 /**
  * 引入支付連
  */
-if ( ! in_array( 'PChomePay-Cart-for-WooCommerce/pchomepay.php', WOOMP_ACTIVE_PLUGINS, true ) && ! in_array( 'PChomePay-Cart-for-WooCommerce-master/pchomepay.php', WOOMP_ACTIVE_PLUGINS, true ) ) {
+if ( ! in_array(
+	'PChomePay-Cart-for-WooCommerce/pchomepay.php',
+	WOOMP_ACTIVE_PLUGINS,
+	true
+) && ! in_array( 'PChomePay-Cart-for-WooCommerce-master/pchomepay.php', WOOMP_ACTIVE_PLUGINS, true ) ) {
 	require_once WOOMP_PLUGIN_DIR . 'includes/PChomePay-Cart-for-WooCommerce/PChomePay.php';
 }
 
@@ -339,6 +346,7 @@ function integrate_with_ecpay_ezpay_invoice() {
 	}
 	add_filter( 'wc_subscriptions_object_data', 'sync_invoice_data_at_renew_subscription', 100, 4 );
 }
+
 \add_action( 'plugins_loaded', 'integrate_with_ecpay_ezpay_invoice' );
 
 
@@ -353,7 +361,6 @@ function integrate_with_ecpay_ezpay_invoice() {
  * @return array
  */
 function sync_invoice_data_at_renew_subscription( $data, $to_object, $from_object, $copy_type ) {
-
 	if ( ! method_exists( $from_object, 'get_meta' ) || ! method_exists( $to_object, 'update_meta_data' ) ) {
 		return $data;
 	}
@@ -383,5 +390,31 @@ function add_payment_description( string $payment_method_id ) {
 
 	if ( $description ) {
 		echo wpautop( wptexturize( $description ) );
+	}
+}
+
+
+/**
+ * 套件更新機制
+ */
+\add_action( 'plugins_loaded', 'woomp_plugin_update_checker', 10 );
+
+
+function woomp_plugin_update_checker(): void {
+	try {
+		$update_checker = YahnisElsts\PluginUpdateChecker\v5\PucFactory::buildUpdateChecker(
+			'https://github.com/j7-dev/woomp',
+			WOOMP_PLUGIN_DIR . 'woomp.php',
+			'woomp'
+		);
+		/**
+		 * Type
+		 *
+		 * @var \Puc_v4p4_Vcs_PluginUpdateChecker $update_checker
+		 */
+		$update_checker->setBranch( 'master' );
+		$update_checker->getVcsApi()->enableReleaseAssets();
+	} catch ( \Throwable $th ) { // phpcs:ignore
+		// throw $th;
 	}
 }
