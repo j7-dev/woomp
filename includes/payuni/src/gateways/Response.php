@@ -265,6 +265,8 @@ final class Response {
 			'is_3d_auth'        => $is_3d_auth,
 		] = self::get_formatted_decrypted_data( $data );
 
+		Payment::log( $data );
+
 		if ( 'SUCCESS' !== $status ) {
 			if(function_exists( 'wc_add_notice')){
 			\wc_add_notice( $data['Message'], 'error' );
@@ -336,6 +338,9 @@ final class Response {
 			global $woocommerce;
 			$encrypt_info = $resp->EncryptInfo;
 			$data         = Payment::decrypt( $encrypt_info );
+
+			Payment::log( $data );
+
 			$status       = $data['Status'];
 			$message      = $data['Message'];
 			$trade_no     = $data['TradeNo'];

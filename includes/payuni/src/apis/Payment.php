@@ -97,7 +97,7 @@ class Payment
     /**
      * Log method.
      *
-     * @param string $message The message to be logged.
+     * @param mixed $message The message to be logged.
      * @param string $level The log level. Optional. Default 'info'. Possible values: emergency|alert|critical|error|warning|notice|info|debug.
      * @return void
      */

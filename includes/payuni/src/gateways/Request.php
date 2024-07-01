@@ -9,6 +9,7 @@
 namespace PAYUNI\Gateways;
 
 use WC_Order;
+use PAYUNI\APIs\Payment;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -63,7 +64,7 @@ final class Request {
 
 		unset( $data['Card6No'] ); // remove card number from log.
 
-		// Payment::log( $data, 'request' ); 因為呼叫層級錯誤，所以先註解掉
+		 Payment::log( $data );
 
 		/*
 		有開 3D 驗證的 response
@@ -225,6 +226,8 @@ final class Request {
 			'CreditHash'  => $this->get_card_hash( $order ),
 		];
 
+		Payment::log( $args );
+
 		$parameter = [
 			'MerID'       => $this->gateway->get_mer_id(),
 			'Version'     => '1.0',
@@ -306,6 +309,8 @@ final class Request {
 			'CardCVC'     => $card_data['cvc'],
 			'CreditToken' => get_userdata( $user_id )->user_email,
 		];
+
+		Payment::log( $args );
 
 		if ( wc_string_to_bool( get_option( 'payuni_3d_auth', 'yes' ) ) ) {
 			$args['API3D'] = 1;
