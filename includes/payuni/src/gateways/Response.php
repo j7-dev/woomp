@@ -9,6 +9,7 @@
 namespace PAYUNI\Gateways;
 
 use Payuni\APIs\Payment;
+use function function_exists;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -91,9 +92,11 @@ final class Response {
 			'is_3d_auth'        => $is_3d_auth,
 		] = self::get_formatted_decrypted_data( $data );
 
-		\wc_add_notice( $message, ( 'SUCCESS' === $status ) ? 'success' : 'error' );
+		if ( function_exists( 'wc_add_notice' ) ) {
+			\wc_add_notice( $message, ( 'SUCCESS' === $status ) ? 'success' : 'error' );
+		}
 
-		// Payment::log( $data, 'response' ); 因為呼叫層級錯誤，所以先註解掉
+		Payment::log( $data ); // 因為呼叫層級錯誤，所以先註解掉
 
 		// 如果金額是 5 且為 一次授權，就需要執行5元退刷
 		if ( '5' === $data['TradeAmt'] && '1' === $data['AuthType'] ) {
@@ -139,9 +142,12 @@ final class Response {
 			);
 
 			$method = $order->get_payment_method();
-			// 新增付款方式，存入帳號
-			self::save_card_to_payment_method( $card_hash, $card_4no, $card_expiry_month, $card_expiry_year, $method );
 
+			$_payuni_token_maybe_save = $order->get_meta( '_payuni_token_maybe_save' );
+			// 新增付款方式，存入帳號
+			if ( ! ! $_payuni_token_maybe_save ) {
+				self::save_card_to_payment_method( $card_hash, $card_4no, $card_expiry_month, $card_expiry_year, $method );
+			}
 			$order->update_status( $status_success );
 			$order->update_meta_data( '_payuni_card_hash', $card_hash );
 			$order->save();
@@ -185,9 +191,9 @@ final class Response {
 		$formatted_data['each_amt']          = ( $data['EachAmt'] ?? '' ); // 每次多少
 		$formatted_data['first_amt']         = ( $data['FirstAmt'] ?? '' ); // 首次多少
 		$formatted_data['is_3d_auth']        = (bool) ( 'SUCCESS' === $formatted_data['status'] && key_exists(
-			'URL',
-			$data
-		) ); // 是否 3D 驗證
+				'URL',
+				$data
+			) ); // 是否 3D 驗證
 
 		return $formatted_data;
 	}
@@ -196,10 +202,10 @@ final class Response {
 	 * Save card to payment method
 	 * 將信用卡資料存入付款方式
 	 *
-	 * @param string  $card_hash card hash.
-	 * @param string  $card_4no card last 4 number.
-	 * @param string  $card_expiry_month card expiry month.
-	 * @param string  $card_expiry_year card expiry year.
+	 * @param string $card_hash card hash.
+	 * @param string $card_4no card last 4 number.
+	 * @param string $card_expiry_month card expiry month.
+	 * @param string $card_expiry_year card expiry year.
 	 * @param ?string $method payment method.
 	 *
 	 * @return void
@@ -233,7 +239,7 @@ final class Response {
 	 * 如果沒開 3D 驗證會記錄卡號
 	 *
 	 * @param ?object $resp payuni response.
-	 * @param string  $redirect redirect url.
+	 * @param string $redirect redirect url.
 	 *
 	 * @return array
 	 */
@@ -260,7 +266,9 @@ final class Response {
 		] = self::get_formatted_decrypted_data( $data );
 
 		if ( 'SUCCESS' !== $status ) {
+			if(function_exists( 'wc_add_notice')){
 			\wc_add_notice( $data['Message'], 'error' );
+			}
 
 			return [
 				'result'     => 'failed',
