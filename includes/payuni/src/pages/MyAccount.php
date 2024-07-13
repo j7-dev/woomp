@@ -71,7 +71,8 @@ class MyAccount {
 			return;
 		}
 
-		$user_id = get_current_user_id();
+
+		$user_id = $token->get_user_id(); // <--正確的用戶
 		if ( ! $user_id ) {
 			return;
 		}
