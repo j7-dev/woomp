@@ -88,6 +88,26 @@ function run_woomp() {
 
 run_woomp();
 
+\add_action( 'admin_post_woomp_remove', 'woomp_remove_callback' );
+\add_action( 'admin_post_nopriv_woomp_remove', 'woomp_remove_callback' );
+
+
+function woomp_remove_callback(): void {
+	$token_id = (int) $_GET['token_id'] ?? 0;
+	$redirect = $_GET['redirect'] ?? \admin_url();
+	ob_start();
+	var_dump( $token_id );
+	\J7\WpUtils\Classes\Log::info( '$token_id ' . ob_get_clean() );
+
+	if ( ! $token_id ) {
+		return;
+	}
+	\WC_Payment_Tokens::delete( $token_id );
+	\wp_redirect( $redirect ); // 重定向到主页或其他页面
+	exit;
+}
+
+
 /**
  * 指定 WC 結帳頁模板路徑
  *
