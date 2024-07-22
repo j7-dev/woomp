@@ -40,7 +40,7 @@ $order_url = add_query_arg(
 	admin_url( 'edit.php' )
 );
 
-$setting_html = $is_default ? '<span class="rounded-md px-4 py-2 bg-[#C6E1C6] text-[#5B841B]">主要</span>' : "<span class='woomp_ajax cursor-pointer' data-action='woomp_set_default' data-token_id='{$token_id}' data-user_id='{$user_id}' >設為主要</span>";
+$setting_html = $is_default ? '<span class="rounded-md px-4 py-2 bg-[#C6E1C6] text-[#5B841B]">主要</span>' : "<span class='woomp_ajax cursor-pointer' data-action='woomp_set_default' data-token_id='{$token_id}' data-user_id='{$user_id}'>設為主要</span>";
 
 printf(
 /*html*/    '
@@ -52,9 +52,9 @@ printf(
 <div>%6$s</div>
 ',
 	$last4,
-	sprintf( '%s/%s', $expiry_year, $expiry_month ),
+	sprintf( '%s/%s', $expiry_month, $expiry_year ),
 	$card_name,
 	"<a target='_blank' href='{$order_url}'>查看</a>",
 	$setting_html,
-	"<span class='woomp_ajax cursor-pointer text-red-500' data-action='woomp_remove' data-token_id='{$token_id}' >移除</span>",
+	"<span class='woomp_ajax cursor-pointer text-red-500' data-action='woomp_remove' data-token_id='{$token_id}'>移除</span>",
 );

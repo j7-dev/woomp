@@ -22,10 +22,7 @@ final class CardManagement {
 		\add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
 
 		\add_action( 'wp_ajax_woomp_set_default', array( $this, 'woomp_set_default_callback' ) );
-		// \add_action( 'wp_ajax_nopriv_woomp_set_default', array( $this, 'woomp_set_default_callback' ) );
-
 		\add_action( 'wp_ajax_woomp_remove', array( $this, 'woomp_remove_callback' ) );
-		// \add_action( 'wp_ajax_nopriv_woomp_remove', array( $this, 'woomp_remove_callback' ) );
 	}
 
 	/**
@@ -50,39 +47,6 @@ final class CardManagement {
 	 * @return void
 	 */
 	public function render_meta_box_content( $post ): void {
-		// TODO
-		?>
-<script src="https://cdn.tailwindcss.com"></script>
-<script>
-	tailwind.config = {
-			blocklist: ['hidden', 'columns-1', 'columns-2', 'fixed'],
-			plugins: [
-	function ({ addUtilities }) {
-		const newUtilities = {
-		'.rtl': {
-			direction: 'rtl',
-		},
-
-		// 與 WordPress 衝突的 class
-		'.tw-hidden': {
-			display: 'none',
-		},
-		'.tw-columns-1': {
-			columnCount: 1,
-		},
-		'.tw-columns-2': {
-			columnCount: 2,
-		},
-		'.tw-fixed': {
-			position: 'fixed',
-		},
-		}
-		addUtilities(newUtilities, ['responsive', 'hover'])
-	},
-	],
-	}
-	</script>
-		<?php
 		$post_type = \get_post_type( $post );
 		$is_order  = 'shop_order' === $post_type;
 		$order     = $this->get_order_by_post( $post );
@@ -91,19 +55,22 @@ final class CardManagement {
 			return;
 		}
 
-		$customer_id    = $order->get_customer_id();
-		$payment_tokens = \WC_Payment_Tokens::get_customer_tokens( $customer_id, '' ); // payuni-credit-subscription
+		$customer_id           = $order->get_customer_id();
+		$customer_display_name = $order->get_billing_first_name() . ' ' . $order->get_billing_last_name();
+		$payment_tokens        = \WC_Payment_Tokens::get_customer_tokens( $customer_id, '' ); // payuni-credit-subscription
 		// TODO 之後再整理
 		$nonce    = \wp_create_nonce( 'woomp' );
 		$ajax_url = \admin_url( 'admin-ajax.php' );
 
+		echo '<div class="woomp">';
+		echo "<p>客戶: {$customer_display_name} #{$customer_id}</p>";
 		echo '<div class="grid grid-cols-6 text-center [&_div]:py-3">';
 		include __DIR__ . '/templates/row-head.php';
 		foreach ( $payment_tokens as $payment_token ) {
 			$args = $this->format_payment_token( $payment_token );
 			include __DIR__ . '/templates/row.php';
-
 		}
+		echo '</div>';
 		echo '</div>';
 
 		?>
@@ -153,6 +120,7 @@ final class CardManagement {
 			return;
 		}
 		\wp_enqueue_script( 'jquery-blockui' );
+		\wp_enqueue_style( 'woomp-main', WOOMP_PLUGIN_URL . 'admin/css/main.min.css', array(), \WOOMP_VERSION );
 
 		// \wp_enqueue_script( 'woomp-admin', \WOOMP_URL . 'admin/assets/js/admin.js', array( 'jquery' ), \WOOMP_VERSION, true );
 	}
