@@ -48,16 +48,16 @@ class EzPayInvoiceFields {
 			switch ( $carruer_type ) {
 				case '雲端發票':
 					return 1;
-					break;
+				break;
 				case '自然人憑證':
 					return 2;
-					break;
+				break;
 				case '手機條碼':
 					return 3;
-					break;
+				break;
 				case '紙本發票':
 					return 0;
-					break;
+				break;
 
 				default:
 					// code...
@@ -66,7 +66,5 @@ class EzPayInvoiceFields {
 		} else {
 			return $order->get_meta( '_ezpay_invoice_data' )[ '_invoice_' . $type ];
 		}
-
 	}
-
 }

@@ -84,7 +84,5 @@ class Woomp_Activator {
 			);
 			update_option( 'woocommerce_cod_settings', $gateway_setting );
 		}
-
 	}
-
 }

@@ -111,7 +111,7 @@ class PayNow_Shipping_Order_Admin {
 
 		foreach ( $theorder->get_items( 'shipping' ) as $item_id => $item ) {
 			if ( PayNow_Shipping::is_paynow_shipping( $item->get_method_id() ) !== false ) {
-				if ( ! empty( $theorder->get_meta( PayNow_Shipping_Order_Meta::LogisticNumber ) && $theorder->get_meta( PayNow_Shipping_Order_Meta::Status) !== '1' ) ) {
+				if ( ! empty( $theorder->get_meta( PayNow_Shipping_Order_Meta::LogisticNumber ) && $theorder->get_meta( PayNow_Shipping_Order_Meta::Status ) !== '1' ) ) {
 					$order_actions['renew_paynow_logistic_no'] = __( 'Get new PayNow Logistic Number', 'paynow-shipping' );
 				} else {
 					$order_actions['create_paynow_shipping_order'] = __( 'Create PayNow Shipping Order', 'paynow-shipping' );
@@ -123,25 +123,24 @@ class PayNow_Shipping_Order_Admin {
 
 	public static function add_choose_cvs_btn_after_shipping_address( $order ) {
 
-		foreach ($order->get_items('shipping') as $item_id => $item) {
+		foreach ( $order->get_items( 'shipping' ) as $item_id => $item ) {
 			if ( PayNow_Shipping::is_paynow_shipping_cvs( $item->get_method_id() ) ) {
 				echo '<p class="form-field form-field-wide">
-				<button type="button" class="button paynow-choose-cvs">' . __('Change CVS store', 'paynow-shipping') . '</button></p><p class="form-field form-field-wide">'
-				.__('The PayNow shipping order will be revoked and recreated after changed the cvs store.', 'paynow-shipping') . '
+				<button type="button" class="button paynow-choose-cvs">' . __( 'Change CVS store', 'paynow-shipping' ) . '</button></p><p class="form-field form-field-wide">'
+				. __( 'The PayNow shipping order will be revoked and recreated after changed the cvs store.', 'paynow-shipping' ) . '
 				</p>';
 				return;
 			}
 		}
-
 	}
 
 	public static function paynow_admin_choose_cvs_script() {
 		global $pagenow;
-		if ( 'post.php' === $pagenow && isset($_GET['post']) && 'shop_order' === get_post_type( $_GET['post'] ) ) {
+		if ( 'post.php' === $pagenow && isset( $_GET['post'] ) && 'shop_order' === get_post_type( $_GET['post'] ) ) {
 
 			$order = wc_get_order( $_GET['post'] );
 
-			foreach ( $order->get_items('shipping') as $item_id => $item ) {
+			foreach ( $order->get_items( 'shipping' ) as $item_id => $item ) {
 				if ( PayNow_Shipping::is_paynow_shipping_cvs( $item->get_method_id() ) ) {
 					$iv              = utf8_encode( '12345678' );
 					$key             = utf8_encode( '123456789070828783123456' ); // key length = 24.
@@ -159,19 +158,20 @@ class PayNow_Shipping_Order_Admin {
 						'ajax_url'           => PayNow_Shipping::$api_url . '/Member/Order/Choselogistics',
 					);
 
-					wp_register_script( 'wmp-admin-paynow-shipping', PAYNOW_SHIPPING_PLUGIN_URL . 'assets/js/paynow-pro-admin-choose-cvs.js', array('jquery'), null, false );
+					wp_register_script( 'wmp-admin-paynow-shipping', PAYNOW_SHIPPING_PLUGIN_URL . 'assets/js/paynow-pro-admin-choose-cvs.js', array( 'jquery' ), null, false );
 
-					wp_localize_script('wmp-admin-paynow-shipping', 'PayNowInfo', [
-						'postData' => $cvs_data,
-					]);
+					wp_localize_script(
+						'wmp-admin-paynow-shipping',
+						'PayNowInfo',
+						array(
+							'postData' => $cvs_data,
+						)
+					);
 
-					wp_enqueue_script('wmp-admin-paynow-shipping');
+					wp_enqueue_script( 'wmp-admin-paynow-shipping' );
 					return;
 				}
 			}
-
 		}
 	}
-
-
 }

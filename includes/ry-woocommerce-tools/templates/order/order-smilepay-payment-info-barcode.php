@@ -12,53 +12,53 @@
  */
 defined( 'ABSPATH' ) || exit;
 
-if ($order->get_payment_method() != 'ry_smilepay_barcode') {
-    return;
+if ( $order->get_payment_method() != 'ry_smilepay_barcode' ) {
+	return;
 }
 
-if ($order->get_meta('_smilepay_payment_type') != '3') {
-    return;
+if ( $order->get_meta( '_smilepay_payment_type' ) != '3' ) {
+	return;
 }
 ?>
 <section class="woocommerce-order-details">
-    <h2 class="woocommerce-order-details__title">
-        <?=__('Payment details', 'ry-woocommerce-tools') ?>
-    </h2>
-    <table class="woocommerce-table woocommerce-table--payment-details payment_details">
-        <tbody>
-            <tr>
-                <td>
-                    <?=__('Barcode 1', 'ry-woocommerce-tools') ?>
-                </td>
-                <td>
-                    <span class="free3of9">*<?=$order->get_meta('_smilepay_barcode_Barcode1') ?>*</span>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <?=__('Barcode 2', 'ry-woocommerce-tools') ?>
-                </td>
-                <td>
-                    <span class="free3of9">*<?=$order->get_meta('_smilepay_barcode_Barcode2') ?>*</span>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <?=__('Barcode 3', 'ry-woocommerce-tools') ?>
-                </td>
-                <td>
-                    <span class="free3of9">*<?=$order->get_meta('_smilepay_barcode_Barcode3') ?>*</span>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <?=__('Payment deadline', 'ry-woocommerce-tools') ?>
-                </td>
-                <td>
-                    <?php $expireDate = wc_string_to_datetime($order->get_meta('_smilepay_barcode_ExpireDate')); ?>
-                    <?=$expireDate->date_i18n(wc_date_format()); ?>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+	<h2 class="woocommerce-order-details__title">
+		<?php echo __( 'Payment details', 'ry-woocommerce-tools' ); ?>
+	</h2>
+	<table class="woocommerce-table woocommerce-table--payment-details payment_details">
+		<tbody>
+			<tr>
+				<td>
+					<?php echo __( 'Barcode 1', 'ry-woocommerce-tools' ); ?>
+				</td>
+				<td>
+					<span class="free3of9">*<?php echo $order->get_meta( '_smilepay_barcode_Barcode1' ); ?>*</span>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<?php echo __( 'Barcode 2', 'ry-woocommerce-tools' ); ?>
+				</td>
+				<td>
+					<span class="free3of9">*<?php echo $order->get_meta( '_smilepay_barcode_Barcode2' ); ?>*</span>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<?php echo __( 'Barcode 3', 'ry-woocommerce-tools' ); ?>
+				</td>
+				<td>
+					<span class="free3of9">*<?php echo $order->get_meta( '_smilepay_barcode_Barcode3' ); ?>*</span>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<?php echo __( 'Payment deadline', 'ry-woocommerce-tools' ); ?>
+				</td>
+				<td>
+					<?php $expireDate = wc_string_to_datetime( $order->get_meta( '_smilepay_barcode_ExpireDate' ) ); ?>
+					<?php echo $expireDate->date_i18n( wc_date_format() ); ?>
+				</td>
+			</tr>
+		</tbody>
+	</table>
 </section>

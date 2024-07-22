@@ -82,12 +82,11 @@ class PayNow_Payment {
 
 		load_plugin_textdomain( 'paynow-payment', false, dirname( PAYNOW_BASENAME ) . '/languages/' );
 
-		//add_filter( 'woocommerce_get_settings_pages', array( Paynow_Payment::get_instance(), 'paynow_add_settings' ), 15 );
+		// add_filter( 'woocommerce_get_settings_pages', array( Paynow_Payment::get_instance(), 'paynow_add_settings' ), 15 );
 
 		add_filter( 'woocommerce_payment_gateways', array( Paynow_Payment::get_instance(), 'add_paynow_payment_gateway' ) );
 
 		add_filter( 'plugin_action_links_' . PAYNOW_BASENAME, array( Paynow_Payment::get_instance(), 'paynow_add_action_links' ) );
-
 	}
 
 	/**
@@ -153,8 +152,4 @@ class PayNow_Payment {
 
 		return self::$instance;
 	}
-
-
-
-
 }

@@ -30,7 +30,5 @@ class Paynow_Einvoice_Activator {
 	 * @since    1.0.0
 	 */
 	public static function activate() {
-
 	}
-
 }

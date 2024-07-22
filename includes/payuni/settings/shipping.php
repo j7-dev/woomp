@@ -18,7 +18,7 @@ return array(
 				'<code>' . WC_Log_Handler_File::get_log_file_path( 'payuni_shipping' ) . '</code>'
 			),
 	),
-	
+
 	array(
 		'id'   => 'base_options',
 		'type' => 'sectionend',
@@ -43,15 +43,15 @@ return array(
 		'desc'     => __( 'If empty use the first product name.', 'woomp-pro' ),
 		'desc_tip' => true,
 	),
-	//array(
-	//	'title'   => __( 'Cvs shipping type', 'woomp' ),
-	//	'id'      => 'payuni_shipping_cvs_type',
-	//	'type'    => 'select',
-	//	'default' => 'C2C',
-	//	'options' => array(
-	//		'B2C' => _x( 'B2C', 'Cvs type', 'woomp' ),
-	//	),
-	//),
+	// array(
+	// 'title'   => __( 'Cvs shipping type', 'woomp' ),
+	// 'id'      => 'payuni_shipping_cvs_type',
+	// 'type'    => 'select',
+	// 'default' => 'C2C',
+	// 'options' => array(
+	// 'B2C' => _x( 'B2C', 'Cvs type', 'woomp' ),
+	// ),
+	// ),
 	array(
 		'title'    => __( 'Sender name', 'woomp' ),
 		'id'       => 'payuni_shipping_sender_name',

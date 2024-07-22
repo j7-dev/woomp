@@ -1,128 +1,128 @@
 #paymentWrap {
-    border: 0;
+	border: 0;
 }
 #paymentWrap td {
-    padding-left: 6px!important;
+	padding-left: 6px!important;
 }
 .woocommerce-checkout #paymentWrap #payment ul.payment_methods li input {
-    margin-right: 0;
+	margin-right: 0;
 }
 #placeOrderWrap {
-    margin-top: 1rem;
-    padding: 1rem;
-    background-color: rgb(239, 239, 239);
+	margin-top: 1rem;
+	padding: 1rem;
+	background-color: rgb(239, 239, 239);
 }
 #placeOrderWrap button {
-    display: block;
-    margin: 0 auto;
-    width: 100%;
+	display: block;
+	margin: 0 auto;
+	width: 100%;
 }
 .woocommerce-page.woocommerce-checkout form #order_review th,
 .woocommerce-page.woocommerce-checkout form #order_review td,
 .woocommerce-page.woocommerce-checkout #customer_details h3 {
-    border: 0;
+	border: 0;
 }
 #billing_country_field {
-    padding: 0;
+	padding: 0;
 }
 .woocommerce-checkout-payment li, .woocommerce-shipping-methods li {
-    display: block;
+	display: block;
 }
 
 #add_payment_method #payment ul.payment_methods, .woocommerce-cart #payment ul.payment_methods, .woocommerce-checkout #payment ul.payment_methods {
-    padding-left: 0;
+	padding-left: 0;
 }
 
 .woocommerce-checkout-review-order-table tfoot th {
-    background: transparent;
-    padding-bottom: 16px;
+	background: transparent;
+	padding-bottom: 16px;
 }
 .woocommerce #order_review table.shop_table th {
-    padding: 0;
+	padding: 0;
 }
 .woocommerce #order_review table.shop_table td {
-    text-align: left!important;
-    padding: 16px 0;
+	text-align: left!important;
+	padding: 16px 0;
 }
 .woocommerce #order_review table.shop_table tfoot th {
-    font-weight: normal;
-    vertical-align: middle;
-    width: 159px;
+	font-weight: normal;
+	vertical-align: middle;
+	width: 159px;
 }
 .content-area {
-    float: none;
-    width: auto;
-    padding-right: 0;
-    border: 0;
+	float: none;
+	width: auto;
+	padding-right: 0;
+	border: 0;
 }
 .woocommerce-checkout #payment ul.payment_methods .wc_payment_method>label {
-    font-size: 14px;
-    padding: 10px;
+	font-size: 14px;
+	padding: 10px;
 }
 .woocommerce-checkout #payment ul.payment_methods li img {
-    max-height: 20px;
+	max-height: 20px;
 }
 .woocommerce table.shop_table tfoot th {
-    font-size: 14px;
+	font-size: 14px;
 }
 
 .woocommerce table.shop_table {
-    border: 0;
+	border: 0;
 }
 
 @media screen and (max-width: 920px) {
-    .woocommerce-checkout .woocommerce #order_review table.shop_table tfoot th {
-        width: 85px;
-    }
-    .woocommerce-checkout .woocommerce ul#shipping_method li input {
-        margin-top: 6px;
-    }
-    .woocommerce-checkout #paymentWrap #payment ul.payment_methods li input {
-        margin-top: 6px;
-    }
+	.woocommerce-checkout .woocommerce #order_review table.shop_table tfoot th {
+		width: 85px;
+	}
+	.woocommerce-checkout .woocommerce ul#shipping_method li input {
+		margin-top: 6px;
+	}
+	.woocommerce-checkout #paymentWrap #payment ul.payment_methods li input {
+		margin-top: 6px;
+	}
 }
 
 .woocommerce-checkout .entry-content {
-  margin-top: 30px;
+	margin-top: 30px;
 }
 form.checkout.woocommerce-checkout {
-  margin-top: 25px;
+	margin-top: 25px;
 }
 
 .woocommerce-page.woocommerce-checkout #payment ul.payment_methods .wc_payment_method>label {
-  padding: 0;
-  vertical-align: top;
-  font-weight: 700;
+	padding: 0;
+	vertical-align: top;
+	font-weight: 700;
 }
 .woocommerce ul#shipping_method li label {
-  font-size: 14px;
-  vertical-align: top;
+	font-size: 14px;
+	vertical-align: top;
 }
 .woocommerce-page.woocommerce-checkout form #order_review th {
-  vertical-align: middle;
+	vertical-align: middle;
 }
 .woocommerce-checkout #placeOrderWrap button#place_order {
-    margin: 2rem auto;
+	margin: 2rem auto;
 }
 
 #paymentWrap th, #paymentWrap td {
-    border-bottom: none!important;
+	border-bottom: none!important;
 }
 form.checkout.woocommerce-checkout #order_review.woocommerce-checkout-review-order {
-    border-bottom: none !important;
+	border-bottom: none !important;
 }
 #paymentWrap th {
-    padding: 14px 12px 14px 0 !important;
-    font-size: 1em !important;
-    font-weight: 700 !important;
+	padding: 14px 12px 14px 0 !important;
+	font-size: 1em !important;
+	font-weight: 700 !important;
 }
 #paymentWrap td {
-    vertical-align: top;
-    padding: 14px 0;
+	vertical-align: top;
+	padding: 14px 0;
 }
 .woocommerce-checkout #payment ul.payment_methods li input {
-    margin: 0;
+	margin: 0;
 }
 .woocommerce-checkout #payment ul.payment_methods li {
-    font-weight: 700;
+	font-weight: 700;
 }

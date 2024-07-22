@@ -12,6 +12,3 @@ if ( 'onepage' === get_option( 'wc_woomp_setting_mode' ) || 'twopage' === get_op
 	wc_get_template( 'checkout/cart-errors.php', array( 'checkout' => $checkout ) );
 	wc_clear_notices();
 }
-
-
-

@@ -60,7 +60,6 @@ class PayNow_Payment_Order_Meta_Boxes {
 				'default'
 			);
 		}
-
 	}
 
 	/**
@@ -83,7 +82,6 @@ class PayNow_Payment_Order_Meta_Boxes {
 		if ( 'F' === $tran_status && $errordesc ) {
 			echo '<div><strong>' . esc_html( __( 'Payment Error Description', 'paynow-payment' ) ) . ':</strong> ' . esc_html( $errordesc ) . '</div>';
 		}
-
 	}
 
 	/**

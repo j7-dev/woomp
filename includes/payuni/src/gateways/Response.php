@@ -40,9 +40,9 @@ final class Response {
 	 */
 	public static function init() {
 		$class = self::get_instance();
-		add_action( 'woocommerce_api_payuni_notify_card', [ $class, 'card_response' ] );
-		add_action( 'woocommerce_api_payuni_notify_atm', [ $class, 'atm_response' ] );
-		add_action( 'woocommerce_api_payuni_notify_cvs', [ $class, 'cvs_response' ] );
+		add_action( 'woocommerce_api_payuni_notify_card', array( $class, 'card_response' ) );
+		add_action( 'woocommerce_api_payuni_notify_atm', array( $class, 'atm_response' ) );
+		add_action( 'woocommerce_api_payuni_notify_cvs', array( $class, 'cvs_response' ) );
 	}
 
 	/**
@@ -104,7 +104,7 @@ final class Response {
 			\as_schedule_single_action(
 				strtotime( \current_time( 'Y-m-d H:i:s' ) . '-8 hour + 1 minute' ),
 				'payuni_cancel_trade_by_trade_no',
-				[ $data['TradeNo'] ]
+				array( $data['TradeNo'] )
 			);
 		}
 
@@ -176,7 +176,7 @@ final class Response {
 	 * - is_3d_auth: bool.
 	 */
 	public static function get_formatted_decrypted_data( array $data ): array {
-		$formatted_data = [];
+		$formatted_data = array();
 
 		$formatted_data['status']            = (string) ( $data['Status'] ?? '' );
 		$formatted_data['message']           = (string) ( $data['Message'] ?? '' );
@@ -191,9 +191,9 @@ final class Response {
 		$formatted_data['each_amt']          = ( $data['EachAmt'] ?? '' ); // 每次多少
 		$formatted_data['first_amt']         = ( $data['FirstAmt'] ?? '' ); // 首次多少
 		$formatted_data['is_3d_auth']        = (bool) ( 'SUCCESS' === $formatted_data['status'] && key_exists(
-				'URL',
-				$data
-			) ); // 是否 3D 驗證
+			'URL',
+			$data
+		) ); // 是否 3D 驗證
 
 		return $formatted_data;
 	}
@@ -202,10 +202,10 @@ final class Response {
 	 * Save card to payment method
 	 * 將信用卡資料存入付款方式
 	 *
-	 * @param string $card_hash card hash.
-	 * @param string $card_4no card last 4 number.
-	 * @param string $card_expiry_month card expiry month.
-	 * @param string $card_expiry_year card expiry year.
+	 * @param string  $card_hash card hash.
+	 * @param string  $card_4no card last 4 number.
+	 * @param string  $card_expiry_month card expiry month.
+	 * @param string  $card_expiry_year card expiry year.
 	 * @param ?string $method payment method.
 	 *
 	 * @return void
@@ -239,7 +239,7 @@ final class Response {
 	 * 如果沒開 3D 驗證會記錄卡號
 	 *
 	 * @param ?object $resp payuni response.
-	 * @param string $redirect redirect url.
+	 * @param string  $redirect redirect url.
 	 *
 	 * @return array
 	 */
@@ -268,24 +268,24 @@ final class Response {
 		Payment::log( $data );
 
 		if ( 'SUCCESS' !== $status ) {
-			if(function_exists( 'wc_add_notice')){
-			\wc_add_notice( $data['Message'], 'error' );
+			if ( function_exists( 'wc_add_notice' ) ) {
+				\wc_add_notice( $data['Message'], 'error' );
 			}
 
-			return [
+			return array(
 				'result'     => 'failed',
 				'redirect'   => $redirect,
 				'is_3d_auth' => false,
-			];
+			);
 		}
 
 		// 3D 驗證走以下判斷，會 redirect 到 $data['URL'] 去做 3D 驗證
 		if ( $is_3d_auth ) {
-			return [
+			return array(
 				'result'     => 'success',
 				'redirect'   => $data['URL'],
 				'is_3d_auth' => true,
-			];
+			);
 		}
 
 		self::save_card_to_payment_method( $card_hash, $card_4no, $card_expiry_month, $card_expiry_year );
@@ -296,15 +296,15 @@ final class Response {
 			\as_schedule_single_action(
 				strtotime( \current_time( 'Y-m-d H:i:s' ) . '-8 hour + 1 minute' ),
 				'payuni_cancel_trade_by_trade_no',
-				[ $data['TradeNo'] ]
+				array( $data['TradeNo'] )
 			);
 		}
 
-		return [
+		return array(
 			'result'     => 'success',
 			'redirect'   => $redirect,
 			'is_3d_auth' => false,
-		];
+		);
 	}
 
 	/**
@@ -341,12 +341,12 @@ final class Response {
 
 			Payment::log( $data );
 
-			$status       = $data['Status'];
-			$message      = $data['Message'];
-			$trade_no     = $data['TradeNo'];
-			$bank         = '(' . $data['BankType'] . ')' . Payment::get_bank_name( $data['BankType'] );
-			$bank_no      = $data['PayNo'];
-			$bank_expire  = date( 'Y-m-d H:i:s', strtotime( $data['ExpireDate'] ) );
+			$status      = $data['Status'];
+			$message     = $data['Message'];
+			$trade_no    = $data['TradeNo'];
+			$bank        = '(' . $data['BankType'] . ')' . Payment::get_bank_name( $data['BankType'] );
+			$bank_no     = $data['PayNo'];
+			$bank_expire = date( 'Y-m-d H:i:s', strtotime( $data['ExpireDate'] ) );
 
 			$order = wc_get_order( $data['MerTradeNo'] );
 			$order->update_meta_data( '_payuni_resp_status', $status );
@@ -371,7 +371,7 @@ final class Response {
 			as_schedule_single_action(
 				strtotime( $bank_expire . '-8 hour' ),
 				'payuni_atm_check',
-				[ $data['MerTradeNo'] ]
+				array( $data['MerTradeNo'] )
 			);
 
 			$woocommerce->cart->empty_cart();
@@ -442,7 +442,7 @@ final class Response {
 			as_schedule_single_action(
 				strtotime( $bank_expire . '-8 hour' ),
 				'payuni_cvs_check',
-				[ $data['MerTradeNo'] ]
+				array( $data['MerTradeNo'] )
 			);
 
 			$woocommerce->cart->empty_cart();

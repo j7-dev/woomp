@@ -17,100 +17,102 @@ if ( ! in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins',
 
 add_action( 'plugins_loaded', 'init_woomp_gateway_cod', 11 );
 function init_woomp_gateway_cod() {
-    class WooMP_Payment_Cod extends WC_Payment_Gateway {
+	class WooMP_Payment_Cod extends WC_Payment_Gateway {
 
 		/**
 		 * Constructor for the gateway.
 		 */
 		public function __construct() {
-	  
+
 			$this->id                 = 'woomp_cod_gateway';
-			$this->icon               = apply_filters('woocommerce_offline_icon', '');
+			$this->icon               = apply_filters( 'woocommerce_offline_icon', '' );
 			$this->has_fields         = false;
 			$this->method_title       = __( '貨到付款', 'woomp' );
 			$this->method_description = __( '收到貨時以現金付款。', 'woomp' );
 			$this->enable_for_methods = $this->get_option( 'enable_for_methods', array() );
 			$this->enable_for_virtual = $this->get_option( 'enable_for_virtual', 'yes' ) === 'yes';
-		  
+
 			// Load the settings.
 			$this->init_form_fields();
 			$this->init_settings();
-		  
+
 			// Define user set variables
 			$this->title        = $this->get_option( 'title' );
 			$this->description  = $this->get_option( 'description' );
 			$this->instructions = $this->get_option( 'instructions', $this->description );
-		  
+
 			// Actions
 			add_action( 'woocommerce_update_options_payment_gateways_' . $this->id, array( $this, 'process_admin_options' ) );
 			add_action( 'woocommerce_thankyou_' . $this->id, array( $this, 'thankyou_page' ) );
-		  
+
 			// Customer Emails
-			//add_action( 'woocommerce_email_before_order_table', array( $this, 'email_instructions' ), 10, 3 );
+			// add_action( 'woocommerce_email_before_order_table', array( $this, 'email_instructions' ), 10, 3 );
 		}
-	
-	
+
 		/**
 		 * Initialize Gateway Settings Form Fields
 		 */
 		public function init_form_fields() {
-	  
-			$this->form_fields = apply_filters( 'wc_offline_form_fields', array(
-		  
-				'enabled' => array(
-					'title'   => __( '啓用/停用', 'woomp' ),
-					'type'    => 'checkbox',
-					'label'   => __( '啟用貨到付款', 'woomp' ),
-					'default' => 'yes'
-				),
-				
-				'title' => array(
-					'title'       => __( 'Title', 'woocommerce' ),
-					'type'        => 'text',
-					'description' => __( 'This controls the title for the payment method the customer sees during checkout.', 'woocommerce' ),
-					'default'     => __( '貨到付款', 'woomp' ),
-					'desc_tip'    => true,
-				),
-				
-				'description' => array(
-					'title'       => __( 'Description', 'woocommerce' ),
-					'type'        => 'textarea',
-					'description' => __( 'Payment method description that the customer will see on your checkout.', 'woocommerce' ),
-					'default'     => __( '收到貨時以現金付款。', 'woomp' ),
-					'desc_tip'    => true,
-				),
-				
-				'instructions' => array(
-					'title'       => __( 'Instructions', 'woocommerce' ),
-					'type'        => 'textarea',
-					'description' => __( 'Instructions that will be added to the thank you page and emails.', 'woocommerce' ),
-					'default'     => __( '', 'woomp' ),
-					'desc_tip'    => true,
-				),
 
-				'enable_for_methods' => array(
-					'title'             => __( 'Enable for shipping methods', 'woocommerce' ),
-					'type'              => 'multiselect',
-					'class'             => 'wc-enhanced-select',
-					'css'               => 'width: 400px;',
-					'default'           => array(
-											'ry_ecpay_shipping_home_ecan:7',
-                                            'ry_ecpay_shipping_home_tcat:6'
-										),
-					'description'       => __( 'If COD is only available for certain methods, set it up here. Leave blank to enable for all methods.', 'woocommerce' ),
-					'options'           => $this->load_shipping_method_options(),
-					'desc_tip'          => true,
-					'custom_attributes' => array(
-						'data-placeholder' => __( 'Select shipping methods', 'woocommerce' ),
+			$this->form_fields = apply_filters(
+				'wc_offline_form_fields',
+				array(
+
+					'enabled'            => array(
+						'title'   => __( '啓用/停用', 'woomp' ),
+						'type'    => 'checkbox',
+						'label'   => __( '啟用貨到付款', 'woomp' ),
+						'default' => 'yes',
 					),
-				),
-				'enable_for_virtual' => array(
-					'title'   => __( 'Accept for virtual orders', 'woocommerce' ),
-					'label'   => __( '若訂單皆為虛擬商品，也接受貨到付款', 'woocommerce' ),
-					'type'    => 'checkbox',
-					'default' => 'yes',
-				),
-			) );
+
+					'title'              => array(
+						'title'       => __( 'Title', 'woocommerce' ),
+						'type'        => 'text',
+						'description' => __( 'This controls the title for the payment method the customer sees during checkout.', 'woocommerce' ),
+						'default'     => __( '貨到付款', 'woomp' ),
+						'desc_tip'    => true,
+					),
+
+					'description'        => array(
+						'title'       => __( 'Description', 'woocommerce' ),
+						'type'        => 'textarea',
+						'description' => __( 'Payment method description that the customer will see on your checkout.', 'woocommerce' ),
+						'default'     => __( '收到貨時以現金付款。', 'woomp' ),
+						'desc_tip'    => true,
+					),
+
+					'instructions'       => array(
+						'title'       => __( 'Instructions', 'woocommerce' ),
+						'type'        => 'textarea',
+						'description' => __( 'Instructions that will be added to the thank you page and emails.', 'woocommerce' ),
+						'default'     => __( '', 'woomp' ),
+						'desc_tip'    => true,
+					),
+
+					'enable_for_methods' => array(
+						'title'             => __( 'Enable for shipping methods', 'woocommerce' ),
+						'type'              => 'multiselect',
+						'class'             => 'wc-enhanced-select',
+						'css'               => 'width: 400px;',
+						'default'           => array(
+							'ry_ecpay_shipping_home_ecan:7',
+							'ry_ecpay_shipping_home_tcat:6',
+						),
+						'description'       => __( 'If COD is only available for certain methods, set it up here. Leave blank to enable for all methods.', 'woocommerce' ),
+						'options'           => $this->load_shipping_method_options(),
+						'desc_tip'          => true,
+						'custom_attributes' => array(
+							'data-placeholder' => __( 'Select shipping methods', 'woocommerce' ),
+						),
+					),
+					'enable_for_virtual' => array(
+						'title'   => __( 'Accept for virtual orders', 'woocommerce' ),
+						'label'   => __( '若訂單皆為虛擬商品，也接受貨到付款', 'woocommerce' ),
+						'type'    => 'checkbox',
+						'default' => 'yes',
+					),
+				)
+			);
 		}
 
 		private function load_shipping_method_options() {
@@ -269,8 +271,7 @@ function init_woomp_gateway_cod() {
 
 			return $canonical_rate_ids;
 		}
-	
-	
+
 		/**
 		 * Output for the order received page.
 		 */
@@ -279,24 +280,22 @@ function init_woomp_gateway_cod() {
 				echo wpautop( wptexturize( $this->instructions ) );
 			}
 		}
-	
-	
+
 		/**
 		 * Add content to the WC emails.
 		 *
 		 * @access public
 		 * @param WC_Order $order
-		 * @param bool $sent_to_admin
-		 * @param bool $plain_text
+		 * @param bool     $sent_to_admin
+		 * @param bool     $plain_text
 		 */
 		public function email_instructions( $order, $sent_to_admin, $plain_text = false ) {
-		
+
 			echo wpautop( wptexturize( $this->instructions ) ) . PHP_EOL;
-			//if ( $this->instructions && ! $sent_to_admin && $this->id === $order->payment_method && $order->has_status( 'pending' ) ) {
-			//}
+			// if ( $this->instructions && ! $sent_to_admin && $this->id === $order->payment_method && $order->has_status( 'pending' ) ) {
+			// }
 		}
-	
-	
+
 		/**
 		 * Process the payment and return the result
 		 *
@@ -304,26 +303,25 @@ function init_woomp_gateway_cod() {
 		 * @return array
 		 */
 		public function process_payment( $order_id ) {
-	
+
 			$order = wc_get_order( $order_id );
-			
+
 			// Mark as on-hold (we're awaiting the payment)
 			$order->update_status( 'processing', __( 'Awaiting offline payment', 'woocommerce' ) );
-			
+
 			// Reduce stock levels
 			$order->reduce_order_stock();
-			
+
 			// Remove cart
 			WC()->cart->empty_cart();
-			
+
 			// Return thankyou redirect
 			return array(
-				'result' 	=> 'success',
-				'redirect'	=> $this->get_return_url( $order )
+				'result'   => 'success',
+				'redirect' => $this->get_return_url( $order ),
 			);
 		}
-	
-  	}
+	}
 }
 
 add_filter( 'woocommerce_payment_gateways', 'woomp_cod_add_to_gateways' );
@@ -335,15 +333,15 @@ function woomp_cod_add_to_gateways( $gateways ) {
 add_filter( 'plugin_action_links_woomp', 'woomp_cod_gateway_plugin_links' );
 function woomp_cod_gateway_plugin_links( $links ) {
 	$plugin_links = array(
-		'<a href="' . admin_url( 'admin.php?page=wc-settings&tab=checkout&section=woomp_cod_gateway' ) . '">' . __( '設定', 'woomp' ) . '</a>'
+		'<a href="' . admin_url( 'admin.php?page=wc-settings&tab=checkout&section=woomp_cod_gateway' ) . '">' . __( '設定', 'woomp' ) . '</a>',
 	);
 	return array_merge( $plugin_links, $links );
 }
 
 add_filter( 'woocommerce_gateway_method_title', 'change_cod_payment_gateway_title', 100, 2 );
-function change_cod_payment_gateway_title( $title, $payment ){
-    if( $payment->id === 'cod' ) {
-        $title = __("超商取貨付款", "woomp");
-    }
-    return $title;
+function change_cod_payment_gateway_title( $title, $payment ) {
+	if ( $payment->id === 'cod' ) {
+		$title = __( '超商取貨付款', 'woomp' );
+	}
+	return $title;
 }

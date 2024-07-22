@@ -55,5 +55,4 @@ class PayNow_Pay_Type {
 		}
 		return $type_name;
 	}
-
 }

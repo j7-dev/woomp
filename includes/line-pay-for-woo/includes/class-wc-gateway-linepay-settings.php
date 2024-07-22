@@ -57,7 +57,5 @@ class WC_Gateway_LINEPay_Settings {
 				'css'         => 'width:400px;',
 			),
 		);
-
 	}
-
 }

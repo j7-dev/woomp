@@ -52,5 +52,4 @@ class Logger {
 		$transformed = "$date: $prefix $original" . PHP_EOL;
 		return $transformed;
 	}
-
 }

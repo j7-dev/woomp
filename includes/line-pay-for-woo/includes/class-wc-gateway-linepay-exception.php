@@ -19,7 +19,7 @@ class WC_Gateway_LINEPay_Exception extends Exception {
 	 * constructor
 	 *
 	 * @param string $message
-	 * @param mixed $info
+	 * @param mixed  $info
 	 * @param [type] $code
 	 * @param [type] $previous
 	 */
@@ -36,5 +36,4 @@ class WC_Gateway_LINEPay_Exception extends Exception {
 	public function setInfo( $info = null ) {
 		$this->info = $info;
 	}
-
 }

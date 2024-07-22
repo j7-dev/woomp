@@ -6,48 +6,46 @@
  * Time: 下午1:34
  */
 
-defined('ABSPATH') || exit;
+defined( 'ABSPATH' ) || exit;
 
-class FileTokenStorage
-{
-    private $fileName;
+class FileTokenStorage {
 
-    public function __construct($filePath = null, $sandBox = false)
-    {
-        if($filePath == null){
-            if ($sandBox) {
-                $this->fileName = dirname(dirname(__FILE__))."/sandbox_pchomepay_api_token.json";
-            } else {
-                $this->fileName = dirname(dirname(__FILE__))."/pchomepay_api_token.json";
-            }
-        }else{
-            $this->fileName = $filePath;
-        }
-    }
+	private $fileName;
 
-    /**
-     * get jsonlized token from storage
-     * @return string return jsonlized string
-     */
-    public function getTokenStr()
-    {
-        if(file_exists($this->fileName)) {
-            return file_get_contents($this->fileName);
-        }
+	public function __construct( $filePath = null, $sandBox = false ) {
+		if ( $filePath == null ) {
+			if ( $sandBox ) {
+				$this->fileName = dirname( __DIR__, 1 ) . '/sandbox_pchomepay_api_token.json';
+			} else {
+				$this->fileName = dirname( __DIR__, 1 ) . '/pchomepay_api_token.json';
+			}
+		} else {
+			$this->fileName = $filePath;
+		}
+	}
 
-        return false;
-    }
+	/**
+	 * get jsonlized token from storage
+	 *
+	 * @return string return jsonlized string
+	 */
+	public function getTokenStr() {
+		if ( file_exists( $this->fileName ) ) {
+			return file_get_contents( $this->fileName );
+		}
 
-    /**
-     * save jsonlized token to storage
-     * @param $token string
-     * @return boolean true while success, false when fail.
-     */
-    public function saveTokenStr($token)
-    {
-        $r = file_put_contents($this->fileName, $token, FILE_TEXT);
+		return false;
+	}
 
-        return $r !== false;
-    }
+	/**
+	 * save jsonlized token to storage
+	 *
+	 * @param $token string
+	 * @return boolean true while success, false when fail.
+	 */
+	public function saveTokenStr( $token ) {
+		$r = file_put_contents( $this->fileName, $token, FILE_TEXT );
+
+		return $r !== false;
+	}
 }
-

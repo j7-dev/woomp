@@ -12,7 +12,6 @@ class MyAccount {
 		add_action( 'woocommerce_my_account_my_orders_column_invoice-number', array( $class, 'add_account_orders_column_rows' ) );
 	}
 	public function __construct() {
-
 	}
 
 	/**

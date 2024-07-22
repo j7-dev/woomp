@@ -54,7 +54,6 @@ class WC_Gateway_LINEPay_Logger {
 				$this->wc_logger = new WC_Logger();
 			}
 		}
-
 	}
 
 	/**
@@ -144,7 +143,6 @@ class WC_Gateway_LINEPay_Logger {
 
 		// log record
 		$this->wc_logger->add( 'linepay', sprintf( '[%s][%s] - %s', $level, $title, $message ) );
-
 	}
 
 	/**
@@ -166,7 +164,6 @@ class WC_Gateway_LINEPay_Logger {
 		}
 
 		return $message;
-
 	}
 
 	/**
@@ -178,5 +175,4 @@ class WC_Gateway_LINEPay_Logger {
 	 * Do not deserialize instances when using a singleton pattern.
 	 */
 	public function __wakeup() { }
-
 }

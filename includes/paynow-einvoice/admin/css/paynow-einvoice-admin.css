@@ -3,13 +3,13 @@
  * included in this file.
  */
 
- .wp-admin.post-type-shop_order .column-paynow_einvoice {
-	 text-align: center;
- }
- .wp-admin.post-type-shop_order .paynow.issued {
-	 color: green;
- }
+.wp-admin.post-type-shop_order .column-paynow_einvoice {
+	text-align: center;
+}
+.wp-admin.post-type-shop_order .paynow.issued {
+	color: green;
+}
 
- .wp-admin.post-type-shop_order .paynow.unissue {
-	 color: #999;
- }
+.wp-admin.post-type-shop_order .paynow.unissue {
+	color: #999;
+}

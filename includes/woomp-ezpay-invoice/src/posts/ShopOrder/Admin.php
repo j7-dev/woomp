@@ -4,67 +4,63 @@ namespace WOOMPEZPAYINVOICE\ShopOrder;
 
 use WOOMPEZPAYINVOICE\APIs\ezPayInvoiceHandler;
 
-defined('ABSPATH') || exit;
+defined( 'ABSPATH' ) || exit;
 
-class Admin
-{
+class Admin {
 
-	public static function init()
-	{
+
+	public static function init() {
 		$class = new self();
-		add_action('admin_enqueue_scripts', array($class, 'enqueue_script'));
-		add_filter('manage_shop_order_posts_columns', array($class, 'shop_order_columns'), 11, 1);
-		add_action('manage_shop_order_posts_custom_column', array($class, 'shop_order_column'), 11, 2);
-		add_action('save_post_shop_order', array($class, 'update_invoice_data'), 10, 3);
+		add_action( 'admin_enqueue_scripts', array( $class, 'enqueue_script' ) );
+		add_filter( 'manage_shop_order_posts_columns', array( $class, 'shop_order_columns' ), 11, 1 );
+		add_action( 'manage_shop_order_posts_custom_column', array( $class, 'shop_order_column' ), 11, 2 );
+		add_action( 'save_post_shop_order', array( $class, 'update_invoice_data' ), 10, 3 );
 
-		if ('auto' === get_option('wc_woomp_ezpay_invoice_issue_mode')) {
-			$invoice_issue_at = str_replace('wc-', '', get_option('wc_woomp_ezpay_invoice_issue_at'));
-			add_action('woocommerce_order_status_' . $invoice_issue_at, array($class, 'issue_invoice'), 10, 1);
+		if ( 'auto' === get_option( 'wc_woomp_ezpay_invoice_issue_mode' ) ) {
+			$invoice_issue_at = str_replace( 'wc-', '', get_option( 'wc_woomp_ezpay_invoice_issue_at' ) );
+			add_action( 'woocommerce_order_status_' . $invoice_issue_at, array( $class, 'issue_invoice' ), 10, 1 );
 		}
 
-		if ('auto' === get_option('wc_woomp_ezpay_invoice_invalid_mode')) {
-			$invoice_invalid_at = str_replace('wc-', '', get_option('wc_woomp_ezpay_invoice_invalid_at'));
-			add_action('woocommerce_order_status_' . $invoice_invalid_at, array($class, 'invalid_invoice'), 10, 1);
+		if ( 'auto' === get_option( 'wc_woomp_ezpay_invoice_invalid_mode' ) ) {
+			$invoice_invalid_at = str_replace( 'wc-', '', get_option( 'wc_woomp_ezpay_invoice_invalid_at' ) );
+			add_action( 'woocommerce_order_status_' . $invoice_invalid_at, array( $class, 'invalid_invoice' ), 10, 1 );
 		}
 	}
 
-	public function enqueue_script()
-	{
-		wp_register_script('woomp_ezpay_invoice', EZPAYINVOICE_PLUGIN_URL . 'assets/js/admin.js', array('jquery'), '1.0.4', true);
+	public function enqueue_script() {
+		wp_register_script( 'woomp_ezpay_invoice', EZPAYINVOICE_PLUGIN_URL . 'assets/js/admin.js', array( 'jquery' ), '1.0.4', true );
 		wp_localize_script(
 			'woomp_ezpay_invoice',
 			'woomp_ezpay_invoice_params',
 			array(
-				'ajax_nonce' => wp_create_nonce('invoice_handler'),
-				'post_id' => get_the_ID(),
+				'ajax_nonce' => wp_create_nonce( 'invoice_handler' ),
+				'post_id'    => get_the_ID(),
 			)
 		);
-		wp_enqueue_script('woomp_ezpay_invoice');
+		wp_enqueue_script( 'woomp_ezpay_invoice' );
 	}
 
 	/**
 	 * 後台訂單列表增加單號欄位
 	 */
-	public function shop_order_columns($columns)
-	{
-		$add_index = array_search('shipping_address', array_keys($columns)) + 1;
-		$pre_array = array_splice($columns, 0, $add_index);
-		$array = array(
-			'wmp_invoice_no' => __('Invoice number', 'woomp'),
+	public function shop_order_columns( $columns ) {
+		$add_index = array_search( 'shipping_address', array_keys( $columns ) ) + 1;
+		$pre_array = array_splice( $columns, 0, $add_index );
+		$array     = array(
+			'wmp_invoice_no' => __( 'Invoice number', 'woomp' ),
 		);
-		return array_merge($pre_array, $array, $columns);
+		return array_merge( $pre_array, $array, $columns );
 	}
 
-	public function shop_order_column($column, $post_id)
-	{
-		$order = wc_get_order($post_id);
-		if ('wmp_invoice_no' === $column && '0' !== $order->get_total()) {
+	public function shop_order_column( $column, $post_id ) {
+		$order = wc_get_order( $post_id );
+		if ( 'wmp_invoice_no' === $column && '0' !== $order->get_total() ) {
 
-			if (!empty($order->get_meta('_ezpay_invoice_number'))) {
-				echo esc_html($order->get_meta('_ezpay_invoice_number'));
-				echo '<br><button type="button" class="button btnInvalidInvoiceEzPay" value="' . esc_attr($post_id) . '">' . __('Invalid invoice', 'woomp') . '</button>';
+			if ( ! empty( $order->get_meta( '_ezpay_invoice_number' ) ) ) {
+				echo esc_html( $order->get_meta( '_ezpay_invoice_number' ) );
+				echo '<br><button type="button" class="button btnInvalidInvoiceEzPay" value="' . esc_attr( $post_id ) . '">' . __( 'Invalid invoice', 'woomp' ) . '</button>';
 			} else {
-				echo '<button type="button" class="button btnGenerateInvoiceEzPay" value="' . esc_attr($post_id) . '">' . __('Generate invoice', 'woomp') . '</button>';
+				echo '<button type="button" class="button btnGenerateInvoiceEzPay" value="' . esc_attr( $post_id ) . '">' . __( 'Generate invoice', 'woomp' ) . '</button>';
 			}
 		}
 	}
@@ -72,43 +68,42 @@ class Admin
 	/**
 	 * 更新電子發票資訊
 	 */
-	public function update_invoice_data($post_id, $post, $update)
-	{
+	public function update_invoice_data( $post_id, $post, $update ) {
 
-		if (get_option('wc_woomp_enabled_ezpay_invoice')) {
+		if ( get_option( 'wc_woomp_enabled_ezpay_invoice' ) ) {
 
-			$order = \wc_get_order($post_id);
+			$order        = \wc_get_order( $post_id );
 			$invoice_data = array();
 
-			if ($order && $update) {
-				if (isset($_POST['_ezpay_invoice_type'])) {
-					$invoice_data['_ezpay_invoice_type'] = wp_unslash($_POST['_ezpay_invoice_type']);
+			if ( $order && $update ) {
+				if ( isset( $_POST['_ezpay_invoice_type'] ) ) {
+					$invoice_data['_ezpay_invoice_type'] = wp_unslash( $_POST['_ezpay_invoice_type'] );
 				}
 
-				if (isset($_POST['_ezpay_invoice_individual'])) {
-					$invoice_data['_ezpay_invoice_individual'] = wp_unslash($_POST['_ezpay_invoice_individual']);
+				if ( isset( $_POST['_ezpay_invoice_individual'] ) ) {
+					$invoice_data['_ezpay_invoice_individual'] = wp_unslash( $_POST['_ezpay_invoice_individual'] );
 				} else {
 					$invoice_data['_ezpay_invoice_individual'] = false;
 				}
 
-				if (isset($_POST['_ezpay_invoice_carrier']) && !empty($_POST['_ezpay_invoice_carrier'])) {
-					$invoice_data['_ezpay_invoice_carrier'] = wp_unslash($_POST['_ezpay_invoice_carrier']);
+				if ( isset( $_POST['_ezpay_invoice_carrier'] ) && ! empty( $_POST['_ezpay_invoice_carrier'] ) ) {
+					$invoice_data['_ezpay_invoice_carrier'] = wp_unslash( $_POST['_ezpay_invoice_carrier'] );
 				}
 
-				if (isset($_POST['_ezpay_invoice_company_name']) && !empty($_POST['_ezpay_invoice_company_name'])) {
-					$invoice_data['_ezpay_invoice_company_name'] = wp_unslash($_POST['_ezpay_invoice_company_name']);
+				if ( isset( $_POST['_ezpay_invoice_company_name'] ) && ! empty( $_POST['_ezpay_invoice_company_name'] ) ) {
+					$invoice_data['_ezpay_invoice_company_name'] = wp_unslash( $_POST['_ezpay_invoice_company_name'] );
 				}
 
-				if (isset($_POST['_ezpay_invoice_tax_id']) && !empty($_POST['_ezpay_invoice_tax_id'])) {
-					$invoice_data['_ezpay_invoice_tax_id'] = wp_unslash($_POST['_ezpay_invoice_tax_id']);
+				if ( isset( $_POST['_ezpay_invoice_tax_id'] ) && ! empty( $_POST['_ezpay_invoice_tax_id'] ) ) {
+					$invoice_data['_ezpay_invoice_tax_id'] = wp_unslash( $_POST['_ezpay_invoice_tax_id'] );
 				}
 
-				if (isset($_POST['_ezpay_invoice_donate']) && !empty($_POST['_ezpay_invoice_donate'])) {
-					$invoice_data['_ezpay_invoice_donate'] = wp_unslash($_POST['_ezpay_invoice_donate']);
+				if ( isset( $_POST['_ezpay_invoice_donate'] ) && ! empty( $_POST['_ezpay_invoice_donate'] ) ) {
+					$invoice_data['_ezpay_invoice_donate'] = wp_unslash( $_POST['_ezpay_invoice_donate'] );
 				}
 
-				if (isset($_POST['_ezpay_invoice_type']) && $invoice_data && count($invoice_data) > 0) {
-					$order->update_meta_data('_ezpay_invoice_data', $invoice_data);
+				if ( isset( $_POST['_ezpay_invoice_type'] ) && $invoice_data && count( $invoice_data ) > 0 ) {
+					$order->update_meta_data( '_ezpay_invoice_data', $invoice_data );
 					$order->save();
 				}
 			}
@@ -118,26 +113,23 @@ class Admin
 	/**
 	 * 開立發票
 	 */
-	public function issue_invoice($order_id)
-	{
-		$order = \wc_get_order($order_id);
+	public function issue_invoice( $order_id ) {
+		$order = \wc_get_order( $order_id );
 
-
-		if ($order->get_meta('_ezpay_invoice_status') === '0' || $order->get_meta('_ezpay_invoice_number') === '') {
+		if ( $order->get_meta( '_ezpay_invoice_status' ) === '0' || $order->get_meta( '_ezpay_invoice_number' ) === '' ) {
 			$invoice = new EzpayInvoiceHandler();
-			$invoice->generate_invoice($order_id);
+			$invoice->generate_invoice( $order_id );
 		}
 	}
 
 	/**
 	 * 作廢發票
 	 */
-	public function invalid_invoice($order_id)
-	{
-		$order = \wc_get_order($order_id);
-		if ($order->get_meta('_ezpay_invoice_status') === '1') {
+	public function invalid_invoice( $order_id ) {
+		$order = \wc_get_order( $order_id );
+		if ( $order->get_meta( '_ezpay_invoice_status' ) === '1' ) {
 			$invoice = new EzpayInvoiceHandler();
-			$invoice->invalid_invoice($order_id);
+			$invoice->invalid_invoice( $order_id );
 		}
 	}
 }

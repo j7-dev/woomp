@@ -135,7 +135,6 @@ class PayNow_Shipping {
 	 * Class constructor. Do nothing.
 	 */
 	public function __construct() {
-
 	}
 
 	/**
@@ -194,10 +193,9 @@ class PayNow_Shipping {
 
 		add_action( 'admin_enqueue_scripts', array( self::get_instance(), 'paynow_enqueue_admin_script' ) );
 
-		//pro function
+		// pro function
 		add_filter( 'bulk_actions-edit-shop_order', array( self::get_instance(), 'paynow_register_shipping_bulk_actions' ) );
 		add_action( 'wp_ajax_paynow_pre_print_label', array( self::get_instance(), 'paynow_ajax_pre_print_label' ), 10 );
-
 	}
 
 	/**
@@ -224,7 +222,6 @@ class PayNow_Shipping {
 		if ( is_checkout() && self::needs_cvs( $chosen_method ) ) {
 			wc_get_template( 'cart/choose-cvs.php', array(), '', PAYNOW_SHIPPING_TEMPLATE_DIR );
 		}
-
 	}
 
 	/**
@@ -260,7 +257,6 @@ class PayNow_Shipping {
 			self::$js_data['shipping_data']['returnUrl']     = esc_url( WC()->api_request_url( 'paynow_choose_cvs_callback' ) . '?cid=' . WC()->cart->get_cart_hash() );
 			self::$js_data['shipping_data']['ajax_url']      = self::$api_url . '/Member/Order/Choselogistics';
 		}
-
 	}
 
 	/**
@@ -491,7 +487,7 @@ class PayNow_Shipping {
 		}
 
 		if ( isset( $data['shipping_phone'] ) ) {
-			if ( version_compare(WC_VERSION, '5.6.0', '<' ) ) {
+			if ( version_compare( WC_VERSION, '5.6.0', '<' ) ) {
 				$order->update_meta_data( '_shipping_phone', $data['shipping_phone'] );
 			}
 		}
@@ -575,7 +571,6 @@ class PayNow_Shipping {
 				'security' => wp_create_nonce( 'paynow-pro' ),
 			)
 		);
-
 	}
 
 	/**
@@ -626,11 +621,11 @@ class PayNow_Shipping {
 		} else {
 			// 超商.
 			$address_formats['PNCVS'] = "{paynow_storename} ({paynow_storeid})\n{paynow_storeaddress}\n{last_name} {first_name}\n"
-				. '<p class="woocommerce-customer-details--phone">{phone}</p>';
+			. '<p class="woocommerce-customer-details--phone">{phone}</p>';
 
 			// 宅配.
 			$address_formats['PNHD'] = "{postcode}\n {state} {city}\n{address_1} {address_2}\n{company} {last_name} {first_name}\n"
-				. '<p class="woocommerce-customer-details--phone">{phone}</p>';
+			. '<p class="woocommerce-customer-details--phone">{phone}</p>';
 		}
 		return $address_formats;
 	}
@@ -834,10 +829,10 @@ class PayNow_Shipping {
 	 * @return string
 	 */
 	public static function paynow_get_shipping_phone( $order ) {
-		if ( version_compare( WC_VERSION, '5.6.0', '>=' )) {
+		if ( version_compare( WC_VERSION, '5.6.0', '>=' ) ) {
 			return $order->get_shipping_phone();
 		} else {
-			return $order->get_meta('_shipping_phone');
+			return $order->get_meta( '_shipping_phone' );
 		}
 	}
 
@@ -848,34 +843,33 @@ class PayNow_Shipping {
 	 * @return array
 	 */
 	public static function paynow_register_shipping_bulk_actions( $bulk_actions ) {
-		$bulk_actions['paynow_bulk_print']           = __( 'Print Shipping Label', 'paynow-shipping' );
+		$bulk_actions['paynow_bulk_print'] = __( 'Print Shipping Label', 'paynow-shipping' );
 		return $bulk_actions;
 	}
 
 	public static function paynow_ajax_pre_print_label() {
-		if ( ! isset( $_POST['orderIds'] )  ) {
+		if ( ! isset( $_POST['orderIds'] ) ) {
 			esc_html_e( 'Missing Ajax Parameter.', 'paynow-shipping' );
 			wp_die();
 		}
 		$order_ids = wc_clean( wp_unslash( $_POST['orderIds'] ) );
-		PayNow_Shipping::log('order_idsf:' . $order_ids);
-		$order_ids_array = explode(',', $order_ids);
+		PayNow_Shipping::log( 'order_idsf:' . $order_ids );
+		$order_ids_array = explode( ',', $order_ids );
 
-
-		//物流服務對應到訂單的數量
+		// 物流服務對應到訂單的數量
 		$service_order_array = array(
 			PayNow_Shipping_Logistic_Service::SEVEN  => array(),
 			PayNow_Shipping_Logistic_Service::FAMI   => array(),
 			PayNow_Shipping_Logistic_Service::HILIFE => array(),
 			PayNow_Shipping_Logistic_Service::TCAT   => array(),
 		);
-		foreach( $order_ids_array as $order_id ) {
-			PayNow_Shipping::log('order_id:' . $order_id);
+		foreach ( $order_ids_array as $order_id ) {
+			PayNow_Shipping::log( 'order_id:' . $order_id );
 			$order = wc_get_order( $order_id );
 			if ( $order ) {
 				$service = $order->get_meta( PayNow_Shipping_Order_Meta::LogisticServiceId );
-				PayNow_Shipping::log('service:' . $service);
-				if ( $service && array_key_exists( $service, $service_order_array )) {
+				PayNow_Shipping::log( 'service:' . $service );
+				if ( $service && array_key_exists( $service, $service_order_array ) ) {
 					$service_order_array[ $service ][] = $order_id;
 				}
 			}
@@ -883,7 +877,6 @@ class PayNow_Shipping {
 
 		wp_send_json( $service_order_array );
 		wp_die();
-
 	}
 
 	/**
@@ -914,5 +907,4 @@ class PayNow_Shipping {
 
 		return self::$instance;
 	}
-
 }

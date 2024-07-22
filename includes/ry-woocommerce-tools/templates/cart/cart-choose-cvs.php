@@ -10,14 +10,14 @@
  *
  * @version 1.1.7
  */
-defined('ABSPATH') || exit;
+defined( 'ABSPATH' ) || exit;
 ?>
 <tr class="choose_cvs">
-    <th>
-        <?php echo __('Convenience store', 'ry-woocommerce-tools') ?>
-    </th>
-    <td data-title="<?php echo esc_attr__('Choose convenience Store', 'ry-woocommerce-tools') ?>">
-        <button type="button" class="button" onclick="RYECPaySendCvsPost();"><?php echo __('Choose convenience store', 'ry-woocommerce-tools') ?></button>
-        <span class="show_choose_cvs_name"><br><?php echo __('Convenience store:', 'ry-woocommerce-tools') ?><span class="choose_cvs_name"></span>
-    </td>
+	<th>
+		<?php echo __( 'Convenience store', 'ry-woocommerce-tools' ); ?>
+	</th>
+	<td data-title="<?php echo esc_attr__( 'Choose convenience Store', 'ry-woocommerce-tools' ); ?>">
+		<button type="button" class="button" onclick="RYECPaySendCvsPost();"><?php echo __( 'Choose convenience store', 'ry-woocommerce-tools' ); ?></button>
+		<span class="show_choose_cvs_name"><br><?php echo __( 'Convenience store:', 'ry-woocommerce-tools' ); ?><span class="choose_cvs_name"></span>
+	</td>
 </tr>

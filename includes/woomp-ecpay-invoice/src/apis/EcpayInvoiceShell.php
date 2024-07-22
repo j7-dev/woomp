@@ -22,7 +22,6 @@ abstract class Ecpay_Woo_Invoice_Curl {
 	 * @var int 逾時時間
 	 */
 	const TIMEOUT = 30;
-
 }
 
 class Ecpay_Woo_Invoice_Send extends \ECPay_Invoice_Send {

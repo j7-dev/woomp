@@ -2,6 +2,6 @@
  * All of the CSS for your public-facing functionality should be
  * included in this file.
  */
- #paynow_service_field {
-	 display: none !important;
- }
+#paynow_service_field {
+	display: none !important;
+}

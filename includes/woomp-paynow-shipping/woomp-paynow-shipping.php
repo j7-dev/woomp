@@ -21,7 +21,6 @@ function run_woomp_paynow_shipping() {
 	add_filter( 'woocommerce_shipping_methods', 'woomp_add_paynow_shipping_methods' );
 
 	WOOMP_PayNow_Shipping::init();
-
 }
 add_action( 'plugins_loaded', 'run_woomp_paynow_shipping', '999' );
 

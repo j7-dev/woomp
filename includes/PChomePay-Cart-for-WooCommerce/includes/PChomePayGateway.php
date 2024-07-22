@@ -36,7 +36,7 @@ class WC_Gateway_PChomePay extends WC_Payment_Gateway {
 		}
 
 		$this->id                 = 'pchomepay';
-		$this->icon               = apply_filters( 'woocommerce_pchomepay_icon', plugins_url( 'images/pchomepay_logo.png', dirname( __FILE__ ) ) );
+		$this->icon               = apply_filters( 'woocommerce_pchomepay_icon', plugins_url( 'images/pchomepay_logo.png', __DIR__ ) );
 		$this->has_fields         = false;
 		$this->method_title       = __( 'PChomePay支付連', 'woocommerce' );
 		$this->method_description = '透過 PChomePay支付連 付款，會連結到 PChomePay支付連 付款頁面。';
@@ -204,7 +204,7 @@ class WC_Gateway_PChomePay extends WC_Payment_Gateway {
 			$pchomepay_args = json_encode( $this->get_pchomepay_payment_data( $order ) );
 
 			if ( ! class_exists( 'PChomePayClient' ) ) {
-				if ( ! require dirname( __FILE__ ) . '/PChomePayClient.php' ) {
+				if ( ! require __DIR__ . '/PChomePayClient.php' ) {
 					throw new Exception( __( 'PChomePayClient Class missed.', 'woocommerce' ) );
 				}
 			}
@@ -386,7 +386,7 @@ class WC_Gateway_PChomePay extends WC_Payment_Gateway {
 
 			$pchomepay_args = json_encode( $this->get_pchomepay_refund_data( $orderID, $amount, $refundID ) );
 
-			if ( ! class_exists( 'PChomePayClient' ) && ! require dirname( __FILE__ ) . '/PChomePayClient.php' ) {
+			if ( ! class_exists( 'PChomePayClient' ) && ! require __DIR__ . '/PChomePayClient.php' ) {
 				throw new Exception( __( 'PChomePayClient Class missed.', 'woocommerce' ) );
 			}
 
@@ -443,7 +443,7 @@ class WC_Gateway_PChomePay extends WC_Payment_Gateway {
 			$pchomepay_args = json_encode( $this->get_pchomepay_audit_data( $wcOrder, $status ) );
 
 			if ( ! class_exists( 'PChomePayClient' ) ) {
-				if ( ! require dirname( __FILE__ ) . '/PChomePayClient.php' ) {
+				if ( ! require __DIR__ . '/PChomePayClient.php' ) {
 					throw new Exception( __( 'PChomePayClient Class missed.', 'woocommerce' ) );
 				}
 			}
@@ -486,7 +486,7 @@ class WC_Gateway_PChomePay extends WC_Payment_Gateway {
 			$wcOrder = new WC_Order( $wc_orderid );
 
 			if ( ! class_exists( 'PChomePayClient' ) ) {
-				if ( ! require dirname( __FILE__ ) . '/PChomePayClient.php' ) {
+				if ( ! require __DIR__ . '/PChomePayClient.php' ) {
 					throw new Exception( __( 'PChomePayClient Class missed.', 'woocommerce' ) );
 				}
 			}

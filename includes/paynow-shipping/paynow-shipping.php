@@ -2,5 +2,3 @@
 if ( ! defined( 'WPINC' ) ) {
 	die;
 }
-
-

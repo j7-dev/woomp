@@ -129,13 +129,13 @@ class CreditInstallment extends AbstractGateway {
 							appearance: none;
 							padding-left: 13px;display:block;width:100%;cursor:pointer
 						">
-							<?php
-							if ( $this->get_option( 'number_of_periods' ) ) {
-								foreach ( $this->get_option( 'number_of_periods' ) as $key => $value ) {
-									echo '<option value="' . esc_attr( $value ) . '">' . esc_html( $value ) . '期</option>';
-								}
-							}
-							?>
+			<?php
+			if ( $this->get_option( 'number_of_periods' ) ) {
+				foreach ( $this->get_option( 'number_of_periods' ) as $key => $value ) {
+					echo '<option value="' . esc_attr( $value ) . '">' . esc_html( $value ) . '期</option>';
+				}
+			}
+			?>
 						</select>
 					</div>
 				</div>

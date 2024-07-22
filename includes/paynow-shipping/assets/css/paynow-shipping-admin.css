@@ -37,17 +37,17 @@
 
 #paynow-print-label-modal .shipping-orders {
 	display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    width: 100%;
+	flex-direction: row;
+	flex-wrap: wrap;
+	width: 100%;
 	height: 40px;
 }
 
 #paynow-print-label-modal .shipping-orders .shipping-service {
 	display: inline;
-    flex-direction: column;
-    flex-basis: 100%;
-    flex: 1;
+	flex-direction: column;
+	flex-basis: 100%;
+	flex: 1;
 }
 
 #paynow-print-label-modal .shipping-orders .shipping-service > span {
@@ -57,4 +57,3 @@
 #paynow-print-label-modal .shipping-orders .shipping-service > span:hover {
 	cursor: help;
 }
-

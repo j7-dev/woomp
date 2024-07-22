@@ -59,7 +59,6 @@ abstract class PayNow_Abstract_Shipping_Method extends WC_Shipping_Method {
 			'instance-settings',
 			'instance-settings-modal',
 		);
-
 	}
 
 	/**
@@ -110,7 +109,6 @@ abstract class PayNow_Abstract_Shipping_Method extends WC_Shipping_Method {
 		 * @param PayNow_Abstract_Shipping_Method $this The shipping method instance.
 		 */
 		return apply_filters( 'woocommerce_shipping_' . $this->id . '_is_available', $is_available, $package, $this );
-
 	}
 
 
@@ -344,5 +342,4 @@ abstract class PayNow_Abstract_Shipping_Method extends WC_Shipping_Method {
 
 		return $found_shipping_classes;
 	}
-
 }

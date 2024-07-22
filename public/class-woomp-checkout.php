@@ -430,13 +430,12 @@ if ( ! class_exists( 'WooMP_Checkout' ) ) {
 				foreach ( $shipping_classes as $class ) {
 					if ( $class->term_id === $shipping_class_id ) {
 						$ry_shipping = new RY_ECPay_Shipping_CVS_711_Freeze();
-						print_r($class);
+						print_r( $class );
 						return $ry_shipping->get_option( 'class_limit_' . $class->term_id );
 					}
 				}
 			}
 		}
-
 	}
 
 	/**
@@ -470,6 +469,6 @@ if ( wc_string_to_bool( get_option( ' wc_woomp_setting_free_shipping_hint' ) ) )
 }
 
 add_filter( 'woocommerce_form_field', array( $checkout, 'remove_checkout_optional_fields_label' ), 10, 4 );
-//add_filter( 'woocommerce_add_to_cart_validation', array( $checkout, 'set_one_shipping_class' ), 10, 3 );
+// add_filter( 'woocommerce_add_to_cart_validation', array( $checkout, 'set_one_shipping_class' ), 10, 3 );
 
 WooMP_Checkout::init();

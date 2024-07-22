@@ -92,7 +92,6 @@ class Checkout {
 			'invoice-label',
 			$this->get_donate_org(),
 		);
-
 	}
 
 	private function add_wc_field( $name, $type, $label, $class, $label_class, $options, $placeholder = null ) {
@@ -152,7 +151,6 @@ class Checkout {
 		if ( $_POST['invoice-type'] == 'donate' && preg_match( '/^\d{3,7}$/', $_POST['donate-number'] ) == false ) {
 			wc_add_notice( __( '<strong>捐贈碼</strong> 請輸入 3~7 位數字' ), 'error' );
 		}
-
 	}
 
 	/**
@@ -218,7 +216,6 @@ class Checkout {
 		if ( $type === 'total' ) {
 			return WC()->cart->total;
 		}
-
 	}
 
 	/**
@@ -239,7 +236,6 @@ class Checkout {
 			wp_enqueue_script( 'woomp_ecpay_invoice' );
 		}
 	}
-
 }
 
 Checkout::init();

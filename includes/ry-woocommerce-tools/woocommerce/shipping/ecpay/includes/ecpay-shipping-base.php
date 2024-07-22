@@ -1,103 +1,99 @@
 <?php
-class RY_ECPay_Shipping_Base extends WC_Shipping_Method
-{
-    public function init()
-    {
-        $this->init_settings();
+class RY_ECPay_Shipping_Base extends WC_Shipping_Method {
 
-        $this->title = $this->get_option('title');
-        $this->tax_status = $this->get_option('tax_status');
-        $this->cost = $this->get_option('cost');
-        $this->cost_requires = $this->get_option('cost_requires');
-        $this->min_amount = $this->get_option('min_amount', 0);
-        $this->weight_plus_cost = $this->get_option('weight_plus_cost', 0);
-		$this->type = $this->get_option( 'type', 'class' );
+	public function init() {
+		$this->init_settings();
+
+		$this->title              = $this->get_option( 'title' );
+		$this->tax_status         = $this->get_option( 'tax_status' );
+		$this->cost               = $this->get_option( 'cost' );
+		$this->cost_requires      = $this->get_option( 'cost_requires' );
+		$this->min_amount         = $this->get_option( 'min_amount', 0 );
+		$this->weight_plus_cost   = $this->get_option( 'weight_plus_cost', 0 );
+		$this->type               = $this->get_option( 'type', 'class' );
 		$this->method_description = $this->get_option( 'description' );
 
-        add_action('woocommerce_update_options_shipping_' . $this->id, [$this, 'process_admin_options']);
+		add_action( 'woocommerce_update_options_shipping_' . $this->id, array( $this, 'process_admin_options' ) );
 
-        add_action('admin_footer', [$this, 'enqueue_admin_js'], 10);
-    }
+		add_action( 'admin_footer', array( $this, 'enqueue_admin_js' ), 10 );
+	}
 
-    public function get_instance_form_fields()
-    {
-        return parent::get_instance_form_fields();
-    }
+	public function get_instance_form_fields() {
+		return parent::get_instance_form_fields();
+	}
 
-    public function is_available($package)
-    {
-        $is_available = false;
+	public function is_available( $package ) {
+		$is_available = false;
 
-        list($MerchantID, $HashKey, $HashIV, $CVS_type) = RY_ECPay_Shipping::get_ecpay_api_info();
-        if (!empty($MerchantID) && !empty($HashKey) && !empty($HashIV)) {
-            $is_available = true;
-        }
+		list($MerchantID, $HashKey, $HashIV, $CVS_type) = RY_ECPay_Shipping::get_ecpay_api_info();
+		if ( ! empty( $MerchantID ) && ! empty( $HashKey ) && ! empty( $HashIV ) ) {
+			$is_available = true;
+		}
 
-        if ($is_available) {
-            $shipping_classes = WC()->shipping->get_shipping_classes();
-            if (!empty($shipping_classes)) {
-                $found_shipping_class = [];
-                foreach ($package['contents'] as $item_id => $values) {
-                    if ($values['data']->needs_shipping()) {
-                        $shipping_class_slug = $values['data']->get_shipping_class();
-                        $shipping_class = get_term_by('slug', $shipping_class_slug, 'product_shipping_class');
-                        if ($shipping_class && $shipping_class->term_id) {
-                            $found_shipping_class[$shipping_class->term_id] = true;
-                        }
-                    }
-                }
-                foreach ($found_shipping_class as $shipping_class_term_id => $value) {
-                    if ('yes' != $this->get_option('class_available_' . $shipping_class_term_id, 'yes')) {
-                        $is_available = false;
-                        break;
-                    }
-                }
-            }
-        }
+		if ( $is_available ) {
+			$shipping_classes = WC()->shipping->get_shipping_classes();
+			if ( ! empty( $shipping_classes ) ) {
+				$found_shipping_class = array();
+				foreach ( $package['contents'] as $item_id => $values ) {
+					if ( $values['data']->needs_shipping() ) {
+						$shipping_class_slug = $values['data']->get_shipping_class();
+						$shipping_class      = get_term_by( 'slug', $shipping_class_slug, 'product_shipping_class' );
+						if ( $shipping_class && $shipping_class->term_id ) {
+							$found_shipping_class[ $shipping_class->term_id ] = true;
+						}
+					}
+				}
+				foreach ( $found_shipping_class as $shipping_class_term_id => $value ) {
+					if ( 'yes' != $this->get_option( 'class_available_' . $shipping_class_term_id, 'yes' ) ) {
+						$is_available = false;
+						break;
+					}
+				}
+			}
+		}
 
-        return apply_filters('woocommerce_shipping_' . $this->id . '_is_available', $is_available, $package, $this);
-    }
+		return apply_filters( 'woocommerce_shipping_' . $this->id . '_is_available', $is_available, $package, $this );
+	}
 
-    public function calculate_shipping($package = [])
-    {
-        $rate = [
-            'id' => $this->get_rate_id(),
-            'label' => $this->title,
-            'cost' => ( $this->cost ) ? $this->cost : 0,
-            'package' => $package,
-            'meta_data' => [
-                'no_count' => 1
-            ]
-        ];
+	public function calculate_shipping( $package = array() ) {
+		$rate = array(
+			'id'        => $this->get_rate_id(),
+			'label'     => $this->title,
+			'cost'      => ( $this->cost ) ? $this->cost : 0,
+			'package'   => $package,
+			'meta_data' => array(
+				'no_count' => 1,
+			),
+		);
 
-        $has_coupon = $this->check_has_coupon($this->cost_requires, ['coupon', 'min_amount_or_coupon', 'min_amount_and_coupon']);
-        $has_min_amount = $this->check_has_min_amount($this->cost_requires, ['min_amount', 'min_amount_or_coupon', 'min_amount_and_coupon']);
+		$has_coupon     = $this->check_has_coupon( $this->cost_requires, array( 'coupon', 'min_amount_or_coupon', 'min_amount_and_coupon' ) );
+		$has_min_amount = $this->check_has_min_amount( $this->cost_requires, array( 'min_amount', 'min_amount_or_coupon', 'min_amount_and_coupon' ) );
 
-        switch ($this->cost_requires) {
-            case 'coupon':
-                $set_cost_zero = $has_coupon;
-                break;
-            case 'min_amount':
-                $set_cost_zero = $has_min_amount;
-                break;
-            case 'min_amount_or_coupon':
-                $set_cost_zero = $has_min_amount || $has_coupon;
-                break;
-            case 'min_amount_and_coupon':
-                $set_cost_zero = $has_min_amount && $has_coupon;
-                break;
-            default:
-                $set_cost_zero = false;
-                break;
-        }
+		switch ( $this->cost_requires ) {
+			case 'coupon':
+				$set_cost_zero = $has_coupon;
+				break;
+			case 'min_amount':
+				$set_cost_zero = $has_min_amount;
+				break;
+			case 'min_amount_or_coupon':
+				$set_cost_zero = $has_min_amount || $has_coupon;
+				break;
+			case 'min_amount_and_coupon':
+				$set_cost_zero = $has_min_amount && $has_coupon;
+				break;
+			default:
+				$set_cost_zero = false;
+				break;
+		}
 
-        if ($this->weight_plus_cost > 0) {
-            $total = WC()->cart->get_cart_contents_weight();
-            if ($total > 0) {
-                $rate['meta_data']['no_count'] = (int) ceil($total / $this->weight_plus_cost);
-                $rate['cost'] *= $rate['meta_data']['no_count'];
-            }
-        }
+		if ( $this->weight_plus_cost > 0 ) {
+			$total = WC()->cart->get_cart_contents_weight();
+			if ( $total > 0 ) {
+				$rate['meta_data']['no_count'] = (int) ceil( $total / $this->weight_plus_cost );
+				$rate['cost']                 *= $rate['meta_data']['no_count'];
+			}
+		}
 
 		// Add shipping class costs.
 		$shipping_classes = WC()->shipping()->get_shipping_classes();
@@ -115,8 +111,8 @@ class RY_ECPay_Shipping_Base extends WC_Shipping_Method
 					continue;
 				}
 
-				$has_costs    = true;
-				$class_cost   = $this->evaluate_cost(
+				$has_costs  = true;
+				$class_cost = $this->evaluate_cost(
 					$class_cost_string,
 					array(
 						'qty'  => array_sum( wp_list_pluck( $products, 'quantity' ) ),
@@ -129,7 +125,6 @@ class RY_ECPay_Shipping_Base extends WC_Shipping_Method
 				} else {
 					$highest_class_cost = $class_cost > $highest_class_cost ? $class_cost : $highest_class_cost;
 				}
-
 			}
 
 			if ( 'order' === $this->type && $highest_class_cost ) {
@@ -137,13 +132,13 @@ class RY_ECPay_Shipping_Base extends WC_Shipping_Method
 			}
 		}
 
-		if ($set_cost_zero) {
-            $rate['cost'] = 0;
-        }
+		if ( $set_cost_zero ) {
+			$rate['cost'] = 0;
+		}
 
-        $this->add_rate($rate);
-        do_action('woocommerce_' . $this->id . '_shipping_add_rate', $this, $rate);
-    }
+		$this->add_rate( $rate );
+		do_action( 'woocommerce_' . $this->id . '_shipping_add_rate', $this, $rate );
+	}
 
 	/**
 	 * Finds and returns shipping classes and the products with said class.
@@ -222,48 +217,45 @@ class RY_ECPay_Shipping_Base extends WC_Shipping_Method
 		return $sum ? WC_Eval_Math::evaluate( $sum ) : 0;
 	}
 
-    protected function check_has_coupon($requires, $check_requires_list)
-    {
-        if (in_array($requires, $check_requires_list)) {
-            $coupons = WC()->cart->get_coupons();
-            if ($coupons) {
-                foreach ($coupons as $code => $coupon) {
-                    if ($coupon->is_valid() && $coupon->get_free_shipping()) {
-                        return true;
-                        break;
-                    }
-                }
-            }
-        }
-        return false;
-    }
+	protected function check_has_coupon( $requires, $check_requires_list ) {
+		if ( in_array( $requires, $check_requires_list ) ) {
+			$coupons = WC()->cart->get_coupons();
+			if ( $coupons ) {
+				foreach ( $coupons as $code => $coupon ) {
+					if ( $coupon->is_valid() && $coupon->get_free_shipping() ) {
+						return true;
+						break;
+					}
+				}
+			}
+		}
+		return false;
+	}
 
-    protected function check_has_min_amount($requires, $check_requires_list, $original = false)
-    {
-        if (in_array($requires, $check_requires_list)) {
-            $total = WC()->cart->get_displayed_subtotal();
-            if ($original === false) {
-                if ('incl' === WC()->cart->get_tax_price_display_mode()) {
-                    $total = round($total - (WC()->cart->get_cart_discount_total() + WC()->cart->get_cart_discount_tax_total()), wc_get_price_decimals());
-                } else {
-                    $total = round($total - WC()->cart->get_cart_discount_total(), wc_get_price_decimals());
-                }
-            }
-            if ($total >= $this->min_amount) {
-                return true;
-            }
-        }
-        return false;
-    }
+	protected function check_has_min_amount( $requires, $check_requires_list, $original = false ) {
+		if ( in_array( $requires, $check_requires_list ) ) {
+			$total = WC()->cart->get_displayed_subtotal();
+			if ( $original === false ) {
+				if ( 'incl' === WC()->cart->get_tax_price_display_mode() ) {
+					$total = round( $total - ( WC()->cart->get_cart_discount_total() + WC()->cart->get_cart_discount_tax_total() ), wc_get_price_decimals() );
+				} else {
+					$total = round( $total - WC()->cart->get_cart_discount_total(), wc_get_price_decimals() );
+				}
+			}
+			if ( $total >= $this->min_amount ) {
+				return true;
+			}
+		}
+		return false;
+	}
 
-    public function enqueue_admin_js()
-    {
-        static $is_print = [];
-        if (is_admin()) {
-            if (!isset($is_print[$this->id])) {
-                $is_print[$this->id] = true;
-                wc_enqueue_js(
-                    'jQuery(function($) {
+	public function enqueue_admin_js() {
+		static $is_print = array();
+		if ( is_admin() ) {
+			if ( ! isset( $is_print[ $this->id ] ) ) {
+				$is_print[ $this->id ] = true;
+				wc_enqueue_js(
+					'jQuery(function($) {
     function RYECPayShowHide' . $this->id . 'MinAmountField(el) {
         var form = $(el).closest("form");
         var minAmountField = $("#woocommerce_' . $this->id . '_min_amount", form).closest("tr");
@@ -290,8 +282,8 @@ class RY_ECPay_Shipping_Base extends WC_Shipping_Method
         }
     });
 });'
-                );
-            }
-        }
-    }
+				);
+			}
+		}
+	}
 }

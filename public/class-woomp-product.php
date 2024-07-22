@@ -31,5 +31,5 @@ if ( ! class_exists( 'WooMP_Product_Public' ) ) {
 			echo $html;
 		}
 	}
-	//WooMP_Product_Public::init();
+	// WooMP_Product_Public::init();
 }

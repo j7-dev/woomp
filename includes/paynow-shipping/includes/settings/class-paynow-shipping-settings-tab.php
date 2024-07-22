@@ -215,7 +215,6 @@ class PayNow_Shipping_Settings_Tab extends WC_Settings_Page {
 			$order_statuses[ str_replace( 'wc-', '', $slug ) ] = $name;
 		}
 
-
 		return $order_statuses;
 	}
 
@@ -247,7 +246,6 @@ class PayNow_Shipping_Settings_Tab extends WC_Settings_Page {
 				exit;
 			}
 		}
-
 	}
 
 	/**

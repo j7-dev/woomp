@@ -58,20 +58,23 @@ add_action(
 	2
 );
 
-	// 讓統一金站內付的信用卡欄位為必填
-	\add_action('woocommerce_checkout_process', function () {
+// 讓統一金站內付的信用卡欄位為必填
+\add_action(
+	'woocommerce_checkout_process',
+	function () {
 
-			if (strpos($_POST['payment_method'] ?? '', 'payuni-credit') !== false) {
-				$payment_method_slug = str_replace('payuni-credit', '', $_POST['payment_method']);
-					$fields = array(
-							"payuni-credit{$payment_method_slug}-card-number",
-							"payuni-credit{$payment_method_slug}-card-expiry",
-							"payuni-credit{$payment_method_slug}-card-cvc"
-					);
-					foreach ($fields as $field) {
-							if (empty($_POST[$field])) {
-								throw new Exception( __('請填寫信用卡資訊', 'woomp') );
-							}
-					}
+		if ( strpos( $_POST['payment_method'] ?? '', 'payuni-credit' ) !== false ) {
+			$payment_method_slug = str_replace( 'payuni-credit', '', $_POST['payment_method'] );
+			$fields              = array(
+				"payuni-credit{$payment_method_slug}-card-number",
+				"payuni-credit{$payment_method_slug}-card-expiry",
+				"payuni-credit{$payment_method_slug}-card-cvc",
+			);
+			foreach ( $fields as $field ) {
+				if ( empty( $_POST[ $field ] ) ) {
+						throw new Exception( __( '請填寫信用卡資訊', 'woomp' ) );
+				}
 			}
-	});
+		}
+	}
+);

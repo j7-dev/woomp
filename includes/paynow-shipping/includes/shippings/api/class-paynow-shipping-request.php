@@ -40,7 +40,6 @@ class PayNow_Shipping_Request {
 		add_action( 'paynow_shipping_after_order_cancelled', array( self::get_instance(), 'paynow_query_shipping_order' ), 10, 1 );
 
 		add_action( 'wp_ajax_paynow_shipping_print_label', array( self::get_instance(), 'paynow_print_label' ) );
-
 	}
 
 	/**
@@ -211,7 +210,6 @@ class PayNow_Shipping_Request {
 			'result'  => $resp_obj,
 		);
 		wp_send_json( $return );
-
 	}
 
 	/**
@@ -489,7 +487,6 @@ class PayNow_Shipping_Request {
 		}
 
 		return $response;
-
 	}
 
 	/**
@@ -804,7 +801,6 @@ class PayNow_Shipping_Request {
 	 * Constructor
 	 */
 	public function __construct() {
-
 	}
 
 	/**

@@ -61,7 +61,7 @@ body:not(.avada-woo-one-page-checkout) .woocommerce form.checkout #order_review,
 }
 .checkout .payment_methods .payment_box {
 	background: #f4f4f4;
-	padding: 10px;  
+	padding: 10px;
 }
 .checkout .payment_methods .payment_box p {
 	margin-bottom: 0;

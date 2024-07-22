@@ -4,7 +4,7 @@
  * PI 錢包
  */
 
- class WC_PI_Gateway_PChomePay extends WC_Gateway_PChomePay {
+class WC_PI_Gateway_PChomePay extends WC_Gateway_PChomePay {
 
 	public function __construct() {
 		parent::__construct();
@@ -18,8 +18,8 @@
 		$this->init_form_fields();
 		$this->init_settings();
 
-		$this->title              = $this->get_option( 'title' );
-		$this->description        = $this->get_option( 'description' );
+		$this->title       = $this->get_option( 'title' );
+		$this->description = $this->get_option( 'description' );
 
 		if ( empty( $this->app_id ) || empty( $this->secret ) ) {
 			$this->enabled = false;
@@ -109,7 +109,7 @@
 			$pchomepay_args = json_encode( $this->get_pchomepay_pi_payment_data( $order ) );
 
 			if ( ! class_exists( 'PChomePayClient' ) ) {
-				if ( ! require dirname( __FILE__ ) . '/PChomePayClient.php' ) {
+				if ( ! require __DIR__ . '/PChomePayClient.php' ) {
 					throw new Exception( __( 'PChomePayClient Class missed.', 'woocommerce' ) );
 				}
 			}
@@ -256,7 +256,7 @@
 
 			$pchomepay_args = json_encode( $this->get_pchomepay_refund_data( $orderID, $amount, $refundID ) );
 
-			if ( ! class_exists( 'PChomePayClient' ) && ! require dirname( __FILE__ ) . '/PChomePayClient.php' ) {
+			if ( ! class_exists( 'PChomePayClient' ) && ! require __DIR__ . '/PChomePayClient.php' ) {
 				throw new Exception( __( 'PChomePayClient Class missed.', 'woocommerce' ) );
 			}
 

@@ -41,8 +41,8 @@ class WMP_NewebPay_Gateway_Credit_Installment_24 extends RY_NewebPay_Gateway_Bas
 	public function process_payment( $order_id ) {
 		$order = wc_get_order( $order_id );
 		$order->add_order_note( '使用藍新信用卡分期付款（分二十四期）' );
-		
-        if ( isset( $_POST['newebpay_number_of_periods'] ) ) {
+
+		if ( isset( $_POST['newebpay_number_of_periods'] ) ) {
 			$order->update_meta_data( '_newebpay_payment_number_of_periods', (int) $_POST['newebpay_number_of_periods'] );
 		}
 		$order->save();

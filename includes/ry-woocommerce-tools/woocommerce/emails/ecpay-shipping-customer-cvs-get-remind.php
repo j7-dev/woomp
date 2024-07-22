@@ -15,7 +15,7 @@ if ( ! class_exists( 'RY_ECPay_Shipping_Email_Customer_CVS_Get_Remind', false ) 
 				'{site_title}' => $this->get_blogname(),
 			);
 
-			//add_action( 'ry_ecpay_shipping_cvs_to_transporting_notification', array( $this, 'trigger' ), 10, 2 );
+			// add_action( 'ry_ecpay_shipping_cvs_to_transporting_notification', array( $this, 'trigger' ), 10, 2 );
 
 			parent::__construct();
 		}

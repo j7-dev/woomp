@@ -24,11 +24,11 @@ class WC_Settings_Tab_PayNow extends WC_Settings_Page {
 			'payment' => __( 'Payment Settings', 'paynow-payment' ),
 		);
 
-		//add_filter( 'woocommerce_settings_tabs_array', array( $this, 'paynow_payment_sections' ), 51 );
+		// add_filter( 'woocommerce_settings_tabs_array', array( $this, 'paynow_payment_sections' ), 51 );
 		add_action( 'woocommerce_sections_' . $this->id, array( $this, 'output_sections' ) );
 		add_action( 'woocommerce_settings_' . $this->id, array( $this, 'output' ) );
 		add_action( 'woocommerce_settings_save_' . $this->id, array( $this, 'save' ) );
-		
+
 		add_action( 'admin_init', array( $this, 'paynow_redirect_default_tab' ) );
 
 		add_filter( 'woocommerce_get_sections_' . $this->id, array( $this, 'paynow_payment_sections' ) );
@@ -75,8 +75,8 @@ class WC_Settings_Tab_PayNow extends WC_Settings_Page {
 
 		$sections = self::$sections;
 
-		//Paynow_Payment::log( 'current filter:' . current_filter() );
-		//Paynow_Payment::log( 'paynow_payment_sections:' . wc_print_r( $sections, true ) );
+		// Paynow_Payment::log( 'current filter:' . current_filter() );
+		// Paynow_Payment::log( 'paynow_payment_sections:' . wc_print_r( $sections, true ) );
 
 		return apply_filters( 'woocommerce_get_sections_' . $this->id, $sections );
 	}
@@ -150,7 +150,7 @@ class WC_Settings_Tab_PayNow extends WC_Settings_Page {
 			);
 		}
 
-		//return apply_filters( 'woocommerce_get_settings_' . $this->id, $settings, $current_section );
+		// return apply_filters( 'woocommerce_get_settings_' . $this->id, $settings, $current_section );
 		return $settings;
 	}
 
@@ -173,7 +173,6 @@ class WC_Settings_Tab_PayNow extends WC_Settings_Page {
 				exit;
 			}
 		}
-
 	}
 
 	public function output() {

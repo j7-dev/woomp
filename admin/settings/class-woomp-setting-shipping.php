@@ -287,7 +287,6 @@ class Woomp_Setting_Shipping extends WC_Settings_Page {
 		$settings = $this->get_settings( $current_section );
 		WC_Admin_Settings::save_fields( $settings );
 	}
-
 }
 
 return new Woomp_Setting_Shipping();

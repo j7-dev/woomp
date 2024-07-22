@@ -12,38 +12,38 @@
  */
 defined( 'ABSPATH' ) || exit;
 
-if ($order->get_payment_method() != 'ry_smilepay_cvs_fami') {
-    return;
+if ( $order->get_payment_method() != 'ry_smilepay_cvs_fami' ) {
+	return;
 }
 
-if ($order->get_meta('_smilepay_payment_type') != '6') {
-    return;
+if ( $order->get_meta( '_smilepay_payment_type' ) != '6' ) {
+	return;
 }
 ?>
 <section class="woocommerce-order-details">
-    <h2 class="woocommerce-order-details__title">
-        <?=__('Payment details', 'ry-woocommerce-tools') ?>
-    </h2>
-    <table class="woocommerce-table woocommerce-table--payment-details payment_details">
-        <tbody>
-            <tr>
-                <td>
-                    <?=__('CVS code', 'ry-woocommerce-tools') ?>
-                </td>
-                <td>
-                    <?=$order->get_meta('_smilepay_cvs_PaymentNo') ?>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <?=__('Payment deadline', 'ry-woocommerce-tools') ?>
-                </td>
-                <td>
-                    <?php $expireDate = wc_string_to_datetime($order->get_meta('_smilepay_cvs_ExpireDate')); ?>
-                    <?php /* translators: %1$s: date %2$s: time */ ?>
-                    <?=sprintf(_x('%1$s %2$s', 'Datetime', 'ry-woocommerce-tools'), $expireDate->date_i18n(wc_date_format()), $expireDate->date_i18n(wc_time_format())) ?>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+	<h2 class="woocommerce-order-details__title">
+		<?php echo __( 'Payment details', 'ry-woocommerce-tools' ); ?>
+	</h2>
+	<table class="woocommerce-table woocommerce-table--payment-details payment_details">
+		<tbody>
+			<tr>
+				<td>
+					<?php echo __( 'CVS code', 'ry-woocommerce-tools' ); ?>
+				</td>
+				<td>
+					<?php echo $order->get_meta( '_smilepay_cvs_PaymentNo' ); ?>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<?php echo __( 'Payment deadline', 'ry-woocommerce-tools' ); ?>
+				</td>
+				<td>
+					<?php $expireDate = wc_string_to_datetime( $order->get_meta( '_smilepay_cvs_ExpireDate' ) ); ?>
+					<?php /* translators: %1$s: date %2$s: time */ ?>
+					<?php echo sprintf( _x( '%1$s %2$s', 'Datetime', 'ry-woocommerce-tools' ), $expireDate->date_i18n( wc_date_format() ), $expireDate->date_i18n( wc_time_format() ) ); ?>
+				</td>
+			</tr>
+		</tbody>
+	</table>
 </section>

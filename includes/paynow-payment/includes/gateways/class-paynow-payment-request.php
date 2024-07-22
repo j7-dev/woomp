@@ -73,15 +73,15 @@ class PayNow_Payment_Request {
 			?>
 			<div>請稍候重新導向中...</div>
 			<form method="post" id="paynow-form" action="<?php echo esc_url( $this->gateway->get_api_url() ); ?>" accept="UTF-8" accept-charset="UTF-8">
-				<?php
-				$fields = $this->get_transaction_args( $order );
+			<?php
+			$fields = $this->get_transaction_args( $order );
 
-				Paynow_Payment::log( 'request transaction args:' . wc_print_r( $fields, true ) );
+			Paynow_Payment::log( 'request transaction args:' . wc_print_r( $fields, true ) );
 
-				foreach ( $fields as $key => $value ) {
-					echo '<input type="hidden" name="' . esc_html( $key ) . '" value="' . esc_html( $value ) . '">';
-				}
-				?>
+			foreach ( $fields as $key => $value ) {
+				echo '<input type="hidden" name="' . esc_html( $key ) . '" value="' . esc_html( $value ) . '">';
+			}
+			?>
 			</form>
 			<script type="text/javascript">
 				document.getElementById('paynow-form').submit();

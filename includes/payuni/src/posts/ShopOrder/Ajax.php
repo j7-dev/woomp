@@ -44,8 +44,6 @@ class Ajax {
 
 		wp_die();
 	}
-
 }
 
 Ajax::init();
-

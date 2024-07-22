@@ -23,9 +23,9 @@ final class WC_Gateway_LINEPay_Const {
 	const RESOURCE_JS_LOGO_UPLOADER          = '/assets/js/logo-uploader.js';
 
 	// uri.
-	const URI_RESERVE          = '/v3/payments/request';
-	const URI_CONFIRM          = '/v3/payments/{transaction_id}/confirm';
-	const URI_DETAILS          = '/v3/payments?transactionId={transaction_id}';
+	const URI_RESERVE = '/v3/payments/request';
+	const URI_CONFIRM = '/v3/payments/{transaction_id}/confirm';
+	const URI_DETAILS = '/v3/payments?transactionId={transaction_id}';
 	// const URI_DETAILS          = '/v3/payments?orderId={order_id}';
 	const URI_REFUND           = '/v3/payments/{transaction_id}/refund';
 	const URI_CALLBACK_HANDLER = '/wc-api/wc_gateway_linepay_handler';

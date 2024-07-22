@@ -30,7 +30,7 @@ if ( ! class_exists( 'WooMP_Order_Public' ) ) {
 				foreach ( $ecpay_shipping_info as $data ) {
 					foreach ( $data as $i ) {
 						$shipping_no = $i['PaymentNo'] . ' ' . $i['ValidationNo'];
-						$ecpay_no[] = $shipping_no;
+						$ecpay_no[]  = $shipping_no;
 					}
 				}
 				if ( count( $ecpay_no ) > 0 ) { ?>
@@ -42,16 +42,16 @@ if ( ! class_exists( 'WooMP_Order_Public' ) ) {
 					<thead>
 						<tr>
 							<th class="woocommerce-table__shipping-no shipping-no">
-								<?php echo __( 'Shipping payment no', 'woomp' ); ?>
+					<?php echo __( 'Shipping payment no', 'woomp' ); ?>
 							</th>
 						</tr>
 					</thead>
 					<tbody>
-						<?php foreach ( $ecpay_no as $value ) : ?>
+					<?php foreach ( $ecpay_no as $value ) : ?>
 						<tr>
 							
 							<td class="woocommerce-table__shipping-no shipping-no">
-								<?php echo esc_html( $value ); ?>
+						<?php echo esc_html( $value ); ?>
 							</td>
 						</tr>
 						<?php endforeach; ?>
@@ -65,23 +65,23 @@ if ( ! class_exists( 'WooMP_Order_Public' ) ) {
 			if ( get_post_meta( $order_id, 'wmp_shipping_no' ) ) {
 				?>
 				<h2 class="woocommerce-order-details__title">
-					<?php echo __( 'Shipping details', 'woomp' ); ?>
+				<?php echo __( 'Shipping details', 'woomp' ); ?>
 				</h2>
 
 				<table class="woocommerce-table woocommerce-table--shipping-details shop_table shipping_details">
 					<thead>
 						<tr>
 							<th class="woocommerce-table__shipping-no shipping-no">
-								<?php echo __( 'Shipping payment no', 'woomp' ); ?>
+				<?php echo __( 'Shipping payment no', 'woomp' ); ?>
 							</th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr>
 							<td class="woocommerce-table__shipping-no shipping-no">
-								<?php
-								echo get_post_meta( $order_id, 'wmp_shipping_no', true );
-								?>
+				<?php
+				echo get_post_meta( $order_id, 'wmp_shipping_no', true );
+				?>
 							</td>
 						</tr>
 					</tbody>

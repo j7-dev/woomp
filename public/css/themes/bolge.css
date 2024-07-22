@@ -1,31 +1,31 @@
 .eltdf-woocommerce-page .woocommerce-checkout table tr.shipping #shipping_method li> input {
-    margin-right: 5px;
+	margin-right: 5px;
 }
 
 .eltdf-woocommerce-page .woocommerce-checkout table th {
-    font-size: 16px!important;
-    font-weight: bold!important;
+	font-size: 16px!important;
+	font-weight: bold!important;
 }
 
 form.checkout.woocommerce-checkout #order_review {
-    border-bottom: 0!important;
+	border-bottom: 0!important;
 }
 
 select {
-    font-size: 14px;
-    line-height: 40px;
-    border-radius: 0;
+	font-size: 14px;
+	line-height: 40px;
+	border-radius: 0;
 }
 
 .eltdf-woocommerce-page .woocommerce-checkout table tr {
-    border-bottom: 0;
+	border-bottom: 0;
 }
 
 .eltdf-grid-col-12 {
-    padding-right: 0;
-    padding-left: 0;
+	padding-right: 0;
+	padding-left: 0;
 }
 
 .eltdf-woocommerce-page .woocommerce-checkout table th {
-    width: 159px;
+	width: 159px;
 }

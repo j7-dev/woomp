@@ -85,8 +85,6 @@ class Metabox {
 
 		return $output;
 	}
-
-
 }
 
 Metabox::register();

@@ -1,14 +1,14 @@
 .woocommerce-NoticeGroup.woocommerce-NoticeGroup-checkout .woocommerce-error {
-    margin-bottom: 0px;
+	margin-bottom: 0px;
 }
 form.checkout>.woocommerce-NoticeGroup {
-    margin-top: 20px;
+	margin-top: 20px;
 }
 .woocommerce.cart-content-wrapper.row .woocommerce-error {
-    display: none;
+	display: none;
 }
 #placeOrderWrap {
-    margin: 0 auto;
+	margin: 0 auto;
 }
 .woocommerce-terms-and-conditions-wrapper {
 border-top: none;

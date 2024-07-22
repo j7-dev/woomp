@@ -67,9 +67,9 @@ if ( ! class_exists( 'WooMP_Email' ) ) {
 									</td>
 								</tr>
 								<tr>
-									<th class="td" scope="row" colspan="2" style="color: #636363;border: 1px solid #e5e5e5;vertical-align: middle;padding: 12px;text-align: left;">' . __('Payment deadline', 'ry-woocommerce-tools') . ':</th>
+									<th class="td" scope="row" colspan="2" style="color: #636363;border: 1px solid #e5e5e5;vertical-align: middle;padding: 12px;text-align: left;">' . __( 'Payment deadline', 'ry-woocommerce-tools' ) . ':</th>
 									<td class="td" style="color: #636363;border: 1px solid #e5e5e5;vertical-align: middle;padding: 12px;text-align: left;">
-										' . sprintf(_x('%1$s %2$s', 'Datetime', 'ry-woocommerce-tools'), wc_string_to_datetime($order->get_meta('_ecpay_cvs_ExpireDate'))->date_i18n(wc_date_format()), wc_string_to_datetime($order->get_meta('_ecpay_cvs_ExpireDate'))->date_i18n(wc_time_format())) . '
+										' . sprintf( _x( '%1$s %2$s', 'Datetime', 'ry-woocommerce-tools' ), wc_string_to_datetime( $order->get_meta( '_ecpay_cvs_ExpireDate' ) )->date_i18n( wc_date_format() ), wc_string_to_datetime( $order->get_meta( '_ecpay_cvs_ExpireDate' ) )->date_i18n( wc_time_format() ) ) . '
 									</td>
 								</tr>
 							</table>
@@ -83,25 +83,25 @@ if ( ! class_exists( 'WooMP_Email' ) ) {
 								<tr>
 									<th class="td" scope="row" colspan="2" style="color: #636363;border: 1px solid #e5e5e5;vertical-align: middle;padding: 12px;text-align: left;">' . __( 'Barcode 1', 'ry-woocommerce-tools' ) . ':</th>
 									<td class="td" style="color: #636363;border: 1px solid #e5e5e5;vertical-align: middle;padding: 12px 0;text-align: left; white-space: nowrap;">
-										<span class="free3of9"><font style="Libre Barcode 39 Text">* '. $order->get_meta('_ecpay_barcode_Barcode1') .' *</font></span>
+										<span class="free3of9"><font style="Libre Barcode 39 Text">* ' . $order->get_meta( '_ecpay_barcode_Barcode1' ) . ' *</font></span>
 									</td>
 								</tr>
 								<tr>
 									<th class="td" scope="row" colspan="2" style="color: #636363;border: 1px solid #e5e5e5;vertical-align: middle;padding: 12px;text-align: left;">' . __( 'Barcode 2', 'ry-woocommerce-tools' ) . ':</th>
 									<td class="td" style="color: #636363;border: 1px solid #e5e5e5;vertical-align: middle;padding: 12px 0;text-align: left; white-space: nowrap;">
-										<span class="free3of9">* '. $order->get_meta('_ecpay_barcode_Barcode2') .' *</span>
+										<span class="free3of9">* ' . $order->get_meta( '_ecpay_barcode_Barcode2' ) . ' *</span>
 									</td>
 								</tr>
 								<tr>
 									<th class="td" scope="row" colspan="2" style="color: #636363;border: 1px solid #e5e5e5;vertical-align: middle;padding: 12px;text-align: left;">' . __( 'Barcode 3', 'ry-woocommerce-tools' ) . ':</th>
 									<td class="td" style="color: #636363;border: 1px solid #e5e5e5;vertical-align: middle;padding: 12px 0;text-align: left; white-space: nowrap;">
-										<span class="free3of9">* '. $order->get_meta('_ecpay_barcode_Barcode3') .' *</span>
+										<span class="free3of9">* ' . $order->get_meta( '_ecpay_barcode_Barcode3' ) . ' *</span>
 									</td>
 								</tr>
 								<tr>
-									<th class="td" scope="row" colspan="2" style="color: #636363;border: 1px solid #e5e5e5;vertical-align: middle;padding: 12px;text-align: left;">' . __('Payment deadline', 'ry-woocommerce-tools') . ':</th>
+									<th class="td" scope="row" colspan="2" style="color: #636363;border: 1px solid #e5e5e5;vertical-align: middle;padding: 12px;text-align: left;">' . __( 'Payment deadline', 'ry-woocommerce-tools' ) . ':</th>
 									<td class="td" style="color: #636363;border: 1px solid #e5e5e5;vertical-align: middle;padding: 12px;text-align: left;">
-										' . sprintf(_x('%1$s %2$s', 'Datetime', 'ry-woocommerce-tools'), wc_string_to_datetime($order->get_meta('_ecpay_barcode_ExpireDate'))->date_i18n(wc_date_format()), wc_string_to_datetime($order->get_meta('_ecpay_barcode_ExpireDate'))->date_i18n(wc_time_format())) . '
+										' . sprintf( _x( '%1$s %2$s', 'Datetime', 'ry-woocommerce-tools' ), wc_string_to_datetime( $order->get_meta( '_ecpay_barcode_ExpireDate' ) )->date_i18n( wc_date_format() ), wc_string_to_datetime( $order->get_meta( '_ecpay_barcode_ExpireDate' ) )->date_i18n( wc_time_format() ) ) . '
 									</td>
 								</tr>
 							</table>

@@ -28,14 +28,14 @@ echo __( 'Payment deadline', 'ry-woocommerce-tools' ) . ' : ' . date_i18n( 'Y-m-
 echo "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n\n";
 
 /*
- * @hooked WC_Emails::order_meta() Shows order meta data.
- */
+* @hooked WC_Emails::order_meta() Shows order meta data.
+*/
 do_action( 'woocommerce_email_order_meta', $order, $sent_to_admin, $plain_text, $email );
 
 /*
- * @hooked WC_Emails::customer_details() Shows customer details
- * @hooked WC_Emails::email_address() Shows email address
- */
+* @hooked WC_Emails::customer_details() Shows customer details
+* @hooked WC_Emails::email_address() Shows email address
+*/
 do_action( 'woocommerce_email_customer_details', $order, $sent_to_admin, $plain_text, $email );
 
 echo "\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n\n";

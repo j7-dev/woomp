@@ -17,7 +17,6 @@ class WC_Settings_Tab_PayNow_EInvoice extends WC_Settings_Page {
 		add_action( 'woocommerce_sections_' . $this->id, array( $this, 'output_sections' ) );
 
 		parent::__construct();
-
 	}
 
 	/**
@@ -198,5 +197,4 @@ class WC_Settings_Tab_PayNow_EInvoice extends WC_Settings_Page {
 		$settings = $this->get_settings( $current_section );
 		WC_Admin_Settings::save_fields( $settings );
 	}
-
 }

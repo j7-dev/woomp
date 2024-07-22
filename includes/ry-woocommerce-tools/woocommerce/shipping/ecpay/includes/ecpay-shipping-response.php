@@ -13,12 +13,12 @@ class RY_ECPay_Shipping_Response extends RY_ECPay_Shipping_Api {
 		add_action( 'ry_ecpay_shipping_response_status_2030', array( __CLASS__, 'shipping_transporting' ), 10, 2 );
 		add_action( 'ry_ecpay_shipping_response_status_3024', array( __CLASS__, 'shipping_transporting' ), 10, 2 );
 		add_action( 'ry_ecpay_shipping_response_status_3032', array( __CLASS__, 'shipping_transporting' ), 10, 2 );
-		
+
 		// 黑貓
 		add_action( 'ry_ecpay_shipping_response_status_3001', array( __CLASS__, 'shipping_transporting' ), 10, 2 );
 		add_action( 'ry_ecpay_shipping_response_status_3006', array( __CLASS__, 'shipping_transporting' ), 10, 2 );
 		add_action( 'ry_ecpay_shipping_response_status_3003', array( __CLASS__, 'shipping_completed' ), 10, 2 );
-		
+
 		// 郵局
 		add_action( 'ry_ecpay_shipping_response_status_3113', array( __CLASS__, 'shipping_transporting' ), 10, 2 );
 		add_action( 'ry_ecpay_shipping_response_status_3308', array( __CLASS__, 'shipping_completed' ), 10, 2 );

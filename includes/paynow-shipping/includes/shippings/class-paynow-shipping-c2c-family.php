@@ -30,7 +30,6 @@ class PayNow_Shipping_C2C_Family extends PayNow_Abstract_Shipping_Method {
 		$this->init();
 
 		add_action( 'woocommerce_update_options_shipping_' . $this->id, array( $this, 'process_admin_options' ) );
-
 	}
 
 	/**
@@ -49,6 +48,5 @@ class PayNow_Shipping_C2C_Family extends PayNow_Abstract_Shipping_Method {
 		$this->free_shipping_min_amount = $this->get_option( 'free_shipping_min_amount', 0 );
 		$this->type                     = $this->get_option( 'type', 'class' );
 		$this->max_amount               = 20000;
-
 	}
 }

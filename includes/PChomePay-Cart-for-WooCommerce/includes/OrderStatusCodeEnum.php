@@ -6,94 +6,93 @@
  * Time: 下午4:15
  */
 
-defined('ABSPATH') || exit;
+defined( 'ABSPATH' ) || exit;
 
-class OrderStatusCodeEnum
-{
-    /** 訂單過期 */
-    const ORDER_EXPIRED = "FE";
+class OrderStatusCodeEnum {
 
-    /** 餘額不足 */
-    const BALANCE_NOT_ENOUGH = "FB";
+	/** 訂單過期 */
+	const ORDER_EXPIRED = 'FE';
 
-    /** ATM 虛擬帳號失效 */
-    const ATM_EXPIRED = "FX";
+	/** 餘額不足 */
+	const BALANCE_NOT_ENOUGH = 'FB';
 
-    /** 連線失敗 */
-    const GATEWAY_TIMEOUT = "FT";
+	/** ATM 虛擬帳號失效 */
+	const ATM_EXPIRED = 'FX';
 
-    /** 支付連授權失敗 */
-    const PP_FILTER_FAILED = "FF";
+	/** 連線失敗 */
+	const GATEWAY_TIMEOUT = 'FT';
 
-    /** 信用卡授權失敗 */
-    const AUDIT_FAILED = "FA";
+	/** 支付連授權失敗 */
+	const PP_FILTER_FAILED = 'FF';
 
-    /** 審單失敗 */
-    const PP_AUDIT_FAILED = "FP";
+	/** 信用卡授權失敗 */
+	const AUDIT_FAILED = 'FA';
 
-    /** 廠商審單不過單 */
-    const CUSTOMER_AUDIT_FAILED = "FC";
+	/** 審單失敗 */
+	const PP_AUDIT_FAILED = 'FP';
 
-    /** eACH 超過限額 */
-    const EACH_LIMIT_FAILED = "FEL";
+	/** 廠商審單不過單 */
+	const CUSTOMER_AUDIT_FAILED = 'FC';
 
-    /** eACH 超過交易次數 */
-    const EACH_PAYMENT_COUNT_FAILED = "FEC";
+	/** eACH 超過限額 */
+	const EACH_LIMIT_FAILED = 'FEL';
 
-    /** eACH 帳戶存款不足 */
-    const EACH_BALANCE_NOT_ENOUGH = "FEB";
+	/** eACH 超過交易次數 */
+	const EACH_PAYMENT_COUNT_FAILED = 'FEC';
 
-    /** eACH 帳戶異常 */
-    const EACH_ACCOUNT_FAILED = "FEA";
+	/** eACH 帳戶存款不足 */
+	const EACH_BALANCE_NOT_ENOUGH = 'FEB';
 
-    /** eACH 接收單位業務停止或關閉 */
-    const EACH_SERVICE_CLOSE = "FES";
+	/** eACH 帳戶異常 */
+	const EACH_ACCOUNT_FAILED = 'FEA';
 
-    /** eACH 交易發生逾時 */
-    const EACH_TIMEOUT_FAILED = "FET";
+	/** eACH 接收單位業務停止或關閉 */
+	const EACH_SERVICE_CLOSE = 'FES';
 
-    /** ATM 待繳款 */
-    const ORDER_ATM_PAYING = "WP";
+	/** eACH 交易發生逾時 */
+	const EACH_TIMEOUT_FAILED = 'FET';
 
-    /** 尚未選擇銀行 */
-    const ORDER_WAIT_SELECT_BANK = "WB";
+	/** ATM 待繳款 */
+	const ORDER_ATM_PAYING = 'WP';
 
-//    /** 訂單審單中 */
-//    const ORDER_PENDING = "WA";
+	/** 尚未選擇銀行 */
+	const ORDER_WAIT_SELECT_BANK = 'WB';
 
-    /** 訂單審單中 */
-    const ORDER_PENDING_PCHOMEPAY = "WAP";
+	// ** 訂單審單中 */
+	// const ORDER_PENDING = "WA";
 
-    /** 訂單審單中 */
-    const ORDER_PENDING_CLIENT = "WAC";
+	/** 訂單審單中 */
+	const ORDER_PENDING_PCHOMEPAY = 'WAP';
 
-    /** 銀行支付 等待OTP驗證 */
-    const EACH_ORDER_OTP_WAIT = "WO";
+	/** 訂單審單中 */
+	const ORDER_PENDING_CLIENT = 'WAC';
 
-    public static function getErrMsg($code)
-    {
-        $msg = [
-            static::ORDER_EXPIRED => '訂單過期',
-            static::BALANCE_NOT_ENOUGH => '餘額不足',
-            static::ATM_EXPIRED => 'ATM 虛擬帳號失效',
-            static::GATEWAY_TIMEOUT => '連線失敗',
-            static::PP_FILTER_FAILED => '支付連授權失敗',
-            static::AUDIT_FAILED => '信用卡授權失敗',
-            static::PP_AUDIT_FAILED => '審單失敗',
-            static::CUSTOMER_AUDIT_FAILED => '廠商審單不過單',
-            static::EACH_LIMIT_FAILED => 'eACH 超過限額',
-            static::EACH_PAYMENT_COUNT_FAILED => 'eACH 超過交易次數',
-            static::EACH_BALANCE_NOT_ENOUGH => 'eACH 帳戶存款不足',
-            static::EACH_ACCOUNT_FAILED => 'eACH 帳戶異常',
-            static::EACH_SERVICE_CLOSE => 'eACH 接收單位業務停止或關閉',
-            static::EACH_TIMEOUT_FAILED => 'eACH 交易發生逾時',
-            static::ORDER_ATM_PAYING => 'ATM 待繳款',
-            static::ORDER_WAIT_SELECT_BANK => '尚未選擇銀行',
-            static::ORDER_PENDING_PCHOMEPAY => '訂單於支付連審單中',
-            static::ORDER_PENDING_CLIENT => '訂單審單中',
-            static::EACH_ORDER_OTP_WAIT => '銀行支付 等待OTP驗證',
-        ];
+	/** 銀行支付 等待OTP驗證 */
+	const EACH_ORDER_OTP_WAIT = 'WO';
 
-        return $msg[$code];
-    }
+	public static function getErrMsg( $code ) {
+		$msg = array(
+			static::ORDER_EXPIRED             => '訂單過期',
+			static::BALANCE_NOT_ENOUGH        => '餘額不足',
+			static::ATM_EXPIRED               => 'ATM 虛擬帳號失效',
+			static::GATEWAY_TIMEOUT           => '連線失敗',
+			static::PP_FILTER_FAILED          => '支付連授權失敗',
+			static::AUDIT_FAILED              => '信用卡授權失敗',
+			static::PP_AUDIT_FAILED           => '審單失敗',
+			static::CUSTOMER_AUDIT_FAILED     => '廠商審單不過單',
+			static::EACH_LIMIT_FAILED         => 'eACH 超過限額',
+			static::EACH_PAYMENT_COUNT_FAILED => 'eACH 超過交易次數',
+			static::EACH_BALANCE_NOT_ENOUGH   => 'eACH 帳戶存款不足',
+			static::EACH_ACCOUNT_FAILED       => 'eACH 帳戶異常',
+			static::EACH_SERVICE_CLOSE        => 'eACH 接收單位業務停止或關閉',
+			static::EACH_TIMEOUT_FAILED       => 'eACH 交易發生逾時',
+			static::ORDER_ATM_PAYING          => 'ATM 待繳款',
+			static::ORDER_WAIT_SELECT_BANK    => '尚未選擇銀行',
+			static::ORDER_PENDING_PCHOMEPAY   => '訂單於支付連審單中',
+			static::ORDER_PENDING_CLIENT      => '訂單審單中',
+			static::EACH_ORDER_OTP_WAIT       => '銀行支付 等待OTP驗證',
+		);
+
+		return $msg[ $code ];
+	}
 }

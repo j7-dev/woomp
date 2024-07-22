@@ -1,71 +1,71 @@
 select {
-    font-size: 14px;
-    line-height: 40px;
-    border-radius: 0;
+	font-size: 14px;
+	line-height: 40px;
+	border-radius: 0;
 }
 
 .woocommerce-cart-form__cart-item.cart_item td {
-    vertical-align: middle;
+	vertical-align: middle;
 }
 
 .woocommerce form.checkout table.shop_table {
-    background: #fff;
-    margin-top: 40px;
+	background: #fff;
+	margin-top: 40px;
 }
 
-.woocommerce form.checkout table.shop_table td, 
+.woocommerce form.checkout table.shop_table td,
 .woocommerce form.checkout table.shop_table th,
 #paymentWrap td,
 #paymentWrap th {
-    text-align: left;
-    vertical-align: middle;
-    padding: 20px!important;
-    font-size: 15px!important;
-    color: #000;
+	text-align: left;
+	vertical-align: middle;
+	padding: 20px!important;
+	font-size: 15px!important;
+	color: #000;
 }
 
 .woocommerce #shipping_method li {
-    margin-bottom: 5px;
+	margin-bottom: 5px;
 }
 
 #paymentWrap {
-    width: 100%;
-    background: #fff;
-    margin-top: -93px!important;
+	width: 100%;
+	background: #fff;
+	margin-top: -93px!important;
 }
 
 .woocommerce #payment ul.payment_methods li {
-    border: 0;
-    padding: 0;
+	border: 0;
+	padding: 0;
 }
 
 .woocommerce #payment ul.payment_methods li label {
-    margin-left: 0;
+	margin-left: 0;
 }
 
 .woocommerce #payment ul.payment_methods {
-    border-bottom: 0;
+	border-bottom: 0;
 }
 
 .woocommerce #payment ul.payment_methods li .payment_box {
-    padding: 10px 20px;
-    background: #ededed;
-    margin-top: 5px;
+	padding: 10px 20px;
+	background: #ededed;
+	margin-top: 5px;
 }
 
 form.checkout.woocommerce-checkout #customer_details {
-    margin-top: 30px;
+	margin-top: 30px;
 }
 
 .woocommerce form.checkout .col2-set .form-row input[type=text], .woocommerce form.checkout .col2-set .form-row input[type=email], .woocommerce form.checkout .col2-set .form-row input[type=password], .woocommerce form.checkout .col2-set .form-row input[type=tel],
 .woocommerce form.checkout .col2-set .form-row.form-row-wide input[type=text], .woocommerce form.checkout .col2-set .form-row.notes textarea {
-    padding-left: 15px;
+	padding-left: 15px;
 }
 
 @media only screen and (max-width: 920px){
-    .woocommerce .content .container .container_inner, .woocommerce-page .content .container .container_inner {
-        padding-right: 0;
-        padding-left: 0;
-        width: 95%;
-    }
+	.woocommerce .content .container .container_inner, .woocommerce-page .content .container .container_inner {
+		padding-right: 0;
+		padding-left: 0;
+		width: 95%;
+	}
 }

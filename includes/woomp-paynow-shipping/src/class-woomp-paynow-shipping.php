@@ -57,7 +57,6 @@ class WOOMP_PayNow_Shipping {
 
 			add_filter( 'paynow_shipping_settings', array( self::get_instance(), 'woomp_paynow_shipping_settings' ), 10, 1 );
 		}
-
 	}
 
 	/**
@@ -166,7 +165,6 @@ class WOOMP_PayNow_Shipping {
 			echo '<tr><th>' . esc_html__( 'Reserved No', 'woomp' ) . '</th><td>' . esc_html( $order->get_meta( PayNow_Shipping_Order_Meta::ReservedNo ) ) . '</td></tr>';
 			echo '<tr><th>' . esc_html__( 'Ship Date', 'woomp' ) . '</th><td>' . esc_html( $order->get_meta( PayNow_Shipping_Order_Meta::ShipDate ) ) . '</td></tr>';
 		}
-
 	}
 
 	/**
@@ -206,7 +204,6 @@ class WOOMP_PayNow_Shipping {
 				'security' => wp_create_nonce( 'paynow-pro' ),
 			)
 		);
-
 	}
 
 	/**
@@ -277,5 +274,4 @@ class WOOMP_PayNow_Shipping {
 
 		return self::$instance;
 	}
-
 }

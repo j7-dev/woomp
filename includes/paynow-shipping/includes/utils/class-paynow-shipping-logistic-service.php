@@ -35,7 +35,6 @@ class PayNow_Shipping_Logistic_Service {
 		} else {
 			return false;
 		}
-
 	}
 
 	/**
@@ -49,40 +48,40 @@ class PayNow_Shipping_Logistic_Service {
 		switch ( $method_id ) {
 			case 'paynow_shipping_c2c_711':
 				return self::SEVEN;
-				break;
+			break;
 			case 'paynow_shipping_b2c_711':
 				return self::SEVENBULK;
-				break;
+			break;
 			case 'paynow_shipping_b2c_711_frozen':
 				return self::SEVENFROZEN;
-				break;
+			break;
 			case 'paynow_shipping_c2c_family':
 				return self::FAMI;
-				break;
+			break;
 			case 'paynow_shipping_b2c_family':
 				return self::FAMIBULK;
-				break;
+			break;
 			case 'paynow_shipping_b2c_family_frozen':
 				return self::FAMIFROZEN;
-				break;
+			break;
 			case 'paynow_shipping_c2c_hilife':
 				return self::HILIFE;
-				break;
+			break;
 			case 'paynow_shipping_hd_tcat':
 				return self::TCAT;
-				break;
+			break;
 			case 'paynow_shipping_hd_tcat_frozen':
 				return self::TCAT;
-				break;
+			break;
 			case 'paynow_shipping_hd_tcat_refrigerated':
 				return self::TCAT;
-				break;
+			break;
 			case 'woomp_paynow_shipping_c2c_711_frozen':
 				return self::SEVENFROZEN_C2C;
-				break;
+			break;
 			case 'woomp_paynow_shipping_c2c_family_frozen':
 				return self::FAMIFROZEN_C2C;
-				break;
+			break;
 			default:
 				return '';
 		}

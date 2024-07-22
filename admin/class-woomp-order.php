@@ -30,7 +30,6 @@ if ( ! class_exists( 'WooMP_Order' ) ) {
 
 			add_action( 'woocommerce_admin_order_data_after_shipping_address', array( $class, 'add_choose_cvs_btn' ) );
 			add_action( 'admin_enqueue_scripts', array( $class, 'enqueue_choose_cvs_script' ) );
-
 		}
 
 		/**
@@ -67,7 +66,7 @@ if ( ! class_exists( 'WooMP_Order' ) ) {
 				$new_order_statuses[ $key ] = $status;
 				if ( 'wc-processing' === $key ) {
 					$new_order_statuses['wc-wmp-in-transit'] = '配送中';
-					$new_order_statuses['wc-wmp-shipped'] = '已出貨';
+					$new_order_statuses['wc-wmp-shipped']    = '已出貨';
 				}
 			}
 			return $new_order_statuses;
@@ -132,7 +131,7 @@ if ( ! class_exists( 'WooMP_Order' ) ) {
 				if ( is_array( $shipping_list ) ) {
 					foreach ( $shipping_list as $item ) {
 						if ( $item['LogisticsType'] == 'CVS' ) {
-							echo esc_html( ( ! empty ( $item['PaymentNo'] ) ) ? $item['PaymentNo'] . ' ' . $item['ValidationNo'] : $item['ID'] );
+							echo esc_html( ( ! empty( $item['PaymentNo'] ) ) ? $item['PaymentNo'] . ' ' . $item['ValidationNo'] : $item['ID'] );
 						}
 
 						if ( $item['LogisticsSubType'] == 'POST' ) {
@@ -140,7 +139,7 @@ if ( ! class_exists( 'WooMP_Order' ) ) {
 						}
 
 						if ( $item['LogisticsType'] == 'HOME' ) {
-							echo esc_html( ( ! empty ( $item['PaymentNo'] ) ) ? $item['PaymentNo'] . ' ' . $item['ValidationNo'] : $item['ID'] );
+							echo esc_html( ( ! empty( $item['PaymentNo'] ) ) ? $item['PaymentNo'] . ' ' . $item['ValidationNo'] : $item['ID'] );
 						}
 					}
 				} elseif ( get_post_meta( $post_id, '_paynow_shipping_paymentno', true ) ) {
@@ -186,10 +185,10 @@ if ( ! class_exists( 'WooMP_Order' ) ) {
 			if ( wc_string_to_bool( get_option( 'RY_WT_enabled_ecpay_shipping' ) ) ) {
 				switch ( RY_WT::get_option( 'ecpay_shipping_cvs_type' ) ) {
 					case 'B2C':
-						$actions['ry_print_ecpay_cvs_711']    = __( 'Print ECPay shipping booking note (711)', 'woomp' );
-						$actions['ry_print_ecpay_cvs_711_freeze']    = __( 'Print ECPay shipping booking note (711 Freeze)', 'woomp' );
-						$actions['ry_print_ecpay_cvs_family'] = __( 'Print ECPay shipping booking note (family)', 'woomp' );
-						$actions['ry_print_ecpay_cvs_hilife'] = __( 'Print ECPay shipping booking note (hilife)', 'woomp' );
+						$actions['ry_print_ecpay_cvs_711']        = __( 'Print ECPay shipping booking note (711)', 'woomp' );
+						$actions['ry_print_ecpay_cvs_711_freeze'] = __( 'Print ECPay shipping booking note (711 Freeze)', 'woomp' );
+						$actions['ry_print_ecpay_cvs_family']     = __( 'Print ECPay shipping booking note (family)', 'woomp' );
+						$actions['ry_print_ecpay_cvs_hilife']     = __( 'Print ECPay shipping booking note (hilife)', 'woomp' );
 						break;
 					case 'C2C':
 						$actions['ry_print_ecpay_cvs_711']    = __( 'Print ECPay shipping booking note (711)', 'woomp' );
@@ -199,10 +198,10 @@ if ( ! class_exists( 'WooMP_Order' ) ) {
 						break;
 				}
 
-				$actions['ry_print_ecpay_home_tcat'] = __( 'Print ECPay shipping booking note (tcat)', 'woomp' );
+				$actions['ry_print_ecpay_home_tcat']        = __( 'Print ECPay shipping booking note (tcat)', 'woomp' );
 				$actions['ry_print_ecpay_home_tcat_freeze'] = __( 'Print ECPay shipping booking note (tcat freeze)', 'woomp' );
 				$actions['ry_print_ecpay_home_tcat_frozen'] = __( 'Print ECPay shipping booking note (tcat frozen)', 'woomp' );
-				$actions['ry_print_ecpay_home_post'] = __( 'Print POST booking note', 'woomp' );
+				$actions['ry_print_ecpay_home_post']        = __( 'Print POST booking note', 'woomp' );
 			}
 			$actions['wmp_print_hct'] = __( 'Print HCT shipping booking note', 'woomp' );
 
@@ -251,7 +250,7 @@ if ( ! class_exists( 'WooMP_Order' ) ) {
 						'deliver_date'     => '',
 						'deliver_time'     => '',
 					);
-					$i++;
+					++$i;
 				}
 
 				for ( $j = 0; $j < count( $csv_arr ); $j++ ) {
@@ -339,7 +338,6 @@ if ( ! class_exists( 'WooMP_Order' ) ) {
 				}
 			}
 		}
-
 	}
 	WooMP_Order::init();
 }
