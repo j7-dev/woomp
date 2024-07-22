@@ -1,9 +1,15 @@
 <?php
+/**
+ * MyAccount class
+ */
 
 namespace PAYUNI\Pages;
 
 defined( 'ABSPATH' ) || exit;
 
+/**
+ * MyAccount class
+ */
 class MyAccount {
 	/**
 	 * Initialize class and add hooks
@@ -22,7 +28,7 @@ class MyAccount {
 			2
 		);
 		\add_action( 'wp_enqueue_scripts', array( $class, 'enqueue_my_account_script' ) );
-		// \add_action('woocommerce_payment_token_set_default', array($class, 'update_credit_hash'), 30, 2);
+		\add_action( 'woocommerce_payment_token_set_default', array( $class, 'update_credit_hash' ), 30, 2 );
 	}
 
 	public function change_customer_order_action( $actions, $order ) {
@@ -63,12 +69,12 @@ class MyAccount {
 	}
 
 	/**
-	 * 當用戶設定信用卡為預設時，更新訂閱的第一筆訂單中的信用卡資訊
+	 * 當用戶設定信用卡為預設時，更新訂閱的上層訂單中的信用卡資訊
 	 *
 	 * @see https://github.com/j7-dev/woomp/issues/37
 	 *
-	 * @param integer              $token_id
-	 * @param \WC_PAYMENT_TOKEN_CC $token
+	 * @param integer              $token_id token_id.
+	 * @param \WC_PAYMENT_TOKEN_CC $token 信用卡 token 資訊.
 	 *
 	 * @return void
 	 */
@@ -81,9 +87,9 @@ class MyAccount {
 		if ( ! $user_id ) {
 			return;
 		}
-		// find all subscriptions for this user
-		$subscriptions = wcs_get_users_subscriptions( $user_id );
-		// get subscription post parent id
+		// find all subscriptions for this user.
+		$subscriptions = \wcs_get_users_subscriptions( $user_id );
+		// get subscription post parent id.
 		$parent_order_ids = array();
 		foreach ( $subscriptions as $subscription ) {
 			$subscription_id    = $subscription->get_id();
@@ -98,8 +104,8 @@ class MyAccount {
 			}
 			$order->update_meta_data( '_payuni_card_hash', $token->get_token() );
 			$order->update_meta_data( '_payuni_card_number', $token->get_last4() );
-
-			// _payuni_resp_card_bank      _payuni_resp_trade_no   _payuni_resp_message _payuni_resp_status
+			$order->update_meta_data( '_payuni_resp_card_bank', '不確定' );
+			$order->update_meta_data( '_payuni_resp_message', '修改預設付款方式' );
 			$order->save();
 		}
 	}
