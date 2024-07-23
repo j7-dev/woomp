@@ -104,8 +104,9 @@ final class Response {
 		$is_hash_request = '5' === $data['TradeAmt'] && '1' === $data['AuthType'];
 		if ( $is_hash_request ) {
 			// Hash Refund 只執行一次 5 元退款，馬上執行會發生 "訂單處理中，請稍後再試"，所以延遲 1 分鐘再執行.
+
 			\as_schedule_single_action(
-				strtotime( \current_time( 'Y-m-d H:i:s' ) . '-8 hour + 1 minute' ),
+				strtotime( '+2 minutes' ),
 				'payuni_cancel_trade_by_trade_no',
 				array( $data['TradeNo'], $order_id )
 			);
@@ -273,6 +274,7 @@ final class Response {
 			'card_expiry_year'  => $card_expiry_year,
 			'is_3d_auth'        => $is_3d_auth,
 			'user_id'                => $user_id,
+			'order_id' => $order_id,
 		] = self::get_formatted_decrypted_data( $data );
 
 		Payment::log( $data );
@@ -303,8 +305,8 @@ final class Response {
 		// 如果金額是 5 且為 一次授權，就需要執行 5 元退刷
 		if ( '5' === $data['TradeAmt'] && '1' === $data['AuthType'] ) {
 			// Hash Refund 只執行一次 5 元退款，馬上執行會發生 "訂單處理中，請稍後再試"，所以延遲 1 分鐘再執行.
-			\as_schedule_single_action(
-				strtotime( \current_time( 'Y-m-d H:i:s' ) . '-8 hour + 1 minute' ),
+			$action_id = \as_schedule_single_action(
+				strtotime( '+2 minutes' ),
 				'payuni_cancel_trade_by_trade_no',
 				array( $data['TradeNo'], $order_id )
 			);

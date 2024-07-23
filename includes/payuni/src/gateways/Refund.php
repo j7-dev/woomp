@@ -16,7 +16,7 @@ class Refund {
 	public static function init() {
 		$class = new self();
 		\add_action( 'payuni_cancel_trade_by_order', array( $class, 'cancel_trade_by_order' ) );
-		\add_action( 'payuni_cancel_trade_by_trade_no', array( $class, 'cancel_trade_by_trade_no' ) );
+		\add_action( 'payuni_cancel_trade_by_trade_no', array( $class, 'cancel_trade_by_trade_no' ), 10, 2 );
 		\add_action( 'woocommerce_order_status_changed', array( $class, 'handle_refund' ), 10, 3 );
 	}
 
@@ -101,6 +101,7 @@ class Refund {
 	 * @return void
 	 */
 	public function cancel_trade_by_trade_no( string $trade_no, $order_id ): array {
+		\J7\WpUtils\Classes\Log::info( 'cancel_trade_by_trade_no' );
 		$args = array(
 			'MerID'     => ( wc_string_to_bool( get_option( 'payuni_payment_testmode' ) ) ) ? get_option( 'payuni_payment_merchant_no_test' ) : get_option( 'payuni_payment_merchant_no' ),
 			'TradeNo'   => $trade_no,
@@ -128,6 +129,15 @@ class Refund {
 			$order->update_status( 'cancelled' );
 			$order->save();
 		}
+
+		ob_start();
+		var_dump(
+			array(
+				'order_id' => $order_id,
+				'trade_no' => $trade_no,
+			)
+		);
+		\J7\WpUtils\Classes\Log::info( '' . ob_get_clean() );
 
 		return $data;
 	}
