@@ -495,7 +495,23 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 			}
 
 			$request = new Request( $class );
-			$result  = $request->build_hash_request( null, $card_data );
+			/**
+			 * 需要創建一個訂單，並且訂單金額為 5 ，才能取得 token
+			 */
+			$order = \wc_create_order();
+			$order->set_customer_id( \get_current_user_id() );
+
+			// create Fee object.
+			$fee = new \WC_Order_Item_Fee();
+			$fee->set_name( '使用者新增付款方式，取得 card hash 用 (可刪除)' );
+			$fee->set_amount( 5 );
+			$fee->set_total( 5 );
+
+			$order->add_item( $fee );
+			$order->calculate_totals();
+			$order->save();
+
+			$result = $request->build_hash_request( $order, $card_data );
 			/*
 			有開 3D 驗證的 response
 			["result"]=>

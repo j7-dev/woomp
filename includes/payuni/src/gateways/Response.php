@@ -90,6 +90,8 @@ final class Response {
 			'each_amt'          => $each_amt,
 			'first_amt'         => $first_amt,
 			'is_3d_auth'        => $is_3d_auth,
+			'user_id'           => $user_id,
+			'order_id'          => $order_id,
 		] = self::get_formatted_decrypted_data( $data );
 
 		if ( function_exists( 'wc_add_notice' ) ) {
@@ -98,66 +100,65 @@ final class Response {
 
 		Payment::log( $data ); // 因為呼叫層級錯誤，所以先註解掉
 
-		// 如果金額是 5 且為 一次授權，就需要執行5元退刷
-		if ( '5' === $data['TradeAmt'] && '1' === $data['AuthType'] ) {
+		// 如果金額是 5 且為 一次授權，就是 hash request，就需要執行5元退刷
+		$is_hash_request = '5' === $data['TradeAmt'] && '1' === $data['AuthType'];
+		if ( $is_hash_request ) {
 			// Hash Refund 只執行一次 5 元退款，馬上執行會發生 "訂單處理中，請稍後再試"，所以延遲 1 分鐘再執行.
 			\as_schedule_single_action(
 				strtotime( \current_time( 'Y-m-d H:i:s' ) . '-8 hour + 1 minute' ),
 				'payuni_cancel_trade_by_trade_no',
-				array( $data['TradeNo'] )
+				array( $data['TradeNo'], $order_id )
 			);
 		}
 
-		$order     = \wc_get_order( explode( '-', $data['MerTradeNo'] )[0] );
-		$has_order = ( $order instanceof \WC_Order );
+		$order = \wc_get_order( $order_id );
 
 		// 清空購物車
 		if ( $woocommerce->cart ) {
 			$woocommerce->cart->empty_cart();
 		}
 
-		if ( $has_order ) {
-			$status_success = ( 'WC_Subscription' === get_class( $order ) ) ? 'active' : 'processing';
-			$status_failed  = ( 'WC_Subscription' === get_class( $order ) ) ? 'on-hold' : 'failed';
+		$status_success = ( 'WC_Subscription' === get_class( $order ) ) ? 'active' : 'processing';
+		$status_failed  = ( 'WC_Subscription' === get_class( $order ) ) ? 'on-hold' : 'failed';
 
-			if ( 'SUCCESS' !== $status ) {
-				$order->update_status( $status_failed );
-				$order->save();
-				\wp_safe_redirect( $order->get_checkout_order_received_url() );
-				exit;
-			}
-
-			$order->update_meta_data( '_payuni_order_suffix', (int) $order->get_meta( '_payuni_order_suffix' ) + 1 );
-			$order->update_meta_data( '_payuni_resp_status', $status );
-			$order->update_meta_data( '_payuni_resp_message', $message );
-			$order->update_meta_data( '_payuni_resp_trade_no', $trade_no );
-			$order->update_meta_data( '_payuni_resp_card_bank', "({$card_bank}){$card_bank_name}" );
-			$order->update_meta_data( '_payuni_card_number', $card_4no );
-			$order->update_meta_data( '_payuni_resp_card_inst', $card_inst );
-			$order->update_meta_data( '_payuni_resp_first_amt', $first_amt );
-			$order->update_meta_data( '_payuni_resp_each_amt', $each_amt );
-			$order->add_order_note(
-				"<strong>統一金流交易紀錄</strong><br>狀態碼：{$status}<br>交易訊息：{$message}<br>交易編號：{$trade_no}<br>卡號末四碼：{$card_4no}",
-				true
-			);
-
-			$method = $order->get_payment_method();
-
-			$_payuni_token_maybe_save = $order->get_meta( '_payuni_token_maybe_save' );
-			// 新增付款方式，存入帳號
-			if ( ! ! $_payuni_token_maybe_save ) {
-				self::save_card_to_payment_method( $card_hash, $card_4no, $card_expiry_month, $card_expiry_year, $method );
-			}
-			$order->update_status( $status_success );
-			$order->update_meta_data( '_payuni_card_hash', $card_hash );
+		if ( 'SUCCESS' !== $status ) {
+			$order->update_status( $status_failed );
 			$order->save();
 			\wp_safe_redirect( $order->get_checkout_order_received_url() );
 			exit;
 		}
 
+		$order->update_meta_data( '_payuni_order_suffix', (int) $order->get_meta( '_payuni_order_suffix' ) + 1 );
+		$order->update_meta_data( '_payuni_resp_status', $status );
+		$order->update_meta_data( '_payuni_resp_message', $message );
+		$order->update_meta_data( '_payuni_resp_trade_no', $trade_no );
+		$order->update_meta_data( '_payuni_resp_card_bank', "({$card_bank}){$card_bank_name}" );
+		$order->update_meta_data( '_payuni_card_number', $card_4no );
+		$order->update_meta_data( '_payuni_resp_card_inst', $card_inst );
+		$order->update_meta_data( '_payuni_resp_first_amt', $first_amt );
+		$order->update_meta_data( '_payuni_resp_each_amt', $each_amt );
+		$order->add_order_note(
+			"<strong>統一金流交易紀錄</strong><br>狀態碼：{$status}<br>交易訊息：{$message}<br>交易編號：{$trade_no}<br>卡號末四碼：{$card_4no}",
+			true
+		);
+
+		$method = $order->get_payment_method();
+
+		$_payuni_token_maybe_save = $order->get_meta( '_payuni_token_maybe_save' );
 		// 新增付款方式，存入帳號
-		self::save_card_to_payment_method( $card_hash, $card_4no, $card_expiry_month, $card_expiry_year );
-		\wp_safe_redirect( \wc_get_account_endpoint_url( 'payment-methods' ) );
+		if ( ! ! $_payuni_token_maybe_save || $is_hash_request ) {
+			self::save_card_to_payment_method( $card_hash, $card_4no, $card_expiry_month, $card_expiry_year, $user_id, $method );
+		}
+		$order->update_status( $status_success );
+		$order->update_meta_data( '_payuni_card_hash', $card_hash );
+		$order->save();
+
+		if ( $is_hash_request ) {
+			\wp_safe_redirect( \wc_get_account_endpoint_url( 'payment-methods' ) );
+		} else {
+			\wp_safe_redirect( $order->get_checkout_order_received_url() );
+		}
+
 		exit;
 	}
 
@@ -178,7 +179,14 @@ final class Response {
 	public static function get_formatted_decrypted_data( array $data ): array {
 		$formatted_data = array();
 
+		$trade_no = $data['MerTradeNo'] ?? '';
+		$order_id = (int) explode( '-', $trade_no )[0];
+		$order    = \wc_get_order( $order_id );
+		$user_id  = $order ? $order->get_customer_id() : \get_current_user_id();
+
 		$formatted_data['status']            = (string) ( $data['Status'] ?? '' );
+		$formatted_data['order_id']          = (int) $order_id;
+		$formatted_data['user_id']           = (int) $user_id;
 		$formatted_data['message']           = (string) ( $data['Message'] ?? '' );
 		$formatted_data['trade_no']          = (string) ( $data['TradeNo'] ?? '' );
 		$formatted_data['card_bank']         = (string) ( $data['CardBank'] ?? '' );
@@ -215,6 +223,7 @@ final class Response {
 		string $card_4no,
 		string $card_expiry_month,
 		string $card_expiry_year,
+		int $user_id,
 		?string $method = 'payuni-credit-subscription'
 	): void {
 		if ( ! $card_hash ) {
@@ -228,7 +237,7 @@ final class Response {
 		$token->set_last4( $card_4no );
 		$token->set_expiry_month( $card_expiry_month );
 		$token->set_expiry_year( $card_expiry_year );
-		$token->set_user_id( \get_current_user_id() );
+		$token->set_user_id( $user_id );
 		$token->save();
 	}
 
@@ -263,6 +272,7 @@ final class Response {
 			'card_expiry_month' => $card_expiry_month,
 			'card_expiry_year'  => $card_expiry_year,
 			'is_3d_auth'        => $is_3d_auth,
+			'user_id'                => $user_id,
 		] = self::get_formatted_decrypted_data( $data );
 
 		Payment::log( $data );
@@ -288,7 +298,7 @@ final class Response {
 			);
 		}
 
-		self::save_card_to_payment_method( $card_hash, $card_4no, $card_expiry_month, $card_expiry_year );
+		self::save_card_to_payment_method( $card_hash, $card_4no, $card_expiry_month, $card_expiry_year, $user_id );
 
 		// 如果金額是 5 且為 一次授權，就需要執行 5 元退刷
 		if ( '5' === $data['TradeAmt'] && '1' === $data['AuthType'] ) {
@@ -296,7 +306,7 @@ final class Response {
 			\as_schedule_single_action(
 				strtotime( \current_time( 'Y-m-d H:i:s' ) . '-8 hour + 1 minute' ),
 				'payuni_cancel_trade_by_trade_no',
-				array( $data['TradeNo'] )
+				array( $data['TradeNo'], $order_id )
 			);
 		}
 

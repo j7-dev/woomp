@@ -149,9 +149,6 @@ class CreditSubscription extends AbstractGateway {
 	 * @return array
 	 */
 	public function process_payment( $order_id ): array {
-
-		$order = \wc_get_order( $order_id );
-
         //@codingStandardsIgnoreStart
         $number   = (isset($_POST[ $this->id . '-card-number' ])) ? wc_clean(wp_unslash($_POST[ $this->id . '-card-number' ])) : '';
         $expiry   = (isset($_POST[ $this->id . '-card-expiry' ])) ? wc_clean(wp_unslash(str_replace(' ', '', $_POST[ $this->id . '-card-expiry' ]))) : '';
@@ -176,7 +173,7 @@ class CreditSubscription extends AbstractGateway {
 		 *
 		 * @see https://github.com/j7-dev/woomp/issues/46#issuecomment-2143679058
 	*/
-
+		$order       = \wc_get_order( $order_id );
 		$order_total = (int) $order->get_total();
 
 		// 如果總金額為 0 ，就走 hash request 扣 5 元，之後退款.

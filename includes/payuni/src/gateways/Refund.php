@@ -96,10 +96,11 @@ class Refund {
 	 *
 	 * @see https://github.com/j7-dev/woomp/issues/20
 	 * @param string $trade_no
+	 * @param int    $order_id
 	 *
 	 * @return void
 	 */
-	public function cancel_trade_by_trade_no( string $trade_no ): array {
+	public function cancel_trade_by_trade_no( string $trade_no, $order_id ): array {
 		$args = array(
 			'MerID'     => ( wc_string_to_bool( get_option( 'payuni_payment_testmode' ) ) ) ? get_option( 'payuni_payment_merchant_no_test' ) : get_option( 'payuni_payment_merchant_no' ),
 			'TradeNo'   => $trade_no,
@@ -121,6 +122,12 @@ class Refund {
 		$request = wp_remote_request( "{$url}api/trade/cancel", $options );
 		$resp    = json_decode( wp_remote_retrieve_body( $request ) );
 		$data    = Payment::decrypt( $resp->EncryptInfo );
+
+		$order = \wc_get_order( $order_id );
+		if ( $order ) {
+			$order->update_status( 'cancelled' );
+			$order->save();
+		}
 
 		return $data;
 	}

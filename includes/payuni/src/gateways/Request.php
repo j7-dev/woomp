@@ -275,21 +275,13 @@ final class Request {
 	/**
 	 * The request for get card hash without order.
 	 *
-	 * @param WC_Order|null $order The order object.
-	 * @param array         $card_data The card data.
+	 * @param WC_Order $order The order object.
+	 * @param array    $card_data The card data.
 	 *
 	 * @return array
 	 */
 	public function build_hash_request( $order, array $card_data ): array {
-		if ( ! ! $order ) {
-			$order_suffix = ( $order->get_meta( '_payuni_order_suffix' ) ) ? '-' . $order->get_meta( '_payuni_order_suffix' ) : '';
-		} else {
-			$min = 0;
-			$max = 99999;
-
-			$random_string = mt_rand( $min, $max );
-			$order_suffix  = 'add_payment_method_' . $random_string;
-		}
+		$order_suffix = ( $order->get_meta( '_payuni_order_suffix' ) ) ? '-' . $order->get_meta( '_payuni_order_suffix' ) : '';
 
 		if ( ! is_user_logged_in() ) {
 			return false;
@@ -310,13 +302,13 @@ final class Request {
 			'CreditToken' => get_userdata( $user_id )->user_email,
 		);
 
-		Payment::log( $args );
-
 		if ( wc_string_to_bool( get_option( 'payuni_3d_auth', 'yes' ) ) ) {
 			$args['API3D'] = 1;
 			// $data[ 'NotifyURL' ] = home_url('wc-api/payuni_notify_card');
 			$args['ReturnURL'] = home_url( 'wc-api/payuni_notify_card' );
 		}
+
+		Payment::log( $args );
 
 		$parameter = array(
 			'MerID'       => $this->gateway->get_mer_id(),
