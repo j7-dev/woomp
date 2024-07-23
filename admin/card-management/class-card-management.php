@@ -82,7 +82,7 @@ final class CardManagement {
 			const data = $(this).data();
 
 			const confirm_msg_mapper = {
-				woomp_set_default: '注意，設為主要卡號，未來續訂扣款，都將已，確定要移除嗎?',
+				woomp_set_default: '注意，設為主要卡號，未來續訂扣款，都將已此卡為主，確定要設定嗎?',
 				woomp_remove: '注意，移除預設卡片，將會影響之後扣款，確定要移除嗎?',
 			}
 
