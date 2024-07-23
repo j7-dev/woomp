@@ -92,7 +92,8 @@ class MyAccount {
 		// get subscription post parent id.
 		$parent_order_ids = array();
 		foreach ( $subscriptions as $subscription ) {
-			$subscription_id    = $subscription->get_id();
+			$subscription_id = $subscription->get_id();
+			$subscription->set_payment_method( 'payuni-credit-subscription' ); // TODO 先固定值
 			$parent_id          = wp_get_post_parent_id( $subscription_id );
 			$parent_order_ids[] = $parent_id;
 		}
