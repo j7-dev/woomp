@@ -79,29 +79,42 @@ final class CardManagement {
 		const ajaxurl = '<?php echo $ajax_url; ?>';
 		const nonce = '<?php echo $nonce; ?>';
 		$('.woomp_ajax').on('click', function(){
-			$.blockUI();
 			const data = $(this).data();
-			data.nonce = nonce;
 
-			const action_label_mapper = {
-				woomp_set_default: '設為主要卡號',
-				woomp_remove: '移除 token',
+			const confirm_msg_mapper = {
+				woomp_set_default: '注意，設為主要卡號，未來續訂扣款，都將已，確定要移除嗎?',
+				woomp_remove: '注意，移除預設卡片，將會影響之後扣款，確定要移除嗎?',
 			}
 
-			const action_label = action_label_mapper?.[data?.action] || '未知';
-
-
-			$.post(ajaxurl, data, function(res){
-
-				if(200 === res.code){
-					alert(`${action_label} 操作成功，即將重新載入頁面`);
-					location.reload();
-				}else{
-					alert(`${action_label} 操作失敗，請再試一次或連繫管理員`);
-					console.log(res);
+			if (confirm(confirm_msg_mapper?.[data?.action])) {
+					// 用戶點擊了"確定"
+					confirmAction(data);
 				}
-				$.unblockUI();
-			});
+
+			function confirmAction(data){
+						$.blockUI();
+						data.nonce = nonce;
+
+						const action_label_mapper = {
+							woomp_set_default: '設為主要卡號',
+							woomp_remove: '移除 token',
+						}
+
+						const action_label = action_label_mapper?.[data?.action] || '未知';
+
+						$.post(ajaxurl, data, function(res){
+
+							if(200 === res.code){
+								alert(`${action_label} 操作成功，即將重新載入頁面`);
+								location.reload();
+							}else{
+								alert(`${action_label} 操作失敗，請再試一次或連繫管理員`);
+								console.log(res);
+							}
+							$.unblockUI();
+						});
+			}
+
 		});
 	})(jQuery)
 </script>
