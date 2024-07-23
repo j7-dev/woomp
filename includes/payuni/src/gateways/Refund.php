@@ -101,7 +101,6 @@ class Refund {
 	 * @return void
 	 */
 	public function cancel_trade_by_trade_no( string $trade_no, $order_id ): array {
-		\J7\WpUtils\Classes\Log::info( 'cancel_trade_by_trade_no' );
 		$args = array(
 			'MerID'     => ( wc_string_to_bool( get_option( 'payuni_payment_testmode' ) ) ) ? get_option( 'payuni_payment_merchant_no_test' ) : get_option( 'payuni_payment_merchant_no' ),
 			'TradeNo'   => $trade_no,
@@ -129,15 +128,6 @@ class Refund {
 			$order->update_status( 'cancelled' );
 			$order->save();
 		}
-
-		ob_start();
-		var_dump(
-			array(
-				'order_id' => $order_id,
-				'trade_no' => $trade_no,
-			)
-		);
-		\J7\WpUtils\Classes\Log::info( '' . ob_get_clean() );
 
 		return $data;
 	}
