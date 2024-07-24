@@ -63,7 +63,7 @@ final class Response {
 	 * 好像只有 3D 驗證會進來
 	 * 帶有 $resp 是走 3D 驗證的幕後，帶有 $_REQUEST 是結帳頁直接回傳
 	 *
-	 * @param null $resp
+	 * @param null $resp payuni response.
 	 *
 	 * @return void
 	 */
@@ -97,8 +97,6 @@ final class Response {
 		if ( function_exists( 'wc_add_notice' ) ) {
 			\wc_add_notice( $message, ( 'SUCCESS' === $status ) ? 'success' : 'error' );
 		}
-
-		Payment::log( $data ); // 因為呼叫層級錯誤，所以先註解掉
 
 		// 如果金額是 5 且為 一次授權，就是 hash request，就需要執行5元退刷
 		$is_hash_request = '5' === $data['TradeAmt'] && '1' === $data['AuthType'];
@@ -155,9 +153,9 @@ final class Response {
 		$order->save();
 
 		if ( $is_hash_request ) {
-			\wp_safe_redirect( \wc_get_account_endpoint_url( 'payment-methods' ) );
+			\wp_redirect( \wc_get_account_endpoint_url( 'payment-methods' ) );
 		} else {
-			\wp_safe_redirect( $order->get_checkout_order_received_url() );
+			\wp_redirect( $order->get_checkout_order_received_url() );
 		}
 
 		exit;

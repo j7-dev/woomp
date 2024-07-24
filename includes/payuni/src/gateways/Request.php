@@ -52,11 +52,12 @@ final class Request {
 			'body'    => $body_params,
 		];
 
-		$response = wp_remote_request(
+		$response = \wp_remote_request(
 			$this->gateway->get_api_url() . $this->gateway->get_api_endpoint_url(),
 			$options
 		);
-		$resp     = json_decode( wp_remote_retrieve_body( $response ) );
+
+		$resp = json_decode( \wp_remote_retrieve_body( $response ) );
 
 		//@codingStandardsIgnoreStart
 		$data = \Payuni\APIs\Payment::decrypt( $resp->EncryptInfo );
