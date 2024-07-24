@@ -891,9 +891,16 @@ class Paynow_Einvoice {
 	public function paynow_get_donate_org() {
 		$orgs        = [];
 		$org_strings = array_map( 'trim', explode( "\n", get_option( 'wc_settings_tab_donate_org', true ) ) );
-		foreach ( $org_strings as $value ) {
-			list($k, $v) = explode( '|', $value );
-			$orgs[ $k ]  = $v;
+		if ($org_strings && is_array($org_strings)) {
+			foreach ( $org_strings as $org_string ) {
+				$org_in_arr = explode( '|', $org_string ); // 長度為2的 key-value
+				if (count($org_in_arr) !== 2) {
+					continue;
+				}
+
+				list($key, $value) = $org_in_arr;
+				$orgs[ $key ]      = $value;
+			}
 		}
 		return $orgs;
 	}
