@@ -852,19 +852,30 @@ class Paynow_Einvoice {
 		echo '</div>';
 	}
 
-	// 儲存使用者結帳時的 einvoice 資料
-	public function paynow_update_order_einvoice_data( $order_id ) {
+	/**
+	 * 儲存使用者結帳時的 einvoice 資料
+	 *
+	 * @param string|int $order_id 訂單編號
+	 * @return void
+	 */
+	public function paynow_update_order_einvoice_data( $order_id ): void {
 
-		$order = wc_get_order( $order_id );
+		$order = \wc_get_order( $order_id );
 
-		update_post_meta( $order->get_id(), '_paynow_ei_issue_type', $_POST['paynow_ei_issue_type'] );
-		update_post_meta( $order->get_id(), '_paynow_ei_carrier_type', $_POST['paynow_ei_carrier_type'] );
+		$fields = [
+			'paynow_ei_issue_type',
+			'paynow_ei_carrier_type',
+			'paynow_ei_buyer_name',
+			'paynow_ei_ubn',
+			'paynow_ei_carrier_num',
+			'paynow_ei_donate_org',
+		];
 
-		update_post_meta( $order->get_id(), '_paynow_ei_buyer_name', $_POST['paynow_ei_buyer_name'] );
-		update_post_meta( $order->get_id(), '_paynow_ei_ubn', $_POST['paynow_ei_ubn'] );
-
-		update_post_meta( $order->get_id(), '_paynow_ei_carrier_num', $_POST['paynow_ei_carrier_num'] );
-		update_post_meta( $order->get_id(), '_paynow_ei_donate_org', $_POST['paynow_ei_donate_org'] );
+		foreach ( $fields as $field ) {
+			if ( ! empty( $_POST[ $field ] ) ) {
+				\update_post_meta( $order->get_id(), '_' . $field, \sanitize_text_field( $_POST[ $field ] ) );
+			}
+		}
 	}
 
 	// 結帳顯示的選項
