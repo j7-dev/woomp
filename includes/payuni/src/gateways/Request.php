@@ -131,7 +131,7 @@ final class Request {
 		];
 
 		if ( $card_data ) {
-			$token_id      = $card_data['token_id'] ?? '';
+			$token_id      = $card_data['token_id'] ?? ''; // 可能是 數字、new
 			$save_new_card = $card_data['new'] ?? false;
 
 			// 不判斷 token_id 直接傳卡號
@@ -146,7 +146,7 @@ final class Request {
 			}
 
 			// 信用卡分期數
-			if ( isset( $card_data['period'] ) ) {
+			if ( !empty($card_data['period'])) {
 				$args['CardInst'] = $card_data['period'];
 			}
 

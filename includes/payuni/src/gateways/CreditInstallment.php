@@ -154,40 +154,6 @@ endif;
 	}
 
 	/**
-	 * Process payment
-	 *
-	 * @param string $order_id The order id.
-	 *
-	 * @return array
-	 */
-	public function process_payment( $order_id ): array {
-
-		$order = new WC_Order( $order_id );
-
-        //@codingStandardsIgnoreStart
-        $number   = (isset($_POST[ $this->id . '-card-number' ])) ? wc_clean(wp_unslash($_POST[ $this->id . '-card-number' ])) : '';
-        $expiry   = (isset($_POST[ $this->id . '-card-expiry' ])) ? wc_clean(wp_unslash(str_replace(' ', '', $_POST[ $this->id . '-card-expiry' ]))) : '';
-        $cvc      = (isset($_POST[ $this->id . '-card-cvc' ])) ? wc_clean(wp_unslash($_POST[ $this->id . '-card-cvc' ])) : '';
-        $period   = (isset($_POST[ $this->id . '-period' ])) ? wc_clean(wp_unslash($_POST[ $this->id . '-period' ])) : '';
-        $token_id = (isset($_POST[ 'wc-' . $this->id . '-payment-token' ])) ? wc_clean(wp_unslash($_POST[ 'wc-' . $this->id . '-payment-token' ])) : '';
-        $new      = (isset($_POST[ 'wc-' . $this->id . '-new-payment-method' ])) ? wc_clean(wp_unslash($_POST[ 'wc-' . $this->id . '-new-payment-method' ])) : '';
-        //@codingStandardsIgnoreEnd
-
-		$card_data = [
-			'number'   => str_replace( ' ', '', $number ),
-			'expiry'   => str_replace( '/', '', $expiry ),
-			'cvc'      => $cvc,
-			'token_id' => $token_id,
-			'new'      => $new,
-			'period'   => $period,
-		];
-
-		$request = new Request( new self() );
-
-		return $request->build_request( $order, $card_data );
-	}
-
-	/**
 	 * 針對信用卡分期付款額外添加傳入的 API 參數
 	 * 整理過後應該不用添加新的參數，所以直接 return
 	 *

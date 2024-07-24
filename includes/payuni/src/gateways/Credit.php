@@ -98,37 +98,6 @@ class Credit extends AbstractGateway {
 		return $args;
 	}
 
-	/**
-	 * Process payment
-	 *
-	 * @param string $order_id The order id.
-	 *
-	 * @return array
-	 */
-	public function process_payment( $order_id ): array {
-
-		$order = new WC_Order( $order_id );
-
-        //@codingStandardsIgnoreStart
-        $number   = (isset($_POST[ $this->id . '-card-number' ])) ? wc_clean(wp_unslash($_POST[ $this->id . '-card-number' ])) : '';
-        $expiry   = (isset($_POST[ $this->id . '-card-expiry' ])) ? wc_clean(wp_unslash(str_replace(' ', '', $_POST[ $this->id . '-card-expiry' ]))) : '';
-        $cvc      = (isset($_POST[ $this->id . '-card-cvc' ])) ? wc_clean(wp_unslash($_POST[ $this->id . '-card-cvc' ])) : '';
-        $token_id = (isset($_POST[ 'wc-' . $this->id . '-payment-token' ])) ? wc_clean(wp_unslash($_POST[ 'wc-' . $this->id . '-payment-token' ])) : '';
-        $new      = (isset($_POST[ 'wc-' . $this->id . '-new-payment-method' ])) ? wc_clean(wp_unslash($_POST[ 'wc-' . $this->id . '-new-payment-method' ])) : '';
-        //@codingStandardsIgnoreEnd
-
-		$card_data = [
-			'number'   => str_replace( ' ', '', $number ),
-			'expiry'   => str_replace( '/', '', $expiry ),
-			'cvc'      => $cvc,
-			'token_id' => $token_id,
-			'new'      => $new,
-		];
-
-		$request = new Request( new self() );
-
-		return $request->build_request( $order, $card_data );
-	}
 
 	/**
 	 * Display payment detail after order table
