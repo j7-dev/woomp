@@ -659,8 +659,6 @@ class Paynow_Einvoice {
 
 	function paynow_validate_einvoice_fields() {
 
-		$this->pn_write_log( $_POST );
-
 		$issue_type = $_POST['paynow_ei_issue_type'];
 		if ( $issue_type == 'b2b' ) {
 			$buyer_name = $_POST['paynow_ei_buyer_name'];
