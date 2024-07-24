@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Payuni_Payment_Request class file
  *
@@ -36,10 +35,11 @@ final class Request {
 	}
 
 	/**
-	 * Generate the form and redirect to PayNow
+	 * 信用卡號付款請求
 	 * 訂閱的第一次付款其實也是走這邊
 	 *
-	 * @param WC_Order $order The order object.
+	 * @param \WC_Order                                                                     $order The order object.
+	 * @param ?array{number:string, expiry:string, cvc:string, token_id:string, new:string} $card_data 卡片資料
 	 *
 	 * @return array
 	 */
@@ -111,10 +111,12 @@ final class Request {
 	/**
 	 * Build transaction args.
 	 *
-	 * @param WC_Order $order The order object.
-	 * @param ?array   $card_data The card data.
+	 * @see https://www.payuni.com.tw/docs/web/#/7/35
 	 *
-	 * @return array
+	 * @param \WC_Order                                                                     $order The order object.
+	 * @param ?array{number:string, expiry:string, cvc:string, token_id:string, new:string} $card_data 卡片資料
+	 *
+	 * @return array{MerID:string, Version:string, EncryptInfo:string, HashInfo:string}
 	 */
 	public function get_transaction_args( WC_Order $order, ?array $card_data ): array {
 		$order_suffix = ( $order->get_meta( '_payuni_order_suffix' ) ) ? '-' . $order->get_meta( '_payuni_order_suffix' ) : '';
@@ -129,30 +131,47 @@ final class Request {
 		];
 
 		if ( $card_data ) {
-			$order->update_meta_data( '_payuni_token_id', $card_data['token_id'] );
-			// 是否新增付款方式，存入帳號
-			$order->update_meta_data( '_payuni_token_maybe_save', $card_data['new'] );
-			$order->save();
+			$token_id      = $card_data['token_id'] ?? '';
+			$save_new_card = $card_data['new'] ?? false;
 
 			// 不判斷 token_id 直接傳卡號
-			$data = [
-				'CardNo'      => $card_data['number'],
-				'CardExpired' => $card_data['expiry'],
-				'CardCVC'     => $card_data['cvc'],
-			];
+			$args['CardNo']      = $card_data['number'];
+			$args['CardExpired'] = $card_data['expiry'];
+			$args['CardCVC']     = $card_data['cvc'];
 
-			if ( $card_data['new'] ?? false ) {
-				$data['CreditToken'] = $order->get_billing_email();
+			// 只有要新增卡號才需要傳 CreditToken
+			// TODO 這邊要再確認一下，因為在 subscription 那邊，都固定有傳，所以猜想，如果使用已存 token 付款也要傳
+			if ( $save_new_card || \is_numeric($token_id) ) {
+				$args['CreditToken'] = $order->get_billing_email(); // CreditToken 就是傳給金流公司，用來取得 token (CreditHash) 的憑證，這邊以客戶的 email 作為識別
 			}
 
+			// 信用卡分期數
 			if ( isset( $card_data['period'] ) ) {
-				$data['CardInst'] = $card_data['period'];
+				$args['CardInst'] = $card_data['period'];
 			}
 
-			$args = array_merge(
-				$args,
-				$data
-			);
+			// 判斷是否為使用 token (CreditHash) 付款
+			if ( \is_numeric($token_id)) {
+				$token              = \WC_Payment_Tokens::get( $token_id );
+				$args['CreditHash'] = $token->get_token();
+
+				// 如果有 CreditHash 就不需要再傳卡號、有效期、末三碼
+				unset( $args['CardNo'] );
+				unset( $args['CardExpired'] );
+				unset( $args['CardCVC'] );
+			}
+
+			// 是否開啟 3D 驗證
+			if ( \wc_string_to_bool( \get_option( 'payuni_3d_auth', 'yes' ) ) ) {
+				$args['API3D'] = 1;
+				// $data[ 'NotifyURL' ] = home_url('wc-api/payuni_notify_card');
+				$args['ReturnURL'] = \home_url( 'wc-api/payuni_notify_card' );
+			}
+
+			// 儲存 meta 資料在 order 上
+			$order->update_meta_data( '_payuni_token_id', $token_id );
+			$order->update_meta_data( '_payuni_token_maybe_save', $save_new_card ); // □ 儲存付款資訊，下次付款更方便的 checkbox
+			$order->save();
 		}
 
 		$args = apply_filters(
@@ -162,6 +181,7 @@ final class Request {
 			$card_data
 		);
 
+		$parameter                = [];
 		$parameter['MerID']       = $this->gateway->get_mer_id();
 		$parameter['Version']     = '1.0';
 		$parameter['EncryptInfo'] = \Payuni\APIs\Payment::encrypt( $args );
@@ -173,7 +193,7 @@ final class Request {
 	/**
 	 * Get product name
 	 *
-	 * @param WC_Order $order The order object.
+	 * @param \WC_Order $order The order object.
 	 */
 	public function get_product_name( $order ) {
 		$items = $order->get_items();
@@ -209,8 +229,8 @@ final class Request {
 	 * The request for subscription.
 	 * 訂閱的定期扣款走這邊
 	 *
-	 * @param int      $amount The amount.
-	 * @param WC_Order $order The subscription order object.
+	 * @param int       $amount The amount.
+	 * @param \WC_Order $order The subscription order object.
 	 */
 	public function build_subscription_request( int $amount, WC_Order $order ): void {
 		$order_suffix = ( $order->get_meta( '_payuni_order_suffix' ) ) ? '-' . $order->get_meta( '_payuni_order_suffix' ) : '';
@@ -273,10 +293,13 @@ final class Request {
 	}
 
 	/**
-	 * The request for get card hash without order.
+	 * 取得 card hash 的付款請求
+	 * 用戶可能只是儲存付款方式，沒有訂單，這邊會接受一個動態產生的訂單
 	 *
-	 * @param WC_Order $order The order object.
-	 * @param array    $card_data The card data.
+	 * @see https://www.payuni.com.tw/docs/web/#/7/35
+	 *
+	 * @param \WC_Order                                                                    $order The order object.
+	 * @param array{number:string, expiry:string, cvc:string, token_id:string, new:string} $card_data 卡片資料
 	 *
 	 * @return array
 	 */

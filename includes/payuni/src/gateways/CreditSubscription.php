@@ -98,46 +98,18 @@ class CreditSubscription extends AbstractGateway {
 	}
 
 	/**
-	 * Filter payment api arguments for atm
+	 * 針對訂閱付款額外添加傳入的 API 參數
+	 * 整理過後應該不用添加新的參數，所以直接 return
 	 *
-	 * @param array    $args  The payment api arguments.
-	 * @param WC_Order $order The order object.
+	 * @param array                                                                         $args  The payment api arguments.
+	 * @see PAYUNI\Gateways\Request::get_transaction_args()
+	 * @param WC_Order                                                                      $order The order object.
+	 * @param ?array{number:string, expiry:string, cvc:string, token_id:string, new:string} $card_data 卡片資料
 	 *
 	 * @return array
 	 */
 	public function add_args( array $args, WC_Order $order, array $card_data ): array {
-		try {
-			$data = [
-				'CreditToken' => $order->get_billing_email(),
-			];
-
-			if ( wc_string_to_bool( get_option( 'payuni_3d_auth', 'yes' ) ) ) {
-				$data['API3D'] = 1;
-				// $data[ 'NotifyURL' ] = home_url('wc-api/payuni_notify_card');
-				$data['ReturnURL'] = home_url( 'wc-api/payuni_notify_card' );
-			}
-
-			if ( ! empty( $card_data ) ) {
-				if ( ! empty( $card_data['token_id'] ) && 'new' !== $card_data['token_id'] ) {
-					$token              = \WC_Payment_Tokens::get( $card_data['token_id'] );
-					$data['CreditHash'] = $token->get_token();
-
-					/**
-					 * 如果有 CreditHash 就不需要再傳卡號、有效期、末三碼
-					 */
-					unset( $args['CardNo'] );
-					unset( $args['CardExpired'] );
-					unset( $args['CardCVC'] );
-				}
-			}
-
-			return array_merge(
-				$args,
-				$data
-			);
-		} catch ( \Throwable $th ) {
-			\WC_Log_Handler_DB::add( time(), 'error', 'woomp debug', 'woomp', $th );
-		}
+		return $args;
 	}
 
 	/**
@@ -153,7 +125,7 @@ class CreditSubscription extends AbstractGateway {
         $expiry   = (isset($_POST[ $this->id . '-card-expiry' ])) ? wc_clean(wp_unslash(str_replace(' ', '', $_POST[ $this->id . '-card-expiry' ]))) : '';
         $cvc      = (isset($_POST[ $this->id . '-card-cvc' ])) ? wc_clean(wp_unslash($_POST[ $this->id . '-card-cvc' ])) : '';
         $token_id = (isset($_POST[ 'wc-' . $this->id . '-payment-token' ])) ? wc_clean(wp_unslash($_POST[ 'wc-' . $this->id . '-payment-token' ])) : ''; // 如果是 新增付款方式，這個值會是 new
-        $new      = (isset($_POST[ 'wc-' . $this->id . '-new-payment-method' ])) ? wc_clean(wp_unslash($_POST[ 'wc-' . $this->id . '-new-payment-method' ])) : ''; // DELETE 沒有這個欄位吧!?
+        $new      = (isset($_POST[ 'wc-' . $this->id . '-new-payment-method' ])) ? wc_clean(wp_unslash($_POST[ 'wc-' . $this->id . '-new-payment-method' ])) : ''; // □ 儲存付款資訊，下次付款更方便的 checkbox
         //@codingStandardsIgnoreEnd
 
 		/**
@@ -183,11 +155,6 @@ class CreditSubscription extends AbstractGateway {
 			return $request->build_hash_request( $order, $card_data );
 		}
 
-		if ( \is_numeric( $token_id ) ) {
-			// 使用 token 付款
-			return $request->build_request( $order, $card_data );
-		}
-		// 使用信用卡號付款
 		return $request->build_request( $order, $card_data );
 	}
 
