@@ -20,7 +20,7 @@ class RY_SmilePay_Gateway_Cvs_711 extends RY_SmilePay_Gateway_Base {
 		$this->min_amount  = (int) $this->get_option( 'min_amount', 0 );
 		$this->max_amount  = (int) $this->get_option( 'max_amount', 0 );
 
-		add_action( 'woocommerce_admin_order_data_after_billing_address', array( $this, 'admin_payment_info' ) );
+		add_action( 'woocommerce_admin_order_data_after_billing_address', [ $this, 'admin_payment_info' ] );
 
 		if ( is_checkout() || is_view_order_page() ) {
 			wp_enqueue_style( 'ry_wt_smilepay_shipping', RY_WT_PLUGIN_URL . 'style/ry_wt.css' );
@@ -55,10 +55,10 @@ class RY_SmilePay_Gateway_Cvs_711 extends RY_SmilePay_Gateway_Base {
 		wc_maybe_reduce_stock_levels( $order_id );
 		wc_release_stock_for_order( $order );
 
-		return array(
+		return [
 			'result'   => 'success',
 			'redirect' => $order->get_checkout_payment_url( true ),
-		);
+		];
 	}
 
 	public function process_admin_options() {

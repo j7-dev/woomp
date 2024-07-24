@@ -31,13 +31,13 @@ class Woomp_Deactivator {
 	 */
 	public static function deactivate() {
 		// 把預設的貨到付款改回來
-		$gateway_setting = array(
+		$gateway_setting = [
 			'enabled'            => 'yes',
 			'title'              => '貨到付款',
 			'description'        => '收到貨時以現金付款。',
 			'instructions'       => '收到貨時以現金付款。',
-			'enable_for_methods' => array(),
-		);
+			'enable_for_methods' => [],
+		];
 		// update_option( 'woocommerce_cod_settings', $gateway_setting );
 	}
 }

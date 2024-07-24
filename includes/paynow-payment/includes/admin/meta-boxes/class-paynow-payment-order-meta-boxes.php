@@ -34,7 +34,7 @@ class PayNow_Payment_Order_Meta_Boxes {
 	public static function init() {
 		self::get_instance();
 
-		add_action( 'add_meta_boxes', array( self::get_instance(), 'paynow_add_meta_boxes' ) );
+		add_action( 'add_meta_boxes', [ self::get_instance(), 'paynow_add_meta_boxes' ] );
 	}
 
 	/**
@@ -51,10 +51,10 @@ class PayNow_Payment_Order_Meta_Boxes {
 			add_meta_box(
 				'paynow-order-meta-boxes',
 				__( 'PayNow Payment Detail', 'taishin-payment' ),
-				array(
+				[
 					self::get_instance(),
 					'paynow_order_admin_meta_box',
-				),
+				],
 				'shop_order',
 				'side',
 				'default'

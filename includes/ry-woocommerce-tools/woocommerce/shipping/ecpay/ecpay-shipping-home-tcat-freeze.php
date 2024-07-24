@@ -8,11 +8,11 @@ class RY_ECPay_Shipping_Home_Tcat_Freeze extends RY_ECPay_Shipping_Base {
 		$this->id           = 'ry_ecpay_shipping_home_tcat_freeze';
 		$this->instance_id  = absint( $instance_id );
 		$this->method_title = __( 'ECPay shipping home Tcat Freeze', 'woomp' );
-		$this->supports     = array(
+		$this->supports     = [
 			'shipping-zones',
 			'instance-settings',
 			'instance-settings-modal',
-		);
+		];
 
 		if ( empty( $this->instance_form_fields ) ) {
 			$this->instance_form_fields = include RY_WT_PLUGIN_DIR . 'woocommerce/shipping/ecpay/includes/settings-ecpay-shipping-base.php';

@@ -49,10 +49,10 @@ class WMP_NewebPay_Gateway_Credit_Installment_18 extends RY_NewebPay_Gateway_Bas
 		wc_maybe_reduce_stock_levels( $order_id );
 		wc_release_stock_for_order( $order );
 
-		return array(
+		return [
 			'result'   => 'success',
 			'redirect' => $order->get_checkout_payment_url( true ),
-		);
+		];
 	}
 
 	public function process_admin_options() {

@@ -167,7 +167,7 @@ class Paynow_Einvoice {
 			return;
 		}
 
-		$result = $this->issue_einvoice( array( $order_id ) );
+		$result = $this->issue_einvoice( [ $order_id ] );
 		$this->pn_write_log( $result );
 
 		if ( count( $result ) > 1 ) {
@@ -198,10 +198,10 @@ class Paynow_Einvoice {
 			// 已發行
 			$is_issued = get_post_meta( $order_id, '_paynow_ei_issued', true );
 			if ( ! empty( $is_issued ) || $is_issued == 'yes' ) {
-				wp_send_json_error( array( 'message' => __( 'E-Invoice is already issued.', 'paynow-einvoice' ) ) );
+				wp_send_json_error( [ 'message' => __( 'E-Invoice is already issued.', 'paynow-einvoice' ) ] );
 			}
 
-			$result = $this->issue_einvoice( array( $order_id ) );
+			$result = $this->issue_einvoice( [ $order_id ] );
 			$this->pn_write_log( '===>ajax issue einvoice' );
 			$this->pn_write_log( $result );
 
@@ -215,7 +215,7 @@ class Paynow_Einvoice {
 					update_post_meta( $order_id, '_paynow_ei_result_invoice_number', $result['invoices'][ $order_id ] );
 					$order->add_order_note( __( 'E-Invoice issued successfully.', 'paynow-einvoice' ) . $result['invoices'][ $order_id ] );
 					do_action( 'paynow_einvoice_after_issued_success', $order_id, $result['invoices'][ $order_id ] );
-					wp_send_json_success( array( 'order_id' => $order_id ) );
+					wp_send_json_success( [ 'order_id' => $order_id ] );
 				}
 			} else {
 
@@ -223,7 +223,7 @@ class Paynow_Einvoice {
 				$this->log( $result[0] );
 				$order->add_order_note( __( 'E-Invoice issued failed' ) . ', ' . $result[0] );
 
-				wp_send_json_error( array( 'message' => __( 'E-Invoice issued failed.', 'paynow-einvoice' ) . $result[0] ) );
+				wp_send_json_error( [ 'message' => __( 'E-Invoice issued failed.', 'paynow-einvoice' ) . $result[0] ] );
 			}
 		} else {
 			wp_send_json_error( 'unsecure ajax call' );
@@ -238,13 +238,13 @@ class Paynow_Einvoice {
 	}
 
 	function paynow_bulk_action_handler( $redirect_to, $doaction, $post_ids ) {
-		$allowed_actions = array( 'paynow_bulk_issue_einvoice' );
+		$allowed_actions = [ 'paynow_bulk_issue_einvoice' ];
 		if ( ! in_array( $doaction, $allowed_actions ) ) {
 			return $redirect_to;
 		}
 
-		$already_issued_orders = array();
-		$issued_orders         = array();
+		$already_issued_orders = [];
+		$issued_orders         = [];
 
 		foreach ( $post_ids as $post_id ) {
 			$order = wc_get_order( $post_id );
@@ -334,10 +334,10 @@ class Paynow_Einvoice {
 
 			if ( count( $result ) > 1 ) {
 				$order->add_order_note( __( 'Cancel E-Invoice Successfully:', 'paynow-einvoice' ) . $invoice_no );
-				wp_send_json_success( array( 'order_id' => $order_id ) );
+				wp_send_json_success( [ 'order_id' => $order_id ] );
 			} else {
 				$order->add_order_note( __( 'Cancel E-Invoice Failed:', 'paynow-einvoice' ) . $result[0] );
-				wp_send_json_error( array( 'message' => __( 'Cancel E-Invoice Failed:', 'paynow-einvoice' ) . $result[0] ) );
+				wp_send_json_error( [ 'message' => __( 'Cancel E-Invoice Failed:', 'paynow-einvoice' ) . $result[0] ] );
 			}
 		} else {
 			wp_send_json_error();
@@ -349,7 +349,7 @@ class Paynow_Einvoice {
 	// 開立發票
 	private function issue_einvoice( $order_ids ) {
 
-		$ei_datas = array();
+		$ei_datas = [];
 
 		foreach ( $order_ids as $order_id ) {
 
@@ -408,10 +408,10 @@ class Paynow_Einvoice {
 			$comment = '';
 			$comment = apply_filters( 'paynow_ei_comment', $comment ); // 發票備註，字數限 25 字。
 
-			$order_items = $order->get_items( array( 'line_item', 'fee', 'shipping' ) );
+			$order_items = $order->get_items( [ 'line_item', 'fee', 'shipping' ] );
 			if ( ! is_wp_error( $order_items ) ) {
 				foreach ( $order_items as $item_id => $order_item ) {
-					$ei_datas[] = array(
+					$ei_datas[] = [
 
 						'orderno'       => "'" . $order->get_order_number(),  // 商店訂單編號
 
@@ -435,7 +435,7 @@ class Paynow_Einvoice {
 						'ItemTaxtype'   => "'" . $tax_type,
 						'IsPassCustoms' => "'", // 1:未經海關出口,2:經海關出口 (零稅率為必填非零稅率發票請留空)
 
-					);
+					];
 				}
 			}
 		} //endforeach
@@ -450,21 +450,21 @@ class Paynow_Einvoice {
 	}
 
 	private function do_issue( $ei_datas ) {
-		$arrContextOptions = array(
-			'ssl' => array(
+		$arrContextOptions = [
+			'ssl' => [
 				'verify_peer'       => false,
 				'verify_peer_name'  => false,
 				'allow_self_signed' => true,
 				'crypto_method'     => STREAM_CRYPTO_METHOD_TLS_CLIENT,
-			),
-		);
-		$options           = array(
+			],
+		];
+		$options           = [
 			'soap_version'   => SOAP_1_2,
 			'exceptions'     => true,
 			'trace'          => 1,
 			'cache_wsdl'     => WSDL_CACHE_NONE,
 			'stream_context' => stream_context_create( $arrContextOptions ),
-		);
+		];
 
 		$client = new SoapClient( $this->api_url . '/PayNowEInvoice.asmx?wsdl', $options );
 
@@ -473,14 +473,14 @@ class Paynow_Einvoice {
 
 		$encoded_s = urlencode( base64_encode( $str ) );
 
-		$param_ary = array(
+		$param_ary = [
 			'mem_cid'      => $this->mem_cid,
 			'mem_password' => $this->mem_password,
 			'csvStr'       => $encoded_s,
-		);
+		];
 
 		$this->pn_write_log( $param_ary );
-		$aryResult = $client->__soapCall( 'UploadInvoice_Patch', array( 'parameters' => $param_ary ) );
+		$aryResult = $client->__soapCall( 'UploadInvoice_Patch', [ 'parameters' => $param_ary ] );
 		$this->pn_write_log( '====>UploadInvoice_Patch' );
 		$this->pn_write_log( $aryResult );
 		$result = $aryResult->UploadInvoice_PatchResult;
@@ -495,45 +495,45 @@ class Paynow_Einvoice {
 				$response['invoices'][ $invoice_data[0] ] = $invoice_data[1];
 			}
 		} else {
-			$response = array( $result );
+			$response = [ $result ];
 		}
 
 		return $response;
 	}
 
 	private function cancel_invoice( $invoice_no ) {
-		$arrContextOptions = array(
-			'ssl' => array(
+		$arrContextOptions = [
+			'ssl' => [
 				'verify_peer'       => false,
 				'verify_peer_name'  => false,
 				'allow_self_signed' => true,
 				'crypto_method'     => STREAM_CRYPTO_METHOD_TLS_CLIENT,
-			),
-		);
-		$options           = array(
+			],
+		];
+		$options           = [
 			'soap_version'   => SOAP_1_2,
 			'exceptions'     => true,
 			'trace'          => 1,
 			'cache_wsdl'     => WSDL_CACHE_NONE,
 			'stream_context' => stream_context_create( $arrContextOptions ),
-		);
+		];
 
 		$client = new SoapClient( $this->api_url . '/PayNowEInvoice.asmx?wsdl', $options );
 
-		$param_ary = array(
+		$param_ary = [
 			'mem_cid'   => $this->mem_cid,
 			'InvoiceNo' => $invoice_no,
-		);
+		];
 		$this->pn_write_log( $param_ary );
 
-		$aryResult = $client->__soapCall( 'CancelInvoice_I', array( 'parameters' => $param_ary ) );
+		$aryResult = $client->__soapCall( 'CancelInvoice_I', [ 'parameters' => $param_ary ] );
 		$this->pn_write_log( $aryResult );
 		$result = $aryResult->CancelInvoice_IResult;
 		if ( $result === 'S' ) {
 			// $response = explode(',', $result);
 			$response = $result;
 		} else {
-			$response = array( $result );
+			$response = [ $result ];
 		}
 		return $response;
 	}
@@ -544,10 +544,10 @@ class Paynow_Einvoice {
 		add_meta_box(
 			'paynow-ei-meta-boxes',
 			__( 'PayNow E-Invoice', 'paynow-einvoice' ),
-			array(
+			[
 				$this,
 				'paynow_ei_admin_meta',
-			),
+			],
 			'shop_order',
 			'side',
 			'high'
@@ -585,10 +585,10 @@ class Paynow_Einvoice {
 			$url = wp_nonce_url(
 				admin_url(
 					add_query_arg(
-						array(
+						[
 							'action'   => 'paynow_cancel_einvoice',
 							'order_id' => $post->ID,
-						),
+						],
 						'admin-ajax.php'
 					)
 				),
@@ -600,10 +600,10 @@ class Paynow_Einvoice {
 			$url = wp_nonce_url(
 				admin_url(
 					add_query_arg(
-						array(
+						[
 							'action'   => 'paynow_issue_einvoice',
 							'order_id' => $post->ID,
-						),
+						],
 						'admin-ajax.php'
 					)
 				),
@@ -696,30 +696,30 @@ class Paynow_Einvoice {
 
 	function paynow_get_einvoice_url( $order_id, $invoice_no ) {
 
-		$arrContextOptions = array(
-			'ssl' => array(
+		$arrContextOptions = [
+			'ssl' => [
 				'verify_peer'       => false,
 				'verify_peer_name'  => false,
 				'allow_self_signed' => true,
 				'crypto_method'     => STREAM_CRYPTO_METHOD_TLS_CLIENT,
-			),
-		);
-		$options           = array(
+			],
+		];
+		$options           = [
 			'soap_version'   => SOAP_1_2,
 			'exceptions'     => true,
 			'trace'          => 1,
 			'cache_wsdl'     => WSDL_CACHE_NONE,
 			'stream_context' => stream_context_create( $arrContextOptions ),
-		);
+		];
 
 		$client = new SoapClient( $this->api_url . '/PayNowEInvoice.asmx?wsdl', $options );
 
-		$param_ary = array(
+		$param_ary = [
 			'mem_cid'   => $this->mem_cid,
 			'InvoiceNo' => $invoice_no,
-		);
+		];
 
-		$aryResult = $client->__soapCall( 'Get_InvoiceURL_I', array( 'parameters' => $param_ary ) );
+		$aryResult = $client->__soapCall( 'Get_InvoiceURL_I', [ 'parameters' => $param_ary ] );
 		$this->pn_write_log( '===>Get_InvoiceURL_I' );
 		$this->pn_write_log( $aryResult );
 		$invoice_url = ( empty( $aryResult->Get_InvoiceURL_IResult ) ) ? '' : $aryResult->Get_InvoiceURL_IResult;
@@ -771,16 +771,16 @@ class Paynow_Einvoice {
 		echo '<div id="paynow-ei-issue-type" class="paynow-field">';
 		woocommerce_form_field(
 			'paynow_ei_issue_type',
-			array(
+			[
 				'type'    => 'select',
-				'class'   => array( 'input-checkbox' ),
+				'class'   => [ 'input-checkbox' ],
 				'label'   => _x( 'Issue Type', 'checkout', 'paynow-einvoice' ),
-				'options' => array(
+				'options' => [
 					'b2c'    => __( 'Personal E-Invoice', 'paynow-einvoice' ),
 					'b2b'    => __( 'Company E-Invoice', 'paynow-einvoice' ),
 					'donate' => __( 'Donate', 'paynow-einvoice' ),
-				),
-			),
+				],
+			],
 			$checkout->get_value( 'paynow_ei_issue_type' )
 		);
 		echo '</div>';
@@ -788,13 +788,13 @@ class Paynow_Einvoice {
 		echo '<div id="paynow-ei-carrier-type" class="paynow-field">';
 		woocommerce_form_field(
 			'paynow_ei_carrier_type',
-			array(
+			[
 				'type'    => 'select',
-				'class'   => array( 'input-checkbox' ),
+				'class'   => [ 'input-checkbox' ],
 				'label'   => __( 'Carrier Type', 'paynow-einvoice' ),
 				'options' => $this->paynow_get_carrier_type(),
 
-			),
+			],
 			$checkout->get_value( 'paynow_ei_carrier_type' )
 		);
 		echo '</div>';
@@ -802,11 +802,11 @@ class Paynow_Einvoice {
 		echo '<div id="paynow-ei-company-title" class="paynow-field">';
 		woocommerce_form_field(
 			'paynow_ei_buyer_name',
-			array(
+			[
 				'type'        => 'text',
 				'placeholder' => __( 'Buyer Name', 'paynow-einvoice' ),
 				'required'    => false,
-			),
+			],
 			$checkout->get_value( 'paynow_ei_buyer_name' )
 		);
 		echo '</div>';
@@ -814,12 +814,12 @@ class Paynow_Einvoice {
 		echo '<div id="paynow-ei-ubn" class="paynow-field">';
 		woocommerce_form_field(
 			'paynow_ei_ubn',
-			array(
+			[
 				'type'        => 'text',
 				'placeholder' => __( 'Unified Business NO', 'paynow-einvoice' ),
 				'required'    => false,
 				'default'     => '',
-			),
+			],
 			$checkout->get_value( 'paynow_ei_ubn' )
 		);
 		echo '</div>';
@@ -827,13 +827,13 @@ class Paynow_Einvoice {
 		echo '<div id="paynow-ei-carrier-num" class="paynow-field">';
 		woocommerce_form_field(
 			'paynow_ei_carrier_num',
-			array(
+			[
 				'type'        => 'text',
 				'label'       => __( 'Carrier Number', 'paynow-einvoice' ),
 				'placeholder' => __( 'Please input the Carrier Number', 'paynow-einvoice' ),
 				'required'    => false,
 				'default'     => '',
-			),
+			],
 			$checkout->get_value( 'paynow_ei_carrier_num' )
 		);
 		echo '</div>';
@@ -841,12 +841,12 @@ class Paynow_Einvoice {
 		echo '<div id="paynow-ei-org" class="paynow-field">';
 		woocommerce_form_field(
 			'paynow_ei_donate_org',
-			array(
+			[
 				'type'     => 'select',
 				'label'    => __( 'Donate Organization', 'paynow-einvoice' ),
 				'required' => false,
 				'options'  => $this->paynow_get_donate_org(),
-			),
+			],
 			$checkout->get_value( 'paynow_ei_donate_org' )
 		);
 		echo '</div>';
@@ -871,7 +871,7 @@ class Paynow_Einvoice {
 
 	// 結帳顯示的選項
 	public function paynow_get_carrier_type() {
-		$carriers = array();
+		$carriers = [];
 
 		if ( get_option( 'wc_settings_tab_carrier_type_mobile_code' ) == 'yes' ) {
 			$carriers['ei_carrier_type_mobile_code'] = __( 'Mobile Code', 'paynow-einvoice' );
@@ -889,7 +889,7 @@ class Paynow_Einvoice {
 	}
 
 	public function paynow_get_donate_org() {
-		$orgs        = array();
+		$orgs        = [];
 		$org_strings = array_map( 'trim', explode( "\n", get_option( 'wc_settings_tab_donate_org', true ) ) );
 		foreach ( $org_strings as $value ) {
 			list($k, $v) = explode( '|', $value );
@@ -912,7 +912,7 @@ class Paynow_Einvoice {
 			if ( empty( $this->log ) ) {
 				$this->log = new WC_Logger();
 			}
-			$this->log( $level, $message, array( 'source' => 'paynow-einvoice' ) );
+			$this->log( $level, $message, [ 'source' => 'paynow-einvoice' ] );
 		}
 	}
 

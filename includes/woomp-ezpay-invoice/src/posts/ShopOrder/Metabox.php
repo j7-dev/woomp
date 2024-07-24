@@ -14,7 +14,7 @@ class Field {
 
 	public static function register() {
 		$class = new self();
-		add_action( 'admin_init', array( $class, 'set_metabox' ) );
+		add_action( 'admin_init', [ $class, 'set_metabox' ] );
 	}
 	public function __construct() {
 	}
@@ -48,17 +48,17 @@ class Field {
 		}
 
 		$this->metabox = new Metabox(
-			array(
+			[
 				'id'       => 'ezpay_invoice',
 				'title'    => __( '藍新 ezPay 電子發票', 'woomp' ),
 				'screen'   => 'shop_order',
 				'context'  => 'side',
 				'priority' => 'default',
-			)
+			]
 		);
 
 		if ( ! $order->get_meta( '_ezpay_invoice_data' ) ) {
-			$order->update_meta_data( '_ezpay_invoice_data', array() );
+			$order->update_meta_data( '_ezpay_invoice_data', [] );
 			$order->save();
 		}
 
@@ -107,10 +107,10 @@ class Field {
 		$output .= '<p><input type="text" name="_ezpay_invoice_donate" value="' . $_invoice_donate . '" style="margin-top:-10px;width:100%;' . $this->set_edit_disable_style( $_GET['post'] ) . '" /><p></div>';
 
 		$this->metabox->addHtml(
-			array(
+			[
 				'id'   => 'ezpay_invoice_section',
 				'html' => $output . $this->set_invoice_button( $_GET['post'] ),
-			),
+			],
 		);
 	}
 

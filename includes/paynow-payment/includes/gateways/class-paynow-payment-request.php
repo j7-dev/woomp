@@ -38,7 +38,7 @@ class PayNow_Payment_Request {
 
 		$args = apply_filters(
 			'paynow_transaction_args_' . $this->gateway->id,
-			array(
+			[
 				'WebNo'         => $this->gateway->get_web_no(),
 				'PassCode'      => $this->gateway->build_pass_code( $order->get_order_number(), $order->get_total() ),
 				'TotalPrice'    => $order->get_total(),
@@ -52,7 +52,7 @@ class PayNow_Payment_Request {
 				'PayType'       => $this->gateway->get_pay_type(),
 				'Note1'         => $order->get_id(),
 				'EPT'           => '1',
-			),
+			],
 			$order
 		);
 

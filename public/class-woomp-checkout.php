@@ -8,7 +8,7 @@ if ( ! class_exists( 'WooMP_Checkout' ) ) {
 	final class WooMP_Checkout {
 
 
-		private static $scripts = array();
+		private static $scripts = [];
 
 		/**
 		 * 將購物車&小計置入結帳頁
@@ -53,7 +53,7 @@ if ( ! class_exists( 'WooMP_Checkout' ) ) {
 		/**
 		 * woocommerce/inluces/class-wc-frontend-scripts.php
 		 */
-		private static function register_script( $handle, $path, $deps = array( 'jquery' ), $version = WC_VERSION, $in_footer = true ) {
+		private static function register_script( $handle, $path, $deps = [ 'jquery' ], $version = WC_VERSION, $in_footer = true ) {
 			self::$scripts[] = $handle;
 			wp_register_script( $handle, $path, $deps, $version, $in_footer );
 		}
@@ -61,7 +61,7 @@ if ( ! class_exists( 'WooMP_Checkout' ) ) {
 		/**
 		 * woocommerce/inluces/class-wc-frontend-scripts.php
 		 */
-		private static function enqueue_script( $handle, $path = '', $deps = array( 'jquery' ), $version = WC_VERSION, $in_footer = true ) {
+		private static function enqueue_script( $handle, $path = '', $deps = [ 'jquery' ], $version = WC_VERSION, $in_footer = true ) {
 			if ( ! in_array( $handle, self::$scripts, true ) && $path ) {
 				self::register_script( $handle, $path, $deps, $version, $in_footer );
 			}
@@ -74,13 +74,13 @@ if ( ! class_exists( 'WooMP_Checkout' ) ) {
 		private static function get_script_data( $handle ) {
 			switch ( $handle ) {
 				case 'wc-cart':
-					$params = array(
+					$params = [
 						'ajax_url'                     => WC()->ajax_url(),
 						'wc_ajax_url'                  => WC_AJAX::get_endpoint( '%%endpoint%%' ),
 						'update_shipping_method_nonce' => wp_create_nonce( 'update-shipping-method' ),
 						'apply_coupon_nonce'           => wp_create_nonce( 'apply-coupon' ),
 						'remove_coupon_nonce'          => wp_create_nonce( 'remove-coupon' ),
-					);
+					];
 					break;
 				default:
 					$params = false;
@@ -91,13 +91,13 @@ if ( ! class_exists( 'WooMP_Checkout' ) ) {
 		 * woocommerce/inluces/class-wc-frontend-scripts.php
 		 */
 		private static function register_scripts() {
-			$register_scripts = array(
-				'wc-cart' => array(
+			$register_scripts = [
+				'wc-cart' => [
 					'src'     => self::get_asset_url( 'assets/js/frontend/cart' . $suffix . '.js' ),
-					'deps'    => array( 'jquery', 'woocommerce', 'wc-country-select', 'wc-address-i18n' ),
+					'deps'    => [ 'jquery', 'woocommerce', 'wc-country-select', 'wc-address-i18n' ],
 					'version' => $version,
-				),
-			);
+				],
+			];
 		}
 
 		/**
@@ -113,7 +113,7 @@ if ( ! class_exists( 'WooMP_Checkout' ) ) {
 		 * woocommerce/inluces/class-wc-frontend-scripts.php
 		 */
 		public static function init() {
-			add_action( 'wp_enqueue_scripts', array( __CLASS__, 'load_scripts' ), 20 );
+			add_action( 'wp_enqueue_scripts', [ __CLASS__, 'load_scripts' ], 20 );
 		}
 
 		/**
@@ -122,7 +122,7 @@ if ( ! class_exists( 'WooMP_Checkout' ) ) {
 		 * @param array $fields Fields.
 		 */
 		public function set_shipping_field( $fields ) {
-			$shipping_method = array(
+			$shipping_method = [
 				'ry_ecpay_shipping_cvs_711',
 				'ry_ecpay_shipping_cvs_711_freeze',
 				'ry_ecpay_shipping_cvs_hilife',
@@ -134,7 +134,7 @@ if ( ! class_exists( 'WooMP_Checkout' ) ) {
 				'paynow_shipping_c2c_hilife',
 				'ry_smilepay_shipping_cvs_711',
 				'ry_smilepay_shipping_cvs_fami',
-			);
+			];
 
 			foreach ( $shipping_method as $method ) {
 				global $woocommerce;
@@ -168,12 +168,12 @@ if ( ! class_exists( 'WooMP_Checkout' ) ) {
 				 * 增加運送離島選項
 				 */
 				if ( $this->has_island_postcodes() && ! $this->is_virtual_cart() ) {
-					$fields['billing']['billing_island'] = array(
+					$fields['billing']['billing_island'] = [
 						'type'  => 'checkbox',
 						'label' => '寄送到離島區域',
-						'class' => array( $this->get_postcodes()[2] ),
+						'class' => [ $this->get_postcodes()[2] ],
 						'clear' => true,
-					);
+					];
 				}
 			}
 			return $fields;
@@ -187,11 +187,11 @@ if ( ! class_exists( 'WooMP_Checkout' ) ) {
 		public function set_checkout_field( $checkout ) {
 			woocommerce_form_field(
 				'billing_island_none',
-				array(
+				[
 					'type'    => 'text',
 					'label'   => '沒送到的離島縣市',
 					'default' => implode( ',', $this->get_island_hide() ),
-				),
+				],
 			);
 		}
 
@@ -258,7 +258,7 @@ if ( ! class_exists( 'WooMP_Checkout' ) ) {
 			global $wpdb;
 			$sql              = "SELECT * FROM {$wpdb->prefix}woocommerce_shipping_zone_locations";
 			$post_coded       = $wpdb->get_col( $sql, 2 );
-			$island_postcodes = array( 209, 210, 211, 212, 880, 881, 882, 883, 884, 885, 890, 891, 892, 893, 894, 896 );
+			$island_postcodes = [ 209, 210, 211, 212, 880, 881, 882, 883, 884, 885, 890, 891, 892, 893, 894, 896 ];
 			$result           = array_intersect( $post_coded, $island_postcodes );
 			return $result;
 		}
@@ -280,10 +280,10 @@ if ( ! class_exists( 'WooMP_Checkout' ) ) {
 		public function get_island_hide() {
 			global $wpdb;
 
-			$island_hide      = array();
-			$island_kinmen    = array( 890, 891, 892, 893, 894, 896 );
-			$island_penghu    = array( 880, 881, 882, 883, 884, 885 );
-			$island_lianjiang = array( 209, 210, 211, 212 );
+			$island_hide      = [];
+			$island_kinmen    = [ 890, 891, 892, 893, 894, 896 ];
+			$island_penghu    = [ 880, 881, 882, 883, 884, 885 ];
+			$island_lianjiang = [ 209, 210, 211, 212 ];
 
 			$sql        = "SELECT * FROM {$wpdb->prefix}woocommerce_shipping_zone_locations";
 			$post_coded = $wpdb->get_col( $sql, 2 );
@@ -308,7 +308,7 @@ if ( ! class_exists( 'WooMP_Checkout' ) ) {
 		 */
 		private function is_virtual_cart() {
 			global $woocommerce;
-			$virtual_products = array();
+			$virtual_products = [];
 			$products         = $woocommerce->cart->get_cart();
 			foreach ( $products as $product ) {
 				if ( 'yes' === get_post_meta( $product['product_id'], '_virtual', true ) || 'yes' === get_post_meta( $product['variation_id'], '_virtual', true ) ) {
@@ -366,10 +366,8 @@ if ( ! class_exists( 'WooMP_Checkout' ) ) {
 				if ( empty( get_option( 'woocommerce_' . str_replace( ':', '_', $method->id ) . '_settings' )['free_shipping_requires'] ) ) {
 					return false;
 				}
-			} else {
-				if ( empty( get_option( 'woocommerce_' . str_replace( ':', '_', $method->id ) . '_settings' )['cost_requires'] ) ) {
-					return false;
-				}
+			} elseif ( empty( get_option( 'woocommerce_' . str_replace( ':', '_', $method->id ) . '_settings' )['cost_requires'] ) ) {
+				return false;
 			}
 
 			if ( strpos( $method->id, 'paynow' ) !== false ) {
@@ -447,28 +445,28 @@ if ( ! class_exists( 'WooMP_Checkout' ) ) {
 $checkout = new WooMP_Checkout();
 
 if ( get_option( 'wc_woomp_setting_mode', 1 ) === 'onepage' ) {
-	add_action( 'wp_head', array( $checkout, 'redirect_cart_page_to_checkout' ), 1 );
-	add_action( 'woocommerce_before_checkout_form', array( $checkout, 'set_cart_in_checkout_page' ) );
-	add_filter( 'woocommerce_checkout_fields', array( $checkout, 'set_shipping_field' ), 10000 );
-	add_action( 'woocommerce_after_order_notes', array( $checkout, 'set_checkout_field' ) );
+	add_action( 'wp_head', [ $checkout, 'redirect_cart_page_to_checkout' ], 1 );
+	add_action( 'woocommerce_before_checkout_form', [ $checkout, 'set_cart_in_checkout_page' ] );
+	add_filter( 'woocommerce_checkout_fields', [ $checkout, 'set_shipping_field' ], 10000 );
+	add_action( 'woocommerce_after_order_notes', [ $checkout, 'set_checkout_field' ] );
 } elseif ( get_option( 'wc_woomp_setting_mode', 1 ) === 'twopage' ) {
-	add_filter( 'woocommerce_checkout_fields', array( $checkout, 'set_shipping_field' ), 10000 );
-	add_action( 'woocommerce_after_order_notes', array( $checkout, 'set_checkout_field' ) );
+	add_filter( 'woocommerce_checkout_fields', [ $checkout, 'set_shipping_field' ], 10000 );
+	add_action( 'woocommerce_after_order_notes', [ $checkout, 'set_checkout_field' ] );
 }
 
 if ( 'yes' === get_option( 'wc_woomp_setting_tw_field_valitdate', 1 ) ) {
-	add_action( 'woocommerce_after_checkout_validation', array( $checkout, 'field_validate' ), 10, 2 );
+	add_action( 'woocommerce_after_checkout_validation', [ $checkout, 'field_validate' ], 10, 2 );
 }
 
 if ( ! empty( get_option( ' wc_woomp_setting_place_order_text' ) ) ) {
-	add_filter( 'woocommerce_order_button_text', array( $checkout, 'custom_button_text' ), 99, 1 );
+	add_filter( 'woocommerce_order_button_text', [ $checkout, 'custom_button_text' ], 99, 1 );
 }
 
 if ( wc_string_to_bool( get_option( ' wc_woomp_setting_free_shipping_hint' ) ) ) {
-	add_action( 'woocommerce_after_shipping_rate', array( $checkout, 'get_free_shipping_amount' ), 99, 2 );
+	add_action( 'woocommerce_after_shipping_rate', [ $checkout, 'get_free_shipping_amount' ], 99, 2 );
 }
 
-add_filter( 'woocommerce_form_field', array( $checkout, 'remove_checkout_optional_fields_label' ), 10, 4 );
+add_filter( 'woocommerce_form_field', [ $checkout, 'remove_checkout_optional_fields_label' ], 10, 4 );
 // add_filter( 'woocommerce_add_to_cart_validation', array( $checkout, 'set_one_shipping_class' ), 10, 3 );
 
 WooMP_Checkout::init();

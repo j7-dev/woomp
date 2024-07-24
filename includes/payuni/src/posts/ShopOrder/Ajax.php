@@ -13,7 +13,7 @@ class Ajax {
 
 	public static function init() {
 		$class = new self();
-		add_action( 'wp_ajax_payuni_subscription_pay_manual', array( $class, 'build_request' ) );
+		add_action( 'wp_ajax_payuni_subscription_pay_manual', [ $class, 'build_request' ] );
 	}
 
 	public function __construct() {

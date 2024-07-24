@@ -48,13 +48,13 @@ class PayNow_Payment_Response {
 		self::get_instance();
 
 		// Payment listener/API hook, 此網址請設定在 PayNow 後台.
-		add_action( 'woocommerce_api_paynow_payment', array( self::get_instance(), 'paynow_receive_response' ) );
-		add_action( 'paynow_payment_online_response', array( self::get_instance(), 'paynow_valid_response' ) );
-		add_action( 'paynow_payment_online_background_notification', array( self::get_instance(), 'paynow_background_notification' ) );
+		add_action( 'woocommerce_api_paynow_payment', [ self::get_instance(), 'paynow_receive_response' ] );
+		add_action( 'paynow_payment_online_response', [ self::get_instance(), 'paynow_valid_response' ] );
+		add_action( 'paynow_payment_online_background_notification', [ self::get_instance(), 'paynow_background_notification' ] );
 
 		// offline Payment listener/API hook, 此網址請設定在 PayNow 後台.
-		add_action( 'woocommerce_api_paynow_payment_offline', array( self::get_instance(), 'paynow_receive_response' ) );
-		add_action( 'paynow_payment_offline_response', array( self::get_instance(), 'paynow_valid_offline_response' ) );
+		add_action( 'woocommerce_api_paynow_payment_offline', [ self::get_instance(), 'paynow_receive_response' ] );
+		add_action( 'paynow_payment_offline_response', [ self::get_instance(), 'paynow_valid_offline_response' ] );
 	}
 
 	/**

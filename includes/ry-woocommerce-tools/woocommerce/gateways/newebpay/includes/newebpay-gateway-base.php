@@ -5,10 +5,10 @@ class RY_NewebPay_Gateway_Base extends WC_Payment_Gateway {
 	public static $log         = false;
 
 	public function __construct() {
-		add_action( 'woocommerce_update_options_payment_gateways_' . $this->id, array( $this, 'process_admin_options' ) );
+		add_action( 'woocommerce_update_options_payment_gateways_' . $this->id, [ $this, 'process_admin_options' ] );
 
 		if ( $this->enabled ) {
-			add_action( 'woocommerce_receipt_' . $this->id, array( $this, 'receipt_page' ) );
+			add_action( 'woocommerce_receipt_' . $this->id, [ $this, 'receipt_page' ] );
 		}
 	}
 

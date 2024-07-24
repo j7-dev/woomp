@@ -15,9 +15,9 @@ class Refund {
 	 */
 	public static function init() {
 		$class = new self();
-		\add_action( 'payuni_cancel_trade_by_order', array( $class, 'cancel_trade_by_order' ) );
-		\add_action( 'payuni_cancel_trade_by_trade_no', array( $class, 'cancel_trade_by_trade_no' ), 10, 2 );
-		\add_action( 'woocommerce_order_status_changed', array( $class, 'handle_refund' ), 10, 3 );
+		\add_action( 'payuni_cancel_trade_by_order', [ $class, 'cancel_trade_by_order' ] );
+		\add_action( 'payuni_cancel_trade_by_trade_no', [ $class, 'cancel_trade_by_trade_no' ], 10, 2 );
+		\add_action( 'woocommerce_order_status_changed', [ $class, 'handle_refund' ], 10, 3 );
 	}
 
 	/**
@@ -28,24 +28,24 @@ class Refund {
 		$trade_no = $order->get_meta( '_payuni_resp_trade_no' );
 		$amount   = (int) $order->get_total();
 
-		$args = array(
+		$args = [
 			'MerID'     => ( wc_string_to_bool( get_option( 'payuni_payment_testmode' ) ) ) ? get_option( 'payuni_payment_merchant_no_test' ) : get_option( 'payuni_payment_merchant_no' ),
 			'TradeNo'   => $trade_no,
 			'TradeAmt'  => $amount,
 			'Timestamp' => time(),
 			'CloseType' => 2,
-		);
+		];
 
 		$parameter['MerID']       = ( wc_string_to_bool( get_option( 'payuni_payment_testmode' ) ) ) ? get_option( 'payuni_payment_merchant_no_test' ) : get_option( 'payuni_payment_merchant_no' );
 		$parameter['Version']     = '1.0';
 		$parameter['EncryptInfo'] = Payment::encrypt( $args );
 		$parameter['HashInfo']    = Payment::hash_info( $parameter['EncryptInfo'] );
 
-		$options = array(
+		$options = [
 			'method'  => 'POST',
 			'timeout' => 60,
 			'body'    => $parameter,
-		);
+		];
 
 		$url     = ( wc_string_to_bool( get_option( 'payuni_payment_testmode' ) ) ) ? 'https://sandbox-api.payuni.com.tw/' : 'https://api.payuni.com.tw/';
 		$request = wp_remote_request( $url . 'api/trade/close', $options );
@@ -66,22 +66,22 @@ class Refund {
 	 */
 	public function cancel_trade_by_order( \WC_Order $order ): array {
 		$trade_no = $order->get_meta( '_payuni_resp_trade_no' );
-		$args     = array(
+		$args     = [
 			'MerID'     => ( wc_string_to_bool( get_option( 'payuni_payment_testmode' ) ) ) ? get_option( 'payuni_payment_merchant_no_test' ) : get_option( 'payuni_payment_merchant_no' ),
 			'TradeNo'   => $trade_no,
 			'Timestamp' => time(),
-		);
+		];
 
 		$parameter['MerID']       = ( wc_string_to_bool( get_option( 'payuni_payment_testmode' ) ) ) ? get_option( 'payuni_payment_merchant_no_test' ) : get_option( 'payuni_payment_merchant_no' );
 		$parameter['Version']     = '1.0';
 		$parameter['EncryptInfo'] = Payment::encrypt( $args );
 		$parameter['HashInfo']    = Payment::hash_info( $parameter['EncryptInfo'] );
 
-		$options = array(
+		$options = [
 			'method'  => 'POST',
 			'timeout' => 60,
 			'body'    => $parameter,
-		);
+		];
 
 		$url     = ( wc_string_to_bool( get_option( 'payuni_payment_testmode' ) ) ) ? 'https://sandbox-api.payuni.com.tw/' : 'https://api.payuni.com.tw/';
 		$request = wp_remote_request( "{$url}api/trade/cancel", $options );
@@ -101,22 +101,22 @@ class Refund {
 	 * @return void
 	 */
 	public function cancel_trade_by_trade_no( string $trade_no, $order_id ): array {
-		$args = array(
+		$args = [
 			'MerID'     => ( wc_string_to_bool( get_option( 'payuni_payment_testmode' ) ) ) ? get_option( 'payuni_payment_merchant_no_test' ) : get_option( 'payuni_payment_merchant_no' ),
 			'TradeNo'   => $trade_no,
 			'Timestamp' => time(),
-		);
+		];
 
 		$parameter['MerID']       = ( wc_string_to_bool( get_option( 'payuni_payment_testmode' ) ) ) ? get_option( 'payuni_payment_merchant_no_test' ) : get_option( 'payuni_payment_merchant_no' );
 		$parameter['Version']     = '1.0';
 		$parameter['EncryptInfo'] = Payment::encrypt( $args );
 		$parameter['HashInfo']    = Payment::hash_info( $parameter['EncryptInfo'] );
 
-		$options = array(
+		$options = [
 			'method'  => 'POST',
 			'timeout' => 60,
 			'body'    => $parameter,
-		);
+		];
 
 		$url     = ( wc_string_to_bool( get_option( 'payuni_payment_testmode' ) ) ) ? 'https://sandbox-api.payuni.com.tw/' : 'https://api.payuni.com.tw/';
 		$request = wp_remote_request( "{$url}api/trade/cancel", $options );
@@ -141,23 +141,23 @@ class Refund {
 	 * @return void
 	 */
 	public function cancel_credit_bind( string $CreditHash ): void {
-		$args = array(
+		$args = [
 			'MerID'        => ( wc_string_to_bool( get_option( 'payuni_payment_testmode' ) ) ) ? get_option( 'payuni_payment_merchant_no_test' ) : get_option( 'payuni_payment_merchant_no' ),
 			'UseTokenType' => 1,
 			'BindVal'      => $CreditHash,
 			'Timestamp'    => time(),
-		);
+		];
 
 		$parameter['MerID']       = ( wc_string_to_bool( get_option( 'payuni_payment_testmode' ) ) ) ? get_option( 'payuni_payment_merchant_no_test' ) : get_option( 'payuni_payment_merchant_no' );
 		$parameter['Version']     = '1.0';
 		$parameter['EncryptInfo'] = Payment::encrypt( $args );
 		$parameter['HashInfo']    = Payment::hash_info( $parameter['EncryptInfo'] );
 
-		$options = array(
+		$options = [
 			'method'  => 'POST',
 			'timeout' => 60,
 			'body'    => $parameter,
-		);
+		];
 
 		$url     = ( wc_string_to_bool( get_option( 'payuni_payment_testmode' ) ) ) ? 'https://sandbox-api.payuni.com.tw/' : 'https://api.payuni.com.tw/';
 		$request = wp_remote_request( $url . 'api/credit_bind/cancel', $options );
@@ -180,22 +180,22 @@ class Refund {
 	 */
 	private function get_trade_by_order( \WC_Order $order ): array {
 		$trade_no = $order->get_meta( '_payuni_resp_trade_no' );
-		$args     = array(
+		$args     = [
 			'MerID'     => ( wc_string_to_bool( get_option( 'payuni_payment_testmode' ) ) ) ? get_option( 'payuni_payment_merchant_no_test' ) : get_option( 'payuni_payment_merchant_no' ),
 			'TradeNo'   => $trade_no,
 			'Timestamp' => time(),
-		);
+		];
 
 		$parameter['MerID']       = ( wc_string_to_bool( get_option( 'payuni_payment_testmode' ) ) ) ? get_option( 'payuni_payment_merchant_no_test' ) : get_option( 'payuni_payment_merchant_no' );
 		$parameter['Version']     = '2.0';
 		$parameter['EncryptInfo'] = Payment::encrypt( $args );
 		$parameter['HashInfo']    = Payment::hash_info( $parameter['EncryptInfo'] );
 
-		$options = array(
+		$options = [
 			'method'  => 'POST',
 			'timeout' => 60,
 			'body'    => $parameter,
-		);
+		];
 
 		$url     = ( wc_string_to_bool( get_option( 'payuni_payment_testmode' ) ) ) ? 'https://sandbox-api.payuni.com.tw/' : 'https://api.payuni.com.tw/';
 		$request = wp_remote_request( "{$url}api/trade/query", $options );

@@ -14,7 +14,7 @@ class Field {
 
 	public static function register() {
 		$class = new self();
-		add_action( 'admin_init', array( $class, 'set_metabox' ) );
+		add_action( 'admin_init', [ $class, 'set_metabox' ] );
 	}
 	public function __construct() {
 	}
@@ -48,17 +48,17 @@ class Field {
 		}
 
 		$this->metabox = new Metabox(
-			array(
+			[
 				'id'       => 'ecpay_invoice',
 				'title'    => __( '綠界電子發票(好用版)', 'woomp' ),
 				'screen'   => 'shop_order',
 				'context'  => 'side',
 				'priority' => 'default',
-			)
+			]
 		);
 
 		if ( ! $order->get_meta( '_ecpay_invoice_data' ) ) {
-			$order->update_meta_data( '_ecpay_invoice_data', array() );
+			$order->update_meta_data( '_ecpay_invoice_data', [] );
 			$order->save();
 		}
 
@@ -111,10 +111,10 @@ class Field {
 		$output .= $this->set_invoice_button( $_GET['post'] );
 
 		$this->metabox->addHtml(
-			array(
+			[
 				'id'   => 'ecpay_invoice_section',
 				'html' => $output,
-			),
+			],
 		);
 	}
 

@@ -1,12 +1,12 @@
 <?php
 class RY_NewebPay_Gateway_Api extends RY_NewebPay {
 
-	public static $api_test_url = array(
+	public static $api_test_url = [
 		'checkout' => 'https://ccore.newebpay.com/MPG/mpg_gateway',
-	);
-	public static $api_url      = array(
+	];
+	public static $api_url      = [
 		'checkout' => 'https://core.newebpay.com/MPG/mpg_gateway',
-	);
+	];
 
 	public static function checkout_form( $order, $gateway ) {
 		RY_NewebPay_Gateway::log( 'Generating payment form by ' . $gateway->id . ' for #' . $order->get_order_number() );
@@ -20,7 +20,7 @@ class RY_NewebPay_Gateway_Api extends RY_NewebPay {
 
 		list($MerchantID, $HashKey, $HashIV) = RY_NewebPay_Gateway::get_newebpay_api_info();
 
-		$args              = array(
+		$args              = [
 			'MerchantID'      => $MerchantID,
 			'RespondType'     => 'JSON',
 			'TimeStamp'       => new DateTime( '', new DateTimeZone( 'Asia/Taipei' ) ),
@@ -46,7 +46,7 @@ class RY_NewebPay_Gateway_Api extends RY_NewebPay {
 			'BARCODE'         => 0,
 			'P2G'             => 0,
 			'CVSCOM'          => 0,
-		);
+		];
 		$args['TimeStamp'] = $args['TimeStamp']->format( 'U' );
 		switch ( get_locale() ) {
 			case 'zh_HK':
@@ -62,11 +62,11 @@ class RY_NewebPay_Gateway_Api extends RY_NewebPay {
 		}
 
 		$args                  = self::add_type_info( $args, $order, $gateway );
-		$form_data             = array(
+		$form_data             = [
 			'MerchantID' => $MerchantID,
 			'TradeInfo'  => self::args_encrypt( $args, $HashKey, $HashIV ),
 			'Version'    => '1.5',
-		);
+		];
 		$form_data['TradeSha'] = self::generate_hash_value( $form_data['TradeInfo'], $HashKey, $HashIV );
 
 		RY_NewebPay_Gateway::log( 'Checkout POST: ' . var_export( $form_data, true ) );
@@ -132,7 +132,7 @@ $("#ry-newebpay-form").submit();'
 						} else {
 							$number_of_periods = (int) $gateway->number_of_periods;
 						}
-						if ( in_array( $number_of_periods, array( 3, 6, 12, 18, 24, 30 ) ) ) {
+						if ( in_array( $number_of_periods, [ 3, 6, 12, 18, 24, 30 ] ) ) {
 							$args['InstFlag'] = $number_of_periods;
 							$order->add_order_note(
 								sprintf(

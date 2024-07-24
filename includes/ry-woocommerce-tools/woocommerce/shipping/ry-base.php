@@ -2,22 +2,22 @@
 final class RY_Shipping {
 
 	public static function init() {
-		add_filter( 'wc_order_statuses', array( __CLASS__, 'add_order_statuses' ) );
-		add_filter( 'woocommerce_reports_order_statuses', array( __CLASS__, 'add_reports_order_statuses' ) );
-		add_filter( 'woocommerce_order_is_paid_statuses', array( __CLASS__, 'add_order_is_paid_statuses' ) );
+		add_filter( 'wc_order_statuses', [ __CLASS__, 'add_order_statuses' ] );
+		add_filter( 'woocommerce_reports_order_statuses', [ __CLASS__, 'add_reports_order_statuses' ] );
+		add_filter( 'woocommerce_order_is_paid_statuses', [ __CLASS__, 'add_order_is_paid_statuses' ] );
 		self::register_order_statuses();
 
-		add_filter( 'woocommerce_get_order_address', array( __CLASS__, 'show_store_in_address' ), 10, 3 );
-		add_filter( 'woocommerce_formatted_address_replacements', array( __CLASS__, 'add_cvs_address_replacements' ), 10, 2 );
+		add_filter( 'woocommerce_get_order_address', [ __CLASS__, 'show_store_in_address' ], 10, 3 );
+		add_filter( 'woocommerce_formatted_address_replacements', [ __CLASS__, 'add_cvs_address_replacements' ], 10, 2 );
 
 		if ( is_admin() ) {
-			add_action( 'admin_enqueue_scripts', array( __CLASS__, 'add_scripts' ) );
-			add_action( 'woocommerce_update_order', array( __CLASS__, 'save_order_update' ) );
+			add_action( 'admin_enqueue_scripts', [ __CLASS__, 'add_scripts' ] );
+			add_action( 'woocommerce_update_order', [ __CLASS__, 'save_order_update' ] );
 
-			add_filter( 'woocommerce_shipping_address_map_url_parts', array( __CLASS__, 'fix_cvs_map_address' ) );
-			add_filter( 'woocommerce_admin_order_actions', array( __CLASS__, 'add_admin_order_actions' ), 10, 2 );
+			add_filter( 'woocommerce_shipping_address_map_url_parts', [ __CLASS__, 'fix_cvs_map_address' ] );
+			add_filter( 'woocommerce_admin_order_actions', [ __CLASS__, 'add_admin_order_actions' ], 10, 2 );
 		} else {
-			wp_register_script( 'ry-shipping', RY_WT_PLUGIN_URL . 'style/js/ry_shipping.js', array( 'jquery' ), RY_WT_VERSION, true );
+			wp_register_script( 'ry-shipping', RY_WT_PLUGIN_URL . 'style/js/ry_shipping.js', [ 'jquery' ], RY_WT_VERSION, true );
 		}
 	}
 
@@ -45,7 +45,7 @@ final class RY_Shipping {
 	public static function register_order_statuses() {
 		register_post_status(
 			'wc-ry-at-cvs',
-			array(
+			[
 				'label'                     => _x( 'Wait pickup (cvs)', 'Order status', 'ry-woocommerce-tools' ),
 				'public'                    => false,
 				'exclude_from_search'       => false,
@@ -53,12 +53,12 @@ final class RY_Shipping {
 				'show_in_admin_status_list' => true,
 				/* translators: %s: number of orders */
 				'label_count'               => _n_noop( 'Wait pickup (cvs) <span class="count">(%s)</span>', 'Wait pickup (cvs) <span class="count">(%s)</span>', 'ry-woocommerce-tools' ),
-			)
+			]
 		);
 
 		register_post_status(
 			'wc-ry-out-cvs',
-			array(
+			[
 				'label'                     => _x( 'Overdue return (cvs)', 'Order status', 'ry-woocommerce-tools' ),
 				'public'                    => false,
 				'exclude_from_search'       => false,
@@ -66,7 +66,7 @@ final class RY_Shipping {
 				'show_in_admin_status_list' => true,
 				/* translators: %s: number of orders */
 				'label_count'               => _n_noop( 'Overdue return (cvs) <span class="count">(%s)</span>', 'Overdue return (cvs) <span class="count">(%s)</span>', 'ry-woocommerce-tools' ),
-			)
+			]
 		);
 	}
 
@@ -142,9 +142,9 @@ final class RY_Shipping {
 		$screen    = get_current_screen();
 		$screen_id = $screen ? $screen->id : '';
 
-		if ( in_array( $screen_id, array( 'shop_order', 'edit-shop_order' ) ) ) {
-			wp_enqueue_style( 'ry-shipping-admin-style', RY_WT_PLUGIN_URL . 'style/admin/ry_shipping.css', array(), RY_WT_VERSION );
-			wp_enqueue_script( 'ry-shipping-admin', RY_WT_PLUGIN_URL . 'style/js/admin/ry_shipping.js', array( 'jquery' ), RY_WT_VERSION );
+		if ( in_array( $screen_id, [ 'shop_order', 'edit-shop_order' ] ) ) {
+			wp_enqueue_style( 'ry-shipping-admin-style', RY_WT_PLUGIN_URL . 'style/admin/ry_shipping.css', [], RY_WT_VERSION );
+			wp_enqueue_script( 'ry-shipping-admin', RY_WT_PLUGIN_URL . 'style/js/admin/ry_shipping.js', [ 'jquery' ], RY_WT_VERSION );
 		}
 	}
 
@@ -187,20 +187,20 @@ final class RY_Shipping {
 
 	public static function fix_cvs_map_address( $address ) {
 		if ( isset( $address['cvs_address'] ) ) {
-			$address = array(
+			$address = [
 				$address['cvs_address'],
-			);
+			];
 		}
 		return $address;
 	}
 
 	public static function add_admin_order_actions( $actions, $object ) {
-		if ( $object->has_status( array( 'ry-at-cvs' ) ) ) {
-			$actions['complete'] = array(
+		if ( $object->has_status( [ 'ry-at-cvs' ] ) ) {
+			$actions['complete'] = [
 				'url'    => wp_nonce_url( admin_url( 'admin-ajax.php?action=woocommerce_mark_order_status&status=completed&order_id=' . $object->get_id() ), 'woocommerce-mark-order-status' ),
 				'name'   => __( 'Complete', 'woocommerce' ),
 				'action' => 'complete',
-			);
+			];
 		}
 
 		return $actions;

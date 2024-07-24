@@ -8,11 +8,11 @@ class RY_SmilePay_Shipping_CVS_711 extends RY_SmilePay_Shipping_Base {
 		$this->instance_id        = absint( $instance_id );
 		$this->method_title       = __( 'SmilePay shipping CVS 711', 'ry-woocommerce-tools' );
 		$this->method_description = '';
-		$this->supports           = array(
+		$this->supports           = [
 			'shipping-zones',
 			'instance-settings',
 			'instance-settings-modal',
-		);
+		];
 
 		if ( empty( $this->instance_form_fields ) ) {
 			$this->instance_form_fields = include RY_WT_PLUGIN_DIR . 'woocommerce/shipping/smilepay/includes/settings-smilepay-shipping-base.php';

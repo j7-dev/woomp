@@ -33,8 +33,8 @@ class PayNow_Payment_Credit extends PayNow_Abstract_Payment_Gateway {
 		$this->description = $this->get_option( 'description' );
 		$this->pay_type    = PayNow_Pay_Type::CREDIT;
 
-		add_action( 'woocommerce_update_options_payment_gateways_' . $this->id, array( $this, 'process_admin_options' ) );
-		add_action( 'woocommerce_receipt_' . $this->id, array( $this, 'receipt_page' ) );
+		add_action( 'woocommerce_update_options_payment_gateways_' . $this->id, [ $this, 'process_admin_options' ] );
+		add_action( 'woocommerce_receipt_' . $this->id, [ $this, 'receipt_page' ] );
 	}
 
 	/**
@@ -57,10 +57,10 @@ class PayNow_Payment_Credit extends PayNow_Abstract_Payment_Gateway {
 		$order = new WC_Order( $order_id );
 
 		// Return thankyou redirect.
-		return array(
+		return [
 			'result'   => 'success',
 			'redirect' => $order->get_checkout_payment_url( true ),
-		);
+		];
 	}
 
 	/**
@@ -80,11 +80,11 @@ class PayNow_Payment_Credit extends PayNow_Abstract_Payment_Gateway {
 	 * @return array
 	 */
 	public static function order_metas() {
-		return array(
+		return [
 			'_paynow_tran_id'     => __( 'Transaction No', 'paynow-payment' ),
 			'_paynow_pan_no4'     => __( 'Card Last 4 Num', 'paynow-payment' ),
 			'_paynow_tran_status' => __( 'Tran Status', 'paynow-payment' ),
-		);
+		];
 	}
 
 	/**

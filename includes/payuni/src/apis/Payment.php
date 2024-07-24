@@ -63,7 +63,7 @@ class Payment {
 
 		// Payuni_Payment_Response::init();
 
-		self::$allowed_payments = array(
+		self::$allowed_payments = [
 			'payuni-credit'              => '\PAYUNI\Gateways\Credit',
 			'payuni-credit-subscription' => '\PAYUNI\Gateways\CreditSubscription',
 			'payuni-credit-installment'  => '\PAYUNI\Gateways\CreditInstallment',
@@ -73,10 +73,10 @@ class Payment {
 			// 'payuni-atm'                 => 'Payuni_Payment_Atm',
 			// 'payuni-cvs'                 => 'Payuni_Payment_Cvs',
 			// 'payuni-aftee'               => 'Payuni_Payment_Aftee',
-		);
-		add_filter( 'woocommerce_payment_gateways', array( self::get_instance(), 'add_payment_gateway' ) );
+		];
+		add_filter( 'woocommerce_payment_gateways', [ self::get_instance(), 'add_payment_gateway' ] );
 		// add_action( 'rest_api_init', array( self::get_instance(), 'register_api_route' ) );
-		add_action( 'wp_ajax_payuni_card_change', array( self::get_instance(), 'card_change' ) );
+		add_action( 'wp_ajax_payuni_card_change', [ self::get_instance(), 'card_change' ] );
 	}
 
 	/**
@@ -102,7 +102,7 @@ class Payment {
 			if ( empty( self::$log ) ) {
 				self::$log = new \WC_Logger();
 			}
-			self::$log->log( $level, wc_print_r( $message, true ), array( 'source' => 'payuni_payment' ) );
+			self::$log->log( $level, wc_print_r( $message, true ), [ 'source' => 'payuni_payment' ] );
 		}
 	}
 

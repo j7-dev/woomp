@@ -111,9 +111,9 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 
 			$this->icon       = ''; // 不需要顯示 icon
 			$this->has_fields = false;
-			$this->supports   = array(
+			$this->supports   = [
 				'products',
-			);
+			];
 
 			$this->testmode       = wc_string_to_bool( get_option( 'payuni_payment_testmode' ) );
 			$this->mer_id         = strtoupper( ( $this->testmode ) ? get_option( 'payuni_payment_merchant_no_test' ) : get_option( 'payuni_payment_merchant_no' ) );
@@ -125,10 +125,10 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 
 			add_action(
 				'woocommerce_order_details_before_order_table',
-				array(
+				[
 					$this,
 					'get_detail_after_order_table',
-				),
+				],
 				10,
 				1
 			);
@@ -327,14 +327,14 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 		public function form() {
 			wp_enqueue_script( 'wc-credit-card-form' );
 
-			$fields = array();
+			$fields = [];
 
 			$cvc_field = '<p class="form-row form-row-last">
 			<label for="' . esc_attr( $this->id ) . '-card-cvc">' . esc_html__( 'Card code', 'woocommerce' ) . '&nbsp;<span class="required">*</span></label>
 			<input id="' . esc_attr( $this->id ) . '-card-cvc" name="' . esc_attr( $this->id ) . '-card-cvc" class="input-text wc-credit-card-form-card-cvc" inputmode="numeric" autocomplete="off" autocorrect="no" autocapitalize="no" spellcheck="no" type="tel" maxlength="3" placeholder="' . esc_attr__( 'CVC', 'woocommerce' ) . '" ' . $this->field_name( 'card-cvc' ) . ' style="width:100px;font-size:15px" />
 		</p>';
 
-			$default_fields = array(
+			$default_fields = [
 				'card-number-field' => '<p class="form-row form-row-wide">
 				<label for="' . esc_attr( $this->id ) . '-card-number">' . esc_html__( 'Card number', 'woocommerce' ) . '&nbsp;<span class="required">*</span></label>
 				<input id="' . esc_attr( $this->id ) . '-card-number" name="' . esc_attr( $this->id ) . '-card-number" class="input-text wc-credit-card-form-card-number" inputmode="numeric" autocomplete="cc-number" autocorrect="no" autocapitalize="no" spellcheck="no" style="font-size:15px" type="tel" placeholder="&bull;&bull;&bull;&bull; &bull;&bull;&bull;&bull; &bull;&bull;&bull;&bull; &bull;&bull;&bull;&bull;" ' . $this->field_name( 'card-number' ) . ' />
@@ -343,7 +343,7 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 				<label for="' . esc_attr( $this->id ) . '-card-expiry">' . esc_html__( 'Expiry (MM/YY)', 'woocommerce' ) . '&nbsp;<span class="required">*</span></label>
 				<input id="' . esc_attr( $this->id ) . '-card-expiry" name="' . esc_attr( $this->id ) . '-card-expiry" class="input-text wc-credit-card-form-card-expiry" inputmode="numeric" autocomplete="cc-exp" autocorrect="no" maxlength="7" autocapitalize="no" spellcheck="no" style="font-size:15px" type="tel" placeholder="' . esc_attr__( 'MM / YY', 'woocommerce' ) . '" ' . $this->field_name( 'card-expiry' ) . ' />
 			</p>',
-			);
+			];
 
 			if ( ! $this->supports( 'credit_card_form_cvc_on_saved_method' ) ) {
 				$default_fields['card-cvc-field'] = $cvc_field;
@@ -415,24 +415,24 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 			$order        = \wc_get_order( $order_id );
 			$order_status = $order->get_status();
 
-			$args = array(
+			$args = [
 				'MerID'     => $this->get_mer_id(),
 				'TradeNo'   => $order->get_meta( '_payuni_resp_trade_no' ),
 				'TradeAmt'  => $amount,
 				'Timestamp' => time(),
 				'CloseType' => 2,
-			);
+			];
 
 			$parameter['MerID']       = $this->get_mer_id();
 			$parameter['Version']     = '1.0';
 			$parameter['EncryptInfo'] = \Payuni\APIs\Payment::encrypt( $args );
 			$parameter['HashInfo']    = \Payuni\APIs\Payment::hash_info( $parameter['EncryptInfo'] );
 
-			$options = array(
+			$options = [
 				'method'  => 'POST',
 				'timeout' => 60,
 				'body'    => $parameter,
-			);
+			];
 
 			$request = wp_remote_request( $this->get_api_url() . $this->api_refund_url, $options );
 			$resp    = json_decode( wp_remote_retrieve_body( $request ) );
@@ -471,13 +471,13 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 			$new      = (isset($_POST['wc-' . $this->id . '-new-payment-method'])) ? wc_clean(wp_unslash($_POST['wc-' . $this->id . '-new-payment-method'])) : '';
 			//@codingStandardsIgnoreEnd
 
-			$card_data = array(
+			$card_data = [
 				'number'   => str_replace( ' ', '', $number ),
 				'expiry'   => str_replace( '/', '', $expiry ),
 				'cvc'      => $cvc,
 				'token_id' => $token_id,
 				'new'      => $new,
-			);
+			];
 
 			switch ( $this->id ) {
 				case 'payuni-credit-installment':

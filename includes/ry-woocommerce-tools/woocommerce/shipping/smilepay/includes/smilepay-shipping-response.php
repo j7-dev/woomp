@@ -2,18 +2,18 @@
 class RY_SmilePay_Shipping_Response extends RY_SmilePay {
 
 	public static function init() {
-		add_action( 'woocommerce_api_ry_smilepay_shipping_map_callback', array( __CLASS__, 'check_map_callback' ) );
-		add_action( 'woocommerce_api_ry_smilepay_shipping_admin_map_callback', array( __CLASS__, 'check_admin_map_callback' ) );
-		add_action( 'woocommerce_api_ry_smilepay_shipping_callback', array( __CLASS__, 'shipping_callback' ) );
+		add_action( 'woocommerce_api_ry_smilepay_shipping_map_callback', [ __CLASS__, 'check_map_callback' ] );
+		add_action( 'woocommerce_api_ry_smilepay_shipping_admin_map_callback', [ __CLASS__, 'check_admin_map_callback' ] );
+		add_action( 'woocommerce_api_ry_smilepay_shipping_callback', [ __CLASS__, 'shipping_callback' ] );
 
-		add_action( 'valid_smilepay_shipping_map_request', array( __CLASS__, 'doing_map_callback' ) );
-		add_action( 'valid_smilepay_shipping_admin_map_request', array( __CLASS__, 'doing_admin_map_callback' ) );
-		add_action( 'valid_smilepay_shipping_request', array( __CLASS__, 'doing_callback' ) );
+		add_action( 'valid_smilepay_shipping_map_request', [ __CLASS__, 'doing_map_callback' ] );
+		add_action( 'valid_smilepay_shipping_admin_map_request', [ __CLASS__, 'doing_admin_map_callback' ] );
+		add_action( 'valid_smilepay_shipping_request', [ __CLASS__, 'doing_callback' ] );
 
-		add_action( 'ry_smilepay_shipping_response_status_2', array( __CLASS__, 'shipping_at_cvs' ), 10, 2 );
-		add_action( 'ry_smilepay_shipping_response_status_4', array( __CLASS__, 'shipping_out_cvs' ), 10, 2 );
+		add_action( 'ry_smilepay_shipping_response_status_2', [ __CLASS__, 'shipping_at_cvs' ], 10, 2 );
+		add_action( 'ry_smilepay_shipping_response_status_4', [ __CLASS__, 'shipping_out_cvs' ], 10, 2 );
 		if ( 'yes' == RY_WT::get_option( 'ecpay_shipping_auto_completed', 'yes' ) ) {
-			add_action( 'ry_smilepay_shipping_response_status_3', array( __CLASS__, 'shipping_completed' ), 10, 2 );
+			add_action( 'ry_smilepay_shipping_response_status_3', [ __CLASS__, 'shipping_completed' ], 10, 2 );
 		}
 	}
 
@@ -40,10 +40,10 @@ class RY_SmilePay_Shipping_Response extends RY_SmilePay {
 			if ( $smse_id ) {
 				$shipping_list = $order->get_meta( '_smilepay_shipping_info', true );
 				if ( ! is_array( $shipping_list ) ) {
-					$shipping_list = array();
+					$shipping_list = [];
 				}
 
-				$shipping_list[ $smse_id ] = array(
+				$shipping_list[ $smse_id ] = [
 					'ID'           => $smse_id,
 					'amount'       => (int) $ipn_info['Amount'],
 					'storeID'      => $ipn_info['Storeid'],
@@ -54,7 +54,7 @@ class RY_SmilePay_Shipping_Response extends RY_SmilePay {
 					'status'       => 0,
 					'create'       => (string) new WC_DateTime(),
 					'edit'         => (string) new WC_DateTime(),
-				);
+				];
 
 				$order->set_shipping_company( '' );
 				$order->set_shipping_address_2( '' );
@@ -106,10 +106,10 @@ class RY_SmilePay_Shipping_Response extends RY_SmilePay {
 			if ( $smse_id ) {
 				$shipping_list = $order->get_meta( '_smilepay_shipping_info', true );
 				if ( ! is_array( $shipping_list ) ) {
-					$shipping_list = array();
+					$shipping_list = [];
 				}
 
-				$shipping_list[ $smse_id ] = array(
+				$shipping_list[ $smse_id ] = [
 					'ID'           => $smse_id,
 					'amount'       => (int) $ipn_info['Amount'],
 					'storeID'      => $ipn_info['Storeid'],
@@ -120,7 +120,7 @@ class RY_SmilePay_Shipping_Response extends RY_SmilePay {
 					'status'       => $ipn_info['Status'],
 					'create'       => (string) new WC_DateTime(),
 					'edit'         => (string) new WC_DateTime(),
-				);
+				];
 
 				$order->update_meta_data( '_smilepay_shipping_info', $shipping_list );
 				$order->save();
@@ -154,11 +154,11 @@ class RY_SmilePay_Shipping_Response extends RY_SmilePay {
 
 			$shipping_list = $order->get_meta( '_smilepay_shipping_info', true );
 			if ( ! is_array( $shipping_list ) ) {
-				$shipping_list = array();
+				$shipping_list = [];
 			}
 			$list_id = self::get_transaction_id( $ipn_info );
 			if ( ! isset( $shipping_list[ $list_id ] ) ) {
-				$shipping_list[ $list_id ] = array();
+				$shipping_list[ $list_id ] = [];
 			}
 			$old_info                            = $shipping_list[ $list_id ];
 			$shipping_list[ $list_id ]['status'] = self::get_status( $ipn_info );

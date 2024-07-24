@@ -17,7 +17,7 @@ final class ShopSubscription {
 	 * Constructor
 	 */
 	public function __construct() {
-		\add_filter( 'woocommerce_can_subscription_be_updated_to_active', array( $this, 'allowed_canceled_wcs_active' ), 10, 2 );
+		\add_filter( 'woocommerce_can_subscription_be_updated_to_active', [ $this, 'allowed_canceled_wcs_active' ], 10, 2 );
 	}
 
 	/**

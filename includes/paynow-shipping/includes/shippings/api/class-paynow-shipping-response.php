@@ -28,13 +28,13 @@ class PayNow_Shipping_Response {
 		self::get_instance();
 
 		// 選擇超商後，接收超商資訊.
-		add_action( 'woocommerce_api_paynow_choose_cvs_callback', array( self::get_instance(), 'paynow_choose_cvs_callback' ) );
+		add_action( 'woocommerce_api_paynow_choose_cvs_callback', [ self::get_instance(), 'paynow_choose_cvs_callback' ] );
 
 		// 物流貨態回傳.
-		add_action( 'woocommerce_api_paynow_shipping_order_callback', array( self::get_instance(), 'paynow_receive_order_status_update' ) );
+		add_action( 'woocommerce_api_paynow_shipping_order_callback', [ self::get_instance(), 'paynow_receive_order_status_update' ] );
 
 		// 根據貨態更新訂單狀態.
-		add_action( 'paynow_update_shipping_order_status', array( self::get_instance(), 'paynow_update_order_status_after_received_update' ), 10, 2 );
+		add_action( 'paynow_update_shipping_order_status', [ self::get_instance(), 'paynow_update_order_status_after_received_update' ], 10, 2 );
 	}
 
 	/**
@@ -47,13 +47,13 @@ class PayNow_Shipping_Response {
 		global $woocommerce;
 
 		$posted   = wc_clean( wp_unslash( $_POST ) );
-		$cvs_info = array();
+		$cvs_info = [];
 
 		if ( ! empty( $posted ) ) {
 
 			PayNow_Shipping::log( 'recieve cvs callback from PayNow:' . wc_print_r( $posted, true ) );
 
-			foreach ( array( 'service', 'storename', 'storeid', 'storeaddress' ) as $key ) {
+			foreach ( [ 'service', 'storename', 'storeid', 'storeaddress' ] as $key ) {
 				if ( isset( $posted[ $key ] ) ) {
 					$cvs_info[ 'paynow_' . $key ] = $posted[ $key ];
 				}

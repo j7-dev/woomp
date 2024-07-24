@@ -1,14 +1,14 @@
 <?php
 class RY_SmilePay_Gateway_Api extends RY_SmilePay {
 
-	public static $api_test_url = array(
+	public static $api_test_url = [
 		'checkout'     => 'https://ssl.smse.com.tw/ezpos_test/mtmk_utf.asp',
 		'api_checkout' => 'https://ssl.smse.com.tw/api/SPPayment.asp',
-	);
-	public static $api_url      = array(
+	];
+	public static $api_url      = [
 		'checkout'     => 'https://ssl.smse.com.tw/ezpos/mtmk_utf.asp',
 		'api_checkout' => 'https://ssl.smse.com.tw/api/SPPayment.asp',
-	);
+	];
 
 	public static function get_code( $order_id ) {
 		$order = wc_get_order( $order_id );
@@ -28,7 +28,7 @@ class RY_SmilePay_Gateway_Api extends RY_SmilePay {
 
 		list($Dcvc, $Rvg2c, $Verify_key, $Rot_check) = RY_SmilePay_Gateway::get_smilepay_api_info();
 
-		$args = array(
+		$args = [
 			'Dcvc'          => $Dcvc,
 			'Rvg2c'         => $Rvg2c,
 			'Od_sob'        => self::get_item_name( $order ),
@@ -37,7 +37,7 @@ class RY_SmilePay_Gateway_Api extends RY_SmilePay {
 			'Amount'        => (int) ceil( $order->get_total() ),
 			'Roturl'        => WC()->api_request_url( 'ry_smilepay_callback', true ),
 			'Roturl_status' => 'RY_SmilePay',
-		);
+		];
 		if ( $gateway->get_code_mode ) {
 			$args['Verify_key'] = $Verify_key;
 		}

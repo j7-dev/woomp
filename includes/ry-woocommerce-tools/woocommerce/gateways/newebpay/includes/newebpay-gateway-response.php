@@ -2,10 +2,10 @@
 class RY_NewebPay_Gateway_Response extends RY_NewebPay_Gateway_Api {
 
 	public static function init() {
-		add_action( 'woocommerce_api_request', array( __CLASS__, 'set_do_die' ) );
-		add_action( 'woocommerce_api_ry_newebpay_callback', array( __CLASS__, 'check_callback' ) );
-		add_action( 'woocommerce_thankyou', array( __CLASS__, 'check_callback' ), 8 );
-		add_action( 'valid_newebpay_gateway_request', array( __CLASS__, 'doing_callback' ) );
+		add_action( 'woocommerce_api_request', [ __CLASS__, 'set_do_die' ] );
+		add_action( 'woocommerce_api_ry_newebpay_callback', [ __CLASS__, 'check_callback' ] );
+		add_action( 'woocommerce_thankyou', [ __CLASS__, 'check_callback' ], 8 );
+		add_action( 'valid_newebpay_gateway_request', [ __CLASS__, 'doing_callback' ] );
 	}
 
 	public static function check_callback() {
@@ -59,7 +59,7 @@ class RY_NewebPay_Gateway_Response extends RY_NewebPay_Gateway_Api {
 			}
 
 			if ( method_exists( __CLASS__, 'payment_status_' . $payment_status ) ) {
-				call_user_func( array( __CLASS__, 'payment_status_' . $payment_status ), $order, $ipn_info->Result );
+				call_user_func( [ __CLASS__, 'payment_status_' . $payment_status ], $order, $ipn_info->Result );
 			} else {
 				self::payment_status_unknow( $order, $ipn_info->Result, $payment_status );
 			}
@@ -143,10 +143,10 @@ class RY_NewebPay_Gateway_Response extends RY_NewebPay_Gateway_Api {
 
 				$shipping_list = $order->get_meta( '_newebpay_shipping_info', true );
 				if ( ! is_array( $shipping_list ) ) {
-					$shipping_list = array();
+					$shipping_list = [];
 				}
 				if ( ! isset( $shipping_list[ $ipn_info->TradeNo ] ) ) {
-					$shipping_list[ $ipn_info->TradeNo ] = array();
+					$shipping_list[ $ipn_info->TradeNo ] = [];
 				}
 				$shipping_list[ $ipn_info->TradeNo ]['ID']           = $ipn_info->TradeNo;
 				$shipping_list[ $ipn_info->TradeNo ]['Type']         = $ipn_info->StoreType;

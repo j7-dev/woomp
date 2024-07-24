@@ -21,18 +21,18 @@ class EzPayInvoiceHandler {
 	 */
 	public function __construct() {
 		if ( ( wc_string_to_bool( get_option( 'wc_woomp_ezpay_invoice_testmode_enabled' ) ) ) ) {
-			$account       = array(
+			$account       = [
 				'merchantID' => get_option( 'wc_woomp_ezpay_invoice_merchant_id_test' ),
 				'hashKey'    => get_option( 'wc_woomp_ezpay_invoice_hashkey_test' ),
 				'hashIV'     => get_option( 'wc_woomp_ezpay_invoice_hashiv_test' ),
-			);
+			];
 			$is_production = false;
 		} else {
-			$account       = array(
+			$account       = [
 				'merchantID' => get_option( 'wc_woomp_ezpay_invoice_merchant_id' ),
 				'hashKey'    => get_option( 'wc_woomp_ezpay_invoice_hashkey' ),
 				'hashIV'     => get_option( 'wc_woomp_ezpay_invoice_hashiv' ),
-			);
+			];
 			$is_production = true;
 		}
 		$this->invoice = new EzpayInvoice( $account, $is_production );
@@ -200,20 +200,20 @@ class EzPayInvoiceHandler {
 		if ( $invoice_number ) {
 
 			$this->invoice = $this->invoice->info(
-				array(
+				[
 					'SearchType'      => 0,
 					'MerchantOrderNo' => $result_data->result->MerchantOrderNo,
 					'InvoiceNumber'   => $result_data->result->InvoiceNumber,
 					'RandomNum'       => $result_data->result->RandomNum,
-				)
+				]
 			);
 
 			$this->invoice->invalid(
-				array(
+				[
 					'InvoiceNumber' => $this->invoice->getResult( 'InvoiceNumber' ), // 發票號碼.
 					'InvalidReason' => '發票作廢', // 作廢原因.
 					'RandomNum'     => $this->invoice->getResult( 'RandomNum' ),
-				)
+				]
 			);
 			$result_data = $this->invoice->getResponse();
 

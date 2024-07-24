@@ -46,16 +46,16 @@ class WOOMP_PayNow_Shipping {
 		if ( class_exists( 'PayNow_Abstract_Shipping_Method' ) ) {
 
 			// 全家冷凍c2c.
-			add_filter( 'paynow_shipping_cvs_callback', array( self::get_instance(), 'woomp_paynow_shipping_c2c_family_frozen_callback' ), 10, 2 );
-			add_filter( 'paynow_shipping_cvs_fields', array( self::get_instance(), 'woomp_paynow_shipping_c2c_family_frozen_checkout_fields' ), 20, 1 );
-			add_filter( 'paynow_shipping_order_request_args', array( self::get_instance(), 'woomp_paynow_shipping_c2c_family_frozen_request_args' ), 10, 2 );
-			add_action( 'paynow_shipping_save_cvs_order_meta', array( self::get_instance(), 'woomp_paynow_shipping_save_frozen_cvs_data' ), 10, 2 );
-			add_action( 'paynow_shipping_admin_meta_before_last_query', array( self::get_instance(), 'woomp_paynow_shipping_c2c_family_frozen_admin_meta_fields' ), 10, 1 );
+			add_filter( 'paynow_shipping_cvs_callback', [ self::get_instance(), 'woomp_paynow_shipping_c2c_family_frozen_callback' ], 10, 2 );
+			add_filter( 'paynow_shipping_cvs_fields', [ self::get_instance(), 'woomp_paynow_shipping_c2c_family_frozen_checkout_fields' ], 20, 1 );
+			add_filter( 'paynow_shipping_order_request_args', [ self::get_instance(), 'woomp_paynow_shipping_c2c_family_frozen_request_args' ], 10, 2 );
+			add_action( 'paynow_shipping_save_cvs_order_meta', [ self::get_instance(), 'woomp_paynow_shipping_save_frozen_cvs_data' ], 10, 2 );
+			add_action( 'paynow_shipping_admin_meta_before_last_query', [ self::get_instance(), 'woomp_paynow_shipping_c2c_family_frozen_admin_meta_fields' ], 10, 1 );
 
 			// add tcat deadline parameter.
-			add_filter( 'paynow_shipping_order_request_args', array( self::get_instance(), 'woomp_shipping_tcat_request_args' ), 10, 2 );
+			add_filter( 'paynow_shipping_order_request_args', [ self::get_instance(), 'woomp_shipping_tcat_request_args' ], 10, 2 );
 
-			add_filter( 'paynow_shipping_settings', array( self::get_instance(), 'woomp_paynow_shipping_settings' ), 10, 1 );
+			add_filter( 'paynow_shipping_settings', [ self::get_instance(), 'woomp_paynow_shipping_settings' ], 10, 1 );
 		}
 	}
 
@@ -100,26 +100,26 @@ class WOOMP_PayNow_Shipping {
 	 * @return array
 	 */
 	public static function woomp_paynow_shipping_c2c_family_frozen_checkout_fields( $fields ) {
-		$fields['shipping']['paynow_reservedno'] = array(
+		$fields['shipping']['paynow_reservedno'] = [
 			'required'          => false,
 			'label'             => __( 'Reserved NO', 'wc-paynow-pro' ),
 			'type'              => 'text',
-			'custom_attributes' => array(
+			'custom_attributes' => [
 				'readonly' => true,
-			),
-			'class'             => array( 'form-row-wide', 'paynow-shipping-field', 'paynow-shipping-family-frozen-field' ),
+			],
+			'class'             => [ 'form-row-wide', 'paynow-shipping-field', 'paynow-shipping-family-frozen-field' ],
 			'priority'          => 123,
-		);
-		$fields['shipping']['paynow_shipdate']   = array(
+		];
+		$fields['shipping']['paynow_shipdate']   = [
 			'required'          => false,
 			'label'             => __( 'Ship Date', 'wc-paynow-pro' ),
 			'type'              => 'text',
-			'custom_attributes' => array(
+			'custom_attributes' => [
 				'readonly' => true,
-			),
-			'class'             => array( 'form-row-wide', 'paynow-shipping-field', 'paynow-shipping-family-frozen-field' ),
+			],
+			'class'             => [ 'form-row-wide', 'paynow-shipping-field', 'paynow-shipping-family-frozen-field' ],
 			'priority'          => 124,
-		);
+		];
 
 		return $fields;
 	}
@@ -193,16 +193,16 @@ class WOOMP_PayNow_Shipping {
 	 */
 	public static function paynow_pro_enqueue_admin_script() {
 
-		wp_enqueue_style( 'paynow-pro-admin', PAYNOW_PRO_PLUGIN_URL . 'assets/css/paynow-pro-admin.css', array(), '1.0.0', 'all' );
+		wp_enqueue_style( 'paynow-pro-admin', PAYNOW_PRO_PLUGIN_URL . 'assets/css/paynow-pro-admin.css', [], '1.0.0', 'all' );
 
-		wp_enqueue_script( 'paynow-pro-admin', PAYNOW_PRO_PLUGIN_URL . 'assets/js/paynow-pro-admin.js', array( 'jquery' ), '1.0.0', false );
+		wp_enqueue_script( 'paynow-pro-admin', PAYNOW_PRO_PLUGIN_URL . 'assets/js/paynow-pro-admin.js', [ 'jquery' ], '1.0.0', false );
 		wp_localize_script(
 			'paynow-pro-admin',
 			'paynow_pro',
-			array(
+			[
 				'ajax_url' => admin_url( 'admin-ajax.php' ),
 				'security' => wp_create_nonce( 'paynow-pro' ),
-			)
+			]
 		);
 	}
 
@@ -213,29 +213,29 @@ class WOOMP_PayNow_Shipping {
 	 * @return array
 	 */
 	public static function woomp_paynow_shipping_settings( $settings ) {
-		$tcat_settings = array(
-			array(
+		$tcat_settings = [
+			[
 				'title' => __( 'TCat Shipping Settings', 'woomp' ),
 				'type'  => 'title',
 				'id'    => 'shipping_tcat_setting',
-			),
-			array(
+			],
+			[
 				'title'             => __( 'Estimate shipping date deadline(days)', 'woomp' ),
 				'type'              => 'number',
 				'default'           => 1,
 				'desc'              => __( 'When will the estimate shipping date end. Default is 1, which means the estimate shipping end date is 1 day after the date of order get logistic number.', 'woomp' ),
 				'desc_tip'          => true,
-				'custom_attributes' => array(
+				'custom_attributes' => [
 					'min' => 1,
 					'max' => 7,
-				),
+				],
 				'id'                => 'woomp_shipping_tcat_shipping_deadline',
-			),
-			array(
+			],
+			[
 				'type' => 'sectionend',
 				'id'   => 'shipping_tcat_setting',
-			),
-		);
+			],
+		];
 
 		return array_merge( array_slice( $settings, 0, 15, false ), $tcat_settings, array_slice( $settings, 15, count( $settings ) - 1, false ) );
 	}
@@ -251,7 +251,7 @@ class WOOMP_PayNow_Shipping {
 			if ( empty( self::$log ) ) {
 				self::$log = new WC_Logger();
 			}
-			self::$log->log( $level, $message, array( 'source' => 'paynow-shipping' ) );
+			self::$log->log( $level, $message, [ 'source' => 'paynow-shipping' ] );
 		}
 	}
 

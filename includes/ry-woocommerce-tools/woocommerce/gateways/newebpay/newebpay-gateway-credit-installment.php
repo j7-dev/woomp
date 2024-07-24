@@ -16,7 +16,7 @@ class RY_NewebPay_Gateway_Credit_Installment extends RY_NewebPay_Gateway_Base {
 		$this->title             = $this->get_option( 'title' );
 		$this->description       = $this->get_option( 'description' );
 		$this->min_amount        = (int) $this->get_option( 'min_amount', 0 );
-		$this->number_of_periods = $this->get_option( 'number_of_periods', array() );
+		$this->number_of_periods = $this->get_option( 'number_of_periods', [] );
 
 		parent::__construct();
 	}
@@ -62,10 +62,10 @@ class RY_NewebPay_Gateway_Credit_Installment extends RY_NewebPay_Gateway_Base {
 		wc_maybe_reduce_stock_levels( $order_id );
 		wc_release_stock_for_order( $order );
 
-		return array(
+		return [
 			'result'   => 'success',
 			'redirect' => $order->get_checkout_payment_url( true ),
-		);
+		];
 	}
 
 	public function process_admin_options() {

@@ -20,15 +20,15 @@ class MyAccount {
 		$class = new self();
 		\add_filter(
 			'woocommerce_my_account_my_orders_actions',
-			array(
+			[
 				$class,
 				'change_customer_order_action',
-			),
+			],
 			10,
 			2
 		);
-		\add_action( 'wp_enqueue_scripts', array( $class, 'enqueue_my_account_script' ) );
-		\add_action( 'woocommerce_payment_token_set_default', array( $class, 'update_credit_hash' ), 30, 2 );
+		\add_action( 'wp_enqueue_scripts', [ $class, 'enqueue_my_account_script' ] );
+		\add_action( 'woocommerce_payment_token_set_default', [ $class, 'update_credit_hash' ], 30, 2 );
 	}
 
 	public function change_customer_order_action( $actions, $order ) {
@@ -54,15 +54,15 @@ class MyAccount {
 
 	public function enqueue_my_account_script() {
 		if ( is_account_page() ) {
-			wp_register_script( 'payuni_my_account_script', WOOMP_PLUGIN_URL . 'includes/payuni/assets/my-account.js', array( 'jquery' ), '1.1.8', true );
+			wp_register_script( 'payuni_my_account_script', WOOMP_PLUGIN_URL . 'includes/payuni/assets/my-account.js', [ 'jquery' ], '1.1.8', true );
 			wp_localize_script(
 				'payuni_my_account_script',
 				'payuni_my_account_script_params',
-				array(
+				[
 					'ajax_url'   => admin_url( 'admin-ajax.php' ),
 					'ajax_nonce' => wp_create_nonce( 'payuni_refund' ),
 					'user_id'    => get_current_user_id(),
-				)
+				]
 			);
 			wp_enqueue_script( 'payuni_my_account_script' );
 		}
@@ -93,7 +93,7 @@ class MyAccount {
 		// find all subscriptions for this user.
 		$subscriptions = \wcs_get_users_subscriptions( $user_id );
 		// get subscription post parent id.
-		$parent_order_ids = array();
+		$parent_order_ids = [];
 		foreach ( $subscriptions as $subscription ) {
 			$subscription_id = $subscription->get_id();
 			$subscription->set_payment_method( $gateway_id );

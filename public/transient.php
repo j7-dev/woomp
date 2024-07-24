@@ -9,15 +9,15 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 function ajax_load_transient() {
 	if ( is_checkout() ) {
-		wp_register_script( 'my_ajax_load', plugin_dir_url( __DIR__ ) . 'public/js/transient-load.js', array( 'jquery' ), null, true );
+		wp_register_script( 'my_ajax_load', plugin_dir_url( __DIR__ ) . 'public/js/transient-load.js', [ 'jquery' ], null, true );
 		wp_localize_script(
 			'my_ajax_load',
 			'ajax_params_load',
-			array(
+			[
 				'ajaxurl' => site_url() . '/wp-admin/admin-ajax.php',
 				'nonce'   => wp_create_nonce( 'ajax-my-nonce' ),
 				'login'   => is_user_logged_in(),
-			)
+			]
 		);
 		wp_enqueue_script( 'my_ajax_load' );
 	}
@@ -30,17 +30,17 @@ function myajax_ajax_handler_2() {
 	$user_id = $_POST['user_id'];
 	if ( ! wp_verify_nonce( $nonce, 'ajax-my-nonce' ) ) {
 		wp_send_json_error(
-			array(
+			[
 				'code' => 500,
 				'data' => '',
 				'msg'  => '錯誤的請求',
-			)
+			]
 		);
 	}
 	echo json_encode(
-		array(
+		[
 			'temp' => get_transient( 'woomp_temp_' . $user_id ),
-		)
+		]
 	);
 	die;
 }
@@ -53,15 +53,15 @@ add_action( 'wp_ajax_nopriv_checkout_load', 'myajax_ajax_handler_2', 99 );
  */
 function ajax_scripts() {
 	if ( is_checkout() ) {
-		wp_register_script( 'my_ajax', plugin_dir_url( __DIR__ ) . 'public/js/transient-save.js', array( 'jquery' ), null, true );
+		wp_register_script( 'my_ajax', plugin_dir_url( __DIR__ ) . 'public/js/transient-save.js', [ 'jquery' ], null, true );
 		wp_localize_script(
 			'my_ajax',
 			'ajax_params',
-			array(
+			[
 				'ajaxurl' => site_url() . '/wp-admin/admin-ajax.php', // WordPress AJAX
 				'nonce'   => wp_create_nonce( 'ajax-my-nonce' ), // TOKEN 驗證
 				'login'   => is_user_logged_in(),
-			)
+			]
 		);
 		wp_enqueue_script( 'my_ajax' );
 	}
@@ -73,11 +73,11 @@ function myajax_ajax_handler() {
 	$nonce = $_POST['nonce'];
 	if ( ! wp_verify_nonce( $nonce, 'ajax-my-nonce' ) ) { // 第二個參數要跟一開始 php 裡面的一樣
 		wp_send_json_error(
-			array(
+			[
 				'code' => 500,
 				'data' => '',
 				'msg'  => '錯誤的請求',
-			)
+			]
 		);
 	}
 
@@ -87,9 +87,9 @@ function myajax_ajax_handler() {
 
 	$temp = $billing_first_name;
 	echo json_encode(
-		array(
+		[
 			'temp' => get_transient( 'woomp_temp_' . $user_id ),
-		)
+		]
 	);
 	die;
 }

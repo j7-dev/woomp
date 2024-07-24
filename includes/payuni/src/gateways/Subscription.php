@@ -20,26 +20,26 @@ class Subscription {
 	 */
 	public static function init() {
 		$class = new self();
-		add_action( 'admin_enqueue_scripts', array( $class, 'enqueue_script' ) );
+		add_action( 'admin_enqueue_scripts', [ $class, 'enqueue_script' ] );
 		add_action(
 			'woocommerce_subscription_renewal_payment_failed',
-			array(
+			[
 				$class,
 				'subscription_fail_handler',
-			),
+			],
 			99,
 			2,
 		);
 		add_action(
 			'woocommerce_scheduled_subscription_payment_payuni-credit-subscription',
-			array(
+			[
 				$class,
 				'process_subscription_payment',
-			),
+			],
 			10,
 			2
 		);
-		add_filter( 'woocommerce_available_payment_gateways', array( $class, 'conditional_payment_gateways' ), 10, 1 );
+		add_filter( 'woocommerce_available_payment_gateways', [ $class, 'conditional_payment_gateways' ], 10, 1 );
 	}
 
 	/**
@@ -86,14 +86,14 @@ class Subscription {
 	 * @return void
 	 */
 	public function enqueue_script(): void {
-		wp_register_script( 'woomp_payuni_subscription', PAYUNI_PLUGIN_URL . 'assets/admin.js', array( 'jquery' ), '1.0.3', true );
+		wp_register_script( 'woomp_payuni_subscription', PAYUNI_PLUGIN_URL . 'assets/admin.js', [ 'jquery' ], '1.0.3', true );
 		wp_localize_script(
 			'woomp_payuni_subscription',
 			'woomp_payuni_subscription_params',
-			array(
+			[
 				'ajax_nonce' => wp_create_nonce( 'pay_manual' ),
 				'post_id'    => get_the_ID(),
-			)
+			]
 		);
 		wp_enqueue_script( 'woomp_payuni_subscription' );
 	}
@@ -105,7 +105,7 @@ class Subscription {
 	 */
 	public function conditional_payment_gateways( array $available_gateways ): array {
 		if ( ! empty( WC()->cart ) ) {
-			$product_type  = array();
+			$product_type  = [];
 			$cart_contents = WC()->cart->get_cart_contents();
 			foreach ( $cart_contents as $values ) {
 				$product_type[] = WC_Product_Factory::get_product_type( $values['product_id'] );

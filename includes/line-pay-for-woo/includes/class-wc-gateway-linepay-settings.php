@@ -35,27 +35,27 @@ class WC_Gateway_LINEPay_Settings {
 	 */
 	public function get_form_fields() {
 
-		return array(
-			'enabled'     => array(
+		return [
+			'enabled'     => [
 				'title'   => __( 'Enable/Disable', 'woocommerce-gateway-linepay' ),
 				'type'    => 'checkbox',
 				'label'   => __( 'Starting up LINE Pay plugin...', 'woocommerce-gateway-linepay' ),
 				'default' => 'no',
-			),
-			'title'       => array(
+			],
+			'title'       => [
 				'title'       => __( 'Title', 'woocommerce-gateway-linepay' ),
 				'type'        => 'text',
 				'description' => __( 'This controls the title which the user sees during checkout.', 'woocommerce-gateway-linepay' ),
 				'default'     => __( 'Line Pay', 'woocommerce-gateway-linepay' ),
 				'desc_tip'    => true,
-			),
-			'description' => array(
+			],
+			'description' => [
 				'title'       => __( 'Description', 'woocommerce-gateway-linepay' ),
 				'type'        => 'textarea',
 				'description' => __( 'This controls the description which the user sees during checkout.', 'woocommerce-gateway-linepay' ),
 				'desc_tip'    => true,
 				'css'         => 'width:400px;',
-			),
-		);
+			],
+		];
 	}
 }

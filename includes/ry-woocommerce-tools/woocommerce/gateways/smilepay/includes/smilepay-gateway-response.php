@@ -2,9 +2,9 @@
 class RY_SmilePay_Gateway_Response extends RY_SmilePay_Gateway_Api {
 
 	public static function init() {
-		add_action( 'woocommerce_api_ry_smilepay_callback', array( __CLASS__, 'check_callback' ) );
+		add_action( 'woocommerce_api_ry_smilepay_callback', [ __CLASS__, 'check_callback' ] );
 
-		add_action( 'valid_smilepay_gateway_request', array( __CLASS__, 'doing_callback' ) );
+		add_action( 'valid_smilepay_gateway_request', [ __CLASS__, 'doing_callback' ] );
 	}
 
 	public static function check_callback() {
@@ -26,7 +26,7 @@ class RY_SmilePay_Gateway_Response extends RY_SmilePay_Gateway_Api {
 
 			$order_id = self::get_order_id( $ipn_info, RY_WT::get_option( 'smilepay_gateway_order_prefix' ) );
 			if ( $order = wc_get_order( $order_id ) ) {
-				$ipn_info_check_value    = array();
+				$ipn_info_check_value    = [];
 				$ipn_info_check_value[0] = str_pad( substr( $Rot_check, -4 ), 4, '0', STR_PAD_LEFT );
 				$ipn_info_check_value[1] = (int) ceil( $order->get_total() );
 				$ipn_info_check_value[1] = str_pad( $ipn_info_check_value[1], 8, '0', STR_PAD_LEFT );

@@ -15,7 +15,7 @@ if ( ! class_exists( 'WooMP_Email' ) ) {
 		 */
 		public static function init() {
 			$class = new self();
-			add_action( 'woocommerce_email_after_order_table', array( $class, 'add_payment_info' ), 10, 4 );
+			add_action( 'woocommerce_email_after_order_table', [ $class, 'add_payment_info' ], 10, 4 );
 		}
 
 		/**

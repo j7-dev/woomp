@@ -70,7 +70,7 @@ class Paynow_Payment_Admin {
 		 * class.
 		 */
 
-		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/paynow-payment-admin.css', array(), $this->version, 'all' );
+		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/paynow-payment-admin.css', [], $this->version, 'all' );
 	}
 
 	/**
@@ -92,6 +92,6 @@ class Paynow_Payment_Admin {
 		 * class.
 		 */
 
-		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/paynow-payment-admin.js', array( 'jquery' ), $this->version, false );
+		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/paynow-payment-admin.js', [ 'jquery' ], $this->version, false );
 	}
 }

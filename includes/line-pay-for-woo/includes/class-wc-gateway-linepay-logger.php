@@ -21,11 +21,11 @@ class WC_Gateway_LINEPay_Logger {
 	const LOG_LEVEL_INFO  = 'info';
 
 	// Priority registration of Log Level
-	private static $log_levels = array(
+	private static $log_levels = [
 		self::LOG_LEVEL_ERROR,
 		self::LOG_LEVEL_DEBUG,
 		self::LOG_LEVEL_INFO,
-	);
+	];
 
 	/**
 	 * @var WC_Gateway_LINEPay_Logger

@@ -54,11 +54,11 @@ abstract class PayNow_Abstract_Shipping_Method extends WC_Shipping_Method {
 	 * Constructor function
 	 */
 	public function __construct() {
-		$this->supports = array(
+		$this->supports = [
 			'shipping-zones',
 			'instance-settings',
 			'instance-settings-modal',
-		);
+		];
 	}
 
 	/**
@@ -79,7 +79,7 @@ abstract class PayNow_Abstract_Shipping_Method extends WC_Shipping_Method {
 		if ( $is_available ) {
 			$shipping_classes = WC()->shipping->get_shipping_classes();
 			if ( ! empty( $shipping_classes ) ) {
-				$found_shipping_class = array();
+				$found_shipping_class = [];
 				foreach ( $package['contents'] as $item_id => $values ) {
 					if ( $values['data']->needs_shipping() ) {
 						$shipping_class_slug = $values['data']->get_shipping_class();
@@ -118,14 +118,14 @@ abstract class PayNow_Abstract_Shipping_Method extends WC_Shipping_Method {
 	 * @param array $package The shipping package.
 	 * @return void
 	 */
-	public function calculate_shipping( $package = array() ) {
+	public function calculate_shipping( $package = [] ) {
 
-		$rate = array(
+		$rate = [
 			'id'      => $this->get_rate_id(),
 			'label'   => $this->title,
 			'cost'    => 0,
 			'package' => $package,
-		);
+		];
 
 		$has_costs = false; // True when a cost is set. False if all costs are blank strings.
 		$cost      = $this->get_option( 'cost' );
@@ -134,10 +134,10 @@ abstract class PayNow_Abstract_Shipping_Method extends WC_Shipping_Method {
 			$has_costs    = true;
 			$rate['cost'] = $this->evaluate_cost(
 				$cost,
-				array(
+				[
 					'qty'  => $this->get_package_item_qty( $package ),
 					'cost' => $package['contents_cost'],
-				)
+				]
 			);
 		}
 
@@ -177,10 +177,10 @@ abstract class PayNow_Abstract_Shipping_Method extends WC_Shipping_Method {
 				$has_costs  = true;
 				$class_cost = $this->evaluate_cost(
 					$class_cost_string,
-					array(
+					[
 						'qty'  => array_sum( wp_list_pluck( $products, 'quantity' ) ),
 						'cost' => array_sum( wp_list_pluck( $products, 'line_total' ) ),
-					)
+					]
 				);
 
 				if ( 'class' === $this->type ) {
@@ -221,7 +221,7 @@ abstract class PayNow_Abstract_Shipping_Method extends WC_Shipping_Method {
 	 * @param  array  $args Args, must contain `cost` and `qty` keys. Having `array()` as default is for back compat reasons.
 	 * @return string
 	 */
-	protected function evaluate_cost( $sum, $args = array() ) {
+	protected function evaluate_cost( $sum, $args = [] ) {
 		// Add warning for subclasses.
 		if ( ! is_array( $args ) || ! array_key_exists( 'qty', $args ) || ! array_key_exists( 'cost', $args ) ) {
 			wc_doing_it_wrong( __FUNCTION__, '$args must contain `cost` and `qty` keys.', '4.0.1' );
@@ -232,27 +232,27 @@ abstract class PayNow_Abstract_Shipping_Method extends WC_Shipping_Method {
 		// Allow 3rd parties to process shipping cost arguments.
 		$args           = apply_filters( 'woocommerce_evaluate_shipping_cost_args', $args, $sum, $this );
 		$locale         = localeconv();
-		$decimals       = array( wc_get_price_decimal_separator(), $locale['decimal_point'], $locale['mon_decimal_point'], ',' );
+		$decimals       = [ wc_get_price_decimal_separator(), $locale['decimal_point'], $locale['mon_decimal_point'], ',' ];
 		$this->fee_cost = $args['cost'];
 
 		// Expand shortcodes.
-		add_shortcode( 'fee', array( $this, 'fee' ) );
+		add_shortcode( 'fee', [ $this, 'fee' ] );
 
 		$sum = do_shortcode(
 			str_replace(
-				array(
+				[
 					'[qty]',
 					'[cost]',
-				),
-				array(
+				],
+				[
 					$args['qty'],
 					$args['cost'],
-				),
+				],
 				$sum
 			)
 		);
 
-		remove_shortcode( 'fee', array( $this, 'fee' ) );
+		remove_shortcode( 'fee', [ $this, 'fee' ] );
 
 		// Remove whitespace from string.
 		$sum = preg_replace( '/\s+/', '', $sum );
@@ -275,11 +275,11 @@ abstract class PayNow_Abstract_Shipping_Method extends WC_Shipping_Method {
 	 */
 	public function fee( $atts ) {
 		$atts = shortcode_atts(
-			array(
+			[
 				'percent' => '',
 				'min_fee' => '',
 				'max_fee' => '',
-			),
+			],
 			$atts,
 			'fee'
 		);
@@ -326,14 +326,14 @@ abstract class PayNow_Abstract_Shipping_Method extends WC_Shipping_Method {
 	 * @return array
 	 */
 	public function find_shipping_classes( $package ) {
-		$found_shipping_classes = array();
+		$found_shipping_classes = [];
 
 		foreach ( $package['contents'] as $item_id => $values ) {
 			if ( $values['data']->needs_shipping() ) {
 				$found_class = $values['data']->get_shipping_class();
 
 				if ( ! isset( $found_shipping_classes[ $found_class ] ) ) {
-					$found_shipping_classes[ $found_class ] = array();
+					$found_shipping_classes[ $found_class ] = [];
 				}
 
 				$found_shipping_classes[ $found_class ][ $item_id ] = $values;

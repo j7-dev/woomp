@@ -1,18 +1,18 @@
 <?php
 class RY_SmilePay_Shipping_Api extends RY_SmilePay_Gateway_Api {
 
-	public static $api_test_url = array(
+	public static $api_test_url = [
 		'checkout' => 'https://ssl.smse.com.tw/ezpos_test/mtmk_utf.asp',
 		'pay'      => 'https://ssl.smse.com.tw/api/C2CPayment.asp',
 		'unpay'    => 'https://ssl.smse.com.tw/api/C2CPaymentU.asp',
 		'print'    => 'https://ssl.smse.com.tw/api/C2C_MultiplePrint.asp',
-	);
-	public static $api_url      = array(
+	];
+	public static $api_url      = [
 		'checkout' => 'https://ssl.smse.com.tw/ezpos/mtmk_utf.asp',
 		'pay'      => 'https://ssl.smse.com.tw/api/C2CPayment.asp',
 		'unpay'    => 'https://ssl.smse.com.tw/api/C2CPaymentU.asp',
 		'print'    => 'https://ssl.smse.com.tw/api/C2C_MultiplePrint.asp',
-	);
+	];
 
 	public static function get_csv_info( $order_id ) {
 		$order = wc_get_order( $order_id );
@@ -29,7 +29,7 @@ class RY_SmilePay_Shipping_Api extends RY_SmilePay_Gateway_Api {
 			$item_names = self::get_item_name( $order );
 		}
 
-		$args = array(
+		$args = [
 			'Dcvc'             => $Dcvc,
 			'Rvg2c'            => $Rvg2c,
 			'Od_sob'           => $item_names,
@@ -41,7 +41,7 @@ class RY_SmilePay_Shipping_Api extends RY_SmilePay_Gateway_Api {
 			'Roturl_status'    => 'RY_SmilePay',
 			'MapRoturl'        => WC()->api_request_url( 'ry_smilepay_shipping_map_callback', true ),
 			'Logistics_Roturl' => WC()->api_request_url( 'ry_smilepay_shipping_callback', true ),
-		);
+		];
 
 		if ( version_compare( WC_VERSION, '5.6.0', '>=' ) ) {
 			$args['Mobile_number'] = $order->get_shipping_phone();
@@ -88,7 +88,7 @@ class RY_SmilePay_Shipping_Api extends RY_SmilePay_Gateway_Api {
 			$item_names = self::get_item_name( $order );
 		}
 
-		$args = array(
+		$args = [
 			'Dcvc'             => $Dcvc,
 			'Rvg2c'            => $Rvg2c,
 			'Od_sob'           => $item_names,
@@ -101,7 +101,7 @@ class RY_SmilePay_Shipping_Api extends RY_SmilePay_Gateway_Api {
 			'MapRoturl'        => WC()->api_request_url( 'ry_smilepay_shipping_admin_map_callback', true ),
 			'Logistics_Roturl' => WC()->api_request_url( 'ry_smilepay_shipping_callback', true ),
 			'Logistics_store'  => $order->get_meta( '_shipping_cvs_store_ID' ) . '/' . $order->get_meta( '_shipping_cvs_store_name' ) . '/' . $order->get_meta( '_shipping_cvs_store_address' ),
-		);
+		];
 
 		if ( version_compare( WC_VERSION, '5.6.0', '>=' ) ) {
 			$args['Mobile_number'] = $order->get_shipping_phone();
@@ -143,20 +143,20 @@ class RY_SmilePay_Shipping_Api extends RY_SmilePay_Gateway_Api {
 
 		$shipping_list = $order->get_meta( '_smilepay_shipping_info', true );
 		if ( ! is_array( $shipping_list ) ) {
-			$shipping_list = array();
+			$shipping_list = [];
 		}
 		foreach ( $shipping_list as $smse_id => $info ) {
 			if ( $get_smse_id != $smse_id ) {
 				continue;
 			}
 
-			$args = array(
+			$args = [
 				'Dcvc'       => $Dcvc,
 				'Verify_key' => $Verify_key,
 				'smseid'     => $info['ID'],
 				'Pay_subzg'  => $info['type'],
 				'types'      => 'Xml',
-			);
+			];
 
 			RY_SmilePay_Shipping::log( 'Get code POST: ' . var_export( $args, true ) );
 
@@ -166,12 +166,10 @@ class RY_SmilePay_Shipping_Api extends RY_SmilePay_Gateway_Api {
 				} else {
 					$url = self::$api_url['pay'];
 				}
+			} elseif ( 'yes' === RY_WT::get_option( 'smilepay_gateway_testmode', 'yes' ) ) {
+				$url = self::$api_test_url['unpay'];
 			} else {
-				if ( 'yes' === RY_WT::get_option( 'smilepay_gateway_testmode', 'yes' ) ) {
-					$url = self::$api_test_url['unpay'];
-				} else {
-					$url = self::$api_url['unpay'];
-				}
+				$url = self::$api_url['unpay'];
 			}
 
 			$response = self::link_server( $url, $args );
@@ -222,16 +220,16 @@ class RY_SmilePay_Shipping_Api extends RY_SmilePay_Gateway_Api {
 	public static function get_print_url( $info_list, $multi = false ) {
 		list($Dcvc, $Rvg2c, $Verify_key, $Rot_check) = RY_SmilePay_Gateway::get_smilepay_api_info();
 
-		$args = array(
+		$args = [
 			'Dcvc'       => $Dcvc,
 			'Rvg2c'      => $Rvg2c,
 			'Verify_key' => $Verify_key,
-		);
+		];
 		if ( ! $multi ) {
-			$info_list = array( $info_list );
+			$info_list = [ $info_list ];
 		}
 
-		$no_list = array();
+		$no_list = [];
 		foreach ( $info_list as $info ) {
 			$no_list[] = $info['PaymentNo'] . $info['ValidationNo'];
 		}

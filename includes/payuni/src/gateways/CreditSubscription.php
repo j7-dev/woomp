@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Payuni_Payment_Credit class file
  *
@@ -39,7 +38,7 @@ class CreditSubscription extends AbstractGateway {
 
 		$this->title            = $this->get_option( 'title' );
 		$this->description      = $this->get_option( 'description' );
-		$this->supports         = array(
+		$this->supports         = [
 			'products',
 			'subscriptions',
 			'subscription_cancellation',
@@ -52,18 +51,18 @@ class CreditSubscription extends AbstractGateway {
 			'subscription_payment_method_change_admin',
 			'multiple_subscriptions',
 			'tokenization',
-		);
+		];
 		$this->api_endpoint_url = 'api/credit';
 
 		add_action(
 			'woocommerce_update_options_payment_gateways_' . $this->id,
-			array(
+			[
 				$this,
 				'process_admin_options',
-			)
+			]
 		);
 
-		add_filter( 'payuni_transaction_args_' . $this->id, array( $this, 'add_args' ), 10, 3 );
+		add_filter( 'payuni_transaction_args_' . $this->id, [ $this, 'add_args' ], 10, 3 );
 	}
 
 	/**
@@ -72,30 +71,30 @@ class CreditSubscription extends AbstractGateway {
 	 * @return void
 	 */
 	public function init_form_fields() {
-		$this->form_fields = array(
-			'enabled'     => array(
+		$this->form_fields = [
+			'enabled'     => [
 				'title'   => __( 'Enable/Disable', 'woocommerce' ),
 				'type'    => 'checkbox',
 				/* translators: %s: Gateway method title */
 				'label'   => sprintf( __( 'Enable %s', 'woomp' ), $this->method_title ),
 				'default' => 'no',
-			),
-			'title'       => array(
+			],
+			'title'       => [
 				'title'       => __( 'Title', 'woocommerce' ),
 				'type'        => 'text',
 				'default'     => $this->method_title,
 				'description' => __( 'This controls the title which the user sees during checkout.', 'woocommerce' ),
 				'desc_tip'    => true,
-			),
-			'description' => array(
+			],
+			'description' => [
 				'title'       => __( 'Description', 'woocommerce' ),
 				'type'        => 'textarea',
 				'css'         => 'width: 400px;',
 				'default'     => $this->order_button_text,
 				'description' => __( 'This controls the description which the user sees during checkout.', 'woocommerce' ),
 				'desc_tip'    => true,
-			),
-		);
+			],
+		];
 	}
 
 	/**
@@ -108,9 +107,9 @@ class CreditSubscription extends AbstractGateway {
 	 */
 	public function add_args( array $args, WC_Order $order, array $card_data ): array {
 		try {
-			$data = array(
+			$data = [
 				'CreditToken' => $order->get_billing_email(),
-			);
+			];
 
 			if ( wc_string_to_bool( get_option( 'payuni_3d_auth', 'yes' ) ) ) {
 				$data['API3D'] = 1;
@@ -146,24 +145,27 @@ class CreditSubscription extends AbstractGateway {
 	 *
 	 * @param string $order_id The order id.
 	 *
-	 * @return array{number:string, expiry:string, cvc:string, token_id:string, new:string}
+	 * @return array
 	 */
 	public function process_payment( $order_id ): array {
         //@codingStandardsIgnoreStart
         $number   = (isset($_POST[ $this->id . '-card-number' ])) ? wc_clean(wp_unslash($_POST[ $this->id . '-card-number' ])) : '';
         $expiry   = (isset($_POST[ $this->id . '-card-expiry' ])) ? wc_clean(wp_unslash(str_replace(' ', '', $_POST[ $this->id . '-card-expiry' ]))) : '';
         $cvc      = (isset($_POST[ $this->id . '-card-cvc' ])) ? wc_clean(wp_unslash($_POST[ $this->id . '-card-cvc' ])) : '';
-        $token_id = (isset($_POST[ 'wc-' . $this->id . '-payment-token' ])) ? wc_clean(wp_unslash($_POST[ 'wc-' . $this->id . '-payment-token' ])) : '';
-        $new      = (isset($_POST[ 'wc-' . $this->id . '-new-payment-method' ])) ? wc_clean(wp_unslash($_POST[ 'wc-' . $this->id . '-new-payment-method' ])) : '';
+        $token_id = (isset($_POST[ 'wc-' . $this->id . '-payment-token' ])) ? wc_clean(wp_unslash($_POST[ 'wc-' . $this->id . '-payment-token' ])) : ''; // 如果是 新增付款方式，這個值會是 new
+        $new      = (isset($_POST[ 'wc-' . $this->id . '-new-payment-method' ])) ? wc_clean(wp_unslash($_POST[ 'wc-' . $this->id . '-new-payment-method' ])) : ''; // DELETE 沒有這個欄位吧!?
         //@codingStandardsIgnoreEnd
 
-		$card_data = array(
+		/**
+		 * @var array{number:string, expiry:string, cvc:string, token_id:string, new:string} $card_data 卡片資料
+		 */
+		$card_data = [
 			'number'   => str_replace( ' ', '', $number ),
 			'expiry'   => str_replace( '/', '', $expiry ),
 			'cvc'      => $cvc,
 			'token_id' => $token_id,
 			'new'      => $new,
-		);
+		];
 
 		$request = new Request( new self() );
 
@@ -181,6 +183,11 @@ class CreditSubscription extends AbstractGateway {
 			return $request->build_hash_request( $order, $card_data );
 		}
 
+		if ( \is_numeric( $token_id ) ) {
+			// 使用 token 付款
+			return $request->build_request( $order, $card_data );
+		}
+		// 使用信用卡號付款
 		return $request->build_request( $order, $card_data );
 	}
 

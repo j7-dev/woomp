@@ -15,7 +15,7 @@ if ( ! class_exists( 'WooMP_Order_Public' ) ) {
 		 */
 		public static function init() {
 			$class = new self();
-			add_action( 'woocommerce_view_order', array( $class, 'display_order_shipping_number' ) );
+			add_action( 'woocommerce_view_order', [ $class, 'display_order_shipping_number' ] );
 		}
 
 		/**
@@ -26,7 +26,7 @@ if ( ! class_exists( 'WooMP_Order_Public' ) ) {
 			// 綠界物流單號.
 			$ecpay_shipping_info = get_post_meta( $order_id, '_ecpay_shipping_info' );
 			if ( $ecpay_shipping_info ) {
-				$ecpay_no = array();
+				$ecpay_no = [];
 				foreach ( $ecpay_shipping_info as $data ) {
 					foreach ( $data as $i ) {
 						$shipping_no = $i['PaymentNo'] . ' ' . $i['ValidationNo'];

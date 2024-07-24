@@ -23,22 +23,22 @@ final class RY_ECPay_Gateway {
 
 		self::$log_enabled = 'yes' === RY_WT::get_option( 'ecpay_gateway_log', 'no' );
 
-		add_filter( 'woocommerce_get_sections_rytools', array( __CLASS__, 'add_sections' ) );
-		add_filter( 'woocommerce_get_settings_rytools', array( __CLASS__, 'add_setting' ), 10, 2 );
-		add_action( 'woocommerce_update_options_rytools_ecpay_gateway', array( __CLASS__, 'check_option' ) );
+		add_filter( 'woocommerce_get_sections_rytools', [ __CLASS__, 'add_sections' ] );
+		add_filter( 'woocommerce_get_settings_rytools', [ __CLASS__, 'add_setting' ], 10, 2 );
+		add_action( 'woocommerce_update_options_rytools_ecpay_gateway', [ __CLASS__, 'check_option' ] );
 
 		if ( is_admin() ) {
 		} else {
-			add_action( 'woocommerce_thankyou', array( __CLASS__, 'payment_info' ), 9 );
-			add_action( 'woocommerce_view_order', array( __CLASS__, 'payment_info' ), 9 );
+			add_action( 'woocommerce_thankyou', [ __CLASS__, 'payment_info' ], 9 );
+			add_action( 'woocommerce_view_order', [ __CLASS__, 'payment_info' ], 9 );
 		}
 
 		if ( 'yes' === RY_WT::get_option( 'enabled_ecpay_gateway', 'no' ) ) {
 			RY_ECPay_Gateway_Response::init();
 
-			add_filter( 'woocommerce_payment_gateways', array( __CLASS__, 'add_method' ) );
-			add_filter( 'woocommerce_email_classes', array( __CLASS__, 'add_email_class' ) );
-			add_filter( 'woocommerce_email_actions', array( __CLASS__, 'add_email_action' ) );
+			add_filter( 'woocommerce_payment_gateways', [ __CLASS__, 'add_method' ] );
+			add_filter( 'woocommerce_email_classes', [ __CLASS__, 'add_email_class' ] );
+			add_filter( 'woocommerce_email_actions', [ __CLASS__, 'add_email_action' ] );
 		}
 	}
 
@@ -50,10 +50,10 @@ final class RY_ECPay_Gateway {
 			self::$log->log(
 				$level,
 				$message,
-				array(
+				[
 					'source'  => 'ry_ecpay_gateway',
 					'_legacy' => true,
-				)
+				]
 			);
 		}
 	}
@@ -82,7 +82,7 @@ final class RY_ECPay_Gateway {
 			$HashIV     = RY_WT::get_option( 'ecpay_gateway_HashIV' );
 		}
 
-		return array( $MerchantID, $HashKey, $HashIV );
+		return [ $MerchantID, $HashKey, $HashIV ];
 	}
 
 	public static function check_option() {
@@ -131,9 +131,9 @@ final class RY_ECPay_Gateway {
 		}
 
 		if ( isset( $template_file ) ) {
-			$args = array(
+			$args = [
 				'order' => $order,
-			);
+			];
 			wc_get_template( $template_file, $args, '', RY_WT_PLUGIN_DIR . 'templates/' );
 		}
 	}

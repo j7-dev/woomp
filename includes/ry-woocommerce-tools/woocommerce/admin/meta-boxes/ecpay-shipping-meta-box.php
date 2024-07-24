@@ -10,7 +10,7 @@ class RY_ECPay_Shipping_Meta_Box {
 
 			foreach ( $theorder->get_items( 'shipping' ) as $item_id => $item ) {
 				if ( RY_ECPay_Shipping::get_order_support_shipping( $item ) !== false ) {
-					add_meta_box( 'ry-ecpay-shipping-info', __( 'ECPay shipping info', 'ry-woocommerce-tools' ), array( __CLASS__, 'output' ), 'shop_order', 'normal', 'high' );
+					add_meta_box( 'ry-ecpay-shipping-info', __( 'ECPay shipping info', 'ry-woocommerce-tools' ), [ __CLASS__, 'output' ], 'shop_order', 'normal', 'high' );
 					break;
 				}
 			}
@@ -26,7 +26,7 @@ class RY_ECPay_Shipping_Meta_Box {
 
 		$shipping_list = $theorder->get_meta( '_ecpay_shipping_info', true );
 		if ( ! is_array( $shipping_list ) ) {
-			$shipping_list = array();
+			$shipping_list = [];
 		} ?>
 		<div class="shipping-loading">
 			<div class="lds-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
@@ -110,21 +110,21 @@ class RY_ECPay_Shipping_Meta_Box {
 			</td>
 			<td>
 			<?php /* translators: %1$s: date %2$s: time */ ?>
-			<?php echo sprintf( _x( '%1$s %2$s', 'Datetime', 'ry-woocommerce-tools' ), $item['edit']->date_i18n( wc_date_format() ), $item['edit']->date_i18n( wc_time_format() ) ); ?>
+			<?php printf( _x( '%1$s %2$s', 'Datetime', 'ry-woocommerce-tools' ), $item['edit']->date_i18n( wc_date_format() ), $item['edit']->date_i18n( wc_time_format() ) ); ?>
 			</td>
 			<td>
-			<?php echo sprintf( _x( '%1$s %2$s', 'Datetime', 'ry-woocommerce-tools' ), $item['create']->date_i18n( wc_date_format() ), $item['create']->date_i18n( wc_time_format() ) ); ?>
+			<?php printf( _x( '%1$s %2$s', 'Datetime', 'ry-woocommerce-tools' ), $item['create']->date_i18n( wc_date_format() ), $item['create']->date_i18n( wc_time_format() ) ); ?>
 			</td>
 			<td>
 				<a class="button" target="_blank" rel="noopener noreffer" href="
 			<?php
 			echo esc_url(
 				add_query_arg(
-					array(
+					[
 						'orderid'  => $post->ID,
 						'id'       => $item['ID'],
 						'noheader' => 1,
-					),
+					],
 					admin_url( 'admin.php?page=ry_print_ecpay_shipping' )
 				)
 			);

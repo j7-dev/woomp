@@ -254,7 +254,7 @@ if ( ! class_exists( 'EcpayInvoice' ) ) {
 		public $Invoice_Url    = 'Invoice_Url'; // 電子發票執行網址
 
 		public function __construct() {
-			$this->Send = array(
+			$this->Send = [
 				'RelateNumber'       => '',
 				'CustomerID'         => '',
 				'CustomerIdentifier' => '',
@@ -271,7 +271,7 @@ if ( ! class_exists( 'EcpayInvoice' ) ) {
 				'TaxType'            => '',
 				'SalesAmount'        => '',
 				'InvoiceRemark'      => '',
-				'Items'              => array(),
+				'Items'              => [],
 				'InvType'            => '',
 				'vat'                => EcpayVatType::Yes,
 				'DelayFlag'          => '',
@@ -294,13 +294,13 @@ if ( ! class_exists( 'EcpayInvoice' ) ) {
 				'Notified'           => '',
 				'BarCode'            => '',
 				'OnLine'             => true,
-			);
+			];
 
 			$this->TimeStamp = time();
 		}
 
 		public function Check_Out() {
-			$arParameters = array_merge( array( 'MerchantID' => $this->MerchantID ), array( 'TimeStamp' => $this->TimeStamp ), $this->Send );
+			$arParameters = array_merge( [ 'MerchantID' => $this->MerchantID ], [ 'TimeStamp' => $this->TimeStamp ], $this->Send );
 			return ECPay_Invoice_Send::CheckOut( $arParameters, $this->HashKey, $this->HashIV, $this->Invoice_Method, $this->Invoice_Url );
 		}
 
@@ -331,7 +331,7 @@ if ( ! class_exists( 'ECPay_Invoice_Send' ) ) {
 		/**
 		 * 背景送出資料
 		 */
-		public static function CheckOut( $arParameters = array(), $HashKey = '', $HashIV = '', $Invoice_Method = '', $ServiceURL = '' ) {
+		public static function CheckOut( $arParameters = [], $HashKey = '', $HashIV = '', $Invoice_Method = '', $ServiceURL = '' ) {
 
 			// 發送資訊處理
 			$arParameters = self::process_send( $arParameters, $HashKey, $HashIV, $Invoice_Method, $ServiceURL );
@@ -345,7 +345,7 @@ if ( ! class_exists( 'ECPay_Invoice_Send' ) ) {
 		}
 
 		// 資料檢查與過濾(送出)
-		protected static function process_send( $arParameters = array(), $HashKey = '', $HashIV = '', $Invoice_Method = '', $ServiceURL = '' ) {
+		protected static function process_send( $arParameters = [], $HashKey = '', $HashIV = '', $Invoice_Method = '', $ServiceURL = '' ) {
 
 			// 宣告物件
 			$InvoiceMethod    = 'ECPay_' . $Invoice_Method;
@@ -355,19 +355,19 @@ if ( ! class_exists( 'ECPay_Invoice_Send' ) ) {
 			$arParameters = self::$InvoiceObj->insert_string( $arParameters );
 
 			// 2檢查共用參數
-			ECPay_Invoice_Send::check_string( $arParameters['MerchantID'], $HashKey, $HashIV, $Invoice_Method, $ServiceURL );
+			self::check_string( $arParameters['MerchantID'], $HashKey, $HashIV, $Invoice_Method, $ServiceURL );
 
 			// 3檢查各別參數
 			$arParameters = self::$InvoiceObj->check_extend_string( $arParameters );
 
 			// 4處理需要轉換為urlencode的參數
-			$arParameters = ECPay_Invoice_Send::urlencode_process( $arParameters, self::$InvoiceObj->urlencode_field );
+			$arParameters = self::urlencode_process( $arParameters, self::$InvoiceObj->urlencode_field );
 
 			// 5欄位例外處理方式(送壓碼前)
 			$arException = self::$InvoiceObj->check_exception( $arParameters );
 
 			// 6產生壓碼
-			$arParameters['CheckMacValue'] = ECPay_Invoice_Send::generate_checkmacvalue( $arException, self::$InvoiceObj->none_verification, $HashKey, $HashIV );
+			$arParameters['CheckMacValue'] = self::generate_checkmacvalue( $arException, self::$InvoiceObj->none_verification, $HashKey, $HashIV );
 
 			return $arParameters;
 		}
@@ -382,14 +382,14 @@ if ( ! class_exists( 'ECPay_Invoice_Send' ) ) {
 			self::$InvoiceObj_Return = new $InvoiceMethod();
 
 			// 7字串轉陣列
-			$arParameters = ECPay_Invoice_Send::string_to_array( $sParameters );
+			$arParameters = self::string_to_array( $sParameters );
 
 			// 8欄位例外處理方式(送壓碼前)
 			$arException = self::$InvoiceObj_Return->check_exception( $arParameters );
 
 			// 9產生壓碼(壓碼檢查)
 			if ( isset( $arParameters['CheckMacValue'] ) ) {
-				$CheckMacValue = ECPay_Invoice_Send::generate_checkmacvalue( $arException, self::$InvoiceObj_Return->none_verification, $HashKey, $HashIV );
+				$CheckMacValue = self::generate_checkmacvalue( $arException, self::$InvoiceObj_Return->none_verification, $HashKey, $HashIV );
 
 				if ( $CheckMacValue != $arParameters['CheckMacValue'] ) {
 					throw new Exception( '注意：壓碼錯誤' );
@@ -397,7 +397,7 @@ if ( ! class_exists( 'ECPay_Invoice_Send' ) ) {
 			}
 
 			// 10處理需要urldecode的參數
-			$arParameters = ECPay_Invoice_Send::urldecode_process( $arParameters, self::$InvoiceObj_Return->urlencode_field );
+			$arParameters = self::urldecode_process( $arParameters, self::$InvoiceObj_Return->urlencode_field );
 
 			return $arParameters;
 		}
@@ -407,7 +407,7 @@ if ( ! class_exists( 'ECPay_Invoice_Send' ) ) {
 		 */
 		protected static function check_string( $MerchantID = '', $HashKey = '', $HashIV = '', $Invoice_Method = 'INVOICE', $ServiceURL = '' ) {
 
-			$arErrors = array();
+			$arErrors = [];
 
 			// 檢查是否傳入動作方式
 			if ( $Invoice_Method == '' || $Invoice_Method == 'Invoice_Method' ) {
@@ -446,7 +446,7 @@ if ( ! class_exists( 'ECPay_Invoice_Send' ) ) {
 		/**
 		 * 4處理需要轉換為urlencode的參數
 		 */
-		protected static function urlencode_process( $arParameters = array(), $urlencode_field = array() ) {
+		protected static function urlencode_process( $arParameters = [], $urlencode_field = [] ) {
 			foreach ( $arParameters as $key => $value ) {
 
 				if ( isset( $urlencode_field[ $key ] ) ) {
@@ -461,7 +461,7 @@ if ( ! class_exists( 'ECPay_Invoice_Send' ) ) {
 		/**
 		 * 6,9產生壓碼
 		 */
-		protected static function generate_checkmacvalue( $arParameters = array(), $none_verification = array(), $HashKey = '', $HashIV = '' ) {
+		protected static function generate_checkmacvalue( $arParameters = [], $none_verification = [], $HashKey = '', $HashIV = '' ) {
 
 			$sCheck_MacValue = '';
 
@@ -482,8 +482,8 @@ if ( ! class_exists( 'ECPay_Invoice_Send' ) ) {
 		 */
 		protected static function string_to_array( $Parameters = '' ) {
 
-			$aParameters     = array();
-			$aParameters_Tmp = array();
+			$aParameters     = [];
+			$aParameters_Tmp = [];
 
 			$aParameters_Tmp = explode( '&', $Parameters );
 
@@ -498,7 +498,7 @@ if ( ! class_exists( 'ECPay_Invoice_Send' ) ) {
 		/**
 		 * 10處理urldecode的參數
 		 */
-		protected static function urldecode_process( $arParameters = array(), $urlencode_field = array() ) {
+		protected static function urldecode_process( $arParameters = [], $urlencode_field = [] ) {
 			foreach ( $arParameters as $key => $value ) {
 				if ( isset( $urlencode_field[ $key ] ) ) {
 					$arParameters[ $key ] = ECPay_Invoice_CheckMacValue::Replace_Symbol_Decode( $arParameters[ $key ] );
@@ -524,7 +524,7 @@ if ( ! class_exists( 'ecpayResponse' ) ) {
 		 * @param  array $parameters
 		 * @return array
 		 */
-		public static function response( $merchantInfo = array(), $parameters = array() ) {
+		public static function response( $merchantInfo = [], $parameters = [] ) {
 			$invoiceMethod   = 'ECPay_' . $merchantInfo['method'];
 			self::$objReturn = new $invoiceMethod();
 
@@ -548,7 +548,7 @@ if ( ! class_exists( 'ECPay_INVOICE' ) ) {
 	class ECPay_INVOICE {
 
 		// 所需參數
-		public $parameters = array(
+		public $parameters = [
 			'TimeStamp'          => '',
 			'MerchantID'         => '',
 			'RelateNumber'       => '',
@@ -567,7 +567,7 @@ if ( ! class_exists( 'ECPay_INVOICE' ) ) {
 			'TaxType'            => '',
 			'SalesAmount'        => '',
 			'InvoiceRemark'      => '',
-			'Items'              => array(),
+			'Items'              => [],
 			'ItemName'           => '',
 			'ItemCount'          => '',
 			'ItemWord'           => '',
@@ -579,10 +579,10 @@ if ( ! class_exists( 'ECPay_INVOICE' ) ) {
 			'InvType'            => '',
 			'vat'                => '',
 			'OnLine'             => true,
-		);
+		];
 
 		// 需要做urlencode的參數
-		public $urlencode_field = array(
+		public $urlencode_field = [
 			'CustomerName'  => '',
 			'CustomerAddr'  => '',
 			'CustomerEmail' => '',
@@ -590,21 +590,21 @@ if ( ! class_exists( 'ECPay_INVOICE' ) ) {
 			'ItemName'      => '',
 			'ItemWord'      => '',
 			'ItemRemark'    => '',
-		);
+		];
 
 		// 不需要送壓碼的欄位
-		public $none_verification = array(
+		public $none_verification = [
 			'InvoiceRemark' => '',
 			'ItemName'      => '',
 			'ItemWord'      => '',
 			'ItemRemark'    => '',
 			'CheckMacValue' => '',
-		);
+		];
 
 		/**
 		 * 1寫入參數
 		 */
-		public function insert_string( $arParameters = array() ) {
+		public function insert_string( $arParameters = [] ) {
 
 			$nItems_Count_Total   = 0;
 			$nItems_Foreach_Count = 1;
@@ -664,9 +664,9 @@ if ( ! class_exists( 'ECPay_INVOICE' ) ) {
 		/**
 		 * 2-2 驗證參數格式
 		 */
-		public function check_extend_string( $arParameters = array() ) {
+		public function check_extend_string( $arParameters = [] ) {
 
-			$arErrors      = array();
+			$arErrors      = [];
 			$nCheck_Amount = 0; // 驗證總金額
 
 			// 4.廠商自訂編號
@@ -827,10 +827,8 @@ if ( ! class_exists( 'ECPay_INVOICE' ) ) {
 				if ( ! preg_match( '/^([xX]{1}[0-9]{2,6}|[0-9]{3,7})$/', $arParameters['LoveCode'] ) ) {
 					array_push( $arErrors, '14:Invalid LoveCode.' );
 				}
-			} else {
-				if ( strlen( $arParameters['LoveCode'] ) > 0 ) {
-					array_push( $arErrors, '14:Please remove LoveCode.' );
-				}
+			} elseif ( strlen( $arParameters['LoveCode'] ) > 0 ) {
+				array_push( $arErrors, '14:Please remove LoveCode.' );
 			}
 
 			// 15.載具類別 CarruerType(預設為None)
@@ -1061,7 +1059,7 @@ if ( ! class_exists( 'ECPay_INVOICE' ) ) {
 		/**
 		 * 4欄位例外處理方式(送壓碼前)
 		 */
-		public function check_exception( $arParameters = array() ) {
+		public function check_exception( $arParameters = [] ) {
 			if ( isset( $arParameters['CarruerNum'] ) ) {
 				// 載具編號內包含+號則改為空白
 				$arParameters['CarruerNum'] = str_replace( '+', ' ', $arParameters['CarruerNum'] );
@@ -1078,7 +1076,7 @@ if ( ! class_exists( 'ECPay_INVOICE_DELAY' ) ) {
 	class ECPay_INVOICE_DELAY {
 
 		// 所需參數
-		public $parameters = array(
+		public $parameters = [
 			'TimeStamp'          => '',
 			'MerchantID'         => '',
 			'RelateNumber'       => '',
@@ -1097,7 +1095,7 @@ if ( ! class_exists( 'ECPay_INVOICE_DELAY' ) ) {
 			'TaxType'            => '',
 			'SalesAmount'        => '',
 			'InvoiceRemark'      => '',
-			'Items'              => array(),
+			'Items'              => [],
 			'ItemName'           => '',
 			'ItemCount'          => '',
 			'ItemWord'           => '',
@@ -1112,30 +1110,30 @@ if ( ! class_exists( 'ECPay_INVOICE_DELAY' ) ) {
 			'PayType'            => 2,
 			'PayAct'             => 'ECPAY',
 			'NotifyURL'          => '',
-		);
+		];
 
 		// 需要做urlencode的參數
-		public $urlencode_field = array(
+		public $urlencode_field = [
 			'CustomerName'  => '',
 			'CustomerAddr'  => '',
 			'CustomerEmail' => '',
 			'InvoiceRemark' => '',
 			'ItemName'      => '',
 			'ItemWord'      => '',
-		);
+		];
 
 		// 不需要送壓碼的欄位
-		public $none_verification = array(
+		public $none_verification = [
 			'InvoiceRemark' => '',
 			'ItemName'      => '',
 			'ItemWord'      => '',
 			'CheckMacValue' => '',
-		);
+		];
 
 		/**
 		 * 1寫入參數
 		 */
-		public function insert_string( $arParameters = array() ) {
+		public function insert_string( $arParameters = [] ) {
 
 			$nItems_Count_Total   = 0;
 			$nItems_Foreach_Count = 1;
@@ -1193,8 +1191,8 @@ if ( ! class_exists( 'ECPay_INVOICE_DELAY' ) ) {
 		/**
 		 * 2-2 驗證參數格式
 		 */
-		public function check_extend_string( $arParameters = array() ) {
-			$arErrors      = array();
+		public function check_extend_string( $arParameters = [] ) {
+			$arErrors      = [];
 			$nCheck_Amount = 0; // 驗證總金額
 
 			// 4.廠商自訂編號
@@ -1346,10 +1344,8 @@ if ( ! class_exists( 'ECPay_INVOICE_DELAY' ) ) {
 				if ( ! preg_match( '/^([xX]{1}[0-9]{2,6}|[0-9]{3,7})$/', $arParameters['LoveCode'] ) ) {
 					array_push( $arErrors, '14:Invalid LoveCode.' );
 				}
-			} else {
-				if ( strlen( $arParameters['LoveCode'] ) > 0 ) {
-					array_push( $arErrors, '14:Please remove LoveCode.' );
-				}
+			} elseif ( strlen( $arParameters['LoveCode'] ) > 0 ) {
+				array_push( $arErrors, '14:Please remove LoveCode.' );
 			}
 
 			// 15.載具類別 CarruerType(預設為None)
@@ -1598,7 +1594,7 @@ if ( ! class_exists( 'ECPay_INVOICE_DELAY' ) ) {
 		/**
 		 * 4欄位例外處理方式(送壓碼前)
 		 */
-		public function check_exception( $arParameters = array() ) {
+		public function check_exception( $arParameters = [] ) {
 
 			if ( isset( $arParameters['CarruerNum'] ) ) {
 				// 載具編號內包含+號則改為空白
@@ -1616,11 +1612,11 @@ if ( ! class_exists( 'ECPay_ALLOWANCE' ) ) {
 	class ECPay_ALLOWANCE {
 
 		// 所需參數
-		public $parameters = array(
+		public $parameters = [
 			'TimeStamp'       => '',
 			'MerchantID'      => '',
 			'CustomerName'    => '',
-			'Items'           => array(),
+			'Items'           => [],
 			'ItemName'        => '',
 			'ItemCount'       => '',
 			'ItemWord'        => '',
@@ -1633,27 +1629,27 @@ if ( ! class_exists( 'ECPay_ALLOWANCE' ) ) {
 			'NotifyMail'      => '',
 			'NotifyPhone'     => '',
 			'AllowanceAmount' => '',
-		);
+		];
 
 		// 需要做urlencode的參數
-		public $urlencode_field = array(
+		public $urlencode_field = [
 			'CustomerName' => '',
 			'NotifyMail'   => '',
 			'ItemName'     => '',
 			'ItemWord'     => '',
-		);
+		];
 
 		// 不需要送壓碼的欄位
-		public $none_verification = array(
+		public $none_verification = [
 			'ItemName'      => '',
 			'ItemWord'      => '',
 			'CheckMacValue' => '',
-		);
+		];
 
 		/**
 		 * 1寫入參數
 		 */
-		public function insert_string( $arParameters = array() ) {
+		public function insert_string( $arParameters = [] ) {
 
 			$nItems_Count_Total   = 0;
 			$nItems_Foreach_Count = 1;
@@ -1710,9 +1706,9 @@ if ( ! class_exists( 'ECPay_ALLOWANCE' ) ) {
 		/**
 		 * 2-2 驗證參數格式
 		 */
-		public function check_extend_string( $arParameters = array() ) {
+		public function check_extend_string( $arParameters = [] ) {
 
-			$arErrors      = array();
+			$arErrors      = [];
 			$nCheck_Amount = 0; // 驗證總金額
 
 			// 7.客戶名稱 CustomerName
@@ -1903,7 +1899,7 @@ if ( ! class_exists( 'ECPay_ALLOWANCE' ) ) {
 		/**
 		 * 4欄位例外處理方式(送壓碼前)
 		 */
-		public function check_exception( $arParameters = array() ) {
+		public function check_exception( $arParameters = [] ) {
 			return $arParameters;
 		}
 	}
@@ -1915,11 +1911,11 @@ if ( ! class_exists( 'ECPay_ALLOWANCE_BY_COLLEGIATE' ) ) {
 	class ECPay_ALLOWANCE_BY_COLLEGIATE {
 
 		// 所需參數
-		public $parameters = array(
+		public $parameters = [
 			'TimeStamp'       => '',
 			'MerchantID'      => '',
 			'CustomerName'    => '',
-			'Items'           => array(),
+			'Items'           => [],
 			'ItemName'        => '',
 			'ItemCount'       => '',
 			'ItemWord'        => '',
@@ -1933,27 +1929,27 @@ if ( ! class_exists( 'ECPay_ALLOWANCE_BY_COLLEGIATE' ) ) {
 			'NotifyPhone'     => '',
 			'AllowanceAmount' => '',
 			'ReturnURL'       => '',
-		);
+		];
 
 		// 需要做urlencode的參數
-		public $urlencode_field = array(
+		public $urlencode_field = [
 			'CustomerName' => '',
 			'NotifyMail'   => '',
 			'ItemName'     => '',
 			'ItemWord'     => '',
-		);
+		];
 
 		// 不需要送壓碼的欄位
-		public $none_verification = array(
+		public $none_verification = [
 			'ItemName'      => '',
 			'ItemWord'      => '',
 			'CheckMacValue' => '',
-		);
+		];
 
 		/**
 		 * 1寫入參數
 		 */
-		public function insert_string( $arParameters = array() ) {
+		public function insert_string( $arParameters = [] ) {
 
 			$nItems_Count_Total   = 0;
 			$nItems_Foreach_Count = 1;
@@ -2010,9 +2006,9 @@ if ( ! class_exists( 'ECPay_ALLOWANCE_BY_COLLEGIATE' ) ) {
 		/**
 		 * 2-2 驗證參數格式
 		 */
-		public function check_extend_string( $arParameters = array() ) {
+		public function check_extend_string( $arParameters = [] ) {
 
-			$arErrors      = array();
+			$arErrors      = [];
 			$nCheck_Amount = 0; // 驗證總金額
 
 			// 7.客戶名稱 CustomerName
@@ -2208,7 +2204,7 @@ if ( ! class_exists( 'ECPay_ALLOWANCE_BY_COLLEGIATE' ) ) {
 		/**
 		 * 4欄位例外處理方式(送壓碼前)
 		 */
-		public function check_exception( $arParameters = array() ) {
+		public function check_exception( $arParameters = [] ) {
 			return $arParameters;
 		}
 	}
@@ -2220,29 +2216,29 @@ if ( ! class_exists( 'ECPay_INVOICE_VOID' ) ) {
 	class ECPay_INVOICE_VOID {
 
 		// 所需參數
-		public $parameters = array(
+		public $parameters = [
 			'TimeStamp'     => '',
 			'MerchantID'    => '',
 			'CheckMacValue' => '',
 			'InvoiceNumber' => '',
 			'Reason'        => '',
-		);
+		];
 
 		// 需要做urlencode的參數
-		public $urlencode_field = array(
+		public $urlencode_field = [
 			'Reason' => '',
-		);
+		];
 
 		// 不需要送壓碼的欄位
-		public $none_verification = array(
+		public $none_verification = [
 			'Reason'        => '',
 			'CheckMacValue' => '',
-		);
+		];
 
 		/**
 		 * 1寫入參數
 		 */
-		public function insert_string( $arParameters = array() ) {
+		public function insert_string( $arParameters = [] ) {
 			foreach ( $this->parameters as $key => $value ) {
 				if ( isset( $arParameters[ $key ] ) ) {
 					$this->parameters[ $key ] = $arParameters[ $key ];
@@ -2255,9 +2251,9 @@ if ( ! class_exists( 'ECPay_INVOICE_VOID' ) ) {
 		/**
 		 * 2-2 驗證參數格式
 		 */
-		public function check_extend_string( $arParameters = array() ) {
+		public function check_extend_string( $arParameters = [] ) {
 
-			$arErrors = array();
+			$arErrors = [];
 
 			// 42.發票號碼 InvoiceNumber
 			// *必填項目
@@ -2289,7 +2285,7 @@ if ( ! class_exists( 'ECPay_INVOICE_VOID' ) ) {
 		/**
 		 * 4欄位例外處理方式(送壓碼前)
 		 */
-		public function check_exception( $arParameters = array() ) {
+		public function check_exception( $arParameters = [] ) {
 			return $arParameters;
 		}
 	}
@@ -2301,30 +2297,30 @@ if ( ! class_exists( 'ECPay_ALLOWANCE_VOID' ) ) {
 	class ECPay_ALLOWANCE_VOID {
 
 		// 所需參數
-		public $parameters = array(
+		public $parameters = [
 			'TimeStamp'     => '',
 			'MerchantID'    => '',
 			'CheckMacValue' => '',
 			'InvoiceNo'     => '',
 			'Reason'        => '',
 			'AllowanceNo'   => '',
-		);
+		];
 
 		// 需要做urlencode的參數
-		public $urlencode_field = array(
+		public $urlencode_field = [
 			'Reason' => '',
-		);
+		];
 
 		// 不需要送壓碼的欄位
-		public $none_verification = array(
+		public $none_verification = [
 			'Reason'        => '',
 			'CheckMacValue' => '',
-		);
+		];
 
 		/**
 		 * 1寫入參數
 		 */
-		public function insert_string( $arParameters = array() ) {
+		public function insert_string( $arParameters = [] ) {
 
 			foreach ( $this->parameters as $key => $value ) {
 				if ( isset( $arParameters[ $key ] ) ) {
@@ -2338,9 +2334,9 @@ if ( ! class_exists( 'ECPay_ALLOWANCE_VOID' ) ) {
 		/**
 		 * 2-2 驗證參數格式
 		 */
-		public function check_extend_string( $arParameters = array() ) {
+		public function check_extend_string( $arParameters = [] ) {
 
-			$arErrors = array();
+			$arErrors = [];
 
 			// 37.發票號碼 InvoiceNo
 			// *必填項目
@@ -2384,7 +2380,7 @@ if ( ! class_exists( 'ECPay_ALLOWANCE_VOID' ) ) {
 		/**
 		 * 4欄位例外處理方式(送壓碼前)
 		 */
-		public function check_exception( $arParameters = array() ) {
+		public function check_exception( $arParameters = [] ) {
 			return $arParameters;
 		}
 	}
@@ -2396,25 +2392,25 @@ if ( ! class_exists( 'ECPay_INVOICE_SEARCH' ) ) {
 	class ECPay_INVOICE_SEARCH {
 
 		// 所需參數
-		public $parameters = array(
+		public $parameters = [
 			'TimeStamp'     => '',
 			'MerchantID'    => '',
 			'RelateNumber'  => '',
 			'CheckMacValue' => '',
-		);
+		];
 
 		// 需要做urlencode的參數
-		public $urlencode_field = array(
+		public $urlencode_field = [
 			'IIS_Customer_Name' => '',
 			'IIS_Customer_Addr' => '',
 			'ItemName'          => '',
 			'ItemWord'          => '',
 			'ItemRemark'        => '',
 			'InvoiceRemark'     => '',
-		);
+		];
 
 		// 不需要送壓碼的欄位
-		public $none_verification = array(
+		public $none_verification = [
 			'ItemName'      => '',
 			'ItemWord'      => '',
 			'ItemRemark'    => '',
@@ -2423,12 +2419,12 @@ if ( ! class_exists( 'ECPay_INVOICE_SEARCH' ) ) {
 			'QRCode_Left'   => '',
 			'QRCode_Right'  => '',
 			'CheckMacValue' => '',
-		);
+		];
 
 		/**
 		 * 1寫入參數
 		 */
-		public function insert_string( $arParameters = array() ) {
+		public function insert_string( $arParameters = [] ) {
 
 			foreach ( $this->parameters as $key => $value ) {
 				if ( isset( $arParameters[ $key ] ) ) {
@@ -2442,9 +2438,9 @@ if ( ! class_exists( 'ECPay_INVOICE_SEARCH' ) ) {
 		/**
 		 * 2-2 驗證參數格式
 		 */
-		public function check_extend_string( $arParameters = array() ) {
+		public function check_extend_string( $arParameters = [] ) {
 
-			$arErrors = array();
+			$arErrors = [];
 
 			// *預設不可為空值
 			if ( strlen( $arParameters['RelateNumber'] ) == 0 ) {
@@ -2465,7 +2461,7 @@ if ( ! class_exists( 'ECPay_INVOICE_SEARCH' ) ) {
 		/**
 		 * 4欄位例外處理方式(送壓碼前)
 		 */
-		public function check_exception( $arParameters = array() ) {
+		public function check_exception( $arParameters = [] ) {
 			if ( isset( $arParameters['IIS_Customer_Email'] ) ) {
 				$arParameters['IIS_Customer_Email'] = str_replace( '+', ' ', $arParameters['IIS_Customer_Email'] );
 			}
@@ -2485,28 +2481,28 @@ if ( ! class_exists( 'ECPay_INVOICE_VOID_SE' ) ) {
 	class ECPay_INVOICE_VOID_SEARCH {
 
 		// 所需參數
-		public $parameters = array(
+		public $parameters = [
 			'TimeStamp'     => '',
 			'MerchantID'    => '',
 			'RelateNumber'  => '',
 			'CheckMacValue' => '',
-		);
+		];
 
 		// 需要做urlencode的參數
-		public $urlencode_field = array(
+		public $urlencode_field = [
 			'Reason' => '',
-		);
+		];
 
 		// 不需要送壓碼的欄位
-		public $none_verification = array(
+		public $none_verification = [
 			'Reason'        => '',
 			'CheckMacValue' => '',
-		);
+		];
 
 		/**
 		 * 1寫入參數
 		 */
-		public function insert_string( $arParameters = array() ) {
+		public function insert_string( $arParameters = [] ) {
 			foreach ( $this->parameters as $key => $value ) {
 				if ( isset( $arParameters[ $key ] ) ) {
 					$this->parameters[ $key ] = $arParameters[ $key ];
@@ -2519,9 +2515,9 @@ if ( ! class_exists( 'ECPay_INVOICE_VOID_SE' ) ) {
 		/**
 		 * 2-2 驗證參數格式
 		 */
-		public function check_extend_string( $arParameters = array() ) {
+		public function check_extend_string( $arParameters = [] ) {
 
-			$arErrors = array();
+			$arErrors = [];
 
 			// 4.廠商自訂編號
 
@@ -2545,7 +2541,7 @@ if ( ! class_exists( 'ECPay_INVOICE_VOID_SE' ) ) {
 		/**
 		 * 4欄位例外處理方式(送壓碼前)
 		 */
-		public function check_exception( $arParameters = array() ) {
+		public function check_exception( $arParameters = [] ) {
 			return $arParameters;
 		}
 	}
@@ -2557,33 +2553,33 @@ if ( ! class_exists( 'ECPay_ALLOWANCE_SEARC' ) ) {
 	class ECPay_ALLOWANCE_SEARCH {
 
 		// 所需參數
-		public $parameters = array(
+		public $parameters = [
 			'TimeStamp'     => '',
 			'MerchantID'    => '',
 			'CheckMacValue' => '',
 			'InvoiceNo'     => '',
 			'AllowanceNo'   => '',
-		);
+		];
 
 		// 需要做urlencode的參數
-		public $urlencode_field = array(
+		public $urlencode_field = [
 			'ItemName'          => '',
 			'ItemWord'          => '',
 			'IIS_Customer_Name' => '',
 
-		);
+		];
 
 		// 不需要送壓碼的欄位
-		public $none_verification = array(
+		public $none_verification = [
 			'ItemName'      => '',
 			'ItemWord'      => '',
 			'CheckMacValue' => '',
-		);
+		];
 
 		/**
 		 * 1寫入參數
 		 */
-		public function insert_string( $arParameters = array() ) {
+		public function insert_string( $arParameters = [] ) {
 
 			foreach ( $this->parameters as $key => $value ) {
 				if ( isset( $arParameters[ $key ] ) ) {
@@ -2597,9 +2593,9 @@ if ( ! class_exists( 'ECPay_ALLOWANCE_SEARC' ) ) {
 		/**
 		 * 2-2 驗證參數格式
 		 */
-		public function check_extend_string( $arParameters = array() ) {
+		public function check_extend_string( $arParameters = [] ) {
 
-			$arErrors = array();
+			$arErrors = [];
 
 			// 37.發票號碼 InvoiceNo
 			// *必填項目
@@ -2633,7 +2629,7 @@ if ( ! class_exists( 'ECPay_ALLOWANCE_SEARC' ) ) {
 		/**
 		 * 4欄位例外處理方式(送壓碼前)
 		 */
-		public function check_exception( $arParameters = array() ) {
+		public function check_exception( $arParameters = [] ) {
 			return $arParameters;
 		}
 	}
@@ -2645,29 +2641,29 @@ if ( ! class_exists( 'ECPay_ALLOWANCE_VOID_' ) ) {
 	class ECPay_ALLOWANCE_VOID_SEARCH {
 
 		// 所需參數
-		public $parameters = array(
+		public $parameters = [
 			'TimeStamp'     => '',
 			'MerchantID'    => '',
 			'CheckMacValue' => '',
 			'InvoiceNo'     => '',
 			'AllowanceNo'   => '',
-		);
+		];
 
 		// 需要做urlencode的參數
-		public $urlencode_field = array(
+		public $urlencode_field = [
 			'Reason' => '',
-		);
+		];
 
 		// 不需要送壓碼的欄位
-		public $none_verification = array(
+		public $none_verification = [
 			'Reason'        => '',
 			'CheckMacValue' => '',
-		);
+		];
 
 		/**
 		 * 1寫入參數
 		 */
-		public function insert_string( $arParameters = array() ) {
+		public function insert_string( $arParameters = [] ) {
 			foreach ( $this->parameters as $key => $value ) {
 				if ( isset( $arParameters[ $key ] ) ) {
 					$this->parameters[ $key ] = $arParameters[ $key ];
@@ -2680,8 +2676,8 @@ if ( ! class_exists( 'ECPay_ALLOWANCE_VOID_' ) ) {
 		/**
 		 * 2-2 驗證參數格式
 		 */
-		public function check_extend_string( $arParameters = array() ) {
-			$arErrors = array();
+		public function check_extend_string( $arParameters = [] ) {
+			$arErrors = [];
 
 			// 37.發票號碼 InvoiceNo
 			// *必填項目
@@ -2715,7 +2711,7 @@ if ( ! class_exists( 'ECPay_ALLOWANCE_VOID_' ) ) {
 		/**
 		 * 4欄位例外處理方式(送壓碼前)
 		 */
-		public function check_exception( $arParameters = array() ) {
+		public function check_exception( $arParameters = [] ) {
 			return $arParameters;
 		}
 	}
@@ -2727,7 +2723,7 @@ if ( ! class_exists( 'ECPay_INVOICE_NOTIFY' ) ) {
 	class ECPay_INVOICE_NOTIFY {
 
 		// 所需參數
-		public $parameters = array(
+		public $parameters = [
 			'TimeStamp'     => '',
 			'MerchantID'    => '',
 			'CheckMacValue' => '',
@@ -2738,22 +2734,22 @@ if ( ! class_exists( 'ECPay_INVOICE_NOTIFY' ) ) {
 			'Notify'        => '',
 			'InvoiceTag'    => '',
 			'Notified'      => '',
-		);
+		];
 
 		// 需要做urlencode的參數
-		public $urlencode_field = array(
+		public $urlencode_field = [
 			'NotifyMail' => '',
-		);
+		];
 
 		// 不需要送壓碼的欄位
-		public $none_verification = array(
+		public $none_verification = [
 			'CheckMacValue' => '',
-		);
+		];
 
 		/**
 		 * 1寫入參數
 		 */
-		public function insert_string( $arParameters = array() ) {
+		public function insert_string( $arParameters = [] ) {
 
 			foreach ( $this->parameters as $key => $value ) {
 
@@ -2768,9 +2764,9 @@ if ( ! class_exists( 'ECPay_INVOICE_NOTIFY' ) ) {
 		/**
 		 * 2-2 驗證參數格式
 		 */
-		public function check_extend_string( $arParameters = array() ) {
+		public function check_extend_string( $arParameters = [] ) {
 
-			$arErrors = array();
+			$arErrors = [];
 
 			// 37.發票號碼 InvoiceNo
 			if ( ( $arParameters['InvoiceTag'] == EcpayInvoiceTagType::Invoice ) || ( $arParameters['InvoiceTag'] == EcpayInvoiceTagType::Invoice_Void ) ) {
@@ -2835,10 +2831,8 @@ if ( ! class_exists( 'ECPay_INVOICE_NOTIFY' ) ) {
 			// 45-46 發送簡訊號碼、發送電子信箱不能全為空值
 			if ( strlen( $arParameters['Phone'] ) == 0 && strlen( $arParameters['NotifyMail'] ) == 0 ) {
 				array_push( $arErrors, '45-46:NotifyMail or Phone is required.' );
-			} else {
-				if ( $arParameters['Notify'] == EcpayNotifyType::All && ( strlen( $arParameters['NotifyMail'] ) == 0 || strlen( $arParameters['Phone'] ) == 0 ) ) {
-					array_push( $arErrors, '45-46:NotifyMail and Phone is required.' );
-				}
+			} elseif ( $arParameters['Notify'] == EcpayNotifyType::All && ( strlen( $arParameters['NotifyMail'] ) == 0 || strlen( $arParameters['Phone'] ) == 0 ) ) {
+				array_push( $arErrors, '45-46:NotifyMail and Phone is required.' );
 			}
 
 			// 47. 發送方式 Notify
@@ -2870,7 +2864,7 @@ if ( ! class_exists( 'ECPay_INVOICE_NOTIFY' ) ) {
 		/**
 		 * 4欄位例外處理方式(送壓碼前)
 		 */
-		public function check_exception( $arParameters = array() ) {
+		public function check_exception( $arParameters = [] ) {
 			return $arParameters;
 		}
 	}
@@ -2882,26 +2876,26 @@ if ( ! class_exists( 'ECPay_INVOICE_TRIGGER' ) ) {
 	class ECPay_INVOICE_TRIGGER {
 
 		// 所需參數
-		public $parameters = array(
+		public $parameters = [
 			'TimeStamp'     => '',
 			'MerchantID'    => '',
 			'CheckMacValue' => '',
 			'Tsr'           => '',
 			'PayType'       => 2,
-		);
+		];
 
 		// 需要做urlencode的參數
-		public $urlencode_field = array();
+		public $urlencode_field = [];
 
 		// 不需要送壓碼的欄位
-		public $none_verification = array(
+		public $none_verification = [
 			'CheckMacValue' => '',
-		);
+		];
 
 		/**
 		 * 1寫入參數
 		 */
-		public function insert_string( $arParameters = array() ) {
+		public function insert_string( $arParameters = [] ) {
 			foreach ( $this->parameters as $key => $value ) {
 				if ( isset( $arParameters[ $key ] ) ) {
 					$this->parameters[ $key ] = $arParameters[ $key ];
@@ -2914,9 +2908,9 @@ if ( ! class_exists( 'ECPay_INVOICE_TRIGGER' ) ) {
 		/**
 		 * 2-2 驗證參數格式
 		 */
-		public function check_extend_string( $arParameters = array() ) {
+		public function check_extend_string( $arParameters = [] ) {
 
-			$arErrors = array();
+			$arErrors = [];
 
 			// 33.交易單號 Tsr
 			// *必填項目
@@ -2945,7 +2939,7 @@ if ( ! class_exists( 'ECPay_INVOICE_TRIGGER' ) ) {
 		/**
 		 * 4欄位例外處理方式(送壓碼前)
 		 */
-		public function check_exception( $arParameters = array() ) {
+		public function check_exception( $arParameters = [] ) {
 
 			return $arParameters;
 		}
@@ -2958,25 +2952,25 @@ if ( ! class_exists( 'ECPay_CHECK_MOBILE_BA' ) ) {
 	class ECPay_CHECK_MOBILE_BARCODE {
 
 		// 所需參數
-		public $parameters = array(
+		public $parameters = [
 			'TimeStamp'     => '',
 			'MerchantID'    => '',
 			'CheckMacValue' => '',
 			'BarCode'       => '',
-		);
+		];
 
 		// 需要做urlencode的參數
-		public $urlencode_field = array();
+		public $urlencode_field = [];
 
 		// 不需要送壓碼的欄位
-		public $none_verification = array(
+		public $none_verification = [
 			'CheckMacValue' => '',
-		);
+		];
 
 		/**
 		 * 1寫入參數
 		 */
-		public function insert_string( $arParameters = array() ) {
+		public function insert_string( $arParameters = [] ) {
 			foreach ( $this->parameters as $key => $value ) {
 				if ( isset( $arParameters[ $key ] ) ) {
 					$this->parameters[ $key ] = $arParameters[ $key ];
@@ -2989,8 +2983,8 @@ if ( ! class_exists( 'ECPay_CHECK_MOBILE_BA' ) ) {
 		/**
 		 * 2-2 驗證參數格式
 		 */
-		public function check_extend_string( $arParameters = array() ) {
-			$arErrors = array();
+		public function check_extend_string( $arParameters = [] ) {
+			$arErrors = [];
 
 			// 50.BarCode 手機條碼
 			// *僅能為8碼且為必填
@@ -3008,7 +3002,7 @@ if ( ! class_exists( 'ECPay_CHECK_MOBILE_BA' ) ) {
 		/**
 		 * 4欄位例外處理方式(送壓碼前)
 		 */
-		public function check_exception( $arParameters = array() ) {
+		public function check_exception( $arParameters = [] ) {
 			if ( isset( $arParameters['BarCode'] ) ) {
 				// 手機條碼 內包含+號則改為空白
 				$arParameters['BarCode'] = str_replace( '+', ' ', $arParameters['BarCode'] );
@@ -3025,25 +3019,25 @@ if ( ! class_exists( 'ECPay_CHECK_LOVE_CODE' ) ) {
 	class ECPay_CHECK_LOVE_CODE {
 
 		// 所需參數
-		public $parameters = array(
+		public $parameters = [
 			'TimeStamp'     => '',
 			'MerchantID'    => '',
 			'LoveCode'      => '',
 			'CheckMacValue' => '',
-		);
+		];
 
 		// 需要做urlencode的參數
-		public $urlencode_field = array();
+		public $urlencode_field = [];
 
 		// 不需要送壓碼的欄位
-		public $none_verification = array(
+		public $none_verification = [
 			'CheckMacValue' => '',
-		);
+		];
 
 		/**
 		 * 1寫入參數
 		 */
-		public function insert_string( $arParameters = array() ) {
+		public function insert_string( $arParameters = [] ) {
 			foreach ( $this->parameters as $key => $value ) {
 
 				if ( isset( $arParameters[ $key ] ) ) {
@@ -3057,8 +3051,8 @@ if ( ! class_exists( 'ECPay_CHECK_LOVE_CODE' ) ) {
 		/**
 		 * 2-2 驗證參數格式
 		 */
-		public function check_extend_string( $arParameters = array() ) {
-			$arErrors = array();
+		public function check_extend_string( $arParameters = [] ) {
+			$arErrors = [];
 
 			// 51.LoveCode愛心碼
 			// *必填 3-7碼
@@ -3076,7 +3070,7 @@ if ( ! class_exists( 'ECPay_CHECK_LOVE_CODE' ) ) {
 		/**
 		 * 4欄位例外處理方式(送壓碼前)
 		 */
-		public function check_exception( $arParameters = array() ) {
+		public function check_exception( $arParameters = [] ) {
 			return $arParameters;
 		}
 	}
@@ -3091,14 +3085,14 @@ if ( ! class_exists( 'ECPay_Invoice_CheckMacValue' ) ) {
 		/**
 		 * 產生檢查碼
 		 */
-		public static function generate( $arParameters = array(), $HashKey = '', $HashIV = '', $encType = 0 ) {
+		public static function generate( $arParameters = [], $HashKey = '', $HashIV = '', $encType = 0 ) {
 
 			$sMacValue = '';
 
 			if ( isset( $arParameters ) ) {
 
 				unset( $arParameters['CheckMacValue'] );
-				uksort( $arParameters, array( 'ECPay_Invoice_CheckMacValue', 'merchantSort' ) );
+				uksort( $arParameters, [ 'ECPay_Invoice_CheckMacValue', 'merchantSort' ] );
 
 				// 組合字串
 				$sMacValue = 'HashKey=' . $HashKey;
@@ -3115,7 +3109,7 @@ if ( ! class_exists( 'ECPay_Invoice_CheckMacValue' ) ) {
 				$sMacValue = strtolower( $sMacValue );
 
 				// 取代為與 dotNet 相符的字元
-				$sMacValue = ECPay_Invoice_CheckMacValue::Replace_Symbol( $sMacValue );
+				$sMacValue = self::Replace_Symbol( $sMacValue );
 
 				// 編碼
 				switch ( $encType ) {

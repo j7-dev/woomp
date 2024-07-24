@@ -6,11 +6,11 @@ class RY_NewebPay_Shipping_CVS extends WC_Shipping_Method {
 		$this->instance_id        = absint( $instance_id );
 		$this->method_title       = __( 'NewebPay shipping CVS', 'ry-woocommerce-tools' );
 		$this->method_description = '';
-		$this->supports           = array(
+		$this->supports           = [
 			'shipping-zones',
 			'instance-settings',
 			'instance-settings-modal',
-		);
+		];
 
 		if ( empty( $this->instance_form_fields ) ) {
 			$this->instance_form_fields = include RY_WT_PLUGIN_DIR . 'woocommerce/shipping/newebpay/includes/settings-newebpay-shipping-cvs.php';
@@ -32,12 +32,12 @@ class RY_NewebPay_Shipping_CVS extends WC_Shipping_Method {
 
 		$this->init_settings();
 
-		add_action( 'woocommerce_update_options_shipping_' . $this->id, array( $this, 'process_admin_options' ) );
+		add_action( 'woocommerce_update_options_shipping_' . $this->id, [ $this, 'process_admin_options' ] );
 	}
 
 
 	public function get_instance_form_fields() {
-		static $is_print = array();
+		static $is_print = [];
 		if ( is_admin() ) {
 			if ( ! isset( $is_print[ $this->id ] ) ) {
 				$is_print[ $this->id ] = true;
@@ -86,7 +86,7 @@ class RY_NewebPay_Shipping_CVS extends WC_Shipping_Method {
 		if ( $is_available ) {
 			$shipping_classes = WC()->shipping->get_shipping_classes();
 			if ( ! empty( $shipping_classes ) ) {
-				$found_shipping_class = array();
+				$found_shipping_class = [];
 				foreach ( $package['contents'] as $item_id => $values ) {
 					if ( $values['data']->needs_shipping() ) {
 						$shipping_class_slug = $values['data']->get_shipping_class();
@@ -108,19 +108,19 @@ class RY_NewebPay_Shipping_CVS extends WC_Shipping_Method {
 		return apply_filters( 'woocommerce_shipping_' . $this->id . '_is_available', $is_available, $package, $this );
 	}
 
-	public function calculate_shipping( $package = array() ) {
-		$rate = array(
+	public function calculate_shipping( $package = [] ) {
+		$rate = [
 			'id'        => $this->get_rate_id(),
 			'label'     => $this->title,
 			'cost'      => ( $this->cost ) ? $this->cost : 0,
 			'package'   => $package,
-			'meta_data' => array(
+			'meta_data' => [
 				'no_count' => 1,
-			),
-		);
+			],
+		];
 
-		$has_coupon     = $this->check_has_coupon( $this->cost_requires, array( 'coupon', 'min_amount_or_coupon', 'min_amount_and_coupon' ) );
-		$has_min_amount = $this->check_has_min_amount( $this->cost_requires, array( 'min_amount', 'min_amount_or_coupon', 'min_amount_and_coupon' ) );
+		$has_coupon     = $this->check_has_coupon( $this->cost_requires, [ 'coupon', 'min_amount_or_coupon', 'min_amount_and_coupon' ] );
+		$has_min_amount = $this->check_has_min_amount( $this->cost_requires, [ 'min_amount', 'min_amount_or_coupon', 'min_amount_and_coupon' ] );
 
 		switch ( $this->cost_requires ) {
 			case 'coupon':
@@ -167,10 +167,10 @@ class RY_NewebPay_Shipping_CVS extends WC_Shipping_Method {
 				$has_costs  = true;
 				$class_cost = $this->evaluate_cost(
 					$class_cost_string,
-					array(
+					[
 						'qty'  => array_sum( wp_list_pluck( $products, 'quantity' ) ),
 						'cost' => array_sum( wp_list_pluck( $products, 'line_total' ) ),
-					)
+					]
 				);
 
 				if ( 'class' === $this->type ) {
@@ -200,14 +200,14 @@ class RY_NewebPay_Shipping_CVS extends WC_Shipping_Method {
 	 * @return array
 	 */
 	public function find_shipping_classes( $package ) {
-		$found_shipping_classes = array();
+		$found_shipping_classes = [];
 
 		foreach ( $package['contents'] as $item_id => $values ) {
 			if ( $values['data']->needs_shipping() ) {
 				$found_class = $values['data']->get_shipping_class();
 
 				if ( ! isset( $found_shipping_classes[ $found_class ] ) ) {
-					$found_shipping_classes[ $found_class ] = array();
+					$found_shipping_classes[ $found_class ] = [];
 				}
 
 				$found_shipping_classes[ $found_class ][ $item_id ] = $values;
@@ -224,7 +224,7 @@ class RY_NewebPay_Shipping_CVS extends WC_Shipping_Method {
 	 * @param  array  $args Args, must contain `cost` and `qty` keys. Having `array()` as default is for back compat reasons.
 	 * @return string
 	 */
-	protected function evaluate_cost( $sum, $args = array() ) {
+	protected function evaluate_cost( $sum, $args = [] ) {
 		// Add warning for subclasses.
 		if ( ! is_array( $args ) || ! array_key_exists( 'qty', $args ) || ! array_key_exists( 'cost', $args ) ) {
 			wc_doing_it_wrong( __FUNCTION__, '$args must contain `cost` and `qty` keys.', '4.0.1' );
@@ -235,27 +235,27 @@ class RY_NewebPay_Shipping_CVS extends WC_Shipping_Method {
 		// Allow 3rd parties to process shipping cost arguments.
 		$args           = apply_filters( 'woocommerce_evaluate_shipping_cost_args', $args, $sum, $this );
 		$locale         = localeconv();
-		$decimals       = array( wc_get_price_decimal_separator(), $locale['decimal_point'], $locale['mon_decimal_point'], ',' );
+		$decimals       = [ wc_get_price_decimal_separator(), $locale['decimal_point'], $locale['mon_decimal_point'], ',' ];
 		$this->fee_cost = $args['cost'];
 
 		// Expand shortcodes.
-		add_shortcode( 'fee', array( $this, 'fee' ) );
+		add_shortcode( 'fee', [ $this, 'fee' ] );
 
 		$sum = do_shortcode(
 			str_replace(
-				array(
+				[
 					'[qty]',
 					'[cost]',
-				),
-				array(
+				],
+				[
 					$args['qty'],
 					$args['cost'],
-				),
+				],
 				$sum
 			)
 		);
 
-		remove_shortcode( 'fee', array( $this, 'fee' ) );
+		remove_shortcode( 'fee', [ $this, 'fee' ] );
 
 		// Remove whitespace from string.
 		$sum = preg_replace( '/\s+/', '', $sum );

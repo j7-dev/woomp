@@ -80,21 +80,21 @@ if ( wc_string_to_bool( get_option( 'woocommerce_pchomepay_enabled' ) ) ) {
 	function register_awaiting_audit_order_status() {
 		register_post_status(
 			'wc-awaiting',
-			array(
+			[
 				'label'                     => '等待審單',
 				'public'                    => true,
 				'exclude_from_search'       => false,
 				'show_in_admin_all_list'    => true,
 				'show_in_admin_status_list' => true,
 				'label_count'               => _n_noop( '等待審單 <span class="count">(%s)</span>', '等待審單 <span class="count">(%s)</span>' ),
-			)
+			]
 		);
 	}
 
 	add_filter( 'wc_order_statuses', 'add_awaiting_audit_order_statuses' );
 
 	function add_awaiting_audit_order_statuses( $order_statuses ) {
-		$new_order_statuses = array();
+		$new_order_statuses = [];
 		// add new order status after processing
 		foreach ( $order_statuses as $key => $status ) {
 			$new_order_statuses[ $key ] = $status;
@@ -111,21 +111,21 @@ if ( wc_string_to_bool( get_option( 'woocommerce_pchomepay_enabled' ) ) ) {
 	function register_awaiting_pchomepay_audit_order_status() {
 		register_post_status(
 			'wc-awaitingforpcpay',
-			array(
+			[
 				'label'                     => '等待支付連審單',
 				'public'                    => true,
 				'exclude_from_search'       => false,
 				'show_in_admin_all_list'    => true,
 				'show_in_admin_status_list' => true,
 				'label_count'               => _n_noop( '等待支付連審單 <span class="count">(%s)</span>', '等待支付連審單 <span class="count">(%s)</span>' ),
-			)
+			]
 		);
 	}
 
 	add_filter( 'wc_order_statuses', 'add_awaiting_pchomepay_audit_order_statuses' );
 
 	function add_awaiting_pchomepay_audit_order_statuses( $order_statuses ) {
-		$new_order_statuses = array();
+		$new_order_statuses = [];
 		// add new order status after processing
 		foreach ( $order_statuses as $key => $status ) {
 			$new_order_statuses[ $key ] = $status;
@@ -148,10 +148,10 @@ if ( wc_string_to_bool( get_option( 'woocommerce_pchomepay_enabled' ) ) ) {
 			$url              = $pchomepayGateway->process_query711_history_page( $order->get_id() );
 
 			$action_slug             = 'pchomepay_ipl7';
-			$actions[ $action_slug ] = array(
+			$actions[ $action_slug ] = [
 				'url'  => $url,
 				'name' => '物流歷程',
-			);
+			];
 		}
 		return $actions;
 	}
@@ -177,7 +177,7 @@ jQuery(function($) {
 
 		$order = wc_get_order( $post_id );
 
-		if ( in_array( $order->payment_method, array( 'pchomepay', 'pchomepay_pi' ) ) ) {
+		if ( in_array( $order->payment_method, [ 'pchomepay', 'pchomepay_pi' ] ) ) {
 			if ( $column == 'order_number' ) {
 
 				if ( $customer_phone = $order->get_billing_phone() ) {

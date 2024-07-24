@@ -20,7 +20,7 @@ if ( ! class_exists( 'RY_NewebPay' ) ) {
 					$item_name = trim( $item->get_name() );
 				}
 			}
-			$item_name = str_replace( array( '^', '\'', '`', '!', '@', '＠', '#', '%', '&', '*', '+', '\\', '"', '<', '>', '|', '_', '[', ']' ), '', $item_name );
+			$item_name = str_replace( [ '^', '\'', '`', '!', '@', '＠', '#', '%', '&', '*', '+', '\\', '"', '<', '>', '|', '_', '[', ']' ], '', $item_name );
 
 			return $item_name;
 		}

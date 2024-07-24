@@ -46,11 +46,11 @@ final class Request {
 	public function build_request( WC_Order $order, $card_data = null ): array {
 		$body_params = $this->get_transaction_args( $order, $card_data );
 
-		$options = array(
+		$options = [
 			'method'  => 'POST',
 			'timeout' => 60,
 			'body'    => $body_params,
-		);
+		];
 
 		$response = wp_remote_request(
 			$this->gateway->get_api_url() . $this->gateway->get_api_endpoint_url(),
@@ -86,26 +86,26 @@ final class Request {
 		if ( 'SUCCESS' !== $status ) {
 			\wc_add_notice( $data['Message'], 'error' );
 
-			return array(
+			return [
 				'result'   => 'failed',
 				'redirect' => $this->gateway->get_return_url( $order ),
-			);
+			];
 		}
 
 		// 3D 驗證走以下判斷，會 redirect 到 $data['URL'] 去做 3D 驗證
 		if ( $is_3d_auth ) {
-			return array(
+			return [
 				'result'   => 'success',
 				'redirect' => $data['URL'],
-			);
+			];
 		}
 
 		$this->set_response( $order->get_payment_method(), $resp );
 
-		return array(
+		return [
 			'result'   => 'success',
 			'redirect' => $this->gateway->get_return_url( $order ),
-		);
+		];
 	}
 
 	/**
@@ -119,14 +119,14 @@ final class Request {
 	public function get_transaction_args( WC_Order $order, ?array $card_data ): array {
 		$order_suffix = ( $order->get_meta( '_payuni_order_suffix' ) ) ? '-' . $order->get_meta( '_payuni_order_suffix' ) : '';
 
-		$args = array(
+		$args = [
 			'MerID'      => $this->gateway->get_mer_id(),
 			'MerTradeNo' => $order->get_id() . $order_suffix,
 			'TradeAmt'   => $order->get_total(),
 			'Timestamp'  => time(),
 			'UsrMail'    => $order->get_billing_email(),
 			'ProdDesc'   => $this->get_product_name( $order ),
-		);
+		];
 
 		if ( $card_data ) {
 			$order->update_meta_data( '_payuni_token_id', $card_data['token_id'] );
@@ -135,11 +135,11 @@ final class Request {
 			$order->save();
 
 			// 不判斷 token_id 直接傳卡號
-			$data = array(
+			$data = [
 				'CardNo'      => $card_data['number'],
 				'CardExpired' => $card_data['expiry'],
 				'CardCVC'     => $card_data['cvc'],
-			);
+			];
 
 			if ( $card_data['new'] ?? false ) {
 				$data['CreditToken'] = $order->get_billing_email();
@@ -215,7 +215,7 @@ final class Request {
 	public function build_subscription_request( int $amount, WC_Order $order ): void {
 		$order_suffix = ( $order->get_meta( '_payuni_order_suffix' ) ) ? '-' . $order->get_meta( '_payuni_order_suffix' ) : '';
 
-		$args = array(
+		$args = [
 			'MerID'       => $this->gateway->get_mer_id(),
 			'MerTradeNo'  => $order->get_id() . $order_suffix,
 			'TradeAmt'    => $amount,
@@ -224,22 +224,22 @@ final class Request {
 			'ProdDesc'    => $this->get_product_name( $order ),
 			'CreditToken' => $order->get_billing_email(),
 			'CreditHash'  => $this->get_card_hash( $order ),
-		);
+		];
 
 		Payment::log( $args );
 
-		$parameter = array(
+		$parameter = [
 			'MerID'       => $this->gateway->get_mer_id(),
 			'Version'     => '1.0',
 			'EncryptInfo' => \Payuni\APIs\Payment::encrypt( $args ),
 			'HashInfo'    => \Payuni\APIs\Payment::hash_info( \Payuni\APIs\Payment::encrypt( $args ) ),
-		);
+		];
 
-		$options = array(
+		$options = [
 			'method'  => 'POST',
 			'timeout' => 60,
 			'body'    => $parameter,
-		);
+		];
 
 		$response = wp_remote_request(
 			$this->gateway->get_api_url() . $this->gateway->get_api_endpoint_url(),
@@ -252,7 +252,7 @@ final class Request {
 
 	private function get_card_hash( $order ) {
 		$parent_order  = '';
-		$subscriptions = wcs_get_subscriptions_for_order( $order->get_id(), array( 'order_type' => 'any' ) );
+		$subscriptions = wcs_get_subscriptions_for_order( $order->get_id(), [ 'order_type' => 'any' ] );
 		if ( $subscriptions ) {
 			foreach ( $subscriptions as $subscription_obj ) {
 				$parent_order = wc_get_order( $subscription_obj->get_parent_id() );
@@ -289,7 +289,7 @@ final class Request {
 
 		$user_id = get_current_user_id();
 
-		$args = array(
+		$args = [
 			'MerID'       => $this->gateway->get_mer_id(),
 			'MerTradeNo'  => $order?->get_id() . $order_suffix,
 			'TradeAmt'    => 5,
@@ -300,7 +300,7 @@ final class Request {
 			'CardExpired' => $card_data['expiry'],
 			'CardCVC'     => $card_data['cvc'],
 			'CreditToken' => get_userdata( $user_id )->user_email,
-		);
+		];
 
 		if ( wc_string_to_bool( get_option( 'payuni_3d_auth', 'yes' ) ) ) {
 			$args['API3D'] = 1;
@@ -310,18 +310,18 @@ final class Request {
 
 		Payment::log( $args );
 
-		$parameter = array(
+		$parameter = [
 			'MerID'       => $this->gateway->get_mer_id(),
 			'Version'     => '1.0',
 			'EncryptInfo' => \Payuni\APIs\Payment::encrypt( $args ),
 			'HashInfo'    => \Payuni\APIs\Payment::hash_info( \Payuni\APIs\Payment::encrypt( $args ) ),
-		);
+		];
 
-		$options = array(
+		$options = [
 			'method'  => 'POST',
 			'timeout' => 60,
 			'body'    => $parameter,
-		);
+		];
 
 		$response = wp_remote_request(
 			$this->gateway->get_api_url() . $this->gateway->get_api_endpoint_url(),

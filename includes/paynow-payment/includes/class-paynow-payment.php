@@ -72,21 +72,21 @@ class PayNow_Payment {
 		PayNow_Payment_Order_Meta_Boxes::init();
 		PayNow_Payment_Response::init();
 
-		self::$allowed_payments = array(
+		self::$allowed_payments = [
 			'paynow-credit'          => 'PayNow_Payment_Credit',
 			'paynow-virtual-account' => 'PayNow_Payment_Virtual_Account',
 			'paynow-webatm'          => 'PayNow_Payment_WebATM',
 			'paynow-ibon'            => 'PayNow_Payment_IBon',
 			'paynow-barcode'         => 'PayNow_Payment_Barcode',
-		);
+		];
 
 		load_plugin_textdomain( 'paynow-payment', false, dirname( PAYNOW_BASENAME ) . '/languages/' );
 
 		// add_filter( 'woocommerce_get_settings_pages', array( Paynow_Payment::get_instance(), 'paynow_add_settings' ), 15 );
 
-		add_filter( 'woocommerce_payment_gateways', array( Paynow_Payment::get_instance(), 'add_paynow_payment_gateway' ) );
+		add_filter( 'woocommerce_payment_gateways', [ Paynow_Payment::get_instance(), 'add_paynow_payment_gateway' ] );
 
-		add_filter( 'plugin_action_links_' . PAYNOW_BASENAME, array( Paynow_Payment::get_instance(), 'paynow_add_action_links' ) );
+		add_filter( 'plugin_action_links_' . PAYNOW_BASENAME, [ Paynow_Payment::get_instance(), 'paynow_add_action_links' ] );
 	}
 
 	/**
@@ -107,10 +107,10 @@ class PayNow_Payment {
 	 * @return array
 	 */
 	public function paynow_add_action_links( $links ) {
-		$setting_links = array(
+		$setting_links = [
 			'<a href="' . admin_url( 'admin.php?page=wc-settings&tab=paynow' ) . '">' . __( 'General Settings', 'paynow-payment' ) . '</a>',
 			'<a href="' . admin_url( 'admin.php?page=wc-settings&tab=checkout' ) . '">' . __( 'Payment Settings', 'paynow-payment' ) . '</a>',
-		);
+		];
 		return array_merge( $links, $setting_links );
 	}
 
@@ -136,7 +136,7 @@ class PayNow_Payment {
 			if ( empty( self::$log ) ) {
 				self::$log = new WC_Logger();
 			}
-			self::$log->log( $level, $message, array( 'source' => 'paynow-payment' ) );
+			self::$log->log( $level, $message, [ 'source' => 'paynow-payment' ] );
 		}
 	}
 

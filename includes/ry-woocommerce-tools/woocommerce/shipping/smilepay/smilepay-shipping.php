@@ -3,10 +3,10 @@ final class RY_SmilePay_Shipping {
 
 	public static $log = false;
 
-	public static $support_methods = array(
+	public static $support_methods = [
 		'ry_smilepay_shipping_cvs_711'  => 'RY_SmilePay_Shipping_CVS_711',
 		'ry_smilepay_shipping_cvs_fami' => 'RY_SmilePay_Shipping_CVS_Fami',
-	);
+	];
 
 	protected static $js_data;
 
@@ -22,25 +22,25 @@ final class RY_SmilePay_Shipping {
 		if ( 'yes' === RY_WT::get_option( 'enabled_smilepay_shipping', 'no' ) ) {
 			RY_SmilePay_Shipping_Response::init();
 
-			add_filter( 'woocommerce_shipping_methods', array( __CLASS__, 'add_method' ) );
+			add_filter( 'woocommerce_shipping_methods', [ __CLASS__, 'add_method' ] );
 
-			add_filter( 'woocommerce_checkout_fields', array( __CLASS__, 'add_cvs_info' ), 9999 );
-			add_filter( 'woocommerce_available_payment_gateways', array( __CLASS__, 'only_smilepay_gateway' ), 100 );
-			add_action( 'woocommerce_checkout_create_order', array( __CLASS__, 'save_cvs_info' ), 20, 2 );
-			add_filter( 'woocommerce_cod_process_payment_order_status', array( __CLASS__, 'change_cod_order_status' ), 10, 2 );
-			add_action( 'woocommerce_receipt_cod', array( __CLASS__, 'cod_receipt_page' ) );
-			add_action( 'woocommerce_review_order_after_shipping', array( __CLASS__, 'shipping_choose_cvs' ) );
-			add_filter( 'woocommerce_update_order_review_fragments', array( __CLASS__, 'shipping_choose_cvs_info' ) );
+			add_filter( 'woocommerce_checkout_fields', [ __CLASS__, 'add_cvs_info' ], 9999 );
+			add_filter( 'woocommerce_available_payment_gateways', [ __CLASS__, 'only_smilepay_gateway' ], 100 );
+			add_action( 'woocommerce_checkout_create_order', [ __CLASS__, 'save_cvs_info' ], 20, 2 );
+			add_filter( 'woocommerce_cod_process_payment_order_status', [ __CLASS__, 'change_cod_order_status' ], 10, 2 );
+			add_action( 'woocommerce_receipt_cod', [ __CLASS__, 'cod_receipt_page' ] );
+			add_action( 'woocommerce_review_order_after_shipping', [ __CLASS__, 'shipping_choose_cvs' ] );
+			add_filter( 'woocommerce_update_order_review_fragments', [ __CLASS__, 'shipping_choose_cvs_info' ] );
 
 			if ( 'yes' === RY_WT::get_option( 'smilepay_shipping_auto_get_no', 'yes' ) ) {
-				add_action( 'woocommerce_order_status_processing', array( __CLASS__, 'get_code' ), 10, 2 );
+				add_action( 'woocommerce_order_status_processing', [ __CLASS__, 'get_code' ], 10, 2 );
 			}
 		}
 
 		if ( is_admin() ) {
-			add_filter( 'woocommerce_get_sections_rytools', array( __CLASS__, 'add_sections' ) );
-			add_filter( 'woocommerce_get_settings_rytools', array( __CLASS__, 'add_setting' ), 10, 2 );
-			add_action( 'woocommerce_update_options_rytools_smilepay_shipping', array( __CLASS__, 'check_option' ) );
+			add_filter( 'woocommerce_get_sections_rytools', [ __CLASS__, 'add_sections' ] );
+			add_filter( 'woocommerce_get_settings_rytools', [ __CLASS__, 'add_setting' ], 10, 2 );
+			add_action( 'woocommerce_update_options_rytools_smilepay_shipping', [ __CLASS__, 'check_option' ] );
 
 			include_once RY_WT_PLUGIN_DIR . 'woocommerce/shipping/smilepay/includes/smilepay-shipping-admin.php';
 		}
@@ -54,10 +54,10 @@ final class RY_SmilePay_Shipping {
 			self::$log->log(
 				$level,
 				$message,
-				array(
+				[
 					'source'  => 'ry_smilepay_shipping',
 					'_legacy' => true,
-				)
+				]
 			);
 		}
 	}
@@ -107,20 +107,20 @@ final class RY_SmilePay_Shipping {
 	}
 
 	public static function add_cvs_info( $fields ) {
-		$fields['shipping']['shipping_phone'] = array(
+		$fields['shipping']['shipping_phone'] = [
 			'label'    => __( 'Phone', 'ry-woocommerce-tools' ),
 			'required' => true,
 			'type'     => 'tel',
-			'validate' => array( 'phone' ),
-			'class'    => array( 'form-row-wide' ),
+			'validate' => [ 'phone' ],
+			'class'    => [ 'form-row-wide' ],
 			'priority' => 100,
-		);
+		];
 		if ( 'no' == RY_WT::get_option( 'keep_shipping_phone', 'no' ) ) {
 			$fields['shipping']['shipping_phone']['class'][] = 'cvs-info';
 		}
 
 		if ( is_checkout() ) {
-			$chosen_method = isset( WC()->session->chosen_shipping_methods ) ? WC()->session->chosen_shipping_methods : array();
+			$chosen_method = isset( WC()->session->chosen_shipping_methods ) ? WC()->session->chosen_shipping_methods : [];
 			$used_cvs      = false;
 			if ( count( $chosen_method ) ) {
 				foreach ( self::$support_methods as $method => $method_class ) {
@@ -133,14 +133,12 @@ final class RY_SmilePay_Shipping {
 				foreach ( $fields['shipping'] as $key => $filed ) {
 					if ( isset( $filed['class'] ) ) {
 						if ( ! in_array( 'cvs-info', $filed['class'] ) ) {
-							if ( ! in_array( $key, array( 'shipping_first_name', 'shipping_last_name', 'shipping_phone' ) ) ) {
+							if ( ! in_array( $key, [ 'shipping_first_name', 'shipping_last_name', 'shipping_phone' ] ) ) {
 								$fields['shipping'][ $key ]['class'][] = 'ry-hide';
 							}
 						}
-					} else {
-						if ( $filed['type'] != 'hidden' ) {
-							$fields['shipping'][ $key ]['class'] = array( 'ry-hide' );
-						}
+					} elseif ( $filed['type'] != 'hidden' ) {
+						$fields['shipping'][ $key ]['class'] = [ 'ry-hide' ];
 					}
 				}
 			}
@@ -148,7 +146,7 @@ final class RY_SmilePay_Shipping {
 
 		if ( did_action( 'woocommerce_checkout_process' ) ) {
 			$used_cvs        = false;
-			$shipping_method = isset( $_POST['shipping_method'] ) ? wc_clean( $_POST['shipping_method'] ) : array();
+			$shipping_method = isset( $_POST['shipping_method'] ) ? wc_clean( $_POST['shipping_method'] ) : [];
 			foreach ( $shipping_method as $method ) {
 				$method = strstr( $method, ':', true );
 				if ( $method && array_key_exists( $method, self::$support_methods ) && strpos( $method, 'cvs' ) !== false ) {
@@ -165,10 +163,8 @@ final class RY_SmilePay_Shipping {
 				$fields['shipping']['shipping_state']['required']     = false;
 				$fields['shipping']['shipping_postcode']['required']  = false;
 				$fields['shipping']['shipping_phone']['required']     = true;
-			} else {
-				if ( 'no' == RY_WT::get_option( 'keep_shipping_phone', 'no' ) ) {
-					$fields['shipping']['shipping_phone']['required'] = false;
-				}
+			} elseif ( 'no' == RY_WT::get_option( 'keep_shipping_phone', 'no' ) ) {
+				$fields['shipping']['shipping_phone']['required'] = false;
 			}
 		}
 
@@ -208,7 +204,7 @@ final class RY_SmilePay_Shipping {
 		if ( $items_shipping ) {
 			if ( isset( self::$support_methods[ $items_shipping->get_method_id() ] ) ) {
 				$status = 'pending';
-				add_filter( 'woocommerce_payment_successful_result', array( __CLASS__, 'change_cod_redirect' ), 10, 2 );
+				add_filter( 'woocommerce_payment_successful_result', [ __CLASS__, 'change_cod_redirect' ], 10, 2 );
 			}
 		}
 
@@ -239,17 +235,17 @@ final class RY_SmilePay_Shipping {
 		$chosen_shipping = wc_get_chosen_shipping_method_ids();
 		$chosen_shipping = array_intersect( $chosen_shipping, array_keys( self::$support_methods ) );
 		$chosen_shipping = array_shift( $chosen_shipping );
-		self::$js_data   = array();
+		self::$js_data   = [];
 
 		if ( $chosen_shipping ) {
-			self::$js_data['postData'] = array();
+			self::$js_data['postData'] = [];
 		}
 	}
 
 	public static function get_code( $order_id, $order ) {
 		$shipping_list = $order->get_meta( '_smilepay_shipping_info', true );
 		if ( ! is_array( $shipping_list ) ) {
-			$shipping_list = array();
+			$shipping_list = [];
 		}
 		foreach ( $shipping_list as $smse_id => $info ) {
 			RY_SmilePay_Shipping_Api::get_code_no( $order_id, $smse_id );

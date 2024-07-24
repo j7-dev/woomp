@@ -8,10 +8,10 @@ class Checkout {
 
 	public static function init() {
 		$class = new self();
-		add_action( 'wp_enqueue_scripts', array( $class, 'enqueue_scripts' ) );
-		add_action( 'woocommerce_after_checkout_billing_form', array( $class, 'set_invoice_field' ) );
-		add_action( 'woocommerce_checkout_process', array( $class, 'set_invoice_field_validate' ) );
-		add_action( 'woocommerce_checkout_update_order_meta', array( $class, 'set_invoice_meta' ) );
+		add_action( 'wp_enqueue_scripts', [ $class, 'enqueue_scripts' ] );
+		add_action( 'woocommerce_after_checkout_billing_form', [ $class, 'set_invoice_field' ] );
+		add_action( 'woocommerce_checkout_process', [ $class, 'set_invoice_field_validate' ] );
+		add_action( 'woocommerce_checkout_update_order_meta', [ $class, 'set_invoice_meta' ] );
 	}
 
 	/**
@@ -28,20 +28,20 @@ class Checkout {
 			'ezpay-invoice-type',
 			'select',
 			__( 'Invoice Type', 'woomp' ),
-			array(),
+			[],
 			'invoice-label',
-			array( // 發票開立選項
+			[ // 發票開立選項
 				'individual' => __( 'individual', 'woomp' ),
 				'company'    => __( 'company', 'woomp' ),
 				'donate'     => __( 'donate', 'woomp' ),
-			)
+			]
 		);
 
 		// 個人發票選項
 		if ( ! get_option( 'wc_woomp_ezpay_invoice_carrier_type' ) ) {
-			update_option( 'wc_woomp_ezpay_invoice_carrier_type', array( '手機條碼', '自然人憑證', 'ezPay 電子發票載具' ) );
+			update_option( 'wc_woomp_ezpay_invoice_carrier_type', [ '手機條碼', '自然人憑證', 'ezPay 電子發票載具' ] );
 		}
-		$type_option = array();
+		$type_option = [];
 		foreach ( get_option( 'wc_woomp_ezpay_invoice_carrier_type' ) as $value ) {
 			$type_option[ $value ] = $value;
 		}
@@ -50,7 +50,7 @@ class Checkout {
 			'ezpay-individual-invoice',
 			'select',
 			__( 'Individual Invoice Type', 'woomp' ),
-			array( 'no-search' ),
+			[ 'no-search' ],
 			'invoice-label',
 			$type_option,
 		);
@@ -60,18 +60,18 @@ class Checkout {
 			'ezpay-carrier-number',
 			'text',
 			__( 'Carrier Number', 'woomp' ),
-			array( 'hide-option-field' ),
+			[ 'hide-option-field' ],
 			'invoice-label',
-			array()
+			[]
 		);
 
 		$this->add_wc_field(
 			'ezpay-taxid-number',
 			'text',
 			__( 'TaxID', 'woomp' ),
-			array( 'hide-option-field' ),
+			[ 'hide-option-field' ],
 			'invoice-label',
-			array()
+			[]
 		);
 
 		// 公司統一編號欄位
@@ -79,9 +79,9 @@ class Checkout {
 			'ezpay-company-name',
 			'text',
 			__( 'Company Name', 'woomp' ),
-			array( 'hide-option-field' ),
+			[ 'hide-option-field' ],
 			'invoice-label',
-			array()
+			[]
 		);
 
 		// 捐贈捐贈碼欄位
@@ -89,7 +89,7 @@ class Checkout {
 			'ezpay-donate-number',
 			'select',
 			__( 'Donate Number', 'woomp' ),
-			array( 'hide-option-field' ),
+			[ 'hide-option-field' ],
 			'invoice-label',
 			$this->get_donate_org(),
 		);
@@ -98,21 +98,21 @@ class Checkout {
 	private function add_wc_field( $name, $type, $label, $class, $label_class, $options, $placeholder = null ) {
 		woocommerce_form_field(
 			$name,
-			array(
+			[
 				'type'        => $type,
 				'label'       => $label,
 				'class'       => $class,
 				'label_class' => $label_class,
 				'options'     => $options,
 				'placeholder' => $placeholder,
-			),
+			],
 		);
 	}
 
 	private function get_donate_org() {
-		$orgs = array(
+		$orgs = [
 			'' => '請選擇',
-		);
+		];
 		if ( get_option( 'wc_woomp_ezpay_invoice_donate_org' ) ) {
 			$org_strings = array_map( 'trim', explode( "\n", get_option( 'wc_woomp_ezpay_invoice_donate_org' ) ) );
 			foreach ( $org_strings as $value ) {
@@ -168,7 +168,7 @@ class Checkout {
 			return;
 		}
 
-		$invoice_data = array();
+		$invoice_data = [];
 		// 新增發票開立類型
 		if ( isset( $_POST['ezpay-invoice-type'] ) ) {
 			$invoice_data['_ezpay_invoice_type'] = wp_unslash( $_POST['ezpay-invoice-type'] );
@@ -225,14 +225,14 @@ class Checkout {
 	public function enqueue_scripts() {
 		if ( is_checkout() ) {
 
-			wp_register_script( 'woomp_ezpay_invoice', EZPAYINVOICE_PLUGIN_URL . 'assets/js/checkout.js', array( 'jquery' ), '1.0.10', true );
+			wp_register_script( 'woomp_ezpay_invoice', EZPAYINVOICE_PLUGIN_URL . 'assets/js/checkout.js', [ 'jquery' ], '1.0.10', true );
 			wp_localize_script(
 				'woomp_ezpay_invoice',
 				'woomp_ezpay_invoice_params',
-				array(
+				[
 					'product_type' => $this->get_cart_info( 'product_type' ),
 					'cart_total'   => $this->get_cart_info( 'total' ),
-				)
+				]
 			);
 			wp_enqueue_script( 'woomp_ezpay_invoice' );
 		}

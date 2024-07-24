@@ -542,7 +542,7 @@ if ( ! class_exists( 'WooMP_Product' ) ) {
 
 			$args = wp_parse_args(
 				apply_filters( 'woocommerce_dropdown_variation_attribute_options_args', $args ),
-				array(
+				[
 					'options'          => false,
 					'attribute'        => false,
 					'product'          => false,
@@ -551,7 +551,7 @@ if ( ! class_exists( 'WooMP_Product' ) ) {
 					'id'               => '',
 					'class'            => '',
 					'show_option_none' => __( 'Choose an option', 'woocommerce' ),
-				)
+				]
 			);
 
 			if ( false === $args['selected'] && $args['attribute'] && $args['product'] instanceof WC_Product ) {
@@ -584,9 +584,9 @@ if ( ! class_exists( 'WooMP_Product' ) ) {
 					$terms = wc_get_product_terms(
 						$product->get_id(),
 						$attribute,
-						array(
+						[
 							'fields' => 'all',
-						)
+						]
 					);
 
 					foreach ( $terms as $term ) {
@@ -609,9 +609,9 @@ if ( ! class_exists( 'WooMP_Product' ) ) {
 					$terms = wc_get_product_terms(
 						$product->get_id(),
 						$attribute,
-						array(
+						[
 							'fields' => 'all',
-						)
+						]
 					);
 					foreach ( $terms as $term ) {
 						if ( in_array( $term->slug, $options, true ) ) {
@@ -699,9 +699,9 @@ if ( ! class_exists( 'WooMP_Product' ) ) {
 					$terms = wc_get_product_terms(
 						$product->get_id(),
 						$attribute,
-						array(
+						[
 							'fields' => 'all',
-						)
+						]
 					);
 
 					foreach ( $terms as $term ) {
@@ -759,13 +759,13 @@ if ( ! class_exists( 'WooMP_Product' ) ) {
 		 * 增加一頁式設定
 		 */
 		public static function add_onepage_checkout_setting( $options ) {
-			$options['onepagecheckout'] = array(
+			$options['onepagecheckout'] = [
 				'id'            => '_onepagecheckout',
 				'wrapper_class' => '',
 				'label'         => __( '一頁式結帳', 'woocommerce' ),
 				'description'   => __( '讓顧客可以在商品頁直接完成結帳', 'woocommerce' ),
 				'default'       => 'no',
-			);
+			];
 			return $options;
 		}
 

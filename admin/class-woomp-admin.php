@@ -40,9 +40,9 @@ class Woomp_Admin {
 	 */
 	private $version;
 
-	public static $support_methods = array(
+	public static $support_methods = [
 		'ry_newebpay_shipping_cvs' => 'RY_NewebPay_Shipping_CVS',
-	);
+	];
 
 	/**
 	 * Initialize the class and set its properties.
@@ -76,7 +76,7 @@ class Woomp_Admin {
 		 * class.
 		 */
 
-		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/woomp-admin.css', array(), $this->version, 'all' );
+		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/woomp-admin.css', [], $this->version, 'all' );
 	}
 
 	/**
@@ -98,18 +98,18 @@ class Woomp_Admin {
 		 * class.
 		 */
 
-		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/woomp-admin.js', array( 'jquery' ), '2.2.5', true );
+		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/woomp-admin.js', [ 'jquery' ], '2.2.5', true );
 	}
 
 	/**
 	 * 訂單頁面新增地址編輯欄位
 	 */
 	public function custom_order_meta( $fields ) {
-		$fields['full-address'] = array(
+		$fields['full-address'] = [
 			'label'         => __( '完整地址', 'woomp' ),
 			'show'          => true,
 			'wrapper_class' => 'form-field-wide full-address',
-		);
+		];
 		return $fields;
 	}
 
@@ -125,11 +125,11 @@ class Woomp_Admin {
 			}
 			if ( $shipping_method !== false ) {
 				if ( strpos( $shipping_method, 'cvs' ) < -1 ) {
-					$fields['full-addressShipping'] = array(
+					$fields['full-addressShipping'] = [
 						'label'         => __( '運送地址', 'woomp' ),
 						'show'          => true,
 						'wrapper_class' => 'form-field-wide full-addressShipping',
-					);
+					];
 				}
 			}
 		}
@@ -176,12 +176,12 @@ class Woomp_Admin {
 	 */
 	public function add_settings_link( $links ) {
 		return array_merge(
-			array(
+			[
 				'settings' => '<a href="' . admin_url( 'admin.php?page=wc-settings&tab=woomp_setting' ) . '">' . __( 'Settings' ) . '</a>',
 				'gateway'  => '<a href="' . admin_url( 'admin.php?page=wc-settings&tab=woomp_setting_gateway' ) . '">' . __( 'payment', 'woomp' ) . '</a>',
 				'shipping' => '<a href="' . admin_url( 'admin.php?page=wc-settings&tab=woomp_setting_shipping' ) . '">' . __( 'shipping', 'woomp' ) . '</a>',
 				'invoice'  => '<a href="' . admin_url( 'admin.php?page=wc-settings&tab=woomp_setting_invoice' ) . '">' . __( 'invoice', 'woomp' ) . '</a>',
-			),
+			],
 			$links
 		);
 	}
@@ -281,14 +281,14 @@ class Woomp_Admin {
 	 * 排程 Hook 註冊
 	 */
 	public function register_cron_hook() {
-		$cron = array(
-			array(
+		$cron = [
+			[
 				'type'      => 'recurring',
 				'hook_name' => 'wmp_cron_every_morning',
 				'start'     => strtotime( '10:00:00' ) - get_option( 'gmt_offset' ) * 3600,
 				'interval'  => DAY_IN_SECONDS,
-			),
-		);
+			],
+		];
 
 		foreach ( $cron as $arg ) {
 			if ( ! as_next_scheduled_action( $arg['hook_name'] ) ) {
@@ -301,11 +301,11 @@ class Woomp_Admin {
 	 * 綠界超商訂單取貨到期前一天通知
 	 */
 	public function set_ecpay_cvs_get_remind() {
-		$args   = array(
-			'status'     => array( 'wc-ry-at-cvs' ),
+		$args   = [
+			'status'     => [ 'wc-ry-at-cvs' ],
 			'meta_key'   => 'ecpay_cvs_at_store_expired',
 			'meta_value' => date( 'Y-m-d', strtotime( '+1 days' ) ),
-		);
+		];
 		$orders = wc_get_orders( $args );
 
 		if ( $orders ) {
@@ -329,11 +329,11 @@ class Woomp_Admin {
 	 * 綠界超商訂單取貨到期當天通知
 	 */
 	public function set_ecpay_cvs_get_expired() {
-		$args   = array(
-			'status'     => array( 'wc-ry-at-cvs' ),
+		$args   = [
+			'status'     => [ 'wc-ry-at-cvs' ],
 			'meta_key'   => 'ecpay_cvs_at_store_expired',
 			'meta_value' => date( 'Y-m-d' ),
-		);
+		];
 		$orders = wc_get_orders( $args );
 
 		$wc_emails = WC_Emails::instance();
@@ -371,10 +371,10 @@ class Woomp_Admin {
 			$expire_sec = $atm->expire_date * 86400;
 
 			// 註冊取消訂單排程
-			as_schedule_single_action( strtotime( $order->get_date_created()->date( 'Y-m-d H:i:s' ) . ' -8 hour' ) + $expire_sec, 'wmp_cron_atm_deadline', array( $order_id ) );
+			as_schedule_single_action( strtotime( $order->get_date_created()->date( 'Y-m-d H:i:s' ) . ' -8 hour' ) + $expire_sec, 'wmp_cron_atm_deadline', [ $order_id ] );
 
 			// 註冊發送轉帳提醒通知信排程
-			as_schedule_single_action( strtotime( $order->get_date_created()->date( 'Y-m-d H:i:s' ) . ' -1 day -8 hour' ) + $expire_sec, 'wmp_cron_atm_deadline_remind', array( $order_id ) );
+			as_schedule_single_action( strtotime( $order->get_date_created()->date( 'Y-m-d H:i:s' ) . ' -1 day -8 hour' ) + $expire_sec, 'wmp_cron_atm_deadline_remind', [ $order_id ] );
 		}
 	}
 

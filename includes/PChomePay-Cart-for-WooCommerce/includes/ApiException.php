@@ -57,20 +57,20 @@ class ApiException {
 	}
 
 	public function getApiType( $code ) {
-		$errorType = array(
+		$errorType = [
 			'1' => 'auth error',
 			'2' => 'invalid request error',
 			'4' => 'pay error',
 			'5' => 'refund error',
 			'7' => 'withdraw error',
 			'8' => 'audit error',
-		);
+		];
 
 		return ( $errorType[ substr( $code, 0, 1 ) ] );
 	}
 
 	public static function getErrMsg( $code ) {
-		$msg = array(
+		$msg = [
 			// auth error
 			static::INVALID_USER_OR_PASS                   => '帳號密碼錯誤',
 			static::INVALID_SERVER_IP                      => '伺服器 IP 設定錯誤',
@@ -112,7 +112,7 @@ class ApiException {
 
 			// audit error
 			static::INVALID_STATUS                         => '目前狀態不可被執行',
-		);
+		];
 
 		return $msg[ $code ];
 	}

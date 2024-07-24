@@ -7,10 +7,10 @@ class Checkout {
 
 	public static function init() {
 		$class = new self();
-		add_action( 'wp_enqueue_scripts', array( $class, 'enqueue_scripts' ) );
-		add_action( 'woocommerce_after_checkout_billing_form', array( $class, 'set_invoice_field' ) );
-		add_action( 'woocommerce_checkout_process', array( $class, 'set_invoice_field_validate' ) );
-		add_action( 'woocommerce_checkout_update_order_meta', array( $class, 'set_invoice_meta' ) );
+		add_action( 'wp_enqueue_scripts', [ $class, 'enqueue_scripts' ] );
+		add_action( 'woocommerce_after_checkout_billing_form', [ $class, 'set_invoice_field' ] );
+		add_action( 'woocommerce_checkout_process', [ $class, 'set_invoice_field_validate' ] );
+		add_action( 'woocommerce_checkout_update_order_meta', [ $class, 'set_invoice_meta' ] );
 	}
 
 	/**
@@ -27,20 +27,20 @@ class Checkout {
 			'invoice-type',
 			'select',
 			__( 'Invoice Type', 'woomp' ),
-			array(),
+			[],
 			'invoice-label',
-			array( // 發票開立選項
+			[ // 發票開立選項
 				'individual' => __( 'individual', 'woomp' ),
 				'company'    => __( 'company', 'woomp' ),
 				'donate'     => __( 'donate', 'woomp' ),
-			)
+			]
 		);
 
 		// 個人發票選項
 		if ( ! get_option( 'wc_woomp_ecpay_invoice_carrier_type' ) ) {
-			update_option( 'wc_woomp_ecpay_invoice_carrier_type', array( '雲端發票', '手機條碼', '自然人憑證', '紙本發票' ) );
+			update_option( 'wc_woomp_ecpay_invoice_carrier_type', [ '雲端發票', '手機條碼', '自然人憑證', '紙本發票' ] );
 		}
-		$type_option = array();
+		$type_option = [];
 		foreach ( get_option( 'wc_woomp_ecpay_invoice_carrier_type' ) as $value ) {
 			$type_option[ $value ] = $value;
 		}
@@ -49,7 +49,7 @@ class Checkout {
 			'individual-invoice',
 			'select',
 			__( 'Individual Invoice Type', 'woomp' ),
-			array( 'no-search' ),
+			[ 'no-search' ],
 			'invoice-label',
 			$type_option,
 		);
@@ -59,9 +59,9 @@ class Checkout {
 			'carrier-number',
 			'text',
 			__( 'Carrier Number', 'woomp' ),
-			array( 'hide-option-field' ),
+			[ 'hide-option-field' ],
 			'invoice-label',
-			array()
+			[]
 		);
 
 		// 公司統一編號欄位
@@ -69,18 +69,18 @@ class Checkout {
 			'company-name',
 			'text',
 			__( 'Company Name', 'woomp' ),
-			array( 'hide-option-field' ),
+			[ 'hide-option-field' ],
 			'invoice-label',
-			array()
+			[]
 		);
 
 		$this->add_wc_field(
 			'taxid-number',
 			'text',
 			__( 'TaxID', 'woomp' ),
-			array( 'hide-option-field' ),
+			[ 'hide-option-field' ],
 			'invoice-label',
-			array()
+			[]
 		);
 
 		// 捐贈捐贈碼欄位
@@ -88,7 +88,7 @@ class Checkout {
 			'donate-number',
 			'select',
 			__( 'Donate Number', 'woomp' ),
-			array( 'hide-option-field' ),
+			[ 'hide-option-field' ],
 			'invoice-label',
 			$this->get_donate_org(),
 		);
@@ -97,21 +97,21 @@ class Checkout {
 	private function add_wc_field( $name, $type, $label, $class, $label_class, $options, $placeholder = null ) {
 		woocommerce_form_field(
 			$name,
-			array(
+			[
 				'type'        => $type,
 				'label'       => $label,
 				'class'       => $class,
 				'label_class' => $label_class,
 				'options'     => $options,
 				'placeholder' => $placeholder,
-			),
+			],
 		);
 	}
 
 	private function get_donate_org() {
-		$orgs = array(
+		$orgs = [
 			'' => '請選擇',
-		);
+		];
 		if ( get_option( 'wc_woomp_ecpay_invoice_donate_org' ) ) {
 			$org_strings = array_map( 'trim', explode( "\n", get_option( 'wc_woomp_ecpay_invoice_donate_org' ) ) );
 			foreach ( $org_strings as $value ) {
@@ -167,7 +167,7 @@ class Checkout {
 			return;
 		}
 
-		$invoice_data = array();
+		$invoice_data = [];
 		// 新增發票開立類型
 		if ( isset( $_POST['invoice-type'] ) ) {
 			$invoice_data['_invoice_type'] = wp_unslash( $_POST['invoice-type'] );
@@ -224,14 +224,14 @@ class Checkout {
 	public function enqueue_scripts() {
 		if ( is_checkout() ) {
 
-			wp_register_script( 'woomp_ecpay_invoice', ECPAYINVOICE_PLUGIN_URL . 'assets/js/checkout.js', array( 'jquery' ), '1.0.9', true );
+			wp_register_script( 'woomp_ecpay_invoice', ECPAYINVOICE_PLUGIN_URL . 'assets/js/checkout.js', [ 'jquery' ], '1.0.9', true );
 			wp_localize_script(
 				'woomp_ecpay_invoice',
 				'woomp_ecpay_invoice_params',
-				array(
+				[
 					'product_type' => $this->get_cart_info( 'product_type' ),
 					'cart_total'   => $this->get_cart_info( 'total' ),
-				)
+				]
 			);
 			wp_enqueue_script( 'woomp_ecpay_invoice' );
 		}

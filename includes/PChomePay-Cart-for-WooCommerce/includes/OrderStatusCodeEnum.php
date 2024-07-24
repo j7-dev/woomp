@@ -71,7 +71,7 @@ class OrderStatusCodeEnum {
 	const EACH_ORDER_OTP_WAIT = 'WO';
 
 	public static function getErrMsg( $code ) {
-		$msg = array(
+		$msg = [
 			static::ORDER_EXPIRED             => '訂單過期',
 			static::BALANCE_NOT_ENOUGH        => '餘額不足',
 			static::ATM_EXPIRED               => 'ATM 虛擬帳號失效',
@@ -91,7 +91,7 @@ class OrderStatusCodeEnum {
 			static::ORDER_PENDING_PCHOMEPAY   => '訂單於支付連審單中',
 			static::ORDER_PENDING_CLIENT      => '訂單審單中',
 			static::EACH_ORDER_OTP_WAIT       => '銀行支付 等待OTP驗證',
-		);
+		];
 
 		return $msg[ $code ];
 	}

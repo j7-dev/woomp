@@ -95,15 +95,15 @@ final class RY_WT_update {
 		if ( version_compare( $now_version, '0.0.31', '<' ) ) {
 			if ( 'billing_only' === get_option( 'woocommerce_ship_to_destination' ) ) {
 				RY_WT::update_option( 'ecpay_shipping_cvs_type', 'disable' );
-				foreach ( array( 'ry_ecpay_shipping_cvs_711', 'ry_ecpay_shipping_cvs_hilife', 'ry_ecpay_shipping_cvs_family' ) as $method_id ) {
+				foreach ( [ 'ry_ecpay_shipping_cvs_711', 'ry_ecpay_shipping_cvs_hilife', 'ry_ecpay_shipping_cvs_family' ] as $method_id ) {
 					$wpdb->update(
 						$wpdb->prefix . 'woocommerce_shipping_zone_methods',
-						array(
+						[
 							'is_enabled' => 0,
-						),
-						array(
+						],
+						[
 							'method_id' => $method_id,
-						)
+						]
 					);
 				}
 			}
@@ -116,7 +116,7 @@ final class RY_WT_update {
 
 			include_once RY_WT_PLUGIN_DIR . 'woocommerce/shipping/ecpay/ecpay-shipping.php';
 
-			$wpdb->update( $wpdb->postmeta, array( 'meta_key' => '_ecpay_shipping_info' ), array( 'meta_key' => '_shipping_cvs_info' ) );
+			$wpdb->update( $wpdb->postmeta, [ 'meta_key' => '_ecpay_shipping_info' ], [ 'meta_key' => '_shipping_cvs_info' ] );
 
 			$cvs_type  = RY_WT::get_option( 'ecpay_shipping_cvs_type' );
 			$meta_rows = $wpdb->get_results(

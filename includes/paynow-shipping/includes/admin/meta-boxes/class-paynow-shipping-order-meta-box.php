@@ -28,7 +28,7 @@ class PayNow_Shipping_Order_Meta_Box {
 
 			foreach ( $theorder->get_items( 'shipping' ) as $item_id => $item ) {
 				if ( PayNow_Shipping::is_paynow_shipping( $item->get_method_id() ) !== false ) {
-					add_meta_box( 'paynow-shipping-info', __( 'PayNow Shipping Info', 'paynow-shipping' ), array( __CLASS__, 'output' ), 'shop_order', 'side', 'high' );
+					add_meta_box( 'paynow-shipping-info', __( 'PayNow Shipping Info', 'paynow-shipping' ), [ __CLASS__, 'output' ], 'shop_order', 'side', 'high' );
 					break;
 				}
 			}

@@ -2,47 +2,47 @@
 class RY_ECPay_Shipping_Response extends RY_ECPay_Shipping_Api {
 
 	public static function init() {
-		add_action( 'woocommerce_api_request', array( __CLASS__, 'set_do_die' ) );
-		add_action( 'woocommerce_api_ry_ecpay_map_callback', array( __CLASS__, 'map_redirect' ) );
-		add_action( 'woocommerce_api_ry_ecpay_shipping_callback', array( __CLASS__, 'check_shipping_callback' ) );
-		add_action( 'valid_ecpay_shipping_request', array( __CLASS__, 'shipping_callback' ) );
+		add_action( 'woocommerce_api_request', [ __CLASS__, 'set_do_die' ] );
+		add_action( 'woocommerce_api_ry_ecpay_map_callback', [ __CLASS__, 'map_redirect' ] );
+		add_action( 'woocommerce_api_ry_ecpay_shipping_callback', [ __CLASS__, 'check_shipping_callback' ] );
+		add_action( 'valid_ecpay_shipping_request', [ __CLASS__, 'shipping_callback' ] );
 
 		// 物流返回代號文件 https://github.com/ECPay/SDK_PHP/blob/master/example/Logistics/logistics_status.xlsx
 
 		// 超商
-		add_action( 'ry_ecpay_shipping_response_status_2030', array( __CLASS__, 'shipping_transporting' ), 10, 2 );
-		add_action( 'ry_ecpay_shipping_response_status_3024', array( __CLASS__, 'shipping_transporting' ), 10, 2 );
-		add_action( 'ry_ecpay_shipping_response_status_3032', array( __CLASS__, 'shipping_transporting' ), 10, 2 );
+		add_action( 'ry_ecpay_shipping_response_status_2030', [ __CLASS__, 'shipping_transporting' ], 10, 2 );
+		add_action( 'ry_ecpay_shipping_response_status_3024', [ __CLASS__, 'shipping_transporting' ], 10, 2 );
+		add_action( 'ry_ecpay_shipping_response_status_3032', [ __CLASS__, 'shipping_transporting' ], 10, 2 );
 
 		// 黑貓
-		add_action( 'ry_ecpay_shipping_response_status_3001', array( __CLASS__, 'shipping_transporting' ), 10, 2 );
-		add_action( 'ry_ecpay_shipping_response_status_3006', array( __CLASS__, 'shipping_transporting' ), 10, 2 );
-		add_action( 'ry_ecpay_shipping_response_status_3003', array( __CLASS__, 'shipping_completed' ), 10, 2 );
+		add_action( 'ry_ecpay_shipping_response_status_3001', [ __CLASS__, 'shipping_transporting' ], 10, 2 );
+		add_action( 'ry_ecpay_shipping_response_status_3006', [ __CLASS__, 'shipping_transporting' ], 10, 2 );
+		add_action( 'ry_ecpay_shipping_response_status_3003', [ __CLASS__, 'shipping_completed' ], 10, 2 );
 
 		// 郵局
-		add_action( 'ry_ecpay_shipping_response_status_3113', array( __CLASS__, 'shipping_transporting' ), 10, 2 );
-		add_action( 'ry_ecpay_shipping_response_status_3308', array( __CLASS__, 'shipping_completed' ), 10, 2 );
+		add_action( 'ry_ecpay_shipping_response_status_3113', [ __CLASS__, 'shipping_transporting' ], 10, 2 );
+		add_action( 'ry_ecpay_shipping_response_status_3308', [ __CLASS__, 'shipping_completed' ], 10, 2 );
 
-		add_action( 'ry_ecpay_shipping_response_status_2063', array( __CLASS__, 'shipping_at_cvs' ), 10, 2 );
-		add_action( 'ry_ecpay_shipping_response_status_2073', array( __CLASS__, 'shipping_at_cvs' ), 10, 2 );
-		add_action( 'ry_ecpay_shipping_response_status_3018', array( __CLASS__, 'shipping_at_cvs' ), 10, 2 );
+		add_action( 'ry_ecpay_shipping_response_status_2063', [ __CLASS__, 'shipping_at_cvs' ], 10, 2 );
+		add_action( 'ry_ecpay_shipping_response_status_2073', [ __CLASS__, 'shipping_at_cvs' ], 10, 2 );
+		add_action( 'ry_ecpay_shipping_response_status_3018', [ __CLASS__, 'shipping_at_cvs' ], 10, 2 );
 
-		add_action( 'ry_ecpay_shipping_response_status_2074', array( __CLASS__, 'shipping_out_cvs' ), 10, 2 );
-		add_action( 'ry_ecpay_shipping_response_status_3020', array( __CLASS__, 'shipping_out_cvs' ), 10, 2 );
+		add_action( 'ry_ecpay_shipping_response_status_2074', [ __CLASS__, 'shipping_out_cvs' ], 10, 2 );
+		add_action( 'ry_ecpay_shipping_response_status_3020', [ __CLASS__, 'shipping_out_cvs' ], 10, 2 );
 
 		if ( 'yes' == RY_WT::get_option( 'ecpay_shipping_auto_completed', 'yes' ) ) {
-			add_action( 'ry_ecpay_shipping_response_status_2067', array( __CLASS__, 'shipping_completed' ), 10, 2 );
-			add_action( 'ry_ecpay_shipping_response_status_3022', array( __CLASS__, 'shipping_completed' ), 10, 2 );
-			add_action( 'ry_ecpay_shipping_response_status_3308', array( __CLASS__, 'shipping_completed' ), 10, 2 );
-			add_action( 'ry_ecpay_shipping_response_status_3309', array( __CLASS__, 'shipping_completed' ), 10, 2 );
+			add_action( 'ry_ecpay_shipping_response_status_2067', [ __CLASS__, 'shipping_completed' ], 10, 2 );
+			add_action( 'ry_ecpay_shipping_response_status_3022', [ __CLASS__, 'shipping_completed' ], 10, 2 );
+			add_action( 'ry_ecpay_shipping_response_status_3308', [ __CLASS__, 'shipping_completed' ], 10, 2 );
+			add_action( 'ry_ecpay_shipping_response_status_3309', [ __CLASS__, 'shipping_completed' ], 10, 2 );
 		}
 	}
 
 	public static function map_redirect() {
-		$cvs_info = array();
+		$cvs_info = [];
 		if ( ! empty( $_POST ) ) {
 			$ipn_info = wp_unslash( $_POST );
-			foreach ( array( 'LogisticsSubType', 'CVSStoreID', 'CVSStoreName', 'CVSAddress', 'CVSTelephone', 'CVSOutSide' ) as $key ) {
+			foreach ( [ 'LogisticsSubType', 'CVSStoreID', 'CVSStoreName', 'CVSAddress', 'CVSTelephone', 'CVSOutSide' ] as $key ) {
 				if ( isset( $ipn_info[ $key ] ) ) {
 					$cvs_info[ $key ] = $ipn_info[ $key ];
 				}
@@ -124,10 +124,10 @@ class RY_ECPay_Shipping_Response extends RY_ECPay_Shipping_Api {
 		if ( $order = wc_get_order( $order_id ) ) {
 			$shipping_list = $order->get_meta( '_ecpay_shipping_info', true );
 			if ( ! is_array( $shipping_list ) ) {
-				$shipping_list = array();
+				$shipping_list = [];
 			}
 			if ( ! isset( $shipping_list[ $ipn_info['AllPayLogisticsID'] ] ) ) {
-				$shipping_list[ $ipn_info['AllPayLogisticsID'] ] = array();
+				$shipping_list[ $ipn_info['AllPayLogisticsID'] ] = [];
 			}
 			$old_info = $shipping_list[ $ipn_info['AllPayLogisticsID'] ];
 			$shipping_list[ $ipn_info['AllPayLogisticsID'] ]['status']     = self::get_status( $ipn_info );

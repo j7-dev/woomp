@@ -12,7 +12,7 @@ class Metabox {
 
 	public static function register() {
 		$class = new self();
-		add_action( 'admin_init', array( $class, 'set_metabox' ), 99 );
+		add_action( 'admin_init', [ $class, 'set_metabox' ], 99 );
 	}
 
 	/**
@@ -47,20 +47,20 @@ class Metabox {
 		}
 
 		$this->metabox = new ODSMetabox(
-			array(
+			[
 				'id'       => 'payuni_subscripiton',
 				'title'    => __( '統一金流定期定額', 'woomp' ),
 				'screen'   => 'shop_order',
 				'context'  => 'side',
 				'priority' => 'default',
-			)
+			]
 		);
 
 		$this->metabox->addHtml(
-			array(
+			[
 				'id'   => 'payuni_subscripiton_section',
 				'html' => $this->set_request_button( $_GET['post'] ),
-			),
+			],
 		);
 	}
 

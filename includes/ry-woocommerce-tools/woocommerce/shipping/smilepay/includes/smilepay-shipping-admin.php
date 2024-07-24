@@ -4,17 +4,17 @@ final class RY_SmilePay_Shipping_admin {
 	public static function init() {
 		include_once RY_WT_PLUGIN_DIR . 'woocommerce/admin/meta-boxes/smilepay-shipping-meta-box.php';
 
-		add_filter( 'woocommerce_admin_shipping_fields', array( __CLASS__, 'set_cvs_shipping_fields' ), 99 );
-		add_action( 'woocommerce_shipping_zone_method_status_toggled', array( __CLASS__, 'check_can_enable' ), 10, 4 );
-		add_action( 'woocommerce_update_options_shipping_options', array( __CLASS__, 'check_ship_destination' ) );
-		add_filter( 'woocommerce_order_actions', array( __CLASS__, 'add_order_actions' ) );
-		add_action( 'woocommerce_order_action_get_new_smilepay_no', array( 'RY_SmilePay_Shipping_Api', 'get_csv_no' ) );
-		add_action( 'woocommerce_order_action_get_new_smilepay_no_cod', array( 'RY_SmilePay_Shipping_Api', 'get_csv_no_cod' ) );
-		add_action( 'woocommerce_order_action_send_at_cvs_email', array( 'RY_SmilePay_Shipping', 'send_at_cvs_email' ) );
+		add_filter( 'woocommerce_admin_shipping_fields', [ __CLASS__, 'set_cvs_shipping_fields' ], 99 );
+		add_action( 'woocommerce_shipping_zone_method_status_toggled', [ __CLASS__, 'check_can_enable' ], 10, 4 );
+		add_action( 'woocommerce_update_options_shipping_options', [ __CLASS__, 'check_ship_destination' ] );
+		add_filter( 'woocommerce_order_actions', [ __CLASS__, 'add_order_actions' ] );
+		add_action( 'woocommerce_order_action_get_new_smilepay_no', [ 'RY_SmilePay_Shipping_Api', 'get_csv_no' ] );
+		add_action( 'woocommerce_order_action_get_new_smilepay_no_cod', [ 'RY_SmilePay_Shipping_Api', 'get_csv_no_cod' ] );
+		add_action( 'woocommerce_order_action_send_at_cvs_email', [ 'RY_SmilePay_Shipping', 'send_at_cvs_email' ] );
 
-		add_action( 'add_meta_boxes', array( 'RY_SmilePay_Shipping_Meta_Box', 'add_meta_box' ), 40, 2 );
-		add_action( 'wp_ajax_RY_SmilePay_Shipping_get_no', array( __CLASS__, 'get_code_no' ) );
-		add_action( 'wp_ajax_RY_SmilePay_Shipping_print', array( __CLASS__, 'print_info' ) );
+		add_action( 'add_meta_boxes', [ 'RY_SmilePay_Shipping_Meta_Box', 'add_meta_box' ], 40, 2 );
+		add_action( 'wp_ajax_RY_SmilePay_Shipping_get_no', [ __CLASS__, 'get_code_no' ] );
+		add_action( 'wp_ajax_RY_SmilePay_Shipping_print', [ __CLASS__, 'print_info' ] );
 	}
 
 	public static function set_cvs_shipping_fields( $shipping_fields ) {
@@ -37,21 +37,21 @@ final class RY_SmilePay_Shipping_admin {
 				unset( $shipping_fields['country'] );
 				unset( $shipping_fields['state'] );
 
-				$shipping_fields['cvs_store_ID']      = array(
+				$shipping_fields['cvs_store_ID']      = [
 					'label' => __( 'Store ID', 'ry-woocommerce-tools' ),
 					'show'  => false,
-				);
-				$shipping_fields['cvs_store_name']    = array(
+				];
+				$shipping_fields['cvs_store_name']    = [
 					'label' => __( 'Store Name', 'ry-woocommerce-tools' ),
 					'show'  => false,
-				);
-				$shipping_fields['cvs_store_address'] = array(
+				];
+				$shipping_fields['cvs_store_address'] = [
 					'label' => __( 'Store Address', 'ry-woocommerce-tools' ),
 					'show'  => false,
-				);
-				$shipping_fields['phone']             = array(
+				];
+				$shipping_fields['phone']             = [
 					'label' => __( 'Phone', 'woocommerce' ),
-				);
+				];
 			}
 		}
 		return $shipping_fields;
@@ -65,12 +65,12 @@ final class RY_SmilePay_Shipping_admin {
 
 					$wpdb->update(
 						$wpdb->prefix . 'woocommerce_shipping_zone_methods',
-						array(
+						[
 							'is_enabled' => 0,
-						),
-						array(
+						],
+						[
 							'instance_id' => absint( $instance_id ),
-						)
+						]
 					);
 				}
 			}
@@ -80,15 +80,15 @@ final class RY_SmilePay_Shipping_admin {
 	public static function check_ship_destination() {
 		global $wpdb;
 		if ( 'billing_only' === get_option( 'woocommerce_ship_to_destination' ) ) {
-			foreach ( array( 'ry_smilepay_shipping_cvs' ) as $method_id ) {
+			foreach ( [ 'ry_smilepay_shipping_cvs' ] as $method_id ) {
 				$wpdb->update(
 					$wpdb->prefix . 'woocommerce_shipping_zone_methods',
-					array(
+					[
 						'is_enabled' => 0,
-					),
-					array(
+					],
+					[
 						'method_id' => $method_id,
-					)
+					]
 				);
 			}
 
@@ -108,7 +108,7 @@ final class RY_SmilePay_Shipping_admin {
 				if ( $theorder->get_payment_method() == 'cod' ) {
 					$order_actions['get_new_smilepay_no_cod'] = __( 'Get new SmilePay shipping no with cod', 'ry-woocommerce-tools' );
 				}
-				if ( $theorder->has_status( array( 'ry-at-cvs' ) ) ) {
+				if ( $theorder->has_status( [ 'ry-at-cvs' ] ) ) {
 					$order_actions['send_at_cvs_email'] = __( 'Resend at cvs notification', 'ry-woocommerce-tools' );
 				}
 			}

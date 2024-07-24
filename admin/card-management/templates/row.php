@@ -1,7 +1,7 @@
 <?php
 
 
-$default_args = array(
+$default_args = [
 	'user_id'      => 0,
 	'token_id'     => '',
 	'token'        => '',
@@ -12,7 +12,7 @@ $default_args = array(
 	'expiry_month' => '',
 	'card_type'    => '',
 	'card_name'    => '',
-);
+];
 
 $args = wp_parse_args( $args, $default_args );
 
@@ -32,11 +32,11 @@ $args = wp_parse_args( $args, $default_args );
 
 
 $order_url = add_query_arg(
-	array(
+	[
 		'post_type'      => 'shop_order',
 		'_customer_user' => $user_id,
 		'last4'          => $last4,
-	),
+	],
 	admin_url( 'edit.php' )
 );
 

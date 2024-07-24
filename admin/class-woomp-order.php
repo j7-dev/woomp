@@ -16,20 +16,20 @@ if ( ! class_exists( 'WooMP_Order' ) ) {
 		 */
 		public static function init() {
 			$class = new self();
-			add_action( 'init', array( $class, 'add_order_status' ) );
-			add_filter( 'wc_order_statuses', array( $class, 'add_order_statuses' ) );
-			add_filter( 'woocommerce_reports_order_statuses', array( $class, 'add_order_statuses' ) );
-			add_filter( 'woocommerce_order_is_paid_statuses', array( $class, 'add_report_paid_statuses' ) );
-			add_filter( 'wp_ajax_delete_shipping_ecpay_cvs', array( $class, 'delete_shipping_ecpay_cvs' ) );
+			add_action( 'init', [ $class, 'add_order_status' ] );
+			add_filter( 'wc_order_statuses', [ $class, 'add_order_statuses' ] );
+			add_filter( 'woocommerce_reports_order_statuses', [ $class, 'add_order_statuses' ] );
+			add_filter( 'woocommerce_order_is_paid_statuses', [ $class, 'add_report_paid_statuses' ] );
+			add_filter( 'wp_ajax_delete_shipping_ecpay_cvs', [ $class, 'delete_shipping_ecpay_cvs' ] );
 
-			add_filter( 'manage_shop_order_posts_columns', array( $class, 'shop_order_columns' ), 11, 1 );
-			add_action( 'manage_shop_order_posts_custom_column', array( $class, 'shop_order_column' ), 11, 2 );
+			add_filter( 'manage_shop_order_posts_columns', [ $class, 'shop_order_columns' ], 11, 1 );
+			add_action( 'manage_shop_order_posts_custom_column', [ $class, 'shop_order_column' ], 11, 2 );
 
-			add_filter( 'bulk_actions-edit-shop_order', array( $class, 'bulk_action' ), 99, 1 );
-			add_filter( 'handle_bulk_actions-edit-shop_order', array( $class, 'print_shipping_note' ), 10, 3 );
+			add_filter( 'bulk_actions-edit-shop_order', [ $class, 'bulk_action' ], 99, 1 );
+			add_filter( 'handle_bulk_actions-edit-shop_order', [ $class, 'print_shipping_note' ], 10, 3 );
 
-			add_action( 'woocommerce_admin_order_data_after_shipping_address', array( $class, 'add_choose_cvs_btn' ) );
-			add_action( 'admin_enqueue_scripts', array( $class, 'enqueue_choose_cvs_script' ) );
+			add_action( 'woocommerce_admin_order_data_after_shipping_address', [ $class, 'add_choose_cvs_btn' ] );
+			add_action( 'admin_enqueue_scripts', [ $class, 'enqueue_choose_cvs_script' ] );
 		}
 
 		/**
@@ -39,29 +39,29 @@ if ( ! class_exists( 'WooMP_Order' ) ) {
 
 			register_post_status(
 				'wc-wmp-in-transit',
-				array(
+				[
 					'label'                     => '配送中',
 					'public'                    => true,
 					'show_in_admin_status_list' => true,
 					'show_in_admin_all_list'    => true,
 					'exclude_from_search'       => false,
-				)
+				]
 			);
 
 			register_post_status(
 				'wc-wmp-shipped',
-				array(
+				[
 					'label'                     => '已出貨',
 					'public'                    => true,
 					'show_in_admin_status_list' => true,
 					'show_in_admin_all_list'    => true,
 					'exclude_from_search'       => false,
-				)
+				]
 			);
 		}
 
 		public function add_order_statuses( $order_statuses ) {
-			$new_order_statuses = array();
+			$new_order_statuses = [];
 			foreach ( $order_statuses as $key => $status ) {
 				$new_order_statuses[ $key ] = $status;
 				if ( 'wc-processing' === $key ) {
@@ -109,10 +109,10 @@ if ( ! class_exists( 'WooMP_Order' ) ) {
 		public function shop_order_columns( $columns ) {
 			$add_index = array_search( 'shipping_address', array_keys( $columns ) ) + 1;
 			$pre_array = array_splice( $columns, 0, $add_index );
-			$array     = array(
+			$array     = [
 				'wmp_payment_no'  => __( '金流單號', 'ry-woocommerce-tools' ),
 				'wmp_shipping_no' => __( '物流單號', 'ry-woocommerce-tools' ),
-			);
+			];
 			return array_merge( $pre_array, $array, $columns );
 		}
 
@@ -211,19 +211,19 @@ if ( ! class_exists( 'WooMP_Order' ) ) {
 		public function print_shipping_note( $redirect_to, $action, $ids ) {
 			if ( false !== strpos( $action, 'ry_print_ecpay_' ) ) {
 				$redirect_to = add_query_arg(
-					array(
+					[
 						'orderid'  => implode( ',', $ids ),
 						'type'     => substr( $action, 15 ),
 						'noheader' => 1,
-					),
+					],
 					admin_url( 'admin.php?page=ry_print_ecpay_shipping' )
 				);
 				wp_redirect( $redirect_to );
 				exit();
 			} elseif ( 'wmp_print_hct' === $action ) {
 				set_time_limit( 0 );
-				$csv_arr   = array();
-				$csv_arr[] = array( '序號', '訂單號', '收件人姓名', '收件人地址', '收件人電話', '託運備註', '商品別編號', '商品數量', '才積重量', '代收貨款', '指定配送日期', '指定配送時間' );
+				$csv_arr   = [];
+				$csv_arr[] = [ '序號', '訂單號', '收件人姓名', '收件人地址', '收件人電話', '託運備註', '商品別編號', '商品數量', '才積重量', '代收貨款', '指定配送日期', '指定配送時間' ];
 
 				$filename = current_time( 'Y-m-d' ) . '-hct-export.csv';
 
@@ -236,7 +236,7 @@ if ( ! class_exists( 'WooMP_Order' ) ) {
 
 				foreach ( $ids as $id ) {
 					$order     = wc_get_order( $id );
-					$csv_arr[] = array(
+					$csv_arr[] = [
 						'serial'           => $i,
 						'order_id'         => $id,
 						'shipping_name'    => ( $order->get_shipping_last_name() ) ? $order->get_shipping_last_name() . $order->get_shipping_first_name() : $order->get_billing_last_name() . $order->get_billing_first_name(),
@@ -249,7 +249,7 @@ if ( ! class_exists( 'WooMP_Order' ) ) {
 						'amount'           => ( 'woomp_cod_gateway' === $order->get_payment_method() ) ? $order->get_total() : '',
 						'deliver_date'     => '',
 						'deliver_time'     => '',
-					);
+					];
 					++$i;
 				}
 
@@ -305,31 +305,31 @@ if ( ! class_exists( 'WooMP_Order' ) ) {
 						$choosed_cvs = '';
 
 						if ( isset( $_POST['MerchantID'] ) && $_POST['MerchantID'] == $MerchantID ) {
-							$choosed_cvs = array(
+							$choosed_cvs = [
 								'CVSStoreID'   => wc_clean( wp_unslash( $_POST['CVSStoreID'] ) ),
 								'CVSStoreName' => wc_clean( wp_unslash( $_POST['CVSStoreName'] ) ),
 								'CVSAddress'   => wc_clean( wp_unslash( $_POST['CVSAddress'] ) ),
 								'CVSTelephone' => wc_clean( wp_unslash( $_POST['CVSTelephone'] ) ),
-							);
+							];
 						}
 
-						wp_register_script( 'wmp-admin-shipping', WOOMP_PLUGIN_URL . 'admin/js/choose-cvs.js', array( 'jquery' ), null, false );
+						wp_register_script( 'wmp-admin-shipping', WOOMP_PLUGIN_URL . 'admin/js/choose-cvs.js', [ 'jquery' ], null, false );
 
 						wp_localize_script(
 							'wmp-admin-shipping',
 							'ECPayInfo',
-							array(
+							[
 								'postUrl'  => RY_ECPay_Shipping_Api::get_map_post_url(),
-								'postData' => array(
+								'postData' => [
 									'MerchantID'       => $MerchantID,
 									'LogisticsType'    => $method_class::$LogisticsType,
 									'LogisticsSubType' => $method_class::$LogisticsSubType . ( ( 'C2C' == $CVS_type ) ? 'C2C' : '' ),
 									'IsCollection'     => 'Y',
 									'ServerReplyURL'   => esc_url( WC()->api_request_url( 'ry_ecpay_map_callback' ) ),
 									'ExtraData'        => 'ry' . $order->get_id(),
-								),
+								],
 								'newStore' => $choosed_cvs,
-							)
+							]
 						);
 
 						wp_enqueue_script( 'wmp-admin-shipping' );

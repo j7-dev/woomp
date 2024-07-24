@@ -8,7 +8,7 @@ defined( 'ABSPATH' ) || exit;
 final class ECPay_Woo_EcpayInvoice extends \EcpayInvoice {
 
 	function Check_Out() {
-		$arParameters      = array_merge( array( 'MerchantID' => $this->MerchantID ), array( 'TimeStamp' => $this->TimeStamp ), $this->Send );
+		$arParameters      = array_merge( [ 'MerchantID' => $this->MerchantID ], [ 'TimeStamp' => $this->TimeStamp ], $this->Send );
 		return $arFeedback = Ecpay_Woo_Invoice_Send::CheckOut( $arParameters, $this->HashKey, $this->HashIV, $this->Invoice_Method, $this->Invoice_Url );
 	}
 }
@@ -49,14 +49,14 @@ class Ecpay_Woo_Invoice_Send extends \ECPay_Invoice_Send {
 
 		$rs = wp_remote_post(
 			$ServiceURL,
-			array(
+			[
 				'method'      => 'POST',
 				'timeout'     => Ecpay_Woo_Invoice_Curl::TIMEOUT,
 				'headers'     => false,
 				'httpversion' => '1.0',
 				'sslverify'   => true,
 				'body'        => $sSend_Info,
-			)
+			]
 		);
 
 		if ( is_wp_error( $rs ) ) {

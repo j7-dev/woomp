@@ -9,11 +9,11 @@ class RY_ECPay_Shipping_CVS_711_Freeze extends RY_ECPay_Shipping_Base {
 		$this->instance_id        = absint( $instance_id );
 		$this->method_title       = __( 'ECPay shipping CVS 7-11 Freeze', 'woomp' );
 		$this->method_description = '';
-		$this->supports           = array(
+		$this->supports           = [
 			'shipping-zones',
 			'instance-settings',
 			'instance-settings-modal',
-		);
+		];
 
 		if ( empty( $this->instance_form_fields ) ) {
 			$this->instance_form_fields = include RY_WT_PLUGIN_DIR . 'woocommerce/shipping/ecpay/includes/settings-ecpay-shipping-base.php';

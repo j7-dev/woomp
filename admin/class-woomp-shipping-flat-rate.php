@@ -29,63 +29,63 @@ class WooMP_Shipping_Flat_Rate extends WC_Shipping_Flat_Rate {
 	public function init() {
 		$cost_desc = __( 'Enter a cost (excl. tax) or sum, e.g. <code>10.00 * [qty]</code>.', 'woocommerce' ) . '<br/><br/>' . __( 'Use <code>[qty]</code> for the number of items, <br/><code>[cost]</code> for the total cost of items, and <code>[fee percent="10" min_fee="20" max_fee=""]</code> for percentage based fees.', 'woocommerce' );
 
-		$settings = array(
-			'title'            => array(
+		$settings = [
+			'title'            => [
 				'title'       => __( 'Method title', 'woocommerce' ),
 				'type'        => 'text',
 				'description' => __( 'This controls the title which the user sees during checkout.', 'woocommerce' ),
 				'default'     => __( 'Flat rate', 'woocommerce' ),
 				'desc_tip'    => true,
-			),
-			'tax_status'       => array(
+			],
+			'tax_status'       => [
 				'title'   => __( 'Tax status', 'woocommerce' ),
 				'type'    => 'select',
 				'class'   => 'wc-enhanced-select',
 				'default' => 'taxable',
-				'options' => array(
+				'options' => [
 					'taxable' => __( 'Taxable', 'woocommerce' ),
 					'none'    => _x( 'None', 'Tax status', 'woocommerce' ),
-				),
-			),
-			'cost'             => array(
+				],
+			],
+			'cost'             => [
 				'title'             => __( 'Cost', 'woocommerce' ),
 				'type'              => 'text',
 				'placeholder'       => '',
 				'description'       => $cost_desc,
 				'default'           => '0',
 				'desc_tip'          => true,
-				'sanitize_callback' => array( $this, 'sanitize_cost' ),
-			),
-			'cost_requires'    => array(
+				'sanitize_callback' => [ $this, 'sanitize_cost' ],
+			],
+			'cost_requires'    => [
 				'title'   => __( 'Free shipping requires...', 'woocommerce' ),
 				'type'    => 'select',
 				'default' => '',
-				'options' => array(
+				'options' => [
 					''                      => __( 'N/A', 'woocommerce' ),
 					'coupon'                => __( 'A valid free shipping coupon', 'woocommerce' ),
 					'min_amount'            => __( 'A minimum order amount', 'woocommerce' ),
 					'min_amount_or_coupon'  => __( 'A minimum order amount OR a coupon', 'woocommerce' ),
 					'min_amount_and_coupon' => __( 'A minimum order amount AND a coupon', 'woocommerce' ),
-				),
+				],
 				'class'   => 'wc-enhanced-select',
-			),
-			'min_amount'       => array(
+			],
+			'min_amount'       => [
 				'title'       => __( 'Minimum order amount', 'ry-woocommerce-tools' ),
 				'type'        => 'price',
 				'default'     => 0,
 				'placeholder' => wc_format_localized_price( 0 ),
 				'description' => __( 'Users will need to spend this amount to get free shipping (if enabled above).', 'woocommerce' ),
 				'desc_tip'    => true,
-			),
-			'ignore_discounts' => array(
+			],
+			'ignore_discounts' => [
 				'title'       => __( 'Coupons discounts', 'woocommerce' ),
 				'label'       => __( 'Apply minimum order rule before coupon discount', 'woocommerce' ),
 				'type'        => 'checkbox',
 				'description' => __( 'If checked, free shipping would be available based on pre-discount order amount.', 'woocommerce' ),
 				'default'     => 'no',
 				'desc_tip'    => true,
-			),
-			'weight_plus_cost' => array(
+			],
+			'weight_plus_cost' => [
 				// translators: %s WooCommerce weight unit
 				'title'       => sprintf( __( 'Every weight (%s) to plus times of cost', 'ry-woocommerce-tools' ), __( get_option( 'woocommerce_weight_unit' ), 'woocommerce' ) ),
 				'type'        => 'number',
@@ -93,24 +93,24 @@ class WooMP_Shipping_Flat_Rate extends WC_Shipping_Flat_Rate {
 				'placeholder' => 0,
 				'description' => __( 'Calculate free shipping first. 0 to disable plus cost by weight.', 'ry-woocommerce-tools' ),
 				'desc_tip'    => true,
-			),
-		);
+			],
+		];
 
 		$shipping_classes = WC()->shipping()->get_shipping_classes();
 
 		if ( ! empty( $shipping_classes ) ) {
-			$settings['class_costs'] = array(
+			$settings['class_costs'] = [
 				'title'       => __( 'Shipping class costs', 'woocommerce' ),
 				'type'        => 'title',
 				'default'     => '',
 				/* translators: %s: URL for link. */
 				'description' => sprintf( __( 'These costs can optionally be added based on the <a href="%s">product shipping class</a>.', 'woocommerce' ), admin_url( 'admin.php?page=wc-settings&tab=shipping&section=classes' ) ),
-			);
+			];
 			foreach ( $shipping_classes as $shipping_class ) {
 				if ( ! isset( $shipping_class->term_id ) ) {
 					continue;
 				}
-				$settings[ 'class_cost_' . $shipping_class->term_id ] = array(
+				$settings[ 'class_cost_' . $shipping_class->term_id ] = [
 					/* translators: %s: shipping class name */
 					'title'             => sprintf( __( '"%s" shipping class cost', 'woocommerce' ), esc_html( $shipping_class->name ) ),
 					'type'              => 'text',
@@ -118,30 +118,30 @@ class WooMP_Shipping_Flat_Rate extends WC_Shipping_Flat_Rate {
 					'description'       => $cost_desc,
 					'default'           => $this->get_option( 'class_cost_' . $shipping_class->slug ), // Before 2.5.0, we used slug here which caused issues with long setting names.
 					'desc_tip'          => true,
-					'sanitize_callback' => array( $this, 'sanitize_cost' ),
-				);
+					'sanitize_callback' => [ $this, 'sanitize_cost' ],
+				];
 			}
 
-			$settings['no_class_cost'] = array(
+			$settings['no_class_cost'] = [
 				'title'             => __( 'No shipping class cost', 'woocommerce' ),
 				'type'              => 'text',
 				'placeholder'       => __( 'N/A', 'woocommerce' ),
 				'description'       => $cost_desc,
 				'default'           => '',
 				'desc_tip'          => true,
-				'sanitize_callback' => array( $this, 'sanitize_cost' ),
-			);
+				'sanitize_callback' => [ $this, 'sanitize_cost' ],
+			];
 
-			$settings['type'] = array(
+			$settings['type'] = [
 				'title'   => __( 'Calculation type', 'woocommerce' ),
 				'type'    => 'select',
 				'class'   => 'wc-enhanced-select',
 				'default' => 'class',
-				'options' => array(
+				'options' => [
 					'class' => __( 'Per class: Charge shipping for each shipping class individually', 'woocommerce' ),
 					'order' => __( 'Per order: Charge shipping for the most expensive shipping class', 'woocommerce' ),
-				),
-			);
+				],
+			];
 		}
 
 		$this->instance_form_fields = $settings;
@@ -154,7 +154,7 @@ class WooMP_Shipping_Flat_Rate extends WC_Shipping_Flat_Rate {
 		$this->ignore_discounts     = $this->get_option( 'ignore_discounts' );
 		$this->weight_plus_cost     = $this->get_option( 'weight_plus_cost', 0 );
 
-		add_action( 'admin_footer', array( $this, 'enqueue_admin_js' ), 10 );
+		add_action( 'admin_footer', [ $this, 'enqueue_admin_js' ], 10 );
 	}
 
 	/**
@@ -167,7 +167,7 @@ class WooMP_Shipping_Flat_Rate extends WC_Shipping_Flat_Rate {
 		$has_coupon         = false;
 		$has_met_min_amount = false;
 
-		if ( in_array( $this->requires, array( 'coupon', 'either', 'both' ), true ) ) {
+		if ( in_array( $this->requires, [ 'coupon', 'either', 'both' ], true ) ) {
 			$coupons = WC()->cart->get_coupons();
 
 			if ( $coupons ) {
@@ -180,7 +180,7 @@ class WooMP_Shipping_Flat_Rate extends WC_Shipping_Flat_Rate {
 			}
 		}
 
-		if ( in_array( $this->requires, array( 'min_amount', 'either', 'both' ), true ) ) {
+		if ( in_array( $this->requires, [ 'min_amount', 'either', 'both' ], true ) ) {
 			$total = WC()->cart->get_displayed_subtotal();
 
 			if ( WC()->cart->display_prices_including_tax() ) {
@@ -219,16 +219,16 @@ class WooMP_Shipping_Flat_Rate extends WC_Shipping_Flat_Rate {
 		return apply_filters( 'woocommerce_shipping_' . $this->id . '_is_available', $is_available, $package, $this );
 	}
 
-	public function calculate_shipping( $package = array() ) {
-		$rate = array(
+	public function calculate_shipping( $package = [] ) {
+		$rate = [
 			'id'        => $this->get_rate_id(),
 			'label'     => $this->title,
 			'cost'      => $this->cost,
 			'package'   => $package,
-			'meta_data' => array(
+			'meta_data' => [
 				'no_count' => 1,
-			),
-		);
+			],
+		];
 
 		// Add shipping class costs.
 		$shipping_classes = WC()->shipping()->get_shipping_classes();
@@ -249,10 +249,10 @@ class WooMP_Shipping_Flat_Rate extends WC_Shipping_Flat_Rate {
 				$has_costs  = true;
 				$class_cost = $this->evaluate_cost(
 					$class_cost_string,
-					array(
+					[
 						'qty'  => array_sum( wp_list_pluck( $products, 'quantity' ) ),
 						'cost' => array_sum( wp_list_pluck( $products, 'line_total' ) ),
-					)
+					]
 				);
 
 				if ( 'class' === $this->type ) {
@@ -267,8 +267,8 @@ class WooMP_Shipping_Flat_Rate extends WC_Shipping_Flat_Rate {
 			}
 		}
 
-		$has_coupon     = $this->check_has_coupon( $this->cost_requires, array( 'coupon', 'min_amount_or_coupon', 'min_amount_and_coupon' ) );
-		$has_min_amount = $this->check_has_min_amount( $this->cost_requires, array( 'min_amount', 'min_amount_or_coupon', 'min_amount_and_coupon' ) );
+		$has_coupon     = $this->check_has_coupon( $this->cost_requires, [ 'coupon', 'min_amount_or_coupon', 'min_amount_and_coupon' ] );
+		$has_min_amount = $this->check_has_min_amount( $this->cost_requires, [ 'min_amount', 'min_amount_or_coupon', 'min_amount_and_coupon' ] );
 
 		switch ( $this->cost_requires ) {
 			case 'coupon':

@@ -27,8 +27,8 @@ class WC_PI_Gateway_PChomePay extends WC_Gateway_PChomePay {
 			$this->client = new PChomePayClient( $this->app_id, $this->secret, $this->sandbox_secret, $this->test_mode, self::$log_enabled );
 		}
 
-		add_action( 'woocommerce_update_options_payment_gateways_' . $this->id, array( $this, 'process_admin_options' ) );
-		add_action( 'woocommerce_api_' . strtolower( get_class( $this ) ), array( $this, 'receive_response' ) );
+		add_action( 'woocommerce_update_options_payment_gateways_' . $this->id, [ $this, 'process_admin_options' ] );
+		add_action( 'woocommerce_api_' . strtolower( get_class( $this ) ), [ $this, 'receive_response' ] );
 		add_filter( 'https_ssl_verify', '__return_false' );
 	}
 
@@ -37,27 +37,27 @@ class WC_PI_Gateway_PChomePay extends WC_Gateway_PChomePay {
 	}
 
 	public function init_form_fields() {
-		$this->form_fields = array(
-			'enabled'     => array(
+		$this->form_fields = [
+			'enabled'     => [
 				'title'   => __( 'Enable/Disable', 'woocommerce' ),
 				'type'    => 'checkbox',
 				'label'   => __( 'Enable', 'woocommerce' ),
 				'default' => 'no',
-			),
-			'title'       => array(
+			],
+			'title'       => [
 				'title'       => __( 'Title', 'woocommerce' ),
 				'type'        => 'text',
 				'description' => __( 'This controls the title which the user sees during checkout.', 'woocommerce' ),
 				'default'     => __( 'PChomePay PI-拍錢包', 'woocommerce' ),
 				'desc_tip'    => true,
-			),
-			'description' => array(
+			],
+			'description' => [
 				'title'       => __( 'Description', 'woocommerce' ),
 				'type'        => 'text',
 				'description' => __( 'This controls the description which the user sees during checkout.', 'woocommerce' ),
 				'default'     => __( '透過 PChomePay PI-拍錢包 付款，會連結到 PChomePay PI-拍錢包 付款頁面。', 'woocommerce' ),
-			),
-		);
+			],
+		];
 	}
 
 	public function admin_options() {
@@ -68,17 +68,17 @@ class WC_PI_Gateway_PChomePay extends WC_Gateway_PChomePay {
 		global $woocommerce;
 
 		$order_id    = 'AW' . date( 'Ymd' ) . $order->get_order_number();
-		$pay_type    = array( 'PI' );
+		$pay_type    = [ 'PI' ];
 		$amount      = ceil( $order->get_total() );
 		$returnUrl   = $this->get_return_url( $order );
 		$notifyUrl   = $this->notify_url;
 		$buyer_email = $order->get_billing_email();
 
-		$items = array();
+		$items = [];
 
 		$order_items = $order->get_items();
 		foreach ( $order_items as $item ) {
-			$product         = array();
+			$product         = [];
 			$order_item      = new WC_Order_Item_Product( $item );
 			$product_id      = ( $order_item->get_product_id() );
 			$product['name'] = $order_item->get_name();
@@ -87,7 +87,7 @@ class WC_PI_Gateway_PChomePay extends WC_Gateway_PChomePay {
 			$items[] = (object) $product;
 		}
 
-		$pchomepay_args = array(
+		$pchomepay_args = [
 			'order_id'    => $order_id,
 			'pay_type'    => $pay_type,
 			'amount'      => $amount,
@@ -95,7 +95,7 @@ class WC_PI_Gateway_PChomePay extends WC_Gateway_PChomePay {
 			'notify_url'  => $notifyUrl,
 			'items'       => $items,
 			'buyer_email' => $buyer_email,
-		);
+		];
 
 		return apply_filters( 'woocommerce_pchomepay_args', $pchomepay_args );
 	}
@@ -132,11 +132,11 @@ class WC_PI_Gateway_PChomePay extends WC_Gateway_PChomePay {
 			$order->update_status( 'pending', __( 'Awaiting PChomePay payment', 'woocommerce' ) );
 			$order->add_order_note( '訂單編號：' . $result->order_id, true );
 			// 返回感謝購物頁面跳轉
-			return array(
+			return [
 				'result'       => 'success',
 				// 'redirect' => $order->get_checkout_payment_url(true)
 					'redirect' => $result->payment_url,
-			);
+			];
 
 		} catch ( Exception $e ) {
 			wc_add_notice( __( $e->getMessage(), 'woocommerce' ), 'error' );
@@ -149,7 +149,7 @@ class WC_PI_Gateway_PChomePay extends WC_Gateway_PChomePay {
 		$notify_type    = $_REQUEST['notify_type'];
 		$notify_message = $_REQUEST['notify_message'];
 
-		$refund_array = array( 'refund_pending', 'refund_success', 'refund_fail' );
+		$refund_array = [ 'refund_pending', 'refund_success', 'refund_fail' ];
 
 		if ( in_array( $notify_type, $refund_array ) ) {
 			$order_data = json_decode( str_replace( '\"', '"', $notify_message ) );
@@ -218,21 +218,19 @@ class WC_PI_Gateway_PChomePay extends WC_Gateway_PChomePay {
 
 			if ( $amount === $order->amount ) {
 				$refund_id = 'RF' . $order_id;
+			} elseif ( $refundID ) {
+				$number    = (int) substr( $refundID, strpos( $refundID, '-' ) + 1 ) + 1;
+				$refund_id = 'RF' . $order_id . '-' . $number;
 			} else {
-				if ( $refundID ) {
-					$number    = (int) substr( $refundID, strpos( $refundID, '-' ) + 1 ) + 1;
-					$refund_id = 'RF' . $order_id . '-' . $number;
-				} else {
-					$refund_id = 'RF' . $order_id . '-1';
-				}
+				$refund_id = 'RF' . $order_id . '-1';
 			}
 
 			$trade_amount   = (int) $amount;
-			$pchomepay_args = array(
+			$pchomepay_args = [
 				'order_id'     => $order_id,
 				'refund_id'    => $refund_id,
 				'trade_amount' => $trade_amount,
-			);
+			];
 
 			return apply_filters( 'woocommerce_pchomepay_args', $pchomepay_args );
 		} catch ( Exception $e ) {
@@ -262,7 +260,7 @@ class WC_PI_Gateway_PChomePay extends WC_Gateway_PChomePay {
 
 			$payType = get_post_meta( $order_id, '_pchomepay_paytype', true );
 
-			$version = ( in_array( $payType, array( 'IPL7', 'IPPI' ) ) ) ? 'v1' : 'v2';
+			$version = ( in_array( $payType, [ 'IPL7', 'IPPI' ] ) ) ? 'v1' : 'v2';
 
 			// 退款
 			$response_data = $this->client->postRefund( $pchomepay_args, $version );

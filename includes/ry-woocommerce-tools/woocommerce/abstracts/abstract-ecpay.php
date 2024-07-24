@@ -11,21 +11,21 @@ if ( ! class_exists( 'RY_ECPay' ) ) {
 			return substr( $trade_no, 0, 20 );
 		}
 
-		protected static function add_check_value( $args, $HashKey, $HashIV, $hash_algo, $skip_args = array() ) {
+		protected static function add_check_value( $args, $HashKey, $HashIV, $hash_algo, $skip_args = [] ) {
 			$args['CheckMacValue'] = self::generate_check_value( $args, $HashKey, $HashIV, $hash_algo, $skip_args );
 			return $args;
 		}
 
 		protected static function urlencode( $string ) {
 			$string = str_replace(
-				array( '%2D', '%2d', '%5F', '%5f', '%2E', '%2e', '%2A', '%2a', '%21', '%28', '%29' ),
-				array( '-', '-', '_', '_', '.', '.', '*', '*', '!', '(', ')' ),
+				[ '%2D', '%2d', '%5F', '%5f', '%2E', '%2e', '%2A', '%2a', '%21', '%28', '%29' ],
+				[ '-', '-', '_', '_', '.', '.', '*', '*', '!', '(', ')' ],
 				urlencode( $string )
 			);
 			return $string;
 		}
 
-		protected static function generate_check_value( $args, $HashKey, $HashIV, $hash_algo, $skip_args = array() ) {
+		protected static function generate_check_value( $args, $HashKey, $HashIV, $hash_algo, $skip_args = [] ) {
 			$skip_args[] = 'CheckMacValue';
 			foreach ( $skip_args as $key ) {
 				unset( $args[ $key ] );
@@ -33,7 +33,7 @@ if ( ! class_exists( 'RY_ECPay' ) ) {
 
 			ksort( $args, SORT_STRING | SORT_FLAG_CASE );
 
-			$args_string   = array();
+			$args_string   = [];
 			$args_string[] = 'HashKey=' . $HashKey;
 			foreach ( $args as $key => $value ) {
 				$args_string[] = $key . '=' . $value;
@@ -52,17 +52,17 @@ if ( ! class_exists( 'RY_ECPay' ) ) {
 		protected static function link_server( $post_url, $args ) {
 			wc_set_time_limit( 40 );
 
-			$send_body = array();
+			$send_body = [];
 			foreach ( $args as $key => $value ) {
 				$send_body[] = $key . '=' . $value;
 			}
 
 			return wp_remote_post(
 				$post_url,
-				array(
+				[
 					'timeout' => 20,
 					'body'    => implode( '&', $send_body ),
-				)
+				]
 			);
 		}
 

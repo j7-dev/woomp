@@ -15,7 +15,7 @@ if ( ! class_exists( 'WooMP_Product_Public' ) ) {
 		 */
 		public static function init() {
 			$class = new self();
-			add_action( 'woocommerce_after_single_product', array( $class, 'display_cart' ) );
+			add_action( 'woocommerce_after_single_product', [ $class, 'display_cart' ] );
 		}
 
 		public function display_cart() {

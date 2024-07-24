@@ -33,7 +33,7 @@ class WC_Gateway_LINEPay_Handler {
 	 * Constructor function
 	 */
 	public function __construct() {
-		add_action( 'plugins_loaded', array( $this, 'init_wc_gateway_linepay_handler' ) );
+		add_action( 'plugins_loaded', [ $this, 'init_wc_gateway_linepay_handler' ] );
 	}
 
 	/**
@@ -49,21 +49,21 @@ class WC_Gateway_LINEPay_Handler {
 		include_once plugin_dir_path( __FILE__ ) . 'includes/class-wc-gateway-linepay-logger.php';
 		include_once plugin_dir_path( __FILE__ ) . 'includes/class-wc-gateway-linepay.php';
 
-		add_filter( 'woocommerce_payment_gateways', array( $this, 'add_gateway' ) );
-		add_filter( 'woocommerce_my_account_my_orders_title', array( $this, 'append_script_for_refund_action' ) );
-		add_filter( 'woocommerce_my_account_my_orders_actions', array( $this, 'change_customer_order_action' ), 10, 2 );
-		add_action( 'woocommerce_api_' . strtolower( get_class( $this ) ), array( $this, 'handle_callback' ) );
-		add_action( 'woocommerce_order_item_add_action_buttons', array( $this, 'linepay_refund_button_replace' ), 10, 3 );
+		add_filter( 'woocommerce_payment_gateways', [ $this, 'add_gateway' ] );
+		add_filter( 'woocommerce_my_account_my_orders_title', [ $this, 'append_script_for_refund_action' ] );
+		add_filter( 'woocommerce_my_account_my_orders_actions', [ $this, 'change_customer_order_action' ], 10, 2 );
+		add_action( 'woocommerce_api_' . strtolower( get_class( $this ) ), [ $this, 'handle_callback' ] );
+		add_action( 'woocommerce_order_item_add_action_buttons', [ $this, 'linepay_refund_button_replace' ], 10, 3 );
 
 		// linepay setting.
 		$this->linepay_settings = get_option( 'woocommerce_linepay_settings' );
 
 		// logger.
 		if ( wc_string_to_bool( get_option( 'linepay_log_enabled' ) ) ) {
-			$linepay_log_info = array(
+			$linepay_log_info = [
 				'enabled' => wc_string_to_bool( get_option( 'linepay_log_enabled' ) ),
 				'level'   => ( '' !== get_option( 'linepay_log_enabled' ) ) ? get_option( 'linepay_log_level' ) : WC_Gateway_LINEPay_Logger::LOG_LEVEL_NONE,
-			);
+			];
 
 			static::$logger = WC_Gateway_LINEPay_Logger::get_instance( $linepay_log_info );
 		}
@@ -152,38 +152,38 @@ class WC_Gateway_LINEPay_Handler {
 		$refund_amount = wc_format_decimal( sanitize_text_field( wp_unslash( $_GET['cancel_amount'] ) ) );
 		$refund_reason = ( isset( $_GET['reason'] ) ) ? sanitize_text_field( wp_unslash( $_GET['reason'] ) ) : '';
 
-		$line_items       = array();
+		$line_items       = [];
 		$items            = $order->get_items();
 		$shipping_methods = $order->get_shipping_methods();
 
 		// items.
 		foreach ( $items as $item_id => $item ) {
 			$line_tax_data          = $item['line_tax_data'];
-			$line_item              = array(
+			$line_item              = [
 				'qty'          => $item['qty'],
 				'refund_total' => wc_format_decimal( $item['line_total'] ),
 				'refund_tax'   => $line_tax_data['total'],
-			);
+			];
 			$line_items[ $item_id ] = $line_item;
 		}
 
 		// shipping.
 		foreach ( $shipping_methods as $shipping_id => $shipping ) {
-			$line_item                  = array(
+			$line_item                  = [
 				'refund_total' => wc_format_decimal( $shipping['cost'] ),
 				'refund_tax'   => $shipping['taxes'],
-			);
+			];
 			$line_items[ $shipping_id ] = $line_item;
 		}
 
 		try {
 			$refund = wc_create_refund(
-				array(
+				[
 					'amount'     => $refund_amount,
 					'reason'     => $refund_reason,
 					'order_id'   => $order_id,
 					'line_items' => $line_items,
-				)
+				]
 			);
 
 			if ( is_wp_error( $refund ) ) {
@@ -294,19 +294,19 @@ class WC_Gateway_LINEPay_Handler {
 
 		if ( get_option( 'linepay_customer_refund' ) && time() < $refund_expired && $payment_method[0] == 'linepay' ) {
 			if ( in_array( 'wc-' . $order_status, get_option( 'linepay_customer_refund' ) ) ) {
-				$actions['cancel'] = array(
+				$actions['cancel'] = [
 					'url'  => esc_url_raw(
 						add_query_arg(
-							array(
+							[
 								'request_type'  => WC_Gateway_LINEPay_Const::REQUEST_TYPE_REFUND,
 								'order_id'      => $order->get_id(),
 								'cancel_amount' => $order->get_total(),
-							),
+							],
 							home_url( WC_Gateway_LINEPay_Const::URI_CALLBACK_HANDLER )
 						)
 					),
 					'name' => __( 'Cancel', 'woocommerce-gateway-linepay' ),
-				);
+				];
 			}
 		}
 

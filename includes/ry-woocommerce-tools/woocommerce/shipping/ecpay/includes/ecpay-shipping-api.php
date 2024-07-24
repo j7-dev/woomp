@@ -1,7 +1,7 @@
 <?php
 class RY_ECPay_Shipping_Api extends RY_ECPay {
 
-	public static $api_test_url = array(
+	public static $api_test_url = [
 		'map'              => 'https://logistics-stage.ecpay.com.tw/Express/map',
 		'create'           => 'https://logistics-stage.ecpay.com.tw/Express/Create',
 		'print_UNIMARTC2C' => 'https://logistics-stage.ecpay.com.tw/Express/PrintUniMartC2COrderInfo',
@@ -9,8 +9,8 @@ class RY_ECPay_Shipping_Api extends RY_ECPay {
 		'print_HILIFEC2C'  => 'https://logistics-stage.ecpay.com.tw/Express/PrintHILIFEC2COrderInfo',
 		'print_OKMARTC2C'  => 'https://logistics-stage.ecpay.com.tw/Express/PrintOKMARTC2COrderInfo',
 		'print_B2C'        => 'https://logistics-stage.ecpay.com.tw/helper/printTradeDocument',
-	);
-	public static $api_url      = array(
+	];
+	public static $api_url      = [
 		'map'              => 'https://logistics.ecpay.com.tw/Express/map',
 		'create'           => 'https://logistics.ecpay.com.tw/Express/Create',
 		'print_UNIMARTC2C' => 'https://logistics.ecpay.com.tw/Express/PrintUniMartC2COrderInfo',
@@ -18,7 +18,7 @@ class RY_ECPay_Shipping_Api extends RY_ECPay {
 		'print_HILIFEC2C'  => 'https://logistics.ecpay.com.tw/Express/PrintHILIFEC2COrderInfo',
 		'print_OKMARTC2C'  => 'https://logistics.ecpay.com.tw/Express/PrintOKMARTC2COrderInfo',
 		'print_B2C'        => 'https://logistics.ecpay.com.tw/helper/printTradeDocument',
-	);
+	];
 
 	public static function get_map_post_url() {
 		if ( RY_ECPay_Shipping::$testmode ) {
@@ -42,7 +42,7 @@ class RY_ECPay_Shipping_Api extends RY_ECPay {
 				$item_names = trim( $item->get_name() );
 			}
 		}
-		$item_names = str_replace( array( '^', '\'', '`', '!', '@', '＠', '#', '%', '&', '*', '+', '\\', '"', '<', '>', '|', '_', '[', ']' ), '', $item_names );
+		$item_names = str_replace( [ '^', '\'', '`', '!', '@', '＠', '#', '%', '&', '*', '+', '\\', '"', '<', '>', '|', '_', '[', ']' ], '', $item_names );
 		$item_names = mb_substr( $item_names, 0, 25 );
 
 		foreach ( $order->get_items( 'shipping' ) as $item_id => $item ) {
@@ -53,7 +53,7 @@ class RY_ECPay_Shipping_Api extends RY_ECPay {
 
 			$shipping_list = $order->get_meta( '_ecpay_shipping_info', true );
 			if ( ! is_array( $shipping_list ) ) {
-				$shipping_list = array();
+				$shipping_list = [];
 			}
 
 			$get_count = 1;
@@ -82,7 +82,7 @@ class RY_ECPay_Shipping_Api extends RY_ECPay {
 				$shipping_phone = preg_replace( '/[^0-9.]+/', '', $order->get_meta( '_shipping_phone' ) );
 			}
 
-			$args = array(
+			$args = [
 				'MerchantID'           => $MerchantID,
 				'LogisticsType'        => $method_class::$LogisticsType,
 				'LogisticsSubType'     => $method_class::$LogisticsSubType,
@@ -96,7 +96,7 @@ class RY_ECPay_Shipping_Api extends RY_ECPay {
 				'ReceiverStoreID'      => '',
 				'ServerReplyURL'       => $notify_url,
 				'LogisticsC2CReplyURL' => $notify_url,
-			);
+			];
 
 			if ( 'yes' === RY_WT::get_option( 'ecpay_shipping_cleanup_receiver_name', 'no' ) ) {
 				$args['ReceiverName'] = preg_replace( '/[^a-zA-Z\x{4e00}-\x{9fff}\x{3400}-\x{4dbf}]/u', '', $args['ReceiverName'] );
@@ -222,10 +222,10 @@ class RY_ECPay_Shipping_Api extends RY_ECPay {
 
 				$shipping_list = $order->get_meta( '_ecpay_shipping_info', true );
 				if ( ! is_array( $shipping_list ) ) {
-					$shipping_list = array();
+					$shipping_list = [];
 				}
 				if ( ! isset( $shipping_list[ $result['AllPayLogisticsID'] ] ) ) {
-					$shipping_list[ $result['AllPayLogisticsID'] ] = array();
+					$shipping_list[ $result['AllPayLogisticsID'] ] = [];
 				}
 				$shipping_list[ $result['AllPayLogisticsID'] ]['ID']               = $result['AllPayLogisticsID'];
 				$shipping_list[ $result['AllPayLogisticsID'] ]['LogisticsType']    = $result['LogisticsType'];
@@ -261,12 +261,12 @@ class RY_ECPay_Shipping_Api extends RY_ECPay {
 		$print_type = $info[0]['LogisticsSubType'];
 		$CVS_type   = strpos( $info[0]['LogisticsSubType'], 'C2C' ) === false ? 'B2C' : 'C2C';
 
-		$args = array(
+		$args = [
 			'MerchantID'        => $MerchantID,
-			'AllPayLogisticsID' => array(),
-			'CVSPaymentNo'      => array(),
-			'CVSValidationNo'   => array(),
-		);
+			'AllPayLogisticsID' => [],
+			'CVSPaymentNo'      => [],
+			'CVSValidationNo'   => [],
+		];
 
 		foreach ( $info as $item ) {
 			if ( $item['LogisticsSubType'] == $print_type ) {
@@ -296,12 +296,10 @@ class RY_ECPay_Shipping_Api extends RY_ECPay {
 			} else {
 				$post_url = self::$api_test_url['print_B2C'];
 			}
+		} elseif ( $CVS_type == 'C2C' ) {
+			$post_url = self::$api_url[ 'print_' . $print_type ];
 		} else {
-			if ( $CVS_type == 'C2C' ) {
-				$post_url = self::$api_url[ 'print_' . $print_type ];
-			} else {
-				$post_url = self::$api_url['print_B2C'];
-			}
+			$post_url = self::$api_url['print_B2C'];
 		}
 
 		echo '<!DOCTYPE html><head><meta charset="' . get_bloginfo( 'charset', 'display' ) . '"></head><body>';

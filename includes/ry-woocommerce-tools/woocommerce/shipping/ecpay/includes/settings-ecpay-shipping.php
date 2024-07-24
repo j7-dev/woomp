@@ -1,10 +1,10 @@
 <?php
-return array(
-	array(
+return [
+	[
 		'title' => __( '綠界物流設定', 'ry-woocommerce-tools' ),
 		'id'    => 'base_options',
 		'type'  => 'title',
-	),
+	],
 	// [
 	// 'title' => __('Enable/Disable', 'woocommerce'),
 	// 'id' => RY_WT::$option_prefix . 'ecpay_shipping',
@@ -12,7 +12,7 @@ return array(
 	// 'default' => 'no',
 	// 'desc' => __('Enable ECPay shipping method', 'ry-woocommerce-tools')
 	// ],
-	array(
+	[
 		'title'   => __( 'Debug log', 'woocommerce' ),
 		'id'      => RY_WT::$option_prefix . 'ecpay_shipping_log',
 		'type'    => 'checkbox',
@@ -23,49 +23,49 @@ return array(
 				__( 'Log ECPay shipping events/message, inside %s', 'ry-woocommerce-tools' ),
 				'<code>' . WC_Log_Handler_File::get_log_file_path( 'ry_ecpay_shipping' ) . '</code>'
 			),
-	),
-	array(
+	],
+	[
 		'title'   => __( 'Log status change', 'ry-woocommerce-tools' ),
 		'id'      => RY_WT::$option_prefix . 'ecpay_shipping_log_status_change',
 		'type'    => 'checkbox',
 		'default' => 'no',
 		'desc'    => __( 'Log status change at order notes.', 'ry-woocommerce-tools' ),
-	),
-	array(
+	],
+	[
 		'title'   => __( 'Clean up receiver name', 'ry-woocommerce-tools-pro' ),
 		'id'      => RY_WT::$option_prefix . 'ecpay_shipping_cleanup_receiver_name',
 		'type'    => 'checkbox',
 		'default' => 'no',
 		'desc'    => __( 'Clean up receiver name to comply with EcPay request.', 'ry-woocommerce-tools-pro' ),
-	),
-	array(
+	],
+	[
 		'title'   => __( 'Auto get shipping payment no', 'ry-woocommerce-tools' ),
 		'id'      => RY_WT::$option_prefix . 'ecpay_shipping_auto_get_no',
 		'type'    => 'checkbox',
 		'default' => 'yes',
 		'desc'    => __( 'Auto get shipping payment no when order status is change to processing.', 'ry-woocommerce-tools' ),
-	),
-	array(
+	],
+	[
 		'title'   => '使用排程來自動取得物流單號',
 		'id'      => 'wmp_ecpay_shipping_auto_with_scheduler',
 		'type'    => 'checkbox',
 		'default' => 'no',
 		'desc'    => __( 'Get shipping payment no use scheduler action.', 'ry-woocommerce-tools-pro' ),
-	),
-	array(
+	],
+	[
 		'title'   => __( 'Keep shipping phone', 'ry-woocommerce-tools' ),
 		'id'      => RY_WT::$option_prefix . 'keep_shipping_phone',
 		'type'    => 'checkbox',
 		'default' => 'no',
 		'desc'    => __( 'Always show shipping phone field in checkout form.', 'ry-woocommerce-tools' ),
-	),
-	array(
+	],
+	[
 		'title'   => __( 'Auto completed order', 'ry-woocommerce-tools' ),
 		'id'      => RY_WT::$option_prefix . 'ecpay_shipping_auto_completed',
 		'type'    => 'checkbox',
 		'default' => 'yes',
 		'desc'    => __( 'Auto completed order when user getted products.', 'ry-woocommerce-tools' ),
-	),
+	],
 	// [
 	// 'title' => '超商取貨移除帳單地址(Pro)',
 	// 'id' => 'wmp_ecpay_cvs_billing_address',
@@ -74,115 +74,115 @@ return array(
 	// 'desc' => __('Remove billing address when shipping mode is cvs.', 'ry-woocommerce-tools-pro') . '<br>'
 	// . __('The billing address still will show in order details.', 'ry-woocommerce-tools-pro')
 	// ],
-	array(
+	[
 		'id'   => 'base_options',
 		'type' => 'sectionend',
-	),
-	array(
+	],
+	[
 		'title' => __( 'Shipping note options', 'ry-woocommerce-tools' ),
 		'id'    => 'note_options',
 		'type'  => 'title',
-	),
-	array(
+	],
+	[
 		'title'    => __( 'Order no prefix', 'ry-woocommerce-tools' ),
 		'id'       => RY_WT::$option_prefix . 'ecpay_shipping_order_prefix',
 		'type'     => 'text',
 		'desc'     => __( 'The prefix string of order no. Only letters and numbers allowed allowed.', 'ry-woocommerce-tools' ),
 		'desc_tip' => true,
-	),
-	array(
+	],
+	[
 		'title'    => __( 'shipping item name', 'ry-woocommerce-tools-pro' ),
 		'id'       => RY_WT::$option_prefix . 'shipping_item_name',
 		'type'     => 'text',
 		'default'  => '',
 		'desc'     => __( 'If empty use the first product name.', 'ry-woocommerce-tools-pro' ),
 		'desc_tip' => true,
-	),
-	array(
+	],
+	[
 		'title'   => __( 'Cvs shipping type', 'ry-woocommerce-tools' ),
 		'id'      => RY_WT::$option_prefix . 'ecpay_shipping_cvs_type',
 		'type'    => 'select',
 		'default' => 'C2C',
-		'options' => array(
+		'options' => [
 			'C2C' => _x( 'C2C', 'Cvs type', 'ry-woocommerce-tools' ),
 			'B2C' => _x( 'B2C', 'Cvs type', 'ry-woocommerce-tools' ),
-		),
-	),
-	array(
+		],
+	],
+	[
 		'title'    => __( 'Sender name', 'ry-woocommerce-tools' ),
 		'id'       => RY_WT::$option_prefix . 'ecpay_shipping_sender_name',
 		'type'     => 'text',
 		'desc'     => __( 'Name length between 1 to 10 letter', 'ry-woocommerce-tools' ),
 		'desc_tip' => true,
-	),
-	array(
+	],
+	[
 		'title'             => __( 'Sender phone', 'ry-woocommerce-tools' ),
 		'id'                => RY_WT::$option_prefix . 'ecpay_shipping_sender_phone',
 		'type'              => 'text',
 		'desc'              => __( 'Phone format (0x)xxxxxxx#xx', 'ry-woocommerce-tools' ),
 		'desc_tip'          => true,
 		'placeholder'       => '(0x)xxxxxxx#xx',
-		'custom_attributes' => array(
+		'custom_attributes' => [
 			'pattern' => '\(0\d{1,2}\)\d{6,8}(#\d+)?',
-		),
-	),
-	array(
+		],
+	],
+	[
 		'title'             => __( 'Sender cellphone', 'ry-woocommerce-tools' ),
 		'id'                => RY_WT::$option_prefix . 'ecpay_shipping_sender_cellphone',
 		'type'              => 'text',
 		'desc'              => __( 'Cellphone format 09xxxxxxxx', 'ry-woocommerce-tools' ),
 		'desc_tip'          => true,
 		'placeholder'       => '09xxxxxxxx',
-		'custom_attributes' => array(
+		'custom_attributes' => [
 			'pattern' => '09\d{8}',
-		),
-	),
-	array(
+		],
+	],
+	[
 		'title' => __( 'Sender zipcode', 'ry-woocommerce-tools' ),
 		'id'    => RY_WT::$option_prefix . 'ecpay_shipping_sender_zipcode',
 		'type'  => 'text',
-	),
-	array(
+	],
+	[
 		'title' => __( 'Sender address', 'ry-woocommerce-tools' ),
 		'id'    => RY_WT::$option_prefix . 'ecpay_shipping_sender_address',
 		'type'  => 'text',
-	),
-	array(
+	],
+	[
 		'id'   => 'note_options',
 		'type' => 'sectionend',
-	),
-	array(
+	],
+	[
 		'title' => __( 'API credentials', 'ry-woocommerce-tools' ),
 		'id'    => 'api_options',
 		'type'  => 'title',
-	),
-	array(
+	],
+	[
 		'title'   => __( 'ECPay shipping sandbox', 'ry-woocommerce-tools' ),
 		'id'      => RY_WT::$option_prefix . 'ecpay_shipping_testmode',
 		'type'    => 'checkbox',
 		'default' => 'yes',
 		'desc'    => __( 'Enable ECPay shipping sandbox', 'ry-woocommerce-tools' ),
-	),
-	array(
+	],
+	[
 		'title'   => __( 'MerchantID', 'ry-woocommerce-tools' ),
 		'id'      => RY_WT::$option_prefix . 'ecpay_shipping_MerchantID',
 		'type'    => 'text',
 		'default' => '',
-	),
-	array(
+	],
+	[
 		'title'   => __( 'HashKey', 'ry-woocommerce-tools' ),
 		'id'      => RY_WT::$option_prefix . 'ecpay_shipping_HashKey',
 		'type'    => 'text',
 		'default' => '',
-	),
-	array(
+	],
+	[
 		'title'   => __( 'HashIV', 'ry-woocommerce-tools' ),
 		'id'      => RY_WT::$option_prefix . 'ecpay_shipping_HashIV',
 		'type'    => 'text',
 		'default' => '',
-	),
-	array(
+	],
+	[
 		'id'   => 'api_options',
 		'type' => 'sectionend',
-	),
-);
+	],
+];

@@ -38,17 +38,17 @@ class Credit extends AbstractGateway {
 
 		$this->title            = $this->get_option( 'title' );
 		$this->description      = $this->get_option( 'description' );
-		$this->supports         = array( 'products', 'refunds', 'tokenization' );
+		$this->supports         = [ 'products', 'refunds', 'tokenization' ];
 		$this->api_endpoint_url = 'api/credit';
 
 		add_action(
 			'woocommerce_update_options_payment_gateways_' . $this->id,
-			array(
+			[
 				$this,
 				'process_admin_options',
-			)
+			]
 		);
-		add_filter( 'payuni_transaction_args_' . $this->id, array( $this, 'add_args' ), 10, 2 );
+		add_filter( 'payuni_transaction_args_' . $this->id, [ $this, 'add_args' ], 10, 2 );
 	}
 
 	/**
@@ -57,30 +57,30 @@ class Credit extends AbstractGateway {
 	 * @return void
 	 */
 	public function init_form_fields() {
-		$this->form_fields = array(
-			'enabled'     => array(
+		$this->form_fields = [
+			'enabled'     => [
 				'title'   => __( 'Enable/Disable', 'woocommerce' ),
 				'type'    => 'checkbox',
 				/* translators: %s: Gateway method title */
 				'label'   => sprintf( __( 'Enable %s', 'woomp' ), $this->method_title ),
 				'default' => 'no',
-			),
-			'title'       => array(
+			],
+			'title'       => [
 				'title'       => __( 'Title', 'woocommerce' ),
 				'type'        => 'text',
 				'default'     => $this->method_title,
 				'description' => __( 'This controls the title which the user sees during checkout.', 'woocommerce' ),
 				'desc_tip'    => true,
-			),
-			'description' => array(
+			],
+			'description' => [
 				'title'       => __( 'Description', 'woocommerce' ),
 				'type'        => 'textarea',
 				'css'         => 'width: 400px;',
 				'default'     => $this->order_button_text,
 				'description' => __( 'This controls the description which the user sees during checkout.', 'woocommerce' ),
 				'desc_tip'    => true,
-			),
-		);
+			],
+		];
 	}
 
 	/**
@@ -92,7 +92,7 @@ class Credit extends AbstractGateway {
 	 * @return array
 	 */
 	public function add_args( $args, $order ) {
-		$data = array();
+		$data = [];
 		if ( wc_string_to_bool( get_option( 'payuni_3d_auth', 'yes' ) ) ) {
 			$data['API3D'] = 1;
 			// $data[ 'NotifyURL' ] = home_url('wc-api/payuni_notify_card');
@@ -124,13 +124,13 @@ class Credit extends AbstractGateway {
         $new      = (isset($_POST[ 'wc-' . $this->id . '-new-payment-method' ])) ? wc_clean(wp_unslash($_POST[ 'wc-' . $this->id . '-new-payment-method' ])) : '';
         //@codingStandardsIgnoreEnd
 
-		$card_data = array(
+		$card_data = [
 			'number'   => str_replace( ' ', '', $number ),
 			'expiry'   => str_replace( '/', '', $expiry ),
 			'cvc'      => $cvc,
 			'token_id' => $token_id,
 			'new'      => $new,
-		);
+		];
 
 		$request = new Request( new self() );
 

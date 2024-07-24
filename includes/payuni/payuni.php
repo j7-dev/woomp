@@ -26,17 +26,17 @@ add_action(
 add_action(
 	'wp_enqueue_scripts',
 	function () {
-		wp_enqueue_script( 'card-mask', 'https://cdnjs.cloudflare.com/ajax/libs/imask/3.4.0/imask.min.js', array(), '1.0.0', true );
-		wp_enqueue_style( 'card', PAYUNI_PLUGIN_URL . 'assets/card.css', array(), '1.0.7' );
-		wp_register_script( 'card', PAYUNI_PLUGIN_URL . 'assets/card.js', array( 'jquery' ), '1.5.6', true );
+		wp_enqueue_script( 'card-mask', 'https://cdnjs.cloudflare.com/ajax/libs/imask/3.4.0/imask.min.js', [], '1.0.0', true );
+		wp_enqueue_style( 'card', PAYUNI_PLUGIN_URL . 'assets/card.css', [], '1.0.7' );
+		wp_register_script( 'card', PAYUNI_PLUGIN_URL . 'assets/card.js', [ 'jquery' ], '1.5.6', true );
 		wp_localize_script(
 			'card',
 			'card_params',
-			array(
+			[
 				'ajax_url'   => admin_url( 'admin-ajax.php' ),
 				'ajax_nonce' => wp_create_nonce( 'payuni_card_change' ),
 				'user_id'    => get_current_user_id(),
-			)
+			]
 		);
 		wp_enqueue_script( 'card' );
 	}
@@ -65,11 +65,11 @@ add_action(
 
 		if ( strpos( $_POST['payment_method'] ?? '', 'payuni-credit' ) !== false ) {
 			$payment_method_slug = str_replace( 'payuni-credit', '', $_POST['payment_method'] );
-			$fields              = array(
+			$fields              = [
 				"payuni-credit{$payment_method_slug}-card-number",
 				"payuni-credit{$payment_method_slug}-card-expiry",
 				"payuni-credit{$payment_method_slug}-card-cvc",
-			);
+			];
 			foreach ( $fields as $field ) {
 				if ( empty( $_POST[ $field ] ) ) {
 						throw new Exception( __( '請填寫信用卡資訊', 'woomp' ) );

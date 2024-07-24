@@ -13,8 +13,8 @@ class Ajax {
 
 	public static function init() {
 		$class = new self();
-		add_action( 'wp_ajax_gen_invoice', array( $class, 'generate_invoice' ) );
-		add_action( 'wp_ajax_invalid_invoice', array( $class, 'invalid_invoice' ) );
+		add_action( 'wp_ajax_gen_invoice', [ $class, 'generate_invoice' ] );
+		add_action( 'wp_ajax_invalid_invoice', [ $class, 'invalid_invoice' ] );
 	}
 
 	public function __construct() {
@@ -33,14 +33,14 @@ class Ajax {
 
 		$order_id = intval( sanitize_text_field( $_POST['orderId'] ) );
 
-		$invoice_data = array(
+		$invoice_data = [
 			'_invoice_type'         => sanitize_text_field( $_POST['_invoice_type'] ),
 			'_invoice_individual'   => sanitize_text_field( $_POST['_invoice_individual'] ),
 			'_invoice_carrier'      => sanitize_text_field( $_POST['_invoice_carrier'] ),
 			'_invoice_company_name' => sanitize_text_field( $_POST['_invoice_company_name'] ),
 			'_invoice_tax_id'       => sanitize_text_field( $_POST['_invoice_tax_id'] ),
 			'_invoice_donate'       => sanitize_text_field( $_POST['_invoice_donate'] ),
-		);
+		];
 
 		$order = wc_get_order( $order_id );
 		$order->update_meta_data( '_ecpay_invoice_data', $invoice_data );

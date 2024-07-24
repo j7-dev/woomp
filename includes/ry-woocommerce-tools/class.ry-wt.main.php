@@ -1,7 +1,7 @@
 <?php
 final class RY_WT {
 
-	public static $options       = array();
+	public static $options       = [];
 	public static $option_prefix = 'RY_WT_';
 
 	private static $initiated = false;
@@ -13,7 +13,7 @@ final class RY_WT {
 			load_plugin_textdomain( 'ry-woocommerce-tools', false, plugin_basename( dirname( RY_WT_PLUGIN_BASENAME ) ) . '/languages' );
 
 			if ( ! defined( 'WC_VERSION' ) ) {
-				add_action( 'admin_notices', array( __CLASS__, 'need_woocommerce' ) );
+				add_action( 'admin_notices', [ __CLASS__, 'need_woocommerce' ] );
 				return;
 			}
 
@@ -22,22 +22,20 @@ final class RY_WT {
 
 			if ( is_admin() ) {
 				include_once RY_WT_PLUGIN_DIR . 'class.ry-wt.admin.php';
-			} else {
-				if ( 'yes' == self::get_option( 'show_unpay_title', 'yes' ) ) {
-					if ( apply_filters( 'ry_show_unpay_title_notice', true ) ) {
-						self::add_unpay_title_notice( true );
-						add_filter( 'woocommerce_email_setup_locale', array( __CLASS__, 'remove_unpay_title_notice' ) );
-						add_filter( 'woocommerce_email_restore_locale', array( __CLASS__, 'add_unpay_title_notice' ) );
-					}
+			} elseif ( 'yes' == self::get_option( 'show_unpay_title', 'yes' ) ) {
+				if ( apply_filters( 'ry_show_unpay_title_notice', true ) ) {
+					self::add_unpay_title_notice( true );
+					add_filter( 'woocommerce_email_setup_locale', [ __CLASS__, 'remove_unpay_title_notice' ] );
+					add_filter( 'woocommerce_email_restore_locale', [ __CLASS__, 'add_unpay_title_notice' ] );
 				}
 			}
 
-			add_action( 'ry_check_ntp_time', array( __CLASS__, 'check_ntp_time' ) );
+			add_action( 'ry_check_ntp_time', [ __CLASS__, 'check_ntp_time' ] );
 			if ( self::get_option( 'ntp_time_error', false ) ) {
-				add_action( 'admin_notices', array( __CLASS__, 'ntp_time_error' ) );
+				add_action( 'admin_notices', [ __CLASS__, 'ntp_time_error' ] );
 			}
 
-			add_filter( 'woocommerce_localisation_address_formats', array( __CLASS__, 'add_address_format' ) );
+			add_filter( 'woocommerce_localisation_address_formats', [ __CLASS__, 'add_address_format' ] );
 
 			if ( 'yes' == self::get_option( 'enabled_ecpay_gateway', 'no' ) ) {
 				include_once RY_WT_PLUGIN_DIR . 'woocommerce/gateways/ecpay/ecpay-gateway.php';
@@ -61,28 +59,28 @@ final class RY_WT {
 			}
 
 			if ( 'no' == self::get_option( 'repay_action', 'no' ) ) {
-				add_filter( 'woocommerce_my_account_my_orders_actions', array( __CLASS__, 'remove_pay_action' ) );
+				add_filter( 'woocommerce_my_account_my_orders_actions', [ __CLASS__, 'remove_pay_action' ] );
 			}
 			if ( 'no' == self::get_option( 'strength_password', 'yes' ) ) {
 				if ( ( ! is_admin() || defined( 'DOING_AJAX' ) ) && ! defined( 'DOING_CRON' ) ) {
-					add_action( 'wp_enqueue_scripts', array( __CLASS__, 'remove_strength_password_script' ), 20 );
+					add_action( 'wp_enqueue_scripts', [ __CLASS__, 'remove_strength_password_script' ], 20 );
 				}
 			}
 
-			add_filter( 'woocommerce_form_field_hidden', array( __CLASS__, 'form_field_hidden' ), 20, 4 );
-			add_filter( 'woocommerce_form_field_hidden_empty', array( __CLASS__, 'form_field_hidden_empty' ), 20, 4 );
-			add_filter( 'woocommerce_form_field_hiddentext', array( __CLASS__, 'form_field_hiddentext' ), 20, 4 );
+			add_filter( 'woocommerce_form_field_hidden', [ __CLASS__, 'form_field_hidden' ], 20, 4 );
+			add_filter( 'woocommerce_form_field_hidden_empty', [ __CLASS__, 'form_field_hidden_empty' ], 20, 4 );
+			add_filter( 'woocommerce_form_field_hiddentext', [ __CLASS__, 'form_field_hiddentext' ], 20, 4 );
 
 			if ( 'no' == self::get_option( 'show_country_select', 'no' ) ) {
-				add_filter( 'woocommerce_billing_fields', array( __CLASS__, 'hide_country_select' ), 20 );
-				add_filter( 'woocommerce_shipping_fields', array( __CLASS__, 'hide_country_select' ), 20 );
-				add_filter( 'woocommerce_form_field_country_hidden', array( __CLASS__, 'form_field_country_hidden' ), 20, 4 );
+				add_filter( 'woocommerce_billing_fields', [ __CLASS__, 'hide_country_select' ], 20 );
+				add_filter( 'woocommerce_shipping_fields', [ __CLASS__, 'hide_country_select' ], 20 );
+				add_filter( 'woocommerce_form_field_country_hidden', [ __CLASS__, 'form_field_country_hidden' ], 20, 4 );
 			}
 			if ( 'yes' == self::get_option( 'last_name_first', 'no' ) ) {
-				add_filter( 'woocommerce_default_address_fields', array( __CLASS__, 'last_name_first' ) );
+				add_filter( 'woocommerce_default_address_fields', [ __CLASS__, 'last_name_first' ] );
 			}
 			if ( 'yes' == self::get_option( 'address_zip_first', 'no' ) ) {
-				add_filter( 'woocommerce_default_address_fields', array( __CLASS__, 'address_zip_first' ) );
+				add_filter( 'woocommerce_default_address_fields', [ __CLASS__, 'address_zip_first' ] );
 			}
 		}
 	}
@@ -95,12 +93,12 @@ final class RY_WT {
 	}
 
 	public static function remove_unpay_title_notice( $status ) {
-		remove_filter( 'woocommerce_order_get_payment_method_title', array( __CLASS__, 'unpay_title_notice' ), 10, 2 );
+		remove_filter( 'woocommerce_order_get_payment_method_title', [ __CLASS__, 'unpay_title_notice' ], 10, 2 );
 		return $status;
 	}
 
 	public static function add_unpay_title_notice( $status ) {
-		add_filter( 'woocommerce_order_get_payment_method_title', array( __CLASS__, 'unpay_title_notice' ), 10, 2 );
+		add_filter( 'woocommerce_order_get_payment_method_title', [ __CLASS__, 'unpay_title_notice' ], 10, 2 );
 		return $status;
 	}
 
@@ -225,7 +223,7 @@ final class RY_WT {
 	}
 
 	protected static function form_field_custom_attributes( $args ) {
-		$custom_attributes         = array();
+		$custom_attributes         = [];
 		$args['custom_attributes'] = array_filter( (array) $args['custom_attributes'], 'strlen' );
 		if ( ! empty( $args['custom_attributes'] ) && is_array( $args['custom_attributes'] ) ) {
 			foreach ( $args['custom_attributes'] as $attribute => $attribute_value ) {

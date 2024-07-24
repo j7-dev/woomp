@@ -1,9 +1,9 @@
 <?php
 final class RY_NewebPay_Shipping {
 
-	public static $support_methods = array(
+	public static $support_methods = [
 		'ry_newebpay_shipping_cvs' => 'RY_NewebPay_Shipping_CVS',
-	);
+	];
 
 	protected static $js_data;
 
@@ -13,20 +13,20 @@ final class RY_NewebPay_Shipping {
 		include_once RY_WT_PLUGIN_DIR . 'woocommerce/shipping/newebpay/newebpay-shipping-cvs.php';
 
 		if ( 'yes' === RY_WT::get_option( 'enabled_newebpay_shipping', 'no' ) ) {
-			add_filter( 'woocommerce_shipping_methods', array( __CLASS__, 'add_method' ) );
+			add_filter( 'woocommerce_shipping_methods', [ __CLASS__, 'add_method' ] );
 
-			add_filter( 'woocommerce_checkout_fields', array( __CLASS__, 'add_cvs_info' ), 9999 );
-			add_filter( 'woocommerce_available_payment_gateways', array( __CLASS__, 'only_newebpay_gateway' ), 100 );
-			add_filter( 'woocommerce_cod_process_payment_order_status', array( __CLASS__, 'change_cod_order_status' ), 10, 2 );
-			add_action( 'woocommerce_receipt_cod', array( __CLASS__, 'cod_receipt_page' ) );
-			add_action( 'woocommerce_review_order_after_shipping', array( __CLASS__, 'shipping_choose_cvs' ) );
-			add_filter( 'woocommerce_update_order_review_fragments', array( __CLASS__, 'shipping_choose_cvs_info' ) );
+			add_filter( 'woocommerce_checkout_fields', [ __CLASS__, 'add_cvs_info' ], 9999 );
+			add_filter( 'woocommerce_available_payment_gateways', [ __CLASS__, 'only_newebpay_gateway' ], 100 );
+			add_filter( 'woocommerce_cod_process_payment_order_status', [ __CLASS__, 'change_cod_order_status' ], 10, 2 );
+			add_action( 'woocommerce_receipt_cod', [ __CLASS__, 'cod_receipt_page' ] );
+			add_action( 'woocommerce_review_order_after_shipping', [ __CLASS__, 'shipping_choose_cvs' ] );
+			add_filter( 'woocommerce_update_order_review_fragments', [ __CLASS__, 'shipping_choose_cvs_info' ] );
 		}
 
 		if ( is_admin() ) {
-			add_filter( 'woocommerce_get_sections_rytools', array( __CLASS__, 'add_sections' ) );
-			add_filter( 'woocommerce_get_settings_rytools', array( __CLASS__, 'add_setting' ), 10, 2 );
-			add_action( 'woocommerce_update_options_rytools_newebpay_shipping', array( __CLASS__, 'check_option' ) );
+			add_filter( 'woocommerce_get_sections_rytools', [ __CLASS__, 'add_sections' ] );
+			add_filter( 'woocommerce_get_settings_rytools', [ __CLASS__, 'add_setting' ], 10, 2 );
+			add_action( 'woocommerce_update_options_rytools_newebpay_shipping', [ __CLASS__, 'check_option' ] );
 
 			include_once RY_WT_PLUGIN_DIR . 'woocommerce/shipping/newebpay/includes/newebpay-shipping-admin.php';
 		}
@@ -73,7 +73,7 @@ final class RY_NewebPay_Shipping {
 
 	public static function add_cvs_info( $fields ) {
 		if ( is_checkout() ) {
-			$chosen_method = isset( WC()->session->chosen_shipping_methods ) ? WC()->session->chosen_shipping_methods : array();
+			$chosen_method = isset( WC()->session->chosen_shipping_methods ) ? WC()->session->chosen_shipping_methods : [];
 			$is_support    = false;
 			if ( count( $chosen_method ) ) {
 				foreach ( self::$support_methods as $method => $method_class ) {
@@ -86,10 +86,8 @@ final class RY_NewebPay_Shipping {
 				foreach ( $fields['shipping'] as $key => $filed ) {
 					if ( isset( $filed['class'] ) ) {
 						$fields['shipping'][ $key ]['class'][] = 'ry-hide';
-					} else {
-						if ( $filed['type'] != 'hidden' ) {
-							$fields['shipping'][ $key ]['class'] = array( 'ry-hide' );
-						}
+					} elseif ( $filed['type'] != 'hidden' ) {
+						$fields['shipping'][ $key ]['class'] = [ 'ry-hide' ];
 					}
 				}
 			}
@@ -97,7 +95,7 @@ final class RY_NewebPay_Shipping {
 
 		if ( did_action( 'woocommerce_checkout_process' ) ) {
 			$used_cvs        = false;
-			$shipping_method = isset( $_POST['shipping_method'] ) ? wc_clean( $_POST['shipping_method'] ) : array();
+			$shipping_method = isset( $_POST['shipping_method'] ) ? wc_clean( $_POST['shipping_method'] ) : [];
 			foreach ( $shipping_method as $method ) {
 				$method = strstr( $method, ':', true );
 				if ( $method && array_key_exists( $method, self::$support_methods ) ) {
@@ -146,7 +144,7 @@ final class RY_NewebPay_Shipping {
 		if ( $items_shipping ) {
 			if ( isset( self::$support_methods[ $items_shipping->get_method_id() ] ) ) {
 				$status = 'pending';
-				add_filter( 'woocommerce_payment_successful_result', array( __CLASS__, 'change_cod_redirect' ), 10, 2 );
+				add_filter( 'woocommerce_payment_successful_result', [ __CLASS__, 'change_cod_redirect' ], 10, 2 );
 			}
 		}
 
@@ -177,10 +175,10 @@ final class RY_NewebPay_Shipping {
 		$chosen_shipping = wc_get_chosen_shipping_method_ids();
 		$chosen_shipping = array_intersect( $chosen_shipping, array_keys( self::$support_methods ) );
 		$chosen_shipping = array_shift( $chosen_shipping );
-		self::$js_data   = array();
+		self::$js_data   = [];
 
 		if ( $chosen_shipping ) {
-			self::$js_data['postData'] = array();
+			self::$js_data['postData'] = [];
 		}
 	}
 

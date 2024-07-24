@@ -40,7 +40,7 @@ class WC_Gateway_LINEPay extends WC_Payment_Gateway {
 
 		$this->init_settings();
 
-		add_action( 'woocommerce_update_options_payment_gateways_' . $this->id, array( $this, 'process_admin_options' ) );
+		add_action( 'woocommerce_update_options_payment_gateways_' . $this->id, [ $this, 'process_admin_options' ] );
 
 		static::$logger = WC_Gateway_LINEPay_Logger::get_instance( $this->linepay_log_info );
 
@@ -70,23 +70,23 @@ class WC_Gateway_LINEPay extends WC_Payment_Gateway {
 	 */
 	private function init_gateway_supports() {
 		// Support refund function.
-		$this->supports = array(
+		$this->supports = [
 			'products',
 			'refunds',
-		);
+		];
 
 		// Currency scale information.
-		$this->linepay_currency_scales = array(
+		$this->linepay_currency_scales = [
 			'TWD' => 0,
-		);
+		];
 
 		// LINE Pay supported currency.
-		$this->linepay_supported_currencies     = array( 'TWD' );
-		$this->linepay_supported_order_statuses = array(
-			WC_Gateway_LINEPay_Const::USER_STATUS_ADMIN    => array( 'pending', 'processing', 'on-hold', 'completed', 'cancelled', 'refunded', 'failed' ),
+		$this->linepay_supported_currencies     = [ 'TWD' ];
+		$this->linepay_supported_order_statuses = [
+			WC_Gateway_LINEPay_Const::USER_STATUS_ADMIN    => [ 'pending', 'processing', 'on-hold', 'completed', 'cancelled', 'refunded', 'failed' ],
 			// The customer's refund information is set to be available only when the product is not received.
-			WC_Gateway_LINEPay_Const::USER_STATUS_CUSTOMER => array( 'processing' /* 'pending', 'on-hold', 'completed', 'cancelled', 'refunded', 'failed' */ ),
-		);
+			WC_Gateway_LINEPay_Const::USER_STATUS_CUSTOMER => [ 'processing' /* 'pending', 'on-hold', 'completed', 'cancelled', 'refunded', 'failed' */ ],
+		];
 	}
 
 	/**
@@ -97,7 +97,7 @@ class WC_Gateway_LINEPay extends WC_Payment_Gateway {
 	 */
 	public function init_form_fields() {
 
-		add_action( 'woocommerce_admin_field_media', array( $this, 'add_custom_logo_field' ), 10, 1 );
+		add_action( 'woocommerce_admin_field_media', [ $this, 'add_custom_logo_field' ], 10, 1 );
 
 		include_once 'class-wc-gateway-linepay-settings.php';
 
@@ -119,26 +119,26 @@ class WC_Gateway_LINEPay extends WC_Payment_Gateway {
 
 		$this->linepay_shipping_enabled = false;
 
-		$this->linepay_log_info = array(
+		$this->linepay_log_info = [
 			'enabled' => wc_string_to_bool( get_option( 'linepay_log_enabled' ) ),
 			'level'   => get_option( 'linepay_log_level', WC_Gateway_LINEPay_Logger::LOG_LEVEL_NONE ),
-		);
+		];
 
-		$this->linepay_channel_info = array(
-			WC_Gateway_LINEPay_Const::ENV_REAL    => array(
+		$this->linepay_channel_info = [
+			WC_Gateway_LINEPay_Const::ENV_REAL    => [
 				'channel_id'     => get_option( 'linepay_channel_id' ),
 				'channel_secret' => get_option( 'linepay_channel_secret' ),
-			),
-			WC_Gateway_LINEPay_Const::ENV_SANDBOX => array(
+			],
+			WC_Gateway_LINEPay_Const::ENV_SANDBOX => [
 				'channel_id'     => get_option( 'linepay_sandbox_channel_id' ),
 				'channel_secret' => get_option( 'linepay_sandbox_channel_secret' ),
-			),
-		);
+			],
+		];
 
-		$this->linepay_refundable_statuses = array(
+		$this->linepay_refundable_statuses = [
 			WC_Gateway_LINEPay_Const::USER_STATUS_ADMIN    => get_option( 'linepay_admin_refund' ),
 			WC_Gateway_LINEPay_Const::USER_STATUS_CUSTOMER => get_option( 'linepay_customer_refund' ),
-		);
+		];
 
 		// LINEPay Gateway Check whether it is used.
 		$this->linepay_is_valid = $this->is_valid_for_use();
@@ -163,7 +163,7 @@ class WC_Gateway_LINEPay extends WC_Payment_Gateway {
 
 		$this->icon = $this->linepay_logo;
 
-		add_filter( 'woocommerce_gateway_icon', array( $this, 'set_transparent_icon' ), 10, 2 );
+		add_filter( 'woocommerce_gateway_icon', [ $this, 'set_transparent_icon' ], 10, 2 );
 	}
 
 
@@ -177,7 +177,7 @@ class WC_Gateway_LINEPay extends WC_Payment_Gateway {
 	function wc_get_order_statuses( $requester ) {
 
 		$all_order_statuses = wc_get_order_statuses();
-		$new_order_statuses = array();
+		$new_order_statuses = [];
 		$order_statuses     = $this->linepay_supported_order_statuses[ $requester ];
 
 		foreach ( $order_statuses as $value ) {
@@ -195,7 +195,7 @@ class WC_Gateway_LINEPay extends WC_Payment_Gateway {
 		wp_enqueue_script( 'jquery' );
 		wp_enqueue_media();
 
-		wp_register_script( 'logo-uploader', untrailingslashit( plugins_url( '../', __FILE__ ) ) . WC_Gateway_LINEPay_Const::RESOURCE_JS_LOGO_UPLOADER, array(), '1.0.0', true );
+		wp_register_script( 'logo-uploader', untrailingslashit( plugins_url( '../', __FILE__ ) ) . WC_Gateway_LINEPay_Const::RESOURCE_JS_LOGO_UPLOADER, [], '1.0.0', true );
 		wp_enqueue_script( 'logo-uploader' );
 
 		?>
@@ -274,7 +274,7 @@ class WC_Gateway_LINEPay extends WC_Payment_Gateway {
 
 		try {
 			$order        = wc_get_order( $order_id );
-			$product_info = array( 'packages' => $this->get_product_info( $order ) );
+			$product_info = [ 'packages' => $this->get_product_info( $order ) ];
 			$order_id     = $order->get_id();
 			$currency     = $order->get_currency();
 			$std_amount   = $this->get_standardized( $order->get_total(), $currency );
@@ -285,47 +285,47 @@ class WC_Gateway_LINEPay extends WC_Payment_Gateway {
 			}
 
 			$url  = $this->get_request_url( WC_Gateway_LINEPay_Const::REQUEST_TYPE_RESERVE );
-			$body = array(
+			$body = [
 				'orderId'  => $order_id,
 				'amount'   => $std_amount,
 				'currency' => $currency,
-			);
+			];
 
-			$redirect_urls = array(
-				'redirectUrls' => array(
+			$redirect_urls = [
+				'redirectUrls' => [
 					'confirmUrl'     => esc_url_raw(
 						add_query_arg(
-							array(
+							[
 								'request_type' => WC_Gateway_LINEPay_Const::REQUEST_TYPE_CONFIRM,
 								'order_id'     => $order_id,
-							),
+							],
 							home_url( WC_Gateway_LINEPay_Const::URI_CALLBACK_HANDLER )
 						)
 					),
 					'confirmUrlType' => WC_Gateway_LINEPay_Const::CONFIRM_URLTYPE_CLIENT, // 使用者的畫面跳轉到商家confirmUrl，完成付款流程
 					'cancelUrl'      => esc_url_raw(
 						add_query_arg(
-							array(
+							[
 								'request_type' => WC_Gateway_LINEPay_Const::REQUEST_TYPE_CANCEL,
 								'order_id'     => $order_id,
-							),
+							],
 							home_url( WC_Gateway_LINEPay_Const::URI_CALLBACK_HANDLER )
 						)
 					),
-				),
-			);
+				],
+			];
 
-			$options = array(
-				'options' => array(
-					'payment' => array(
+			$options = [
+				'options' => [
+					'payment' => [
 						'payType' => strtoupper( $this->linepay_payment_type ),
 						'capture' => $this->is_captured(),
-					),
-					'extra'   => array(
+					],
+					'extra'   => [
 						'branchName' => get_bloginfo( 'name' ),
-					),
-				),
-			);
+					],
+				],
+			];
 
 			$info = static::execute( $this, $url, array_merge( $body, $product_info, $redirect_urls, $options ) );
 
@@ -337,13 +337,13 @@ class WC_Gateway_LINEPay extends WC_Payment_Gateway {
 			// Upon successful request.
 			update_post_meta( $order_id, '_linepay_payment_status', WC_Gateway_LINEPay_Const::PAYMENT_STATUS_RESERVED );
 			update_post_meta( $order_id, '_linepay_reserved_transaction_id', $info->transactionId );
-			update_post_meta( $order_id, '_linepay_refund_info', array() );
+			update_post_meta( $order_id, '_linepay_refund_info', [] );
 
 			// 回傳 paymentUrl 導向付款頁面.
-			return array(
+			return [
 				'result'   => 'success',
 				'redirect' => $info->paymentUrl->web,
-			);
+			];
 		} catch ( WC_Gateway_LINEPay_Exception $e ) {
 			$info = $e->getInfo();
 			static::$logger->error( 'process_payment_reserve', ( is_wp_error( $info ) ) ? $info : $e->getMessage() );
@@ -360,10 +360,10 @@ class WC_Gateway_LINEPay extends WC_Payment_Gateway {
 
 			update_post_meta( $order_id, '_linepay_payment_status', WC_Gateway_LINEPay_Const::PAYMENT_STATUS_FAILED );
 
-			return array(
+			return [
 				'result'   => 'failure',
 				'redirect' => wc_get_cart_url(),
-			);
+			];
 		}
 	}
 
@@ -401,11 +401,11 @@ class WC_Gateway_LINEPay extends WC_Payment_Gateway {
 
 			// api call.
 			$reserved_transaction_id = get_post_meta( $order_id, '_linepay_reserved_transaction_id', true );
-			$url                     = $this->get_request_url( WC_Gateway_LINEPay_Const::REQUEST_TYPE_CONFIRM, array( 'transaction_id' => $reserved_transaction_id ) );
-			$body                    = array(
+			$url                     = $this->get_request_url( WC_Gateway_LINEPay_Const::REQUEST_TYPE_CONFIRM, [ 'transaction_id' => $reserved_transaction_id ] );
+			$body                    = [
 				'amount'   => $std_amount,
 				'currency' => $currency,
-			);
+			];
 
 			$info = static::execute( $this, $url, $body, 40 );
 
@@ -451,9 +451,9 @@ class WC_Gateway_LINEPay extends WC_Payment_Gateway {
 			WC()->session->set( 'order_awaiting_payment', false );
 
 			$reserved_transaction_id = get_post_meta( $order_id, '_linepay_reserved_transaction_id', true );
-			$detail_url              = $this->get_request_url( WC_Gateway_LINEPay_Const::REQUEST_TYPE_DETAILS, array( 'transaction_id' => $reserved_transaction_id ) );
+			$detail_url              = $this->get_request_url( WC_Gateway_LINEPay_Const::REQUEST_TYPE_DETAILS, [ 'transaction_id' => $reserved_transaction_id ] );
 
-			$detail_body = array( 'transactionId' => $reserved_transaction_id );
+			$detail_body = [ 'transactionId' => $reserved_transaction_id ];
 
 			$detail_info = static::execute( $this, $detail_url, http_build_query( $detail_body ), 20, 'GET' );
 
@@ -529,11 +529,11 @@ class WC_Gateway_LINEPay extends WC_Payment_Gateway {
 			return new WP_Error(
 				'process_refund_request',
 				sprintf( __( 'Unable to find order #%s', 'woocommerce-gateway-linepay' ), $order_id ),
-				array(
+				[
 					'requester'     => $requester,
 					'order_id'      => $order_id,
 					'refund_amount' => $std_refund_amount,
-				)
+				]
 			);
 		}
 
@@ -547,12 +547,12 @@ class WC_Gateway_LINEPay extends WC_Payment_Gateway {
 			return new WP_Error(
 				'process_refund_request',
 				__( 'Unable to refund order due to its current status.', 'woocommerce-gateway-linepay' ),
-				array(
+				[
 					'requester'      => $requester,
 					'order_id'       => $order_id,
 					'transaction_id' => $transaction_id,
 					'order_status'   => $order_status,
-				)
+				]
 			);
 		}
 
@@ -566,14 +566,14 @@ class WC_Gateway_LINEPay extends WC_Payment_Gateway {
 				return new WP_Error(
 					'process_refund_request',
 					__( 'Refund amount does not match total purchase amount.', 'woocommerce-gateway-linepay' ),
-					array(
+					[
 						'requester'      => $requester,
 						'order_id'       => $order_id,
 						'transaction_id' => $transaction_id,
 						'order_status'   => $order_status,
 						'amount'         => $std_amount,
 						'refund_amount'  => $std_refund_amount,
-					)
+					]
 				);
 			}
 		}
@@ -604,8 +604,8 @@ class WC_Gateway_LINEPay extends WC_Payment_Gateway {
 		$order_id          = $order->get_id();
 		$std_refund_amount = $this->get_standardized( $refund_amount );
 
-		$url  = $this->get_request_url( WC_Gateway_LINEPay_Const::REQUEST_TYPE_REFUND, array( 'transaction_id' => $transaction_id ) );
-		$body = array( 'refundAmount' => $std_refund_amount );
+		$url  = $this->get_request_url( WC_Gateway_LINEPay_Const::REQUEST_TYPE_REFUND, [ 'transaction_id' => $transaction_id ] );
+		$body = [ 'refundAmount' => $std_refund_amount ];
 		$info = static::execute( $this, $url, $body );
 
 		// On request failure.
@@ -616,11 +616,11 @@ class WC_Gateway_LINEPay extends WC_Payment_Gateway {
 
 		// Save refund transaction information.
 		$refund_info                               = unserialize( get_post_meta( $order_id, '_linepay_refund_info', true ) );
-		$refund_info[ $info->refundTransactionId ] = array(
+		$refund_info[ $info->refundTransactionId ] = [
 			'requester' => $requester,
 			'reason'    => $reason,
 			'date'      => $info->refundTransactionDate,
-		);
+		];
 		update_post_meta( $order_id, '_linepay_refund_info', serialize( $refund_info ) );
 
 		// Amount balance revision.
@@ -762,7 +762,7 @@ class WC_Gateway_LINEPay extends WC_Payment_Gateway {
 	 * @param array  $args
 	 * @return string
 	 */
-	private function get_request_url( $type, $args = array() ) {
+	private function get_request_url( $type, $args = [] ) {
 		$host = $this->get_request_host();
 		$uri  = $this->get_request_uri( $type, $args );
 
@@ -792,14 +792,14 @@ class WC_Gateway_LINEPay extends WC_Payment_Gateway {
 	 * @return array
 	 */
 	private function get_product_info( $order ) {
-		$packages     = array();
+		$packages     = [];
 		$items        = $order->get_items();
 		$order_amount = 0;
 
 		// item_lines.
 		if ( count( $items ) > 0 ) {
 
-			$products     = array();
+			$products     = [];
 			$total_amount = 0;
 
 			$this->line_write_log( $items );
@@ -813,12 +813,12 @@ class WC_Gateway_LINEPay extends WC_Payment_Gateway {
 				$order_name = $order_name . '等共' . $order->get_item_count() . '個商品';
 			}
 
-			$product = array(
+			$product = [
 				'id'       => $first_item->get_product_id(),
 				'name'     => sanitize_text_field( $order_name ),
 				'quantity' => 1,
 				'price'    => $order->get_total(),
-			);
+			];
 
 			// 取第一個商品的圖案.
 			$thumbnail_image_urls = wp_get_attachment_image_src( get_post_thumbnail_id( $first_item->get_product_id() ) );
@@ -831,12 +831,12 @@ class WC_Gateway_LINEPay extends WC_Payment_Gateway {
 
 			array_push(
 				$packages,
-				array(
+				[
 					'id'       => 'WC-ITEMS||' . $order->get_id(),
 					'name'     => sanitize_text_field( 'WC_ITEMS' ),
 					'amount'   => $this->get_standardized( $order->get_total() ),
 					'products' => $products,
-				)
+				]
 			);
 		} //end items.
 
@@ -994,21 +994,21 @@ class WC_Gateway_LINEPay extends WC_Payment_Gateway {
 			}
 		}
 
-		$headers = array(
+		$headers = [
 			'content-type'               => 'application/json; charset=UTF-8',
 			'X-LINE-ChannelId'           => $channel_info['channel_id'],
 			'X-LINE-Authorization-Nonce' => $request_time,
 			'X-LINE-Authorization'       => static::generate_signature( $channel_info['channel_secret'], $url, $request_body, $request_time ),
-		);
+		];
 
-		$request_args = array(
+		$request_args = [
 			'httpversion' => '1.1',
 			'timeout'     => $timeout,
 			'headers'     => $headers,
-		);
+		];
 
 		if ( is_array( $body ) ) {
-			$request_args = array_merge( $request_args, array( 'body' => wp_json_encode( $body ) ) );
+			$request_args = array_merge( $request_args, [ 'body' => wp_json_encode( $body ) ] );
 		}
 
 		// static::$logger->error( '[request] http_request', 'url : '. $url );
@@ -1033,9 +1033,9 @@ class WC_Gateway_LINEPay extends WC_Payment_Gateway {
 			return new WP_Error(
 				'[request] http_response_not_success',
 				'http response code is ' . $http_status,
-				array(
+				[
 					'url' => $url,
-				)
+				]
 			);
 		}
 

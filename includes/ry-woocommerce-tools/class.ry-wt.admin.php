@@ -7,22 +7,22 @@ final class RY_WT_admin {
 		if ( ! self::$initiated ) {
 			self::$initiated = true;
 
-			add_filter( 'plugin_action_links_' . RY_WT_PLUGIN_BASENAME, array( __CLASS__, 'plugin_action_links' ), 10 );
+			add_filter( 'plugin_action_links_' . RY_WT_PLUGIN_BASENAME, [ __CLASS__, 'plugin_action_links' ], 10 );
 
-			add_filter( 'woocommerce_get_settings_pages', array( __CLASS__, 'get_settings_page' ) );
+			add_filter( 'woocommerce_get_settings_pages', [ __CLASS__, 'get_settings_page' ] );
 
-			add_filter( 'woocommerce_get_sections_rytools', array( __CLASS__, 'add_sections' ), 11 );
+			add_filter( 'woocommerce_get_sections_rytools', [ __CLASS__, 'add_sections' ], 11 );
 
 			add_filter( 'ry_setting_section_tools', '__return_false' );
-			add_action( 'ry_setting_section_ouput_tools', array( __CLASS__, 'output_tools' ) );
+			add_action( 'ry_setting_section_ouput_tools', [ __CLASS__, 'output_tools' ] );
 		}
 	}
 
 	public static function plugin_action_links( $links ) {
 		return array_merge(
-			array(
+			[
 				'settings' => '<a href="' . admin_url( 'admin.php?page=wc-settings&tab=rytools' ) . '">' . __( 'Settings' ) . '</a>',
-			),
+			],
 			$links
 		);
 	}

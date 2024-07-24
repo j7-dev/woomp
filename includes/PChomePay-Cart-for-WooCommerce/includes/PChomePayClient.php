@@ -32,7 +32,7 @@ class PChomePayClient {
 	private $tokenStorage;
 
 	public function __construct( $appID, $secret, $sandboxSecret, $sandBox = false, $debug = false ) {
-		$baseURL = $sandBox ? PChomePayClient::SB_BASE_URL : PChomePayClient::BASE_URL;
+		$baseURL = $sandBox ? self::SB_BASE_URL : self::BASE_URL;
 
 		$this->debug                = $debug;
 		$this->appID                = $appID;
@@ -99,12 +99,12 @@ class PChomePayClient {
 
 		$r = wp_remote_post(
 			$this->tokenURL,
-			array(
-				'headers' => array(
+			[
+				'headers' => [
 					'Content-type'  => 'application/json',
 					'Authorization' => 'Basic ' . base64_encode( $userAuth ),
-				),
-			)
+				],
+			]
 		);
 		$this->log( 'token' );
 		$body = wp_remote_retrieve_body( $r );
@@ -140,7 +140,7 @@ class PChomePayClient {
 	}
 
 	private function willExpiredIn( $tokenObj ) {
-		return ( time() + PChomePayClient::TOKEN_EXPIRE_SEC ) > $tokenObj->expired_timestamp;
+		return ( time() + self::TOKEN_EXPIRE_SEC ) > $tokenObj->expired_timestamp;
 	}
 
 	protected function post_request( $method, $postdata ) {
@@ -149,13 +149,13 @@ class PChomePayClient {
 
 		$r = wp_remote_post(
 			$method,
-			array(
-				'headers' => array(
+			[
+				'headers' => [
 					'Content-type' => 'application/json',
 					'pcpay-token'  => $token->token,
-				),
+				],
 				'body'    => $postdata,
-			)
+			]
 		);
 
 		$body = wp_remote_retrieve_body( $r );
@@ -168,12 +168,12 @@ class PChomePayClient {
 
 		$r = wp_remote_get(
 			$method,
-			array(
-				'headers' => array(
+			[
+				'headers' => [
 					'Content-type' => 'application/json',
 					'pcpay-token'  => $token->token,
-				),
-			)
+				],
+			]
 		);
 
 		$body = wp_remote_retrieve_body( $r );
@@ -186,7 +186,7 @@ class PChomePayClient {
 			return true;
 		}
 
-		$jsonErrMap = array(
+		$jsonErrMap = [
 			JSON_ERROR_NONE             => 'No error has occurred',
 			JSON_ERROR_DEPTH            => 'The maximum stack depth has been exceeded',
 			JSON_ERROR_STATE_MISMATCH   => 'Invalid or malformed JSON',
@@ -196,7 +196,7 @@ class PChomePayClient {
 			JSON_ERROR_RECURSION        => 'One or more recursive references in the value to be encoded	PHP 5.5.0',
 			JSON_ERROR_INF_OR_NAN       => 'One or more NAN or INF values in the value to be encoded	PHP 5.5.0',
 			JSON_ERROR_UNSUPPORTED_TYPE => 'A value of a type that cannot be encoded was given	PHP 5.5.0',
-		);
+		];
 
 		$obj = json_decode( $result );
 

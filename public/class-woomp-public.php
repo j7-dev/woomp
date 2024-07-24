@@ -74,7 +74,7 @@ class Woomp_Public {
 		 * class.
 		 */
 
-		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/woomp-public.css', array(), $this->version, 'all' );
+		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/woomp-public.css', [], $this->version, 'all' );
 	}
 
 	/**
@@ -96,17 +96,17 @@ class Woomp_Public {
 		 * class.
 		 */
 
-		wp_enqueue_script( 'twzipcode', plugin_dir_url( __FILE__ ) . 'js/twzipcode.js', array( 'jquery' ), $this->version, true );
+		wp_enqueue_script( 'twzipcode', plugin_dir_url( __FILE__ ) . 'js/twzipcode.js', [ 'jquery' ], $this->version, true );
 
-		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/woomp-public.js', array( 'jquery' ), $this->version, true );
+		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/woomp-public.js', [ 'jquery' ], $this->version, true );
 
 		if ( is_checkout() ) {
 
-			wp_register_script( 'woomp_checkout', plugin_dir_url( __FILE__ ) . 'js/woomp-checkout.js', array( 'jquery' ), '1.8.3', true );
+			wp_register_script( 'woomp_checkout', plugin_dir_url( __FILE__ ) . 'js/woomp-checkout.js', [ 'jquery' ], '1.8.3', true );
 			wp_localize_script(
 				'woomp_checkout',
 				'woomp_checkout_params',
-				array(
+				[
 					'enableWoomp'                 => ( get_option( 'wc_woomp_setting_mode', 1 ) === 'onepage' || get_option( 'wc_woomp_setting_mode', 1 ) === 'twopage' ) ? 'yes' : '',
 					'enableTwoPage'               => ( get_option( 'wc_woomp_setting_mode', 1 ) === 'twopage' ) ? 'yes' : '',
 					'enableTwAddress'             => get_option( 'wc_woomp_setting_tw_address' ),
@@ -121,7 +121,7 @@ class Woomp_Public {
 					'textHaveCoupon'              => esc_html__( 'Have a coupon?', 'woocommerce' ),
 					'textClickCoupon'             => esc_html__( 'Click here to enter your code', 'woocommerce' ),
 					'isFreeCart'                  => $this->is_free_cart(),
-				)
+				]
 			);
 			wp_enqueue_script( 'woomp_checkout' );
 		}

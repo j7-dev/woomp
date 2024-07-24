@@ -106,10 +106,10 @@ class EcpayInvoiceHandler {
 			$ecpay_invoice->MerchantID     = $this->get_api_key()['merchant_id'];
 			$ecpay_invoice->HashKey        = $this->get_api_key()['hashkey'];
 			$ecpay_invoice->HashIV         = $this->get_api_key()['hashiv'];
-			$ecpay_invoice->Send['Items']  = array();
+			$ecpay_invoice->Send['Items']  = [];
 
 			// 取得商品資訊
-			$items    = array();
+			$items    = [];
 			$itemsTmp = $order->get_items();
 
 			// 商品資訊
@@ -127,14 +127,14 @@ class EcpayInvoiceHandler {
 
 				array_push(
 					$ecpay_invoice->Send['Items'],
-					array(
+					[
 						'ItemName'    => str_replace( '|', '-', $value['ItemName'] ),
 						'ItemCount'   => $value['ItemCount'],
 						'ItemWord'    => '批',
 						'ItemPrice'   => round( (float) $value['ItemPrice'], 2 ),
 						'ItemTaxType' => 1,
 						'ItemAmount'  => round( (float) $value['ItemAmount'], 2 ),
-					)
+					]
 				);
 			}
 
@@ -145,14 +145,14 @@ class EcpayInvoiceHandler {
 
 				array_push(
 					$ecpay_invoice->Send['Items'],
-					array(
+					[
 						'ItemName'    => '運費',
 						'ItemCount'   => 1,
 						'ItemWord'    => '式',
 						'ItemPrice'   => round( (float) $shippingTotal, 2 ),
 						'ItemTaxType' => 1,
 						'ItemAmount'  => round( (float) $shippingTotal, 2 ),
-					)
+					]
 				);
 			}
 
@@ -165,14 +165,14 @@ class EcpayInvoiceHandler {
 			if ( $fee_amount !== 0 ) {
 				array_push(
 					$ecpay_invoice->Send['Items'],
-					array(
+					[
 						'ItemName'    => '費用',
 						'ItemCount'   => 1,
 						'ItemWord'    => '式',
 						'ItemPrice'   => round( (float) $fee_amount, 2 ),
 						'ItemTaxType' => 1,
 						'ItemAmount'  => round( (float) $fee_amount, 2 ),
-					)
+					]
 				);
 			}
 
@@ -335,7 +335,7 @@ class EcpayInvoiceHandler {
 	 * 取得 API 資料
 	 */
 	private function get_api_key() {
-		$api_data = array();
+		$api_data = [];
 
 		if ( wc_string_to_bool( get_option( 'wc_woomp_ecpay_invoice_testmode_enabled' ) ) ) {
 			$api_data['request_url_issue']   = 'https://einvoice-stage.ecpay.com.tw/Invoice/Issue';

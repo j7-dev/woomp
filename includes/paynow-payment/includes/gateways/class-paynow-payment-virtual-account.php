@@ -34,9 +34,9 @@ class PayNow_Payment_Virtual_Account extends PayNow_Abstract_Payment_Gateway {
 		$this->pay_type         = PayNow_Pay_Type::VIRTUAL_ACCOUNT;
 		$this->order_result_url = add_query_arg( 'wc-api', 'paynow_payment_virtual', home_url( '/' ) );
 
-		add_action( 'woocommerce_update_options_payment_gateways_' . $this->id, array( $this, 'process_admin_options' ) );
-		add_action( 'woocommerce_receipt_' . $this->id, array( $this, 'receipt_page' ) );
-		add_filter( 'paynow_transaction_args_' . $this->id, array( $this, 'paynow_virtual_account_args' ), 10, 2 );
+		add_action( 'woocommerce_update_options_payment_gateways_' . $this->id, [ $this, 'process_admin_options' ] );
+		add_action( 'woocommerce_receipt_' . $this->id, [ $this, 'receipt_page' ] );
+		add_filter( 'paynow_transaction_args_' . $this->id, [ $this, 'paynow_virtual_account_args' ], 10, 2 );
 	}
 
 	/**
@@ -59,10 +59,10 @@ class PayNow_Payment_Virtual_Account extends PayNow_Abstract_Payment_Gateway {
 		$order = new WC_Order( $order_id );
 
 		// Return thankyou redirect.
-		return array(
+		return [
 			'result'   => 'success',
 			'redirect' => $order->get_checkout_payment_url( true ),
-		);
+		];
 	}
 
 	/**
@@ -75,9 +75,9 @@ class PayNow_Payment_Virtual_Account extends PayNow_Abstract_Payment_Gateway {
 	public function paynow_virtual_account_args( $args, $order ) {
 		return array_merge(
 			$args,
-			array(
+			[
 				'AtmRespost' => '1',
-			)
+			]
 		);
 	}
 
@@ -98,14 +98,14 @@ class PayNow_Payment_Virtual_Account extends PayNow_Abstract_Payment_Gateway {
 	 * @return array
 	 */
 	public static function order_metas() {
-		return array(
+		return [
 			'_paynow_tran_id'     => __( 'Transaction No', 'paynow-payment' ),
 			'_paynow_bank_code'   => __( 'Bank Code', 'paynow-payment' ),
 			'_paynow_atm_no'      => __( 'ATM No', 'paynow-payment' ),
 			'_paynow_new_date'    => __( 'New Date', 'paynow-payment' ),
 			'_paynow_due_date'    => __( 'Due Date', 'paynow-payment' ),
 			'_paynow_tran_status' => __( 'Tran Status', 'paynow-payment' ),
-		);
+		];
 	}
 
 	/**

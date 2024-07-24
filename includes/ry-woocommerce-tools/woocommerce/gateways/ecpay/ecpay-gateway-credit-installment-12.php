@@ -28,10 +28,10 @@ class WMP_ECPay_Gateway_Credit_Installment_12 extends RY_ECPay_Gateway_Base {
 		wc_maybe_reduce_stock_levels( $order_id );
 		wc_release_stock_for_order( $order );
 
-		return array(
+		return [
 			'result'   => 'success',
 			'redirect' => $order->get_checkout_payment_url( true ),
-		);
+		];
 	}
 
 	public function is_available() {

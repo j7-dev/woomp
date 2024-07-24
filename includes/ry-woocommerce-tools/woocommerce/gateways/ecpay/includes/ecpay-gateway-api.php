@@ -1,16 +1,16 @@
 <?php
 class RY_ECPay_Gateway_Api extends RY_ECPay {
 
-	public static $api_test_url = array(
+	public static $api_test_url = [
 		'checkout' => 'https://payment-stage.ecpay.com.tw/Cashier/AioCheckOut/V5',
 		'query'    => 'https://payment-stage.ecpay.com.tw/Cashier/QueryTradeInfo/V5',
 		'sptoken'  => 'https://payment-stage.ecpay.com.tw/SP/CreateTrade',
-	);
-	public static $api_url      = array(
+	];
+	public static $api_url      = [
 		'checkout' => 'https://payment.ecpay.com.tw/Cashier/AioCheckOut/V5',
 		'query'    => 'https://payment.ecpay.com.tw/Cashier/QueryTradeInfo/V5',
 		'sptoken'  => 'https://payment.ecpay.com.tw/SP/CreateTrade',
-	);
+	];
 
 	public static function checkout_form( $order, $gateway ) {
 		RY_ECPay_Gateway::log( 'Generating payment form by ' . $gateway->id . ' for #' . $order->get_order_number() );
@@ -20,7 +20,7 @@ class RY_ECPay_Gateway_Api extends RY_ECPay {
 
 		list($MerchantID, $HashKey, $HashIV) = RY_ECPay_Gateway::get_ecpay_api_info();
 
-		$args                      = array(
+		$args                      = [
 			'MerchantID'        => $MerchantID,
 			'MerchantTradeNo'   => self::generate_trade_no( $order->get_id(), RY_WT::get_option( 'ecpay_gateway_order_prefix' ) ),
 			'MerchantTradeDate' => new DateTime( '', new DateTimeZone( 'Asia/Taipei' ) ),
@@ -37,7 +37,7 @@ class RY_ECPay_Gateway_Api extends RY_ECPay {
 			'EncryptType'       => 1,
 			'PaymentInfoURL'    => $notify_url,
 			'ClientRedirectURL' => $return_url,
-		);
+		];
 		$args['TradeDesc']         = preg_replace( '/[\x{21}-\x{2f}\x{3a}-\x{40}\x{5b}-\x{60}\x{7b}-\x{7e}]/', ' ', $args['TradeDesc'] );
 		$args['TradeDesc']         = mb_substr( $args['TradeDesc'], 0, 100 );
 		$args['MerchantTradeDate'] = $args['MerchantTradeDate']->format( 'Y/m/d H:i:s' );
@@ -116,7 +116,7 @@ $("#ry-ecpay-form").submit();'
 					} else {
 						$number_of_periods = (int) $gateway->number_of_periods;
 					}
-					if ( in_array( $number_of_periods, array( 3, 6, 12, 18, 24 ) ) ) {
+					if ( in_array( $number_of_periods, [ 3, 6, 12, 18, 24 ] ) ) {
 						$args['CreditInstallment'] = $number_of_periods;
 						$order->add_order_note(
 							sprintf(

@@ -2,14 +2,14 @@
 class RY_ECPay_Gateway_Response extends RY_ECPay_Gateway_Api {
 
 	public static function init() {
-		add_action( 'woocommerce_api_request', array( __CLASS__, 'set_do_die' ) );
-		add_action( 'woocommerce_api_ry_ecpay_callback', array( __CLASS__, 'check_callback' ) );
-		add_action( 'valid_ecpay_gateway_request', array( __CLASS__, 'doing_callback' ) );
+		add_action( 'woocommerce_api_request', [ __CLASS__, 'set_do_die' ] );
+		add_action( 'woocommerce_api_ry_ecpay_callback', [ __CLASS__, 'check_callback' ] );
+		add_action( 'valid_ecpay_gateway_request', [ __CLASS__, 'doing_callback' ] );
 
-		add_action( 'ry_ecpay_gateway_response_status_1', array( __CLASS__, 'payment_complete' ), 10, 2 );
-		add_action( 'ry_ecpay_gateway_response_status_2', array( __CLASS__, 'payment_wait_atm' ), 10, 2 );
-		add_action( 'ry_ecpay_gateway_response_status_10100073', array( __CLASS__, 'payment_wait_cvs' ), 10, 2 );
-		add_action( 'ry_ecpay_gateway_response_status_10100058', array( __CLASS__, 'payment_failed' ), 10, 2 );
+		add_action( 'ry_ecpay_gateway_response_status_1', [ __CLASS__, 'payment_complete' ], 10, 2 );
+		add_action( 'ry_ecpay_gateway_response_status_2', [ __CLASS__, 'payment_wait_atm' ], 10, 2 );
+		add_action( 'ry_ecpay_gateway_response_status_10100073', [ __CLASS__, 'payment_wait_cvs' ], 10, 2 );
+		add_action( 'ry_ecpay_gateway_response_status_10100058', [ __CLASS__, 'payment_failed' ], 10, 2 );
 	}
 
 	public static function check_callback() {

@@ -18,11 +18,11 @@ final class CardManagement {
 	 * Constructor
 	 */
 	public function __construct() {
-		\add_action( 'add_meta_boxes', array( $this, 'add_meta_box' ) );
-		\add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
+		\add_action( 'add_meta_boxes', [ $this, 'add_meta_box' ] );
+		\add_action( 'admin_enqueue_scripts', [ $this, 'admin_enqueue_scripts' ] );
 
-		\add_action( 'wp_ajax_woomp_set_default', array( $this, 'woomp_set_default_callback' ) );
-		\add_action( 'wp_ajax_woomp_remove', array( $this, 'woomp_remove_callback' ) );
+		\add_action( 'wp_ajax_woomp_set_default', [ $this, 'woomp_set_default_callback' ] );
+		\add_action( 'wp_ajax_woomp_remove', [ $this, 'woomp_remove_callback' ] );
 	}
 
 	/**
@@ -33,10 +33,10 @@ final class CardManagement {
 	 */
 	public function add_meta_box( string $post_type ): void {
 		// Limit meta box to certain post types.
-		$post_types = array( 'shop_order', 'shop_subscription' );
+		$post_types = [ 'shop_order', 'shop_subscription' ];
 
 		if ( in_array( $post_type, $post_types, true ) ) {
-			\add_meta_box( self::METABOX_ID, __( '信用卡儲存資訊', 'woomp' ), array( $this, 'render_meta_box_content' ), $post_types, 'normal', 'default' );
+			\add_meta_box( self::METABOX_ID, __( '信用卡儲存資訊', 'woomp' ), [ $this, 'render_meta_box_content' ], $post_types, 'normal', 'default' );
 		}
 	}
 
@@ -125,15 +125,15 @@ final class CardManagement {
 	public function admin_enqueue_scripts() {
 		$screen         = \get_current_screen();
 		$screen_id      = $screen ? $screen->id : '';
-		$allowed_screen = array(
+		$allowed_screen = [
 			'shop_subscription',
 			'shop_order',
-		);
+		];
 		if ( ! in_array( $screen_id, $allowed_screen, true ) ) {
 			return;
 		}
 		\wp_enqueue_script( 'jquery-blockui' );
-		\wp_enqueue_style( 'woomp-main', WOOMP_PLUGIN_URL . 'admin/css/main.min.css', array(), \WOOMP_VERSION );
+		\wp_enqueue_style( 'woomp-main', WOOMP_PLUGIN_URL . 'admin/css/main.min.css', [], \WOOMP_VERSION );
 
 		// \wp_enqueue_script( 'woomp-admin', \WOOMP_URL . 'admin/assets/js/admin.js', array( 'jquery' ), \WOOMP_VERSION, true );
 	}
@@ -168,7 +168,7 @@ final class CardManagement {
 	private function format_payment_token( \WC_Payment_Token $payment_token ): array {
 		$payment_token_data = $payment_token->get_data();
 
-		$formatted_data                 = array();
+		$formatted_data                 = [];
 		$formatted_data['user_id']      = $payment_token->get_user_id();
 		$formatted_data['token_id']     = $payment_token->get_id();
 		$formatted_data['token']        = $payment_token_data['token'];
@@ -200,22 +200,22 @@ final class CardManagement {
 		$nonce    = $_POST['nonce'] ?? '';
 		if ( ! $token_id || ! $user_id ) {
 			\wp_send_json(
-				array(
+				[
 					'code'    => 500,
 					'message' => '缺少 token_id 或 user_id',
 					'data'    => $_POST,
-				)
+				]
 			);
 			\wp_die();
 		}
 
 		if ( ! \wp_verify_nonce( $nonce, 'woomp' ) ) {
 			\wp_send_json(
-				array(
+				[
 					'code'    => 500,
 					'message' => 'nonce 錯誤',
 					'data'    => $_POST,
-				)
+				]
 			);
 			\wp_die();
 		}
@@ -224,11 +224,11 @@ final class CardManagement {
 
 		// Make your array as json
 		\wp_send_json(
-			array(
+			[
 				'code'    => 200,
 				'message' => '設定為主要卡號成功',
 				'data'    => $_POST,
-			)
+			]
 		);
 
 		// Don't forget to stop execution afterward.
@@ -246,33 +246,33 @@ final class CardManagement {
 
 		if ( ! \wp_verify_nonce( $nonce, 'woomp' ) ) {
 			\wp_send_json(
-				array(
+				[
 					'code'    => 500,
 					'message' => 'nonce 錯誤',
 					'data'    => $_POST,
-				)
+				]
 			);
 			\wp_die();
 		}
 
 		if ( ! $token_id ) {
 			\wp_send_json(
-				array(
+				[
 					'code'    => 500,
 					'message' => '缺少 token_id',
 					'data'    => $_POST,
-				)
+				]
 			);
 			\wp_die();
 		}
 		\WC_Payment_Tokens::delete( $token_id );
 		// Make your array as json
 		\wp_send_json(
-			array(
+			[
 				'code'    => 200,
 				'message' => '移除成功',
 				'data'    => $_POST,
-			)
+			]
 		);
 
 		// Don't forget to stop execution afterward.

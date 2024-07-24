@@ -11,31 +11,31 @@ class Admin {
 
 	public static function init() {
 		$class = new self();
-		add_action( 'admin_enqueue_scripts', array( $class, 'enqueue_script' ) );
-		add_filter( 'manage_shop_order_posts_columns', array( $class, 'shop_order_columns' ), 11, 1 );
-		add_action( 'manage_shop_order_posts_custom_column', array( $class, 'shop_order_column' ), 11, 2 );
-		add_action( 'save_post_shop_order', array( $class, 'update_invoice_data' ), 10, 3 );
+		add_action( 'admin_enqueue_scripts', [ $class, 'enqueue_script' ] );
+		add_filter( 'manage_shop_order_posts_columns', [ $class, 'shop_order_columns' ], 11, 1 );
+		add_action( 'manage_shop_order_posts_custom_column', [ $class, 'shop_order_column' ], 11, 2 );
+		add_action( 'save_post_shop_order', [ $class, 'update_invoice_data' ], 10, 3 );
 
 		if ( 'auto' === get_option( 'wc_woomp_ezpay_invoice_issue_mode' ) ) {
 			$invoice_issue_at = str_replace( 'wc-', '', get_option( 'wc_woomp_ezpay_invoice_issue_at' ) );
-			add_action( 'woocommerce_order_status_' . $invoice_issue_at, array( $class, 'issue_invoice' ), 10, 1 );
+			add_action( 'woocommerce_order_status_' . $invoice_issue_at, [ $class, 'issue_invoice' ], 10, 1 );
 		}
 
 		if ( 'auto' === get_option( 'wc_woomp_ezpay_invoice_invalid_mode' ) ) {
 			$invoice_invalid_at = str_replace( 'wc-', '', get_option( 'wc_woomp_ezpay_invoice_invalid_at' ) );
-			add_action( 'woocommerce_order_status_' . $invoice_invalid_at, array( $class, 'invalid_invoice' ), 10, 1 );
+			add_action( 'woocommerce_order_status_' . $invoice_invalid_at, [ $class, 'invalid_invoice' ], 10, 1 );
 		}
 	}
 
 	public function enqueue_script() {
-		wp_register_script( 'woomp_ezpay_invoice', EZPAYINVOICE_PLUGIN_URL . 'assets/js/admin.js', array( 'jquery' ), '1.0.4', true );
+		wp_register_script( 'woomp_ezpay_invoice', EZPAYINVOICE_PLUGIN_URL . 'assets/js/admin.js', [ 'jquery' ], '1.0.4', true );
 		wp_localize_script(
 			'woomp_ezpay_invoice',
 			'woomp_ezpay_invoice_params',
-			array(
+			[
 				'ajax_nonce' => wp_create_nonce( 'invoice_handler' ),
 				'post_id'    => get_the_ID(),
-			)
+			]
 		);
 		wp_enqueue_script( 'woomp_ezpay_invoice' );
 	}
@@ -46,9 +46,9 @@ class Admin {
 	public function shop_order_columns( $columns ) {
 		$add_index = array_search( 'shipping_address', array_keys( $columns ) ) + 1;
 		$pre_array = array_splice( $columns, 0, $add_index );
-		$array     = array(
+		$array     = [
 			'wmp_invoice_no' => __( 'Invoice number', 'woomp' ),
-		);
+		];
 		return array_merge( $pre_array, $array, $columns );
 	}
 
@@ -73,7 +73,7 @@ class Admin {
 		if ( get_option( 'wc_woomp_enabled_ezpay_invoice' ) ) {
 
 			$order        = \wc_get_order( $post_id );
-			$invoice_data = array();
+			$invoice_data = [];
 
 			if ( $order && $update ) {
 				if ( isset( $_POST['_ezpay_invoice_type'] ) ) {

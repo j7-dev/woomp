@@ -40,9 +40,9 @@ final class Response {
 	 */
 	public static function init() {
 		$class = self::get_instance();
-		add_action( 'woocommerce_api_payuni_notify_card', array( $class, 'card_response' ) );
-		add_action( 'woocommerce_api_payuni_notify_atm', array( $class, 'atm_response' ) );
-		add_action( 'woocommerce_api_payuni_notify_cvs', array( $class, 'cvs_response' ) );
+		add_action( 'woocommerce_api_payuni_notify_card', [ $class, 'card_response' ] );
+		add_action( 'woocommerce_api_payuni_notify_atm', [ $class, 'atm_response' ] );
+		add_action( 'woocommerce_api_payuni_notify_cvs', [ $class, 'cvs_response' ] );
 	}
 
 	/**
@@ -108,7 +108,7 @@ final class Response {
 			\as_schedule_single_action(
 				strtotime( '+2 minutes' ),
 				'payuni_cancel_trade_by_trade_no',
-				array( $data['TradeNo'], $order_id )
+				[ $data['TradeNo'], $order_id ]
 			);
 		}
 
@@ -178,7 +178,7 @@ final class Response {
 	 * - is_3d_auth: bool.
 	 */
 	public static function get_formatted_decrypted_data( array $data ): array {
-		$formatted_data = array();
+		$formatted_data = [];
 
 		$trade_no = $data['MerTradeNo'] ?? '';
 		$order_id = (int) explode( '-', $trade_no )[0];
@@ -284,20 +284,20 @@ final class Response {
 				\wc_add_notice( $data['Message'], 'error' );
 			}
 
-			return array(
+			return [
 				'result'     => 'failed',
 				'redirect'   => $redirect,
 				'is_3d_auth' => false,
-			);
+			];
 		}
 
 		// 3D 驗證走以下判斷，會 redirect 到 $data['URL'] 去做 3D 驗證
 		if ( $is_3d_auth ) {
-			return array(
+			return [
 				'result'     => 'success',
 				'redirect'   => $data['URL'],
 				'is_3d_auth' => true,
-			);
+			];
 		}
 
 		self::save_card_to_payment_method( $card_hash, $card_4no, $card_expiry_month, $card_expiry_year, $user_id );
@@ -308,15 +308,15 @@ final class Response {
 			$action_id = \as_schedule_single_action(
 				strtotime( '+2 minutes' ),
 				'payuni_cancel_trade_by_trade_no',
-				array( $data['TradeNo'], $order_id )
+				[ $data['TradeNo'], $order_id ]
 			);
 		}
 
-		return array(
+		return [
 			'result'     => 'success',
 			'redirect'   => $redirect,
 			'is_3d_auth' => false,
-		);
+		];
 	}
 
 	/**
@@ -383,7 +383,7 @@ final class Response {
 			as_schedule_single_action(
 				strtotime( $bank_expire . '-8 hour' ),
 				'payuni_atm_check',
-				array( $data['MerTradeNo'] )
+				[ $data['MerTradeNo'] ]
 			);
 
 			$woocommerce->cart->empty_cart();
@@ -454,7 +454,7 @@ final class Response {
 			as_schedule_single_action(
 				strtotime( $bank_expire . '-8 hour' ),
 				'payuni_cvs_check',
-				array( $data['MerTradeNo'] )
+				[ $data['MerTradeNo'] ]
 			);
 
 			$woocommerce->cart->empty_cart();

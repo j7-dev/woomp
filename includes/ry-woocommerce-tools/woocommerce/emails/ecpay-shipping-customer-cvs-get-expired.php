@@ -11,11 +11,11 @@ if ( ! class_exists( 'RY_ECPay_Shipping_Email_Customer_CVS_Get_Expired', false )
 			$this->template_base  = RY_WT_PLUGIN_DIR . 'templates/';
 			$this->template_html  = 'emails/customer-cvs-store.php';
 			$this->template_plain = 'emails/plain/customer-cvs-store.php';
-			$this->placeholders   = array(
+			$this->placeholders   = [
 				'{site_title}' => $this->get_blogname(),
-			);
+			];
 
-			add_action( 'ry_ecpay_shipping_cvs_get_expired_notification', array( $this, 'trigger' ), 10, 2 );
+			add_action( 'ry_ecpay_shipping_cvs_get_expired_notification', [ $this, 'trigger' ], 10, 2 );
 
 			parent::__construct();
 		}
@@ -48,26 +48,26 @@ if ( ! class_exists( 'RY_ECPay_Shipping_Email_Customer_CVS_Get_Expired', false )
 		}
 
 		public function get_content_html() {
-			$args = array(
+			$args = [
 				'order'              => $this->object,
 				'email_heading'      => $this->get_heading(),
 				'additional_content' => $this->get_additional_content(),
 				'sent_to_admin'      => false,
 				'plain_text'         => false,
 				'email'              => $this,
-			);
+			];
 			return wc_get_template_html( $this->template_html, $args, '', RY_WT_PLUGIN_DIR . 'templates/' );
 		}
 
 		public function get_content_plain() {
-			$args = array(
+			$args = [
 				'order'              => $this->object,
 				'email_heading'      => $this->get_heading(),
 				'additional_content' => $this->get_additional_content(),
 				'sent_to_admin'      => false,
 				'plain_text'         => true,
 				'email'              => $this,
-			);
+			];
 			return wc_get_template_html( $this->template_plain, $args, '', RY_WT_PLUGIN_DIR . 'templates/' );
 		}
 

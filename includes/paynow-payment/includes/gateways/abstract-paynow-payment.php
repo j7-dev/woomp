@@ -76,9 +76,9 @@ abstract class PayNow_Abstract_Payment_Gateway extends WC_Payment_Gateway {
 		$this->icon              = $this->get_icon();
 		$this->has_fields        = false;
 		$this->order_button_text = __( 'Proceed to PayNow', 'paynow-payment' );
-		$this->supports          = array(
+		$this->supports          = [
 			'products',
-		);
+		];
 
 		$this->web_no        = strtoupper( get_option( 'paynow_payment_web_no' ) );
 		$this->trans_pwd     = get_option( 'paynow_payment_trans_pwd' );
@@ -88,7 +88,7 @@ abstract class PayNow_Abstract_Payment_Gateway extends WC_Payment_Gateway {
 		$this->testmode = wc_string_to_bool( get_option( 'paynow_payment_testmode_enabled' ) );
 		$this->api_url  = ( $this->testmode ) ? 'https://test.paynow.com.tw/service/etopm.aspx' : 'https://www.paynow.com.tw/service/etopm.aspx';
 
-		add_action( 'woocommerce_order_details_after_order_table', array( $this, 'paynow_payment_detail_after_order_table' ), 10, 1 );
+		add_action( 'woocommerce_order_details_after_order_table', [ $this, 'paynow_payment_detail_after_order_table' ], 10, 1 );
 	}
 
 	/**
@@ -116,10 +116,10 @@ abstract class PayNow_Abstract_Payment_Gateway extends WC_Payment_Gateway {
 			add_meta_box(
 				'paynow-order-meta-boxes',
 				__( 'PayNow Payment Detail', 'paynow-payment' ),
-				array(
+				[
 					$this,
 					'paynow_admin_meta',
-				),
+				],
 				'shop_order',
 				'side',
 				'default'

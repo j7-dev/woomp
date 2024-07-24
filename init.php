@@ -143,10 +143,10 @@ if ( ! defined( 'RY_WT_VERSION' ) ) {
 
 	require_once RY_WT_PLUGIN_DIR . 'class.ry-wt.main.php';
 
-	register_activation_hook( __FILE__, array( 'RY_WT', 'plugin_activation' ) );
-	register_deactivation_hook( __FILE__, array( 'RY_WT', 'plugin_deactivation' ) );
+	register_activation_hook( __FILE__, [ 'RY_WT', 'plugin_activation' ] );
+	register_deactivation_hook( __FILE__, [ 'RY_WT', 'plugin_deactivation' ] );
 
-	add_action( 'init', array( 'RY_WT', 'init' ), 10 );
+	add_action( 'init', [ 'RY_WT', 'init' ], 10 );
 }
 
 /**

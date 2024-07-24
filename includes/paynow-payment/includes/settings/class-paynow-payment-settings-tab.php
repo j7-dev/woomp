@@ -20,18 +20,18 @@ class WC_Settings_Tab_PayNow extends WC_Settings_Page {
 		$this->id    = 'paynow';
 		$this->label = __( 'PayNow', 'paynow' );
 
-		self::$sections = array(
+		self::$sections = [
 			'payment' => __( 'Payment Settings', 'paynow-payment' ),
-		);
+		];
 
 		// add_filter( 'woocommerce_settings_tabs_array', array( $this, 'paynow_payment_sections' ), 51 );
-		add_action( 'woocommerce_sections_' . $this->id, array( $this, 'output_sections' ) );
-		add_action( 'woocommerce_settings_' . $this->id, array( $this, 'output' ) );
-		add_action( 'woocommerce_settings_save_' . $this->id, array( $this, 'save' ) );
+		add_action( 'woocommerce_sections_' . $this->id, [ $this, 'output_sections' ] );
+		add_action( 'woocommerce_settings_' . $this->id, [ $this, 'output' ] );
+		add_action( 'woocommerce_settings_save_' . $this->id, [ $this, 'save' ] );
 
-		add_action( 'admin_init', array( $this, 'paynow_redirect_default_tab' ) );
+		add_action( 'admin_init', [ $this, 'paynow_redirect_default_tab' ] );
 
-		add_filter( 'woocommerce_get_sections_' . $this->id, array( $this, 'paynow_payment_sections' ) );
+		add_filter( 'woocommerce_get_sections_' . $this->id, [ $this, 'paynow_payment_sections' ] );
 
 		parent::__construct();
 	}
@@ -91,62 +91,62 @@ class WC_Settings_Tab_PayNow extends WC_Settings_Page {
 		if ( 'payment' === $current_section ) {
 			$settings = apply_filters(
 				'paynow_payment_settings',
-				array(
-					array(
+				[
+					[
 						'title' => __( 'General Payment Settings', 'paynow-payment' ),
 						'type'  => 'title',
 						'id'    => 'payment_general_setting',
-					),
-					array(
+					],
+					[
 						'title'   => __( 'Debug Log', 'paynow-payment' ),
 						'type'    => 'checkbox',
 						'default' => 'no',
 						'desc'    => sprintf( __( 'Log PayNow payment message, inside <code>%s</code>', 'paynow-payment' ), wc_get_log_file_path( 'paynow-payment' ) ),
 						'id'      => 'paynow_payment_debug_log_enabled',
-					),
-					array(
+					],
+					[
 						'type' => 'sectionend',
 						'id'   => 'payment_general_setting',
-					),
-					array(
+					],
+					[
 						'title' => __( 'API Settings', 'paynow-payment' ),
 						'type'  => 'title',
 						'desc'  => __( 'Enter your PayNow API credentials', 'paynow-payment' ),
 						'id'    => 'paynow_payment_api_settings',
-					),
-					array(
+					],
+					[
 						'title'   => __( '測試模式', 'paynow-payment' ),
 						'type'    => 'checkbox',
 						'default' => 'yes',
 						'desc'    => __( '如果要使用測試模式，請勾選.', 'paynow-payment' ),
 						'id'      => 'paynow_payment_testmode_enabled',
-					),
-					array(
+					],
+					[
 						'title'    => __( 'WebNo', 'paynow-payment' ),
 						'type'     => 'text',
 						'desc'     => __( 'This is the WebNo when you apply PayNow API', 'paynow-payment' ),
 						'desc_tip' => true,
 						'id'       => 'paynow_payment_web_no',
-					),
-					array(
+					],
+					[
 						'title'    => __( 'Transaction Password', 'paynow-payment' ),
 						'type'     => 'text',
 						'desc'     => __( 'This is the Transaction Password when you apply PayNow API', 'paynow-payment' ),
 						'desc_tip' => true,
 						'id'       => 'paynow_payment_trans_pwd',
-					),
-					array(
+					],
+					[
 						'title'    => __( 'Merchant Name', 'paynow-payment' ),
 						'type'     => 'text',
 						'desc'     => __( 'This is the Merchant Name when you apply PayNow API', 'paynow-payment' ),
 						'desc_tip' => true,
 						'id'       => 'paynow_payment_merchant_name',
-					),
-					array(
+					],
+					[
 						'type' => 'sectionend',
 						'id'   => 'paynow_payment_api_settings',
-					),
-				)
+					],
+				]
 			);
 		}
 

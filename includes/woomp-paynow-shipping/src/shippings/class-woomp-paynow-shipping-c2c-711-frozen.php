@@ -31,7 +31,7 @@ class WOOMP_PayNow_Shipping_C2C_711_Frozen extends PayNow_Abstract_Shipping_Meth
 
 		$this->init();
 
-		add_action( 'woocommerce_update_options_shipping_' . $this->id, array( $this, 'process_admin_options' ) );
+		add_action( 'woocommerce_update_options_shipping_' . $this->id, [ $this, 'process_admin_options' ] );
 	}
 
 	/**

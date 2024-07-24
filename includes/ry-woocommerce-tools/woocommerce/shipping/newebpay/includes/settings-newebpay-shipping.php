@@ -1,11 +1,11 @@
 <?php
-return array(
-	array(
+return [
+	[
 		'title' => __( '藍新物流設定', 'ry-woocommerce-tools' ),
 		'id'    => 'base_options',
 		'type'  => 'title',
 		'desc'  => __( 'Because NewebPay limit, the shipping note no or shipping status can not show in site admin.', 'ry-woocommerce-tools' ),
-	),
+	],
 	// [
 	// 'title' => __('Enable/Disable', 'woocommerce'),
 	// 'id' => RY_WT::$option_prefix . 'newebpay_shipping',
@@ -21,8 +21,8 @@ return array(
 	// 'desc' => __('Remove billing address when shipping mode is cvs.', 'ry-woocommerce-tools-pro') . '<br>'
 	// . __('The billing address still will show in order details.', 'ry-woocommerce-tools-pro')
 	// ],
-	array(
+	[
 		'id'   => 'base_options',
 		'type' => 'sectionend',
-	),
-);
+	],
+];

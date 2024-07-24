@@ -25,21 +25,21 @@ class PayNow_Shipping_Request {
 	public static function init() {
 		self::get_instance();
 
-		add_action( 'woocommerce_order_status_processing', array( self::get_instance(), 'paynow_get_logistic_no' ), 10, 1 );
-		add_action( 'paynow_shipping_order_created', array( self::get_instance(), 'paynow_query_shipping_order' ), 30, 1 );
+		add_action( 'woocommerce_order_status_processing', [ self::get_instance(), 'paynow_get_logistic_no' ], 10, 1 );
+		add_action( 'paynow_shipping_order_created', [ self::get_instance(), 'paynow_query_shipping_order' ], 30, 1 );
 
 		// 後台重選超商後需取消物流單再重新建立新的物流單.
-		add_action( 'paynow_after_admin_changed_cvs_store', array( self::get_instance(), 'paynow_cancel_shipping_order_when_cvs_store_changed' ) );
-		add_action( 'paynow_after_cancel_shipping_order_when_cvs_store_changed', array( self::get_instance(), 'paynow_get_logistic_no' ), 10, 1 );
+		add_action( 'paynow_after_admin_changed_cvs_store', [ self::get_instance(), 'paynow_cancel_shipping_order_when_cvs_store_changed' ] );
+		add_action( 'paynow_after_cancel_shipping_order_when_cvs_store_changed', [ self::get_instance(), 'paynow_get_logistic_no' ], 10, 1 );
 
 		// order action.
-		add_action( 'wp_ajax_create_order', array( self::get_instance(), 'paynow_ajax_get_logistic_no' ), 10, 1 );
-		add_action( 'wp_ajax_renew_order', array( self::get_instance(), 'paynow_ajax_get_logistic_no' ), 10, 1 );
-		add_action( 'wp_ajax_update_delivery_status', array( self::get_instance(), 'paynow_ajax_query_delivery_status' ), 10, 1 );
-		add_action( 'wp_ajax_cancel_shipping_order', array( self::get_instance(), 'paynow_ajax_cancel_shipping_order' ), 10, 1 );
-		add_action( 'paynow_shipping_after_order_cancelled', array( self::get_instance(), 'paynow_query_shipping_order' ), 10, 1 );
+		add_action( 'wp_ajax_create_order', [ self::get_instance(), 'paynow_ajax_get_logistic_no' ], 10, 1 );
+		add_action( 'wp_ajax_renew_order', [ self::get_instance(), 'paynow_ajax_get_logistic_no' ], 10, 1 );
+		add_action( 'wp_ajax_update_delivery_status', [ self::get_instance(), 'paynow_ajax_query_delivery_status' ], 10, 1 );
+		add_action( 'wp_ajax_cancel_shipping_order', [ self::get_instance(), 'paynow_ajax_cancel_shipping_order' ], 10, 1 );
+		add_action( 'paynow_shipping_after_order_cancelled', [ self::get_instance(), 'paynow_query_shipping_order' ], 10, 1 );
 
-		add_action( 'wp_ajax_paynow_shipping_print_label', array( self::get_instance(), 'paynow_print_label' ) );
+		add_action( 'wp_ajax_paynow_shipping_print_label', [ self::get_instance(), 'paynow_print_label' ] );
 	}
 
 	/**
@@ -173,19 +173,19 @@ class PayNow_Shipping_Request {
 	public static function paynow_ajax_get_logistic_no() {
 
 		if ( ! check_ajax_referer( 'paynow-shipping-order', 'security', false ) ) {
-			$return = array(
+			$return = [
 				'success' => false,
 				'result'  => __( 'Invalid security token sent.', 'paynow-shipping' ),
-			);
+			];
 			wp_send_json( $return );
 			wp_die();
 		}
 
 		if ( ! isset( $_POST['post_id'] ) ) {
-			$return = array(
+			$return = [
 				'success' => false,
 				'result'  => __( 'Missing Ajax Parameter.', 'paynow-shipping' ),
-			);
+			];
 			wp_send_json_error( $return );
 			wp_die();
 		}
@@ -196,19 +196,19 @@ class PayNow_Shipping_Request {
 		try {
 			self::paynow_get_logistic_no( $order );
 		} catch ( Exception $e ) {
-			$return = array(
+			$return = [
 				'success' => false,
 				'result'  => $e->getMessage(),
-			);
+			];
 
 			wp_send_json_error( $return );
 			wp_die();
 		}
 
-		$return = array(
+		$return = [
 			'success' => true,
 			'result'  => $resp_obj,
-		);
+		];
 		wp_send_json( $return );
 	}
 
@@ -220,19 +220,19 @@ class PayNow_Shipping_Request {
 	public static function paynow_ajax_query_delivery_status() {
 
 		if ( ! check_ajax_referer( 'paynow-shipping-order', 'security', false ) ) {
-			$return = array(
+			$return = [
 				'success' => false,
 				'result'  => __( 'Invalid security token sent.', 'paynow-shipping' ),
-			);
+			];
 			wp_send_json( $return );
 			wp_die();
 		}
 
 		if ( ! isset( $_POST['post_id'] ) ) {
-			$return = array(
+			$return = [
 				'success' => false,
 				'result'  => __( 'Missing Ajax Parameter.', 'paynow-shipping' ),
-			);
+			];
 			wp_send_json_error( $return );
 			wp_die();
 		}
@@ -243,10 +243,10 @@ class PayNow_Shipping_Request {
 		$response = self::query_order( $order );
 
 		if ( is_wp_error( $response ) ) {
-			$return = array(
+			$return = [
 				'success' => false,
 				'result'  => $response->get_error_message(),
-			);
+			];
 			wp_send_json_error( $return );
 			wp_die();
 		}
@@ -258,10 +258,10 @@ class PayNow_Shipping_Request {
 
 		self::update_order_logistic_meta( $order, $resp_obj, $query_date );
 
-		$return = array(
+		$return = [
 			'success' => true,
 			'result'  => $resp_obj,
-		);
+		];
 		wp_send_json( $return );
 	}
 
@@ -271,19 +271,19 @@ class PayNow_Shipping_Request {
 	public static function paynow_ajax_cancel_shipping_order() {
 
 		if ( ! check_ajax_referer( 'paynow-shipping-order', 'security', false ) ) {
-			$return = array(
+			$return = [
 				'success' => false,
 				'result'  => __( 'Invalid security token sent.', 'paynow-shipping' ),
-			);
+			];
 			wp_send_json( $return );
 			wp_die();
 		}
 
 		if ( ! isset( $_POST['post_id'] ) ) {
-			$return = array(
+			$return = [
 				'success' => false,
 				'result'  => __( 'Missing Ajax Parameter.', 'paynow-shipping' ),
-			);
+			];
 			wp_send_json_error( $return );
 			wp_die();
 		}
@@ -295,10 +295,10 @@ class PayNow_Shipping_Request {
 		PayNow_Shipping::log( 'Order ' . $order->get_id() . ' cancel shipping order. response: ' . wc_print_r( $response, true ) );
 
 		if ( is_wp_error( $response ) ) {
-			$return = array(
+			$return = [
 				'success' => false,
 				'result'  => $response->get_error_message(),
-			);
+			];
 			wp_send_json( $return );
 			wp_die();
 		}
@@ -308,17 +308,17 @@ class PayNow_Shipping_Request {
 			$order->add_order_note( $resp );
 			do_action( 'paynow_shipping_after_order_cancelled', $order );
 
-			$return = array(
+			$return = [
 				'success' => true,
 				'result'  => $resp,
-			);
+			];
 			wp_send_json( $return );
 		} else {
 			$order->add_order_note( $resp );
-			$return = array(
+			$return = [
 				'success' => false,
 				'result'  => $resp,
-			);
+			];
 			wp_send_json( $return );
 		}
 	}
@@ -336,7 +336,7 @@ class PayNow_Shipping_Request {
 		$service   = wc_clean( wp_unslash( $_GET['service'] ) );
 
 		$order_ids_array = explode( ',', $order_ids );
-		$renew_order_ids = array();
+		$renew_order_ids = [];
 		foreach ( $order_ids_array as $order_id ) {
 			$order = wc_get_order( $order_id );
 			if ( $order ) {
@@ -394,7 +394,7 @@ class PayNow_Shipping_Request {
 			}
 		} else {
 			// tcat、seven bulk、family bulk、family frozen and seven frozen.
-			$logistic_nos = array();
+			$logistic_nos = [];
 			$order_ids    = explode( ',', $order_ids );
 			foreach ( $order_ids as $order_id ) {
 				$logistic_no = get_post_meta( $order_id, PayNow_Shipping_Order_Meta::LogisticNumber, true );
@@ -412,18 +412,18 @@ class PayNow_Shipping_Request {
 
 			$response = wp_remote_post(
 				$api_url,
-				array(
+				[
 					'timeout'     => 45,
 					'httpversion' => '1.0',
 					'blocking'    => true,
-					'headers'     => array(
+					'headers'     => [
 						'Content-Type' => 'application/x-www-form-urlencoded',
 						'User-Agent'   => 'WordPress',
-					),
-					'body'        => array(
+					],
+					'body'        => [
 						'LogisticNumbers' => $logistic_nos_request_str,
-					),
-				)
+					],
+				]
 			);
 			PayNow_Shipping::log( 'label:' . wc_print_r( $response, true ) );
 
@@ -466,18 +466,18 @@ class PayNow_Shipping_Request {
 
 		$response = wp_remote_post(
 			$url,
-			array(
+			[
 				'timeout'     => 45,
 				'httpversion' => '1.0',
 				'blocking'    => true,
-				'headers'     => array(
+				'headers'     => [
 					'Content-Type' => 'application/x-www-form-urlencoded',
 					'User-Agent'   => 'WordPress',
-				),
-				'body'        => array(
+				],
+				'body'        => [
 					'JsonOrder' => $encrypt_json,
-				),
-			)
+				],
+			]
 		);
 
 		if ( is_wp_error( $response ) ) {
@@ -503,14 +503,14 @@ class PayNow_Shipping_Request {
 
 		$response = wp_remote_request(
 			$url,
-			array(
+			[
 				'method' => 'DELETE',
-				'body'   => array(
+				'body'   => [
 					'LogisticNumber' => $logistic_no, // paynow 物流單號.
 					'sno'            => '1',
 					'PassCode'       => $passcode,
-				),
-			)
+				],
+			]
 		);
 
 		return $response;
@@ -525,7 +525,7 @@ class PayNow_Shipping_Request {
 	 */
 	public static function renew_order( $order ) {
 
-		$request_args = array(
+		$request_args = [
 			'user_account'   => PayNow_Shipping::$user_account,
 			'apicode'        => PayNow_Shipping::$apicode,
 			'OrderNo'        => self::get_prefixed_order_no( $order ),
@@ -533,7 +533,7 @@ class PayNow_Shipping_Request {
 			'PassCode'       => self::build_pass_code( $order ),
 			'TotalAmount'    => $order->get_total(),
 			'sno'            => 1,
-		);
+		];
 
 		PayNow_Shipping::log( 'renew order args:' . wc_print_r( $request_args, true ) );
 
@@ -542,18 +542,18 @@ class PayNow_Shipping_Request {
 
 		$response = wp_remote_post(
 			$url,
-			array(
+			[
 				'timeout'     => 45,
 				'httpversion' => '1.0',
 				'blocking'    => true,
-				'headers'     => array(
+				'headers'     => [
 					'Content-Type' => 'application/x-www-form-urlencoded',
 					'User-Agent'   => 'WordPress',
-				),
-				'body'        => array(
+				],
+				'body'        => [
 					'JsonOrder' => $encrypt_json,
-				),
-			)
+				],
+			]
 		);
 
 		if ( is_wp_error( $response ) ) {
@@ -578,15 +578,15 @@ class PayNow_Shipping_Request {
 		$url      = PayNow_Shipping::$api_url . '/api/Orderapi/Get_Order_Info?LogisticNumber=' . $logistic_no . '&sno=1';
 		$response = wp_remote_get(
 			$url,
-			array(
+			[
 				'timeout'     => 45,
 				'httpversion' => '1.0',
 				'blocking'    => true,
-				'headers'     => array(
+				'headers'     => [
 					'Content-Type' => 'application/x-www-form-urlencoded',
 					'User-Agent'   => 'WordPress',
-				),
-			)
+				],
+			]
 		);
 		return $response;
 	}
@@ -600,7 +600,7 @@ class PayNow_Shipping_Request {
 	private static function build_add_order_args( $order ) {
 
 		$reciever = self::build_receiver_info( $order );
-		$args     = array();
+		$args     = [];
 
 		$args['Description']      = self::get_items_infos( $order );
 		$args['DeliverMode']      = ( 'cod' === $order->get_payment_method() ) ? '01' : '02';// 01:取貨付款 02:取貨不付款.
@@ -654,11 +654,11 @@ class PayNow_Shipping_Request {
 			$reciever['store_id']   = $order->get_meta( PayNow_Shipping_Order_Meta::StoreId );
 			$reciever['address']    = $order->get_meta( PayNow_Shipping_Order_Meta::StoreAddr );
 		} else {
-			$reciever = array(
+			$reciever = [
 				'store_name' => '',
 				'store_id'   => '',
 				'address'    => self::paynow_get_api_order_address( $order ),
-			);
+			];
 		}
 
 		return $reciever;

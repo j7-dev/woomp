@@ -15,9 +15,9 @@ if ( ! class_exists( 'RY_SmilePay' ) ) {
 
 			return wp_remote_post(
 				$post_url . '?' . http_build_query( $args, '', '&' ),
-				array(
+				[
 					'timeout' => 20,
-				)
+				]
 			);
 		}
 
@@ -34,7 +34,7 @@ if ( ! class_exists( 'RY_SmilePay' ) ) {
 				}
 			}
 
-			$ipn_info = array();
+			$ipn_info = [];
 			foreach ( $_POST as $key => $value ) {
 				if ( ! is_array( $value ) ) {
 					$ipn_info[ $key ] = wp_unslash( $value );

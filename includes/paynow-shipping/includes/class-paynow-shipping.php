@@ -108,7 +108,7 @@ class PayNow_Shipping {
 	 *
 	 * @var array
 	 */
-	public static $cvs_methods = array(
+	public static $cvs_methods = [
 		'paynow_shipping_c2c_711'                 => 'PayNow_Shipping_C2C_711',
 		'paynow_shipping_c2c_family'              => 'PayNow_Shipping_C2C_Family',
 		'paynow_shipping_c2c_hilife'              => 'PayNow_Shipping_C2C_Hilife',
@@ -118,18 +118,18 @@ class PayNow_Shipping {
 		'paynow_shipping_b2c_family_frozen'       => 'PayNow_Shipping_B2C_Family_Frozen',
 		'woomp_paynow_shipping_c2c_711_frozen'    => 'WOOMP_PayNow_Shipping_C2C_711_Frozen',
 		'woomp_paynow_shipping_c2c_family_frozen' => 'WOOMP_PayNow_Shipping_C2C_Family_Frozen',
-	);
+	];
 
 	/**
 	 * Home delivery methods (TCAT)
 	 *
 	 * @var array
 	 */
-	public static $hd_methods = array(
+	public static $hd_methods = [
 		'paynow_shipping_hd_tcat'                    => 'PayNow_Shipping_HD_TCat',
 		'woomp_paynow_shipping_hd_tcat_frozen'       => 'WOOMP_PayNow_Shipping_HD_TCat_Frozen',
 		'woomp_paynow_shipping_hd_tcat_refrigerated' => 'WOOMP_PayNow_Shipping_HD_TCat_Refrigerated',
-	);
+	];
 
 	/**
 	 * Class constructor. Do nothing.
@@ -161,41 +161,41 @@ class PayNow_Shipping {
 		self::$order_status_returned        = get_option( 'paynow_shipping_order_status_returned' );
 
 		// 顯示結帳欄位.
-		add_filter( 'woocommerce_checkout_fields', array( self::get_instance(), 'paynow_shpping_cvs_field' ), 9999 );
+		add_filter( 'woocommerce_checkout_fields', [ self::get_instance(), 'paynow_shpping_cvs_field' ], 9999 );
 
 		// 顯示選擇超商按鈕.
-		add_action( 'woocommerce_review_order_after_shipping', array( self::get_instance(), 'paynow_after_shipping_rate' ) );
+		add_action( 'woocommerce_review_order_after_shipping', [ self::get_instance(), 'paynow_after_shipping_rate' ] );
 
 		// 設定選擇超商 API 所需要的資料.
-		add_action( 'woocommerce_review_order_after_shipping', array( self::get_instance(), 'paynow_setup_shipping_info' ) );
+		add_action( 'woocommerce_review_order_after_shipping', [ self::get_instance(), 'paynow_setup_shipping_info' ] );
 
 		// 當 shipping method 改變時，回傳 cvs 資料.
-		add_filter( 'woocommerce_update_order_review_fragments', array( self::get_instance(), 'shipping_choose_cvs_info' ) );
+		add_filter( 'woocommerce_update_order_review_fragments', [ self::get_instance(), 'shipping_choose_cvs_info' ] );
 
 		// 將不必要的運送欄位取消.
-		add_action( 'woocommerce_checkout_process', array( self::get_instance(), 'paynow_shipping_fields_validation' ) );
+		add_action( 'woocommerce_checkout_process', [ self::get_instance(), 'paynow_shipping_fields_validation' ] );
 
 		// 結帳時將超商資料儲存至訂單 meta.
-		add_action( 'woocommerce_checkout_create_order', array( self::get_instance(), 'paynow_save_order_shipping_meta' ), 20, 2 );
+		add_action( 'woocommerce_checkout_create_order', [ self::get_instance(), 'paynow_save_order_shipping_meta' ], 20, 2 );
 
 		// 在結帳頁載入 js.
-		add_action( 'wp_enqueue_scripts', array( self::get_instance(), 'paynow_checkout_enqueue_scripts' ), 9 );
+		add_action( 'wp_enqueue_scripts', [ self::get_instance(), 'paynow_checkout_enqueue_scripts' ], 9 );
 
 		// 改變地址的顯示方式.
-		add_filter( 'woocommerce_order_formatted_shipping_address', array( self::get_instance(), 'paynow_raw_shipping_address' ), 10, 2 );
-		add_filter( 'woocommerce_localisation_address_formats', array( self::get_instance(), 'paynow_address_format' ) );
-		add_filter( 'woocommerce_formatted_address_replacements', array( self::get_instance(), 'paynow_shipping_address_replacements' ), 10, 2 );
+		add_filter( 'woocommerce_order_formatted_shipping_address', [ self::get_instance(), 'paynow_raw_shipping_address' ], 10, 2 );
+		add_filter( 'woocommerce_localisation_address_formats', [ self::get_instance(), 'paynow_address_format' ] );
+		add_filter( 'woocommerce_formatted_address_replacements', [ self::get_instance(), 'paynow_shipping_address_replacements' ], 10, 2 );
 
 		// add store info for google map.
-		add_filter( 'woocommerce_shipping_address_map_url_parts', array( self::get_instance(), 'paynow_shipping_address_map' ), 10, 2 );
+		add_filter( 'woocommerce_shipping_address_map_url_parts', [ self::get_instance(), 'paynow_shipping_address_map' ], 10, 2 );
 
-		add_action( 'woocommerce_order_details_after_order_table', array( self::get_instance(), 'paynow_shipping_detail_after_order_table' ), 10, 1 );
+		add_action( 'woocommerce_order_details_after_order_table', [ self::get_instance(), 'paynow_shipping_detail_after_order_table' ], 10, 1 );
 
-		add_action( 'admin_enqueue_scripts', array( self::get_instance(), 'paynow_enqueue_admin_script' ) );
+		add_action( 'admin_enqueue_scripts', [ self::get_instance(), 'paynow_enqueue_admin_script' ] );
 
 		// pro function
-		add_filter( 'bulk_actions-edit-shop_order', array( self::get_instance(), 'paynow_register_shipping_bulk_actions' ) );
-		add_action( 'wp_ajax_paynow_pre_print_label', array( self::get_instance(), 'paynow_ajax_pre_print_label' ), 10 );
+		add_filter( 'bulk_actions-edit-shop_order', [ self::get_instance(), 'paynow_register_shipping_bulk_actions' ] );
+		add_action( 'wp_ajax_paynow_pre_print_label', [ self::get_instance(), 'paynow_ajax_pre_print_label' ], 10 );
 	}
 
 	/**
@@ -220,7 +220,7 @@ class PayNow_Shipping {
 		$chosen_method           = strstr( $chosen_shipping_methods[0], ':', true );
 
 		if ( is_checkout() && self::needs_cvs( $chosen_method ) ) {
-			wc_get_template( 'cart/choose-cvs.php', array(), '', PAYNOW_SHIPPING_TEMPLATE_DIR );
+			wc_get_template( 'cart/choose-cvs.php', [], '', PAYNOW_SHIPPING_TEMPLATE_DIR );
 		}
 	}
 
@@ -230,7 +230,7 @@ class PayNow_Shipping {
 	 * @return void
 	 */
 	public static function paynow_setup_shipping_info() {
-		self::$js_data = array();
+		self::$js_data = [];
 
 		if ( WC()->session->get( 'chosen_shipping_methods' ) === null ) {
 			return;
@@ -286,11 +286,11 @@ class PayNow_Shipping {
 					self::$js_data['shipping_data']['methods'] = $chosen_method_id;
 				}
 			} elseif ( self::is_paynow_shipping_hd( $chosen_method_id ) ) {
-				self::$js_data['shipping_data']                       = array();
+				self::$js_data['shipping_data']                       = [];
 				self::$js_data['shipping_data']['Logistic_serviceID'] = $logistic_service_id;
 				self::$js_data['shipping_data']['methods']            = $chosen_method_id;
 			} else {
-				self::$js_data['shipping_data'] = array();
+				self::$js_data['shipping_data'] = [];
 			}
 
 			$fragments['paynow_shipping_info'] = apply_filters( 'paynow_setup_cvs_data', self::$js_data, $chosen_shipping_methods );
@@ -307,7 +307,7 @@ class PayNow_Shipping {
 	 */
 	public static function paynow_shipping_fields_validation() {
 		// phpcs:disable WordPress.Security.NonceVerification.Missing
-		$shipping_methods = isset( $_POST['shipping_method'] ) ? wc_clean( wp_unslash( $_POST['shipping_method'] ) ) : array();
+		$shipping_methods = isset( $_POST['shipping_method'] ) ? wc_clean( wp_unslash( $_POST['shipping_method'] ) ) : [];
 
 		self::log( 'shipping method: ' . wc_print_r( $shipping_methods, true ) );
 		$need_cvs       = false;
@@ -360,14 +360,14 @@ class PayNow_Shipping {
 
 		if ( $need_cvs ) {
 			if ( $is_fami_frozen ) {
-				add_filter( 'woocommerce_checkout_fields', array( self::get_instance(), 'setup_family_frozen_shipping_fields_requirements' ), 9999 );
+				add_filter( 'woocommerce_checkout_fields', [ self::get_instance(), 'setup_family_frozen_shipping_fields_requirements' ], 9999 );
 			} else {
-				add_filter( 'woocommerce_checkout_fields', array( self::get_instance(), 'setup_cvs_shipping_fields_requirements' ), 9999 );
+				add_filter( 'woocommerce_checkout_fields', [ self::get_instance(), 'setup_cvs_shipping_fields_requirements' ], 9999 );
 			}
 		} elseif ( $need_hd ) {
-			add_filter( 'woocommerce_checkout_fields', array( self::get_instance(), 'setup_hd_shipping_fields_requirements' ), 9999 );
+			add_filter( 'woocommerce_checkout_fields', [ self::get_instance(), 'setup_hd_shipping_fields_requirements' ], 9999 );
 		} else {
-			add_filter( 'woocommerce_checkout_fields', array( self::get_instance(), 'remove_shipping_phone_required' ), 9999 );
+			add_filter( 'woocommerce_checkout_fields', [ self::get_instance(), 'remove_shipping_phone_required' ], 9999 );
 		}
 		// phpcs:enable WordPress.Security.NonceVerification.Missing
 	}
@@ -516,7 +516,7 @@ class PayNow_Shipping {
 		$chosen_shipping_methods = WC()->session->get( 'chosen_shipping_methods' );
 
 		// @todo need to check if selected shipping method is cvs
-		$cvs_data = array(
+		$cvs_data = [
 			'source'             => 'paynow_checkout_enqueue_scripts',
 			'methods'            => $chosen_method_id,
 			'is_paynow_cvs'      => true,
@@ -526,13 +526,13 @@ class PayNow_Shipping {
 			'Logistic_serviceID' => PayNow_Shipping_Logistic_Service::get_service_id( $chosen_method_id ),
 			'returnUrl'          => esc_url( WC()->api_request_url( 'paynow_choose_cvs_callback' ) . '?cid=' . WC()->cart->get_cart_hash() ),
 			'ajax_url'           => self::$api_url . '/Member/Order/Choselogistics',
-		);
+		];
 
-		wp_register_script( 'paynow-shipping', PAYNOW_SHIPPING_PLUGIN_URL . 'assets/js/paynow-shipping-public.js', array( 'jquery' ), '1.0.12', true );
+		wp_register_script( 'paynow-shipping', PAYNOW_SHIPPING_PLUGIN_URL . 'assets/js/paynow-shipping-public.js', [ 'jquery' ], '1.0.12', true );
 		wp_localize_script( 'paynow-shipping', 'paynow_shipping_object', $cvs_data );
 		wp_enqueue_script( 'paynow-shipping' );
 
-		wp_enqueue_style( 'paynow-shipping', PAYNOW_SHIPPING_PLUGIN_URL . 'assets/css/paynow-shipping-public.css', array(), '1.0.0', 'all' );
+		wp_enqueue_style( 'paynow-shipping', PAYNOW_SHIPPING_PLUGIN_URL . 'assets/css/paynow-shipping-public.css', [], '1.0.0', 'all' );
 	}
 
 	/**
@@ -544,32 +544,32 @@ class PayNow_Shipping {
 
 		wp_enqueue_script( 'jquery-ui-dialog' );
 
-		wp_enqueue_style( 'paynow-shipping-admin', PAYNOW_SHIPPING_PLUGIN_URL . 'assets/css/paynow-shipping-admin.css', array(), '1.0.0', 'all' );
+		wp_enqueue_style( 'paynow-shipping-admin', PAYNOW_SHIPPING_PLUGIN_URL . 'assets/css/paynow-shipping-admin.css', [], '1.0.0', 'all' );
 
-		wp_enqueue_script( 'paynow-shipping-admin', PAYNOW_SHIPPING_PLUGIN_URL . 'assets/js/paynow-shipping-admin.js', array( 'jquery' ), '1.0.0', false );
+		wp_enqueue_script( 'paynow-shipping-admin', PAYNOW_SHIPPING_PLUGIN_URL . 'assets/js/paynow-shipping-admin.js', [ 'jquery' ], '1.0.0', false );
 		wp_localize_script(
 			'paynow-shipping-admin',
 			'paynow_shipping',
-			array(
+			[
 				'ajax_url'     => admin_url( 'admin-ajax.php' ),
 				'security'     => wp_create_nonce( 'paynow-shipping-order' ),
-				'translations' => array(
+				'translations' => [
 					'shipping_create_order_failed'  => __( 'Shipping create order failed.', 'paynow-shipping' ),
 					'shipping_renew_order_failed'   => __( 'Shipping renew order failed.', 'paynow-shipping' ),
 					'shipping_status_update_failed' => __( 'Shipping status update failed.', 'paynow-shipping' ),
 					'cancel_shipping_failed'        => __( 'Shipping order cancel failed.', 'paynow-shipping' ),
-				),
-			)
+				],
+			]
 		);
 
-		wp_enqueue_script( 'paynow-pro-admin', PAYNOW_SHIPPING_PLUGIN_URL . 'assets/js/paynow-pro-admin.js', array( 'jquery' ), '1.0.0', false );
+		wp_enqueue_script( 'paynow-pro-admin', PAYNOW_SHIPPING_PLUGIN_URL . 'assets/js/paynow-pro-admin.js', [ 'jquery' ], '1.0.0', false );
 		wp_localize_script(
 			'paynow-pro-admin',
 			'paynow_shipping_object',
-			array(
+			[
 				'ajax_url' => admin_url( 'admin-ajax.php' ),
 				'security' => wp_create_nonce( 'paynow-pro' ),
-			)
+			]
 		);
 	}
 
@@ -853,22 +853,22 @@ class PayNow_Shipping {
 			wp_die();
 		}
 		$order_ids = wc_clean( wp_unslash( $_POST['orderIds'] ) );
-		PayNow_Shipping::log( 'order_idsf:' . $order_ids );
+		self::log( 'order_idsf:' . $order_ids );
 		$order_ids_array = explode( ',', $order_ids );
 
 		// 物流服務對應到訂單的數量
-		$service_order_array = array(
-			PayNow_Shipping_Logistic_Service::SEVEN  => array(),
-			PayNow_Shipping_Logistic_Service::FAMI   => array(),
-			PayNow_Shipping_Logistic_Service::HILIFE => array(),
-			PayNow_Shipping_Logistic_Service::TCAT   => array(),
-		);
+		$service_order_array = [
+			PayNow_Shipping_Logistic_Service::SEVEN  => [],
+			PayNow_Shipping_Logistic_Service::FAMI   => [],
+			PayNow_Shipping_Logistic_Service::HILIFE => [],
+			PayNow_Shipping_Logistic_Service::TCAT   => [],
+		];
 		foreach ( $order_ids_array as $order_id ) {
-			PayNow_Shipping::log( 'order_id:' . $order_id );
+			self::log( 'order_id:' . $order_id );
 			$order = wc_get_order( $order_id );
 			if ( $order ) {
 				$service = $order->get_meta( PayNow_Shipping_Order_Meta::LogisticServiceId );
-				PayNow_Shipping::log( 'service:' . $service );
+				self::log( 'service:' . $service );
 				if ( $service && array_key_exists( $service, $service_order_array ) ) {
 					$service_order_array[ $service ][] = $order_id;
 				}
@@ -891,7 +891,7 @@ class PayNow_Shipping {
 			if ( empty( self::$log ) ) {
 				self::$log = new WC_Logger();
 			}
-			self::$log->log( $level, $message, array( 'source' => 'paynow-shipping' ) );
+			self::$log->log( $level, $message, [ 'source' => 'paynow-shipping' ] );
 		}
 	}
 

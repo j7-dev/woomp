@@ -5,7 +5,7 @@
 <?php if ( isset( $time_diff ) ) { ?>
 <p>
 	<?php
-	echo sprintf(
+	printf(
 		/* translators: %d: differ time (second) */
 		_n( 'Server time and Google Public NTP differ is %d second', 'Server time and Google Public NTP differ is %d seconds', $time_diff, 'ry-woocommerce-tools' ),
 		$time_diff

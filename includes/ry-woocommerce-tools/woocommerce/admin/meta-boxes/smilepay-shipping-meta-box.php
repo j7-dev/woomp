@@ -10,7 +10,7 @@ class RY_SmilePay_Shipping_Meta_Box {
 
 			foreach ( $theorder->get_items( 'shipping' ) as $item_id => $item ) {
 				if ( RY_SmilePay_Shipping::get_order_support_shipping( $item ) !== false ) {
-					add_meta_box( 'ry-smilepay-shipping-info', __( 'SmilePay shipping info', 'ry-woocommerce-tools' ), array( __CLASS__, 'output' ), 'shop_order', 'normal', 'high' );
+					add_meta_box( 'ry-smilepay-shipping-info', __( 'SmilePay shipping info', 'ry-woocommerce-tools' ), [ __CLASS__, 'output' ], 'shop_order', 'normal', 'high' );
 					break;
 				}
 			}
@@ -26,7 +26,7 @@ class RY_SmilePay_Shipping_Meta_Box {
 
 		$shipping_list = $theorder->get_meta( '_smilepay_shipping_info', true );
 		if ( ! is_array( $shipping_list ) ) {
-			$shipping_list = array();
+			$shipping_list = [];
 		} ?>
 <table cellpadding="0" cellspacing="0" class="widefat">
 	<thead>
@@ -87,11 +87,11 @@ class RY_SmilePay_Shipping_Meta_Box {
 			</td>
 			<td>
 			<?php /* translators: %1$s: date %2$s: time */ ?>
-			<?php echo sprintf( _x( '%1$s %2$s', 'Datetime', 'ry-woocommerce-tools' ), $item['edit']->date_i18n( wc_date_format() ), $item['edit']->date_i18n( wc_time_format() ) ); ?>
+			<?php printf( _x( '%1$s %2$s', 'Datetime', 'ry-woocommerce-tools' ), $item['edit']->date_i18n( wc_date_format() ), $item['edit']->date_i18n( wc_time_format() ) ); ?>
 			</td>
 			<td>
 			<?php /* translators: %1$s: date %2$s: time */ ?>
-			<?php echo sprintf( _x( '%1$s %2$s', 'Datetime', 'ry-woocommerce-tools' ), $item['create']->date_i18n( wc_date_format() ), $item['create']->date_i18n( wc_time_format() ) ); ?>
+			<?php printf( _x( '%1$s %2$s', 'Datetime', 'ry-woocommerce-tools' ), $item['create']->date_i18n( wc_date_format() ), $item['create']->date_i18n( wc_time_format() ) ); ?>
 			</td>
 			<td>
 			<?php

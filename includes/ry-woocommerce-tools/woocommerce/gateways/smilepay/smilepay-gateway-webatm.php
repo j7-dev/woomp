@@ -48,10 +48,10 @@ class RY_SmilePay_Gateway_Webatm extends RY_SmilePay_Gateway_Base {
 		wc_maybe_reduce_stock_levels( $order_id );
 		wc_release_stock_for_order( $order );
 
-		return array(
+		return [
 			'result'   => 'success',
 			'redirect' => $order->get_checkout_payment_url( true ),
-		);
+		];
 	}
 
 	public function process_admin_options() {

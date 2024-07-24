@@ -38,18 +38,18 @@ class Atm extends AbstractGateway {
 		$this->title            = $this->get_option( 'title' );
 		$this->description      = $this->get_option( 'description' );
 		$this->api_endpoint_url = 'api/atm';
-		$this->supports         = array( 'products' );
+		$this->supports         = [ 'products' ];
 
 		add_action(
 			'woocommerce_update_options_payment_gateways_' . $this->id,
-			array(
+			[
 				$this,
 				'process_admin_options',
-			)
+			]
 		);
-		add_filter( 'payuni_transaction_args_' . $this->id, array( $this, 'add_args' ), 10, 2 );
-		add_action( 'payuni_atm_check', array( $this, 'atm_expire' ), 10, 1 );
-		add_action( 'woocommerce_email_order_meta', array( $this, 'get_account_info' ), 10, 3 );
+		add_filter( 'payuni_transaction_args_' . $this->id, [ $this, 'add_args' ], 10, 2 );
+		add_action( 'payuni_atm_check', [ $this, 'atm_expire' ], 10, 1 );
+		add_action( 'woocommerce_email_order_meta', [ $this, 'get_account_info' ], 10, 3 );
 	}
 
 	/**
@@ -58,30 +58,30 @@ class Atm extends AbstractGateway {
 	 * @return void
 	 */
 	public function init_form_fields() {
-		$this->form_fields = array(
-			'enabled'     => array(
+		$this->form_fields = [
+			'enabled'     => [
 				'title'   => __( 'Enable/Disable', 'woocommerce' ),
 				'type'    => 'checkbox',
 				/* translators: %s: Gateway method title */
 				'label'   => sprintf( __( 'Enable %s', 'woomp' ), $this->method_title ),
 				'default' => 'no',
-			),
-			'title'       => array(
+			],
+			'title'       => [
 				'title'       => __( 'Title', 'woocommerce' ),
 				'type'        => 'text',
 				'default'     => $this->method_title,
 				'description' => __( 'This controls the title which the user sees during checkout.', 'woocommerce' ),
 				'desc_tip'    => true,
-			),
-			'description' => array(
+			],
+			'description' => [
 				'title'       => __( 'Description', 'woocommerce' ),
 				'type'        => 'textarea',
 				'css'         => 'width: 400px;',
 				'default'     => $this->order_button_text,
 				'description' => __( 'This controls the description which the user sees during checkout.', 'woocommerce' ),
 				'desc_tip'    => true,
-			),
-		);
+			],
+		];
 	}
 
 	/**
@@ -114,7 +114,7 @@ class Atm extends AbstractGateway {
 	 * @return array
 	 */
 	public function add_args( $args, $order ) {
-		$data              = array();
+		$data              = [];
 		$data['BankType']  = (string) $order->get_meta( '_' . $this->id . '-bank' );
 		$data['NotifyURL'] = home_url( 'wc-api/payuni_notify_atm' );
 
@@ -142,10 +142,10 @@ class Atm extends AbstractGateway {
 		$request = new Request( new self() );
 		$resp    = $request->build_request( $order );
 
-		return array(
+		return [
 			'result'   => 'success',
 			'redirect' => $this->get_return_url( $order ),
-		);
+		];
 	}
 
 	/**
