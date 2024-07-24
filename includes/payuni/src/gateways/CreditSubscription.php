@@ -101,15 +101,46 @@ class CreditSubscription extends AbstractGateway {
 	 * 針對信用卡定期定額付款額外添加傳入的 API 參數
 	 * 整理過後應該不用添加新的參數，所以直接 return
 	 *
-	 * @param array                                                                         $args  The payment api arguments.
+	 * @param array                                                                                        $args  The payment api arguments.
 	 * @see PAYUNI\Gateways\Request::get_transaction_args()
-	 * @param \WC_Order                                                                     $order The order object.
-	 * @param ?array{number:string, expiry:string, cvc:string, token_id:string, new:string} $card_data 卡片資料
+	 * @param \WC_Order                                                                                    $order The order object.
+	 * @param ?array{number:string, expiry:string, cvc:string, token_id:string, new:string, period:string} $card_data 卡片資料
 	 *
 	 * @return array
 	 */
 	public function add_args( array $args, \WC_Order $order, ?array $card_data ): array {
 		return $args;
+	}
+
+
+	/**
+	 * Process payment
+	 *
+	 * @param string $order_id The order id.
+	 *
+	 * @return array
+	 */
+	public function process_payment( $order_id ): array {
+		$instance  = new self();
+		$card_data = $instance->get_card_data();
+
+		$request = new Request( $instance );
+
+		/**
+		 * 如果沒有註冊費，需要扣 5 元來取得 token
+		 * 如果有註冊費，那就直接扣訂單金額就好
+		 *
+		 * @see https://github.com/j7-dev/woomp/issues/46#issuecomment-2143679058
+	*/
+		$order       = \wc_get_order( $order_id );
+		$order_total = (int) $order->get_total();
+
+		// 如果總金額為 0 ，就走 hash request 扣 5 元，之後退款.
+		if ( 0 === $order_total ) {
+			return $request->build_hash_request( $order, $card_data );
+		}
+
+		return $request->build_request( $order, $card_data );
 	}
 
 	/**

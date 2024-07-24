@@ -48,7 +48,7 @@ class Credit extends AbstractGateway {
 				'process_admin_options',
 			]
 		);
-		add_filter( 'payuni_transaction_args_' . $this->id, [ $this, 'add_args' ], 10, 2 );
+		add_filter( 'payuni_transaction_args_' . $this->id, [ $this, 'add_args' ], 10, 3 );
 	}
 
 	/**
@@ -98,6 +98,23 @@ class Credit extends AbstractGateway {
 		return $args;
 	}
 
+	/**
+	 * Process payment
+	 *
+	 * @param string $order_id The order id.
+	 *
+	 * @return array
+	 */
+	public function process_payment( $order_id ): array {
+		$instance  = new self();
+		$card_data = $instance->get_card_data();
+
+		$request = new Request( $instance );
+
+		$order = \wc_get_order( $order_id );
+
+		return $request->build_request( $order, $card_data );
+	}
 
 	/**
 	 * Display payment detail after order table

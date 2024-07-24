@@ -409,13 +409,11 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 		}
 
 		/**
-		 * Process payment
+		 * Get Card Data
 		 *
-		 * @param string $order_id The order id.
-		 *
-		 * @return array
+		 * @return ?array{number:string, expiry:string, cvc:string, token_id:string, new:string, period:string} $card_data 卡片資料
 		 */
-		public function process_payment( $order_id ): array {
+		public function get_card_data(): array {
 
 		// phpcs:disable
 		$number   = ( isset($_POST[ $this->id . '-card-number' ]) ) ? \wc_clean(\wp_unslash($_POST[ $this->id . '-card-number' ])) : '';
@@ -437,23 +435,7 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 				'period'   => $period,
 			];
 
-			$request = new Request( new self() );
-
-			/**
-			 * 如果沒有註冊費，需要扣 5 元來取得 token
-			 * 如果有註冊費，那就直接扣訂單金額就好
-			 *
-			 * @see https://github.com/j7-dev/woomp/issues/46#issuecomment-2143679058
-			*/
-			$order       = \wc_get_order( $order_id );
-			$order_total = (int) $order->get_total();
-
-			// 如果總金額為 0 且為定期定額付款，就走 hash request 扣 5 元，之後退款.
-			if ( 0 === $order_total && $this->id === 'payuni-credit-subscription' ) {
-				return $request->build_hash_request( $order, $card_data );
-			}
-
-			return $request->build_request( $order, $card_data );
+			return $card_data;
 		}
 
 		/**

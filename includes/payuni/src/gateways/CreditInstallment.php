@@ -47,7 +47,7 @@ class CreditInstallment extends AbstractGateway {
 				'process_admin_options',
 			]
 		);
-		add_filter( 'payuni_transaction_args_' . $this->id, [ $this, 'add_args' ], 10, 2 );
+		add_filter( 'payuni_transaction_args_' . $this->id, [ $this, 'add_args' ], 10, 3 );
 	}
 
 	/**
@@ -144,13 +144,15 @@ class CreditInstallment extends AbstractGateway {
 endif;
 	}
 
-	public function validate_fields() {
+	public function validate_fields(): bool {
 
 		parent::validate_fields();
 
 		if ( empty( $_POST[ $this->id . '-period' ] ) ) {
 			wc_add_notice( __( 'Credit card installment period is required', 'woomp' ), 'error' );
+			return false;
 		}
+		return true;
 	}
 
 	/**
@@ -166,6 +168,24 @@ endif;
 	 */
 	public function add_args( array $args, \WC_Order $order, ?array $card_data ): array {
 		return $args;
+	}
+
+	/**
+	 * Process payment
+	 *
+	 * @param string $order_id The order id.
+	 *
+	 * @return array
+	 */
+	public function process_payment( $order_id ): array {
+		$instance  = new self();
+		$card_data = $instance->get_card_data();
+
+		$request = new Request( $instance );
+
+		$order = \wc_get_order( $order_id );
+
+		return $request->build_request( $order, $card_data );
 	}
 
 	/**
