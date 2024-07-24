@@ -25,7 +25,7 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 		 *
 		 * @var string
 		 */
-		protected $id;
+		public $id;
 
 		/**
 		 *
