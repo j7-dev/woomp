@@ -146,7 +146,7 @@ class CreditSubscription extends AbstractGateway {
 	 *
 	 * @param string $order_id The order id.
 	 *
-	 * @return array
+	 * @return array{number:string, expiry:string, cvc:string, token_id:string, new:string}
 	 */
 	public function process_payment( $order_id ): array {
         //@codingStandardsIgnoreStart

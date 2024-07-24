@@ -87,13 +87,16 @@ class MyAccount {
 		if ( ! $user_id ) {
 			return;
 		}
+
+		$gateway_id = $token->get_gateway_id(); // 'payuni-credit-subscription'
+
 		// find all subscriptions for this user.
 		$subscriptions = \wcs_get_users_subscriptions( $user_id );
 		// get subscription post parent id.
 		$parent_order_ids = array();
 		foreach ( $subscriptions as $subscription ) {
 			$subscription_id = $subscription->get_id();
-			$subscription->set_payment_method( 'payuni-credit-subscription' ); // TODO 先固定值
+			$subscription->set_payment_method( $gateway_id );
 			$parent_id          = wp_get_post_parent_id( $subscription_id );
 			$parent_order_ids[] = $parent_id;
 		}
