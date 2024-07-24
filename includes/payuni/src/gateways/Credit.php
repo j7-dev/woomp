@@ -84,25 +84,18 @@ class Credit extends AbstractGateway {
 	}
 
 	/**
-	 * Filter payment api arguments for atm
+	 * 針對信用卡付款額外添加傳入的 API 參數
+	 * 整理過後應該不用添加新的參數，所以直接 return
 	 *
-	 * @param array    $args  The payment api arguments.
-	 * @param WC_Order $order The order object.
+	 * @param array                                                                         $args  The payment api arguments.
+	 * @see PAYUNI\Gateways\Request::get_transaction_args()
+	 * @param WC_Order                                                                      $order The order object.
+	 * @param ?array{number:string, expiry:string, cvc:string, token_id:string, new:string} $card_data 卡片資料
 	 *
 	 * @return array
 	 */
-	public function add_args( $args, $order ) {
-		$data = [];
-		if ( wc_string_to_bool( get_option( 'payuni_3d_auth', 'yes' ) ) ) {
-			$data['API3D'] = 1;
-			// $data[ 'NotifyURL' ] = home_url('wc-api/payuni_notify_card');
-			$data['ReturnURL'] = home_url( 'wc-api/payuni_notify_card' );
-		}
-
-		return array_merge(
-			$args,
-			$data
-		);
+	public function add_args( array $args, WC_Order $order, ?array $card_data ): array {
+		return $args;
 	}
 
 	/**

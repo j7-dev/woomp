@@ -98,17 +98,17 @@ class CreditSubscription extends AbstractGateway {
 	}
 
 	/**
-	 * 針對訂閱付款額外添加傳入的 API 參數
+	 * 針對信用卡定期定額付款額外添加傳入的 API 參數
 	 * 整理過後應該不用添加新的參數，所以直接 return
 	 *
 	 * @param array                                                                         $args  The payment api arguments.
 	 * @see PAYUNI\Gateways\Request::get_transaction_args()
-	 * @param WC_Order                                                                      $order The order object.
+	 * @param \WC_Order                                                                     $order The order object.
 	 * @param ?array{number:string, expiry:string, cvc:string, token_id:string, new:string} $card_data 卡片資料
 	 *
 	 * @return array
 	 */
-	public function add_args( array $args, WC_Order $order, array $card_data ): array {
+	public function add_args( array $args, \WC_Order $order, ?array $card_data ): array {
 		return $args;
 	}
 
@@ -120,14 +120,14 @@ class CreditSubscription extends AbstractGateway {
 	 * @return array
 	 */
 	public function process_payment( $order_id ): array {
-        //@codingStandardsIgnoreStart
-        $number   = (isset($_POST[ $this->id . '-card-number' ])) ? wc_clean(wp_unslash($_POST[ $this->id . '-card-number' ])) : '';
-        $expiry   = (isset($_POST[ $this->id . '-card-expiry' ])) ? wc_clean(wp_unslash(str_replace(' ', '', $_POST[ $this->id . '-card-expiry' ]))) : '';
-        $cvc      = (isset($_POST[ $this->id . '-card-cvc' ])) ? wc_clean(wp_unslash($_POST[ $this->id . '-card-cvc' ])) : '';
-        $token_id = (isset($_POST[ 'wc-' . $this->id . '-payment-token' ])) ? wc_clean(wp_unslash($_POST[ 'wc-' . $this->id . '-payment-token' ])) : ''; // 如果是 新增付款方式，這個值會是 new
-        $new      = (isset($_POST[ 'wc-' . $this->id . '-new-payment-method' ])) ? wc_clean(wp_unslash($_POST[ 'wc-' . $this->id . '-new-payment-method' ])) : ''; // □ 儲存付款資訊，下次付款更方便的 checkbox
-        //@codingStandardsIgnoreEnd
 
+		// phpcs:disable
+		$number   = ( isset($_POST[ $this->id . '-card-number' ]) ) ? wc_clean(wp_unslash($_POST[ $this->id . '-card-number' ])) : '';
+		$expiry   = ( isset($_POST[ $this->id . '-card-expiry' ]) ) ? wc_clean(wp_unslash(str_replace(' ', '', $_POST[ $this->id . '-card-expiry' ]))) : '';
+		$cvc      = ( isset($_POST[ $this->id . '-card-cvc' ]) ) ? wc_clean(wp_unslash($_POST[ $this->id . '-card-cvc' ])) : '';
+		$token_id = ( isset($_POST[ 'wc-' . $this->id . '-payment-token' ]) ) ? wc_clean(wp_unslash($_POST[ 'wc-' . $this->id . '-payment-token' ])) : ''; // 如果是 新增付款方式，這個值會是 new
+		$new      = ( isset($_POST[ 'wc-' . $this->id . '-new-payment-method' ]) ) ? wc_clean(wp_unslash($_POST[ 'wc-' . $this->id . '-new-payment-method' ])) : ''; // □ 儲存付款資訊，下次付款更方便的 checkbox
+		// phpcs:enable
 		/**
 		 * @var array{number:string, expiry:string, cvc:string, token_id:string, new:string} $card_data 卡片資料
 		 */
