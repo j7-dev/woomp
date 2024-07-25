@@ -23,10 +23,9 @@ jQuery(function ($) {
         $("#" + field + "_postcode_field")
       );
     }
-    if (
-      $("#billing_country").val() === "TW" &&
-      $("#shipping_country").val() === "TW"
-    ) {
+    //TODO $("#shipping_country").val() === "TW" 這個條件先隱藏起來，未來再補
+
+    if ($("#billing_country").val() === "TW") {
       $(".woocommerce-billing-fields,.woocommerce-shipping-fields").twzipcode();
 
       updateField("billing");
