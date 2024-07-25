@@ -230,6 +230,7 @@ final class Request {
 	/**
 	 * The request for subscription.
 	 * 訂閱的定期扣款走這邊
+	 * 未來如果用 get_transaction_args 取得參數，記得，不需要 3D 驗證
 	 *
 	 * @param int       $amount The amount.
 	 * @param \WC_Order $order The subscription order object.
