@@ -95,15 +95,12 @@ run_woomp();
 function woomp_remove_callback(): void {
 	$token_id = (int) $_GET['token_id'] ?? 0;
 	$redirect = $_GET['redirect'] ?? \admin_url();
-	ob_start();
-	var_dump( $token_id );
-	\J7\WpUtils\Classes\Log::info( '$token_id ' . ob_get_clean() );
 
 	if ( ! $token_id ) {
 		return;
 	}
 	\WC_Payment_Tokens::delete( $token_id );
-	\wp_redirect( $redirect ); // 重定向到主页或其他页面
+	\wp_safe_redirect( $redirect ); // 重定向到主页或其他页面
 	exit;
 }
 
