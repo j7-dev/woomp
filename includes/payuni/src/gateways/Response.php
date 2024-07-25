@@ -154,11 +154,8 @@ final class Response {
 
 		if ( $is_hash_request ) {
 			\wp_redirect( \wc_get_account_endpoint_url( 'payment-methods' ) );
-		} else {
-			\wp_redirect( $order->get_checkout_order_received_url() );
+			exit;
 		}
-
-		exit;
 	}
 
 	/**
