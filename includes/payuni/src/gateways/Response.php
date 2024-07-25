@@ -153,7 +153,12 @@ final class Response {
 		$order->save();
 
 		if ( $is_hash_request ) {
-			\wp_redirect( \wc_get_account_endpoint_url( 'payment-methods' ) );
+			\wp_safe_redirect( \wc_get_account_endpoint_url( 'payment-methods' ) );
+			exit;
+		}
+
+		if ( $is_3d_auth ) {
+			\wp_safe_redirect( $order->get_checkout_order_received_url() );
 			exit;
 		}
 	}
@@ -178,7 +183,13 @@ final class Response {
 		$trade_no = $data['MerTradeNo'] ?? '';
 		$order_id = (int) explode( '-', $trade_no )[0];
 		$order    = \wc_get_order( $order_id );
-		$user_id  = $order ? $order->get_customer_id() : \get_current_user_id();
+
+		$user_id = $order ? $order->get_customer_id() : \get_current_user_id();
+
+		$is_3d_auth = $order ? $order->get_meta( '_payuni_is_3d_auth' ) === 'yes' : key_exists(
+				'URL',
+				$data
+			);
 
 		$formatted_data['status']            = (string) ( $data['Status'] ?? '' );
 		$formatted_data['order_id']          = (int) $order_id;
@@ -194,10 +205,7 @@ final class Response {
 		$formatted_data['card_inst']         = ( $data['CardInst'] ?? '' ); // 分期
 		$formatted_data['each_amt']          = ( $data['EachAmt'] ?? '' ); // 每次多少
 		$formatted_data['first_amt']         = ( $data['FirstAmt'] ?? '' ); // 首次多少
-		$formatted_data['is_3d_auth']        = (bool) ( 'SUCCESS' === $formatted_data['status'] && key_exists(
-			'URL',
-			$data
-		) ); // 是否 3D 驗證
+		$formatted_data['is_3d_auth']        = (bool) ( 'SUCCESS' === $formatted_data['status'] && $is_3d_auth ); // 是否 3D 驗證
 
 		return $formatted_data;
 	}

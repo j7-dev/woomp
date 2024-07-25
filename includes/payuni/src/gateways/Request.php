@@ -167,6 +167,7 @@ final class Request {
 				$args['API3D'] = 1;
 				// $data[ 'NotifyURL' ] = home_url('wc-api/payuni_notify_card');
 				$args['ReturnURL'] = \home_url( 'wc-api/payuni_notify_card' );
+				$order->update_meta_data( '_payuni_is_3d_auth', 'yes' );
 			}
 
 			// 儲存 meta 資料在 order 上
