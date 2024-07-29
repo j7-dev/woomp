@@ -88,7 +88,14 @@ class MyAccount {
 			return;
 		}
 
-		$gateway_id = $token->get_gateway_id(); // 'payuni-credit-subscription'
+		$gateway_id            = $token->get_gateway_id(); // 'payuni-credit-subscription'
+		$payment_gateway_title = '';
+		if (function_exists('WC')) {
+			$available_gateways = \WC()->payment_gateways->get_available_payment_gateways();
+			if (isset($available_gateways[ $gateway_id ])) {
+				$payment_gateway_title = $available_gateways[ $gateway_id ]->get_title();
+			}
+		}
 
 		// find all subscriptions for this user.
 		$subscriptions = \wcs_get_users_subscriptions( $user_id );
@@ -97,7 +104,11 @@ class MyAccount {
 		foreach ( $subscriptions as $subscription ) {
 			$subscription_id = $subscription->get_id();
 			$subscription->set_payment_method( $gateway_id );
-			$parent_id          = wp_get_post_parent_id( $subscription_id );
+			\update_post_meta( $subscription_id, '_payment_method', $gateway_id );
+			\update_post_meta( $subscription_id, '_payment_method_title', $payment_gateway_title );
+
+			// 取得父訂單ID.
+			$parent_id          = \wp_get_post_parent_id( $subscription_id );
 			$parent_order_ids[] = $parent_id;
 		}
 
