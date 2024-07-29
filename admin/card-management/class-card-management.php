@@ -156,7 +156,10 @@ final class CardManagement {
 
 		$subscription_id = (int) $post->ID;
 		$subscription    = \wcs_get_subscription( $subscription_id );
-		return $subscription->get_parent();
+		if ($subscription) {
+			return $subscription->get_parent();
+		}
+		return null;
 	}
 
 	/**

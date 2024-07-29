@@ -104,8 +104,8 @@ class MyAccount {
 		foreach ( $subscriptions as $subscription ) {
 			$subscription_id = $subscription->get_id();
 			$subscription->set_payment_method( $gateway_id );
-			\update_post_meta( $subscription_id, '_payment_method', $gateway_id );
-			\update_post_meta( $subscription_id, '_payment_method_title', $payment_gateway_title );
+			$subscription->set_payment_method_title( $payment_gateway_title );
+			$subscription->save();
 
 			// 取得父訂單ID.
 			$parent_id          = \wp_get_post_parent_id( $subscription_id );
@@ -117,6 +117,8 @@ class MyAccount {
 			if ( ! $order ) {
 				continue;
 			}
+			$order->set_payment_method( $gateway_id );
+			$order->set_payment_method_title( $payment_gateway_title );
 			$order->update_meta_data( '_payuni_card_hash', $token->get_token() );
 			$order->update_meta_data( '_payuni_card_number', $token->get_last4() );
 			$order->update_meta_data( '_payuni_resp_card_bank', '不確定' );

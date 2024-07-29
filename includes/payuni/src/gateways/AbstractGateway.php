@@ -541,6 +541,8 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 			 */
 			$order = \wc_create_order();
 			$order->set_customer_id( \get_current_user_id() );
+			$order->set_payment_method( $this->id );
+			$order->set_payment_method_title( $this->get_title() );
 
 			// create Fee object.
 			$fee = new \WC_Order_Item_Fee();
