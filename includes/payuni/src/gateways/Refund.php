@@ -123,8 +123,9 @@ class Refund {
 		$resp    = json_decode( wp_remote_retrieve_body( $request ) );
 		$data    = Payment::decrypt( $resp->EncryptInfo );
 
-		$order = \wc_get_order( $order_id );
-		if ( $order ) {
+		$order       = \wc_get_order( $order_id );
+		$no_checkout = $order->get_meta( 'no_checkout' ) === 'yes';
+		if ( $order && $no_checkout ) {
 			$order->update_status( 'cancelled' );
 			$order->save();
 		}

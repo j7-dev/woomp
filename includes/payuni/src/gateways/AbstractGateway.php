@@ -543,6 +543,7 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 			$order->set_customer_id( \get_current_user_id() );
 			$order->set_payment_method( $this->id );
 			$order->set_payment_method_title( $this->get_title() );
+			$order->update_meta_data( 'no_checkout', 'yes' );
 
 			// create Fee object.
 			$fee = new \WC_Order_Item_Fee();

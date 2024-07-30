@@ -152,7 +152,9 @@ final class Response {
 		$order->update_meta_data( '_payuni_card_hash', $card_hash );
 		$order->save();
 
-		if ( $is_hash_request ) {
+		$no_checkout = $order->get_meta( 'no_checkout' ) === 'yes';
+
+		if ( $is_hash_request && $no_checkout ) {
 			\wp_safe_redirect( \wc_get_account_endpoint_url( 'payment-methods' ) );
 			exit;
 		}
