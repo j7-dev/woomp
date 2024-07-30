@@ -275,10 +275,11 @@ final class Request {
 
 	private function get_card_hash( $order ) {
 		$parent_order  = '';
-		$subscriptions = wcs_get_subscriptions_for_order( $order->get_id(), [ 'order_type' => 'any' ] );
+		$subscriptions = \wcs_get_subscriptions_for_order( $order->get_id(), [ 'order_type' => 'any' ] );
 		if ( $subscriptions ) {
 			foreach ( $subscriptions as $subscription_obj ) {
-				$parent_order = wc_get_order( $subscription_obj->get_parent_id() );
+				// 上層訂單
+				$parent_order = \wc_get_order( $subscription_obj->get_parent_id() );
 			}
 
 			$token_id = $parent_order->get_meta( '_payuni_token_id' );
