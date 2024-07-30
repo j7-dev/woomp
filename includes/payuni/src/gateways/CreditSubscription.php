@@ -136,7 +136,6 @@ class CreditSubscription extends AbstractGateway {
 		$order = \wc_get_order( $order_id );
 		// 刷卡有最小金額 20 元限制
 		$order_total = (int) $order->get_total();
-
 		// 如果`不是有效的 token id`，就走 hash request 扣 5 元，之後退款.
 		if ( !is_numeric( $token_id ) ) {
 			return $request->build_hash_request( $order, $card_data );

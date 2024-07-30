@@ -570,9 +570,9 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 				$return['result'] = 'failure';
 			}
 
-			$is_3d_auth = \wc_string_to_bool( \get_option( 'payuni_3d_auth', 'yes' ) );
+			$enable_3d_auth = \wc_string_to_bool( \get_option( 'payuni_3d_auth', 'yes' ) );
 
-			if ( ! $is_3d_auth ) {
+			if ( ! $enable_3d_auth ) {
 				// 如果不是 3D 驗證，就回到付款方式頁面
 				$return['redirect'] = \wc_get_endpoint_url( 'payment-methods' );
 			} else {

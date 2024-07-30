@@ -127,6 +127,8 @@ final class Response {
 			exit;
 		}
 
+		$order->payment_complete();
+
 		$order->update_meta_data( '_payuni_order_suffix', (int) $order->get_meta( '_payuni_order_suffix' ) + 1 );
 		$order->update_meta_data( '_payuni_resp_status', $status );
 		$order->update_meta_data( '_payuni_resp_message', $message );
@@ -150,6 +152,7 @@ final class Response {
 		}
 		$order->update_status( $status_success );
 		$order->update_meta_data( '_payuni_card_hash', $card_hash );
+
 		$order->save();
 
 		$no_checkout = $order->get_meta( 'no_checkout' ) === 'yes';

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @wordpress-plugin
  * Plugin Name:       好用版擴充 MorePower Addon for WooCommerce

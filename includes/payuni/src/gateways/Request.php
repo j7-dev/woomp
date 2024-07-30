@@ -333,6 +333,8 @@ final class Request {
 			$args['API3D'] = 1;
 			// $data[ 'NotifyURL' ] = home_url('wc-api/payuni_notify_card');
 			$args['ReturnURL'] = home_url( 'wc-api/payuni_notify_card' );
+			$order->update_meta_data( '_payuni_is_3d_auth', 'yes' );
+			$order->save();
 		}
 
 		Payment::log( $args );
@@ -361,11 +363,11 @@ final class Request {
 
 		// 如果是新增付款方式，就不需要再傳卡號、有效期、末三碼
 		if ( 'success' === $result['result'] && ! $result['is_3d_auth'] ) {
-			if ( $order ) {
-				// 更新訂單狀態為已完成.
-				$order->update_status( 'completed' );
-				$order->save();
-			}
+
+			// 更新訂單狀態為已完成.
+			$order->update_status( 'completed' );
+			$order->save();
+
 		}
 
 		return $result;
