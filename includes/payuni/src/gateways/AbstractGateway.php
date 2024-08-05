@@ -512,6 +512,16 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 			$new      = (isset($_POST['wc-' . $this->id . '-new-payment-method'])) ? \wc_clean(\wp_unslash($_POST['wc-' . $this->id . '-new-payment-method'])) : '';
 			//@codingStandardsIgnoreEnd
 
+			$is_valid = $this->validate_fields();
+
+			if ( ! $is_valid ) {
+				\wc_add_notice( '請輸入正確的卡片資訊', 'error' );
+				return [
+					'result'   => 'failure',
+					'redirect' => \wc_get_endpoint_url( 'payment-methods' ),
+				];
+			}
+
 			$card_data = [
 				'number'   => str_replace( ' ', '', $number ),
 				'expiry'   => str_replace( '/', '', $expiry ),
