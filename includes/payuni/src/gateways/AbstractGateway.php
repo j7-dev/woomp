@@ -382,29 +382,26 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 		 */
 		public function validate_fields(): bool {
 			//@codingStandardsIgnoreStart
+
 			if ($this->id !== $_POST['payment_method']) {
 				return false;
 			}
 
-			if (!isset($_POST['wc-' . $this->id . '-payment-token'])) { // 可能為 new 或 數字
-				return false;
-			}
-
-			if (\is_numeric($_POST['wc-' . $this->id . '-payment-token'])) {
+			if (\is_numeric($_POST["wc-{$this->id}-payment-token"] ?? '')) {
 				return true;
 			}
 
-			if (empty($_POST[$this->id . '-card-number'])) {
+			if (empty($_POST["{$this->id}-card-number"])) {
 				\wc_add_notice(\__('Credit card number is required', 'woomp'), 'error');
 				return false;
 			}
 
-			if (empty($_POST[$this->id . '-card-expiry'])) {
+			if (empty($_POST["{$this->id}-card-expiry"])) {
 				\wc_add_notice(\__('Credit card expired date is required', 'woomp'), 'error');
 				return false;
 			}
 
-			if (empty($_POST[$this->id . '-card-cvc'])) {
+			if (empty($_POST["{$this->id}-card-cvc"])) {
 				\wc_add_notice(\__('Credit card security code is required', 'woomp'), 'error');
 				return false;
 			}
