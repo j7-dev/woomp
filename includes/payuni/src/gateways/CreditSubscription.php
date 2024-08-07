@@ -136,21 +136,23 @@ class CreditSubscription extends AbstractGateway {
 		$order = \wc_get_order( $order_id );
 		// 刷卡有最小金額 20 元限制
 		$order_total = (int) $order->get_total();
-		// 如果`不是有效的 token id`，就走 hash request 扣 5 元，之後退款.
-		if ( !is_numeric( $token_id ) ) {
-			return $request->build_hash_request( $order, $card_data );
-		} elseif (0 === $order_total) {
-			// 持有 token 且訂單金額為 0，就直接回 order-received 頁面，直接變付款完成
-			$order->payment_complete();
-			// $order->update_status('processing');
-			$order->add_order_note("持有 token #{$token_id} 且訂單金額為 0，直接轉為處理中");
-			$order->update_meta_data('_payuni_token_id', $token_id);
-			$order->save();
-			return [
-				'result'   => 'success',
-				'redirect' => $this->get_return_url( $order ),
-			];
 
+		if (0 === $order_total) {
+			// 如果`不是有效的 token id`，就走 hash request 扣 5 元，之後退款.
+			if ( !is_numeric( $token_id ) ) {
+				return $request->build_hash_request( $order, $card_data );
+			} else {
+				// 持有 token 且訂單金額為 0，就直接回 order-received 頁面，直接變付款完成
+				$order->payment_complete();
+				// $order->update_status('processing');
+				$order->add_order_note("持有 token #{$token_id} 且訂單金額為 0，直接轉為處理中");
+				$order->update_meta_data('_payuni_token_id', $token_id);
+				$order->save();
+				return [
+					'result'   => 'success',
+					'redirect' => $this->get_return_url( $order ),
+				];
+			}
 		}
 
 		return $request->build_request( $order, $card_data );
