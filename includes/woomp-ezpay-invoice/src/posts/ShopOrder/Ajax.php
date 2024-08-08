@@ -38,9 +38,9 @@ class Ajax {
 			'_ezpay_invoice_type'         => sanitize_text_field( $_POST['_ezpay_invoice_type'] ),
 			'_ezpay_invoice_individual'   => sanitize_text_field( $_POST['_ezpay_invoice_individual'] ),
 			'_ezpay_invoice_carrier'      => sanitize_text_field( $_POST['_ezpay_invoice_carrier'] ),
-			'_ezpay_invoice_company_name' => sanitize_text_field( $_POST['_ezpay_invoice_company_name'] ),
-			'_ezpay_invoice_tax_id'       => sanitize_text_field( $_POST['_ezpay_invoice_tax_id'] ),
-			'_ezpay_invoice_donate'       => sanitize_text_field( $_POST['_ezpay_invoice_donate'] ),
+			'_ezpay_invoice_company_name' => sanitize_text_field( $_POST['_ezpay_invoice_company_name'] ?? '' ),
+			'_ezpay_invoice_tax_id'       => sanitize_text_field( $_POST['_ezpay_invoice_tax_id'] ?? '' ),
+			'_ezpay_invoice_donate'       => sanitize_text_field( $_POST['_ezpay_invoice_donate'] ?? '' ),
 		];
 		$order        = wc_get_order( $order_id );
 		$order->update_meta_data( '_ezpay_invoice_data', $invoice_data );

@@ -86,22 +86,31 @@ class EzPayInvoiceHandler {
 		$product_amt   = '';
 
 		foreach ( $order->get_items() as $item ) {
-			// print_r($item);
+			/**
+			 * @var \WC_Order_Item_Product $item
+			 */
+			if (!( $item instanceof \WC_Order_Item_Product )) {
+				continue;
+			}
+
+			$qty        = $item->get_quantity();
+			$total      = (float) $item->get_total();
+			$unit_price = $qty ? ( $total / $qty ) : 0;
+
 			$divide        = ( $i > 0 ) ? '|' : '';
-			$product       = $item->get_product();
 			$product_name .= $divide . preg_replace( '/[\s｜（）]+/u', '-', mb_substr( $item->get_name(), 0, 30, 'UTF-8' ) );
 			// $product_name .= $divide . '網路商品';
-			$product_count .= $divide . str_replace( ' ', '', $item->get_quantity() );
+			$product_count .= $divide . str_replace( ' ', '', $qty );
 			$product_unit  .= $divide . '件';
 
 			if ( 'company' === $invoice_type ) {
 				// B2B 未稅金額.
-				$product_price .= $divide . round( $product->get_price() / 1.05 );
-				$product_amt   .= $divide . round( $product->get_price() / 1.05 ) * $item->get_quantity();
+				$product_price .= $divide . round( $unit_price / 1.05 );
+				$product_amt   .= $divide . round( $total / 1.05 );
 			} else {
 				// B2C 含稅金額.
-				$product_price .= $divide . $product->get_price();
-				$product_amt   .= $divide . $product->get_price() * $item->get_quantity();
+				$product_price .= $divide . $unit_price;
+				$product_amt   .= $divide . $total;
 			}
 
 			++$i;
@@ -124,7 +133,7 @@ class EzPayInvoiceHandler {
 		$issue_data['Amt']             = round( $order->get_total() / 1.05 ); // 未稅.
 		$issue_data['TaxAmt']          = $order->get_total() - round( $order->get_total() / 1.05 ); // 稅額.
 		$issue_data['TotalAmt']        = $order->get_total(); // 發票金額.
-		$issue_data['ItemName']        = mb_substr( $product_name, 0, 30, 'UTF-8' ); // 商品名稱.
+		$issue_data['ItemName']        = $product_name; // 商品名稱.
 		$issue_data['ItemCount']       = $product_count; // 商品數量.
 		$issue_data['ItemUnit']        = $product_unit; // 商品單位.
 		$issue_data['ItemPrice']       = $product_price; // 商品單價.
