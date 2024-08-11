@@ -2,11 +2,18 @@
 
 namespace PAYUNI\Gateways;
 
+// 如果沒有啟用訂閱，就不初始化卡片管理
+if (!class_exists('WC_Subscriptions')) {
+	return;
+}
+
 use WC_Order;
 use WC_Product_Factory;
 use WC_Subscription;
 
 defined( 'ABSPATH' ) || exit;
+
+
 
 /**
  * Subscription class

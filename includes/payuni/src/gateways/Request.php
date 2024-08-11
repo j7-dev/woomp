@@ -274,6 +274,10 @@ final class Request {
 	}
 
 	private function get_card_hash( $order ) {
+		// 如果沒有啟用訂閱，就不初始化卡片管理
+		if (!class_exists('WC_Subscriptions')) {
+			return;
+		}
 		$parent_order  = '';
 		$subscriptions = \wcs_get_subscriptions_for_order( $order->get_id(), [ 'order_type' => 'any' ] );
 		if ( $subscriptions ) {

@@ -7,6 +7,11 @@ declare (strict_types = 1);
 
 namespace J7\Woomp\Admin\CardManagement;
 
+// 如果沒有啟用訂閱，就不初始化卡片管理
+if (!class_exists('WC_Subscriptions')) {
+	return;
+}
+
 /**
  * Class ShopSubscription
  */
