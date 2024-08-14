@@ -387,6 +387,11 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 				return false;
 			}
 
+			// ATM 是跳轉付款，直接返回 true
+			if('payuni-atm' === $this->id){
+				return true;
+			}
+
 			if (\is_numeric($_POST["wc-{$this->id}-payment-token"] ?? '')) {
 				return true;
 			}
