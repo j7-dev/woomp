@@ -168,6 +168,7 @@ class Paynow_Einvoice {
 		}
 
 		$result = $this->issue_einvoice( [ $order_id ] );
+
 		$this->pn_write_log( $result );
 
 		if ( count( $result ) > 1 ) {
@@ -387,6 +388,8 @@ class Paynow_Einvoice {
 					$carrier_type = '3J0002'; // 通用載具
 					$carrier_id1  = get_post_meta( $order->get_id(), '_paynow_ei_carrier_num', true );
 					$carrier_id2  = $carrier_id1;
+				} elseif ( $selected_carrier_type == '' ) {
+					$carrier_type = '';
 				}
 			} else {
 				// donate
@@ -497,6 +500,10 @@ class Paynow_Einvoice {
 		} else {
 			$response = [ $result ];
 		}
+
+		ob_start();
+		var_dump( $response );
+		\J7\WpUtils\Classes\Log::info( 'do_issue' . ob_get_clean() );
 
 		return $response;
 	}
@@ -664,12 +671,12 @@ class Paynow_Einvoice {
 			$buyer_name = $_POST['paynow_ei_buyer_name'];
 			$buyer_ubn  = $_POST['paynow_ei_ubn'];
 			if ( ! $buyer_name || ! $buyer_ubn ) {
-				wc_add_notice( __( 'Please input the company name and Unified Business NO', 'paynow-einvoice' ), 'error' );
+				\wc_add_notice( __( 'Please input the company name and Unified Business NO', 'paynow-einvoice' ), 'error' );
 			}
-		} elseif ( $issue_type == 'b2c' ) {
+		} elseif ( $issue_type == 'b2c' && '' !== $_POST['paynow_ei_carrier_type'] ) {
 			$carrier_num = $_POST['paynow_ei_carrier_num'];
 			if ( ! $carrier_num ) {
-				wc_add_notice( __( 'Please input the carrier number', 'paynow-einvoice' ), 'error' );
+				\wc_add_notice( __( 'Please input the carrier number', 'paynow-einvoice' ), 'error' );
 			}
 		}
 	}
@@ -859,9 +866,6 @@ class Paynow_Einvoice {
 	 * @return void
 	 */
 	public function paynow_update_order_einvoice_data( $order_id ): void {
-
-		$order = \wc_get_order( $order_id );
-
 		$fields = [
 			'paynow_ei_issue_type',
 			'paynow_ei_carrier_type',
@@ -872,16 +876,17 @@ class Paynow_Einvoice {
 		];
 
 		foreach ( $fields as $field ) {
-			if ( ! empty( $_POST[ $field ] ) ) {
-				\update_post_meta( $order->get_id(), '_' . $field, \sanitize_text_field( $_POST[ $field ] ) );
+			if ( empty( $_POST[ $field ] ) && 'paynow_ei_carrier_type' !== $field ) {
+				continue;
 			}
+			\update_post_meta( $order_id, '_' . $field, \sanitize_text_field( $_POST[ $field ] ) );
 		}
 	}
 
 	// 結帳顯示的選項
 	public function paynow_get_carrier_type() {
-		$carriers = [];
-
+		$carriers     = [];
+		$carriers[''] = __( '雲端載具', 'paynow-einvoice' );
 		if ( get_option( 'wc_settings_tab_carrier_type_mobile_code' ) == 'yes' ) {
 			$carriers['ei_carrier_type_mobile_code'] = __( 'Mobile Code', 'paynow-einvoice' );
 		}

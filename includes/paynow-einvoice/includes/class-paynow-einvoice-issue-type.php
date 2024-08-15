@@ -30,6 +30,8 @@ class PayNow_EInvoice_Issue_Type {
 
 	public static function getName( $carrier_type ) {
 		switch ( $carrier_type ) {
+			case '':
+				return '雲端載具';
 			case 'ei_carrier_type_ubn':
 				return '統一編號';
 			break;
