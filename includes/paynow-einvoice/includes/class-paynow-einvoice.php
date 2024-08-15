@@ -70,15 +70,23 @@ class Paynow_Einvoice {
 	private $mer_id;
 	private $mer_password;
 	private $api_url;
+	/**
+	 * 商家編號
+	 *
+	 * @var string
+	 */
+	private $mem_cid;
 
 	/**
-	 * Define the core functionality of the plugin.
+	 * 商家密碼
 	 *
-	 * Set the plugin name and the plugin version that can be used throughout the plugin.
-	 * Load the dependencies, define the locale, and set the hooks for the admin area and
-	 * the public-facing side of the site.
-	 *
-	 * @since    1.0.0
+	 * @var string
+	 */
+	private $mem_password;
+
+
+	/**
+	 * Constructor
 	 */
 	public function __construct() {
 		if ( defined( 'PAYNOW_EINVOICE_VERSION' ) ) {
@@ -88,11 +96,11 @@ class Paynow_Einvoice {
 		}
 		$this->plugin_name = 'paynow-einvoice';
 
-		$this->sandbox     = ( get_option( 'wc_settings_tab_paynow_einvoice_sandbox' ) == 'yes' ) ? true : false;
-		$this->log_enabled = ( 'yes' === get_option( 'paynow_einvoice_log_enabled', 'no' ) ) ? true : false;
+		$this->sandbox     = ( \get_option( 'wc_settings_tab_paynow_einvoice_sandbox' ) == 'yes' ) ? true : false;
+		$this->log_enabled = ( 'yes' === \get_option( 'paynow_einvoice_log_enabled', 'no' ) ) ? true : false;
 
-		$this->mem_cid      = get_option( 'wc_settings_tab_mem_cid' );
-		$this->mem_password = get_option( 'wc_settings_tab_mem_password' );
+		$this->mem_cid      = \get_option( 'wc_settings_tab_mem_cid' );
+		$this->mem_password = \get_option( 'wc_settings_tab_mem_password' );
 		$this->api_url      = ( $this->sandbox ) ? 'https://testinvoice.paynow.com.tw' : 'https://invoice.paynow.com.tw';
 
 		$this->load_dependencies();
@@ -315,36 +323,34 @@ class Paynow_Einvoice {
 		}
 	}
 
-	function paynow_ajax_cancel_einvoice() {
+	/**
+	 * 作廢發票 AJAX callback
+	 *
+	 * @return void
+	 */
+	public function paynow_ajax_cancel_einvoice(): void {
 
 		if ( check_ajax_referer( 'paynow_cancel_einvoice', '_wpnonce', false ) ) {
 
-			$order_id = $_GET['order_id'];
-			$order    = wc_get_order( $order_id );
+			$order_id = (int) $_GET['order_id']; // phpcs:ignore
+			$order    = \wc_get_order( $order_id );
 
-			// 已發行
-			// $is_issued = get_post_meta( $order_id, '_paynow_ei_issued', true );
-			// if ( !empty($is_issued) || $is_issued !== 'yes' ) {
-			// $this->logger->debug('電子發票尚未開立', $this->log_context );
-			// wp_send_json_error(array('message'=>'電子發票尚未開立' ));
-			// }
-
-			$invoice_no = get_post_meta( $order_id, '_paynow_ei_result_invoice_number', true );
+			$invoice_no = \get_post_meta( $order_id, '_paynow_ei_result_invoice_number', true );
 
 			$result = $this->cancel_invoice( $invoice_no );
 
-			if ( count( $result ) > 1 ) {
+			if ( 'S' === $result ) {
 				$order->add_order_note( __( 'Cancel E-Invoice Successfully:', 'paynow-einvoice' ) . $invoice_no );
-				wp_send_json_success( [ 'order_id' => $order_id ] );
+				\wp_send_json_success( [ 'order_id' => $order_id ] );
 			} else {
-				$order->add_order_note( __( 'Cancel E-Invoice Failed:', 'paynow-einvoice' ) . $result[0] );
-				wp_send_json_error( [ 'message' => __( 'Cancel E-Invoice Failed:', 'paynow-einvoice' ) . $result[0] ] );
+				$order->add_order_note( __( 'Cancel E-Invoice Failed:', 'paynow-einvoice' ) . $result );
+				\wp_send_json_error( [ 'message' => __( 'Cancel E-Invoice Failed:', 'paynow-einvoice' ) . $result ] );
 			}
 		} else {
-			wp_send_json_error();
+			\wp_send_json_error();
 		}
 
-		wp_die();
+		\wp_die();
 	}
 
 	// 開立發票
@@ -367,6 +373,7 @@ class Paynow_Einvoice {
 			$carrier_type = ''; // 載具類型
 			$carrier_id1  = ''; // 載具明碼
 			$carrier_id2  = ''; // 載具隱碼
+			$love_code    = ''; // 愛心碼
 
 			$buyer_addr = $this->get_buyer_addr( $order );
 
@@ -469,7 +476,7 @@ class Paynow_Einvoice {
 			'stream_context' => stream_context_create( $arrContextOptions ),
 		];
 
-		$client = new SoapClient( $this->api_url . '/PayNowEInvoice.asmx?wsdl', $options );
+		$client = new \SoapClient( $this->api_url . '/PayNowEInvoice.asmx?wsdl', $options );
 
 		$str = $this->build_invoice_str( $ei_datas );
 		// $this->pn_write_log( 'csvStr:' . $str );
@@ -501,15 +508,18 @@ class Paynow_Einvoice {
 			$response = [ $result ];
 		}
 
-		ob_start();
-		var_dump( $response );
-		\J7\WpUtils\Classes\Log::info( 'do_issue' . ob_get_clean() );
-
 		return $response;
 	}
 
-	private function cancel_invoice( $invoice_no ) {
-		$arrContextOptions = [
+	/**
+	 * 作廢發票
+	 *
+	 * @param string $invoice_no 發票號碼
+	 * @return string 'S' | 'F_XXXXXXXXXX'
+	 * @throws \Exception SoapClient class not found.
+	 */
+	private function cancel_invoice( string $invoice_no ): string {
+		$context_options = [
 			'ssl' => [
 				'verify_peer'       => false,
 				'verify_peer_name'  => false,
@@ -517,32 +527,31 @@ class Paynow_Einvoice {
 				'crypto_method'     => STREAM_CRYPTO_METHOD_TLS_CLIENT,
 			],
 		];
-		$options           = [
+		$options         = [
 			'soap_version'   => SOAP_1_2,
 			'exceptions'     => true,
 			'trace'          => 1,
 			'cache_wsdl'     => WSDL_CACHE_NONE,
-			'stream_context' => stream_context_create( $arrContextOptions ),
+			'stream_context' => stream_context_create( $context_options ),
 		];
 
-		$client = new SoapClient( $this->api_url . '/PayNowEInvoice.asmx?wsdl', $options );
-
-		$param_ary = [
+		$params = [
 			'mem_cid'   => $this->mem_cid,
 			'InvoiceNo' => $invoice_no,
 		];
-		// $this->pn_write_log( $param_ary );
 
-		$aryResult = $client->__soapCall( 'CancelInvoice_I', [ 'parameters' => $param_ary ] );
-		// $this->pn_write_log( $aryResult );
-		$result = $aryResult->CancelInvoice_IResult;
-		if ( $result === 'S' ) {
-			// $response = explode(',', $result);
-			$response = $result;
-		} else {
-			$response = [ $result ];
+		if (!class_exists('SoapClient')) {
+			return 'SoapClient class not found';
 		}
-		return $response;
+
+		$client = new \SoapClient( $this->api_url . '/PayNowEInvoice.asmx?wsdl', $options );
+
+		$soap_result = $client->__soapCall( 'CancelInvoice_I', [ 'parameters' => $params ] );
+
+		/** @var string $result 成功:S 失敗:F_  EX: S | F_電子發票(開立/作廢)失敗:資料庫存取失敗 */
+		$result = $soap_result->CancelInvoice_IResult; // phpcs:ignore
+
+		return $result;
 	}
 
 	function paynow_admin_order_meta_boxes() {
@@ -701,7 +710,7 @@ class Paynow_Einvoice {
 
 	function paynow_get_einvoice_url( $order_id, $invoice_no ) {
 
-		$arrContextOptions = [
+		$context_options = [
 			'ssl' => [
 				'verify_peer'       => false,
 				'verify_peer_name'  => false,
@@ -709,22 +718,22 @@ class Paynow_Einvoice {
 				'crypto_method'     => STREAM_CRYPTO_METHOD_TLS_CLIENT,
 			],
 		];
-		$options           = [
+		$options         = [
 			'soap_version'   => SOAP_1_2,
 			'exceptions'     => true,
 			'trace'          => 1,
 			'cache_wsdl'     => WSDL_CACHE_NONE,
-			'stream_context' => stream_context_create( $arrContextOptions ),
+			'stream_context' => stream_context_create( $context_options ),
 		];
 
 		$client = new SoapClient( $this->api_url . '/PayNowEInvoice.asmx?wsdl', $options );
 
-		$param_ary = [
+		$params = [
 			'mem_cid'   => $this->mem_cid,
 			'InvoiceNo' => $invoice_no,
 		];
 
-		$aryResult = $client->__soapCall( 'Get_InvoiceURL_I', [ 'parameters' => $param_ary ] );
+		$aryResult = $client->__soapCall( 'Get_InvoiceURL_I', [ 'parameters' => $params ] );
 		// $this->pn_write_log( '===>Get_InvoiceURL_I' );
 		// $this->pn_write_log( $aryResult );
 		$invoice_url = ( empty( $aryResult->Get_InvoiceURL_IResult ) ) ? '' : $aryResult->Get_InvoiceURL_IResult;
