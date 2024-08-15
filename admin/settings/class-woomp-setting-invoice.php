@@ -474,12 +474,20 @@ class Woomp_Setting_Invoice extends WC_Settings_Page {
 							'id'       => 'wc_settings_tab_tax_type',
 						],
 						'carrier_type'            => [
+							'name'          => __( '雲端會員載具', 'paynow-einvoice' ),
+							'type'          => 'checkbox',
+							'desc'          => __( '雲端會員載具', 'paynow-einvoice' ),
+							'default'       => 'yes',
+							'id'            => 'wc_settings_tab_carrier_type_cloud',
+							'checkboxgroup' => 'start',
+						],
+						[
 							'name'          => __( 'Carrier Type', 'paynow-einvoice' ),
 							'type'          => 'checkbox',
 							'desc'          => __( 'Mobile Code', 'paynow-einvoice' ),
 							'default'       => 'yes',
 							'id'            => 'wc_settings_tab_carrier_type_mobile_code',
-							'checkboxgroup' => 'start',
+							'checkboxgroup' => '',
 						],
 						[
 							'desc'          => __( 'Citizen Digital Certificate', 'paynow-einvoice' ),

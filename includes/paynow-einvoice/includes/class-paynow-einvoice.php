@@ -117,7 +117,7 @@ class Paynow_Einvoice {
 			// }
 
 			// 顯示電子發票欄位
-			$this->loader->add_action( 'woocommerce_after_order_notes', $this, 'paynow_einvoice_field' );
+			\add_action( 'woocommerce_after_order_notes', [ __CLASS__, 'paynow_einvoice_field' ], 10, 1 );
 
 			// 成立訂單後 inside create_order and just after $order->save()
 			$this->loader->add_action( 'woocommerce_checkout_update_order_meta', $this, 'paynow_update_order_einvoice_data' );
@@ -778,16 +778,72 @@ class Paynow_Einvoice {
 		<?php
 	}
 
+	/**
+	 * 發票類型選項
+	 *
+	 * @return array
+	 */
+	public static function get_issue_type_options(): array {
 
-	public function paynow_einvoice_field( $checkout ) {
-		$has_donate_orgs    = !!( $this->paynow_get_donate_org() );
-		$issue_type_options = [
+		$donate_orgs_options = self::get_donate_orgs_options();
+		$has_donate_orgs     = count($donate_orgs_options) > 1;
+		$issue_type_options  = [
 			'b2c' => __( 'Personal E-Invoice', 'paynow-einvoice' ),
 			'b2b' => __( 'Company E-Invoice', 'paynow-einvoice' ),
 		];
 		if ($has_donate_orgs) {
 			$issue_type_options['donate'] = __( 'Donate', 'paynow-einvoice' );
 		}
+		return $issue_type_options;
+	}
+
+	public static function get_einvoice_fields() {
+
+		$fields = [
+			'paynow_ei_issue_type' => [
+				'type'    => 'select',
+				'label'   => _x( 'Issue Type', 'checkout', 'paynow-einvoice' ),
+				'options' => self::get_issue_type_options(),
+			],
+			'paynow_ei_carrier_type' => [
+				'type'    => 'select',
+				'label'   => __( 'Carrier Type', 'paynow-einvoice' ),
+				'options' => self::get_carrier_type_options(),
+			],
+			'paynow_ei_buyer_name' => [
+				'type'        => 'text',
+				'label'       => __( 'Buyer Name', 'paynow-einvoice' ),
+				'placeholder' => __( 'Buyer Name', 'paynow-einvoice' ),
+				'required'    => false,
+			],
+			'paynow_ei_ubn' => [
+				'type'        => 'text',
+				'label'       => __( 'Unified Business NO', 'paynow-einvoice' ),
+				'placeholder' => __( 'Unified Business NO', 'paynow-einvoice' ),
+				'required'    => false,
+			],
+			'paynow_ei_carrier_num' => [
+				'type'        => 'text',
+				'label'       => __( 'Carrier Number', 'paynow-einvoice' ),
+				'placeholder' => __( 'Please input the Carrier Number', 'paynow-einvoice' ),
+				'required'    => false,
+			],
+			'paynow_ei_donate_org' => [
+				'type'     => 'select',
+				'label'    => __( 'Donate Organization', 'paynow-einvoice' ),
+				'required' => false,
+				'options'  => self::get_donate_orgs_options(),
+			],
+		];
+
+		return $fields;
+	}
+
+
+
+	public static function paynow_einvoice_field( $checkout ) {
+		$donate_orgs_options = self::get_donate_orgs_options();
+		$has_donate_orgs     = !!$donate_orgs_options;
 
 		echo '<div id="paynow-ei-fields" class="woomp">';
 		echo '<h3>發票資訊</h3>';
@@ -799,7 +855,7 @@ class Paynow_Einvoice {
 				'type'    => 'select',
 				'class'   => [ 'form-row-wide !mb-4' ],
 				'label'   => _x( 'Issue Type', 'checkout', 'paynow-einvoice' ),
-				'options' => $issue_type_options,
+				'options' => self::get_issue_type_options(),
 			],
 			$checkout->get_value( 'paynow_ei_issue_type' )
 		);
@@ -812,7 +868,7 @@ class Paynow_Einvoice {
 				'type'    => 'select',
 				'class'   =>[ 'form-row-wide !mb-4' ],
 				'label'   => __( 'Carrier Type', 'paynow-einvoice' ),
-				'options' => $this->paynow_get_carrier_type(),
+				'options' => self::get_carrier_type_options(),
 			],
 			$checkout->get_value( 'paynow_ei_carrier_type' )
 		);
@@ -823,7 +879,7 @@ class Paynow_Einvoice {
 			'paynow_ei_buyer_name',
 			[
 				'type'        => 'text',
-				'class'       => [ 'form-row-wide !mb-4' ],
+				'class'       => [ 'form-row-wide !mb-4 tw-hidden' ],
 				'label'       => __( 'Buyer Name', 'paynow-einvoice' ),
 				'placeholder' => __( 'Buyer Name', 'paynow-einvoice' ),
 				'required'    => false,
@@ -840,7 +896,7 @@ class Paynow_Einvoice {
 				'placeholder' => __( 'Unified Business NO', 'paynow-einvoice' ),
 				'required'    => false,
 				'default'     => '',
-				'class'       => [ 'form-row-wide !mb-4' ],
+				'class'       => [ 'form-row-wide !mb-4 tw-hidden' ],
 				'label'       => __( 'Unified Business NO', 'paynow-einvoice' ),
 			],
 			$checkout->get_value( 'paynow_ei_ubn' )
@@ -856,7 +912,7 @@ class Paynow_Einvoice {
 				'placeholder' => __( 'Please input the Carrier Number', 'paynow-einvoice' ),
 				'required'    => false,
 				'default'     => '',
-				'class'       => [ 'form-row-wide !mb-4' ],
+				'class'       => [ 'form-row-wide !mb-4 tw-hidden' ],
 			],
 			$checkout->get_value( 'paynow_ei_carrier_num' )
 		);
@@ -870,10 +926,10 @@ class Paynow_Einvoice {
 				'type'     => 'select',
 				'label'    => __( 'Donate Organization', 'paynow-einvoice' ),
 				'required' => false,
-				'options'  => $this->paynow_get_donate_org(),
-				'class'    => [ 'form-row-wide !mb-4' ],
+				'options'  => $donate_orgs_options,
+				'class'    => [ 'form-row-wide !mb-4 tw-hidden' ],
 			],
-			$checkout->get_value( 'paynow_ei_donate_org' )
+			''
 			);
 			echo '</div>';
 		}
@@ -905,27 +961,37 @@ class Paynow_Einvoice {
 		}
 	}
 
-	// 結帳顯示的選項
-	public function paynow_get_carrier_type() {
-		$carriers     = [];
-		$carriers[''] = __( '雲端載具', 'paynow-einvoice' );
-		if ( get_option( 'wc_settings_tab_carrier_type_mobile_code' ) == 'yes' ) {
+	/**
+	 * 載具類型 options
+	 *
+	 * @return array<string, string>
+	 */
+	public static function get_carrier_type_options(): array {
+		$carriers = [];
+
+		if ( \get_option( 'wc_settings_tab_carrier_type_cloud' ) == 'yes' ) {
+			$carriers[''] = __( '雲端載具', 'paynow-einvoice' );
+		}
+
+		if ( \get_option( 'wc_settings_tab_carrier_type_mobile_code' ) == 'yes' ) {
 			$carriers['ei_carrier_type_mobile_code'] = __( 'Mobile Code', 'paynow-einvoice' );
 		}
 
-		if ( get_option( 'wc_settings_tab_carrier_type_cdc_code' ) == 'yes' ) {
+		if ( \get_option( 'wc_settings_tab_carrier_type_cdc_code' ) == 'yes' ) {
 			$carriers['ei_carrier_type_cdc_code'] = __( 'Citizen Digital Certificate', 'paynow-einvoice' );
 		}
 
-		if ( get_option( 'wc_settings_tab_carrier_type_easycard_code' ) == 'yes' ) {
+		if ( \get_option( 'wc_settings_tab_carrier_type_easycard_code' ) == 'yes' ) {
 			$carriers['ei_carrier_type_easycard_code'] = __( 'Easy Card', 'paynow-einvoice' );
 		}
 
 		return $carriers;
 	}
 
-	public function paynow_get_donate_org() {
-		$orgs        = [];
+	public static function get_donate_orgs_options() {
+		$orgs        = [
+			'' => __( '請選擇', 'paynow-einvoice' ),
+		];
 		$org_strings = array_map( 'trim', explode( "\n", get_option( 'wc_settings_tab_donate_org', true ) ) );
 		if ($org_strings && is_array($org_strings)) {
 			foreach ( $org_strings as $org_string ) {

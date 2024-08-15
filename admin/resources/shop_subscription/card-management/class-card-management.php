@@ -127,7 +127,12 @@ final class CardManagement {
 	}
 
 
-	public function admin_enqueue_scripts() {
+	/**
+	 * Enqueue scripts and styles.
+	 *
+	 * @return void
+	 */
+	public function admin_enqueue_scripts(): void {
 		$screen         = \get_current_screen();
 		$screen_id      = $screen ? $screen->id : '';
 		$allowed_screen = [
@@ -188,10 +193,10 @@ final class CardManagement {
 		$formatted_data['card_type']    = $payment_token_data['card_type'];
 		$formatted_data['card_name']    = match ( $payment_token_data['card_type'] ) {
 			'visa'                          =>'VISA',
-			'mastercard'                =>'MasterCard',
-			'jcb'                               =>'JCB',
-			'union pay'                 =>'Union Pay',
-			'american express'  =>'American Express',
+			'mastercard'                    =>'MasterCard',
+			'jcb'                           =>'JCB',
+			'union pay'                     =>'Union Pay',
+			'american express'              =>'American Express',
 		};
 
 		return $formatted_data;
@@ -205,7 +210,7 @@ final class CardManagement {
 	public function woomp_set_default_callback(): void {
 		$token_id = (int) $_POST['token_id'] ?? 0;
 		$user_id  = (int) $_POST['user_id'] ?? 0;
-		$nonce    = $_POST['nonce'] ?? '';
+		$nonce    = $_POST['nonce'] ?? ''; // phpcs:ignore
 		if ( ! $token_id || ! $user_id ) {
 			\wp_send_json(
 				[
@@ -250,7 +255,7 @@ final class CardManagement {
 	 */
 	public function woomp_remove_callback(): void {
 		$token_id = (int) $_POST['token_id'] ?? 0;
-		$nonce    = $_POST['nonce'] ?? '';
+		$nonce    = $_POST['nonce'] ?? ''; // phpcs:ignore
 
 		if ( ! \wp_verify_nonce( $nonce, 'woomp' ) ) {
 			\wp_send_json(

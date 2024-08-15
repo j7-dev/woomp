@@ -59,10 +59,10 @@ final class ShopSubscription {
 	 * 1. 每次訂閱訂單續訂時，複製訂單時觸發，將發票資訊同步至新訂單 #35
 	 * 2. 避免有人更換預設的付款方式，結果還是用原始(第一筆)訂單的付款資訊扣款
 	 *
-	 * @param array            $data order data
-	 * @param \WC_Order        $to_object new order object
-	 * @param \WC_Subscription $from_object original order object
-	 * @param string           $copy_type copy type "renewal_order"
+	 * @param array                                                          $data order data
+	 * @param \WC_Order|\WC_Subscription                                     $to_object (續訂)|(新訂)
+	 * @param \WC_Subscription|\Automattic\WooCommerce\Admin\Overrides\Order $from_object (續訂)|(新訂)
+	 * @param string                                                         $copy_type  "renewal_order"(續訂)|"subscription"(新訂)
 	 *
 	 * @return array
 	 */
@@ -80,10 +80,12 @@ public static function sync_invoice_data_at_renew_subscription( $data, $to_objec
 			'_paynow_ei_issue_type',
 			'_paynow_ei_carrier_type',
 			'_paynow_ei_buyer_name',
+			'_paynow_ei_ubn',
 			'_paynow_ei_donate_org',
-			'_paynow_ei_issued',
-			'_paynow_ei_result_invoice_number',
-			'_paynow_invoice_url',
+			'_paynow_ei_carrier_num',
+			// '_paynow_ei_issued', // 不需要同步此欄位
+			// '_paynow_ei_result_invoice_number', // 不需要同步此欄位
+			// '_paynow_invoice_url', // 不需要同步此欄位
 		];
 		foreach ( $fields as $field ) {
 			if ( ! metadata_exists( 'post', $from_object->get_id(), $field ) ) {
