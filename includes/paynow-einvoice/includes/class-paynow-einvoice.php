@@ -771,44 +771,51 @@ class Paynow_Einvoice {
 
 
 	public function paynow_einvoice_field( $checkout ) {
-		echo '<div id="paynow-ei-fields"><h3>發票資訊</h3>';
+		$has_donate_orgs    = !!( $this->paynow_get_donate_org() );
+		$issue_type_options = [
+			'b2c' => __( 'Personal E-Invoice', 'paynow-einvoice' ),
+			'b2b' => __( 'Company E-Invoice', 'paynow-einvoice' ),
+		];
+		if ($has_donate_orgs) {
+			$issue_type_options['donate'] = __( 'Donate', 'paynow-einvoice' );
+		}
+
+		echo '<div id="paynow-ei-fields" class="woomp">';
+		echo '<h3>發票資訊</h3>';
 
 		echo '<div id="paynow-ei-issue-type" class="paynow-field">';
-		woocommerce_form_field(
+		\woocommerce_form_field(
 			'paynow_ei_issue_type',
 			[
 				'type'    => 'select',
-				'class'   => [ 'input-checkbox' ],
-				'label'   => _x( 'Issue Type', 'checkout', 'paynow-einvoice' ),
-				'options' => [
-					'b2c'    => __( 'Personal E-Invoice', 'paynow-einvoice' ),
-					'b2b'    => __( 'Company E-Invoice', 'paynow-einvoice' ),
-					'donate' => __( 'Donate', 'paynow-einvoice' ),
-				],
+				'class'   => [ 'form-row-wide !mb-4' ],
+				'label'   => _x( 'Issue Type', 'checkout', 'paynow-einvoice' ),
+				'options' => $issue_type_options,
 			],
 			$checkout->get_value( 'paynow_ei_issue_type' )
 		);
 		echo '</div>';
 
 		echo '<div id="paynow-ei-carrier-type" class="paynow-field">';
-		woocommerce_form_field(
+		\woocommerce_form_field(
 			'paynow_ei_carrier_type',
 			[
 				'type'    => 'select',
-				'class'   => [ 'input-checkbox' ],
+				'class'   =>[ 'form-row-wide !mb-4' ],
 				'label'   => __( 'Carrier Type', 'paynow-einvoice' ),
 				'options' => $this->paynow_get_carrier_type(),
-
 			],
 			$checkout->get_value( 'paynow_ei_carrier_type' )
 		);
 		echo '</div>';
 
-		echo '<div id="paynow-ei-company-title" class="paynow-field">';
-		woocommerce_form_field(
+		echo '<div id="paynow-ei-buyer-name" class="paynow-field">';
+		\woocommerce_form_field(
 			'paynow_ei_buyer_name',
 			[
 				'type'        => 'text',
+				'class'       => [ 'form-row-wide !mb-4' ],
+				'label'       => __( 'Buyer Name', 'paynow-einvoice' ),
 				'placeholder' => __( 'Buyer Name', 'paynow-einvoice' ),
 				'required'    => false,
 			],
@@ -817,20 +824,22 @@ class Paynow_Einvoice {
 		echo '</div>';
 
 		echo '<div id="paynow-ei-ubn" class="paynow-field">';
-		woocommerce_form_field(
+		\woocommerce_form_field(
 			'paynow_ei_ubn',
 			[
 				'type'        => 'text',
 				'placeholder' => __( 'Unified Business NO', 'paynow-einvoice' ),
 				'required'    => false,
 				'default'     => '',
+				'class'       => [ 'form-row-wide !mb-4' ],
+				'label'       => __( 'Unified Business NO', 'paynow-einvoice' ),
 			],
 			$checkout->get_value( 'paynow_ei_ubn' )
 		);
 		echo '</div>';
 
 		echo '<div id="paynow-ei-carrier-num" class="paynow-field">';
-		woocommerce_form_field(
+		\woocommerce_form_field(
 			'paynow_ei_carrier_num',
 			[
 				'type'        => 'text',
@@ -838,23 +847,27 @@ class Paynow_Einvoice {
 				'placeholder' => __( 'Please input the Carrier Number', 'paynow-einvoice' ),
 				'required'    => false,
 				'default'     => '',
+				'class'       => [ 'form-row-wide !mb-4' ],
 			],
 			$checkout->get_value( 'paynow_ei_carrier_num' )
 		);
 		echo '</div>';
 
-		echo '<div id="paynow-ei-org" class="paynow-field">';
-		woocommerce_form_field(
+		if ($has_donate_orgs) {
+			echo '<div id="paynow-ei-org" class="paynow-field">';
+			\woocommerce_form_field(
 			'paynow_ei_donate_org',
 			[
 				'type'     => 'select',
 				'label'    => __( 'Donate Organization', 'paynow-einvoice' ),
 				'required' => false,
 				'options'  => $this->paynow_get_donate_org(),
+				'class'    => [ 'form-row-wide !mb-4' ],
 			],
 			$checkout->get_value( 'paynow_ei_donate_org' )
-		);
-		echo '</div>';
+			);
+			echo '</div>';
+		}
 
 		echo '</div>';
 	}
