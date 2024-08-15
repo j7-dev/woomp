@@ -272,7 +272,7 @@ class PayNow_Shipping {
 		}
 
 		$chosen_shipping_methods = WC()->session->get( 'chosen_shipping_methods' );
-		$chosen_method_id        = strstr( $chosen_shipping_methods[0], ':', true );
+		$chosen_method_id        = strstr( $chosen_shipping_methods[0] ?? '', ':', true );
 
 		if ( ! empty( self::$js_data ) ) {
 
@@ -507,7 +507,7 @@ class PayNow_Shipping {
 		}
 
 		$chosen_shipping_methods = WC()->session->get( 'chosen_shipping_methods' );
-		$chosen_method_id        = strstr( $chosen_shipping_methods[0], ':', true );
+		$chosen_method_id        = strstr( $chosen_shipping_methods[0] ?? '', ':', true );
 
 		$iv              = utf8_encode( '12345678' );
 		$key             = utf8_encode( '123456789070828783123456' ); // key length = 24.

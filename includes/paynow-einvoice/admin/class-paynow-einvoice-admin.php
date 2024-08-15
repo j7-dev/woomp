@@ -1,5 +1,4 @@
 <?php
-
 /**
  * The admin-specific functionality of the plugin.
  *
@@ -20,7 +19,7 @@
  * @subpackage Paynow_Einvoice/admin
  * @author     PayNow <hello@paynow.com.tw>
  */
-class Paynow_Einvoice_Admin {
+final class Paynow_Einvoice_Admin {
 
 	/**
 	 * The ID of this plugin.
