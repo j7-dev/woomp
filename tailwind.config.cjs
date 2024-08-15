@@ -6,7 +6,7 @@ module.exports = {
 		preflight: false,
 	},
 	content: [
-		'./admin/card-management/**/*.php',
+		'./**/*.php',
 	],
 	theme: {
 		extend: {

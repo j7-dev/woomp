@@ -505,8 +505,8 @@ class Woomp_Setting_Invoice extends WC_Settings_Page {
 						'donate_org'              => [
 							'name'     => __( 'Donated Organization', 'paynow-einvoice' ),
 							'type'     => 'textarea',
-							'desc'     => '輸入捐增機構(每行一筆)，格式為：愛心碼|社福團體名稱',
-							'desc_tip' => true,
+							'desc'     => '輸入捐增機構(每行一筆)，格式為：愛心碼|社福團體名稱，例如：919|創世基金會',
+							'desc_tip' => false,
 							'id'       => 'wc_settings_tab_donate_org',
 						],
 						'section_end'             => [

@@ -75,6 +75,7 @@ class Woomp_Public {
 		 */
 
 		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/woomp-public.css', [], $this->version, 'all' );
+		\wp_enqueue_style( 'woomp-main', WOOMP_PLUGIN_URL . 'admin/css/main.min.css', [], \WOOMP_VERSION );
 	}
 
 	/**
