@@ -169,7 +169,7 @@ class Paynow_Einvoice {
 
 		$result = $this->issue_einvoice( [ $order_id ] );
 
-		$this->pn_write_log( $result );
+		// $this->pn_write_log( $result );
 
 		if ( count( $result ) > 1 ) {
 
@@ -203,8 +203,8 @@ class Paynow_Einvoice {
 			}
 
 			$result = $this->issue_einvoice( [ $order_id ] );
-			$this->pn_write_log( '===>ajax issue einvoice' );
-			$this->pn_write_log( $result );
+			// $this->pn_write_log( '===>ajax issue einvoice' );
+			// $this->pn_write_log( $result );
 
 			if ( count( $result ) > 1 ) {
 
@@ -262,8 +262,8 @@ class Paynow_Einvoice {
 		if ( count( $issued_orders ) > 0 ) {
 
 			$result = $this->issue_einvoice( $issued_orders );
-			$this->pn_write_log( '====>bulk issue invoice' );
-			$this->pn_write_log( $result );
+			// $this->pn_write_log( '====>bulk issue invoice' );
+			// $this->pn_write_log( $result );
 
 			if ( count( $result ) > 1 ) {
 
@@ -361,12 +361,12 @@ class Paynow_Einvoice {
 			}
 
 			$issue_type = get_post_meta( $order->get_id(), '_paynow_ei_issue_type', true );
-			$this->pn_write_log( '發行方式：' . $issue_type );
+			// $this->pn_write_log( '發行方式：' . $issue_type );
 
 			// 統一編號，若為個人為空
 			$carrier_type = ''; // 載具類型
-			$$carrier_id1 = ''; // 載具明碼
-			$$carrier_id2 = ''; // 載具隱碼
+			$carrier_id1  = ''; // 載具明碼
+			$carrier_id2  = ''; // 載具隱碼
 
 			$buyer_addr = $this->get_buyer_addr( $order );
 
@@ -443,11 +443,11 @@ class Paynow_Einvoice {
 			}
 		} //endforeach
 
-		$this->pn_write_log( '===>ei_datas' );
-		$this->pn_write_log( $ei_datas );
+		// $this->pn_write_log( '===>ei_datas' );
+		// $this->pn_write_log( $ei_datas );
 
 		$result = $this->do_issue( $ei_datas );
-		$this->pn_write_log( $result );
+		// $this->pn_write_log( $result );
 
 		return $result;
 	}
@@ -472,7 +472,7 @@ class Paynow_Einvoice {
 		$client = new SoapClient( $this->api_url . '/PayNowEInvoice.asmx?wsdl', $options );
 
 		$str = $this->build_invoice_str( $ei_datas );
-		$this->pn_write_log( 'csvStr:' . $str );
+		// $this->pn_write_log( 'csvStr:' . $str );
 
 		$encoded_s = urlencode( base64_encode( $str ) );
 
@@ -482,10 +482,10 @@ class Paynow_Einvoice {
 			'csvStr'       => $encoded_s,
 		];
 
-		$this->pn_write_log( $param_ary );
+		// $this->pn_write_log( $param_ary );
 		$aryResult = $client->__soapCall( 'UploadInvoice_Patch', [ 'parameters' => $param_ary ] );
-		$this->pn_write_log( '====>UploadInvoice_Patch' );
-		$this->pn_write_log( $aryResult );
+		// $this->pn_write_log( '====>UploadInvoice_Patch' );
+		// $this->pn_write_log( $aryResult );
 		$result = $aryResult->UploadInvoice_PatchResult;
 
 		if ( strpos( $result, 'S_' ) === 0 ) {
@@ -531,10 +531,10 @@ class Paynow_Einvoice {
 			'mem_cid'   => $this->mem_cid,
 			'InvoiceNo' => $invoice_no,
 		];
-		$this->pn_write_log( $param_ary );
+		// $this->pn_write_log( $param_ary );
 
 		$aryResult = $client->__soapCall( 'CancelInvoice_I', [ 'parameters' => $param_ary ] );
-		$this->pn_write_log( $aryResult );
+		// $this->pn_write_log( $aryResult );
 		$result = $aryResult->CancelInvoice_IResult;
 		if ( $result === 'S' ) {
 			// $response = explode(',', $result);
@@ -725,8 +725,8 @@ class Paynow_Einvoice {
 		];
 
 		$aryResult = $client->__soapCall( 'Get_InvoiceURL_I', [ 'parameters' => $param_ary ] );
-		$this->pn_write_log( '===>Get_InvoiceURL_I' );
-		$this->pn_write_log( $aryResult );
+		// $this->pn_write_log( '===>Get_InvoiceURL_I' );
+		// $this->pn_write_log( $aryResult );
 		$invoice_url = ( empty( $aryResult->Get_InvoiceURL_IResult ) ) ? '' : $aryResult->Get_InvoiceURL_IResult;
 
 		update_post_meta( $order_id, '_paynow_invoice_url', $invoice_url );
@@ -932,6 +932,12 @@ class Paynow_Einvoice {
 		return $orgs;
 	}
 
+	/**
+	 * 寫入日誌
+	 *
+	 * @param mixed $log 日誌
+	 * @deprecated
+	 */
 	public function pn_write_log( $log ) {
 
 		if ( is_array( $log ) || is_object( $log ) ) {
