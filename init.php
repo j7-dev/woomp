@@ -351,62 +351,18 @@ if ( in_array( 'woomp/woomp.php', WOOMP_ACTIVE_PLUGINS, true ) ) {
  */
 require_once WOOMP_PLUGIN_DIR . 'includes/payuni/payuni.php';
 
-
-/**
- * 整合 WooCommerce Subscriptions
- * 1. 每次訂閱訂單續訂時，複製訂單時觸發，將發票資訊同步至新訂單 #35
- * 2. 避免有人更換預設的付款方式，結果還是用原始(第一筆)訂單的付款資訊扣款
- */
-function integrate_with_ecpay_ezpay_invoice() {
-	if ( ! class_exists( 'WC_Subscriptions' ) ) {
-		return;
-	}
-	add_filter( 'wc_subscriptions_object_data', 'sync_invoice_data_at_renew_subscription', 100, 4 );
-}
-
-\add_action( 'plugins_loaded', 'integrate_with_ecpay_ezpay_invoice' );
-
-
-/**
- * 複製訂單時同步發票資訊
- *
- * @param array            $data order data
- * @param \WC_Order        $to_object new order object
- * @param \WC_Subscription $from_object original order object
- * @param string           $copy_type copy type "renewal_order"
- *
- * @return array
- */
-function sync_invoice_data_at_renew_subscription( $data, $to_object, $from_object, $copy_type ) {
-	if ( ! method_exists( $from_object, 'get_meta' ) || ! method_exists( $to_object, 'update_meta_data' ) ) {
-		return $data;
-	}
-
-	$_ecpay_invoice_data = $from_object?->get_meta( '_ecpay_invoice_data' );
-	if ( ! empty( $_ecpay_invoice_data ) ) {
-		$to_object?->update_meta_data( '_ecpay_invoice_data', $_ecpay_invoice_data );
-	}
-
-	$_ezpay_invoice_data = $from_object?->get_meta( '_ezpay_invoice_data' );
-	if ( ! empty( $_ezpay_invoice_data ) ) {
-		$to_object?->update_meta_data( '_ezpay_invoice_data', $_ezpay_invoice_data );
-	}
-
-	return $data;
-}
-
 /**
  * 添加統一金信用法付款描述
- * TODO 應該可以寫得更好才對
  */
 \add_action( 'woocommerce_credit_card_form_start', 'add_payment_description', 10 );
 
-function add_payment_description( string $payment_method_id ) {
-	$selected_payment_method = WC()->payment_gateways()->payment_gateways()[ $payment_method_id ];
-	$description             = $selected_payment_method->get_description();
+function add_payment_description( string $payment_method_id ): void {
+	$selected_payment_method = WC()->payment_gateways()->payment_gateways()[ $payment_method_id ] ?? null;
+
+	$description = $selected_payment_method?->get_description();
 
 	if ( $description ) {
-		echo wpautop( wptexturize( $description ) );
+		echo \wpautop( \wptexturize( $description ) );
 	}
 }
 
@@ -418,6 +374,43 @@ function add_payment_description( string $payment_method_id ) {
 
 
 function woomp_plugin_update_checker(): void {
+
+	// 移除 EMAIL
+	// \add_action(
+	// 'init',
+	// function () {
+	// 	$hooks = [
+	// 		'woocommerce_order_status_pending_to_processing_notification',
+	// 		'woocommerce_order_status_pending_to_completed_notification',
+	// 		'woocommerce_order_status_pending_to_on-hold_notification',
+	// 		'woocommerce_order_status_failed_to_processing_notification',
+	// 		'woocommerce_order_status_failed_to_completed_notification',
+	// 		'woocommerce_order_status_failed_to_on-hold_notification',
+	// 		'woocommerce_order_status_cancelled_to_processing_notification',
+	// 		'woocommerce_order_status_cancelled_to_completed_notification',
+	// 		'woocommerce_order_status_cancelled_to_on-hold_notification',
+	// 		'woocommerce_email_footer',
+	// 	];
+
+	// 	foreach ($hooks as $hook) {
+	// 		\remove_action( $hook, [ \WC()->mailer()->emails['WC_Email_New_Order'], 'trigger' ] );
+	// 	}
+
+	// 	\remove_action( 'woocommerce_order_status_completed_notification', [ \WC()->mailer()->emails['WC_Email_Customer_Completed_Order'], 'trigger' ] );
+
+	// 	$hooks = [
+	// 		'woocommerce_order_status_cancelled_to_processing_notification',
+	// 		'woocommerce_order_status_failed_to_processing_notification',
+	// 		'woocommerce_order_status_on-hold_to_processing_notification',
+	// 		'woocommerce_order_status_pending_to_processing_notification',
+	// 	];
+
+	// 	foreach ($hooks as $hook) {
+	// 		\remove_action( $hook, [ \WC()->mailer()->emails['WC_Email_Customer_Processing_Order'], 'trigger' ], 10 );
+	// 	}
+	// }
+	// );
+
 	try {
 		$update_checker = YahnisElsts\PluginUpdateChecker\v5\PucFactory::buildUpdateChecker(
 			'https://github.com/j7-dev/woomp',
