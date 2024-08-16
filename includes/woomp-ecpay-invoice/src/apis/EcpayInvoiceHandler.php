@@ -35,18 +35,19 @@ class EcpayInvoiceHandler {
 		$donation = ( empty( $customerIdentifier ) ) ? $donation : 0; // 如果有寫統一發票號碼則無法捐贈
 		$print    = 0;
 
-		// 有打統一編號 強制列印.
-		if ( ! empty( $customerIdentifier ) ) {
-			$print = 1;
-
-			// 有統一編號 則取得公司名稱.
-			$sCompany_Name = EcpayInvoiceFields::get_meta( $order_id, 'company_name' ); // 公司名稱
-			$customerName  = ( ! empty( $sCompany_Name ) ) ? $sCompany_Name : $customerName;
-		}
-
 		$loveCode    = EcpayInvoiceFields::get_meta( $order_id, 'donate' ); // 捐贈碼
 		$carruerType = EcpayInvoiceFields::get_meta( $order_id, 'individual' ); // 載具
 		$carruerType = ( $carruerType == 0 ) ? '' : $carruerType;
+
+		// 有打統一編號 強制列印發票
+		if ( ! empty( $customerIdentifier ) ) {
+
+			$print = 0;
+
+			// // 有統一編號 則取得公司名稱
+			$sCompany_Name = EcpayInvoiceFields::get_meta( $order_id, 'company_name' ); // 公司名稱
+			$customerName  = ( ! empty( $sCompany_Name ) ) ? $sCompany_Name : $customerName;
+		}
 
 		// 無載具 強制列印
 		if ( empty( $carruerType ) ) {
@@ -70,17 +71,6 @@ class EcpayInvoiceHandler {
 		}
 
 		$invoiceRemark = '';
-
-		// 有打統一編號 強制列印發票
-		if ( ! empty( $customerIdentifier ) ) {
-
-			$print = 1;
-
-			// // 有統一編號 則取得公司名稱
-			$sCompany_Name = EcpayInvoiceFields::get_meta( $order_id, 'company_name' ); // 公司名稱
-			$customerName  = ( ! empty( $sCompany_Name ) ) ? $sCompany_Name : $customerName;
-			$carruerType   = $carruerNum = '';
-		}
 
 		// 無載具 強制列印
 		if ( empty( $carruerType ) ) {
