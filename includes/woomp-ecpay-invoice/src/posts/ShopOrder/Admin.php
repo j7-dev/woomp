@@ -29,7 +29,7 @@ class Admin {
 	}
 
 	public function enqueue_script() {
-		wp_register_script( 'woomp_ecpay_invoice', ECPAYINVOICE_PLUGIN_URL . 'assets/js/admin.js', [ 'jquery' ], '1.0.2', true );
+		wp_register_script( 'woomp_ecpay_invoice', ECPAYINVOICE_PLUGIN_URL . 'assets/js/admin.js', [ 'jquery' ], '3.4.10', true );
 		wp_localize_script(
 			'woomp_ecpay_invoice',
 			'woomp_ecpay_invoice_params',
@@ -43,8 +43,11 @@ class Admin {
 
 	/**
 	 * 後台訂單列表增加單號欄位
+	 *
+	 * @param array<string> $columns 欄位
+	 * @return array<string>
 	 */
-	public function shop_order_columns( $columns ) {
+	public function shop_order_columns( $columns ): array {
 		$add_index = array_search( 'shipping_address', array_keys( $columns ) ) + 1;
 		$pre_array = array_splice( $columns, 0, $add_index );
 		$array     = [
@@ -53,16 +56,39 @@ class Admin {
 		return array_merge( $pre_array, $array, $columns );
 	}
 
-	public function shop_order_column( $column, $post_id ) {
-		$order = wc_get_order( $post_id );
-		if ( 'wmp_invoice_no' === $column && '0' !== $order->get_total() ) {
+	/**
+	 * 後台訂單列表增加開立發票按鈕
+	 *
+	 * @param string $column 欄位名稱
+	 * @param int    $post_id POST ID
+	 * @return void
+	 */
+	public function shop_order_column( $column, $post_id ): void {
+		$order = \wc_get_order( $post_id );
+		if ( 'wmp_invoice_no' !== $column || '0' === $order->get_total() ) {
+			return;
+		}
+		$ecpay_invoice_data   = $order->get_meta( '_ecpay_invoice_data' );
+		$invoice_type         = $ecpay_invoice_data['_invoice_type'] ?? 'individual';
+		$invoice_company_name = $ecpay_invoice_data['_invoice_company_name'] ?? '';
+		$invoice_tax_id       = $ecpay_invoice_data['_invoice_tax_id'] ?? '';
 
-			if ( ! empty( $order->get_meta( '_ecpay_invoice_number' ) ) ) {
-				echo esc_html( $order->get_meta( '_ecpay_invoice_number' ) );
-				echo '<br><button type="button" class="button btnInvalidInvoice" value="' . esc_attr( $post_id ) . '">' . __( 'Invalid invoice', 'woomp' ) . '</button>';
-			} else {
-				echo '<button type="button" class="button btnGenerateInvoice" value="' . esc_attr( $post_id ) . '">' . __( 'Generate invoice', 'woomp' ) . '</button>';
-			}
+		if ( ! empty( $order->get_meta( '_ecpay_invoice_number' ) ) ) {
+			echo \esc_html( $order->get_meta( '_ecpay_invoice_number' ) );
+			printf(
+				/*html*/'<br><button type="button" class="button btnInvalidInvoice" value="%1$s">%2$s</button>',
+				\esc_attr( $post_id ),
+				\__( 'Invalid invoice', 'woomp' )
+			);
+		} else {
+			printf(
+				/*html*/'<button type="button" class="button btnGenerateInvoice" value="%1$s" data-invoice_type="%2$s" data-invoice_tax_id="%3$s" data-invoice_company_name="%4$s">%5$s</button>',
+				\esc_attr( $post_id ),
+				\esc_attr( $invoice_type ),
+				\esc_attr( $invoice_tax_id ),
+				\esc_attr( $invoice_company_name ),
+				\__( 'Generate invoice', 'woomp' )
+			);
 		}
 	}
 
