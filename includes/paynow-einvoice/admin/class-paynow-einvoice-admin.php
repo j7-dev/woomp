@@ -93,6 +93,15 @@ final class Paynow_Einvoice_Admin {
 		 * class.
 		 */
 
-		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/paynow-einvoice-admin.js', [ 'jquery' ], $this->version, false );
+		\wp_enqueue_script(
+			$this->plugin_name . '-admin',
+			plugin_dir_url( __FILE__ ) . 'js/paynow-einvoice-admin.js',
+			[ 'jquery' ],
+			$this->version,
+			[
+				'in_footer' => true,
+				'strategy'  => 'async',
+			]
+		);
 	}
 }
