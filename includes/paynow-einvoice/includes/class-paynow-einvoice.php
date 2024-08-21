@@ -152,17 +152,17 @@ class Paynow_Einvoice {
 
 	public function paynow_after_order_status_changed( $order_id, $old_status, $new_status ) {
 
-		$order = wc_get_order( $order_id );
+		$order = \wc_get_order( $order_id );
 		if ( ! $order ) {
 			return;
 		}
 
 		// 手動開立，不進行後續動作
-		if ( get_option( 'wc_settings_tab_issue_mode' ) == 'manual' ) {
+		if ( \get_option( 'wc_settings_tab_issue_mode' ) == 'manual' ) {
 			return;
 		}
 
-		$issue_ei_order_status = get_option( 'wc_settings_tab_issue_at' );
+		$issue_ei_order_status = \get_option( 'wc_settings_tab_issue_at' );
 
 		// 訂單狀態非可發行狀態
 		if ( $new_status != $issue_ei_order_status ) {
@@ -170,7 +170,7 @@ class Paynow_Einvoice {
 		}
 
 		// 已發行
-		$is_issued = get_post_meta( $order_id, '_paynow_ei_issued', true );
+		$is_issued = \get_post_meta( $order_id, '_paynow_ei_issued', true );
 		if ( ! empty( $is_issued ) || $is_issued == 'yes' ) {
 			return;
 		}
@@ -202,7 +202,7 @@ class Paynow_Einvoice {
 		if ( check_ajax_referer( 'paynow_issue_einvoice', '_wpnonce', false ) ) {
 
 			$order_id = $_GET['order_id'];
-			$order    = wc_get_order( $order_id );
+			$order    = \wc_get_order( $order_id );
 
 			// 已發行
 			$is_issued = get_post_meta( $order_id, '_paynow_ei_issued', true );
@@ -365,9 +365,14 @@ class Paynow_Einvoice {
 
 		foreach ( $order_ids as $order_id ) {
 
-			$order = wc_get_order( $order_id );
+			$order = \wc_get_order( $order_id );
 
 			if ( ! $order ) {
+				continue;
+			}
+
+			$subtotal = $order->get_subtotal();
+			if ( !$subtotal ) {
 				continue;
 			}
 
@@ -465,7 +470,7 @@ class Paynow_Einvoice {
 	}
 
 	private function do_issue( $ei_datas ) {
-		$arrContextOptions = [
+		$context_options = [
 			'ssl' => [
 				'verify_peer'       => false,
 				'verify_peer_name'  => false,
@@ -473,12 +478,12 @@ class Paynow_Einvoice {
 				'crypto_method'     => STREAM_CRYPTO_METHOD_TLS_CLIENT,
 			],
 		];
-		$options           = [
+		$options         = [
 			'soap_version'   => SOAP_1_2,
 			'exceptions'     => true,
 			'trace'          => 1,
 			'cache_wsdl'     => WSDL_CACHE_NONE,
-			'stream_context' => stream_context_create( $arrContextOptions ),
+			'stream_context' => stream_context_create( $context_options ),
 		];
 
 		$client = new \SoapClient( $this->api_url . '/PayNowEInvoice.asmx?wsdl', $options );
