@@ -330,28 +330,33 @@ class Paynow_Einvoice {
 	 */
 	public function paynow_ajax_cancel_einvoice(): void {
 
-		if ( check_ajax_referer( 'paynow_cancel_einvoice', '_wpnonce', false ) ) {
-
-			$order_id = (int) $_GET['order_id']; // phpcs:ignore
-			$order    = \wc_get_order( $order_id );
-
-			$invoice_no = \get_post_meta( $order_id, '_paynow_ei_result_invoice_number', true );
-
-			$result = $this->cancel_invoice( $invoice_no );
-
-			if ( 'S' === $result ) {
-				$order->add_order_note( __( 'Cancel E-Invoice Successfully:', 'paynow-einvoice' ) . $invoice_no );
-				\wp_send_json_success( [ 'order_id' => $order_id ] );
-			} else {
-				$order->add_order_note( __( 'Cancel E-Invoice Failed:', 'paynow-einvoice' ) . $result );
-				\wp_send_json_error( [ 'message' => __( 'Cancel E-Invoice Failed:', 'paynow-einvoice' ) . $result ] );
-			}
-		} else {
+		if ( !\check_ajax_referer( 'paynow_cancel_einvoice', '_wpnonce', false ) ) {
 			\wp_send_json_error();
+			\wp_die();
 		}
 
+		$order_id = (int) $_GET['order_id']; // phpcs:ignore
+		$order    = \wc_get_order( $order_id );
+
+		$invoice_no = $order->get_meta( '_paynow_ei_result_invoice_number' );
+
+		$result = $this->cancel_invoice( $invoice_no );
+
+		if ( 'S' === $result ) {
+			$order->add_order_note( __( 'Cancel E-Invoice Successfully:', 'paynow-einvoice' ) . $invoice_no );
+			$order->update_meta_data( '_paynow_ei_issued', 'no' );
+			$order->delete_meta_data( '_paynow_ei_result_invoice_number' );
+			$order->delete_meta_data( '_paynow_invoice_url' );
+			$order->save();
+
+			\wp_send_json_success( [ 'order_id' => $order_id ] );
+		} else {
+			$order->add_order_note( __( 'Cancel E-Invoice Failed:', 'paynow-einvoice' ) . $result );
+			\wp_send_json_error( [ 'message' => __( 'Cancel E-Invoice Failed:', 'paynow-einvoice' ) . $result ] );
+		}
 		\wp_die();
 	}
+
 
 	// 開立發票
 	private function issue_einvoice( $order_ids ) {
@@ -554,79 +559,143 @@ class Paynow_Einvoice {
 		return $result;
 	}
 
-	function paynow_admin_order_meta_boxes() {
-		global $post;
-
-		add_meta_box(
-			'paynow-ei-meta-boxes',
-			__( 'PayNow E-Invoice', 'paynow-einvoice' ),
-			[
-				$this,
-				'paynow_ei_admin_meta',
-			],
-			'shop_order',
-			'side',
-			'high'
+	/**
+	 * 後台訂單頁面 meta box
+	 *
+	 * @return void
+	 */
+	public function paynow_admin_order_meta_boxes() {
+		\add_meta_box(
+		'paynow-ei-meta-boxes',
+		__( 'PayNow E-Invoice', 'paynow-einvoice' ),
+		[
+			$this,
+			'paynow_ei_admin_meta',
+		],
+		'shop_order',
+		'side',
+		'high'
 		);
 	}
 
-	function paynow_ei_admin_meta( $post ) {
+	/**
+	 * 後台訂單頁面 meta box 內容
+	 *
+	 * @param \WP_Post $post 訂單資料
+	 * @return void
+	 */
+	public function paynow_ei_admin_meta( $post ) {
 
 		$issue_type   = get_post_meta( $post->ID, '_paynow_ei_issue_type', true );
 		$carrier_type = get_post_meta( $post->ID, '_paynow_ei_carrier_type', true );
 
-		echo '<div>索取方式：' . PayNow_EInvoice_Issue_Type::getType( $issue_type ) . '</div>';
+		$display_array = [
+			[
+				'label' => '索取方式',
+				'value' => PayNow_EInvoice_Issue_Type::getType( $issue_type ),
+			],
+		];
 
-		if ( $issue_type == PayNow_EInvoice_Issue_Type::B2B ) {
-			echo '<div>' . __( 'Buyer Name', 'paynow-einvoice' ) . '：' . get_post_meta( $post->ID, '_paynow_ei_buyer_name', true ) . '</div>';
-			echo '<div>' . __( 'Unified Business NO', 'paynow-einvoice' ) . '：' . get_post_meta( $post->ID, '_paynow_ei_ubn', true ) . '</div>';
+		if ( $issue_type === PayNow_EInvoice_Issue_Type::B2B ) {
+			$display_array[] = [
+				'label' => \__( 'Buyer Name', 'paynow-einvoice' ),
+				'value' => \get_post_meta( $post->ID, '_paynow_ei_buyer_name', true ),
+			];
 		}
 
-		if ( $issue_type == PayNow_EInvoice_Issue_Type::B2C ) {
-			echo '<div>' . __( 'Carrier Number', 'paynow-einvoice' ) . '：' . get_post_meta( $post->ID, '_paynow_ei_carrier_num', true ) . '</div>';
+		if ( $issue_type === PayNow_EInvoice_Issue_Type::B2C ) {
+			$display_array[] = [
+				'label' => \__( 'Carrier Number', 'paynow-einvoice' ),
+				'value' => \get_post_meta( $post->ID, '_paynow_ei_carrier_num', true ),
+			];
 		}
 
 		if ( $issue_type == PayNow_EInvoice_Issue_Type::DONATE ) {
-			echo '<div>' . __( 'Love Code', 'paynow-einvoice' ) . '：' . get_post_meta( $post->ID, '_paynow_ei_donate_org', true ) . '</div>';
+			$display_array[] = [
+				'label' => \__( 'Love Code', 'paynow-einvoice' ),
+				'value' => \get_post_meta( $post->ID, '_paynow_ei_donate_org', true ),
+			];
 		}
 
-		if ( get_post_meta( $post->ID, '_paynow_ei_issued', true ) == 'yes' ) {
-			$invoice_url = get_post_meta( $post->ID, '_paynow_invoice_url', true );
+		$is_issued = \get_post_meta( $post->ID, '_paynow_ei_issued', true ) === 'yes';
 
-			if ( $invoice_url ) {
-				echo '<div>' . __( 'E-Invoice NO', 'paynow-einvoice' ) . '：<a href="' . $invoice_url . '" target="_blank">' . get_post_meta( $post->ID, '_paynow_ei_result_invoice_number', true ) . '</a></div>';
-			} else {
-				echo '<div>' . __( 'E-Invoice NO', 'paynow-einvoice' ) . '：' . get_post_meta( $post->ID, '_paynow_ei_result_invoice_number', true ) . '</div>';
+		if ( $is_issued ) {
+			$invoice_url    = \get_post_meta( $post->ID, '_paynow_invoice_url', true );
+			$invoice_number = \get_post_meta( $post->ID, '_paynow_ei_result_invoice_number', true );
+
+			$display_array[] = [
+				'label' => \__( 'E-Invoice NO', 'paynow-einvoice' ),
+				'value' => $invoice_url ? sprintf(
+				/*html*/'<a href="%1$s" target="_blank">%2$s</a>',
+				$invoice_url,
+				$invoice_number
+					) : $invoice_number,
+			];
+
+			// render
+			foreach ( $display_array as $display ) {
+				printf(
+				/*html*/'<div>%1$s:%2$s</div>',
+				$display['label'],
+				$display['value']
+				);
 			}
-			$url = wp_nonce_url(
-				admin_url(
-					add_query_arg(
-						[
-							'action'   => 'paynow_cancel_einvoice',
-							'order_id' => $post->ID,
-						],
-						'admin-ajax.php'
-					)
-				),
-				'paynow_cancel_einvoice'
+
+			$url = \wp_nonce_url(
+			\admin_url(
+				\add_query_arg(
+					[
+						'action'   => 'paynow_cancel_einvoice',
+						'order_id' => $post->ID,
+					],
+					'admin-ajax.php'
+				)
+			),
+			'paynow_cancel_einvoice'
 			);
-			echo '<div><a href="' . $url . '" class="button cancel_einvoice" data-id="' . $post->ID . '">' . __( 'Cancel E-Invoice', 'paynow-einvoice' ) . '</a>' . '</div>';
-		} else {
-			echo '<div>' . __( 'E-Invoice NO', 'paynow-einvoice' ) . ':' . __( 'N/A', 'paynow-einvoice' ) . '</div>';
-			$url = wp_nonce_url(
-				admin_url(
-					add_query_arg(
-						[
-							'action'   => 'paynow_issue_einvoice',
-							'order_id' => $post->ID,
-						],
-						'admin-ajax.php'
-					)
-				),
-				'paynow_issue_einvoice'
+			printf(
+			/*html*/'<div><button type="button" data-url="%1$s" class="button cancel_einvoice" data-id="%2$s">%3$s</button></div>',
+			$url,
+			$post->ID,
+			__( 'Cancel E-Invoice', 'paynow-einvoice' )
 			);
-			echo '<div><a href="' . $url . '" class="button issue_einvoice" data-id="' . $post->ID . '">' . __( 'Issue E-Invoice', 'paynow-einvoice' ) . '</a></div>';
+
+			return;
 		}
+
+		$display_array[] = [
+			'label' => __( 'E-Invoice NO', 'paynow-einvoice' ),
+			'value' => __( 'N/A', 'paynow-einvoice' ),
+		];
+
+		// render
+		foreach ( $display_array as $display ) {
+			printf(
+			/*html*/'<div>%1$s:%2$s</div>',
+			$display['label'],
+			$display['value']
+			);
+		}
+
+		$url = \wp_nonce_url(
+			\admin_url(
+				\add_query_arg(
+					[
+						'action'   => 'paynow_issue_einvoice',
+						'order_id' => $post->ID,
+					],
+					'admin-ajax.php'
+				)
+			),
+			'paynow_issue_einvoice'
+		);
+
+		printf(
+		/*html*/'<div><button type="button" data-url="%1$s" class="button issue_einvoice" data-id="%2$s">%3$s</button></div>',
+		$url,
+		$post->ID,
+		__( 'Issue E-Invoice', 'paynow-einvoice' )
+		);
 	}
 
 	function paynow_ei_detail_after_order_table( $order ) {
@@ -850,71 +919,71 @@ class Paynow_Einvoice {
 
 		echo '<div id="paynow-ei-issue-type" class="paynow-field">';
 		\woocommerce_form_field(
-			'paynow_ei_issue_type',
-			[
-				'type'    => 'select',
-				'class'   => [ 'form-row-wide !mb-4' ],
-				'label'   => _x( 'Issue Type', 'checkout', 'paynow-einvoice' ),
-				'options' => self::get_issue_type_options(),
-			],
-			$checkout->get_value( 'paynow_ei_issue_type' )
+		'paynow_ei_issue_type',
+		[
+			'type'    => 'select',
+			'class'   => [ 'form-row-wide !mb-4' ],
+			'label'   => _x( 'Issue Type', 'checkout', 'paynow-einvoice' ),
+			'options' => self::get_issue_type_options(),
+		],
+		$checkout->get_value( 'paynow_ei_issue_type' )
 		);
 		echo '</div>';
 
 		echo '<div id="paynow-ei-carrier-type" class="paynow-field">';
 		\woocommerce_form_field(
-			'paynow_ei_carrier_type',
-			[
-				'type'    => 'select',
-				'class'   =>[ 'form-row-wide !mb-4' ],
-				'label'   => __( 'Carrier Type', 'paynow-einvoice' ),
-				'options' => self::get_carrier_type_options(),
-			],
-			$checkout->get_value( 'paynow_ei_carrier_type' )
+		'paynow_ei_carrier_type',
+		[
+			'type'    => 'select',
+			'class'   =>[ 'form-row-wide !mb-4' ],
+			'label'   => __( 'Carrier Type', 'paynow-einvoice' ),
+			'options' => self::get_carrier_type_options(),
+		],
+		$checkout->get_value( 'paynow_ei_carrier_type' )
 		);
 		echo '</div>';
 
 		echo '<div id="paynow-ei-buyer-name" class="paynow-field">';
 		\woocommerce_form_field(
-			'paynow_ei_buyer_name',
-			[
-				'type'        => 'text',
-				'class'       => [ 'form-row-wide !mb-4 tw-hidden' ],
-				'label'       => __( 'Buyer Name', 'paynow-einvoice' ),
-				'placeholder' => __( 'Buyer Name', 'paynow-einvoice' ),
-				'required'    => false,
-			],
-			$checkout->get_value( 'paynow_ei_buyer_name' )
+		'paynow_ei_buyer_name',
+		[
+			'type'        => 'text',
+			'class'       => [ 'form-row-wide !mb-4 tw-hidden' ],
+			'label'       => __( 'Buyer Name', 'paynow-einvoice' ),
+			'placeholder' => __( 'Buyer Name', 'paynow-einvoice' ),
+			'required'    => false,
+		],
+		$checkout->get_value( 'paynow_ei_buyer_name' )
 		);
 		echo '</div>';
 
 		echo '<div id="paynow-ei-ubn" class="paynow-field">';
 		\woocommerce_form_field(
-			'paynow_ei_ubn',
-			[
-				'type'        => 'text',
-				'placeholder' => __( 'Unified Business NO', 'paynow-einvoice' ),
-				'required'    => false,
-				'default'     => '',
-				'class'       => [ 'form-row-wide !mb-4 tw-hidden' ],
-				'label'       => __( 'Unified Business NO', 'paynow-einvoice' ),
-			],
-			$checkout->get_value( 'paynow_ei_ubn' )
+		'paynow_ei_ubn',
+		[
+			'type'        => 'text',
+			'placeholder' => __( 'Unified Business NO', 'paynow-einvoice' ),
+			'required'    => false,
+			'default'     => '',
+			'class'       => [ 'form-row-wide !mb-4 tw-hidden' ],
+			'label'       => __( 'Unified Business NO', 'paynow-einvoice' ),
+		],
+		$checkout->get_value( 'paynow_ei_ubn' )
 		);
 		echo '</div>';
 
 		echo '<div id="paynow-ei-carrier-num" class="paynow-field">';
 		\woocommerce_form_field(
-			'paynow_ei_carrier_num',
-			[
-				'type'        => 'text',
-				'label'       => __( 'Carrier Number', 'paynow-einvoice' ),
-				'placeholder' => __( 'Please input the Carrier Number', 'paynow-einvoice' ),
-				'required'    => false,
-				'default'     => '',
-				'class'       => [ 'form-row-wide !mb-4 tw-hidden' ],
-			],
-			$checkout->get_value( 'paynow_ei_carrier_num' )
+		'paynow_ei_carrier_num',
+		[
+			'type'        => 'text',
+			'label'       => __( 'Carrier Number', 'paynow-einvoice' ),
+			'placeholder' => __( 'Please input the Carrier Number', 'paynow-einvoice' ),
+			'required'    => false,
+			'default'     => '',
+			'class'       => [ 'form-row-wide !mb-4 tw-hidden' ],
+		],
+		$checkout->get_value( 'paynow_ei_carrier_num' )
 		);
 		echo '</div>';
 
