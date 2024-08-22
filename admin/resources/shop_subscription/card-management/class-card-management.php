@@ -38,7 +38,7 @@ final class CardManagement {
 	 */
 	public function add_meta_box( string $post_type ): void {
 		// Limit meta box to certain post types.
-		$post_types = [ 'shop_order', 'shop_subscription' ];
+		$post_types = [ 'shop_subscription' ];
 
 		if ( in_array( $post_type, $post_types, true ) ) {
 			\add_meta_box( self::METABOX_ID, __( '信用卡儲存資訊', 'woomp' ), [ $this, 'render_meta_box_content' ], $post_types, 'normal', 'default' );
