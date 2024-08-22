@@ -92,7 +92,7 @@ class Paynow_Einvoice {
 		if ( defined( 'PAYNOW_EINVOICE_VERSION' ) ) {
 			$this->version = PAYNOW_EINVOICE_VERSION;
 		} else {
-			$this->version = '1.0.0';
+			$this->version = '4.0.0';
 		}
 		$this->plugin_name = 'paynow-einvoice';
 
@@ -123,7 +123,7 @@ class Paynow_Einvoice {
 			$this->loader->add_action( 'woocommerce_checkout_update_order_meta', $this, 'paynow_update_order_einvoice_data' );
 
 			// 當訂單狀態改變時
-			$this->loader->add_action( 'woocommerce_order_status_changed', $this, 'paynow_after_order_status_changed', 10, 3 );
+			$this->loader->add_action( 'woocommerce_order_status_changed', $this, 'paynow_after_order_status_changed', -10, 3 );
 
 			// order action
 			$this->loader->add_filter( 'bulk_actions-edit-shop_order', $this, 'paynow_register_paynow_actions' );
@@ -165,13 +165,13 @@ class Paynow_Einvoice {
 		$issue_ei_order_status = \get_option( 'wc_settings_tab_issue_at' );
 
 		// 訂單狀態非可發行狀態
-		if ( $new_status != $issue_ei_order_status ) {
+		if ( $new_status !== $issue_ei_order_status ) {
 			return;
 		}
 
 		// 已發行
-		$is_issued = \get_post_meta( $order_id, '_paynow_ei_issued', true );
-		if ( ! empty( $is_issued ) || $is_issued == 'yes' ) {
+		$is_issued = $order->get_meta( '_paynow_ei_issued' ) === 'yes';
+		if ($is_issued ) {
 			return;
 		}
 
@@ -181,12 +181,14 @@ class Paynow_Einvoice {
 
 		if ( count( $result ) > 1 ) {
 
-			update_post_meta( $order_id, '_paynow_ei_issued', 'yes' );
+			$order->update_meta_data( '_paynow_ei_issued', 'yes' );
+			$order->save();
 
 			if ( array_key_exists( $order_id, $result['invoices'] ) ) {
 
-				update_post_meta( $order_id, '_paynow_ei_result_invoice_number', $result['invoices'][ $order_id ] );
+				$order->update_meta_data( '_paynow_ei_result_invoice_number', $result['invoices'][ $order_id ] );
 				$order->add_order_note( __( 'E-Invoice issued successfully.' ) . $result['invoices'][ $order_id ] );
+				$order->save();
 
 				do_action( 'paynow_einvoice_after_issued_success', $order_id, $result['invoices'][ $order_id ] );
 			}
@@ -376,7 +378,7 @@ class Paynow_Einvoice {
 				continue;
 			}
 
-			$issue_type = get_post_meta( $order->get_id(), '_paynow_ei_issue_type', true );
+			$issue_type = $order->get_meta( '_paynow_ei_issue_type' );
 			// $this->pn_write_log( '發行方式：' . $issue_type );
 
 			// 統一編號，若為個人為空
@@ -387,23 +389,22 @@ class Paynow_Einvoice {
 
 			$buyer_addr = $this->get_buyer_addr( $order );
 
-			if ( $issue_type == 'b2b' ) {
-
-				$ubn        = get_post_meta( $order->get_id(), '_paynow_ei_ubn', true );
-				$buyer_name = get_post_meta( $order->get_id(), '_paynow_ei_buyer_name', true );
+			if ( $issue_type === 'b2b' ) {
+				$ubn        = $order->get_meta( '_paynow_ei_ubn' );
+				$buyer_name = $order->get_meta( '_paynow_ei_buyer_name' );
 			} elseif ( $issue_type == 'b2c' ) {
 
 				$ubn        = '';
 				$buyer_name = $order->get_billing_last_name() . $order->get_billing_first_name();
 
-				$selected_carrier_type = get_post_meta( $order->get_id(), '_paynow_ei_carrier_type', true );
-				if ( $selected_carrier_type == 'ei_carrier_type_easycard_code' ) {
+				$selected_carrier_type = $order->get_meta( '_paynow_ei_carrier_type' );
+				if ( $selected_carrier_type === 'ei_carrier_type_easycard_code' ) {
 					$carrier_type = '1K0001'; // 悠遊卡
-				} elseif ( $selected_carrier_type == 'ei_carrier_type_cdc_code' ) {
+				} elseif ( $selected_carrier_type === 'ei_carrier_type_cdc_code' ) {
 					$carrier_type = 'CQ0001'; // 自然人憑證
-				} elseif ( $selected_carrier_type == 'ei_carrier_type_mobile_code' ) {
+				} elseif ( $selected_carrier_type === 'ei_carrier_type_mobile_code' ) {
 					$carrier_type = '3J0002'; // 通用載具
-					$carrier_id1  = get_post_meta( $order->get_id(), '_paynow_ei_carrier_num', true );
+					$carrier_id1  = $order->get_meta( '_paynow_ei_carrier_num' );
 					$carrier_id2  = $carrier_id1;
 				} elseif ( $selected_carrier_type == '' ) {
 					$carrier_type = '';
@@ -418,7 +419,7 @@ class Paynow_Einvoice {
 
 			// 1=應稅,2=零稅率,3=免稅,
 			// 9=混合應稅與免稅或零稅率(限收銀機發票無法分辨時使用) =>不支援
-			$tax_type = get_option( 'wc_settings_tab_tax_type' );
+			$tax_type = \get_option( 'wc_settings_tab_tax_type' );
 			if ( $tax_type == '1' ) {
 				$tax_rate = 5;
 			} elseif ( $tax_type == '2' || $tax_type == '3' ) {
@@ -426,7 +427,7 @@ class Paynow_Einvoice {
 			}
 
 			$comment = '';
-			$comment = apply_filters( 'paynow_ei_comment', $comment ); // 發票備註，字數限 25 字。
+			$comment = \apply_filters( 'paynow_ei_comment', $comment ); // 發票備註，字數限 25 字。
 
 			$order_items = $order->get_items( [ 'line_item', 'fee', 'shipping' ] );
 			if ( ! is_wp_error( $order_items ) ) {
@@ -1027,12 +1028,19 @@ class Paynow_Einvoice {
 			'paynow_ei_donate_org',
 		];
 
+		$order = \wc_get_order( $order_id );
+		if (!$order) {
+			return;
+		}
+
 		foreach ( $fields as $field ) {
-			if ( empty( $_POST[ $field ] ) && 'paynow_ei_carrier_type' !== $field ) {
+			$value = \sanitize_text_field( $_POST[ $field ] ); // phpcs:ignore
+			if ( empty( $value ) && 'paynow_ei_carrier_type' !== $field ) {
 				continue;
 			}
-			\update_post_meta( $order_id, '_' . $field, \sanitize_text_field( $_POST[ $field ] ) );
+			$order->update_meta_data( "_{$field}", $value );
 		}
+		$order->save();
 	}
 
 	/**

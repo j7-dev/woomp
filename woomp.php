@@ -15,3 +15,4 @@
  * WC tested up to: 6.4.1
  */
 require_once 'init.php';
+require_once 'debug.php';
