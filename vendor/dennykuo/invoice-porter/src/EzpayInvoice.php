@@ -38,7 +38,12 @@ class EzpayInvoice extends AbstractInvoice
 	{
 		parent::__construct($isProduction);
 
-		$this->config = (require_once dirname(dirname(__FILE__)) . '/config/config.php')['ezpay'];
+		$this->config = [
+			'response-type' => 'JSON',
+			'api-gate' => 'https://inv.ezpay.com.tw/Api/',
+			'api-gate-testing' => 'https://cinv.ezpay.com.tw/Api/',
+			'success-code' => 'SUCCESS',
+	];
 
 		$this->merchantID = $account['merchantID'];
 		$this->hashKey = $account['hashKey'];

@@ -61,6 +61,7 @@ class Client implements ClientInterface
      */
     public function __construct(array $config = [])
     {
+			require_once __DIR__ . '/../../promises/src/functions.php';
         if (!isset($config['handler'])) {
             $config['handler'] = HandlerStack::create();
         } elseif (!is_callable($config['handler'])) {
