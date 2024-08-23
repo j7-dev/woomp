@@ -338,7 +338,7 @@ class Woomp_Admin {
 
 		$wc_emails = WC_Emails::instance();
 		$emails    = $wc_emails->get_emails();
-		$email     = $emails['RY_ECPay_Shipping_Email_Customer_CVS_Get_Expired'];
+		$email     = $emails['RY_ECPay_Shipping_Email_Customer_CVS_Get_Expired'] ?? '';
 
 		if ( $email ) {
 			if ( $email->is_enabled() ) {
