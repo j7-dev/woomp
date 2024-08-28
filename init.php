@@ -375,42 +375,6 @@ function add_payment_description( string $payment_method_id ): void {
 
 function woomp_plugin_update_checker(): void {
 
-	// 移除 EMAIL
-	// \add_action(
-	// 'init',
-	// function () {
-	// 	$hooks = [
-	// 		'woocommerce_order_status_pending_to_processing_notification',
-	// 		'woocommerce_order_status_pending_to_completed_notification',
-	// 		'woocommerce_order_status_pending_to_on-hold_notification',
-	// 		'woocommerce_order_status_failed_to_processing_notification',
-	// 		'woocommerce_order_status_failed_to_completed_notification',
-	// 		'woocommerce_order_status_failed_to_on-hold_notification',
-	// 		'woocommerce_order_status_cancelled_to_processing_notification',
-	// 		'woocommerce_order_status_cancelled_to_completed_notification',
-	// 		'woocommerce_order_status_cancelled_to_on-hold_notification',
-	// 		'woocommerce_email_footer',
-	// 	];
-
-	// 	foreach ($hooks as $hook) {
-	// 		\remove_action( $hook, [ \WC()->mailer()->emails['WC_Email_New_Order'], 'trigger' ] );
-	// 	}
-
-	// 	\remove_action( 'woocommerce_order_status_completed_notification', [ \WC()->mailer()->emails['WC_Email_Customer_Completed_Order'], 'trigger' ] );
-
-	// 	$hooks = [
-	// 		'woocommerce_order_status_cancelled_to_processing_notification',
-	// 		'woocommerce_order_status_failed_to_processing_notification',
-	// 		'woocommerce_order_status_on-hold_to_processing_notification',
-	// 		'woocommerce_order_status_pending_to_processing_notification',
-	// 	];
-
-	// 	foreach ($hooks as $hook) {
-	// 		\remove_action( $hook, [ \WC()->mailer()->emails['WC_Email_Customer_Processing_Order'], 'trigger' ], 10 );
-	// 	}
-	// }
-	// );
-
 	try {
 		$update_checker = YahnisElsts\PluginUpdateChecker\v5\PucFactory::buildUpdateChecker(
 			'https://github.com/j7-dev/woomp',
@@ -428,3 +392,10 @@ function woomp_plugin_update_checker(): void {
 		// throw $th;
 	}
 }
+
+/**
+ * FIX: 當支付成功跳回感謝頁面的時候會一直要求要登入
+ *
+ * @see https://github.com/woocommerce/woocommerce/issues/39598#issuecomment-1853410332
+ */
+\add_filter( 'woocommerce_order_received_verify_known_shoppers', '__return_false' );
