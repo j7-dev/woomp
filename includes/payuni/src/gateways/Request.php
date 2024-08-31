@@ -134,6 +134,10 @@ final class Request {
 		if ( $card_data ) {
 			$token_id      = $card_data['token_id'] ?? ''; // 可能是 數字、new
 			$save_new_card = $card_data['new'] ?? false;
+			if ('payuni-credit-subscription' === $this->gateway->id) {
+				// 如果是訂閱收款就一定會存卡號
+				$save_new_card = 'yes';
+			}
 
 			// 不判斷 token_id 直接傳卡號
 			$args['CardNo']      = $card_data['number'];
@@ -172,6 +176,7 @@ final class Request {
 
 			// 儲存 meta 資料在 order 上
 			$order->update_meta_data( '_payuni_token_id', $token_id );
+
 			$order->update_meta_data( '_payuni_token_maybe_save', $save_new_card ); // □ 儲存付款資訊，下次付款更方便的 checkbox
 			$order->save();
 		}

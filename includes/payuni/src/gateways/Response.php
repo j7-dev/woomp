@@ -145,7 +145,7 @@ final class Response {
 
 		$method = $order->get_payment_method();
 
-		$_payuni_token_maybe_save = $order->get_meta( '_payuni_token_maybe_save' );
+		$_payuni_token_maybe_save = $order->get_meta( '_payuni_token_maybe_save' ) === 'yes';
 		// 新增付款方式，存入帳號
 		if ( ! ! $_payuni_token_maybe_save || $is_hash_request ) {
 			self::save_card_to_payment_method( $card_hash, $card_4no, $card_expiry_month, $card_expiry_year, $user_id, $method );
