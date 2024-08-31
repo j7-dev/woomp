@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Payuni_Payment_ATM class file
  *
@@ -99,6 +98,7 @@ class Atm extends AbstractGateway {
 				<select name="<?php echo esc_html( $this->id ); ?>-bank" class="select">
 					<option value="004">台灣銀行</option>
 					<option value="822">中信銀行</option>
+					<option value="013">國泰世華</option>
 				</select>
 			</div>
 		</div>
