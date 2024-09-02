@@ -399,3 +399,72 @@ function woomp_plugin_update_checker(): void {
  * @see https://github.com/woocommerce/woocommerce/issues/39598#issuecomment-1853410332
  */
 \add_filter( 'woocommerce_order_received_verify_known_shoppers', '__return_false' );
+
+/**
+ * 複製訂單
+ *
+ * @param \WC_Order $order 訂單物件。
+ * @return int 新訂單的 ID。
+ */
+function woomp_copy_order( \WC_Order $order ): int {
+	// 創建新訂單
+	$new_order = new \WC_Order();
+
+	// 複製訂單的所有 props
+	$props = $order->get_data();
+	unset($props['id']);
+	$new_order->set_props($props);
+
+	// 複製訂單的所有 meta data
+	/**
+	 * @var \WC_Meta_Data[] $meta_data
+	 */
+	$meta_data = $order->get_meta_data();
+	foreach ($meta_data as $meta) {
+		$new_order->update_meta_data($meta->key, $meta->value);
+	}
+
+	// 複製訂單項目
+	foreach ($order->get_items() as $item) {
+		$new_order->add_item($item);
+	}
+
+	// 複製運費項目
+	foreach ($order->get_items('shipping') as $item) {
+		$new_order->add_item($item);
+	}
+
+	// 複製稅金項目
+	foreach ($order->get_items('tax') as $item) {
+		$new_order->add_item($item);
+	}
+
+	// 複製優惠券項目
+	foreach ($order->get_items('coupon') as $item) {
+		$new_order->add_item($item);
+	}
+
+	// 複製手續費項目
+	foreach ($order->get_items('fee') as $item) {
+		$new_order->add_item($item);
+	}
+
+	// 儲存新訂單
+	$new_order->save();
+
+	$comment_id = $new_order->add_order_note('從 #' . $order->get_id() . ' 複製訂單');
+
+	return $new_order->get_id();
+}
+
+
+// \add_filter(
+// 'woocommerce_create_order',
+// function ( $order_id, $checkout ) {
+// $awaiting_payment_order_id = WC()->session->get( 'order_awaiting_payment' );
+
+// return $awaiting_payment_order_id;
+// },
+// 10,
+// 2
+// );
