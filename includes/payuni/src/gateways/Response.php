@@ -336,7 +336,7 @@ final class Response {
 	 */
 	public static function atm_response( $resp ) {
 		// 背景通知付款結果.
-		if ( $_REQUEST['Status'] ) {
+		if ( $_REQUEST['Status'] ?? '' ) {
 			if ( 'SUCCESS' === $_REQUEST['Status'] ) {
 				$data         = Payment::decrypt( $_REQUEST['EncryptInfo'] );
 				$time         = date( 'Y-m-d H:i:s', time() );

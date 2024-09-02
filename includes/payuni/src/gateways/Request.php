@@ -26,12 +26,21 @@ final class Request {
 	protected $gateway;
 
 	/**
+	 * 是否為信用卡付款
+	 *
+	 * @var bool
+	 */
+	protected $is_credit;
+
+	/**
 	 * Constructor
 	 *
 	 * @param WC_Payment_Gateway $gateway The payment gateway instance.
 	 */
 	public function __construct( $gateway ) {
-		$this->gateway = $gateway;
+		$this->gateway   = $gateway;
+		$gateway_id      = $gateway->id;
+		$this->is_credit = in_array($gateway_id, [ 'payuni-credit', 'payuni-credit-installment', 'payuni-credit-subscription' ]);
 	}
 
 	/**
@@ -64,10 +73,6 @@ final class Request {
 		$data = \Payuni\APIs\Payment::decrypt( $resp->EncryptInfo );
 		//@codingStandardsIgnoreEnd
 
-		unset( $data['Card6No'] ); // remove card number from log.
-
-		Payment::log( $data );
-
 		/*
 		有開 3D 驗證的 response
 		["Status"]=> "SUCCESS"
@@ -76,17 +81,19 @@ final class Request {
 		*/
 
 		[
-			'status'            => $status,
-			'card_4no'          => $card_4no,
-			'card_hash'         => $card_hash,
-			'card_expiry_month' => $card_expiry_month,
-			'card_expiry_year'  => $card_expiry_year,
-			'is_3d_auth'        => $is_3d_auth,
-		] = Response::get_formatted_decrypted_data( $data );
+				'status'            => $status,
+				'card_4no'          => $card_4no,
+				'card_hash'         => $card_hash,
+				'card_expiry_month' => $card_expiry_month,
+				'card_expiry_year'  => $card_expiry_year,
+				'is_3d_auth'        => $is_3d_auth,
+			] = Response::get_formatted_decrypted_data( $data );
+
+		Payment::log( $data );
 
 		// 結帳頁顯示錯誤訊息.
 		if ( 'SUCCESS' !== $status ) {
-			if ('CREDIT04001' !== $data['Status']) {
+			if ( ! \in_array( $data['Status'], [ 'CREDIT04001', 'ATM04001' ] ) ) {
 				// "已存在相同商店訂單編號" 已經用新建訂單解決，不用顯示錯誤
 				\wc_add_notice( $data['Message'], 'error' );
 			}
@@ -99,14 +106,18 @@ final class Request {
 			];
 		}
 
-		// 3D 驗證走以下判斷，會 redirect 到 $data['URL'] 去做 3D 驗證
-		if ( $is_3d_auth ) {
-			return [
-				'result'      => 'success',
-				'redirect'    => $data['URL'],
-				'status_code' => $data['Status'],
-				'order_id'    => $order_id,
-			];
+		if ($this->is_credit) {
+			unset( $data['Card6No'] ); // remove card number from log.
+
+			// 3D 驗證走以下判斷，會 redirect 到 $data['URL'] 去做 3D 驗證
+			if ( $is_3d_auth ) {
+				return [
+					'result'      => 'success',
+					'redirect'    => $data['URL'],
+					'status_code' => $data['Status'],
+					'order_id'    => $order_id,
+				];
+			}
 		}
 
 		$this->set_response( $order->get_payment_method(), $resp );
@@ -141,7 +152,7 @@ final class Request {
 			'ProdDesc'   => $this->get_product_name( $order ),
 		];
 
-		if ( $card_data ) {
+		if ( $card_data && $this->is_credit ) {
 			$token_id      = $card_data['token_id'] ?? ''; // 可能是 數字、new
 			$save_new_card = $card_data['new'] ?? false;
 			if ('payuni-credit-subscription' === $this->gateway->id) {
@@ -177,7 +188,7 @@ final class Request {
 			}
 
 			// 是否開啟 3D 驗證
-			if ( \wc_string_to_bool( \get_option( 'payuni_3d_auth', 'yes' ) ) ) {
+			if ($this->is_credit && \wc_string_to_bool( \get_option( 'payuni_3d_auth', 'yes' ) ) ) {
 				$args['API3D'] = 1;
 				// $data[ 'NotifyURL' ] = home_url('wc-api/payuni_notify_card');
 				$args['ReturnURL'] = \home_url( 'wc-api/payuni_notify_card' );
