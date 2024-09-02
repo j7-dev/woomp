@@ -41,12 +41,13 @@ final class Request {
 	 * @param \WC_Order                                                                     $order The order object.
 	 * @param ?array{number:string, expiry:string, cvc:string, token_id:string, new:string} $card_data 卡片資料
 	 *
-	 * @return array
+	 * @return array{result:string, redirect:string, status_code:string, order_id:int}
 	 */
 	public function build_request( WC_Order $order, $card_data = null ): array {
-		$body_params = $this->get_transaction_args( $order, $card_data );
 
-		$options = [
+		$body_params = $this->get_transaction_args( $order, $card_data );
+		$order_id    = $order->get_id();
+		$options     = [
 			'method'  => 'POST',
 			'timeout' => 60,
 			'body'    => $body_params,
@@ -85,27 +86,36 @@ final class Request {
 
 		// 結帳頁顯示錯誤訊息.
 		if ( 'SUCCESS' !== $status ) {
-			\wc_add_notice( $data['Message'], 'error' );
+			if ('CREDIT04001' !== $data['Status']) {
+				// "已存在相同商店訂單編號" 已經用新建訂單解決，不用顯示錯誤
+				\wc_add_notice( $data['Message'], 'error' );
+			}
 
 			return [
-				'result'   => 'failed',
-				'redirect' => $this->gateway->get_return_url( $order ),
+				'result'      => 'failed',
+				'redirect'    => $this->gateway->get_return_url( $order ),
+				'status_code' => $data['Status'],
+				'order_id'    => $order_id,
 			];
 		}
 
 		// 3D 驗證走以下判斷，會 redirect 到 $data['URL'] 去做 3D 驗證
 		if ( $is_3d_auth ) {
 			return [
-				'result'   => 'success',
-				'redirect' => $data['URL'],
+				'result'      => 'success',
+				'redirect'    => $data['URL'],
+				'status_code' => $data['Status'],
+				'order_id'    => $order_id,
 			];
 		}
 
 		$this->set_response( $order->get_payment_method(), $resp );
 
 		return [
-			'result'   => 'success',
-			'redirect' => $this->gateway->get_return_url( $order ),
+			'result'      => 'success',
+			'redirect'    => $this->gateway->get_return_url( $order ),
+			'status_code' => $data['Status'],
+			'order_id'    => $order_id,
 		];
 	}
 

@@ -452,7 +452,8 @@ function woomp_copy_order( \WC_Order $order ): int {
 	// 儲存新訂單
 	$new_order->save();
 
-	$comment_id = $new_order->add_order_note('從 #' . $order->get_id() . ' 複製訂單');
+	$new_order->add_order_note('從 #' . $order->get_id() . ' 複製訂單');
+	$order->add_order_note('統一金錯誤 "已存在相同商店訂單編號"，建立新訂單 #' . $new_order->get_id() . ' 下單');
 
 	return $new_order->get_id();
 }
