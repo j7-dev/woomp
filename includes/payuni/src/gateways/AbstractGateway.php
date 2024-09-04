@@ -420,27 +420,35 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 		 * @return ?array{number:string, expiry:string, cvc:string, token_id:string, new:string, period:string} $card_data 卡片資料
 		 */
 		public function get_card_data(): array {
+			$gateway_id = $this->id;
 
-		// phpcs:disable
-		$number   = ( isset($_POST[ $this->id . '-card-number' ]) ) ? \wc_clean(\wp_unslash($_POST[ $this->id . '-card-number' ])) : '';
-		$expiry   = ( isset($_POST[ $this->id . '-card-expiry' ]) ) ? \wc_clean(\wp_unslash(str_replace(' ', '', $_POST[ $this->id . '-card-expiry' ]))) : '';
-		$cvc      = ( isset($_POST[ $this->id . '-card-cvc' ]) ) ? \wc_clean(\wp_unslash($_POST[ $this->id . '-card-cvc' ])) : '';
-		$token_id = ( isset($_POST[ 'wc-' . $this->id . '-payment-token' ]) ) ? \wc_clean(\wp_unslash($_POST[ 'wc-' . $this->id . '-payment-token' ])) : ''; // 如果是 新增付款方式，這個值會是 new
-		$new      = ( isset($_POST[ 'wc-' . $this->id . '-new-payment-method' ]) ) ? \wc_clean(\wp_unslash($_POST[ 'wc-' . $this->id . '-new-payment-method' ])) : ''; // □ 儲存付款資訊，下次付款更方便的 checkbox
-		$period   = (isset($_POST[ $this->id . '-period' ])) ? wc_clean(wp_unslash($_POST[ $this->id . '-period' ])) : '';
-		// phpcs:enable
+			$fields = [
+				'number'   => "{$gateway_id}-card-number",
+				'expiry'   => "{$gateway_id}-card-expiry",
+				'cvc'      => "{$gateway_id}-card-cvc",
+				'token_id' => "wc-{$gateway_id}-payment-token",
+				'new'      => "wc-{$gateway_id}-new-payment-method",
+				'period'   => "{$gateway_id}-period",
+			];
+
+			$card_data = [];
+
+			foreach ($fields as $key => $field) {
+				// phpcs:disable
+				$value = ( isset($_POST[ $field ]) ) ? \wc_clean(\wp_unslash($_POST[ $field ])) : '';
+				// phpcs:enable
+				if (in_array($key, [ 'number', 'expiry' ], true)) {
+					$value = str_replace( ' ', '', $value );
+				}
+				if ('expiry' === $key) {
+					$value = str_replace( '/', '', $value );
+				}
+				$card_data[ $key ] = $value;
+			}
+
 			/**
 			 * @var array{number:string, expiry:string, cvc:string, token_id:string, new:string} $card_data 卡片資料
 			 */
-			$card_data = [
-				'number'   => str_replace( ' ', '', $number ),
-				'expiry'   => str_replace( '/', '', $expiry ),
-				'cvc'      => $cvc,
-				'token_id' => $token_id,
-				'new'      => $new,
-				'period'   => $period,
-			];
-
 			return $card_data;
 		}
 
