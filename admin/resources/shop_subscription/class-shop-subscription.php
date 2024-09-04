@@ -22,7 +22,9 @@ final class ShopSubscription {
 	 * Constructor
 	 */
 	public function __construct() {
-		\add_filter( 'woocommerce_can_subscription_be_updated_to_active', [ __CLASS__, 'allowed_canceled_wcs_active' ], 10, 2 );
+		\add_filter( 'woocommerce_can_subscription_be_updated_to_active', [ __CLASS__, 'allowed_canceled_wcs_reactive' ], 10, 2 );
+		\add_action( 'woocommerce_subscription_status_updated', [ __CLASS__, 'remove_cancelled_timestamp_when_reactive' ], 10, 3 );
+
 		\add_action( 'plugins_loaded', [ __CLASS__, 'run_after_plugins_loaded' ] );
 	}
 
@@ -33,7 +35,7 @@ final class ShopSubscription {
 	 * @param \WC_Subscription $subscription 訂閱物件.
 	 * @return bool 如果訂閱已取消，返回 true，否則返回 $can_be_updated.
 	 */
-	public static function allowed_canceled_wcs_active( $can_be_updated, $subscription ) {
+	public static function allowed_canceled_wcs_reactive( $can_be_updated, $subscription ) {
 
 		$is_cancelled = $subscription->has_status( 'cancelled' );
 
@@ -42,6 +44,22 @@ final class ShopSubscription {
 		}
 
 		return $can_be_updated;
+	}
+
+	/**
+	 * 取消訂閱時，移除訂閱的取消時間戳記
+	 *
+	 * @param \WC_Subscription $subscription 訂閱物件.
+	 * @param string           $new_status 新狀態.
+	 * @param string           $old_status 舊狀態.
+	 */
+	public static function remove_cancelled_timestamp_when_reactive( \WC_Subscription $subscription, string $new_status, string $old_status ): void {
+
+		if ('cancelled' !== $old_status || 'active' !== $new_status) {
+			return;
+		}
+		$subscription_id = $subscription->get_id();
+		\delete_post_meta($subscription_id, '_schedule_cancelled');
 	}
 
 
