@@ -154,9 +154,9 @@ final class Request {
 
 		if ( $card_data && $this->is_credit ) {
 			$token_id      = $card_data['token_id'] ?? ''; // 可能是 數字、new
-			$save_new_card = $card_data['new'] ?? false;
-			if ('payuni-credit-subscription' === $this->gateway->id) {
-				// 如果是訂閱收款就一定會存卡號
+			$save_new_card = $card_data['new'] ?? 'no';
+			if ('payuni-credit-subscription' === $this->gateway->id && !\is_numeric($token_id)) {
+				// 如果是訂閱收款且沒有帶 token_id (使用已存的卡號付款)，就一定會存卡號
 				$save_new_card = 'yes';
 			}
 
@@ -389,7 +389,7 @@ final class Request {
 		$resp     = json_decode( wp_remote_retrieve_body( $response ) );
 
 		$redirect = $order ? $this->gateway->get_return_url( $order ) : '';
-		$result   = Response::handle_response( $resp, $redirect );
+		$result   = Response::handle_hash_response( $resp, $redirect );
 
 		// 如果是新增付款方式，就不需要再傳卡號、有效期、末三碼
 		if ( 'success' === $result['result'] && ! $result['is_3d_auth'] ) {
