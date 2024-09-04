@@ -223,6 +223,7 @@ final class Response {
 	 * @param string  $card_4no card last 4 number.
 	 * @param string  $card_expiry_month card expiry month.
 	 * @param string  $card_expiry_year card expiry year.
+	 * @param int     $user_id user id.
 	 * @param ?string $method payment method.
 	 *
 	 * @return void
@@ -261,7 +262,7 @@ final class Response {
 	 *
 	 * @return array
 	 */
-	public static function handle_response( $resp, $redirect ) {
+	public static function handle_hash_response( $resp, $redirect ) {
 		//@codingStandardsIgnoreStart
 		$encrypt_info = ( $resp ) ? $resp->EncryptInfo : $_REQUEST['EncryptInfo'];
 		//@codingStandardsIgnoreEnd
