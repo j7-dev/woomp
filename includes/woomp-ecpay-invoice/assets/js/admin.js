@@ -165,5 +165,24 @@ jQuery(function ($) {
 		$('select[name="_invoice_type"]').on("change", function () {
 			$("#ecpay_invoice input").val("");
 		});
+
+
+		/**
+		 *  選擇不同字軌類型時，顯示不同課稅類別
+		 * @see https://developers.ecpay.com.tw/?p=7896
+		 */
+		const invType = $('#wc_woomp_ecpay_invoice_inv_type');
+		const taxType = $('#wc_woomp_ecpay_invoice_tax_type');
+		invType.on('change', function () {
+			taxType.find('option').show();
+			const invTypeValue = invType.val();
+			if (invTypeValue === '07') {
+				taxType.find('option[value="4"]').hide();
+				taxType.val('1');
+			} else if (invTypeValue === '08') {
+				taxType.find('option[value="1"], option[value="2"], option[value="9"]').hide();
+				taxType.val('3');
+			}
+		});
 	});
 });

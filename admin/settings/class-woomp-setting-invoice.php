@@ -124,6 +124,31 @@ class Woomp_Setting_Invoice extends WC_Settings_Page {
 							'default'  => 'manual',
 						],
 						[
+							'name'    => '字軌類型',
+							'type'    => 'select',
+							'class'   => 'wc-enhanced-select',
+							'id'      => 'wc_woomp_ecpay_invoice_inv_type',
+							'options' => [
+								'07' => __( '一般稅額', 'woomp' ),
+								'08' => __( '特種稅額', 'woomp' ),
+							],
+							'default' => '07',
+						],
+						[
+							'name'    => '課稅類別',
+							'type'    => 'select',
+							// 'class'   => 'wc-enhanced-select',
+							'id'      => 'wc_woomp_ecpay_invoice_tax_type',
+							'options' => [
+								'1' => __( '應稅', 'woomp' ),
+								'2' => __( '零稅率', 'woomp' ),
+								'3' => __( '免稅', 'woomp' ),
+								'4' => __( '應稅（特種稅率）', 'woomp' ),
+								'9' => __( '混合應稅與免稅或零稅率，必需通過申請核可', 'woomp' ),
+							],
+							'default' => '1',
+						],
+						[
 							'name'     => __( 'Allowed Order Status for issue', 'woomp' ),
 							'type'     => 'select',
 							'class'    => 'wc-enhanced-select',
