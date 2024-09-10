@@ -152,6 +152,14 @@ final class Response {
 		}
 		$order->update_status( $status_success );
 		$order->update_meta_data( '_payuni_card_hash', $card_hash );
+		$token_id = $order->get_meta( '_payuni_token_id' );
+		if ( $token_id && is_numeric( $token_id ) ) {
+			$token = \WC_Payment_Tokens::get( $token_id );
+			if ( $token ) {
+				$token->set_default(true);
+				$token->save();
+			}
+		}
 
 		$order->save();
 
