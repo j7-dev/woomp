@@ -381,32 +381,33 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 		 * @return void|bool
 		 */
 		public function validate_fields(): bool {
+			$gateway_id = $this->id;
 			//@codingStandardsIgnoreStart
 
-			if ($this->id !== $_POST['payment_method']) {
+			if ($gateway_id !== $_POST['payment_method']) {
 				return false;
 			}
 
 			// ATM 是跳轉付款，直接返回 true
-			if('payuni-atm' === $this->id){
+			if ('payuni-atm' === $gateway_id) {
 				return true;
 			}
 
-			if (\is_numeric($_POST["wc-{$this->id}-payment-token"] ?? '')) {
+			if (\is_numeric($_POST["wc-{$gateway_id}-payment-token"] ?? '')) {
 				return true;
 			}
 
-			if (empty($_POST["{$this->id}-card-number"])) {
+			if (empty($_POST["{$gateway_id}-card-number"])) {
 				\wc_add_notice(\__('Credit card number is required', 'woomp'), 'error');
 				return false;
 			}
 
-			if (empty($_POST["{$this->id}-card-expiry"])) {
+			if (empty($_POST["{$gateway_id}-card-expiry"])) {
 				\wc_add_notice(\__('Credit card expired date is required', 'woomp'), 'error');
 				return false;
 			}
 
-			if (empty($_POST["{$this->id}-card-cvc"])) {
+			if (empty($_POST["{$gateway_id}-card-cvc"])) {
 				\wc_add_notice(\__('Credit card security code is required', 'woomp'), 'error');
 				return false;
 			}
@@ -513,14 +514,30 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 		 * @return array
 		 */
 		public function add_payment_method(): array {
+			$gateway_id = $this->id;
 
-			//@codingStandardsIgnoreStart
-			$number   = (isset($_POST[$this->id . '-card-number'])) ? \wc_clean(\wp_unslash($_POST[$this->id . '-card-number'])) : '';
-			$expiry   = (isset($_POST[$this->id . '-card-expiry'])) ? \wc_clean(\wp_unslash(str_replace(' ', '', $_POST[$this->id . '-card-expiry']))) : '';
-			$cvc      = (isset($_POST[$this->id . '-card-cvc'])) ? \wc_clean(\wp_unslash($_POST[$this->id . '-card-cvc'])) : '';
-			$token_id = (isset($_POST['wc-' . $this->id . '-payment-token'])) ? \wc_clean(\wp_unslash($_POST['wc-' . $this->id . '-payment-token'])) : '';
-			$new      = (isset($_POST['wc-' . $this->id . '-new-payment-method'])) ? \wc_clean(\wp_unslash($_POST['wc-' . $this->id . '-new-payment-method'])) : '';
-			//@codingStandardsIgnoreEnd
+			$fields = [
+				'number'   => "{$gateway_id}-card-number",
+				'expiry'   => "{$gateway_id}-card-expiry",
+				'cvc'      => "{$gateway_id}-card-cvc",
+				'token_id' => "wc-{$gateway_id}-payment-token",
+				'new'      => "wc-{$gateway_id}-new-payment-method",
+			];
+
+			$card_data = [];
+
+			foreach ($fields as $key => $field) {
+				// phpcs:disable
+				$value = ( isset($_POST[ $field ]) ) ? \wc_clean(\wp_unslash($_POST[ $field ])) : '';
+				// phpcs:enable
+				if (in_array($key, [ 'number', 'expiry' ], true)) {
+					$value = str_replace( ' ', '', $value );
+				}
+				if ('expiry' === $key) {
+					$value = str_replace( '/', '', $value );
+				}
+				$card_data[ $key ] = $value;
+			}
 
 			$is_valid = $this->validate_fields();
 
@@ -531,14 +548,6 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 					'redirect' => \wc_get_endpoint_url( 'payment-methods' ),
 				];
 			}
-
-			$card_data = [
-				'number'   => str_replace( ' ', '', $number ),
-				'expiry'   => str_replace( '/', '', $expiry ),
-				'cvc'      => $cvc,
-				'token_id' => $token_id,
-				'new'      => $new,
-			];
 
 			switch ( $this->id ) {
 				case 'payuni-credit-installment':
@@ -575,6 +584,9 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 			$order->calculate_totals();
 			$order->save();
 
+			/**
+			 * @var array{number:string, expiry:string, cvc:string, token_id:string, new:string} $card_data 卡片資料
+			 */
 			$result = $request->build_hash_request( $order, $card_data );
 			/*
 			有開 3D 驗證的 response
