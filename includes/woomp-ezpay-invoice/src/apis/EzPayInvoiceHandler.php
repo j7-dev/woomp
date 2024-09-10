@@ -195,10 +195,6 @@ class EzPayInvoiceHandler {
 		$issue_data['ItemPrice']       = $product_price; // 商品單價.
 		$issue_data['ItemAmt']         = $product_amt; // 商品小計.
 
-		ob_start();
-		var_dump($issue_data);
-		\J7\WpUtils\Classes\Log::info('' . ob_get_clean());
-
 		if ( 2 === $invoice_individual ) {
 			$issue_data['KioskPrintFlag'] = 1;
 		}
@@ -232,10 +228,6 @@ class EzPayInvoiceHandler {
 		$order = \wc_get_order( $order_id );
 
 		$issue_data = $this->get_issue_data( $order_id );
-
-		ob_start();
-		var_dump($issue_data);
-		\J7\WpUtils\Classes\Log::info('' . ob_get_clean());
 
 		if ( ! $issue_data ) {
 			return;

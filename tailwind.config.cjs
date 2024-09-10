@@ -4,6 +4,7 @@ module.exports = {
 	important: '.woomp',
 	corePlugins: {
 		preflight: false,
+		container: false,
 	},
 	content: [
 		'./**/*.php',
@@ -44,5 +45,5 @@ module.exports = {
 		},
 	],
 	safelist: [],
-	blocklist: ['hidden', 'columns-1', 'columns-2', 'fixed', 'container'],
+	blocklist: ['hidden', 'columns-1', 'columns-2', 'fixed'],
 }
