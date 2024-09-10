@@ -146,9 +146,9 @@ class EcpayInvoiceHandler {
 			}
 
 			// 運費
-			$shippingTotal = number_format( (float) $order->get_total_shipping() + (float) $order->get_shipping_tax(), wc_get_price_decimals(), '.', '' );
+			$shipping_total = number_format( (float) $order->get_shipping_total() + (float) $order->get_shipping_tax(), wc_get_price_decimals(), '.', '' );
 
-			if ( $shippingTotal != 0 ) {
+			if ( $shipping_total != 0 ) {
 
 				array_push(
 					$ecpay_invoice->Send['Items'],
@@ -156,9 +156,9 @@ class EcpayInvoiceHandler {
 						'ItemName'    => '運費',
 						'ItemCount'   => 1,
 						'ItemWord'    => '式',
-						'ItemPrice'   => round( (float) $shippingTotal, 2 ),
+						'ItemPrice'   => round( (float) $shipping_total, 2 ),
 						'ItemTaxType' => 1,
-						'ItemAmount'  => round( (float) $shippingTotal, 2 ),
+						'ItemAmount'  => round( (float) $shipping_total, 2 ),
 					]
 				);
 			}
@@ -183,7 +183,7 @@ class EcpayInvoiceHandler {
 				);
 			}
 
-			$order_total_summed_by_items += round( (float) $shippingTotal, 2 ) + round( (float) $fee_amount, 2 );
+			$order_total_summed_by_items += round( (float) $shipping_total, 2 ) + round( (float) $fee_amount, 2 );
 
 			if ( $order_total !== $order_total_summed_by_items && ( abs( $order_total - $order_total_summed_by_items ) < 2 ) ) {
 				// 如果金額不符合，且差距在 2 元內，就是把 $order_total 改為 $order_total_summed_by_items

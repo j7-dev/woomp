@@ -44,5 +44,5 @@ module.exports = {
 		},
 	],
 	safelist: [],
-	blocklist: ['hidden', 'columns-1', 'columns-2', 'fixed'],
+	blocklist: ['hidden', 'columns-1', 'columns-2', 'fixed', 'container'],
 }

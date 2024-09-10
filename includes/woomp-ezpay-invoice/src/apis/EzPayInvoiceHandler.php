@@ -47,7 +47,7 @@ class EzPayInvoiceHandler {
 	 */
 	private function get_issue_data( $order_id ) {
 
-		$order = wc_get_order( $order_id );
+		$order = \wc_get_order( $order_id );
 
 		if ( '0' === $order->get_total() || ! $order->get_meta( '_ezpay_invoice_data' ) ) {
 			return;
@@ -85,7 +85,8 @@ class EzPayInvoiceHandler {
 		$product_price = '';
 		$product_amt   = '';
 
-		foreach ( $order->get_items() as $item ) {
+		$items = $order->get_items();
+		foreach ( $items as $item ) {
 			/**
 			 * @var \WC_Order_Item_Product $item
 			 */
@@ -94,8 +95,9 @@ class EzPayInvoiceHandler {
 			}
 
 			$qty        = $item->get_quantity();
-			$total      = (float) $item->get_total();
-			$unit_price = $qty ? ( $total / $qty ) : 0;
+			$subtotal   = round( (float) $item->get_subtotal(), 2);
+			$unit_price = $qty ? ( $subtotal / $qty ) : 0;
+			$unit_price = round($unit_price, 2);
 
 			$divide        = ( $i > 0 ) ? '|' : '';
 			$product_name .= $divide . preg_replace( '/[\s｜（）]+/u', '-', mb_substr( $item->get_name(), 0, 30, 'UTF-8' ) );
@@ -106,13 +108,67 @@ class EzPayInvoiceHandler {
 			if ( 'company' === $invoice_type ) {
 				// B2B 未稅金額.
 				$product_price .= $divide . round( $unit_price / 1.05 );
-				$product_amt   .= $divide . round( $total / 1.05 );
+				$product_amt   .= $divide . round( $subtotal / 1.05 );
 			} else {
 				// B2C 含稅金額.
 				$product_price .= $divide . $unit_price;
-				$product_amt   .= $divide . $total;
+				$product_amt   .= $divide . $subtotal;
 			}
 
+			++$i;
+		}
+
+		// coupons
+		$coupons = $order->get_items('coupon');
+		foreach ( $coupons as $coupon ) {
+			/**
+			 * @var \WC_Order_Item_Coupon $coupon
+			 */
+			if (!( $coupon instanceof \WC_Order_Item_Coupon )) {
+				continue;
+			}
+
+			$qty            = $coupon->get_quantity();
+			$discount       = -1 * $coupon->get_discount();
+			$total_discount = ( (float) $discount )* $qty;
+
+			$divide        = ( $i > 0 ) ? '|' : '';
+			$product_name .= $divide . preg_replace( '/[\s｜（）]+/u', '-', mb_substr( $coupon->get_name(), 0, 30, 'UTF-8' ) );
+			// $product_name .= $divide . '網路商品';
+			$product_count .= $divide . str_replace( ' ', '', $qty );
+			$product_unit  .= $divide . '式';
+			$product_price .= $divide . $discount;
+			$product_amt   .= $divide . $total_discount;
+
+			++$i;
+		}
+
+		// 運費
+		$shipping_total = number_format( (float) $order->get_shipping_total() + (float) $order->get_shipping_tax(), wc_get_price_decimals(), '.', '' );
+		if ( $shipping_total != 0 ) {
+			$divide         = ( $i > 0 ) ? '|' : '';
+			$product_name  .= $divide . '運費';
+			$product_count .= $divide . 1;
+			$product_unit  .= $divide . '式';
+			$product_price .= $divide . $shipping_total;
+			$product_amt   .= $divide . $shipping_total;
+			++$i;
+		}
+
+		// 取得費用
+		$fee_amount = 0;
+		$fees       = $order->get_fees();
+		foreach ( $fees as $fee ) {
+			$fee_amount += $fee->get_amount();
+		}
+		$fee_amount = round( (float) $fee_amount, 2 );
+		if ( $fee_amount !== 0 ) {
+			$divide         = ( $i > 0 ) ? '|' : '';
+			$product_name  .= $divide . '費用';
+			$product_count .= $divide . 1;
+			$product_unit  .= $divide . '式';
+			$product_price .= $divide . $fee_amount;
+			$product_amt   .= $divide . $fee_amount;
 			++$i;
 		}
 
@@ -138,6 +194,10 @@ class EzPayInvoiceHandler {
 		$issue_data['ItemUnit']        = $product_unit; // 商品單位.
 		$issue_data['ItemPrice']       = $product_price; // 商品單價.
 		$issue_data['ItemAmt']         = $product_amt; // 商品小計.
+
+		ob_start();
+		var_dump($issue_data);
+		\J7\WpUtils\Classes\Log::info('' . ob_get_clean());
 
 		if ( 2 === $invoice_individual ) {
 			$issue_data['KioskPrintFlag'] = 1;
@@ -172,6 +232,10 @@ class EzPayInvoiceHandler {
 		$order = \wc_get_order( $order_id );
 
 		$issue_data = $this->get_issue_data( $order_id );
+
+		ob_start();
+		var_dump($issue_data);
+		\J7\WpUtils\Classes\Log::info('' . ob_get_clean());
 
 		if ( ! $issue_data ) {
 			return;
