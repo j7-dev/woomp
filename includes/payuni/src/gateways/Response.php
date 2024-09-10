@@ -248,6 +248,7 @@ final class Response {
 		$token->set_expiry_month( $card_expiry_month );
 		$token->set_expiry_year( $card_expiry_year );
 		$token->set_user_id( $user_id );
+		$token->set_default(true);
 		$token->save();
 	}
 
