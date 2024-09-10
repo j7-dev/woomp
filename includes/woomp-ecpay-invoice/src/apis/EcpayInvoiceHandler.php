@@ -107,7 +107,7 @@ class EcpayInvoiceHandler {
 			foreach ( $itemsTmp as $key => $WC_Order_Item_Product ) {
 				$items[ $key ]['ItemName']    = wp_strip_all_tags( str_replace( '|', '-', $WC_Order_Item_Product->get_name() ), true ); // 商品名稱 ItemName
 				$items[ $key ]['ItemCount']   = $WC_Order_Item_Product->get_quantity(); // 數量 ItemCount
-				$items[ $key ]['ItemAmount']  = round( (float) $WC_Order_Item_Product->get_total() + (float) $WC_Order_Item_Product->get_total_tax(), 2 ); // 小計 ItemAmount
+				$items[ $key ]['ItemAmount']  = round( (float) $WC_Order_Item_Product->get_subtotal() + (float) $WC_Order_Item_Product->get_subtotal_tax(), 2 ); // 小計 ItemAmount
 				$items[ $key ]['ItemPrice']   = round( (float) $items[ $key ]['ItemAmount'] / (float) $items[ $key ]['ItemCount'], 2 ); // 單價 ItemPrice
 				$order_total_summed_by_items += $items[ $key ]['ItemAmount']; // 將 items 總額加總起來
 			}
@@ -124,6 +124,23 @@ class EcpayInvoiceHandler {
 						'ItemPrice'   => round( (float) $value['ItemPrice'], 2 ),
 						'ItemTaxType' => 1,
 						'ItemAmount'  => round( (float) $value['ItemAmount'], 2 ),
+					]
+				);
+			}
+
+			// 折價券
+			$coupons = $order->get_items('coupon');
+			foreach ($coupons as $coupon) {
+				$item_price = -1 * round( (float) $coupon->get_discount() + (float) $coupon->get_discount_tax(), 2 );
+				array_push(
+					$ecpay_invoice->Send['Items'],
+					[
+						'ItemName'    => '折價券 - ' . $coupon->get_name(),
+						'ItemCount'   => 1,
+						'ItemWord'    => '式',
+						'ItemPrice'   => round( $item_price / $coupon->get_quantity(), 2 ),
+						'ItemTaxType' => 1,
+						'ItemAmount'  => $item_price,
 					]
 				);
 			}
