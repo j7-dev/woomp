@@ -301,6 +301,8 @@ if ( ! class_exists( 'EcpayInvoice' ) ) {
 
 		public function Check_Out() {
 			$arParameters = array_merge( [ 'MerchantID' => $this->MerchantID ], [ 'TimeStamp' => $this->TimeStamp ], $this->Send );
+
+
 			return ECPay_Invoice_Send::CheckOut( $arParameters, $this->HashKey, $this->HashIV, $this->Invoice_Method, $this->Invoice_Url );
 		}
 
@@ -335,6 +337,10 @@ if ( ! class_exists( 'ECPay_Invoice_Send' ) ) {
 
 			// 發送資訊處理
 			$arParameters = self::process_send( $arParameters, $HashKey, $HashIV, $Invoice_Method, $ServiceURL );
+
+			ob_start();
+			var_dump($arParameters );
+			\J7\WpUtils\Classes\Log::info('$arParameters ' . ob_get_clean());
 
 			$szResult = ECPay_IO::ServerPost( $arParameters, $ServiceURL );
 
@@ -1030,9 +1036,9 @@ if ( ! class_exists( 'ECPay_INVOICE' ) ) {
 			// 27.字軌類別
 
 			// *InvType(不可為空) 僅能為 07 狀態
-			if ( ( $arParameters['InvType'] != EcpayInvType::General ) ) {
-				array_push( $arErrors, '27:Invalid InvType.' );
-			}
+			// if ( ( $arParameters['InvType'] != EcpayInvType::General ) ) {
+			// 	array_push( $arErrors, '27:Invalid InvType.' );
+			// }
 
 			// 29.商品單價是否含稅(預設為含稅價)
 
@@ -1530,9 +1536,9 @@ if ( ! class_exists( 'ECPay_INVOICE_DELAY' ) ) {
 
 			// 27.字軌類別
 			// *InvType(不可為空) 僅能為 07 狀態
-			if ( ( $arParameters['InvType'] != EcpayInvType::General ) ) {
-				array_push( $arErrors, '27:Invalid InvType.' );
-			}
+			// if ( ( $arParameters['InvType'] != EcpayInvType::General ) ) {
+			// 	array_push( $arErrors, '27:Invalid InvType.' );
+			// }
 
 			// 30.延遲註記 DelayFlag
 			if ( ( $arParameters['DelayFlag'] != EcpayDelayFlagType::Delay ) && ( $arParameters['DelayFlag'] != EcpayDelayFlagType::Trigger ) ) {

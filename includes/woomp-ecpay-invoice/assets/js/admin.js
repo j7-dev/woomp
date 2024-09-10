@@ -173,16 +173,69 @@ jQuery(function ($) {
 		 */
 		const invType = $('#wc_woomp_ecpay_invoice_inv_type');
 		const taxType = $('#wc_woomp_ecpay_invoice_tax_type');
-		invType.on('change', function () {
+		const clearanceMark = $('#wc_woomp_ecpay_invoice_clearance_mark');
+		const specialTaxType = $('#wc_woomp_ecpay_invoice_special_tax_type');
+
+		function displayLogic() {
 			taxType.find('option').show();
 			const invTypeValue = invType.val();
 			if (invTypeValue === '07') {
 				taxType.find('option[value="4"]').hide();
-				taxType.val('1');
 			} else if (invTypeValue === '08') {
 				taxType.find('option[value="1"], option[value="2"], option[value="9"]').hide();
-				taxType.val('3');
 			}
+
+			specialTaxType.closest('tr').hide();
+			clearanceMark.closest('tr').hide();
+			specialTaxType.find('option').show();
+			const taxTypeValue = taxType.val();
+			console.log(clearanceMark);
+			if ('3' === taxTypeValue) {
+				specialTaxType.closest('tr').show();
+				specialTaxType.find('option:not([value="8"])').hide();
+				return;
+			}
+			if ('4' === taxTypeValue) {
+				specialTaxType.closest('tr').show();
+				specialTaxType.find('option[value="0"]').hide();
+				return;
+			}
+
+			if ('2' === taxTypeValue) {
+				clearanceMark.closest('tr').show();
+				return;
+			}
+		}
+
+		displayLogic();
+
+		invType.on('change', function () {
+			displayLogic();
+			const invTypeValue = invType.val();
+			if (invTypeValue === '07') {
+				taxType.val('1').trigger('change');
+			} else if (invTypeValue === '08') {
+				taxType.val('3').trigger('change');
+			}
+		});
+		taxType.on('change', function () {
+			displayLogic();
+			const taxTypeValue = taxType.val();
+			if ('3' === taxTypeValue) {
+				specialTaxType.val('8')
+				return;
+			}
+			if ('4' === taxTypeValue) {
+				specialTaxType.val('1')
+				return;
+			}
+
+			if ('2' === taxTypeValue) {
+				clearanceMark.val('')
+				return;
+			}
+
+			specialTaxType.val('0');
 		});
 	});
 });

@@ -118,12 +118,12 @@ class EcpayInvoiceHandler {
 				array_push(
 					$ecpay_invoice->Send['Items'],
 					[
-						'ItemName'    => str_replace( '|', '-', $value['ItemName'] ),
-						'ItemCount'   => $value['ItemCount'],
-						'ItemWord'    => '批',
-						'ItemPrice'   => round( (float) $value['ItemPrice'], 2 ),
-						'ItemTaxType' => 1,
-						'ItemAmount'  => round( (float) $value['ItemAmount'], 2 ),
+						'ItemName'   => str_replace( '|', '-', $value['ItemName'] ),
+						'ItemCount'  => $value['ItemCount'],
+						'ItemWord'   => '批',
+						'ItemPrice'  => round( (float) $value['ItemPrice'], 2 ),
+						// 'ItemTaxType' => 1,
+						'ItemAmount' => round( (float) $value['ItemAmount'], 2 ),
 					]
 				);
 			}
@@ -176,7 +176,12 @@ class EcpayInvoiceHandler {
 			// 測試用使用時間標記，正式上線只能單一不重複。
 			$relateNumber = date( 'YmdHis' );
 
-			$ecpay_invoice->Send['RelateNumber']       = get_option( 'wc_woomp_ecpay_invoice_order_prefix' ) . $relateNumber;
+			$inv_type         = \get_option( 'wc_woomp_ecpay_invoice_inv_type' );
+			$tax_type         = \get_option( 'wc_woomp_ecpay_invoice_tax_type' );
+			$special_tax_type = \get_option( 'wc_woomp_ecpay_invoice_special_tax_type', '0' );
+			$clearance_mark   = \get_option( 'wc_woomp_ecpay_invoice_clearance_mark', '' );
+
+			$ecpay_invoice->Send['RelateNumber']       = \get_option( 'wc_woomp_ecpay_invoice_order_prefix' ) . $relateNumber;
 			$ecpay_invoice->Send['CustomerID']         = '';
 			$ecpay_invoice->Send['CustomerIdentifier'] = $customerIdentifier;
 			$ecpay_invoice->Send['CustomerName']       = $customerName;
@@ -189,10 +194,11 @@ class EcpayInvoiceHandler {
 			$ecpay_invoice->Send['LoveCode']           = $loveCode;
 			$ecpay_invoice->Send['CarruerType']        = $carruerType;
 			$ecpay_invoice->Send['CarruerNum']         = $carruerNum;
-			$ecpay_invoice->Send['TaxType']            = 1;
+			$ecpay_invoice->Send['TaxType']            = $tax_type;
+			$ecpay_invoice->Send['SpecialTaxType']     = (int) $special_tax_type;
 			$ecpay_invoice->Send['SalesAmount']        = round( (float) $order_total );
 			$ecpay_invoice->Send['InvoiceRemark']      = $invoiceRemark;
-			$ecpay_invoice->Send['InvType']            = '07';
+			$ecpay_invoice->Send['InvType']            = $inv_type;
 			$ecpay_invoice->Send['vat']                = '';
 
 			$ecpay_invoice->Send['Items'];
@@ -328,13 +334,13 @@ class EcpayInvoiceHandler {
 		$api_data = [];
 
 		if ( wc_string_to_bool( get_option( 'wc_woomp_ecpay_invoice_testmode_enabled' ) ) ) {
-			$api_data['request_url_issue']   = 'https://einvoice-stage.ecpay.com.tw/Invoice/Issue';
+			$api_data['request_url_issue']   = 'https://einvoice-stage.ecpay.com.tw/B2CInvoice/Issue';
 			$api_data['request_url_invalid'] = 'https://einvoice-stage.ecpay.com.tw/Invoice/IssueInvalid';
 			$api_data['merchant_id']         = '2000132';
 			$api_data['hashkey']             = 'ejCk326UnaZWKisg';
 			$api_data['hashiv']              = 'q9jcZX8Ib9LM8wYk';
 		} else {
-			$api_data['request_url_issue']   = 'https://einvoice.ecpay.com.tw/Invoice/Issue';
+			$api_data['request_url_issue']   = 'https://einvoice.ecpay.com.tw/B2CInvoice/Issue';
 			$api_data['request_url_invalid'] = 'https://einvoice.ecpay.com.tw/Invoice/IssueInvalid';
 
 			if ( get_option( 'RY_WEI_ecpay_MerchantID' ) && get_option( 'RY_WEI_ecpay_HashKey' ) && get_option( 'RY_WEI_ecpay_HashIV' ) ) {
