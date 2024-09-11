@@ -105,15 +105,8 @@ class EzPayInvoiceHandler {
 			$product_count .= $divide . str_replace( ' ', '', $qty );
 			$product_unit  .= $divide . '件';
 
-			if ( 'company' === $invoice_type ) {
-				// B2B 未稅金額.
-				$product_price .= $divide . round( $unit_price / 1.05 );
-				$product_amt   .= $divide . round( $subtotal / 1.05 );
-			} else {
-				// B2C 含稅金額.
-				$product_price .= $divide . $unit_price;
-				$product_amt   .= $divide . $subtotal;
-			}
+			$product_price .= $divide . $unit_price;
+			$product_amt   .= $divide . $subtotal;
 
 			++$i;
 		}
