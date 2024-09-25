@@ -160,8 +160,17 @@ class CreditSubscription extends AbstractGateway {
 		// 如果已存在相同訂單編號，就創立新的訂單編號
 		if ( 'CREDIT04001' === $result['status_code'] ) {
 			$new_order_id = \woomp_copy_order($order);
-			$result       = $this->process_payment($new_order_id);
-			$is_3d_auth   = $order->get_meta('_payuni_is_3d_auth', true) === 'yes';
+
+			// 更新原本訂閱的上層訂單(parent_id)，改成新的 new_order_id
+			$subscriptions = \wcs_get_subscriptions_for_order($order);
+
+			foreach ($subscriptions as $subscription) {
+				$subscription->set_parent_id($new_order_id);
+				$subscription->save();
+			}
+
+			$result     = $this->process_payment($new_order_id);
+			$is_3d_auth = $order->get_meta('_payuni_is_3d_auth', true) === 'yes';
 			/**
 			* 原本是不需要這段的
 			* 但如果因為統一金判斷"相同訂單編號"，我們需要創建新訂單，重跑一次 process_payment
