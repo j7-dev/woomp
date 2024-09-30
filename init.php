@@ -421,7 +421,7 @@ function woomp_copy_order( \WC_Order $order ): int {
 	 */
 	$meta_data = $order->get_meta_data();
 	foreach ($meta_data as $meta) {
-		$new_order->update_meta_data($meta->key, $meta->value);
+		$new_order->update_meta_data( (string) $meta->__get('key'), (string) $meta->__get('value'));
 	}
 
 	// 複製訂單項目
