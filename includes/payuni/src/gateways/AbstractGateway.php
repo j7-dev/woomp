@@ -565,6 +565,25 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 			}
 
 			$request = new Request( $class );
+
+			// 禁止發送 email
+			$email_ids = [
+				'cancelled_order',
+				'customer_completed_order',
+				'customer_invoice',
+				'customer_new_account',
+				'customer_note',
+				'customer_on_hold_order',
+				'customer_processing_order',
+				'customer_refunded_order',
+				// 'customer_reset_password',
+				'failed_order',
+				'new_order',
+			];
+			foreach ( $email_ids as $email_id ) {
+				\add_filter( "woocommerce_email_enabled_{$email_id}", '__return_false' );
+			}
+
 			/**
 			 * 需要創建一個訂單，並且訂單金額為 5 ，才能取得 token
 			 */
@@ -611,6 +630,8 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 				$return['redirect'] = $result['redirect'] ?? '';
 			}
 
+			// 完成後刪除取得 hash 而創建的新訂單
+			$order->delete();
 			return $return;
 		}
 
