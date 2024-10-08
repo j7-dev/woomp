@@ -258,10 +258,10 @@ final class Request {
 	 * 訂閱的定期扣款走這邊
 	 * 未來如果用 get_transaction_args 取得參數，記得，不需要 3D 驗證
 	 *
-	 * @param int       $amount The amount.
+	 * @param float|int $amount The amount.
 	 * @param \WC_Order $order The subscription order object.
 	 */
-	public function build_subscription_request( int $amount, WC_Order $order ): void {
+	public function build_subscription_request( float|int $amount, WC_Order $order ): void {
 		$order_suffix = ( $order->get_meta( '_payuni_order_suffix' ) ) ? '-' . $order->get_meta( '_payuni_order_suffix' ) : '';
 
 		$args = [

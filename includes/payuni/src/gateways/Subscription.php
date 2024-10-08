@@ -57,9 +57,9 @@ class Subscription {
 	 *
 	 * @return void
 	 */
-	public function process_subscription_payment( int $amount, WC_Order $order ): void {
+	public function process_subscription_payment( $amount, WC_Order $order ): void {
 		$request = new Request( new CreditSubscription() );
-		$request->build_subscription_request( $amount, $order );
+		$request->build_subscription_request( (float) $amount, $order );
 	}
 
 	/**

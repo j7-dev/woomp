@@ -36,9 +36,9 @@ class Ajax {
 			return false;
 		}
 
-		$order  = wc_get_order( $order_id );
+		$order  = \wc_get_order( $order_id );
 		$amount = $order->get_total();
-		$this->request->build_subscription_request( $amount, $order );
+		$this->request->build_subscription_request( (float) $amount, $order );
 
 		echo 'success';
 
