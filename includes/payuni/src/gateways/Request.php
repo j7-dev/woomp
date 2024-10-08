@@ -179,7 +179,7 @@ final class Request {
 			// 判斷是否為使用 token (CreditHash) 付款
 			if ( \is_numeric($token_id)) {
 				$token              = \WC_Payment_Tokens::get( $token_id );
-				$args['CreditHash'] = $token->get_token();
+				$args['CreditHash'] = $token?->get_token();
 
 				// 如果有 CreditHash 就不需要再傳卡號、有效期、末三碼
 				unset( $args['CardNo'] );
@@ -320,7 +320,7 @@ final class Request {
 
 			$token = \WC_Payment_Tokens::get( $parent_order->get_meta( '_payuni_token_id' ) );
 
-			return $token->get_token();
+			return $token?->get_token();
 		}
 
 		return '';
