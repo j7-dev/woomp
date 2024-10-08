@@ -234,6 +234,15 @@ final class CardManagement {
 		}
 
 		\WC_Payment_Tokens::set_users_default( $user_id, $token_id );
+		$subscription_id = (int) $_POST['post'] ?? 0; // phpcs:ignore
+		if ($subscription_id) {
+			$subscription = \wcs_get_subscription( $subscription_id );
+			$parent_order = $subscription->get_parent();
+			if ($parent_order) {
+				$parent_order->update_meta_data( '_payuni_token_id', $token_id );
+				$parent_order->save();
+			}
+		}
 
 		// Make your array as json
 		\wp_send_json(
