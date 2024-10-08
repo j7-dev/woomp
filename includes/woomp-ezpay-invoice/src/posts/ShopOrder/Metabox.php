@@ -62,12 +62,14 @@ class Field {
 			$order->save();
 		}
 
-		$_invoice_type         = ( array_key_exists( '_ezpay_invoice_type', $order->get_meta( '_ezpay_invoice_data' ) ) ) ? $order->get_meta( '_ezpay_invoice_data' )['_ezpay_invoice_type'] : '';
-		$_invoice_individual   = ( array_key_exists( '_ezpay_invoice_individual', $order->get_meta( '_ezpay_invoice_data' ) ) ) ? $order->get_meta( '_ezpay_invoice_data' )['_ezpay_invoice_individual'] : '';
-		$_invoice_carrier      = ( array_key_exists( '_ezpay_invoice_carrier', $order->get_meta( '_ezpay_invoice_data' ) ) ) ? $order->get_meta( '_ezpay_invoice_data' )['_ezpay_invoice_carrier'] : '';
-		$_invoice_company_name = ( array_key_exists( '_ezpay_invoice_company_name', $order->get_meta( '_ezpay_invoice_data' ) ) ) ? $order->get_meta( '_ezpay_invoice_data' )['_ezpay_invoice_company_name'] : '';
-		$_invoice_tax_id       = ( array_key_exists( '_ezpay_invoice_tax_id', $order->get_meta( '_ezpay_invoice_data' ) ) ) ? $order->get_meta( '_ezpay_invoice_data' )['_ezpay_invoice_tax_id'] : '';
-		$_invoice_donate       = ( array_key_exists( '_ezpay_invoice_donate', $order->get_meta( '_ezpay_invoice_data' ) ) ) ? $order->get_meta( '_ezpay_invoice_data' )['_ezpay_invoice_donate'] : '';
+		$ezpay_invoice_data = (array) $order->get_meta( '_ezpay_invoice_data' );
+
+		$_invoice_type         = $ezpay_invoice_data['_ezpay_invoice_type'] ?? '';
+		$_invoice_individual   = $ezpay_invoice_data['_ezpay_invoice_individual'] ?? '';
+		$_invoice_carrier      = $ezpay_invoice_data['_ezpay_invoice_carrier'] ?? '';
+		$_invoice_company_name = $ezpay_invoice_data['_ezpay_invoice_company_name'] ?? '';
+		$_invoice_tax_id       = $ezpay_invoice_data['_ezpay_invoice_tax_id'] ?? '';
+		$_invoice_donate       = $ezpay_invoice_data['_ezpay_invoice_donate'] ?? '';
 
 		$output  = '<p><strong>' . __( 'Invoice Type', 'woomp' ) . '</strong></p>';
 		$output .= '
