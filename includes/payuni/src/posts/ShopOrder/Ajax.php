@@ -24,25 +24,31 @@ class Ajax {
 	 * 手動請款
 	 */
 	public function build_request() {
+		try {
+			if ( ! wp_verify_nonce( $_POST['nonce'], 'pay_manual' ) ) { // phpcs:ignore
+				\wp_send_json_error( __( '發生錯誤，不合法的請求來源！', 'woomp' ) );
+				return;
+			}
 
-		if ( ! wp_verify_nonce( $_POST['nonce'], 'pay_manual' ) ) {
-			echo __( '發生錯誤，不合法的請求來源！', 'woomp' );
-			exit;
+			$order_id = (int) $_POST['orderId'] ?? 0; // phpcs:ignore
+
+			if ( ! $order_id ) {
+				\wp_send_json_error( __( '訂單編號錯誤！', 'woomp' ) );
+				return;
+			}
+
+			$order  = \wc_get_order( $order_id );
+			$amount = $order->get_total();
+			$this->request->build_subscription_request( (float) $amount, $order );
+
+			\wp_send_json_success( __( '扣款成功！', 'woomp' ) );
+
+			\wp_die();
+		} catch (\Throwable $th) {
+			ob_start();
+			var_dump( $th );
+			\J7\WpUtils\Classes\ErrorLog::info( 'error: ' . ob_get_clean() );
 		}
-
-		$order_id = intval( sanitize_text_field( $_POST['orderId'] ) );
-
-		if ( ! $order_id ) {
-			return false;
-		}
-
-		$order  = \wc_get_order( $order_id );
-		$amount = $order->get_total();
-		$this->request->build_subscription_request( (float) $amount, $order );
-
-		echo 'success';
-
-		wp_die();
 	}
 }
 

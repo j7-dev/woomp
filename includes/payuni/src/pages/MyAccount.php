@@ -108,7 +108,7 @@ class MyAccount {
 			$subscription->save();
 
 			// 取得父訂單ID.
-			$parent_id          = \wp_get_post_parent_id( $subscription_id );
+			$parent_id          = $subscription->get_parent_id();
 			$parent_order_ids[] = $parent_id;
 		}
 
