@@ -300,27 +300,34 @@ final class Request {
 	}
 
 	private function get_card_hash( $order ) {
-		// 如果沒有啟用訂閱，就不初始化卡片管理
 		if (!class_exists('WC_Subscriptions')) {
 			return;
 		}
-		$parent_order  = '';
+
 		$subscriptions = \wcs_get_subscriptions_for_order( $order->get_id(), [ 'order_type' => 'any' ] );
 		if ( $subscriptions ) {
+			$parent_order = null;
 			foreach ( $subscriptions as $subscription_obj ) {
 				// 上層訂單
-				$parent_order = \wc_get_order( $subscription_obj->get_parent_id() );
+				$parent_order = \wc_get_order( $subscription_obj->get_parent() );
+				if ( $parent_order ) {
+					break;
+				}
 			}
 
 			$token_id = $parent_order->get_meta( '_payuni_token_id' );
 
-			if ( ! $token_id || 'new' === $token_id ) {
-				return $parent_order->get_meta( '_payuni_card_hash' );
+			if ( \is_numeric( $token_id ) ) {
+				$token            = \WC_Payment_Tokens::get( $token_id );
+				$payuni_card_hash = $token?->get_token();
+				if ( $payuni_card_hash ) {
+					return $payuni_card_hash;
+				}
 			}
 
-			$token = \WC_Payment_Tokens::get( $parent_order->get_meta( '_payuni_token_id' ) );
+			$hash_order = wc_get_order( 1377041);
 
-			return $token?->get_token();
+			return $parent_order->get_meta( '_payuni_card_hash' );
 		}
 
 		return '';
