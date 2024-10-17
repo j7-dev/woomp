@@ -62,12 +62,14 @@ class Field {
 			$order->save();
 		}
 
-		$_invoice_type         = ( array_key_exists( '_invoice_type', $order->get_meta( '_ecpay_invoice_data' ) ) ) ? $order->get_meta( '_ecpay_invoice_data' )['_invoice_type'] : '';
-		$_invoice_individual   = ( array_key_exists( '_invoice_individual', $order->get_meta( '_ecpay_invoice_data' ) ) ) ? $order->get_meta( '_ecpay_invoice_data' )['_invoice_individual'] : '';
-		$_invoice_carrier      = ( array_key_exists( '_invoice_carrier', $order->get_meta( '_ecpay_invoice_data' ) ) ) ? $order->get_meta( '_ecpay_invoice_data' )['_invoice_carrier'] : '';
-		$_invoice_company_name = ( array_key_exists( '_invoice_company_name', $order->get_meta( '_ecpay_invoice_data' ) ) ) ? $order->get_meta( '_ecpay_invoice_data' )['_invoice_company_name'] : '';
-		$_invoice_tax_id       = ( array_key_exists( '_invoice_tax_id', $order->get_meta( '_ecpay_invoice_data' ) ) ) ? $order->get_meta( '_ecpay_invoice_data' )['_invoice_tax_id'] : '';
-		$_invoice_donate       = ( array_key_exists( '_invoice_donate', $order->get_meta( '_ecpay_invoice_data' ) ) ) ? $order->get_meta( '_ecpay_invoice_data' )['_invoice_donate'] : '';
+		$ecpay_invoice_data = (array) $order->get_meta( '_ecpay_invoice_data' );
+
+		$_invoice_type         = $ecpay_invoice_data['_invoice_type'] ?? '';
+		$_invoice_individual   = $ecpay_invoice_data['_invoice_individual'] ?? '';
+		$_invoice_carrier      = $ecpay_invoice_data['_invoice_carrier'] ?? '';
+		$_invoice_company_name = $ecpay_invoice_data['_invoice_company_name'] ?? '';
+		$_invoice_tax_id       = $ecpay_invoice_data['_invoice_tax_id'] ?? '';
+		$_invoice_donate       = $ecpay_invoice_data['_invoice_donate'] ?? '';
 
 		$output  = '<p><strong>' . __( 'Invoice Type', 'woomp' ) . '</strong></p>';
 		$output .= '

@@ -47,15 +47,16 @@ class EzPayInvoiceHandler {
 	 */
 	private function get_issue_data( $order_id ) {
 
-		$order = \wc_get_order( $order_id );
+		$order              = \wc_get_order( $order_id );
+		$ezpay_invoice_data = (array) $order->get_meta( '_ezpay_invoice_data' );
 
-		if ( '0' === $order->get_total() || ! $order->get_meta( '_ezpay_invoice_data' ) ) {
+		if ( '0' === $order->get_total() || ! $ezpay_invoice_data ) {
 			return;
 		}
 
 		// 取得顧客發票資訊.
-		$invoice_type       = ( array_key_exists( '_ezpay_invoice_type', $order->get_meta( '_ezpay_invoice_data' ) ) ) ? $order->get_meta( '_ezpay_invoice_data' )['_ezpay_invoice_type'] : '';
-		$invoice_individual = ( array_key_exists( '_ezpay_invoice_individual', $order->get_meta( '_ezpay_invoice_data' ) ) ) ? $order->get_meta( '_ezpay_invoice_data' )['_ezpay_invoice_individual'] : '';
+		$invoice_type       = $ezpay_invoice_data['_ezpay_invoice_type'] ?? '';
+		$invoice_individual = $ezpay_invoice_data['_ezpay_invoice_individual'] ?? '';
 
 		switch ( $invoice_individual ) {
 			case '手機條碼':
@@ -72,10 +73,10 @@ class EzPayInvoiceHandler {
 				break;
 		}
 
-		$invoice_carrier      = ( array_key_exists( '_ezpay_invoice_carrier', $order->get_meta( '_ezpay_invoice_data' ) ) ) ? $order->get_meta( '_ezpay_invoice_data' )['_ezpay_invoice_carrier'] : '';
-		$invoice_company_name = ( array_key_exists( '_ezpay_invoice_company_name', $order->get_meta( '_ezpay_invoice_data' ) ) ) ? $order->get_meta( '_ezpay_invoice_data' )['_ezpay_invoice_company_name'] : '';
-		$invoice_tax_id       = ( array_key_exists( '_ezpay_invoice_tax_id', $order->get_meta( '_ezpay_invoice_data' ) ) ) ? $order->get_meta( '_ezpay_invoice_data' )['_ezpay_invoice_tax_id'] : '';
-		$invoice_donate       = ( array_key_exists( '_ezpay_invoice_donate', $order->get_meta( '_ezpay_invoice_data' ) ) ) ? $order->get_meta( '_ezpay_invoice_data' )['_ezpay_invoice_donate'] : '';
+		$invoice_carrier      = $ezpay_invoice_data['_ezpay_invoice_carrier'] ?? '';
+		$invoice_company_name = $ezpay_invoice_data['_ezpay_invoice_company_name'] ?? '';
+		$invoice_tax_id       = $ezpay_invoice_data['_ezpay_invoice_tax_id'] ?? '';
+		$invoice_donate       = $ezpay_invoice_data['_ezpay_invoice_donate'] ?? '';
 
 		// 取得商品相關資訊.
 		$i             = 0;
@@ -100,7 +101,7 @@ class EzPayInvoiceHandler {
 			$unit_price = round($unit_price, 2);
 
 			$divide        = ( $i > 0 ) ? '|' : '';
-			$product_name .= $divide . preg_replace( '/[\s｜（）]+/u', '-', mb_substr( $item->get_name(), 0, 30, 'UTF-8' ) );
+			$product_name .= $divide . preg_replace( '/[\s|()｜（）]+/u', '-', mb_substr( $item->get_name(), 0, 30, 'UTF-8' ) );
 			// $product_name .= $divide . '網路商品';
 			$product_count .= $divide . str_replace( ' ', '', $qty );
 			$product_unit  .= $divide . '件';
@@ -126,7 +127,7 @@ class EzPayInvoiceHandler {
 			$total_discount = ( (float) $discount )* $qty;
 
 			$divide        = ( $i > 0 ) ? '|' : '';
-			$product_name .= $divide . preg_replace( '/[\s｜（）]+/u', '-', mb_substr( $coupon->get_name(), 0, 30, 'UTF-8' ) );
+			$product_name .= $divide . preg_replace( '/[\s|()｜（）]+/u', '-', mb_substr( $coupon->get_name(), 0, 30, 'UTF-8' ) );
 			// $product_name .= $divide . '網路商品';
 			$product_count .= $divide . str_replace( ' ', '', $qty );
 			$product_unit  .= $divide . '式';
