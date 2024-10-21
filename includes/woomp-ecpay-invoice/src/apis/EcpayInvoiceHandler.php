@@ -219,9 +219,9 @@ class EcpayInvoiceHandler {
 			$return_info = $ecpay_invoice->Check_Out();
 
 			// 於備註區寫入發票資訊
-			$invoice_date    = $return_info['InvoiceDate'];
-			$invoice_number  = $return_info['InvoiceNumber'];
-			$invoice_message = $return_info['RtnMsg'];
+			$invoice_date    = $return_info['InvoiceDate'] ?? '';
+			$invoice_number  = $return_info['InvoiceNumber'] ?? '';
+			$invoice_message = $return_info['RtnMsg'] ?? $return_info;
 
 			$invocie_result = ( $invoice_date ) ? __( '<b>Invoice issue result</b>', 'woomp' ) : __( '<b>Invoice issue faild</b>', 'woomp' );
 

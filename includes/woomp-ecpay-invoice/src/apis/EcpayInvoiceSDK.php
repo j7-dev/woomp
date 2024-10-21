@@ -338,6 +338,11 @@ if ( ! class_exists( 'ECPay_Invoice_Send' ) ) {
 
 			$szResult = ECPay_IO::ServerPost( $arParameters, $ServiceURL );
 
+			// 如果是綠界回錯誤，會直接回錯誤訊息 string
+			if ( is_string( $szResult ) ) {
+				return $szResult;
+			}
+
 			// 回傳資訊處理
 			$arParameters_Return = self::process_return( $szResult, $HashKey, $HashIV, $Invoice_Method );
 
