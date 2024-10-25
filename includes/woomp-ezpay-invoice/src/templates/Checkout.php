@@ -129,28 +129,41 @@ class Checkout {
 	 * 前端結帳頁面客製化欄位驗證
 	 */
 	public function set_invoice_field_validate() {
+		$fields = [
+			'individual_invoice' => 'ezpay-individual-invoice',
+			'carrier_number'     => 'ezpay-carrier-number',
+			'taxid_number'       => 'ezpay-taxid-number',
+			'company_name'       => 'ezpay-company-name',
+			'donate_number'      => 'ezpay-donate-number',
+			'invoice_type'       => 'ezpay-invoice-type',
+		];
+
+		foreach ($fields as $key => $field) {
+			$$key = $_POST[ $field ] ?? ''; // phpcs:ignore
+		}
+
 		// 如果選了自然人憑證，就要參加資料驗證。比對前 2 碼大寫英文，後 14 碼數字
-		if ( $_POST['ezpay-individual-invoice'] == '自然人憑證' && preg_match( '/^[A-Z]{2}\d{14}$/', $_POST['ezpay-carrier-number'] ) == false ) {
-			wc_add_notice( __( '<strong>電子發票 自然人憑證</strong> 請輸入前 2 位大寫英文與 14 位數字自然人憑證號碼' ), 'error' );
+		if ( $individual_invoice === '自然人憑證' && preg_match( '/^[A-Z]{2}\d{14}$/', $carrier_number ) == false ) {
+			\wc_add_notice( __( '<strong>電子發票 自然人憑證</strong> 請輸入前 2 位大寫英文與 14 位數字自然人憑證號碼' ), 'error' );
 		}
 
 		// 如果選了手機條碼，就要參加資料驗證。比對 7 位英數字
-		if ( $_POST['ezpay-individual-invoice'] == '手機條碼' && preg_match( '/^\/[A-Za-z0-9+-\.]{7}$/', $_POST['ezpay-carrier-number'] ) == false ) {
-			wc_add_notice( __( '<strong>電子發票 手機條碼</strong> 請輸入第 1 碼為「/」，後 7 碼為大寫英文、數字、「+」、「-」或「.」' ), 'error' );
+		if ( $individual_invoice === '手機條碼' && preg_match( '/^\/[A-Za-z0-9+-\.]{7}$/', $carrier_number ) == false ) {
+			\wc_add_notice( __( '<strong>電子發票 手機條碼</strong> 請輸入第 1 碼為「/」，後 7 碼為大寫英文、數字、「+」、「-」或「.」' ), 'error' );
 		}
 
 		// 如果選了公司，就要參加資料驗證。比對 8 位數字資料，如果失敗顯示錯誤訊息。
-		if ( $_POST['ezpay-invoice-type'] == 'company' && preg_match( '/^\d{8}$/', $_POST['ezpay-taxid-number'] ) == false ) {
-			wc_add_notice( __( '<strong>統一編號</strong> 請輸入 8 位數字組成統一編號' ), 'error' );
+		if ( $invoice_type === 'company' && preg_match( '/^\d{8}$/', $taxid_number ) == false ) {
+			\wc_add_notice( __( '<strong>統一編號</strong> 請輸入 8 位數字組成統一編號' ), 'error' );
 		}
 
-		if ( $_POST['ezpay-invoice-type'] == 'company' && preg_match( '/./s', $_POST['ezpay-company-name'] ) == false ) {
-			wc_add_notice( __( '<strong>公司名稱</strong> 為必填欄位' ), 'error' );
+		if ( $invoice_type === 'company' && preg_match( '/./s', $company_name ) == false ) {
+			\wc_add_notice( __( '<strong>公司名稱</strong> 為必填欄位' ), 'error' );
 		}
 
 		// 如果選了捐贈發票，就要參加資料驗證。比對 3~7 位數字資料，如果失敗顯示錯誤訊息。
-		if ( $_POST['ezpay-invoice-type'] == 'donate' && preg_match( '/^\d{3,7}$/', $_POST['ezpay-donate-number'] ) == false ) {
-			wc_add_notice( __( '<strong>捐贈碼</strong> 請輸入 3~7 位數字' ), 'error' );
+		if ( $invoice_type === 'donate' && preg_match( '/^\d{3,7}$/', $donate_number ) == false ) {
+			\wc_add_notice( __( '<strong>捐贈碼</strong> 請輸入 3~7 位數字' ), 'error' );
 		}
 	}
 
@@ -174,8 +187,11 @@ class Checkout {
 
 		// TODO 欄位轉換
 		// 未來再統一欄位，需要向後兼容，欄位修改
+		$ezpay_invoice_type  = $_POST['ezpay-invoice-type'] ?? '';
+		$invoice_data        = [
+			'_ezpay_invoice_type' => $ezpay_invoice_type,
+		];
 		$invoice_data_fields = [
-			'_ezpay_invoice_type'         => 'ezpay-invoice-type',
 			'_ezpay_invoice_individual'   => 'ezpay-individual-invoice',
 			'_ezpay_invoice_carrier'      => 'ezpay-carrier-number',
 			'_ezpay_invoice_company_name' => 'ezpay-company-name',
@@ -183,30 +199,52 @@ class Checkout {
 			'_ezpay_invoice_donate'       => 'ezpay-donate-number',
 		];
 
-		$invoice_data = [];
-
 		// phpcs:disable
 		foreach ( $invoice_data_fields as $key => $field ) {
-			if ( isset( $_POST[ $field ] ) ) {
-				$value                = \wp_unslash( $_POST[ $field ] ?? '' );
-				$invoice_data[ $key ] = $value;
+			if(!isset( $_POST[ $field ])) {
+				continue;
 			}
 
-			if (!isset( $_POST[ $field ] ) && '_ezpay_invoice_individual' === $key ) {
-				$invoice_data[ $key ] = false;
+			if('individual' === $ezpay_invoice_type) {
+				$allow_fields = ['ezpay-individual-invoice', 'ezpay-carrier-number'];
+				if(in_array($field, $allow_fields)) {
+					$value                = \wp_unslash( $_POST[ $field ] ?? '' );
+					$invoice_data[ $key ] = $value;
+			}
+			}
+
+			if('company' === $ezpay_invoice_type) {
+				$allow_fields = ['ezpay-company-name', 'ezpay-taxid-number'];
+				if(in_array($field, $allow_fields)) {
+						$value                = \wp_unslash( $_POST[ $field ] ?? '' );
+						$invoice_data[ $key ] = $value;
+				}
+			}
+
+			if('donate' === $ezpay_invoice_type) {
+				$allow_fields = ['ezpay-donate-number'];
+				if(in_array($field, $allow_fields)) {
+					$value                = \wp_unslash( $_POST[ $field ] ?? '' );
+					$invoice_data[ $key ] = $value;
+				}
 			}
 		}
 		// phpcs:enable
 
-		if ($invoice_data['_ezpay_invoice_individual'] === 'ezPay 電子發票載具' ) {
+		if('ezPay 電子發票載具' === $invoice_data['_ezpay_invoice_individual']) {
 			unset($invoice_data['_ezpay_invoice_carrier']);
 		}
+
+
 
 		if ( count( $invoice_data ) > 0 ) {
 			$order->update_meta_data( '_ezpay_invoice_data', $invoice_data );
 			$order->save();
 		}
 	}
+
+
+
 
 	private function get_cart_info( $type = null ) {
 
