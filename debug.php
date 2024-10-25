@@ -1,8 +1,8 @@
 <?php
 namespace J7\WpUtils\Classes;
 
-if (!class_exists('J7\WpUtils\Classes\Log')) {
-	class Log {
+if (!class_exists('J7\WpUtils\Classes\ErrorLog')) {
+	class ErrorLog {
 		/**
 		 * Log a message.
 		 *
