@@ -158,42 +158,48 @@ class Checkout {
 	 * 發票資料寫入
 	 */
 	public function set_invoice_meta( $order_id ) {
-		$order = wc_get_order( $order_id );
+		$order = \wc_get_order( $order_id );
 
 		foreach ( $order->get_items() as $item ) {
+			/**
+			 * @var \WC_Order_Item_Product $item
+			 */
 			$product_type = \WC_Product_Factory::get_product_type( $item->get_product_id() );
 		}
 
+		// 如果總金額為 0 且非訂閱商品，則不開立發票
 		if ( '0' === $order->get_total() && strpos( $product_type, 'subscription' ) === false ) {
 			return;
 		}
 
+		// TODO 欄位轉換
+		// 未來再統一欄位，需要向後兼容，欄位修改
+		$invoice_data_fields = [
+			'_ezpay_invoice_type'         => 'ezpay-invoice-type',
+			'_ezpay_invoice_individual'   => 'ezpay-individual-invoice',
+			'_ezpay_invoice_carrier'      => 'ezpay-carrier-number',
+			'_ezpay_invoice_company_name' => 'ezpay-company-name',
+			'_ezpay_invoice_tax_id'       => 'ezpay-taxid-number',
+			'_ezpay_invoice_donate'       => 'ezpay-donate-number',
+		];
+
 		$invoice_data = [];
-		// 新增發票開立類型
-		if ( isset( $_POST['ezpay-invoice-type'] ) ) {
-			$invoice_data['_ezpay_invoice_type'] = wp_unslash( $_POST['ezpay-invoice-type'] );
+
+		// phpcs:disable
+		foreach ( $invoice_data_fields as $key => $field ) {
+			if ( isset( $_POST[ $field ] ) ) {
+				$value                = \wp_unslash( $_POST[ $field ] ?? '' );
+				$invoice_data[ $key ] = $value;
+			}
+
+			if (!isset( $_POST[ $field ] ) && '_ezpay_invoice_individual' === $key ) {
+				$invoice_data[ $key ] = false;
+			}
 		}
-		// 新增個人發票選項
-		if ( isset( $_POST['ezpay-individual-invoice'] ) ) {
-			$invoice_data['_ezpay_invoice_individual'] = wp_unslash( $_POST['ezpay-individual-invoice'] );
-		} else {
-			$invoice_data['_ezpay_invoice_individual'] = false;
-		}
-		// 新增載具編號
-		if ( isset( $_POST['ezpay-carrier-number'] ) && ( $_POST['ezpay-individual-invoice'] == '手機條碼' || $_POST['ezpay-individual-invoice'] == '自然人憑證' ) ) {
-			$invoice_data['_ezpay_invoice_carrier'] = wp_unslash( $_POST['ezpay-carrier-number'] );
-		}
-		// 新增公司名稱
-		if ( isset( $_POST['ezpay-company-name'] ) ) {
-			$invoice_data['_ezpay_invoice_company_name'] = wp_unslash( $_POST['ezpay-company-name'] );
-		}
-		// 新增統一編號
-		if ( isset( $_POST['ezpay-taxid-number'] ) ) {
-			$invoice_data['_ezpay_invoice_tax_id'] = wp_unslash( $_POST['ezpay-taxid-number'] );
-		}
-		// 新增捐贈碼
-		if ( isset( $_POST['ezpay-donate-number'] ) ) {
-			$invoice_data['_ezpay_invoice_donate'] = wp_unslash( $_POST['ezpay-donate-number'] );
+		// phpcs:enable
+
+		if ($invoice_data['_ezpay_invoice_individual'] === 'ezPay 電子發票載具' ) {
+			unset($invoice_data['_ezpay_invoice_carrier']);
 		}
 
 		if ( count( $invoice_data ) > 0 ) {
