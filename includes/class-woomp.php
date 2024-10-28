@@ -115,6 +115,7 @@ final class Woomp {
 		 * The class responsible for defining all actions that occur in the admin area.
 		 */
 		require_once plugin_dir_path( __DIR__ ) . 'admin/resources/shop_subscription/index.php';
+		require_once plugin_dir_path( __DIR__ ) . 'admin/resources/class-checkout.php';
 
 		require_once plugin_dir_path( __DIR__ ) . 'admin/class-woomp-admin.php';
 		require_once plugin_dir_path( __DIR__ ) . 'admin/class-woomp-product.php';

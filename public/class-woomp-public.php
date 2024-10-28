@@ -111,7 +111,6 @@ class Woomp_Public {
 					'enableWoomp'                 => ( get_option( 'wc_woomp_setting_mode', 1 ) === 'onepage' || get_option( 'wc_woomp_setting_mode', 1 ) === 'twopage' ) ? 'yes' : '',
 					'enableTwoPage'               => ( get_option( 'wc_woomp_setting_mode', 1 ) === 'twopage' ) ? 'yes' : '',
 					'enableTwAddress'             => get_option( 'wc_woomp_setting_tw_address' ),
-					'enableVirtualProductAddress' => get_option( 'wc_woomp_setting_virtual_product_address' ),
 					'enableCountryToTop'          => get_option( 'wc_woomp_setting_billing_country_pos' ),
 					'enableCheckoutLoginReminder' => get_option( 'woocommerce_enable_checkout_login_reminder', true ),
 					'enableCoupons'               => get_option( 'woocommerce_enable_coupons', true ),
