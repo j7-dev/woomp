@@ -59,19 +59,18 @@ class Ajax {
 	 */
 	public function invalid_invoice() {
 
-		if ( ! wp_verify_nonce( $_POST['nonce'], 'invoice_handler' ) ) {
-			echo __( '發生錯誤，不合法的請求來源！', 'woomp' );
-			exit;
+		if ( ! wp_verify_nonce( $_POST['nonce'], 'invoice_handler' ) ) { // phpcs:ignore
+			\wp_send_json_error( __( '發生錯誤，不合法的請求來源！', 'woomp' ) );
 		}
 
-		$order_id = intval( sanitize_text_field( $_POST['orderId'] ) );
+		$order_id = (int) $_POST['orderId']; // phpcs:ignore
 
 		if ( ! empty( $order_id ) ) {
 			$msg = $this->invoice_handler->invalid_invoice( $order_id );
-			echo $msg;
+			\wp_send_json_error( $msg );
 		}
 
-		wp_die();
+		\wp_die();
 	}
 }
 
