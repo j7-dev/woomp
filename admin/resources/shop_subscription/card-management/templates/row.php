@@ -40,6 +40,8 @@ $order_url = add_query_arg(
 	admin_url( 'edit.php' )
 );
 
+$subscription_id = $_GET['post'] ?? 0;
+
 $setting_html = $is_default ? '<span class="rounded-md px-4 py-2 bg-[#C6E1C6] text-[#5B841B]">預設</span>' : "<span class='woomp_ajax cursor-pointer' data-action='woomp_set_default' data-token_id='{$token_id}' data-user_id='{$user_id}'>設為預設</span>";
 
 printf(
@@ -56,5 +58,5 @@ printf(
 	$card_name,
 	"<a target='_blank' href='{$order_url}'>查看</a>",
 	$setting_html,
-	"<span class='woomp_ajax cursor-pointer text-red-500' data-action='woomp_remove' data-token_id='{$token_id}'>移除</span>",
+	"<span class='woomp_ajax cursor-pointer text-red-500' data-action='woomp_remove' data-token_id='{$token_id}' data-subscription_id='{$subscription_id}'>移除</span>",
 );

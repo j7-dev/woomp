@@ -263,7 +263,8 @@ final class CardManagement {
 	 * @return void
 	 */
 	public function woomp_remove_callback(): void {
-		$token_id = (int) $_POST['token_id'] ?? 0;
+		$token_id        = (int) $_POST['token_id'] ?? 0;
+		$subscription_id = (int) $_POST['subscription_id'] ?? 0;
 		$nonce    = $_POST['nonce'] ?? ''; // phpcs:ignore
 
 		if ( ! \wp_verify_nonce( $nonce, 'woomp' ) ) {
@@ -288,6 +289,12 @@ final class CardManagement {
 			\wp_die();
 		}
 		\WC_Payment_Tokens::delete( $token_id );
+
+		$subscription = \wcs_get_subscription( $subscription_id );
+		if ($subscription) {
+			$subscription->add_order_note("移除信用卡，移除 token_id #{$token_id}");
+		}
+
 		// Make your array as json
 		\wp_send_json(
 			[
