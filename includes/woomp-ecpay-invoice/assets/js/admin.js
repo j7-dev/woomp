@@ -59,8 +59,8 @@ jQuery(function ($) {
 
 			$.post(ajaxurl, data, function (response) {
 				$.unblockUI();
-				alert(response);
-				location.reload(true);
+				alert(response?.data);
+				location.reload();
 			}).fail(function () {
 				$.unblockUI();
 				alert("發票開立錯誤");

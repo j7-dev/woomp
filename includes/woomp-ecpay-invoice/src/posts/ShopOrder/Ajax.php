@@ -26,32 +26,40 @@ class Ajax {
 	 */
 	public function generate_invoice() {
 
-		if ( ! wp_verify_nonce( $_POST['nonce'], 'invoice_handler' ) ) {
-			echo __( '發生錯誤，不合法的請求來源！', 'woomp' );
-			exit;
+		if ( ! \wp_verify_nonce( $_POST['nonce'], 'invoice_handler' ) ) { // phpcs:ignore
+			\wp_send_json_error( __( '發生錯誤，不合法的請求來源！', 'woomp' ) );
+			\wp_die();
 		}
 
-		$order_id = intval( sanitize_text_field( $_POST['orderId'] ) );
+		$order_id = (int) $_POST['orderId']; // phpcs:ignore
 
-		$invoice_data = [
-			'_invoice_type'         => sanitize_text_field( $_POST['_invoice_type'] ),
-			'_invoice_individual'   => sanitize_text_field( $_POST['_invoice_individual'] ),
-			'_invoice_carrier'      => sanitize_text_field( $_POST['_invoice_carrier'] ),
-			'_invoice_company_name' => sanitize_text_field( $_POST['_invoice_company_name'] ),
-			'_invoice_tax_id'       => sanitize_text_field( $_POST['_invoice_tax_id'] ),
-			'_invoice_donate'       => sanitize_text_field( $_POST['_invoice_donate'] ),
+		$invoice_data_keys = [
+			'_invoice_type',
+			'_invoice_individual',
+			'_invoice_carrier',
+			'_invoice_company_name',
+			'_invoice_tax_id',
+			'_invoice_donate',
 		];
 
-		$order = wc_get_order( $order_id );
+		$invoice_data = [];
+		foreach ( $invoice_data_keys as $key ) {
+			$invoice_data[ $key ] = \sanitize_text_field( $_POST[ $key ] ); // phpcs:ignore
+		}
+
+		$order = \wc_get_order( $order_id );
+		if ( ! $order ) {
+			\wp_send_json_error( __( '訂單不存在！', 'woomp' ) );
+			\wp_die();
+		}
 		$order->update_meta_data( '_ecpay_invoice_data', $invoice_data );
 		$order->save();
 
-		if ( ! empty( $order_id ) ) {
-			$msg = $this->invoice_handler->generate_invoice( $order_id );
-			echo $msg;
-		}
+		$msg = $this->invoice_handler->generate_invoice( $order_id );
 
-		wp_die();
+		\wp_send_json_success( $msg );
+
+		\wp_die();
 	}
 
 	/**

@@ -216,7 +216,14 @@ class EcpayInvoiceHandler {
 
 			// 4.送出
 
-			$return_info = $ecpay_invoice->Check_Out();
+			$result = $ecpay_invoice->Check_Out();
+
+			if ( is_string( $result ) ) {
+				$return_info = [];
+				parse_str( $result, $return_info );
+			} else {
+				$return_info = $result;
+			}
 
 			// 於備註區寫入發票資訊
 			$invoice_date    = $return_info['InvoiceDate'] ?? '';
