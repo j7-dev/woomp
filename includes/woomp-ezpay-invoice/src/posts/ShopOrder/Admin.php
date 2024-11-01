@@ -28,7 +28,7 @@ class Admin {
 	}
 
 	public function enqueue_script() {
-		wp_register_script( 'woomp_ezpay_invoice', EZPAYINVOICE_PLUGIN_URL . 'assets/js/admin.js', [ 'jquery' ], '1.0.4', true );
+		wp_register_script( 'woomp_ezpay_invoice', EZPAYINVOICE_PLUGIN_URL . 'assets/js/admin.js', [ 'jquery' ], '3.4.29', true );
 		wp_localize_script(
 			'woomp_ezpay_invoice',
 			'woomp_ezpay_invoice_params',

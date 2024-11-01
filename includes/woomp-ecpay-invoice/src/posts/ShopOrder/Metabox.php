@@ -14,10 +14,9 @@ class Field {
 
 	public static function register() {
 		$class = new self();
-		add_action( 'current_screen', [ $class, 'set_metabox' ] );
+		\add_action( 'current_screen', [ $class, 'set_metabox' ] );
 	}
-	public function __construct() {
-	}
+
 	/**
 	 * 建立發票資訊欄位
 	 */
@@ -179,7 +178,7 @@ class Field {
 			$_invoice_donate
 		);
 
-		echo $this->set_invoice_button( $id, $is_subscription );
+		echo $this->get_invoice_button( $id, $is_subscription );
 
 		$output = ob_get_clean();
 
@@ -198,9 +197,19 @@ class Field {
 	 * @param bool $is_subscription 是否為訂閱的編輯內頁
 	 * @return string
 	 */
-	private function set_invoice_button( $order_id, $is_subscription = false ) {
+	private function get_invoice_button( $order_id, $is_subscription = false ): string {
 
 		$order = \wc_get_order( $order_id );
+
+		if ($is_subscription) {
+			return sprintf(
+				/*html*/'
+				<button class="button save_order button-primary" id="btnUpdateInvoiceData" type="button" value="%1$s" disabled>%2$s</button>
+				',
+					$order_id,
+					'更新上層訂單發票資料'
+			);
+		}
 
 		ob_start();
 
@@ -208,21 +217,19 @@ class Field {
 
 		// 產生按鈕，傳送 order id 給ajax js
 		if ( empty( $order->get_meta( '_ecpay_invoice_number' ) ) ) {
-			if (!$is_subscription) {
-				printf(
+			printf(
 					/*html*/'
 					<button class="button btnGenerateInvoice" type="button" value="%1$s">開立發票</button>
 					',
 						$order_id
 				);
-			}
 
 			printf(
 				/*html*/'
 				<button class="button save_order button-primary" id="btnUpdateInvoiceData" type="button" value="%1$s" disabled>%2$s</button>
 				',
 					$order_id,
-					$is_subscription ? '更新上層訂單發票資料' : '更新發票資料'
+					'更新發票資料'
 			);
 		} else {
 			printf(
@@ -236,9 +243,7 @@ class Field {
 
 		echo '</div>';
 
-		$output = ob_get_clean();
-
-		return $output;
+		return ob_get_clean();
 	}
 }
 
