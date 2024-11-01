@@ -59,7 +59,11 @@ jQuery(function ($) {
 
 			$.post(ajaxurl, data, function (response) {
 				$.unblockUI();
-				alert(response?.data);
+				if (typeof response?.data === "string") {
+					alert(response?.data);
+				} else {
+					alert(Object.keys(response?.data)?.[0]);
+				}
 				location.reload();
 			}).fail(function () {
 				$.unblockUI();
@@ -71,7 +75,7 @@ jQuery(function ($) {
 			if (confirm("確定要刪除此筆發票")) {
 				$.blockUI({ message: "<p>處理中...</p>" });
 
-				var data = {
+				const data = {
 					action: "invalid_invoice",
 					nonce: woomp_ecpay_invoice_params.ajax_nonce,
 					orderId: $(this).val(),
@@ -79,7 +83,7 @@ jQuery(function ($) {
 
 				$.post(ajaxurl, data, function (response) {
 					$.unblockUI();
-					alert(response);
+					alert(response?.data);
 					location.reload(true);
 				});
 			}

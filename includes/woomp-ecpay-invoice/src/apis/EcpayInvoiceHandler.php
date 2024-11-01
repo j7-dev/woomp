@@ -228,13 +228,17 @@ class EcpayInvoiceHandler {
 			// 於備註區寫入發票資訊
 			$invoice_date    = $return_info['InvoiceDate'] ?? '';
 			$invoice_number  = $return_info['InvoiceNumber'] ?? '';
-			$invoice_message = $return_info['RtnMsg'] ?? $return_info;
+			$invoice_message = match (\is_string( $return_info )) {
+				true => $return_info,
+				default => $return_info['RtnMsg'] ?? array_keys( $return_info )[0],
+			};
 
 			$invocie_result = ( $invoice_date ) ? __( '<b>Invoice issue result</b>', 'woomp' ) : __( '<b>Invoice issue faild</b>', 'woomp' );
 
 			$invocie_time   = ( $invoice_date ) ? __( '<br>Generate Time: ', 'woomp' ) . $invoice_date : '';
 			$invocie_number = ( $invoice_date ) ? __( '<br>Invoice Number: ', 'woomp' ) . $invoice_number : '';
 			$invoice_msg    = __( '<br>Invoice Message: ', 'woomp' ) . $invoice_message;
+
 			$order->add_order_note( $invocie_result . $invocie_time . $invocie_number . $invoice_msg );
 
 			if ( ! empty( $sMsg ) ) {
@@ -303,11 +307,18 @@ class EcpayInvoiceHandler {
 				$ecpayInvoice->Send['Reason']        = '發票作廢';
 
 				// 4.送出
-				$return_info = $ecpayInvoice->Check_Out();
+				$result = $ecpayInvoice->Check_Out();
 			} catch ( \Exception $e ) {
 
 				// 例外錯誤處理。
 				$msg = $e->getMessage();
+			}
+
+			if ( \is_string( $result ) ) {
+				$return_info = [];
+				parse_str( $result, $return_info );
+			} else {
+				$return_info = $result;
 			}
 
 			// 於備註區寫入發票資訊
