@@ -75,7 +75,7 @@ class Ajax {
 
 		if ( ! empty( $order_id ) ) {
 			$msg = $this->invoice_handler->invalid_invoice( $order_id );
-			\wp_send_json_error( $msg );
+			\wp_send_json_success( $msg );
 		}
 
 		\wp_die();

@@ -86,7 +86,6 @@ class EcpayInvoiceHandler {
 
 		try {
 
-			$sMsg = '';
 			// 1.載入SDK程式
 			$ecpay_invoice = new \EcpayInvoice();
 
@@ -241,10 +240,6 @@ class EcpayInvoiceHandler {
 
 			$order->add_order_note( $invocie_result . $invocie_time . $invocie_number . $invoice_msg );
 
-			if ( ! empty( $sMsg ) ) {
-				$order->add_order_note( $sMsg );
-			}
-
 			// 寫入發票回傳資訊
 			if ( isset( $return_info['RtnCode'] ) && $return_info['RtnCode'] == 1 ) {
 
@@ -327,11 +322,7 @@ class EcpayInvoiceHandler {
 			$invoiceNote     = __( '<b>Ecpay invalid invoice result</b>', 'woomp' ) . __( '<br>Invoice Number: ', 'woomp' ) . $invoice_number . __( '<br>Invoice Message: ', 'woomp' ) . $invoice_message;
 			$order->add_order_note( $invoiceNote );
 
-			if ( ! empty( $sMsg ) ) {
-				$order->add_order_note( $sMsg );
-			}
-
-			if ( isset( $return_info['RtnCode'] ) && $return_info['RtnCode'] == 1 ) {
+			if ( isset( $return_info['RtnCode'] ) && in_array( $return_info['RtnCode'], [ '1', '5070453' ] ) ) {
 
 				if ( empty( $totalSuccessTimes ) ) {
 					$_ecpay_invoice_stauts = '_ecpay_invoice_status';     // 欄位名稱 記錄狀態
@@ -350,7 +341,7 @@ class EcpayInvoiceHandler {
 				$order->save();
 			}
 
-			return __( 'Invalid Ecpay invoice successful!', 'woomp' );
+			return $invoiceNote;
 		} else {
 			return __( 'Invalid Ecpay invoice error!', 'woomp' );
 		}
