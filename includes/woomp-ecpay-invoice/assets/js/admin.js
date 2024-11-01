@@ -89,6 +89,63 @@ jQuery(function ($) {
 			}
 		});
 
+		$("#btnUpdateInvoiceData").click(function () {
+			$.blockUI({ message: "<p>處理中...</p>" });
+			$btn = $(this);
+
+			const getInvoicePayload = () => {
+				const _invoice_type = $('select[name="_invoice_type"]').val() || $btn.data("invoice_type");
+
+				const defaultPayload = {
+					action: "update_invoice",
+					nonce: woomp_ecpay_invoice_params.ajax_nonce,
+					orderId: $btn.val(),
+					_invoice_type,
+				};
+
+				switch (_invoice_type) {
+					case "individual":
+						return {
+							...defaultPayload,
+							_invoice_individual: $(
+								'select[name="_invoice_individual"]'
+							).val(),
+							_invoice_carrier: $('input[name="_invoice_carrier"]').val(),
+						};
+					case "company":
+						return {
+							...defaultPayload,
+							_invoice_company_name: $(
+								'input[name="_invoice_company_name"]'
+							).val() || $btn.data("invoice_company_name"),
+							_invoice_tax_id: $('input[name="_invoice_tax_id"]').val() || $btn.data("invoice_tax_id"),
+						};
+					case "donate":
+						return {
+							...defaultPayload,
+							_invoice_donate: $('input[name="_invoice_donate"]').val(),
+						};
+					default:
+						return defaultPayload;
+				}
+			};
+
+			const data = getInvoicePayload();
+
+			$.post(ajaxurl, data, function (response) {
+				$.unblockUI();
+				if (typeof response?.data === "string") {
+					alert(response?.data);
+				} else {
+					alert(Object.keys(response?.data)?.[0]);
+				}
+				location.reload();
+			}).fail(function () {
+				$.unblockUI();
+				alert("發票開立錯誤");
+			});
+		});
+
 		fieldDisplay(
 			$('select[name="wc_woomp_ecpay_invoice_issue_mode"'),
 			"auto",
