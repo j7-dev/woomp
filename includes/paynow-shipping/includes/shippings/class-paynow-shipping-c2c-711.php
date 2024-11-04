@@ -19,13 +19,13 @@ class PayNow_Shipping_C2C_711 extends PayNow_Abstract_Shipping_Method {
 	 */
 	public function __construct( $instance_id = 0 ) {
 
-		parent::__construct();
-
-		$this->instance_id        = absint( $instance_id );
 		$this->id                 = 'paynow_shipping_c2c_711';
+		$this->instance_id        = absint( $instance_id );
 		$this->method_title       = __( 'PayNow Shipping C2C 7-11', 'paynow-shipping' );
 		$this->method_description = __( 'PayNow Shipping C2C 7-11', 'paynow-shipping' );
 		$this->logistic_service   = PayNow_Shipping_Logistic_Service::SEVEN;
+
+		parent::__construct();
 
 		$this->init();
 

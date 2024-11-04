@@ -12,46 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Settings for PayNow Shipping hd TCat
  */
-$settings = [
-	'title'                    => [
-		'title'       => __( 'Title', 'paynow-shipping' ),
-		'type'        => 'text',
-		'description' => __( 'This controls the title which the user sees during checkout.', 'paynow-shipping' ),
-		'default'     => __( 'PayNow Shipping TCat', 'paynow-shipping' ),
-		'desc_tip'    => true,
-	],
-	'description'              => [
-		'title'       => __( 'Description', 'paynow-shipping' ),
-		'type'        => 'textarea',
-		'description' => __( 'This controls the description which the user sees during checkout.', 'paynow-shipping' ),
-		'desc_tip'    => true,
-	],
-	'cost'                     => [
-		'title'   => __( 'Shipping Cost', 'paynow-shipping' ),
-		'type'    => 'number',
-		'default' => 0,
-		'min'     => 0,
-		'step'    => 1,
-	],
-	'free_shipping_requires'   => [
-		'title'   => __( 'Free shipping requires', 'paynow-shipping' ),
-		'type'    => 'select',
-		'class'   => 'wc-enhanced-select',
-		'default' => '',
-		'options' => [
-			''           => __( 'N/A', 'paynow-shipping' ),
-			'min_amount' => __( 'A minimum order amount', 'paynow-shipping' ),
-		],
-	],
-	'free_shipping_min_amount' => [
-		'title'       => __( 'Minimum order amount for free shipping', 'paynow-shipping' ),
-		'type'        => 'price',
-		'default'     => 0,
-		'placeholder' => wc_format_localized_price( 0 ),
-		'description' => __( 'Users will need to spend this amount to get free shipping.', 'paynow-shipping' ),
-		'desc_tip'    => true,
-	],
-];
+$settings = include __DIR__ . '/form_fields.php';
 
 $shipping_classes = WC()->shipping->get_shipping_classes();
 $cost_desc        = __( 'Enter a cost (excl. tax) or sum, e.g. <code>10.00 * [qty]</code>.', 'woocommerce' ) . '<br/><br/>' . __( 'Use <code>[qty]</code> for the number of items, <br/><code>[cost]</code> for the total cost of items, and <code>[fee percent="10" min_fee="20" max_fee=""]</code> for percentage based fees.', 'woocommerce' );
