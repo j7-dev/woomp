@@ -83,8 +83,10 @@ class Field {
 		$_invoice_donate       = $ezpay_invoice_data['_ezpay_invoice_donate'] ?? '';
 
 		// output
-
-		$disable_style = $order->get_meta( '_ezpay_invoice_number' ) ? 'pointer-events:none;border:0;appearance:none;background-image:none;background-color:#efefef;' : '';
+		$disable_style = match ($is_subscription) {
+			true => '',
+			false => $order->get_meta( '_ezpay_invoice_number' ) ? 'pointer-events:none;border:0;appearance:none;background-image:none;background-color:#efefef;' : ''
+		};
 
 		ob_start();
 
@@ -215,10 +217,10 @@ class Field {
 		if ($is_subscription) {
 			return sprintf(
 				/*html*/'
-				<button class="button save_order button-primary" id="btnUpdateInvoiceDataEzPay" type="button" value="%1$s" disabled>%2$s</button>
+				<button class="button save_order button-primary" id="btnUpdateInvoiceDataEzPay" type="button" value="%1$s">%2$s</button>
 				',
-				$order_id,
-			'更新上層訂單發票資料'
+				(int) $_GET['post'],
+			'更新訂閱發票資料'
 				);
 		}
 

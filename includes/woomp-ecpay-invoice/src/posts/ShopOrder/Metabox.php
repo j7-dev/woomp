@@ -204,10 +204,10 @@ class Field {
 		if ($is_subscription) {
 			return sprintf(
 				/*html*/'
-				<button class="button save_order button-primary" id="btnUpdateInvoiceData" type="button" value="%1$s" disabled>%2$s</button>
+				<button class="button save_order button-primary" id="btnUpdateInvoiceData" type="button" value="%1$s">%2$s</button>
 				',
-					$order_id,
-					'更新上層訂單發票資料'
+					(int) $_GET['post'], // phpcs:ignore
+					'更新訂閱發票資料'
 			);
 		}
 
@@ -237,7 +237,7 @@ class Field {
 			<button class="button btnInvalidInvoice" type="button" value="%1$s">%2$s</button>
 			',
 				$order_id,
-				$is_subscription ? '作廢上層訂單發票資料' : '作廢發票'
+				'作廢發票'
 			);
 		}
 

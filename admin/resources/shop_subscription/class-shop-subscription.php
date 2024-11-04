@@ -109,7 +109,7 @@ public static function sync_invoice_data_at_renew_subscription( $data, $to_objec
 			if ( ! metadata_exists( 'post', $from_object->get_id(), $field ) ) {
 				continue;
 			}
-			$to_object->update_meta_data( $field, $from_object?->get_meta( $field ) );
+			$to_object->update_meta_data( $field, $from_object->get_meta( $field ) );
 		}
 
 		return $data;
