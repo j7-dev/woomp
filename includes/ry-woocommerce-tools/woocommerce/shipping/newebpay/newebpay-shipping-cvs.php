@@ -1,4 +1,9 @@
 <?php
+
+use Automattic\WooCommerce\Utilities\NumberUtil;
+
+require_once RY_WT_PLUGIN_DIR . 'woocommerce/gateways/newebpay/newebpay-gateway.php';
+
 class RY_NewebPay_Shipping_CVS extends WC_Shipping_Method {
 
 	public function __construct( $instance_id = 0 ) {
@@ -24,8 +29,9 @@ class RY_NewebPay_Shipping_CVS extends WC_Shipping_Method {
 		$this->title              = $this->get_option( 'title' );
 		$this->tax_status         = $this->get_option( 'tax_status' );
 		$this->cost               = $this->get_option( 'cost' );
-		$this->cost_requires      = $this->get_option( 'cost_requires' );
+		$this->requires           = $this->get_option( 'requires' );
 		$this->min_amount         = $this->get_option( 'min_amount', 0 );
+		$this->ignore_discounts   = $this->get_option( 'ignore_discounts', 'no' );
 		$this->weight_plus_cost   = $this->get_option( 'weight_plus_cost', 0 );
 		$this->type               = $this->get_option( 'type', 'class' );
 		$this->method_description = $this->get_option( 'description' );
@@ -60,12 +66,12 @@ class RY_NewebPay_Shipping_CVS extends WC_Shipping_Method {
                 break;
         }
     }
-    $(document.body).on("change", "#woocommerce_' . $this->id . '_cost_requires", function(){
+    $(document.body).on("change", "#woocommerce_' . $this->id . '_requires", function(){
         RYNewebPayShowHide' . $this->id . 'MinAmountField(this);
     }).change();
     $(document.body).on("wc_backbone_modal_loaded", function(evt, target) {
         if("wc-modal-shipping-method-settings" === target ) {
-            RYNewebPayShowHide' . $this->id . 'MinAmountField($("#wc-backbone-modal-dialog #woocommerce_' . $this->id . '_cost_requires", evt.currentTarget));
+            RYNewebPayShowHide' . $this->id . 'MinAmountField($("#wc-backbone-modal-dialog #woocommerce_' . $this->id . '_requires", evt.currentTarget));
         }
     });
 });'
@@ -119,20 +125,20 @@ class RY_NewebPay_Shipping_CVS extends WC_Shipping_Method {
 			],
 		];
 
-		$has_coupon     = $this->check_has_coupon( $this->cost_requires, [ 'coupon', 'min_amount_or_coupon', 'min_amount_and_coupon' ] );
-		$has_min_amount = $this->check_has_min_amount( $this->cost_requires, [ 'min_amount', 'min_amount_or_coupon', 'min_amount_and_coupon' ] );
+		$has_coupon     = $this->check_has_coupon( $this->requires, [ 'coupon', 'either', 'both' ] );
+		$has_min_amount = $this->check_has_min_amount( $this->requires, [ 'min_amount', 'either', 'both' ] );
 
-		switch ( $this->cost_requires ) {
+		switch ( $this->requires ) {
 			case 'coupon':
 				$set_cost_zero = $has_coupon;
 				break;
 			case 'min_amount':
 				$set_cost_zero = $has_min_amount;
 				break;
-			case 'min_amount_or_coupon':
+			case 'either':
 				$set_cost_zero = $has_min_amount || $has_coupon;
 				break;
-			case 'min_amount_and_coupon':
+			case 'both':
 				$set_cost_zero = $has_min_amount && $has_coupon;
 				break;
 			default:
@@ -286,15 +292,18 @@ class RY_NewebPay_Shipping_CVS extends WC_Shipping_Method {
 	}
 
 	protected function check_has_min_amount( $requires, $check_requires_list, $original = false ) {
-		if ( in_array( $requires, $check_requires_list ) ) {
+		if ( in_array( $requires, $check_requires_list, true ) ) {
 			$total = WC()->cart->get_displayed_subtotal();
-			if ( $original === false ) {
-				if ( 'incl' === WC()->cart->get_tax_price_display_mode() ) {
-					$total = round( $total - ( WC()->cart->get_cart_discount_total() + WC()->cart->get_cart_discount_tax_total() ), wc_get_price_decimals() );
-				} else {
-					$total = round( $total - WC()->cart->get_cart_discount_total(), wc_get_price_decimals() );
+
+			if ( 'no' === $this->ignore_discounts ) {
+				$total = $total - WC()->cart->get_discount_total();
+				if ( WC()->cart->display_prices_including_tax() ) {
+					$total = $total - WC()->cart->get_discount_tax();
 				}
 			}
+
+			$total = NumberUtil::round( $total, wc_get_price_decimals() );
+
 			if ( $total >= $this->min_amount ) {
 				return true;
 			}
