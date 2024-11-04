@@ -30,18 +30,18 @@ $settings = [
 		'min'     => 0,
 		'step'    => 1,
 	],
-	'cost_requires'    => [
-		'title'   => __( 'Free shipping requires...', 'woocommerce' ),
+	'requires'         => [
+		'title'   => __( 'Free shipping requires', 'woocommerce' ),
 		'type'    => 'select',
+		'class'   => 'wc-enhanced-select',
 		'default' => '',
 		'options' => [
-			''                      => __( 'N/A', 'woocommerce' ),
-			'coupon'                => __( 'A valid free shipping coupon', 'woocommerce' ),
-			'min_amount'            => __( 'A minimum order amount', 'woocommerce' ),
-			'min_amount_or_coupon'  => __( 'A minimum order amount OR a coupon', 'woocommerce' ),
-			'min_amount_and_coupon' => __( 'A minimum order amount AND a coupon', 'woocommerce' ),
+			''           => __( 'No requirement', 'woocommerce' ),
+			'coupon'     => __( 'A valid free shipping coupon', 'woocommerce' ),
+			'min_amount' => __( 'A minimum order amount', 'woocommerce' ),
+			'either'     => __( 'A minimum order amount OR coupon', 'woocommerce' ),
+			'both'       => __( 'A minimum order amount AND coupon', 'woocommerce' ),
 		],
-		'class'   => 'wc-enhanced-select',
 	],
 	'min_amount'       => [
 		'title'       => __( 'Minimum order amount', 'ry-woocommerce-tools' ),
@@ -49,6 +49,14 @@ $settings = [
 		'default'     => 0,
 		'placeholder' => wc_format_localized_price( 0 ),
 		'description' => __( 'Users will need to spend this amount to get free shipping (if enabled above).', 'woocommerce' ),
+		'desc_tip'    => true,
+	],
+	'ignore_discounts' => [
+		'title'       => __( 'Coupons discounts', 'woocommerce' ),
+		'label'       => __( 'Apply minimum order rule before coupon discount', 'woocommerce' ),
+		'type'        => 'checkbox',
+		'description' => __( 'If checked, free shipping would be available based on pre-discount order amount.', 'woocommerce' ),
+		'default'     => 'no',
 		'desc_tip'    => true,
 	],
 	'weight_plus_cost' => [
