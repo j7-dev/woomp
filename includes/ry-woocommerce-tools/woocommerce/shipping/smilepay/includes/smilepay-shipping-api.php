@@ -1,4 +1,6 @@
 <?php
+require_once RY_WT_PLUGIN_DIR . 'woocommerce/gateways/smilepay/includes/smilepay-gateway-api.php';
+
 class RY_SmilePay_Shipping_Api extends RY_SmilePay_Gateway_Api {
 
 	public static $api_test_url = [
