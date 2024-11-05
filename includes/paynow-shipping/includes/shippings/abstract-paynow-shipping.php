@@ -9,6 +9,8 @@
 
 defined( 'ABSPATH' ) || exit;
 
+use Automattic\WooCommerce\Utilities\NumberUtil;
+
 /**
  * The PayNow shipping base payment method.
  */
@@ -29,19 +31,6 @@ abstract class PayNow_Abstract_Shipping_Method extends WC_Shipping_Method {
 	 */
 	public $logistic_service;
 
-	/**
-	 * Minimum order amount for free shipping.
-	 *
-	 * @var int
-	 */
-	public $free_shipping_requires;
-
-	/**
-	 * Minimum order amount for free shipping.
-	 *
-	 * @var int
-	 */
-	public $free_shipping_min_amount;
 
 	/**
 	 * Max order amount that can use this shipping method.
@@ -50,15 +39,32 @@ abstract class PayNow_Abstract_Shipping_Method extends WC_Shipping_Method {
 	 */
 	public $max_amount;
 
-	/**
-	 * Constructor function
-	 */
-	public function __construct() {
-		$this->supports = [
+	public function init() {
+		$this->instance_form_fields['title']['default'] = $this->method_title;
+		$this->instance_form_fields['cost']['default']  = 65;
+
+		$this->init_settings();
+
+		$this->title              = $this->get_option( 'title' );
+		$this->tax_status         = $this->get_option( 'tax_status' );
+		$this->cost               = $this->get_option( 'cost' );
+		$this->requires           = $this->get_option( 'requires' );
+		$this->min_amount         = $this->get_option( 'min_amount', 0 );
+		$this->weight_plus_cost   = $this->get_option( 'weight_plus_cost', 0 );
+		$this->ignore_discounts   = $this->get_option( 'ignore_discounts', 'no' );
+		$this->type               = $this->get_option( 'type', 'class' );
+		$this->method_description = $this->get_option( 'description' );
+		$this->supports           = [
 			'shipping-zones',
 			'instance-settings',
 			'instance-settings-modal',
 		];
+
+		add_action( 'woocommerce_update_options_shipping_' . $this->id, [ $this, 'process_admin_options' ] );
+	}
+
+	public function get_instance_form_fields() {
+		return parent::get_instance_form_fields();
 	}
 
 	/**
@@ -121,40 +127,41 @@ abstract class PayNow_Abstract_Shipping_Method extends WC_Shipping_Method {
 	public function calculate_shipping( $package = [] ) {
 
 		$rate = [
-			'id'      => $this->get_rate_id(),
-			'label'   => $this->title,
-			'cost'    => 0,
-			'package' => $package,
+			'id'        => $this->get_rate_id(),
+			'label'     => $this->title,
+			'cost'      => ( $this->cost ) ? $this->cost : 0,
+			'package'   => $package,
+			'meta_data' => [
+				'no_count' => 1,
+			],
 		];
 
-		$has_costs = false; // True when a cost is set. False if all costs are blank strings.
-		$cost      = $this->get_option( 'cost' );
+		$has_coupon     = $this->check_has_coupon( $this->requires, [ 'coupon', 'either', 'both' ] );
+		$has_min_amount = $this->check_has_min_amount( $this->requires, [ 'min_amount', 'either', 'both' ] );
 
-		if ( '' !== $cost ) {
-			$has_costs    = true;
-			$rate['cost'] = $this->evaluate_cost(
-				$cost,
-				[
-					'qty'  => $this->get_package_item_qty( $package ),
-					'cost' => $package['contents_cost'],
-				]
-			);
+		switch ( $this->requires ) {
+			case 'coupon':
+				$set_cost_zero = $has_coupon;
+				break;
+			case 'min_amount':
+				$set_cost_zero = $has_min_amount;
+				break;
+			case 'either':
+				$set_cost_zero = $has_min_amount || $has_coupon;
+				break;
+			case 'both':
+				$set_cost_zero = $has_min_amount && $has_coupon;
+				break;
+			default:
+				$set_cost_zero = false;
+				break;
 		}
 
-		$met_free_shipping = false;
-		if ( 'min_amount' === $this->free_shipping_requires ) {
-			$total = WC()->cart->get_displayed_subtotal();
-
-			if ( WC()->cart->display_prices_including_tax() ) {
-				$total = $total - WC()->cart->get_discount_tax();
-			}
-
-			$total = round( $total, wc_get_price_decimals() );
-
-			if ( $total >= $this->free_shipping_min_amount ) {
-				$met_free_shipping = true;
-			} else {
-				$met_free_shipping = false;
+		if ( $this->weight_plus_cost > 0 ) {
+			$total = WC()->cart->get_cart_contents_weight();
+			if ( $total > 0 ) {
+				$rate['meta_data']['no_count'] = (int) ceil( $total / $this->weight_plus_cost );
+				$rate['cost']                 *= $rate['meta_data']['no_count'];
 			}
 		}
 
@@ -174,7 +181,6 @@ abstract class PayNow_Abstract_Shipping_Method extends WC_Shipping_Method {
 					continue;
 				}
 
-				$has_costs  = true;
 				$class_cost = $this->evaluate_cost(
 					$class_cost_string,
 					[
@@ -195,13 +201,11 @@ abstract class PayNow_Abstract_Shipping_Method extends WC_Shipping_Method {
 			}
 		}
 
-		if ( $met_free_shipping ) {
+		if ( $set_cost_zero ) {
 			$rate['cost'] = 0;
 		}
 
-		if ( $has_costs ) {
-			$this->add_rate( $rate );
-		}
+		$this->add_rate( $rate );
 
 		/**
 		 * Allow to filter the shipping rates
@@ -341,5 +345,40 @@ abstract class PayNow_Abstract_Shipping_Method extends WC_Shipping_Method {
 		}
 
 		return $found_shipping_classes;
+	}
+
+	protected function check_has_coupon( $requires, $check_requires_list ) {
+		if ( in_array( $requires, $check_requires_list ) ) {
+			$coupons = WC()->cart->get_coupons();
+			if ( $coupons ) {
+				foreach ( $coupons as $code => $coupon ) {
+					if ( $coupon->is_valid() && $coupon->get_free_shipping() ) {
+						return true;
+						break;
+					}
+				}
+			}
+		}
+		return false;
+	}
+
+	protected function check_has_min_amount( $requires, $check_requires_list, $original = false ) {
+		if ( in_array( $requires, $check_requires_list, true ) ) {
+			$total = WC()->cart->get_displayed_subtotal();
+
+			if ( 'no' === $this->ignore_discounts ) {
+				$total = $total - WC()->cart->get_discount_total();
+				if ( WC()->cart->display_prices_including_tax() ) {
+					$total = $total - WC()->cart->get_discount_tax();
+				}
+			}
+
+			$total = NumberUtil::round( $total, wc_get_price_decimals() );
+
+			if ( $total >= $this->min_amount ) {
+				return true;
+			}
+		}
+		return false;
 	}
 }

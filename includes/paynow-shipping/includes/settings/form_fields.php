@@ -4,14 +4,14 @@
  */
 
 return [
-	'title'                    => [
+	'title' => [
 		'title'       => __( 'Title', 'paynow-shipping' ),
 		'type'        => 'text',
 		'description' => __( 'This controls the title which the user sees during checkout.', 'paynow-shipping' ),
-		'default'     => __( 'PayNow Shipping TCat', 'paynow-shipping' ),
+		'default'     => '',
 		'desc_tip'    => true,
 	],
-	'description'              => [
+	'description' => [
 		'title'       => __( 'Description', 'paynow-shipping' ),
 		'type'        => 'textarea',
 		'description' => __( 'This controls the description which the user sees during checkout.', 'paynow-shipping' ),
@@ -27,7 +27,7 @@ return [
 		],
 		'class'   => 'wc-enhanced-select',
 	],
-	'cost'                     => [
+	'cost' => [
 		'title'   => __( 'Shipping Cost', 'paynow-shipping' ),
 		'type'    => 'number',
 		'default' => 0,
@@ -70,25 +70,6 @@ return [
 		'default'     => 0,
 		'placeholder' => 0,
 		'description' => __( 'Calculate free shipping first. 0 to disable plus cost by weight.', 'ry-woocommerce-tools' ),
-		'desc_tip'    => true,
-	],
-
-	'free_shipping_requires'   => [
-		'title'   => __( 'Free shipping requires', 'paynow-shipping' ),
-		'type'    => 'select',
-		'class'   => 'wc-enhanced-select',
-		'default' => '',
-		'options' => [
-			''           => __( 'N/A', 'paynow-shipping' ),
-			'min_amount' => __( 'A minimum order amount', 'paynow-shipping' ),
-		],
-	],
-	'free_shipping_min_amount' => [
-		'title'       => __( 'Minimum order amount for free shipping', 'paynow-shipping' ),
-		'type'        => 'price',
-		'default'     => 0,
-		'placeholder' => wc_format_localized_price( 0 ),
-		'description' => __( 'Users will need to spend this amount to get free shipping.', 'paynow-shipping' ),
 		'desc_tip'    => true,
 	],
 ];
