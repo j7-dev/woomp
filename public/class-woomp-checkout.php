@@ -13,11 +13,14 @@ if ( ! class_exists( 'WooMP_Checkout' ) ) {
 		/**
 		 * 將購物車&小計置入結帳頁
 		 */
-		public function set_cart_in_checkout_page() {
-			if ( is_wc_endpoint_url( 'order-received' ) ) {
+		public function display_cart_in_checkout_page(): void {
+			if ( \is_wc_endpoint_url( 'order-received' ) ) {
 				return;
 			}
-			echo '<div class="cart-shortcode">' . do_shortcode( '[woocommerce_cart]' ) . '</div>';
+			printf(
+			/*html*/'<div class="cart-shortcode">%1$s</div>',
+			\do_shortcode( '[woocommerce_cart]' )
+			);
 		}
 
 		/**
@@ -33,22 +36,6 @@ if ( ! class_exists( 'WooMP_Checkout' ) ) {
 			}
 		}
 
-		/**
-		 * woocommerce/inluces/class-wc-frontend-scripts.php
-		 */
-		private static function localize_script( $handle ) {
-			if ( ! in_array( $handle, self::$wp_localize_scripts, true ) && wp_script_is( $handle ) ) {
-				$data = self::get_script_data( $handle );
-
-				if ( ! $data ) {
-					return;
-				}
-
-				$name                        = str_replace( '-', '_', $handle ) . '_params';
-				self::$wp_localize_scripts[] = $handle;
-				wp_localize_script( $handle, $name, apply_filters( $name, $data ) );
-			}
-		}
 
 		/**
 		 * woocommerce/inluces/class-wc-frontend-scripts.php
@@ -66,38 +53,6 @@ if ( ! class_exists( 'WooMP_Checkout' ) ) {
 				self::register_script( $handle, $path, $deps, $version, $in_footer );
 			}
 			wp_enqueue_script( $handle );
-		}
-
-		/**
-		 * woocommerce/inluces/class-wc-frontend-scripts.php
-		 */
-		private static function get_script_data( $handle ) {
-			switch ( $handle ) {
-				case 'wc-cart':
-					$params = [
-						'ajax_url'                     => WC()->ajax_url(),
-						'wc_ajax_url'                  => WC_AJAX::get_endpoint( '%%endpoint%%' ),
-						'update_shipping_method_nonce' => wp_create_nonce( 'update-shipping-method' ),
-						'apply_coupon_nonce'           => wp_create_nonce( 'apply-coupon' ),
-						'remove_coupon_nonce'          => wp_create_nonce( 'remove-coupon' ),
-					];
-					break;
-				default:
-					$params = false;
-			}
-		}
-
-		/**
-		 * woocommerce/inluces/class-wc-frontend-scripts.php
-		 */
-		private static function register_scripts() {
-			$register_scripts = [
-				'wc-cart' => [
-					'src'     => self::get_asset_url( 'assets/js/frontend/cart' . $suffix . '.js' ),
-					'deps'    => [ 'jquery', 'woocommerce', 'wc-country-select', 'wc-address-i18n' ],
-					'version' => $version,
-				],
-			];
 		}
 
 		/**
@@ -266,12 +221,8 @@ if ( ! class_exists( 'WooMP_Checkout' ) ) {
 		/**
 		 * 檢查是否有設定台灣離島郵遞區號
 		 */
-		public function has_island_postcodes() {
-			if ( count( $this->get_postcodes() ) > 0 ) {
-				return true;
-			} else {
-				return false;
-			}
+		public function has_island_postcodes(): bool {
+			return count( $this->get_postcodes() ) > 0;
 		}
 
 		/**
@@ -304,30 +255,28 @@ if ( ! class_exists( 'WooMP_Checkout' ) ) {
 		}
 
 		/**
-		 * 檢查購物車是否只有一個虛擬商品
+		 * 檢查購物車是否只有虛擬商品
+		 *
+		 * @return bool
 		 */
-		private function is_virtual_cart() {
+		private function is_virtual_cart(): bool {
 			global $woocommerce;
-			$virtual_products = [];
-			$products         = $woocommerce->cart->get_cart();
-			foreach ( $products as $product ) {
-				if ( 'yes' === get_post_meta( $product['product_id'], '_virtual', true ) || 'yes' === get_post_meta( $product['variation_id'], '_virtual', true ) ) {
-					$virtual_products[] = 'is_virtual';
-				} else {
-					$virtual_products[] = 'is_physical';
+			$only_virtual = true;
+			$items        = $woocommerce->cart->get_cart();
+
+			foreach ( $items as $hash => $cart_item ) {
+				/**
+				 * @var WC_Product $_product
+				 */
+				$_product    = $cart_item['data'];
+				$_is_virtual = $_product->is_virtual();
+				if ( !$_is_virtual ) {
+					$only_virtual = false;
+					break;
 				}
 			}
 
-			if ( $virtual_products ) {
-
-				$check_virtual = array_unique( $virtual_products );
-
-				if ( $check_virtual[0] === 'is_virtual' && 1 === count( $check_virtual ) ) {
-					return true;
-				}
-			}
-
-			return false;
+			return $only_virtual;
 		}
 
 		/**
@@ -355,38 +304,55 @@ if ( ! class_exists( 'WooMP_Checkout' ) ) {
 
 		/**
 		 * 免運提示文字
+		 *
+		 * @param \WC_Shipping_Rate $method Shipping method.
+		 * @param int               $index 固定是 0
+		 *
+		 * @return void
 		 */
-		public function get_free_shipping_amount( $method, $index ) {
-			if ( ! get_option( 'woocommerce_' . str_replace( ':', '_', $method->id ) . '_settings' ) ) {
-				return false;
+		public function display_free_shipping_hint( $method, $index ): void {
+			$method_id = str_replace( ':', '_', $method->id );
+			if ( ! \get_option( "woocommerce_{$method_id}_settings" ) ) {
+				return;
 			}
 
-			// PayNow 跟其他家的設定值不一樣，所以要分開處理.
-			if ( strpos( $method->id, 'paynow' ) !== false ) {
-				if ( empty( get_option( 'woocommerce_' . str_replace( ':', '_', $method->id ) . '_settings' )['free_shipping_requires'] ) ) {
-					return false;
-				}
-			} elseif ( empty( get_option( 'woocommerce_' . str_replace( ':', '_', $method->id ) . '_settings' )['cost_requires'] ) ) {
-				return false;
+			$cost      = $method->get_cost();
+			$meta_data = $method->get_meta_data();
+			$diff      = $meta_data['diff'] ?? null;
+			if (null === $diff) {
+				return;
 			}
 
-			if ( strpos( $method->id, 'paynow' ) !== false ) {
-				$min_amount = get_option( 'woocommerce_' . str_replace( ':', '_', $method->id ) . '_settings' )['free_shipping_min_amount'];
-			} else {
-				$min_amount = get_option( 'woocommerce_' . str_replace( ':', '_', $method->id ) . '_settings' )['min_amount'];
+			$is_free_shipping = !$cost;
+
+			$free_text        = \get_option( 'wc_woomp_setting_free_shipping_text_free_shipping' ) ? \get_option( 'wc_woomp_setting_free_shipping_text_free_shipping' ) : '免運';
+			$background_color = \get_option( 'wc_woomp_setting_free_shipping_bg_color' ) ? \get_option( 'wc_woomp_setting_free_shipping_bg_color' ) : '#d36f6f';
+			$text_color       = \get_option( 'wc_woomp_setting_free_shipping_text_color' ) ? \get_option( 'wc_woomp_setting_free_shipping_text_color' ) : '#ffffff';
+
+			$styles = [
+				'width'         => 'auto',
+				'position'      => 'relative',
+				'top'           => $is_free_shipping ? 'unset' : '-1px',
+				'font-size'     => '14px',
+				'margin'        => '0 6px',
+				'background'    => \esc_attr( $background_color ),
+				'padding'       => '2px 8px',
+				'border-radius' => '3px',
+				'color'         => \esc_attr( $text_color ),
+			];
+
+			$style = '';
+			foreach ( $styles as $key => $value ) {
+				$style .= "{$key}:{$value};";
 			}
 
-			$cart_subtotal    = WC()->cart->get_subtotal();
-			$free_text        = ( get_option( 'wc_woomp_setting_free_shipping_text_free_shipping' ) ) ? get_option( 'wc_woomp_setting_free_shipping_text_free_shipping' ) : '免運';
-			$background_color = ( get_option( 'wc_woomp_setting_free_shipping_bg_color' ) ) ? get_option( 'wc_woomp_setting_free_shipping_bg_color' ) : '#d36f6f';
-			$text_color       = ( get_option( 'wc_woomp_setting_free_shipping_text_color' ) ) ? get_option( 'wc_woomp_setting_free_shipping_text_color' ) : '#fff';
+			$non_free_text = \esc_html( str_replace( '{{price}}', "{$diff} 元", \get_option( 'wc_woomp_setting_free_shipping_text_left' ) ) );
 
-			if ( $min_amount - $cart_subtotal <= 0 ) {
-				echo '<span class="fee-tag" style="width:auto; font-size: 14px ;margin: 0 6px; background: ' . esc_attr( $background_color ) . ';padding: 2px 8px;border-radius: 3px;color: ' . esc_attr( $text_color ) . ';
-				">' . esc_html( $free_text ) . '</span>';
-			} else {
-				echo '<span class="fee-tag" style="width:auto; position: relative; top: -1px; font-size: 14px ;margin: 0 6px; background: ' . esc_attr( $background_color ) . ';padding: 2px 8px;border-radius: 3px;color: ' . esc_attr( $text_color ) . ';">' . esc_html( str_replace( '{{price}}', ( $min_amount - $cart_subtotal ) . '元', get_option( 'wc_woomp_setting_free_shipping_text_left' ) ) ) . '</span>';
-			}
+			printf(
+				/*html*/'<span class="fee-tag" style="%1$s">%2$s</span>',
+				$style,
+				$is_free_shipping ? \esc_html( $free_text ) : $non_free_text
+				);
 		}
 
 		/**
@@ -414,26 +380,6 @@ if ( ! class_exists( 'WooMP_Checkout' ) ) {
 				return $passed;
 			}
 		}
-
-		/**
-		 * 取得運送類別的限定單一運送設定
-		 *
-		 * @param int $shipping_class_id 運送類別 ID.
-		 *
-		 * @return string
-		 */
-		private function get_shipping_class_limit( $shipping_class_id ) {
-			$shipping_classes = WC()->shipping->get_shipping_classes();
-			if ( $shipping_classes ) {
-				foreach ( $shipping_classes as $class ) {
-					if ( $class->term_id === $shipping_class_id ) {
-						$ry_shipping = new RY_ECPay_Shipping_CVS_711_Freeze();
-						print_r( $class );
-						return $ry_shipping->get_option( 'class_limit_' . $class->term_id );
-					}
-				}
-			}
-		}
 	}
 
 	/**
@@ -446,7 +392,7 @@ $checkout = new WooMP_Checkout();
 
 if ( get_option( 'wc_woomp_setting_mode', 1 ) === 'onepage' ) {
 	add_action( 'wp_head', [ $checkout, 'redirect_cart_page_to_checkout' ], 1 );
-	add_action( 'woocommerce_before_checkout_form', [ $checkout, 'set_cart_in_checkout_page' ] );
+	add_action( 'woocommerce_before_checkout_form', [ $checkout, 'display_cart_in_checkout_page' ] );
 	add_filter( 'woocommerce_checkout_fields', [ $checkout, 'set_shipping_field' ], 10000 );
 	add_action( 'woocommerce_after_order_notes', [ $checkout, 'set_checkout_field' ] );
 } elseif ( get_option( 'wc_woomp_setting_mode', 1 ) === 'twopage' ) {
@@ -462,8 +408,8 @@ if ( ! empty( get_option( ' wc_woomp_setting_place_order_text' ) ) ) {
 	add_filter( 'woocommerce_order_button_text', [ $checkout, 'custom_button_text' ], 99, 1 );
 }
 
-if ( wc_string_to_bool( get_option( ' wc_woomp_setting_free_shipping_hint' ) ) ) {
-	add_action( 'woocommerce_after_shipping_rate', [ $checkout, 'get_free_shipping_amount' ], 99, 2 );
+if ( \wc_string_to_bool( \get_option( ' wc_woomp_setting_free_shipping_hint' ) ) ) {
+	\add_action( 'woocommerce_after_shipping_rate', [ $checkout, 'display_free_shipping_hint' ], 99, 2 );
 }
 
 add_filter( 'woocommerce_form_field', [ $checkout, 'remove_checkout_optional_fields_label' ], 10, 4 );

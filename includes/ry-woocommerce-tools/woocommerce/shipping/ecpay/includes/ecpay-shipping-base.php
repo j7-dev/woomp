@@ -67,11 +67,13 @@ class RY_ECPay_Shipping_Base extends WC_Shipping_Method {
 			'package'   => $package,
 			'meta_data' => [
 				'no_count' => 1,
+				'diff'     => null, // 表示差距金額
 			],
 		];
 
-		$has_coupon     = $this->check_has_coupon( $this->requires, [ 'coupon', 'either', 'both' ] );
-		$has_min_amount = $this->check_has_min_amount( $this->requires, [ 'min_amount', 'either', 'both' ] );
+		$has_coupon                = $this->check_has_coupon( $this->requires, [ 'coupon', 'either', 'both' ] );
+		$has_min_amount            = $this->check_has_min_amount( $this->requires, [ 'min_amount', 'either', 'both' ] );
+		$rate['meta_data']['diff'] = $this->get_diff_amount( $this->requires, [ 'min_amount', 'either', 'both' ] );
 
 		switch ( $this->requires ) {
 			case 'coupon':
@@ -236,24 +238,60 @@ class RY_ECPay_Shipping_Base extends WC_Shipping_Method {
 		return false;
 	}
 
-	protected function check_has_min_amount( $requires, $check_requires_list, $original = false ) {
+	/**
+	 * 檢查是否滿足最低金額
+	 * TODO 很多地方共用
+	 *
+	 * @param string        $requires 滿足免運的條件要求
+	 * @param array<string> $check_requires_list 檢查的條件列表
+	 * @param bool          $original 是否檢查原始金額
+	 * @return bool
+	 */
+	protected function check_has_min_amount( $requires, $check_requires_list, $original = false ): bool {
 		if ( in_array( $requires, $check_requires_list, true ) ) {
-			$total = WC()->cart->get_displayed_subtotal();
+			$total = \WC()->cart->get_displayed_subtotal();
 
 			if ( 'no' === $this->ignore_discounts ) {
-				$total = $total - WC()->cart->get_discount_total();
-				if ( WC()->cart->display_prices_including_tax() ) {
-					$total = $total - WC()->cart->get_discount_tax();
+				$total = $total - \WC()->cart->get_discount_total();
+				if ( \WC()->cart->display_prices_including_tax() ) {
+					$total = $total - \WC()->cart->get_discount_tax();
 				}
 			}
 
-			$total = NumberUtil::round( $total, wc_get_price_decimals() );
+			$total = NumberUtil::round( $total, \wc_get_price_decimals() );
 
 			if ( $total >= $this->min_amount ) {
 				return true;
 			}
 		}
 		return false;
+	}
+
+	/**
+	 * 取得差多少可達免運金額
+	 * TODO 很多地方共用
+	 *
+	 * @param string        $requires 滿足免運的條件要求
+	 * @param array<string> $check_requires_list 檢查的條件列表
+	 * @param bool          $original 是否檢查原始金額
+	 * @return float|null
+	 */
+	protected function get_diff_amount( $requires, $check_requires_list, $original = false ): float|null {
+		if ( in_array( $requires, $check_requires_list, true ) ) {
+			$total = \WC()->cart->get_displayed_subtotal();
+
+			if ( 'no' === $this->ignore_discounts ) {
+				$total = $total - \WC()->cart->get_discount_total();
+				if ( \WC()->cart->display_prices_including_tax() ) {
+					$total = $total - \WC()->cart->get_discount_tax();
+				}
+			}
+
+			$total = NumberUtil::round( $total, \wc_get_price_decimals() );
+
+			return (float) ( $this->min_amount - $total );
+		}
+		return null;
 	}
 
 	public function enqueue_admin_js() {
