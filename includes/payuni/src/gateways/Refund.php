@@ -224,6 +224,11 @@ class Refund {
 		if ( ! $order ) {
 			return;
 		}
+		$payment_method = $order->get_payment_method();
+		if ( ! str_starts_with( $payment_method, 'payuni-' ) ) {
+			return;
+		}
+
 		$trade_info = $this->get_trade_by_order( $order );
 
 		ob_start();
