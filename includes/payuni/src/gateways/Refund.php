@@ -177,7 +177,7 @@ class Refund {
 	 * @see https://www.payuni.com.tw/docs/web/#/7/164
 	 * @param  string $trade_no
 	 *
-	 * @return void
+	 * @return array
 	 */
 	private function get_trade_by_order( \WC_Order $order ): array {
 		$trade_no = $order->get_meta( '_payuni_resp_trade_no' );
@@ -233,8 +233,8 @@ class Refund {
 
 		ob_start();
 		print_r( $trade_info );
-		$trade_info_log = ob_get_clean();
-		Payment::log( $trade_info_log );
+		$note = ob_get_clean();
+		Payment::log( $note );
 
 		$closeStatus = $trade_info['Result']['0']['CloseStatus'] ?? null;
 
@@ -259,11 +259,6 @@ class Refund {
 				$note .= 'SUCCESS' === $status ? '<br><br>🚩 統一金流已退款成功 不需再去統一金流後台退款' : '';
 				break;
 			default:
-				// 都不是的話，改回舊狀態
-				ob_start();
-				print_r( $trade_info );
-				$note = ob_get_clean();
-				$order->update_status( $old_status );
 				break;
 		}
 
