@@ -93,7 +93,7 @@ final class Request {
 
 		// 結帳頁顯示錯誤訊息.
 		if ( 'SUCCESS' !== $status ) {
-			if ( ! \in_array( $data['Status'], [ 'CREDIT04001', 'ATM04001' ] ) ) {
+			if ( \is_checkout() && ! \in_array( $data['Status'], [ 'CREDIT04001', 'ATM04001' ] ) ) {
 				// "已存在相同商店訂單編號" 已經用新建訂單解決，不用顯示錯誤
 				\wc_add_notice( $data['Message'], 'error' );
 			}

@@ -94,7 +94,7 @@ final class Response {
 			'order_id'          => $order_id,
 		] = self::get_formatted_decrypted_data( $data );
 
-		if ( function_exists( 'wc_add_notice' ) ) {
+		if ( \is_checkout() && function_exists( 'wc_add_notice' ) ) {
 			\wc_add_notice( $message, ( 'SUCCESS' === $status ) ? 'success' : 'error' );
 		}
 
@@ -298,7 +298,7 @@ final class Response {
 		Payment::log( $data );
 
 		if ( 'SUCCESS' !== $status ) {
-			if ( function_exists( 'wc_add_notice' ) ) {
+			if ( \is_checkout() && function_exists( 'wc_add_notice' ) ) {
 				\wc_add_notice( $data['Message'], 'error' );
 			}
 
