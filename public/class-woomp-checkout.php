@@ -293,6 +293,12 @@ if ( ! class_exists( 'WooMP_Checkout' ) ) {
 
 		/**
 		 * 移除欄位的選填文字
+		 *
+		 * @param string $field 欄位.
+		 * @param string $key 鍵.
+		 * @param array  $args 參數.
+		 * @param string $value 值.
+		 * @return string
 		 */
 		public function remove_checkout_optional_fields_label( $field, $key, $args, $value ) {
 			if ( is_checkout() && ! is_wc_endpoint_url() ) {
@@ -312,20 +318,22 @@ if ( ! class_exists( 'WooMP_Checkout' ) ) {
 		 */
 		public function display_free_shipping_hint( $method, $index ): void {
 			$method_id = str_replace( ':', '_', $method->id );
+
 			if ( ! \get_option( "woocommerce_{$method_id}_settings" ) ) {
 				return;
 			}
 
 			$cost      = $method->get_cost();
 			$meta_data = $method->get_meta_data();
-			$diff      = $meta_data['diff'] ?? null;
-			if (null === $diff) {
+
+			$diff = $meta_data['diff'] ?? null;
+			if (null === $diff && '0' !== $cost) {
 				return;
 			}
 
 			$is_free_shipping = !$cost;
 
-			$free_text        = \get_option( 'wc_woomp_setting_free_shipping_text_free_shipping' ) ? \get_option( 'wc_woomp_setting_free_shipping_text_free_shipping' ) : '免運';
+			$free_text        = \esc_html( \get_option( 'wc_woomp_setting_free_shipping_text_free_shipping' ) ? \get_option( 'wc_woomp_setting_free_shipping_text_free_shipping' ) : '免運' );
 			$background_color = \get_option( 'wc_woomp_setting_free_shipping_bg_color' ) ? \get_option( 'wc_woomp_setting_free_shipping_bg_color' ) : '#d36f6f';
 			$text_color       = \get_option( 'wc_woomp_setting_free_shipping_text_color' ) ? \get_option( 'wc_woomp_setting_free_shipping_text_color' ) : '#ffffff';
 
@@ -351,12 +359,17 @@ if ( ! class_exists( 'WooMP_Checkout' ) ) {
 			printf(
 				/*html*/'<span class="fee-tag" style="%1$s">%2$s</span>',
 				$style,
-				$is_free_shipping ? \esc_html( $free_text ) : $non_free_text
+				$is_free_shipping ? $free_text : $non_free_text
 				);
 		}
 
 		/**
 		 * 購物車運送類別判斷
+		 *
+		 * @param bool $passed 是否通過.
+		 * @param int  $product_id 商品 ID.
+		 * @param int  $quantity 數量.
+		 * @return bool
 		 */
 		public function set_one_shipping_class( $passed, $product_id, $quantity ) {
 
