@@ -2,6 +2,10 @@
 
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 
+
+if (class_exists('WC_Gateway_LINEPay_Handler')) {
+	return;
+}
 /**
  * Plugin updates
  * Localization
@@ -41,7 +45,7 @@ class WC_Gateway_LINEPay_Handler {
 	 */
 	public function init_wc_gateway_linepay_handler() {
 
-		if ( ! class_exists( 'WC_Payment_Gateway' ) ) {
+		if ( ! class_exists( 'WC_Payment_Gateway' ) || !wc_string_to_bool( get_option( 'woocommerce_linepay_enabled' ) )) {
 			return;
 		}
 
