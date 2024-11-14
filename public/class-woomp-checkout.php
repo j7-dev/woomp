@@ -325,7 +325,8 @@ if ( ! class_exists( 'WooMP_Checkout' ) ) {
 			 */
 			$settings = \get_option( "woocommerce_{$method_id}_settings" );
 
-			$diff = self::get_diff_amount( $method, [ 'min_amount', 'either', 'both' ] );
+			$diff = self::get_diff_amount( $method, [ 'min_amount', 'either', 'both', 'min_amount_or_coupon', 'min_amount_and_coupon' ] );
+
 			$cost = (float) ( $settings['cost'] ?? 0 );
 
 			if (null === $diff) {
