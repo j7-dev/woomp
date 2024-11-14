@@ -128,7 +128,14 @@ class RY_NewebPay_Shipping_CVS extends WC_Shipping_Method {
 
 		$has_coupon                = $this->check_has_coupon( $this->requires, [ 'coupon', 'either', 'both' ] );
 		$has_min_amount            = $this->check_has_min_amount( $this->requires, [ 'min_amount', 'either', 'both' ] );
-		$rate['meta_data']['diff'] = $this->get_diff_amount( $this->requires, [ 'min_amount', 'either', 'both' ] );
+		$rate['meta_data']['diff'] = \WooMP_Checkout::get_diff_amount_by_settings(
+			[
+				'cost_requires'    => $this->requires,
+				'ignore_discounts' => $this->ignore_discounts,
+				'min_amount'       => $this->min_amount,
+			],
+			[ 'min_amount', 'either', 'both' ]
+			);
 
 		switch ( $this->requires ) {
 			case 'coupon':
@@ -320,32 +327,5 @@ class RY_NewebPay_Shipping_CVS extends WC_Shipping_Method {
 			}
 		}
 		return false;
-	}
-
-	/**
-	 * 取得差多少可達免運金額
-	 * TODO 很多地方共用
-	 *
-	 * @param string        $requires 滿足免運的條件要求
-	 * @param array<string> $check_requires_list 檢查的條件列表
-	 * @param bool          $original 是否檢查原始金額
-	 * @return float|null
-	 */
-	protected function get_diff_amount( $requires, $check_requires_list, $original = false ): float|null {
-		if ( in_array( $requires, $check_requires_list, true ) ) {
-			$total = \WC()->cart->get_displayed_subtotal();
-
-			if ( 'no' === $this->ignore_discounts ) {
-				$total = $total - \WC()->cart->get_discount_total();
-				if ( \WC()->cart->display_prices_including_tax() ) {
-					$total = $total - \WC()->cart->get_discount_tax();
-				}
-			}
-
-			$total = NumberUtil::round( $total, \wc_get_price_decimals() );
-
-			return (float) ( $this->min_amount - $total );
-		}
-		return null;
 	}
 }

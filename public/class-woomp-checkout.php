@@ -4,6 +4,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+use Automattic\WooCommerce\Utilities\NumberUtil;
+
 if ( ! class_exists( 'WooMP_Checkout' ) ) {
 	final class WooMP_Checkout {
 
@@ -141,12 +143,12 @@ if ( ! class_exists( 'WooMP_Checkout' ) ) {
 		 */
 		public function set_checkout_field( $checkout ) {
 			woocommerce_form_field(
-				'billing_island_none',
-				[
-					'type'    => 'text',
-					'label'   => '沒送到的離島縣市',
-					'default' => implode( ',', $this->get_island_hide() ),
-				],
+			'billing_island_none',
+			[
+				'type'    => 'text',
+				'label'   => '沒送到的離島縣市',
+				'default' => implode( ',', $this->get_island_hide() ),
+			],
 			);
 		}
 
@@ -318,20 +320,19 @@ if ( ! class_exists( 'WooMP_Checkout' ) ) {
 		 */
 		public function display_free_shipping_hint( $method, $index ): void {
 			$method_id = str_replace( ':', '_', $method->id );
+			/**
+			 * @var array<{title:string,description:string,tax_status:string,cost:string,cost_requires:string,min_amount:string,weight_plus_cost:string,ignore_discounts:string,requires:string,}> $settings
+			 */
+			$settings = \get_option( "woocommerce_{$method_id}_settings" );
 
-			if ( ! \get_option( "woocommerce_{$method_id}_settings" ) ) {
+			$diff = self::get_diff_amount( $method, [ 'min_amount', 'either', 'both' ] );
+			$cost = (float) ( $settings['cost'] ?? 0 );
+
+			if (null === $diff) {
 				return;
 			}
 
-			$cost      = $method->get_cost();
-			$meta_data = $method->get_meta_data();
-
-			$diff = $meta_data['diff'] ?? null;
-			if (null === $diff && '0' !== $cost) {
-				return;
-			}
-
-			$is_free_shipping = !$cost;
+			$is_free_shipping = !$cost || $diff <= 0;
 
 			$free_text        = \esc_html( \get_option( 'wc_woomp_setting_free_shipping_text_free_shipping' ) ? \get_option( 'wc_woomp_setting_free_shipping_text_free_shipping' ) : '免運' );
 			$background_color = \get_option( 'wc_woomp_setting_free_shipping_bg_color' ) ? \get_option( 'wc_woomp_setting_free_shipping_bg_color' ) : '#d36f6f';
@@ -357,10 +358,10 @@ if ( ! class_exists( 'WooMP_Checkout' ) ) {
 			$non_free_text = \esc_html( str_replace( '{{price}}', "{$diff} 元", \get_option( 'wc_woomp_setting_free_shipping_text_left' ) ) );
 
 			printf(
-				/*html*/'<span class="fee-tag" style="%1$s">%2$s</span>',
-				$style,
-				$is_free_shipping ? $free_text : $non_free_text
-				);
+			/*html*/'<span class="fee-tag" style="%1$s">%2$s</span>',
+			$style,
+			$is_free_shipping ? $free_text : $non_free_text
+			);
 		}
 
 		/**
@@ -393,12 +394,61 @@ if ( ! class_exists( 'WooMP_Checkout' ) ) {
 				return $passed;
 			}
 		}
+
+		/**
+		 * 取得差多少可達免運金額
+		 *
+		 * @param \WC_Shipping_Rate $method Shipping method.
+		 * @param array<string>     $check_requires_list 檢查的條件列表
+		 * @param bool              $original 是否檢查原始金額
+		 * @return float|null
+		 */
+		public static function get_diff_amount( $method, $check_requires_list, $original = false ): float|null {
+
+			$method_id = str_replace( ':', '_', $method->id );
+			$settings  = \get_option( "woocommerce_{$method_id}_settings" );
+
+			if ( ! $settings ) {
+				return null;
+			}
+			return self::get_diff_amount_by_settings( $settings, $check_requires_list, $original );
+		}
+
+		/**
+		 * 取得差多少可達免運金額
+		 *
+		 * @param array<{cost_requires:string,requires:string,ignore_discounts:string,min_amount:string}> $settings WC_Shipping_Rate 的設定
+		 * @param array<string>                                                                           $check_requires_list 檢查的條件列表
+		 * @param bool                                                                                    $original 是否檢查原始金額
+		 * @return float|null
+		 */
+		public static function get_diff_amount_by_settings( $settings, $check_requires_list, $original = false ): float|null {
+
+			$requires         = $settings['cost_requires'] ? $settings['cost_requires'] : ( $settings['requires'] ?? '' );
+			$ignore_discounts = $settings['ignore_discounts'] ?? 'no';
+			$min_amount       = $settings['min_amount'] ?? 0;
+
+			if ( in_array( $requires, $check_requires_list, true ) ) {
+				$total = \WC()->cart->get_displayed_subtotal();
+
+				if ( 'no' === $ignore_discounts ) {
+					$total = $total - \WC()->cart->get_discount_total();
+					if ( \WC()->cart->display_prices_including_tax() ) {
+						$total = $total - \WC()->cart->get_discount_tax();
+					}
+				}
+
+				$total = NumberUtil::round( $total, \wc_get_price_decimals() );
+
+				return (float) ( $min_amount - $total );
+			}
+			return null;
+		}
 	}
 
 	/**
 	 * 指定載入 Woo 客製範本寫外掛主檔案 woomp.php Line 93
 	 */
-
 }
 
 $checkout = new WooMP_Checkout();
