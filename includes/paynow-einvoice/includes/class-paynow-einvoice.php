@@ -1201,7 +1201,7 @@ class Paynow_Einvoice {
 
 		$plugin_i18n = new Paynow_Einvoice_i18n();
 
-		$this->loader->add_action( 'init', $plugin_i18n, 'load_plugin_textdomain' );
+		$this->loader->add_action( 'init', $plugin_i18n, 'load_plugin_textdomain', 20 );
 	}
 
 	/**

@@ -2,20 +2,17 @@
 # This file is distributed under the same license as the Plugins - RY WooCommerce Tools - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2024-11-22 02:38+0000\n"
+"PO-Revision-Date: 2021-07-13 16:52+0800\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Loco https://localise.biz/\n"
+"X-Generator: Poedit 2.3\n"
 "Language: zh_TW\n"
-"Project-Id-Version: Plugins - RY WooCommerce Tools - Stable (latest release)"
-"\n"
-"POT-Creation-Date: 2024-11-22 02:37+0000\n"
+"Project-Id-Version: Plugins - RY WooCommerce Tools - Stable (latest release)\n"
+"POT-Creation-Date: \n"
 "Last-Translator: \n"
-"Language-Team: 繁體中文\n"
-"Report-Msgid-Bugs-To: \n"
-"X-Loco-Version: 2.6.11; wp-6.7.1"
+"Language-Team: \n"
 
 #: woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-barcode.php:51
 msgid "Barcode allowable payment deadline from 1 day to 60 days."
@@ -335,9 +332,7 @@ msgid "We look forward to fulfilling your order soon."
 msgstr "我們將盡全力為你服務。"
 
 #: woocommerce/shipping/newebpay/includes/settings-newebpay-shipping.php:7
-msgid ""
-"Because NewebPay limit, the shipping note no or shipping status can not show "
-"in site admin."
+msgid "Because NewebPay limit, the shipping note no or shipping status can not show in site admin."
 msgstr "因為藍新的限制，所以貨運單號跟貨運狀態都不會在網站後台顯示。"
 
 #: woocommerce/shipping/newebpay/newebpay-shipping.php:66
@@ -768,8 +763,7 @@ msgstr "所有超商取貨的運送方法設置為停用。"
 #: woocommerce/shipping/ecpay/ecpay-shipping.php:92
 #: woocommerce/shipping/newebpay/newebpay-shipping.php:48
 #: woocommerce/shipping/smilepay/smilepay-shipping.php:75
-msgid ""
-"Cvs only can enable with shipping destination not force to billing address."
+msgid "Cvs only can enable with shipping destination not force to billing address."
 msgstr "超商取貨只可以在運送目的地不為強制至客戶帳單地址時啟用。"
 
 #: woocommerce/shipping/ecpay/ecpay-shipping.php:90
@@ -899,8 +893,7 @@ msgstr "姓名長度在 1 到 10 個字中間（中文為 5 個字）"
 #: woocommerce/gateways/newebpay/includes/settings-newebpay-gateway.php:31
 #: woocommerce/gateways/smilepay/includes/settings-smilepay-gateway.php:31
 #: woocommerce/shipping/ecpay/includes/settings-ecpay-shipping.php:68
-msgid ""
-"The prefix string of order no. Only letters and numbers allowed allowed."
+msgid "The prefix string of order no. Only letters and numbers allowed allowed."
 msgstr "訂單編號前綴字符串。只允許使用英文字母與數字。"
 
 #: woocommerce/gateways/ecpay/ecpay-gateway.php:103
@@ -965,9 +958,7 @@ msgid "%s minimum amount out of range. Set as default value."
 msgstr "%s 最小訂購金額超過限制，調整為預設值。"
 
 #: class.ry-wt.main.php:293
-msgid ""
-"Please check your server time setting. Server time is differs from Google "
-"Public NTP more than one minute."
+msgid "Please check your server time setting. Server time is differs from Google Public NTP more than one minute."
 msgstr "請檢查伺服器的時間設定。與 Google Public NTP 的時間相差超過一分鐘。"
 
 #: woocommerce/shipping/ecpay/includes/settings-ecpay-shipping.php:53
@@ -1047,9 +1038,7 @@ msgstr "\"%s\" 可運送"
 #: woocommerce/shipping/ecpay/includes/settings-ecpay-shipping-base.php:67
 #: woocommerce/shipping/newebpay/includes/settings-newebpay-shipping-cvs.php:67
 #: woocommerce/shipping/smilepay/includes/settings-smilepay-shipping-base.php:67
-msgid ""
-"These shipping available based on the <a href=\"%s\">product shipping "
-"class</a>."
+msgid "These shipping available based on the <a href=\"%s\">product shipping class</a>."
 msgstr "這些可否運送是基於<a href=\"%s\">商品運送類別</a>。"
 
 #: woocommerce/shipping/ecpay/includes/settings-ecpay-shipping-base.php:63
@@ -1074,8 +1063,7 @@ msgstr "每 %s 加成計算運費"
 #: woocommerce/shipping/ecpay/includes/settings-ecpay-shipping-base.php:45
 #: woocommerce/shipping/newebpay/includes/settings-newebpay-shipping-cvs.php:45
 #: woocommerce/shipping/smilepay/includes/settings-smilepay-shipping-base.php:45
-msgid ""
-"Users will need to spend this amount to get free shipping (if enabled above)."
+msgid "Users will need to spend this amount to get free shipping (if enabled above)."
 msgstr "消費者可以獲得免運費的最低消費金額 (如果上面有啟用)"
 
 #: woocommerce/gateways/ecpay/includes/settings-ecpay-gateway-atm.php:25
@@ -1644,9 +1632,7 @@ msgid "Your {site_title} order product send to CVS store"
 msgstr "你在 {site_title} 訂購的商品送達超商門市"
 
 #: woocommerce/emails/ecpay-shipping-customer-cvs-store.php:11
-msgid ""
-"This is an order notification sent to customers after the product send to "
-"CVS store with ECPay shipping."
+msgid "This is an order notification sent to customers after the product send to CVS store with ECPay shipping."
 msgstr "這是在商品經由綠界物流送達超商門市時給通知訂購人。"
 
 #: woocommerce/emails/ecpay-shipping-customer-cvs-store.php:10
@@ -1829,9 +1815,7 @@ msgstr "RY WooCommerce Tools"
 
 #. translators: %s: Name of this plugin
 #: class.ry-wt.main.php:258
-msgid ""
-"<strong>%s</strong> is inactive. It require WooCommerce version 3.0.0 or "
-"newer."
+msgid "<strong>%s</strong> is inactive. It require WooCommerce version 3.0.0 or newer."
 msgstr "<strong>%s</strong> 暫停運作。 需求 WooCommerce 3.0.0 以上版本。"
 
 #: class.ry-wt.main.php:223

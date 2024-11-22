@@ -7,7 +7,13 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
  * Plugin updates
  * Localization
  */
-load_plugin_textdomain( 'woocommerce-gateway-linepay', false, trailingslashit( dirname( plugin_basename( __FILE__ ) ) . '/languages' ) );
+add_action(
+	'init',
+	function () {
+		load_plugin_textdomain( 'woocommerce-gateway-linepay', false, trailingslashit( dirname( plugin_basename( __FILE__ ) ) . '/languages' ) );
+	},
+	20
+	);
 
 /**
  *

@@ -700,7 +700,7 @@ msgstr "藍新支援"
 
 #: templates/cart/cart-choose-cvs.php:20
 msgid "Choose convenience store"
-msgstr "選擇超商門市"
+msgstr "選擇超商門市 "
 
 #: templates/cart/cart-choose-cvs.php:19
 msgid "Choose convenience Store"

@@ -127,8 +127,9 @@ if ( ! defined( 'RY_WT_VERSION' ) ) {
 
 	register_activation_hook( __FILE__, [ 'RY_WT', 'plugin_activation' ] );
 	register_deactivation_hook( __FILE__, [ 'RY_WT', 'plugin_deactivation' ] );
+	add_action( 'init', [ 'RY_WT', 'ry_init' ] );
+	add_action( 'init', [ 'RY_WT', 'load_plugin_textdomain_ry_woocommerce_tools' ] );
 
-	add_action( 'init', [ 'RY_WT', 'init' ], 10 );
 }
 
 /**
@@ -153,7 +154,7 @@ if ( ! defined( 'PAYNOW_PLUGIN_URL' ) && 'yes' === get_option( 'wc_woomp_setting
 		Paynow_Payment::init();
 	}
 
-	add_action( 'plugins_loaded', 'run_paynow_payment' );
+	add_action( 'init', 'run_paynow_payment', 30 );
 }
 
 /**

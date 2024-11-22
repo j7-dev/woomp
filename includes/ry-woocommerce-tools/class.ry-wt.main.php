@@ -1,4 +1,16 @@
 <?php
+
+
+// add_action(
+// 'init',
+// function () {
+// load_plugin_textdomain( 'ry-woocommerce-tools', false, \untrailingslashit(\wp_normalize_path(__DIR__)) . '/languages' );
+// },
+// -10
+// );
+
+
+
 final class RY_WT {
 
 	public static $options       = [];
@@ -6,11 +18,15 @@ final class RY_WT {
 
 	private static $initiated = false;
 
-	public static function init() {
+	public static function load_plugin_textdomain_ry_woocommerce_tools() {
+		load_plugin_textdomain( 'ry-woocommerce-tools', false, \untrailingslashit(\wp_normalize_path(__DIR__)) . '/languages' );
+	}
+
+
+	public static function ry_init() {
+
 		if ( ! self::$initiated ) {
 			self::$initiated = true;
-
-			load_plugin_textdomain( 'ry-woocommerce-tools', false, plugin_basename( dirname( RY_WT_PLUGIN_BASENAME ) ) . '/languages' );
 
 			if ( ! defined( 'WC_VERSION' ) ) {
 				add_action( 'admin_notices', [ __CLASS__, 'need_woocommerce' ] );
