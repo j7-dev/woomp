@@ -49,6 +49,8 @@ if ( ! class_exists( 'WooMP_Order' ) ) {
 			// 批次處理
 			add_filter( 'bulk_actions-edit-shop_order', [ $class, 'bulk_action' ], 99, 1 );
 			add_filter( 'handle_bulk_actions-edit-shop_order', [ $class, 'print_shipping_note' ], 10, 3 );
+			add_filter( 'handle_bulk_actions-edit-shop_order', [ $class, 'handle_bulk_order_status_update' ], 10, 3 );
+			add_action( 'admin_notices', [ $class, 'bulk_admin_notices' ] );
 		}
 
 		/**
@@ -334,6 +336,74 @@ if ( ! class_exists( 'WooMP_Order' ) ) {
 		}
 
 		/**
+		 * 處理批量更改訂單狀態
+		 *
+		 * @param string $redirect_to 重定向 URL.
+		 * @param string $action      執行的動作.
+		 * @param array  $post_ids    訂單 ID 列表.
+		 * @return string
+		 */
+		public function handle_bulk_order_status_update( $redirect_to, $action, $post_ids ) {
+			if ( ! in_array( $action, [ 'mark_wmp-shipped', 'mark_wmp-in-transit' ] ) ) {
+				return $redirect_to;
+			}
+
+			$processed_orders = 0;
+			$status           = str_replace( 'mark_', '', $action );
+
+			foreach ( $post_ids as $post_id ) {
+				$order = wc_get_order( $post_id );
+				if ( $order ) {
+					$order->update_status( $status );
+					++$processed_orders;
+				}
+			}
+
+			$redirect_to = add_query_arg(
+				[
+					'processed_count' => $processed_orders,
+					'processed_type'  => $status,
+				],
+				$redirect_to
+			);
+
+			return $redirect_to;
+		}
+
+		/**
+		 * 顯示批量更新訂單狀態的通知訊息
+		 *
+		 * @return void
+		 */
+		public function bulk_admin_notices() {
+			if ( empty( $_REQUEST['processed_count'] ) || empty( $_REQUEST['processed_type'] ) ) {
+				return;
+			}
+
+			$count = intval( $_REQUEST['processed_count'] );
+			$type  = sanitize_text_field( wp_unslash( $_REQUEST['processed_type'] ) );
+
+			$status_labels = [
+				'wmp-shipped'    => '已出貨',
+				'wmp-in-transit' => '配送中',
+			];
+
+			$message = sprintf(
+				/* translators: %1$d: 處理數量, %2$s: 狀態名稱 */
+				_n(
+					'%1$d 筆訂單已更新為 %2$s',
+					'%1$d 筆訂單已更新為 %2$s',
+					$count,
+					'woomp'
+				),
+				$count,
+				$status_labels[ $type ] ?? $type
+			);
+
+			echo '<div class="notice notice-success is-dismissible"><p>' . esc_html( $message ) . '</p></div>';
+		}
+
+		/**
 		 * 確保輸出內容符合 CSV 格式
 		 *
 		 * @param array $fields CSV 欄位資料.
@@ -375,6 +445,9 @@ if ( ! class_exists( 'WooMP_Order' ) ) {
 			}
 
 			$actions['ry_print_ecpay_home_tcat'] = __( 'Print ECPay shipping booking note (tcat)', 'woomp' );
+
+			$actions['mark_wmp-shipped']    = __( '變更為已出貨', 'woomp' );
+			$actions['mark_wmp-in-transit'] = __( '變更為配送中', 'woomp' );
 
 			return $actions;
 		}
