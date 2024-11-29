@@ -41,6 +41,10 @@ final class RY_ECPay_Shipping_admin {
 		add_action( 'woocommerce_order_action_get_new_ecpay_no', [ 'RY_ECPay_Shipping_Api', 'get_code' ] );
 		add_action( 'woocommerce_order_action_get_new_ecpay_no_cod', [ 'RY_ECPay_Shipping_Api', 'get_code_cod' ] );
 		add_action( 'woocommerce_order_action_send_at_cvs_email', [ 'RY_ECPay_Shipping', 'send_at_cvs_email' ] );
+
+		// 訂單批量處理
+		add_filter( 'bulk_actions-edit-shop_order', [ __CLASS__, 'bulk_action' ], 99, 1 );
+		add_filter( 'handle_bulk_actions-edit-shop_order', [ __CLASS__, 'handle_bulk_order_status_update' ], 100, 3 );
 	}
 
 	/**
@@ -331,6 +335,41 @@ final class RY_ECPay_Shipping_admin {
 		wp_die();
 		}
 		}*/
+	}
+
+	/**
+	 * 新增批次處理選項
+	 *
+	 * @param array $actions 現有批次處理選項.
+	 * @return array 更新後的批次處理選項
+	 */
+	public static function bulk_action( $actions ) {
+		$actions['get_new_ecpay_no']     = __( 'Get new Ecpay shipping no', 'ry-woocommerce-tools' );
+		$actions['get_new_ecpay_no_cod'] = __( 'Get new Ecpay shipping no with cod', 'ry-woocommerce-tools' );
+		return $actions;
+	}
+
+
+	/**
+	 * 處理批量更改訂單狀態
+	 *
+	 * @param string $redirect_to 重定向 URL.
+	 * @param string $action      執行的動作.
+	 * @param array  $post_ids    訂單 ID 列表.
+	 * @return string
+	 */
+	public static function handle_bulk_order_status_update( $redirect_to, $action, $post_ids ) {
+		if ( ! in_array( $action, [ 'get_new_ecpay_no', 'get_new_ecpay_no_cod' ] ) ) {
+			return $redirect_to;
+		}
+
+		foreach ( $post_ids as $post_id ) {
+			RY_ECPay_Shipping_Api::get_code( $post_id, 'get_new_ecpay_no_cod' === $action  );
+		}
+
+		$order_list_url = admin_url( 'edit.php?post_type=shop_order' );
+
+		return $redirect_to ? $redirect_to : $order_list_url;
 	}
 }
 
