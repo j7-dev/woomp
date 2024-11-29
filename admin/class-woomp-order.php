@@ -479,11 +479,6 @@ if ( ! class_exists( 'WooMP_Order' ) ) {
 		 *
 		 * @return void
 		 */
-		/**
-		 * 註冊重新選擇超商 JS
-		 *
-		 * @return void
-		 */
 		public function enqueue_choose_cvs_script() {
 			global $pagenow;
 
@@ -533,8 +528,6 @@ if ( ! class_exists( 'WooMP_Order' ) ) {
 					'newStore' => $choosed_cvs,
 				]
 			);
-
-
 
 			// 載入 JS
 			wp_enqueue_script( 'wmp-admin-shipping' );

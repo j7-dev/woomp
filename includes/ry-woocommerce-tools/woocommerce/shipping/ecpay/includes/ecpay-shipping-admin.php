@@ -1,26 +1,69 @@
 <?php
+/**
+ * ECPay 物流管理
+ *
+ * 處理綠界科技物流方法的管理功能
+ *
+ * @package RyWoocommerceTools
+ * @since 1.0.0
+ */
+
+/**
+ * RY_ECPay_Shipping_admin 類別
+ *
+ * 管理 WooCommerce 中與物流相關的管理任務
+ */
 final class RY_ECPay_Shipping_admin {
 
+	/**
+	 * 初始化管理掛鉤和設定
+	 *
+	 * 載入必要的外掛程式、註冊動作和篩選器
+	 *
+	 * @since 1.0.0
+	 * @return void
+	 */
 	public static function init() {
+		// 載入必要的外掛程式
 		include_once RY_WT_PLUGIN_DIR . 'woocommerce/admin/meta-boxes/ecpay-shipping-meta-box.php';
 
+		// 管理選單和介面相關 hooks
 		add_action( 'admin_menu', [ __CLASS__, 'admin_menu' ], 15 );
+		add_action( 'add_meta_boxes', [ 'RY_ECPay_Shipping_Meta_Box', 'add_meta_box' ], 40, 2 );
 
+		// 運送欄位和設定相關 hooks
 		add_filter( 'woocommerce_admin_shipping_fields', [ __CLASS__, 'set_cvs_shipping_fields' ], 99 );
 		add_action( 'woocommerce_shipping_zone_method_status_toggled', [ __CLASS__, 'check_can_enable' ], 10, 4 );
 		add_action( 'woocommerce_update_options_shipping_options', [ __CLASS__, 'check_ship_destination' ] );
+
+		// 訂單動作相關 hooks
 		add_filter( 'woocommerce_order_actions', [ __CLASS__, 'add_order_actions' ] );
 		add_action( 'woocommerce_order_action_get_new_ecpay_no', [ 'RY_ECPay_Shipping_Api', 'get_code' ] );
 		add_action( 'woocommerce_order_action_get_new_ecpay_no_cod', [ 'RY_ECPay_Shipping_Api', 'get_code_cod' ] );
 		add_action( 'woocommerce_order_action_send_at_cvs_email', [ 'RY_ECPay_Shipping', 'send_at_cvs_email' ] );
-
-		add_action( 'add_meta_boxes', [ 'RY_ECPay_Shipping_Meta_Box', 'add_meta_box' ], 40, 2 );
 	}
 
+	/**
+	 * 新增管理子選單頁面以列印物流單
+	 *
+	 * 在 WordPress 管理介面中新增一個隱藏的子選單項目，用於列印物流單
+	 *
+	 * @since 1.0.0
+	 * @return void
+	 */
 	public static function admin_menu() {
 		add_submenu_page( null, 'RY ECPay shipping print', null, 'edit_shop_orders', 'ry_print_ecpay_shipping', [ __CLASS__, 'print_shipping' ] );
 	}
 
+	/**
+	 * 設定超商（CVS）物流欄位
+	 *
+	 * 根據訂單的物流方法動態新增超商相關欄位
+	 *
+	 * @since 1.0.0
+	 * @param array $shipping_fields 現有的運送欄位
+	 * @return array 更新後的運送欄位
+	 */
 	public static function set_cvs_shipping_fields( $shipping_fields ) {
 		global $theorder;
 
@@ -63,6 +106,18 @@ final class RY_ECPay_Shipping_admin {
 		return $shipping_fields;
 	}
 
+	/**
+	 * 檢查物流方法是否可以啟用
+	 *
+	 * 當運送目的地設定為「僅限帳單地址」時，停用特定物流方法
+	 *
+	 * @since 1.0.0
+	 * @param int    $instance_id 物流方法實例 ID
+	 * @param string $method_id   物流方法 ID
+	 * @param int    $zone_id     運送區域 ID
+	 * @param int    $is_enabled  是否啟用
+	 * @return void
+	 */
 	public static function check_can_enable( $instance_id, $method_id, $zone_id, $is_enabled ) {
 		if ( $is_enabled != 1 ) {
 			return;
@@ -84,6 +139,14 @@ final class RY_ECPay_Shipping_admin {
 		}
 	}
 
+	/**
+	 * 檢查運送目的地設定
+	 *
+	 * 根據 WooCommerce 的運送目的地設定，調整超商物流方法的狀態
+	 *
+	 * @since 1.0.0
+	 * @return void
+	 */
 	public static function check_ship_destination() {
 		global $wpdb;
 		if ( 'billing_only' === get_option( 'woocommerce_ship_to_destination' ) ) {
@@ -106,6 +169,15 @@ final class RY_ECPay_Shipping_admin {
 		}
 	}
 
+	/**
+	 * 新增訂單動作
+	 *
+	 * 根據訂單的物流方法和付款方式，動態新增可用的訂單動作
+	 *
+	 * @since 1.0.0
+	 * @param array $order_actions 現有的訂單動作
+	 * @return array 更新後的訂單動作
+	 */
 	public static function add_order_actions( $order_actions ) {
 		global $theorder, $post;
 		if ( ! is_object( $theorder ) ) {
@@ -126,6 +198,14 @@ final class RY_ECPay_Shipping_admin {
 		return $order_actions;
 	}
 
+	/**
+	 * 列印物流單
+	 *
+	 * 根據訂單和物流資訊，產生並列印物流單
+	 *
+	 * @since 1.0.0
+	 * @return void
+	 */
 	public static function print_shipping() {
 		$order_ID     = wp_unslash( $_GET['orderid'] );
 		$logistics_ID = ( ! empty( $_GET['id'] ) ) ? (int) $_GET['id'] : 0;
