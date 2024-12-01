@@ -147,14 +147,14 @@ class RY_SmilePay_Shipping_Base extends WC_Shipping_Method {
 				);
 
 				if ( 'class' === $this->type ) {
-					$rate['cost'] += $class_cost;
+					$rate['cost'] += (float) $class_cost;
 				} else {
 					$highest_class_cost = $class_cost > $highest_class_cost ? $class_cost : $highest_class_cost;
 				}
 			}
 
 			if ( 'order' === $this->type && $highest_class_cost ) {
-				$rate['cost'] += $highest_class_cost;
+				$rate['cost'] += (float) $highest_class_cost;
 			}
 		}
 

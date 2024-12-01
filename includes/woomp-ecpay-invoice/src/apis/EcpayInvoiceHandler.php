@@ -108,7 +108,7 @@ class EcpayInvoiceHandler {
 				$items[ $key ]['ItemCount']   = $WC_Order_Item_Product->get_quantity(); // 數量 ItemCount
 				$items[ $key ]['ItemAmount']  = round( (float) $WC_Order_Item_Product->get_subtotal() + (float) $WC_Order_Item_Product->get_subtotal_tax(), 2 ); // 小計 ItemAmount
 				$items[ $key ]['ItemPrice']   = round( (float) $items[ $key ]['ItemAmount'] / (float) $items[ $key ]['ItemCount'], 2 ); // 單價 ItemPrice
-				$order_total_summed_by_items += $items[ $key ]['ItemAmount']; // 將 items 總額加總起來
+				$order_total_summed_by_items += (float) $items[ $key ]['ItemAmount']; // 將 items 總額加總起來
 			}
 
 			// 組合商品
@@ -166,7 +166,7 @@ class EcpayInvoiceHandler {
 			$fee_amount = 0;
 			$fees       = $order->get_fees();
 			foreach ( $fees as $fee ) {
-				$fee_amount += $fee->get_amount();
+				$fee_amount += (float) $fee->get_amount();
 			}
 			if ( $fee_amount !== 0 ) {
 				array_push(

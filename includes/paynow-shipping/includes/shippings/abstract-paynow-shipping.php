@@ -199,14 +199,14 @@ abstract class PayNow_Abstract_Shipping_Method extends WC_Shipping_Method {
 				);
 
 				if ( 'class' === $this->type ) {
-					$rate['cost'] += $class_cost;
+					$rate['cost'] += (float) $class_cost;
 				} else {
 					$highest_class_cost = $class_cost > $highest_class_cost ? $class_cost : $highest_class_cost;
 				}
 			}
 
 			if ( 'order' === $this->type && $highest_class_cost ) {
-				$rate['cost'] += $highest_class_cost;
+				$rate['cost'] += (float) $highest_class_cost;
 			}
 		}
 
@@ -325,7 +325,7 @@ abstract class PayNow_Abstract_Shipping_Method extends WC_Shipping_Method {
 		$total_quantity = 0;
 		foreach ( $package['contents'] as $item_id => $values ) {
 			if ( $values['quantity'] > 0 && $values['data']->needs_shipping() ) {
-				$total_quantity += $values['quantity'];
+				$total_quantity += (float) $values['quantity'];
 			}
 		}
 		return $total_quantity;

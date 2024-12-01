@@ -417,7 +417,7 @@ class WC_Gateway_LINEPay extends WC_Payment_Gateway {
 			$confirmed_amount = 0;
 			foreach ( $info->payInfo as $item ) {
 				$this->line_write_log( $item );
-				$confirmed_amount += $item->amount;
+				$confirmed_amount += (float) $item->amount;
 			}
 
 			// Refunds will be processed if the amount at Reserve is different from the amount after Confirm.

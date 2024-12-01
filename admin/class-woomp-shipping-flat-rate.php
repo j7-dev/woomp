@@ -1,8 +1,13 @@
 <?php
-
 /**
- * 複寫單一費率的設定項以增加免運費功能
+ * WooMP Shipping Flat Rate
+ *
+ * 複寫 WooCommerce 單一費率的設定項以增加免運費功能
+ *
+ * @package WooMP
  */
+
+namespace WooMP\Shipping;
 
 use Automattic\WooCommerce\Utilities\NumberUtil;
 
@@ -10,22 +15,46 @@ if ( ! class_exists( 'WC_Shipping_Flat_Rate' ) ) {
 	return;
 }
 
-class WooMP_Shipping_Flat_Rate extends WC_Shipping_Flat_Rate {
+/**
+ * WooMP Shipping Flat Rate Class
+ *
+ * 擴展 WooCommerce 單一運費方式,增加免運費相關設定
+ */
+class WooMP_Shipping_Flat_Rate extends \WC_Shipping_Flat_Rate {
 
 	/**
-	 * Min amount to be valid.
+	 * 最低訂單金額
 	 *
-	 * @var integer
+	 * @var float
 	 */
-	public $min_amount = 0;
+	protected $min_amount = 0;
 
 	/**
-	 * Requires option.
+	 * 免運費需求條件
 	 *
 	 * @var string
 	 */
-	public $requires = '';
+	protected $cost_requires = '';
 
+	/**
+	 * 是否忽略折扣
+	 *
+	 * @var string
+	 */
+	protected $ignore_discounts = 'no';
+
+	/**
+	 * 每增加重量單位的倍數運費
+	 *
+	 * @var float
+	 */
+	protected $weight_plus_cost = 0;
+
+	/**
+	 * 初始化運費設定
+	 *
+	 * @return void
+	 */
 	public function init() {
 		$cost_desc = __( 'Enter a cost (excl. tax) or sum, e.g. <code>10.00 * [qty]</code>.', 'woocommerce' ) . '<br/><br/>' . __( 'Use <code>[qty]</code> for the number of items, <br/><code>[cost]</code> for the total cost of items, and <code>[fee percent="10" min_fee="20" max_fee=""]</code> for percentage based fees.', 'woocommerce' );
 
@@ -158,9 +187,9 @@ class WooMP_Shipping_Flat_Rate extends WC_Shipping_Flat_Rate {
 	}
 
 	/**
-	 * See if free shipping is available based on the package and cart.
+	 * 檢查運送方式是否可用
 	 *
-	 * @param array $package Shipping package.
+	 * @param array $package 運送包裹資訊.
 	 * @return bool
 	 */
 	public function is_available( $package ) {
@@ -219,11 +248,17 @@ class WooMP_Shipping_Flat_Rate extends WC_Shipping_Flat_Rate {
 		return apply_filters( 'woocommerce_shipping_' . $this->id . '_is_available', $is_available, $package, $this );
 	}
 
+	/**
+	 * 計算運費金額
+	 *
+	 * @param array $package 運送包裹資訊.
+	 * @return void
+	 */
 	public function calculate_shipping( $package = [] ) {
 		$rate = [
 			'id'        => $this->get_rate_id(),
 			'label'     => $this->title,
-			'cost'      => $this->cost,
+			'cost'      => (float) $this->cost,
 			'package'   => $package,
 			'meta_data' => [
 				'no_count' => 1,
@@ -256,14 +291,14 @@ class WooMP_Shipping_Flat_Rate extends WC_Shipping_Flat_Rate {
 				);
 
 				if ( 'class' === $this->type ) {
-					$rate['cost'] += $class_cost;
+					$rate['cost'] += (float) $class_cost;
 				} else {
 					$highest_class_cost = $class_cost > $highest_class_cost ? $class_cost : $highest_class_cost;
 				}
 			}
 
 			if ( 'order' === $this->type && $highest_class_cost ) {
-				$rate['cost'] += $highest_class_cost;
+				$rate['cost'] += (float) $highest_class_cost;
 			}
 		}
 
@@ -304,6 +339,13 @@ class WooMP_Shipping_Flat_Rate extends WC_Shipping_Flat_Rate {
 		do_action( 'woocommerce_' . $this->id . '_shipping_add_rate', $this, $rate );
 	}
 
+	/**
+	 * 檢查是否有符合條件的優惠券
+	 *
+	 * @param string $requires 需求條件.
+	 * @param array  $check_requires_list 需檢查的條件清單.
+	 * @return bool
+	 */
 	protected function check_has_coupon( $requires, $check_requires_list ) {
 		if ( in_array( $requires, $check_requires_list ) ) {
 			$coupons = WC()->cart->get_coupons();
@@ -319,6 +361,14 @@ class WooMP_Shipping_Flat_Rate extends WC_Shipping_Flat_Rate {
 		return false;
 	}
 
+	/**
+	 * 檢查是否達到最低訂單金額
+	 *
+	 * @param string $requires 需求條件.
+	 * @param array  $check_requires_list 需檢查的條件清單.
+	 * @param bool   $original 是否使用原始金額.
+	 * @return bool
+	 */
 	protected function check_has_min_amount( $requires, $check_requires_list, $original = false ) {
 		if ( in_array( $requires, $check_requires_list ) ) {
 			$total = WC()->cart->get_displayed_subtotal();
@@ -337,9 +387,9 @@ class WooMP_Shipping_Flat_Rate extends WC_Shipping_Flat_Rate {
 	}
 
 	/**
-	 * Enqueue JS to handle free shipping options.
+	 * 在管理後台加入 JavaScript 處理
 	 *
-	 * Static so that's enqueued only once.
+	 * @return void
 	 */
 	public static function enqueue_admin_js() {
 		wc_enqueue_js(

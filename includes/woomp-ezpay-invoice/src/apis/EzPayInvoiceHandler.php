@@ -153,7 +153,7 @@ class EzPayInvoiceHandler {
 		$fee_amount = 0;
 		$fees       = $order->get_fees();
 		foreach ( $fees as $fee ) {
-			$fee_amount += $fee->get_amount();
+			$fee_amount += (float) $fee->get_amount();
 		}
 		$fee_amount = round( (float) $fee_amount, 2 );
 		if ( $fee_amount !== 0 ) {
