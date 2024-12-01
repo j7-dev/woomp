@@ -7,8 +7,6 @@
  * @package WooMP
  */
 
-namespace WooMP\Shipping;
-
 use Automattic\WooCommerce\Utilities\NumberUtil;
 
 if ( ! class_exists( 'WC_Shipping_Flat_Rate' ) ) {
