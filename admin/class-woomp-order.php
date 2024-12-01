@@ -1,65 +1,92 @@
 <?php
-
 /**
- * 訂單相關功能
+ * WooMP 訂單管理類別
+ *
+ * 此類別處理所有與 WooCommerce 訂單相關的功能，包含：
+ * 1. 訂單狀態管理
+ * 2. 訂單列表顯示優化
+ * 3. 物流資訊處理
+ * 4. 批次處理功能
+ *
+ * @package WooMP
+ * @since 1.0.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
-	exit;
+	exit; // 離開，防止直接訪問
 }
 
-
 if ( ! class_exists( 'WooMP_Order' ) ) {
-	class WooMP_Order {
+	/**
+	 * WooMP 訂單管理類別
+	 */
+	class WooMP_Order { //phpcs:ignore
 		/**
-		 * 初始化
+		 * 初始化類別
+		 *
+		 * 註冊所有需要的 hooks 和 filters
+		 *
+		 * @return void
 		 */
 		public static function init() {
 			$class = new self();
+
+			// 訂單狀態相關
 			add_action( 'init', [ $class, 'add_order_status' ] );
 			add_filter( 'wc_order_statuses', [ $class, 'add_order_statuses' ] );
 			add_filter( 'woocommerce_reports_order_statuses', [ $class, 'add_order_statuses' ] );
 			add_filter( 'woocommerce_order_is_paid_statuses', [ $class, 'add_report_paid_statuses' ] );
-			add_filter( 'wp_ajax_delete_shipping_ecpay_cvs', [ $class, 'delete_shipping_ecpay_cvs' ] );
 
+			// 物流相關
+			add_filter( 'wp_ajax_delete_shipping_ecpay_cvs', [ $class, 'delete_shipping_ecpay_cvs' ] );
+			add_action( 'woocommerce_admin_order_data_after_shipping_address', [ $class, 'add_choose_cvs_btn' ] );
+			add_action( 'admin_enqueue_scripts', [ $class, 'enqueue_choose_cvs_script' ] );
+
+			// 訂單列表優化
 			add_filter( 'manage_shop_order_posts_columns', [ $class, 'shop_order_columns' ], 11, 1 );
 			add_action( 'manage_shop_order_posts_custom_column', [ $class, 'shop_order_column' ], 11, 2 );
 
+			// 批次處理
 			add_filter( 'bulk_actions-edit-shop_order', [ $class, 'bulk_action' ], 99, 1 );
 			add_filter( 'handle_bulk_actions-edit-shop_order', [ $class, 'print_shipping_note' ], 10, 3 );
-
-			add_action( 'woocommerce_admin_order_data_after_shipping_address', [ $class, 'add_choose_cvs_btn' ] );
-			add_action( 'admin_enqueue_scripts', [ $class, 'enqueue_choose_cvs_script' ] );
+			add_filter( 'handle_bulk_actions-edit-shop_order', [ $class, 'handle_bulk_order_status_update' ], 10, 3 );
+			add_action( 'admin_notices', [ $class, 'bulk_admin_notices' ] );
 		}
 
 		/**
-		 * 增加訂單狀態
+		 * 註冊自定義訂單狀態
+		 *
+		 * @return void
 		 */
 		public function add_order_status() {
-
-			register_post_status(
-				'wc-wmp-in-transit',
-				[
+			$custom_statuses = [
+				'wc-wmp-in-transit' => [
 					'label'                     => '配送中',
 					'public'                    => true,
 					'show_in_admin_status_list' => true,
 					'show_in_admin_all_list'    => true,
 					'exclude_from_search'       => false,
-				]
-			);
-
-			register_post_status(
-				'wc-wmp-shipped',
-				[
+				],
+				'wc-wmp-shipped'    => [
 					'label'                     => '已出貨',
 					'public'                    => true,
 					'show_in_admin_status_list' => true,
 					'show_in_admin_all_list'    => true,
 					'exclude_from_search'       => false,
-				]
-			);
+				],
+			];
+
+			foreach ( $custom_statuses as $status_key => $status_args ) {
+				register_post_status( $status_key, $status_args );
+			}
 		}
 
+		/**
+		 * 新增訂單狀態到 WooCommerce 狀態列表
+		 *
+		 * @param array $order_statuses 現有訂單狀態.
+		 * @return array 更新後的訂單狀態
+		 */
 		public function add_order_statuses( $order_statuses ) {
 			$new_order_statuses = [];
 			foreach ( $order_statuses as $key => $status ) {
@@ -72,42 +99,57 @@ if ( ! class_exists( 'WooMP_Order' ) ) {
 			return $new_order_statuses;
 		}
 
-		public function add_report_paid_statuses( $statues ) {
-			$statues[] = 'wmp-in-transit';
-			$statues[] = 'wmp-in-shipped';
-			return $statues;
-		}
-
-		public function add_order_is_paid_statuses( $statues ) {
-			$statues[] = 'wmp-in-transit';
-			$statues[] = 'wmp-in-shipped';
-			return $statues;
+		/**
+		 * 新增已付款狀態到報表
+		 *
+		 * @param array $statuses 現有狀態.
+		 * @return array 更新後的狀態
+		 */
+		public function add_report_paid_statuses( $statuses ) {
+			$statuses[] = 'wmp-in-transit';
+			$statuses[] = 'wmp-shipped';
+			return array_unique( $statuses );
 		}
 
 		/**
-		 * 訂單管理頁刪除綠界物流資訊 Ajax
+		 * Ajax 處理刪除綠界物流資訊
+		 *
+		 * @return void
 		 */
 		public function delete_shipping_ecpay_cvs() {
-			if ( isset( $_POST['ecpayShippingId'] ) && isset( $_POST['orderId'] ) ) {
-				$order_id            = $_POST['orderId'];
-				$ecpay_shipping_id   = $_POST['ecpayShippingId'];
-				$ecpay_shipping_info = get_post_meta( $order_id, '_ecpay_shipping_info', true );
-
-				unset( $ecpay_shipping_info[ $ecpay_shipping_id ] );
-				update_post_meta( $order_id, '_ecpay_shipping_info', $ecpay_shipping_info );
-
-				echo wp_json_encode( '已刪除' );
-			} else {
-				echo wp_json_encode( '發生錯誤' );
+			// 檢查 nonce 和權限
+			if ( ! check_ajax_referer( 'delete_shipping_ecpay_cvs', 'nonce', false ) || ! current_user_can( 'edit_shop_orders' ) ) {
+				wp_send_json_error( '權限不足' );
 			}
-			die();
+
+			// phpcs:ignore WordPress.Security.NonceVerification.Missing
+			$order_id = isset( $_POST['orderId'] ) ? absint( $_POST['orderId'] ) : 0;
+			// phpcs:ignore WordPress.Security.NonceVerification.Missing
+			$ecpay_shipping_id = isset( $_POST['ecpayShippingId'] ) ? sanitize_text_field( wp_unslash( $_POST['ecpayShippingId'] ) ) : '';
+
+			if ( ! $order_id || empty( $ecpay_shipping_id ) ) {
+				wp_send_json_error( '參數錯誤' );
+			}
+
+			$ecpay_shipping_info = get_post_meta( $order_id, '_ecpay_shipping_info', true );
+			if ( ! is_array( $ecpay_shipping_info ) ) {
+				wp_send_json_error( '找不到物流資訊' );
+			}
+
+			unset( $ecpay_shipping_info[ $ecpay_shipping_id ] );
+			update_post_meta( $order_id, '_ecpay_shipping_info', $ecpay_shipping_info );
+
+			wp_send_json_success( '已成功刪除物流資訊' );
 		}
 
 		/**
-		 * 後台訂單列表增加單號欄位
+		 * 在訂單列表增加自定義欄位
+		 *
+		 * @param array $columns 現有欄位.
+		 * @return array 更新後的欄位
 		 */
 		public function shop_order_columns( $columns ) {
-			$add_index = array_search( 'shipping_address', array_keys( $columns ) ) + 1;
+			$add_index = array_search( 'shipping_address', array_keys( $columns ), true ) + 1;
 			$pre_array = array_splice( $columns, 0, $add_index );
 			$array     = [
 				'wmp_payment_no'  => __( '金流單號', 'ry-woocommerce-tools' ),
@@ -117,97 +159,130 @@ if ( ! class_exists( 'WooMP_Order' ) ) {
 		}
 
 		/**
-		 * 後台訂單列表修改
+		 * 顯示訂單列表自定義欄位內容
+		 *
+		 * @param string $column  欄位名稱.
+		 * @param int    $post_id 訂單 ID.
+		 * @return void
 		 */
 		public function shop_order_column( $column, $post_id ) {
-			if ( $column == 'wmp_payment_no' ) {
-				$order = wc_get_order( $post_id );
-				echo $order->get_data()['transaction_id'];
-				// echo ( ! empty( $trans_id ) ) ? esc_html( $trans_id ) : '';
-			}
-			if ( $column == 'wmp_shipping_no' ) {
-				global $the_order;
-				$shipping_list = $the_order->get_meta( '_ecpay_shipping_info', true );
-				if ( is_array( $shipping_list ) ) {
-					foreach ( $shipping_list as $item ) {
-						if ( $item['LogisticsType'] == 'CVS' ) {
-							echo esc_html( ( ! empty( $item['PaymentNo'] ) ) ? $item['PaymentNo'] . ' ' . $item['ValidationNo'] : $item['ID'] );
-						}
-
-						if ( $item['LogisticsSubType'] == 'POST' ) {
-							echo $item['BookingNote'];
-						}
-
-						if ( $item['LogisticsType'] == 'HOME' ) {
-							echo esc_html( ( ! empty( $item['PaymentNo'] ) ) ? $item['PaymentNo'] . ' ' . $item['ValidationNo'] : $item['ID'] );
-						}
-					}
-				} elseif ( get_post_meta( $post_id, '_paynow_shipping_paymentno', true ) ) {
-					echo get_post_meta( $post_id, '_paynow_shipping_paymentno', true );
-				} else {
-					?>
-					<div class="shippingNoWrap">
-						<input type="text" name="shippingNo" placeholder="請輸入物流單號" value="<?php echo ( get_post_meta( $post_id, 'wmp_shipping_no', true ) ) ? get_post_meta( $post_id, 'wmp_shipping_no', true ) : ''; ?>" style="width: 100%;" maxlength=100>
-						<input type="hidden" class="orderId" value="<?php echo esc_attr( $post_id ); ?>">
-						<div class="shipping-no-loading">
-							<div class="lds-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
-						</div>
-					</div>
-					<?php
-				}
+			$order = wc_get_order( $post_id );
+			if ( ! $order ) {
+				return;
 			}
 
-			if ( get_option( 'wc_woomp_setting_show_phone', 1 ) === 'yes' ) {
-				/**
-				 * 加入帳單電話
-				 */
-				if ( $column == 'billing_address' ) {
-					$order = wc_get_order( $post_id );
-					echo '<span class="billing-phone" style="display: block;">電話 ' . $order->get_billing_phone() . '</span>';
-				}
+			switch ( $column ) {
+				case 'wmp_payment_no':
+					echo esc_html( $order->get_transaction_id() );
+					break;
 
-				/**
-				 * 加入運送電話
-				 */
-				if ( $column == 'shipping_address' ) {
-					$order = wc_get_order( $post_id );
-					if ( $order->get_shipping_phone() ) {
-						echo '<span class="shipping-phone" style="display: block;">電話 ' . $order->get_shipping_phone() . '</span>';
-					}
-				}
+				case 'wmp_shipping_no':
+					$this->display_shipping_number( $order );
+					break;
+
+				case 'billing_address':
+				case 'shipping_address':
+					$this->display_address_phone( $column, $order );
+					break;
 			}
 		}
 
 		/**
-		 * 訂單列表增加列運托運單批次操作選單
+		 * 顯示物流單號
+		 *
+		 * @param WC_Order $order WooCommerce 訂單物件.
+		 * @return void
 		 */
-		public function bulk_action( $actions ) {
-			if ( wc_string_to_bool( get_option( 'RY_WT_enabled_ecpay_shipping' ) ) ) {
-				switch ( RY_WT::get_option( 'ecpay_shipping_cvs_type' ) ) {
-					case 'B2C':
-						$actions['ry_print_ecpay_cvs_711']        = __( 'Print ECPay shipping booking note (711)', 'woomp' );
-						$actions['ry_print_ecpay_cvs_711_freeze'] = __( 'Print ECPay shipping booking note (711 Freeze)', 'woomp' );
-						$actions['ry_print_ecpay_cvs_family']     = __( 'Print ECPay shipping booking note (family)', 'woomp' );
-						$actions['ry_print_ecpay_cvs_hilife']     = __( 'Print ECPay shipping booking note (hilife)', 'woomp' );
-						break;
-					case 'C2C':
-						$actions['ry_print_ecpay_cvs_711']    = __( 'Print ECPay shipping booking note (711)', 'woomp' );
-						$actions['ry_print_ecpay_cvs_family'] = __( 'Print ECPay shipping booking note (family)', 'woomp' );
-						$actions['ry_print_ecpay_cvs_hilife'] = __( 'Print ECPay shipping booking note (hilife)', 'woomp' );
-						$actions['ry_print_ecpay_cvs_okmart'] = __( 'Print ECPay shipping booking note (okmart)', 'woomp' );
-						break;
+		private function display_shipping_number( $order ) {
+			$shipping_list   = $order->get_meta( '_ecpay_shipping_info', true );
+			$paynow_shipping = get_post_meta( $order->get_id(), '_paynow_shipping_paymentno', true );
+
+			if ( is_array( $shipping_list ) ) {
+				foreach ( $shipping_list as $item ) {
+					if ( isset( $item['LogisticsType'] ) ) {
+						switch ( $item['LogisticsType'] ) {
+							case 'CVS':
+							case 'HOME':
+								echo esc_html(
+									! empty( $item['PaymentNo'] )
+									? $item['PaymentNo'] . ' ' . $item['ValidationNo']
+									: $item['ID']
+								);
+								break;
+							case 'POST':
+								echo esc_html( $item['BookingNote'] ?? '' );
+								break;
+						}
+					}
 				}
-
-				$actions['ry_print_ecpay_home_tcat']        = __( 'Print ECPay shipping booking note (tcat)', 'woomp' );
-				$actions['ry_print_ecpay_home_tcat_freeze'] = __( 'Print ECPay shipping booking note (tcat freeze)', 'woomp' );
-				$actions['ry_print_ecpay_home_tcat_frozen'] = __( 'Print ECPay shipping booking note (tcat frozen)', 'woomp' );
-				$actions['ry_print_ecpay_home_post']        = __( 'Print POST booking note', 'woomp' );
+			} elseif ( $paynow_shipping ) {
+				echo esc_html( $paynow_shipping );
+			} else {
+				$this->display_shipping_input( $order->get_id() );
 			}
-			$actions['wmp_print_hct'] = __( 'Print HCT shipping booking note', 'woomp' );
-
-			return $actions;
 		}
 
+		/**
+		 * 顯示物流單號輸入框
+		 *
+		 * @param int $order_id 訂單 ID.
+		 * @return void
+		 */
+		private function display_shipping_input( $order_id ) {
+			$current_no = get_post_meta( $order_id, 'wmp_shipping_no', true );
+			?>
+			<div class="shippingNoWrap">
+				<input type="text"
+					name="shippingNo"
+					placeholder="請輸入物流單號"
+					value="<?php echo esc_attr( $current_no ); ?>"
+					style="width: 100%;"
+					maxlength="100">
+				<input type="hidden" class="orderId" value="<?php echo esc_attr( $order_id ); ?>">
+				<div class="shipping-no-loading">
+					<div class="lds-spinner">
+			<?php for ( $i = 0; $i < 12; $i++ ) : ?>
+							<div></div>
+						<?php endfor; ?>
+					</div>
+				</div>
+			</div>
+			<?php
+		}
+
+		/**
+		 * 顯示地址和電話資訊
+		 *
+		 * @param string   $column 欄位名稱.
+		 * @param WC_Order $order  WooCommerce 訂單物件.
+		 * @return void
+		 */
+		private function display_address_phone( $column, $order ) {
+			if ( get_option( 'wc_woomp_setting_show_phone', 1 ) !== 'yes' ) {
+				return;
+			}
+
+			if ( 'billing_address' === $column ) {
+				printf(
+					'<span class="billing-phone" style="display: block;">電話 %s</span>',
+					esc_html( $order->get_billing_phone() )
+				);
+			} elseif ( 'shipping_address' === $column && $order->get_shipping_phone() ) {
+				printf(
+					'<span class="shipping-phone" style="display: block;">電話 %s</span>',
+					esc_html( $order->get_shipping_phone() )
+				);
+			}
+		}
+
+		/**
+		 * 處理列印物流單的批次操作
+		 *
+		 * @param string $redirect_to 重定向 URL.
+		 * @param string $action      執行的動作.
+		 * @param array  $ids         訂單 ID 列表.
+		 * @return string|void
+		 */
 		public function print_shipping_note( $redirect_to, $action, $ids ) {
 			if ( false !== strpos( $action, 'ry_print_ecpay_' ) ) {
 				$redirect_to = add_query_arg(
@@ -253,16 +328,88 @@ if ( ! class_exists( 'WooMP_Order' ) ) {
 					++$i;
 				}
 
-				for ( $j = 0; $j < count( $csv_arr ); $j++ ) {
+				$csv_arr_length = count( $csv_arr );
+				for ( $j = 0; $j < $csv_arr_length; $j++ ) {
 					echo $this->csvstr( $csv_arr[ $j ] ) . "\n";
 				}
 			}
 		}
 
 		/**
-		 * 確保輸出內容符合 CSV 格式，定義下列方法來處理
+		 * 處理批量更改訂單狀態
+		 *
+		 * @param string $redirect_to 重定向 URL.
+		 * @param string $action      執行的動作.
+		 * @param array  $post_ids    訂單 ID 列表.
+		 * @return string
 		 */
-		public function csvstr( array $fields ) {
+		public function handle_bulk_order_status_update( $redirect_to, $action, $post_ids ) {
+			if ( ! in_array( $action, [ 'mark_wmp-shipped', 'mark_wmp-in-transit' ] ) ) {
+				return $redirect_to;
+			}
+
+			$processed_orders = 0;
+			$status           = str_replace( 'mark_', '', $action );
+
+			foreach ( $post_ids as $post_id ) {
+				$order = wc_get_order( $post_id );
+				if ( $order ) {
+					$order->update_status( $status );
+					++$processed_orders;
+				}
+			}
+
+			$redirect_to = add_query_arg(
+				[
+					'processed_count' => $processed_orders,
+					'processed_type'  => $status,
+				],
+				$redirect_to
+			);
+
+			return $redirect_to;
+		}
+
+		/**
+		 * 顯示批量更新訂單狀態的通知訊息
+		 *
+		 * @return void
+		 */
+		public function bulk_admin_notices() {
+			if ( empty( $_REQUEST['processed_count'] ) || empty( $_REQUEST['processed_type'] ) ) {
+				return;
+			}
+
+			$count = intval( $_REQUEST['processed_count'] );
+			$type  = sanitize_text_field( wp_unslash( $_REQUEST['processed_type'] ) );
+
+			$status_labels = [
+				'wmp-shipped'    => '已出貨',
+				'wmp-in-transit' => '配送中',
+			];
+
+			$message = sprintf(
+				/* translators: %1$d: 處理數量, %2$s: 狀態名稱 */
+				_n(
+					'%1$d 筆訂單已更新為 %2$s',
+					'%1$d 筆訂單已更新為 %2$s',
+					$count,
+					'woomp'
+				),
+				$count,
+				$status_labels[ $type ] ?? $type
+			);
+
+			echo '<div class="notice notice-success is-dismissible"><p>' . esc_html( $message ) . '</p></div>';
+		}
+
+		/**
+		 * 確保輸出內容符合 CSV 格式
+		 *
+		 * @param array $fields CSV 欄位資料.
+		 * @return string|false
+		 */
+		private function csvstr( array $fields ) {
 			$f = fopen( 'php://memory', 'r+' );
 			if ( fputcsv( $f, $fields ) === false ) {
 				return false;
@@ -273,7 +420,43 @@ if ( ! class_exists( 'WooMP_Order' ) ) {
 		}
 
 		/**
+		 * 新增批次處理選項
+		 *
+		 * @param array $actions 現有批次處理選項.
+		 * @return array 更新後的批次處理選項
+		 */
+		public function bulk_action( $actions ) {
+			if ( ! wc_string_to_bool( get_option( 'RY_WT_enabled_ecpay_shipping' ) ) ) {
+				return $actions;
+			}
+
+			$cvs_type = RY_WT::get_option( 'ecpay_shipping_cvs_type' );
+
+			if ( 'B2C' === $cvs_type ) {
+				$actions['ry_print_ecpay_cvs_711']        = __( 'Print ECPay shipping booking note (711)', 'woomp' );
+				$actions['ry_print_ecpay_cvs_711_freeze'] = __( 'Print ECPay shipping booking note (711 Freeze)', 'woomp' );
+				$actions['ry_print_ecpay_cvs_family']     = __( 'Print ECPay shipping booking note (family)', 'woomp' );
+				$actions['ry_print_ecpay_cvs_hilife']     = __( 'Print ECPay shipping booking note (hilife)', 'woomp' );
+			} elseif ( 'C2C' === $cvs_type ) {
+				$actions['ry_print_ecpay_cvs_711']    = __( 'Print ECPay shipping booking note (711)', 'woomp' );
+				$actions['ry_print_ecpay_cvs_family'] = __( 'Print ECPay shipping booking note (family)', 'woomp' );
+				$actions['ry_print_ecpay_cvs_hilife'] = __( 'Print ECPay shipping booking note (hilife)', 'woomp' );
+				$actions['ry_print_ecpay_cvs_okmart'] = __( 'Print ECPay shipping booking note (okmart)', 'woomp' );
+			}
+
+			$actions['ry_print_ecpay_home_tcat'] = __( 'Print ECPay shipping booking note (tcat)', 'woomp' );
+
+			$actions['mark_wmp-shipped']    = __( '變更為已出貨', 'woomp' );
+			$actions['mark_wmp-in-transit'] = __( '變更為配送中', 'woomp' );
+
+			return $actions;
+		}
+
+		/**
 		 * 增加訂單頁面重新選擇超商按鈕
+		 *
+		 * @param WC_Order $order WooCommerce 訂單物件.
+		 * @return void
 		 */
 		public function add_choose_cvs_btn( $order ) {
 			if ( get_option( RY_WT::$option_prefix . 'enabled_ecpay_shipping', 1 ) === 'yes' ) {
@@ -281,10 +464,11 @@ if ( ! class_exists( 'WooMP_Order' ) ) {
 					$method_class = RY_ECPay_Shipping::get_order_support_shipping( $item );
 					if ( $method_class !== false && strpos( $method_class, 'cvs' ) !== false ) {
 						echo '<div class="edit_address">
-						<button type="button" class="button choose-cvs" style="margin-top: 10px;">' . __( 'Update convenience store', 'woomp' ) . ' </button><p style="margin-top: 10px;">'
-						. __( 'After choosing cvs, you need update the order to save changing.', 'woomp' ) . '
-						</p></div>
-						';
+							<button type="button" class="button choose-cvs" style="margin-top: 10px;">' .
+						esc_html__( 'Update convenience store', 'woomp' ) .
+						'</button><p style="margin-top: 10px;">' .
+						esc_html__( 'After choosing cvs, you need update the order to save changing.', 'woomp' ) .
+						'</p></div>';
 					}
 				}
 			}
@@ -292,52 +476,82 @@ if ( ! class_exists( 'WooMP_Order' ) ) {
 
 		/**
 		 * 註冊重新選擇超商 JS
+		 *
+		 * @return void
 		 */
 		public function enqueue_choose_cvs_script() {
 			global $pagenow;
-			if ( 'post.php' === $pagenow && isset( $_GET['post'] ) && 'shop_order' === get_post_type( $_GET['post'] ) && get_option( RY_WT::$option_prefix . 'enabled_ecpay_shipping', 1 ) === 'yes' ) {
-				$order = wc_get_order( $_GET['post'] );
-				foreach ( $order->get_items( 'shipping' ) as $item_id => $item ) {
-					$method_class = RY_ECPay_Shipping::get_order_support_shipping( $item );
-					if ( $method_class !== false && strpos( $method_class, 'cvs' ) !== false ) {
-						list($MerchantID, $HashKey, $HashIV, $CVS_type) = RY_ECPay_Shipping::get_ecpay_api_info();
 
-						$choosed_cvs = '';
+			// 只在訂單編輯頁面載入 JS
+			if ( 'post.php' !== $pagenow || ! isset( $_GET['post'] ) || 'shop_order' !== get_post_type( $_GET['post'] ) ) { // phpcs:ignore
+				return;
+			}
 
-						if ( isset( $_POST['MerchantID'] ) && $_POST['MerchantID'] == $MerchantID ) {
-							$choosed_cvs = [
-								'CVSStoreID'   => wc_clean( wp_unslash( $_POST['CVSStoreID'] ) ),
-								'CVSStoreName' => wc_clean( wp_unslash( $_POST['CVSStoreName'] ) ),
-								'CVSAddress'   => wc_clean( wp_unslash( $_POST['CVSAddress'] ) ),
-								'CVSTelephone' => wc_clean( wp_unslash( $_POST['CVSTelephone'] ) ),
-							];
-						}
+			// 取得訂單物件
+			$order = wc_get_order( $_GET['post'] ); // phpcs:ignore
 
-						wp_register_script( 'wmp-admin-shipping', WOOMP_PLUGIN_URL . 'admin/js/choose-cvs.js', [ 'jquery' ], null, false );
+			// phpcs:disable
 
-						wp_localize_script(
-							'wmp-admin-shipping',
-							'ECPayInfo',
-							[
-								'postUrl'  => RY_ECPay_Shipping_Api::get_map_post_url(),
-								'postData' => [
-									'MerchantID'       => $MerchantID,
-									'LogisticsType'    => $method_class::$LogisticsType,
-									'LogisticsSubType' => $method_class::$LogisticsSubType . ( ( 'C2C' == $CVS_type ) ? 'C2C' : '' ),
-									'IsCollection'     => 'Y',
-									'ServerReplyURL'   => esc_url( WC()->api_request_url( 'ry_ecpay_map_callback' ) ),
-									'ExtraData'        => 'ry' . $order->get_id(),
-								],
-								'newStore' => $choosed_cvs,
-							]
-						);
+			// 取得 ECPay API 連接資訊
+			list($MerchantID, $HashKey, $HashIV, $CVS_type) = RY_ECPay_Shipping::get_ecpay_api_info();
 
-						wp_enqueue_script( 'wmp-admin-shipping' );
+			// 是否有選擇超商
+			$choosed_cvs = [];
 
-					}
+			// 如果有送出超商資訊，則將其儲存
+			if ( isset( $_POST['MerchantID'] ) && $_POST['MerchantID'] == $MerchantID ) {
+				$choosed_cvs = [
+					'CVSStoreID'   => isset( $_POST['CVSStoreID'] ) ? sanitize_text_field( wp_unslash( $_POST['CVSStoreID'] ) ) : '',
+					'CVSStoreName' => isset( $_POST['CVSStoreName'] ) ? sanitize_text_field( wp_unslash( $_POST['CVSStoreName'] ) ) : '',
+					'CVSAddress'   => isset( $_POST['CVSAddress'] ) ? sanitize_text_field( wp_unslash( $_POST['CVSAddress'] ) ) : '',
+					'CVSTelephone' => isset( $_POST['CVSTelephone'] ) ? sanitize_text_field( wp_unslash( $_POST['CVSTelephone'] ) ) : '',
+				];
+			}
+
+			// 註冊 JS
+			wp_register_script( 'wmp-admin-shipping', WOOMP_PLUGIN_URL . 'admin/js/choose-cvs.js', [ 'jquery' ], null, false );
+
+			// 將 ECPay API 連接資訊傳遞給 JS
+			wp_localize_script(
+				'wmp-admin-shipping',
+				'ECPayInfo',
+				[
+					'postUrl'  => RY_ECPay_Shipping_Api::get_map_post_url(),
+					'postData' => [
+						'MerchantID'       => $MerchantID,
+						'LogisticsType'    => '',
+						'LogisticsSubType' => '',
+						'IsCollection'     => 'Y',
+						'ServerReplyURL'   => esc_url( WC()->api_request_url( 'ry_ecpay_map_callback' ) ),
+						'ExtraData'        => 'ry' . $order->get_id(),
+					],
+					'newStore' => $choosed_cvs,
+				]
+			);
+
+			// 載入 JS
+			wp_enqueue_script( 'wmp-admin-shipping' );
+
+			// 迴圈訂單中的運輸方式，將運輸方式加入 JS 的資料中
+			foreach ( $order->get_items( 'shipping' ) as $item_id => $item ) {
+				$method_class = RY_ECPay_Shipping::get_order_support_shipping( $item );
+				if ( $method_class !== false && strpos( $method_class, 'cvs' ) !== false ) {
+					wp_localize_script(
+						'wmp-admin-shipping',
+						'ECPayInfo',
+						[
+							'postData' => [
+								'LogisticsType'    => $method_class::$LogisticsType,
+								'LogisticsSubType' => $method_class::$LogisticsSubType . ( ( 'C2C' == $CVS_type ) ? 'C2C' : '' ),
+							],
+						]
+					);
 				}
 			}
+			// phpcs:enable
 		}
 	}
+
+	// 初始化類別
 	WooMP_Order::init();
 }
