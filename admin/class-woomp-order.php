@@ -482,8 +482,10 @@ if ( ! class_exists( 'WooMP_Order' ) ) {
 		public function enqueue_choose_cvs_script() {
 			global $pagenow;
 
+			$enabled_ecpay_shipping = \get_option( RY_WT::$option_prefix . 'enabled_ecpay_shipping', 1 ) === 'yes';
+
 			// 只在訂單編輯頁面載入 JS
-			if ( 'post.php' !== $pagenow || ! isset( $_GET['post'] ) || 'shop_order' !== get_post_type( $_GET['post'] ) ) { // phpcs:ignore
+			if ( 'post.php' !== $pagenow || ! isset( $_GET['post'] ) || 'shop_order' !== get_post_type( $_GET['post'] ) || ! $enabled_ecpay_shipping ) { // phpcs:ignore
 				return;
 			}
 
