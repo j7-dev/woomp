@@ -56,9 +56,8 @@ final class RY_WT {
 			if ( 'yes' == self::get_option( 'enabled_ecpay_gateway', 'no' ) ) {
 				include_once RY_WT_PLUGIN_DIR . 'woocommerce/gateways/ecpay/ecpay-gateway.php';
 			}
-			if ( 'yes' == self::get_option( 'enabled_ecpay_shipping', 'no' ) ) {
-				include_once RY_WT_PLUGIN_DIR . 'woocommerce/shipping/ecpay/ecpay-shipping.php';
-			}
+
+			include_once RY_WT_PLUGIN_DIR . 'woocommerce/shipping/ecpay/ecpay-shipping.php';
 
 			if ( 'yes' == self::get_option( 'enabled_newebpay_gateway', 'no' ) ) {
 				include_once RY_WT_PLUGIN_DIR . 'woocommerce/gateways/newebpay/newebpay-gateway.php';

@@ -31,10 +31,19 @@ final class RY_ECPay_Shipping {
 		'wmp-in-transit' => 'RY_ECPay_Shipping_Email_Customer_CVS_Transporting',
 		// 'wmp-in-transit' => 'RY_ECPay_Shipping_Email_Customer_CVS_Get_Remind',
 		'ry-out-cvs'     => 'RY_ECPay_Shipping_Email_Customer_CVS_Get_Expired',
+		'wmp-shipped'    => 'WMP_Shipped',
 	];
 
 
 	public static function init() {
+
+		\add_action( 'woocommerce_order_status_changed', [ __CLASS__, 'send_email' ], 10, 3 );
+
+		\add_filter( 'woocommerce_email_classes', [ __CLASS__, 'add_email_class' ] );
+
+		if ( 'yes' !== RY_WT::get_option( 'enabled_ecpay_shipping', 'no' ) ) {
+			return;
+		}
 		include_once RY_WT_PLUGIN_DIR . 'woocommerce/shipping/ry-base.php';
 		include_once RY_WT_PLUGIN_DIR . 'woocommerce/abstracts/abstract-ecpay.php';
 		include_once RY_WT_PLUGIN_DIR . 'woocommerce/shipping/ecpay/includes/ecpay-shipping-api.php';
@@ -71,9 +80,6 @@ final class RY_ECPay_Shipping {
 			add_action( 'woocommerce_order_status_processing', [ __CLASS__, 'get_code' ], 10, 2 );
 			add_action( 'wmp_get_ecpay_cvs_code', [ 'RY_ECPay_Shipping_Api', 'get_code' ], 10, 2 );
 
-			add_action( 'woocommerce_order_status_changed', [ __CLASS__, 'send_email' ], 10, 3 );
-
-			add_filter( 'woocommerce_email_classes', [ __CLASS__, 'add_email_class' ] );
 			add_filter( 'woocommerce_email_actions', [ __CLASS__, 'add_email_action' ] );
 		}
 
@@ -396,8 +402,10 @@ final class RY_ECPay_Shipping {
 	public static function add_email_class( $emails ) {
 		$emails['RY_ECPay_Shipping_Email_Customer_CVS_Store']        = include RY_WT_PLUGIN_DIR . 'woocommerce/emails/ecpay-shipping-customer-cvs-store.php';
 		$emails['RY_ECPay_Shipping_Email_Customer_CVS_Transporting'] = include RY_WT_PLUGIN_DIR . 'woocommerce/emails/ecpay-shipping-customer-cvs-transporting.php';
-		$emails['RY_ECPay_Shipping_Email_Customer_CVS_Get_Remind']   = include RY_WT_PLUGIN_DIR . 'woocommerce/emails/ecpay-shipping-customer-cvs-get-remind.php';
 		$emails['RY_ECPay_Shipping_Email_Customer_CVS_Get_Expired']  = include RY_WT_PLUGIN_DIR . 'woocommerce/emails/ecpay-shipping-customer-cvs-get-expired.php';
+		$emails['RY_ECPay_Shipping_Email_Customer_CVS_Get_Remind']   = include RY_WT_PLUGIN_DIR . 'woocommerce/emails/ecpay-shipping-customer-cvs-get-remind.php';
+
+		$emails['WMP_Shipped'] = include RY_WT_PLUGIN_DIR . 'woocommerce/emails/wmp-shipped.php';
 
 		return $emails;
 	}
