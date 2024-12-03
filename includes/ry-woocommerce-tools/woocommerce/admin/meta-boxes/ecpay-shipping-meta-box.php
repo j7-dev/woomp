@@ -85,7 +85,7 @@ class RY_ECPay_Shipping_Meta_Box {
 				<?php echo _x( 'CVS', 'shipping type', 'ry-woocommerce-tools' ); ?>
 			</td>
 			<td>
-				<?php echo $item['PaymentNo'] . ' ' . $item['ValidationNo']; ?>
+				<?php echo $item['PaymentNo'] . $item['ValidationNo']; ?>
 			</td>
 			<td>
 				<?php echo $item['store_ID']; ?>

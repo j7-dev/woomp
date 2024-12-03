@@ -117,8 +117,7 @@ if ( ! class_exists( 'WooMP_Order' ) ) {
 		 * @return void
 		 */
 		public function delete_shipping_ecpay_cvs() {
-			// 檢查 nonce 和權限
-			if ( ! check_ajax_referer( 'delete_shipping_ecpay_cvs', 'nonce', false ) || ! current_user_can( 'edit_shop_orders' ) ) {
+			if ( !current_user_can( 'edit_shop_orders' ) ) {
 				wp_send_json_error( '權限不足' );
 			}
 
