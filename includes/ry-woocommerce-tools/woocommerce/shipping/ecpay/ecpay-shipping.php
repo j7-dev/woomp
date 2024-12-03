@@ -20,6 +20,20 @@ final class RY_ECPay_Shipping {
 
 	protected static $js_data;
 
+
+	/**
+	 * 訂單狀態與電郵類別的映射
+	 *
+	 * @var array<string, string>
+	 */
+	protected static $order_status_email_mapper = [
+		'ry-at-cvs'      => 'RY_ECPay_Shipping_Email_Customer_CVS_Store',
+		'wmp-in-transit' => 'RY_ECPay_Shipping_Email_Customer_CVS_Transporting',
+		// 'wmp-in-transit' => 'RY_ECPay_Shipping_Email_Customer_CVS_Get_Remind',
+		'ry-out-cvs'     => 'RY_ECPay_Shipping_Email_Customer_CVS_Get_Expired',
+	];
+
+
 	public static function init() {
 		include_once RY_WT_PLUGIN_DIR . 'woocommerce/shipping/ry-base.php';
 		include_once RY_WT_PLUGIN_DIR . 'woocommerce/abstracts/abstract-ecpay.php';
@@ -57,9 +71,7 @@ final class RY_ECPay_Shipping {
 			add_action( 'woocommerce_order_status_processing', [ __CLASS__, 'get_code' ], 10, 2 );
 			add_action( 'wmp_get_ecpay_cvs_code', [ 'RY_ECPay_Shipping_Api', 'get_code' ], 10, 2 );
 
-			add_action( 'woocommerce_order_status_ry-at-cvs', [ __CLASS__, 'send_at_cvs_email' ], 10, 2 );
-			add_action( 'woocommerce_order_status_ry-out-cvs', [ __CLASS__, 'send_out_cvs_email' ], 10, 2 );
-			add_action( 'woocommerce_order_status_wmp-in-transit', [ __CLASS__, 'send_transporting_email' ], 10, 2 );
+			add_action( 'woocommerce_order_status_changed', [ __CLASS__, 'send_email' ], 10, 3 );
 
 			add_filter( 'woocommerce_email_classes', [ __CLASS__, 'add_email_class' ] );
 			add_filter( 'woocommerce_email_actions', [ __CLASS__, 'add_email_action' ] );
@@ -381,30 +393,6 @@ final class RY_ECPay_Shipping {
 		}
 	}
 
-	public static function send_at_cvs_email( $order_id, $order = null ) {
-		if ( ! is_object( $order ) ) {
-			$order = wc_get_order( $order_id );
-		}
-
-		do_action( 'ry_ecpay_shipping_cvs_to_store', $order_id, $order );
-	}
-
-	public static function send_out_cvs_email( $order_id, $order = null ) {
-		if ( ! is_object( $order ) ) {
-			$order = wc_get_order( $order_id );
-		}
-
-		do_action( 'ry_ecpay_shipping_cvs_get_expired', $order_id, $order );
-	}
-
-	public static function send_transporting_email( $order_id, $order = null ) {
-		if ( ! is_object( $order ) ) {
-			$order = wc_get_order( $order_id );
-		}
-
-		do_action( 'ry_ecpay_shipping_cvs_to_transporting', $order_id, $order );
-	}
-
 	public static function add_email_class( $emails ) {
 		$emails['RY_ECPay_Shipping_Email_Customer_CVS_Store']        = include RY_WT_PLUGIN_DIR . 'woocommerce/emails/ecpay-shipping-customer-cvs-store.php';
 		$emails['RY_ECPay_Shipping_Email_Customer_CVS_Transporting'] = include RY_WT_PLUGIN_DIR . 'woocommerce/emails/ecpay-shipping-customer-cvs-transporting.php';
@@ -412,6 +400,22 @@ final class RY_ECPay_Shipping {
 		$emails['RY_ECPay_Shipping_Email_Customer_CVS_Get_Expired']  = include RY_WT_PLUGIN_DIR . 'woocommerce/emails/ecpay-shipping-customer-cvs-get-expired.php';
 
 		return $emails;
+	}
+
+	/**
+	 * 發送Email
+	 *
+	 * @param int    $order_id 訂單ID
+	 * @param string $status_from 訂單狀態從
+	 * @param string $status_to 訂單狀態到
+	 */
+	public static function send_email( $order_id, $status_from, $status_to ): void {
+		if ( isset( self::$order_status_email_mapper[ $status_to ] ) ) {
+			$email_instance = \WC()->mailer()->emails[ self::$order_status_email_mapper[ $status_to ] ];
+
+			$order = \wc_get_order( $order_id );
+			$email_instance?->trigger( $order_id, $order );
+		}
 	}
 
 	// 整合進好用版後這個 action 沒作用，所以改寫到 class-woomp-admin.php 裡面

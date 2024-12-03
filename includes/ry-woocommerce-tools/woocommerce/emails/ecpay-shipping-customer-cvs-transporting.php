@@ -1,80 +1,116 @@
 <?php
-if ( ! class_exists( 'RY_ECPay_Shipping_Email_Customer_CVS_Transporting', false ) ) {
-	class RY_ECPay_Shipping_Email_Customer_CVS_Transporting extends WC_Email {
 
-		public function __construct() {
-			$this->id             = 'ry_ecpay_shipping_customer_cvs_transporting';
-			$this->customer_email = true;
+/**
+ * 類 RY_ECPay_Shipping_Email_Customer_CVS_Transporting
+ * 用於處理 ECPay 物流的客戶通知電郵
+ */
+final class RY_ECPay_Shipping_Email_Customer_CVS_Transporting extends WC_Email { // phpcs:ignore
 
-			$this->title          = __( '商品已出貨', 'ry-woocommerce-tools' );
-			$this->description    = __( '這是在訂單狀態變成已出貨時通知訂購人。', 'ry-woocommerce-tools' );
-			$this->template_base  = RY_WT_PLUGIN_DIR . 'templates/';
-			$this->template_html  = 'emails/customer-cvs-transporting.php';
-			$this->template_plain = 'emails/plain/customer-cvs-transporting.php';
-			$this->placeholders   = [
-				'{site_title}' => $this->get_blogname(),
-			];
+	/**
+	 * 構造函數，初始化電郵屬性
+	 */
+	public function __construct() {
+		$this->id             = 'ry_ecpay_shipping_customer_cvs_transporting';
+		$this->customer_email = true;
 
-			add_action( 'ry_ecpay_shipping_cvs_to_transporting_notification', [ $this, 'trigger' ], 10, 2 );
+		$this->title          = __( '商品配送中', 'ry-woocommerce-tools' );
+		$this->description    = __( '這是在訂單狀態變成配送中時通知訂購人。', 'ry-woocommerce-tools' );
+		$this->template_base  = RY_WT_PLUGIN_DIR . 'templates/';
+		$this->template_html  = 'emails/customer-cvs-transporting.php';
+		$this->template_plain = 'emails/plain/customer-cvs-transporting.php';
+		$this->placeholders   = [
+			'{site_title}' => $this->get_blogname(),
+		];
 
-			parent::__construct();
+		parent::__construct();
+	}
+
+	/**
+	 * 獲取默認的電郵主題
+	 *
+	 * @return string
+	 */
+	public function get_default_subject() {
+		return __( '您在 {site_title} 訂購的商品運送中', 'ry-woocommerce-tools' );
+	}
+
+	/**
+	 * 獲取默認的電郵標題
+	 *
+	 * @return string
+	 */
+	public function get_default_heading() {
+		return __( '商品運送通知', 'ry-woocommerce-tools' );
+	}
+
+	/**
+	 * 觸發電郵發送
+	 *
+	 * @param int            $order_id 訂單 ID
+	 * @param WC_Order|false $order 訂單對象
+	 */
+	public function trigger( $order_id, $order = false ) {
+		$this->setup_locale();
+
+		if ( $order_id && ! is_a( $order, 'WC_Order' ) ) {
+			$order = wc_get_order( $order_id );
 		}
 
-		public function get_default_subject() {
-			return __( '您在 {site_title} 訂購的商品運送中', 'ry-woocommerce-tools' );
+		if ( is_a( $order, 'WC_Order' ) ) {
+			$this->object    = $order;
+			$this->recipient = $this->object->get_billing_email();
 		}
 
-		public function get_default_heading() {
-			return __( '商品運送通知', 'ry-woocommerce-tools' );
+		if ( $this->is_enabled() && $this->get_recipient() ) {
+			$this->send( $this->get_recipient(), $this->get_subject(), $this->get_content(), $this->get_headers(), $this->get_attachments() );
 		}
 
-		public function trigger( $order_id, $order = false ) {
-			$this->setup_locale();
+		$this->restore_locale();
+	}
 
-			if ( $order_id && ! is_a( $order, 'WC_Order' ) ) {
-				$order = wc_get_order( $order_id );
-			}
+	/**
+	 * 獲取 HTML 格式的電郵內容
+	 *
+	 * @return string
+	 */
+	public function get_content_html() {
+		$args = [
+			'order'              => $this->object,
+			'email_heading'      => $this->get_heading(),
+			'additional_content' => $this->get_additional_content(),
+			'sent_to_admin'      => false,
+			'plain_text'         => false,
+			'email'              => $this,
+		];
+		return wc_get_template_html( $this->template_html, $args, '', RY_WT_PLUGIN_DIR . 'templates/' );
+	}
 
-			if ( is_a( $order, 'WC_Order' ) ) {
-				$this->object    = $order;
-				$this->recipient = $this->object->get_billing_email();
-			}
+	/**
+	 * 獲取純文本格式的電郵內容
+	 *
+	 * @return string
+	 */
+	public function get_content_plain() {
+		$args = [
+			'order'              => $this->object,
+			'email_heading'      => $this->get_heading(),
+			'additional_content' => $this->get_additional_content(),
+			'sent_to_admin'      => false,
+			'plain_text'         => true,
+			'email'              => $this,
+		];
+		return wc_get_template_html( $this->template_plain, $args, '', RY_WT_PLUGIN_DIR . 'templates/' );
+	}
 
-			if ( $this->is_enabled() && $this->get_recipient() ) {
-				$this->send( $this->get_recipient(), $this->get_subject(), $this->get_content(), $this->get_headers(), $this->get_attachments() );
-			}
-
-			$this->restore_locale();
-		}
-
-		public function get_content_html() {
-			$args = [
-				'order'              => $this->object,
-				'email_heading'      => $this->get_heading(),
-				'additional_content' => $this->get_additional_content(),
-				'sent_to_admin'      => false,
-				'plain_text'         => false,
-				'email'              => $this,
-			];
-			return wc_get_template_html( $this->template_html, $args, '', RY_WT_PLUGIN_DIR . 'templates/' );
-		}
-
-		public function get_content_plain() {
-			$args = [
-				'order'              => $this->object,
-				'email_heading'      => $this->get_heading(),
-				'additional_content' => $this->get_additional_content(),
-				'sent_to_admin'      => false,
-				'plain_text'         => true,
-				'email'              => $this,
-			];
-			return wc_get_template_html( $this->template_plain, $args, '', RY_WT_PLUGIN_DIR . 'templates/' );
-		}
-
-		public function get_default_additional_content() {
-			return __( 'We look forward to fulfilling your order soon.', 'woocommerce' );
-		}
+	/**
+	 * 獲取默認的附加內容
+	 *
+	 * @return string
+	 */
+	public function get_default_additional_content() {
+		return __( 'We look forward to fulfilling your order soon.', 'woocommerce' );
 	}
 }
 
+// 返回類的實例
 return new RY_ECPay_Shipping_Email_Customer_CVS_Transporting();
