@@ -34,25 +34,31 @@ class Field {
 
 		$id              = (int) $_GET['post'];
 		$is_subscription = 'shop_subscription' === $screen->id;
-		if ($is_subscription) {
-			$subscription = \wcs_get_subscription($id);
-			$id           = $subscription->get_parent_id();
-		}
 
-		$order = \wc_get_order( $id );
+		$order_or_subscription = $is_subscription ? \wcs_get_subscription( $id ) : \wc_get_order( $id );
 
-		if ( ! $order ) {
+		if ( ! $order_or_subscription ) {
 			return;
 		}
 
-		$product_type = '';
+		$product_type         = '';
+		$include_subscription = false;
 
-		foreach ( $order->get_items() as $item ) {
-			$product_type = \WC_Product_Factory::get_product_type( $item->get_product_id() );
-		}
+		if ($order_or_subscription instanceof \WC_Order) {
+			foreach ( $order_or_subscription->get_items() as $item ) {
+				/**
+				 * @var \WC_Order_Item_Product $item
+				 */
+				$product_type = \WC_Product_Factory::get_product_type( $item->get_product_id() );
+				if ( strpos( $product_type, 'subscription' ) !== false ) {
+					$include_subscription = true;
+					break;
+				}
+			}
 
-		if ( '0' === $order->get_total() && strpos( $product_type, 'subscription' ) === false ) {
-			return;
+			if ( '0' === $order_or_subscription->get_total() && ! $include_subscription ) {
+				return;
+			}
 		}
 
 		$this->metabox = new Metabox(
@@ -65,12 +71,12 @@ class Field {
 			]
 		);
 
-		if ( ! $order->get_meta( '_ecpay_invoice_data' ) ) {
-			$order->update_meta_data( '_ecpay_invoice_data', [] );
-			$order->save();
+		if ( ! $order_or_subscription->get_meta( '_ecpay_invoice_data' ) ) {
+			$order_or_subscription->update_meta_data( '_ecpay_invoice_data', [] );
+			$order_or_subscription->save();
 		}
 
-		$ecpay_invoice_data = (array) $order->get_meta( '_ecpay_invoice_data' );
+		$ecpay_invoice_data = (array) $order_or_subscription->get_meta( '_ecpay_invoice_data' );
 
 		$_invoice_type         = $ecpay_invoice_data['_invoice_type'] ?? '';
 		$_invoice_individual   = $ecpay_invoice_data['_invoice_individual'] ?? '';
