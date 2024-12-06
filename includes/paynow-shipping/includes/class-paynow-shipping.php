@@ -268,7 +268,7 @@ class PayNow_Shipping {
 	public static function shipping_choose_cvs_info( $fragments ) {
 
 		if ( WC()->session->get( 'chosen_shipping_methods' ) === null ) {
-			return;
+			return $fragments;
 		}
 
 		$chosen_shipping_methods = WC()->session->get( 'chosen_shipping_methods' );
