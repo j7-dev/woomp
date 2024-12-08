@@ -87,7 +87,7 @@ class Field {
 		// output
 		$disable_style = match ($is_subscription) {
 			true => '',
-			false => $order->get_meta( '_ezpay_invoice_number' ) ? 'pointer-events:none;border:0;appearance:none;background-image:none;background-color:#efefef;' : ''
+			false => $order_or_subscription->get_meta( '_ezpay_invoice_number' ) ? 'pointer-events:none;border:0;appearance:none;background-image:none;background-color:#efefef;' : ''
 		};
 
 		ob_start();
