@@ -1,25 +1,30 @@
 jQuery(
 	function ($) {
 
-		$( document ).ready(
+		$(document).ready(
 			function () {
 
-				$( '.btnPayuniSubscriptionPayManual' ).click(
+				$('.btnPayuniSubscriptionPayManual').click(
 					function () {
 
-						$.blockUI( {message: '<p>處理中...</p>'} );
+						$.blockUI({ message: '<p>處理中...</p>' });
 
-						var data = {
+						const data = {
 							action: "payuni_subscription_pay_manual",
 							nonce: woomp_payuni_subscription_params.ajax_nonce,
-							orderId: $( this ).val(),
+							orderId: $(this).val(),
 						};
 
 						$.post(
 							ajaxurl,
 							data,
 							function (response) {
-								location.reload( true );
+								if (response.success) {
+									alert(response.data);
+									location.reload(true);
+								} else {
+									alert(response.data);
+								}
 							}
 						);
 					}
