@@ -299,38 +299,20 @@ final class Request {
 		$this->set_response( $order->get_payment_method(), $resp );
 	}
 
-	private function get_card_hash( $order ) {
+	/**
+	 * 取得 card hash
+	 *
+	 * @param \WC_Order $order The order object.
+	 * @return string
+	 */
+	private function get_card_hash( $order ): string {
 		if (!class_exists('WC_Subscriptions')) {
-			return;
+			return '';
 		}
 
-		$subscriptions = \wcs_get_subscriptions_for_order( $order->get_id(), [ 'order_type' => 'any' ] );
-		if ( $subscriptions ) {
-			$parent_order = null;
-			foreach ( $subscriptions as $subscription_obj ) {
-				// 上層訂單
-				$parent_order = \wc_get_order( $subscription_obj->get_parent() );
-				if ( $parent_order ) {
-					break;
-				}
-			}
-
-			$token_id = $parent_order->get_meta( '_payuni_token_id' );
-
-			if ( \is_numeric( $token_id ) ) {
-				$token            = \WC_Payment_Tokens::get( $token_id );
-				$payuni_card_hash = $token?->get_token();
-				if ( $payuni_card_hash ) {
-					return $payuni_card_hash;
-				}
-			}
-
-			$hash_order = wc_get_order( 1377041);
-
-			return $parent_order->get_meta( '_payuni_card_hash' );
-		}
-
-		return '';
+		$customer_id   = $order->get_customer_id();
+		$payment_token = \WC_Payment_Tokens::get_customer_default_token( $customer_id);
+		return $payment_token?->get_token() ?? '';
 	}
 
 	/**

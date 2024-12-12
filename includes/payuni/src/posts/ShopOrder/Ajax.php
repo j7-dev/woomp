@@ -41,7 +41,7 @@ class Ajax {
 			$amount = $order->get_total();
 			$this->request->build_subscription_request( (float) $amount, $order );
 
-			\wp_send_json_success( __( '扣款成功！', 'woomp' ) );
+			\wp_send_json_success( __( '扣款成功！即將刷新頁面', 'woomp' ) );
 
 			\wp_die();
 		} catch (\Throwable $th) {

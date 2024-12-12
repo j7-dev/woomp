@@ -189,9 +189,6 @@ class Payment {
 		$result = delete_user_meta( $user_id, '_' . $method . '_4no' );
 		$result = delete_user_meta( $user_id, '_' . $method . '_hash' );
 
-		// _payuni_card_4no 0001
-		// _payuni_card_hash 0526DE570FD17065F82534D57FC303EE8AAD16EB15C029C74734EBE87DE607C2
-
 		echo $result;
 		die;
 	}

@@ -28,7 +28,7 @@ class MyAccount {
 			2
 		);
 		\add_action( 'wp_enqueue_scripts', [ $class, 'enqueue_my_account_script' ] );
-		\add_action( 'woocommerce_payment_token_set_default', [ $class, 'update_credit_hash' ], 30, 2 );
+		// \add_action( 'woocommerce_payment_token_set_default', [ $class, 'update_credit_hash' ], 30, 2 );
 	}
 
 	public function change_customer_order_action( $actions, $order ) {
@@ -76,6 +76,7 @@ class MyAccount {
 	 * @param integer              $token_id token_id.
 	 * @param \WC_PAYMENT_TOKEN_CC $token 信用卡 token 資訊.
 	 *
+	 * @deprecated 2024-12-12 付款方式可以從  wp_woocommerce_payment_tokens 拿，只要有 user_id 就可以，不需要從上層訂單拿
 	 * @return void
 	 */
 	public function update_credit_hash( int $token_id, \WC_PAYMENT_TOKEN_CC $token ): void {
@@ -119,6 +120,7 @@ class MyAccount {
 			}
 			$order->set_payment_method( $gateway_id );
 			$order->set_payment_method_title( $payment_gateway_title );
+			$order->update_meta_data( '_payuni_token_id', $token->get_token() );
 			$order->update_meta_data( '_payuni_card_hash', $token->get_token() );
 			$order->update_meta_data( '_payuni_card_number', $token->get_last4() );
 			$order->update_meta_data( '_payuni_resp_card_bank', '不確定' );
