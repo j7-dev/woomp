@@ -76,6 +76,7 @@ final class Response {
 
 		unset( $data['Card6No'] ); // remove card number from log.
 
+		$formatted_decrypted_data = self::get_formatted_decrypted_data( $data );
 		[
 			'status'            => $status,
 			'message'           => $message,
@@ -92,7 +93,7 @@ final class Response {
 			'is_3d_auth'        => $is_3d_auth,
 			'user_id'           => $user_id,
 			'order_id'          => $order_id,
-		] = self::get_formatted_decrypted_data( $data );
+		]                         = $formatted_decrypted_data;
 
 		if ( \is_checkout() && function_exists( 'wc_add_notice' ) ) {
 			\wc_add_notice( $message, ( 'SUCCESS' === $status ) ? 'success' : 'error' );
@@ -121,6 +122,13 @@ final class Response {
 		$status_failed  = ( 'WC_Subscription' === get_class( $order ) ) ? 'on-hold' : 'failed';
 
 		if ( 'SUCCESS' !== $status ) {
+			$note = '';
+
+			foreach ($formatted_decrypted_data as $key => $value) {
+				$note .= "<strong>{$key}</strong>: {$value}<br>";
+			}
+
+			$order->add_order_note($note);
 			$order->update_status( $status_failed );
 			$order->save();
 			\wp_safe_redirect( $order->get_checkout_order_received_url() );
@@ -151,7 +159,12 @@ final class Response {
 			self::save_card_to_payment_method( $card_hash, $card_4no, $card_expiry_month, $card_expiry_year, $user_id, $method );
 		}
 		$order->update_status( $status_success );
-		$order->update_meta_data( '_payuni_card_hash', $card_hash );
+
+		/**
+		 * @deprecated 2024-12-12 付款方式可以從  wp_woocommerce_payment_tokens 拿，只要有 user_id 就可以，不需要從上層訂單拿
+		 * $order->update_meta_data( '_payuni_card_hash', $card_hash );
+		 */
+
 		$token_id = $order->get_meta( '_payuni_token_id' );
 		if ( $token_id && is_numeric( $token_id ) ) {
 			$token = \WC_Payment_Tokens::get( $token_id );
