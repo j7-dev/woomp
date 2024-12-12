@@ -455,7 +455,28 @@ class Woomp_Setting_Gateway extends WC_Settings_Page {
 
 	public function save() {
 		global $current_section;
+
+		// 綠界 prefix 太長會出錯，所以這邊要做正則處理
+		$ecpay_prefix_key = RY_WT::$option_prefix . 'ecpay_gateway_order_prefix';
+		if (isset($_POST[ $ecpay_prefix_key ])) { // phpcs:ignore
+			// 只能允許 A-Za-z0-9 並且總字數10位內，不符合就給空值
+			$pattern = '/^[A-Za-z0-9]{1,10}$/';
+			if (!preg_match($pattern, $_POST[ $ecpay_prefix_key ])) { // phpcs:ignore
+				$_POST[ $ecpay_prefix_key ] = '';
+				\add_action(
+				'admin_notices',
+				function () {
+					echo /*html*/'
+						<div class="notice notice-error is-dismissible">
+							<p>綠界訂單編號前綴只能允許英文大小寫及數字，且總字數10位內</p>
+						</div>
+					';
+				}
+				);
+			}
+		}
 		$settings = $this->get_settings( $current_section );
+
 		WC_Admin_Settings::save_fields( $settings );
 	}
 }
