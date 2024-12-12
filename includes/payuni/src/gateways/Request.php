@@ -301,6 +301,8 @@ final class Request {
 
 	/**
 	 * 取得 card hash
+	 * 先判斷用戶的預設卡號是不是 payuni-credit-subscription，如果是，就回傳預設卡號
+	 * 如果不是，就回傳 payuni-credit-subscription 的最新卡號
 	 *
 	 * @param \WC_Order $order The order object.
 	 * @return string
@@ -309,9 +311,23 @@ final class Request {
 		if (!class_exists('WC_Subscriptions')) {
 			return '';
 		}
+		$customer_id = $order->get_customer_id();
 
-		$customer_id   = $order->get_customer_id();
-		$payment_token = \WC_Payment_Tokens::get_customer_default_token( $customer_id);
+		$user_default_token = \WC_Payment_Tokens::get_customer_default_token( $order->get_customer_id() );
+
+		if ( 'payuni-credit-subscription' === $user_default_token?->get_gateway_id()) {
+			return $user_default_token?->get_token() ?? '';
+		}
+
+		$payment_tokens = \WC_Payment_Tokens::get_customer_tokens( $customer_id, 'payuni-credit-subscription' ); // 預設為升序
+
+		if (!$payment_tokens) {
+			return '';
+		}
+
+		// 取最後一個
+		$payment_token = end( $payment_tokens );
+
 		return $payment_token?->get_token() ?? '';
 	}
 

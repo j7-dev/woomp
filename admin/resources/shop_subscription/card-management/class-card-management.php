@@ -62,8 +62,8 @@ final class CardManagement {
 
 		$customer_id           = $order->get_customer_id();
 		$customer_display_name = $order->get_billing_first_name() . ' ' . $order->get_billing_last_name();
-		$payment_tokens        = \WC_Payment_Tokens::get_customer_tokens( $customer_id, '' ); // payuni-credit-subscription
-		// TODO 之後再整理
+		$payment_tokens        = \WC_Payment_Tokens::get_customer_tokens( $customer_id, 'payuni-credit-subscription' );
+
 		$nonce    = \wp_create_nonce( 'woomp' );
 		$ajax_url = \admin_url( 'admin-ajax.php' );
 
