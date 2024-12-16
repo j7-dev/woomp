@@ -615,7 +615,12 @@ class WC_Gateway_LINEPay extends WC_Payment_Gateway {
 		}
 
 		// Save refund transaction information.
-		$refund_info                               = unserialize( get_post_meta( $order_id, '_linepay_refund_info', true ) );
+		$linepay_refund_info = get_post_meta( $order_id, '_linepay_refund_info', true ) ?: [];
+		if (!is_array($linepay_refund_info)) {
+			$linepay_refund_info = [];
+		}
+		$refund_info = unserialize( $linepay_refund_info );
+
 		$refund_info[ $info->refundTransactionId ] = [
 			'requester' => $requester,
 			'reason'    => $reason,
