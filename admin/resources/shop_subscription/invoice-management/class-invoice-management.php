@@ -39,7 +39,7 @@ final class InoviceManagement {
 		}
 
 		\add_action( 'add_meta_boxes', [ $this, 'add_meta_box' ] );
-		\add_action( 'save_post', [ $this, 'save_meta_box' ] );
+		\add_action( 'save_post', [ $this, 'save_meta_box' ], 10, 3 );
 
 		\add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_scripts' ] );
 	}
