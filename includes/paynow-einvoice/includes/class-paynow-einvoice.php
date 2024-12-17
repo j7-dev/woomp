@@ -872,6 +872,11 @@ class Paynow_Einvoice {
 		return $issue_type_options;
 	}
 
+	/**
+	 * 發票欄位
+	 *
+	 * @return array
+	 */
 	public static function get_einvoice_fields() {
 
 		$fields = [

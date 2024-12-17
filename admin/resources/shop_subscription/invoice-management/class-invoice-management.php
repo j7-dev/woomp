@@ -121,9 +121,21 @@ final class InoviceManagement {
 	/**
 	 * 把發票資訊存入訂閱
 	 *
-	 * @param int $post_id Post ID
+	 * @param int      $post_id Post ID
+	 * @param \WP_Post $post Post object
+	 * @param bool     $update Whether this is an existing post being updated or not.
+	 * @return void
 	 */
-	public function save_meta_box( $post_id ) {
+	public function save_meta_box( $post_id, $post, $update ) {
+		$post_type = $post->post_type;
+
+		if (!$update) {
+			return;
+		}
+
+		if (!in_array($post_type, [ 'shop_order' ,'shop_subscription' ], true)) {
+			return;
+		}
 
 		$fields = \Paynow_Einvoice::get_einvoice_fields();
 		foreach ($fields as $field => $args) {
