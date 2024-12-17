@@ -316,6 +316,9 @@ class WooMP_Shipping_Flat_Rate extends \WC_Shipping_Flat_Rate {
 			case 'min_amount_and_coupon':
 				$set_cost_zero = $has_min_amount && $has_coupon;
 				break;
+			case '':
+				$set_cost_zero =true;
+				break;
 			default:
 				$set_cost_zero = false;
 				break;
@@ -323,9 +326,7 @@ class WooMP_Shipping_Flat_Rate extends \WC_Shipping_Flat_Rate {
 
 		if ( $set_cost_zero ) {
 			$rate['cost'] = 0;
-		}
-
-		if ( $this->weight_plus_cost > 0 ) {
+		} elseif ( $this->weight_plus_cost > 0 ) {
 			$total = WC()->cart->get_cart_contents_weight();
 			if ( $total > 0 ) {
 				$rate['meta_data']['no_count'] = (int) ceil( $total / $this->weight_plus_cost );

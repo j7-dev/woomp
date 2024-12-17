@@ -327,13 +327,13 @@ if ( ! class_exists( 'WooMP_Checkout' ) ) {
 
 			$diff = self::get_diff_amount( $method, [ 'min_amount', 'either', 'both', 'min_amount_or_coupon', 'min_amount_and_coupon' ] );
 
-			$cost = (float) ( $settings['cost'] ?? 0 );
+			$cost = (float) $method->get_cost();
 
-			if (null === $diff) {
+			if ($cost && (null === $diff || $diff <= 0)) {
 				return;
 			}
 
-			$is_free_shipping = !$cost || $diff <= 0;
+			$is_free_shipping = !$cost;
 
 			$free_text        = \esc_html( \get_option( 'wc_woomp_setting_free_shipping_text_free_shipping' ) ? \get_option( 'wc_woomp_setting_free_shipping_text_free_shipping' ) : '免運' );
 			$background_color = \get_option( 'wc_woomp_setting_free_shipping_bg_color' ) ? \get_option( 'wc_woomp_setting_free_shipping_bg_color' ) : '#d36f6f';

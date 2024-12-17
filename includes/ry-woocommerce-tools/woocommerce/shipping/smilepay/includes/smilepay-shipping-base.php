@@ -116,6 +116,9 @@ class RY_SmilePay_Shipping_Base extends WC_Shipping_Method {
 			case 'min_amount_and_coupon':
 				$set_cost_zero = $has_min_amount && $has_coupon;
 				break;
+			case '':
+				$set_cost_zero = true;
+				break;
 			default:
 				$set_cost_zero = false;
 				break;

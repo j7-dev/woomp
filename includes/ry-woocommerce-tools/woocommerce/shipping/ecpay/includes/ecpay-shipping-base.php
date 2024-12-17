@@ -97,6 +97,9 @@ class RY_ECPay_Shipping_Base extends WC_Shipping_Method {
 			case 'both':
 				$set_cost_zero = $has_min_amount && $has_coupon;
 				break;
+			case '':
+				$set_cost_zero = true;
+				break;
 			default:
 				$set_cost_zero = false;
 				break;
