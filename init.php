@@ -1,5 +1,17 @@
 <?php
 
+/**
+ * Currently plugin version.
+ * Start at version 1.0.0 and use SemVer - https://semver.org
+ * Rename this for your plugin and update it as you release new versions.
+ */
+define( 'WOOMP_VERSION', '3.4.49' );
+define( 'WOOMP_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
+define( 'WOOMP_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
+define( 'WOOMP_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
+define( 'WOOMP_ACTIVE_PLUGINS', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) );
+
+
 // If this file is called directly, abort.
 if ( ! defined( 'WPINC' ) ) {
 	die;
@@ -30,17 +42,6 @@ if ( ! in_array(
 
 	return;
 }
-
-/**
- * Currently plugin version.
- * Start at version 1.0.0 and use SemVer - https://semver.org
- * Rename this for your plugin and update it as you release new versions.
- */
-define( 'WOOMP_VERSION', '3.3.16' );
-define( 'WOOMP_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
-define( 'WOOMP_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
-define( 'WOOMP_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
-define( 'WOOMP_ACTIVE_PLUGINS', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) );
 
 require WOOMP_PLUGIN_DIR . 'vendor/autoload.php';
 
