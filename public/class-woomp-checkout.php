@@ -329,7 +329,7 @@ if ( ! class_exists( 'WooMP_Checkout' ) ) {
 
 			$cost = (float) $method->get_cost();
 
-			if ($cost && (null === $diff || $diff <= 0)) {
+			if ($cost && ( null === $diff || $diff <= 0 )) {
 				return;
 			}
 
@@ -425,7 +425,7 @@ if ( ! class_exists( 'WooMP_Checkout' ) ) {
 		 */
 		public static function get_diff_amount_by_settings( $settings, $check_requires_list, $original = false ): float|null {
 
-			$requires         = $settings['cost_requires'] ? $settings['cost_requires'] : ( $settings['requires'] ?? '' );
+			$requires         = $settings['cost_requires'] ?? ( $settings['requires'] ?? '' );
 			$ignore_discounts = $settings['ignore_discounts'] ?? 'no';
 			$min_amount       = $settings['min_amount'] ?? 0;
 
