@@ -316,9 +316,6 @@ class WooMP_Shipping_Flat_Rate extends \WC_Shipping_Flat_Rate {
 			case 'min_amount_and_coupon':
 				$set_cost_zero = $has_min_amount && $has_coupon;
 				break;
-			case '':
-				$set_cost_zero =true;
-				break;
 			default:
 				$set_cost_zero = false;
 				break;

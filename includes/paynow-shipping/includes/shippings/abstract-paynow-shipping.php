@@ -161,9 +161,6 @@ abstract class PayNow_Abstract_Shipping_Method extends WC_Shipping_Method {
 			case 'both':
 				$set_cost_zero = $has_min_amount && $has_coupon;
 				break;
-			case '':
-				$set_cost_zero = true;
-				break;
 			default:
 				$set_cost_zero = false;
 				break;

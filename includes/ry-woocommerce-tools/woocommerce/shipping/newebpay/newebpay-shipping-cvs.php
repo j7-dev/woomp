@@ -150,9 +150,6 @@ class RY_NewebPay_Shipping_CVS extends WC_Shipping_Method {
 			case 'both':
 				$set_cost_zero = $has_min_amount && $has_coupon;
 				break;
-			case '':
-				$set_cost_zero = true;
-				break;
 			default:
 				$set_cost_zero = false;
 				break;
