@@ -19,11 +19,12 @@ jQuery(
 							ajaxurl,
 							data,
 							function (response) {
-								if (response.success) {
+								if (response?.success) {
 									alert(response.data);
 									location.reload(true);
 								} else {
-									alert(response.data);
+									alert('扣款失敗，請查看訂單備註，調整後再試一次');
+									location.reload(true);
 								}
 							}
 						);
