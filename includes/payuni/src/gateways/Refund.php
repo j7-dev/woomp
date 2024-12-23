@@ -215,9 +215,11 @@ class Refund {
 	 * 當 order 狀態轉到 退款 時觸發
 	 * CloseStatus 1=請款申請中  2=請款成功  3=請款取消  7=請款處理中  9=未申請
 	 *
-	 * @param  integer $order_id
-	 * @param  string  $old_status
-	 * @param  string  $new_status
+	 * @see https://www.payuni.com.tw/docs/web/#/7/164
+	 *
+	 * @param  integer $order_id 訂單 ID
+	 * @param  string  $old_status 舊狀態
+	 * @param  string  $new_status 新狀態
 	 *
 	 * @return void
 	 */
@@ -241,9 +243,9 @@ class Refund {
 		$note = ob_get_clean();
 		Payment::log( $note );
 
-		$closeStatus = $trade_info['Result']['0']['CloseStatus'] ?? null;
+		$close_status = $trade_info['Result']['0']['CloseStatus'] ?? null;
 
-		switch ( $closeStatus ) {
+		switch ( $close_status ) {
 			case 1:
 				// 如果 1=請款申請中，取消交易授權
 				$res    = $this->cancel_trade_by_order( $order );
@@ -251,19 +253,22 @@ class Refund {
 				ob_start();
 				print_r( $res );
 				$note  = ob_get_clean();
-				$note .= 'SUCCESS' === $status ? '<br><br>🚩 統一金流已退款成功 不需再去統一金流後台退款' : '';
+				$note .= 'SUCCESS' === $status ? '<br><br>🚩 統一金流已退款成功 不需再去統一金流後台退款' : '<br><br>🚩 統一金流退款失敗，請至統一金流後台手動退款';
 				break;
-			case 2:
-			case 7:
-				// 如果 2=請款成功 7=請款處理中，就申請退款
+			case 3:
+				$note = '<br><br>🚩 此筆訂單在統一金流後台狀態為【3=請款取消】，本來就不會請款';
+				break;
+			case 9:
+				$note = '<br><br>🚩 此筆訂單在統一金流後台狀態為【9=未申請】';
+				break;
+			default:
+				// 如果 2=請款成功 7=請款處理中，就申請退款 3=請款取消
 				$res    = $this->refund_by_order( $order );
 				$status = $res['Status'] ?? null;
 				ob_start();
 				print_r( $res );
 				$note  = ob_get_clean();
-				$note .= 'SUCCESS' === $status ? '<br><br>🚩 統一金流已退款成功 不需再去統一金流後台退款' : '';
-				break;
-			default:
+				$note .= 'SUCCESS' === $status ? '<br><br>🚩 統一金流已退款成功 不需再去統一金流後台退款' : '<br><br>🚩 統一金流退款失敗，請至統一金流後台手動退款';
 				break;
 		}
 
