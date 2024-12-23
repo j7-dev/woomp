@@ -57,9 +57,10 @@ final class Request {
 		$body_params = $this->get_transaction_args( $order, $card_data );
 		$order_id    = $order->get_id();
 		$options     = [
-			'method'  => 'POST',
-			'timeout' => 60,
-			'body'    => $body_params,
+			'method'     => 'POST',
+			'timeout'    => 60,
+			'body'       => $body_params,
+			'user-agent' => 'payuni',
 		];
 
 		$response = \wp_remote_request(
@@ -285,9 +286,10 @@ final class Request {
 		];
 
 		$options = [
-			'method'  => 'POST',
-			'timeout' => 60,
-			'body'    => $parameter,
+			'method'     => 'POST',
+			'timeout'    => 60,
+			'body'       => $parameter,
+			'user-agent' => 'payuni',
 		];
 
 		$response = wp_remote_request(
@@ -382,9 +384,10 @@ final class Request {
 		];
 
 		$options = [
-			'method'  => 'POST',
-			'timeout' => 60,
-			'body'    => $parameter,
+			'method'     => 'POST',
+			'timeout'    => 60,
+			'body'       => $parameter,
+			'user-agent' => 'payuni',
 		];
 
 		$response = wp_remote_request(

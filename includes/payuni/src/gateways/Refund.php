@@ -42,9 +42,10 @@ class Refund {
 		$parameter['HashInfo']    = Payment::hash_info( $parameter['EncryptInfo'] );
 
 		$options = [
-			'method'  => 'POST',
-			'timeout' => 60,
-			'body'    => $parameter,
+			'method'     => 'POST',
+			'timeout'    => 60,
+			'body'       => $parameter,
+			'user-agent' => 'payuni',
 		];
 
 		$url     = ( wc_string_to_bool( get_option( 'payuni_payment_testmode' ) ) ) ? 'https://sandbox-api.payuni.com.tw/' : 'https://api.payuni.com.tw/';
@@ -78,9 +79,10 @@ class Refund {
 		$parameter['HashInfo']    = Payment::hash_info( $parameter['EncryptInfo'] );
 
 		$options = [
-			'method'  => 'POST',
-			'timeout' => 60,
-			'body'    => $parameter,
+			'method'     => 'POST',
+			'timeout'    => 60,
+			'body'       => $parameter,
+			'user-agent' => 'payuni',
 		];
 
 		$url     = ( wc_string_to_bool( get_option( 'payuni_payment_testmode' ) ) ) ? 'https://sandbox-api.payuni.com.tw/' : 'https://api.payuni.com.tw/';
@@ -113,9 +115,10 @@ class Refund {
 		$parameter['HashInfo']    = Payment::hash_info( $parameter['EncryptInfo'] );
 
 		$options = [
-			'method'  => 'POST',
-			'timeout' => 60,
-			'body'    => $parameter,
+			'method'     => 'POST',
+			'timeout'    => 60,
+			'body'       => $parameter,
+			'user-agent' => 'payuni',
 		];
 
 		$url     = ( wc_string_to_bool( get_option( 'payuni_payment_testmode' ) ) ) ? 'https://sandbox-api.payuni.com.tw/' : 'https://api.payuni.com.tw/';
@@ -155,9 +158,10 @@ class Refund {
 		$parameter['HashInfo']    = Payment::hash_info( $parameter['EncryptInfo'] );
 
 		$options = [
-			'method'  => 'POST',
-			'timeout' => 60,
-			'body'    => $parameter,
+			'method'     => 'POST',
+			'timeout'    => 60,
+			'body'       => $parameter,
+			'user-agent' => 'payuni',
 		];
 
 		$url     = ( wc_string_to_bool( get_option( 'payuni_payment_testmode' ) ) ) ? 'https://sandbox-api.payuni.com.tw/' : 'https://api.payuni.com.tw/';
@@ -193,9 +197,10 @@ class Refund {
 		$parameter['HashInfo']    = Payment::hash_info( $parameter['EncryptInfo'] );
 
 		$options = [
-			'method'  => 'POST',
-			'timeout' => 60,
-			'body'    => $parameter,
+			'method'     => 'POST',
+			'timeout'    => 60,
+			'body'       => $parameter,
+			'user-agent' => 'payuni',
 		];
 
 		$url     = ( wc_string_to_bool( get_option( 'payuni_payment_testmode' ) ) ) ? 'https://sandbox-api.payuni.com.tw/' : 'https://api.payuni.com.tw/';

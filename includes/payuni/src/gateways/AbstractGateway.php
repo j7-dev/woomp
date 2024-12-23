@@ -481,9 +481,10 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 			$parameter['HashInfo']    = \Payuni\APIs\Payment::hash_info( $parameter['EncryptInfo'] );
 
 			$options = [
-				'method'  => 'POST',
-				'timeout' => 60,
-				'body'    => $parameter,
+				'method'     => 'POST',
+				'timeout'    => 60,
+				'body'       => $parameter,
+				'user-agent' => 'payuni',
 			];
 
 			$request = wp_remote_request( $this->get_api_url() . $this->api_refund_url, $options );

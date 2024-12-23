@@ -99,8 +99,7 @@ final class Response {
 			\wc_add_notice( $message, ( 'SUCCESS' === $status ) ? 'success' : 'error' );
 		}
 
-		// TEST 印出 ErrorLog 記得移除
-		\J7\WpUtils\Classes\ErrorLog::info( $formatted_decrypted_data, 'Response::card_response' );
+		Payment::log( $formatted_decrypted_data );
 
 		// 如果金額是 5 且為 一次授權，就是 hash request，就需要執行5元退刷
 		$is_hash_request = '5' === $data['TradeAmt'] && '1' === $data['AuthType'];
