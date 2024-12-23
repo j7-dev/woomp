@@ -194,7 +194,9 @@ class WooMP_Shipping_Flat_Rate extends \WC_Shipping_Flat_Rate {
 		$has_coupon         = false;
 		$has_met_min_amount = false;
 
-		if ( in_array( $this->requires, [ 'coupon', 'either', 'both' ], true ) ) {
+		$requires = $this->requires ?? $this->cost_requires ?? '';
+
+		if ( in_array( $requires, [ 'coupon', 'either', 'both' ], true ) ) {
 			$coupons = WC()->cart->get_coupons();
 
 			if ( $coupons ) {
@@ -207,7 +209,7 @@ class WooMP_Shipping_Flat_Rate extends \WC_Shipping_Flat_Rate {
 			}
 		}
 
-		if ( in_array( $this->requires, [ 'min_amount', 'either', 'both' ], true ) ) {
+		if ( in_array( $requires, [ 'min_amount', 'either', 'both' ], true ) ) {
 			$total = WC()->cart->get_displayed_subtotal();
 
 			if ( WC()->cart->display_prices_including_tax() ) {
@@ -225,7 +227,7 @@ class WooMP_Shipping_Flat_Rate extends \WC_Shipping_Flat_Rate {
 			}
 		}
 
-		switch ( $this->requires ) {
+		switch ( $requires ) {
 			case 'min_amount':
 				$is_available = $has_met_min_amount;
 				break;
