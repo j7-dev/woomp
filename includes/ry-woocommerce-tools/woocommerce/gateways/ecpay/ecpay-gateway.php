@@ -27,6 +27,7 @@ final class RY_ECPay_Gateway {
 		add_filter( 'woocommerce_get_settings_rytools', [ __CLASS__, 'add_setting' ], 10, 2 );
 		add_action( 'woocommerce_update_options_rytools_ecpay_gateway', [ __CLASS__, 'check_option' ] );
 
+		add_action('woocommerce_before_thankyou', [ RY_ECPay_Gateway_Response::class, 'check_callback' ]);
 		if ( is_admin() ) {
 		} else {
 			add_action( 'woocommerce_thankyou', [ __CLASS__, 'payment_info' ], 9 );
