@@ -109,6 +109,24 @@ class EcpayInvoiceHandler {
 				$items[ $key ]['ItemAmount']  = round( (float) $WC_Order_Item_Product->get_subtotal() + (float) $WC_Order_Item_Product->get_subtotal_tax(), 2 ); // 小計 ItemAmount
 				$items[ $key ]['ItemPrice']   = round( (float) $items[ $key ]['ItemAmount'] / (float) $items[ $key ]['ItemCount'], 2 ); // 單價 ItemPrice
 				$order_total_summed_by_items += (float) $items[ $key ]['ItemAmount']; // 將 items 總額加總起來
+
+				// 手動修改價格，既不算費用，也不算優惠券，因此需要獨立判斷
+				// 不直接用 get_total 是因為 commit c13ca42158d8d836176876c5dbda8d4bb77ba7e6
+				$diff_price        = round( $WC_Order_Item_Product->get_total() - $WC_Order_Item_Product->get_subtotal(), 2 );
+				$has_manual_coupon = $diff_price < 0; // 最終價格 < 原價，表示有手動折扣
+				if ( $has_manual_coupon ) {
+					array_push(
+						$ecpay_invoice->Send['Items'],
+						[
+							'ItemName'    => '手動折扣 - ' . $items[ $key ]['ItemName'],
+							'ItemCount'   => 1,
+							'ItemWord'    => '式',
+							'ItemPrice'   => $diff_price,
+							'ItemTaxType' => 1,
+							'ItemAmount'  => $diff_price,
+						]
+					);
+				}
 			}
 
 			// 組合商品
@@ -211,7 +229,17 @@ class EcpayInvoiceHandler {
 			$ecpay_invoice->Send['InvType']            = '07';
 			$ecpay_invoice->Send['vat']                = '';
 
-			$ecpay_invoice->Send['Items'];
+			// 紀錄 log
+			$log = new \WC_Logger();
+			ob_start();
+			var_dump($ecpay_invoice->Send);
+			$msg = ob_get_clean();
+			$log->info(
+				'送給綠界前的資料: ' . $msg,
+				[
+					'source' => 'woomp-ecpay-invoice',
+				]
+				);
 
 			// 4.送出
 
@@ -223,6 +251,18 @@ class EcpayInvoiceHandler {
 			} else {
 				$return_info = $result;
 			}
+
+			// 紀錄 log
+			$log = new \WC_Logger();
+			ob_start();
+			var_dump( $return_info );
+			$msg = ob_get_clean();
+			$log->info(
+				'綠界回傳的資料: ' . $msg,
+				[
+					'source' => 'woomp-ecpay-invoice',
+				]
+				);
 
 			// 於備註區寫入發票資訊
 			$invoice_date    = $return_info['InvoiceDate'] ?? '';
