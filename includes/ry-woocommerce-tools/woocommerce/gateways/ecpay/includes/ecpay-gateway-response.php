@@ -64,9 +64,30 @@ class RY_ECPay_Gateway_Response extends RY_ECPay_Gateway_Api {
 			$order->set_transaction_id( self::get_transaction_id( $ipn_info ) );
 			$order->update_meta_data( '_ecpay_payment_type', $payment_type );
 			$order->update_meta_data( '_ecpay_payment_subtype', $payment_subtype );
-			$order->add_order_note( '付款成功: <br/>' . print_r( $ipn_info, true ) );
+			$order_note = sprintf(
+			/*html*/'綠界付款成功: <br/>
+			_ecpay_payment_type: %1$s <br/>
+			_ecpay_payment_subtype: %2$s <br/>
+			',
+			$payment_type,
+			$payment_subtype
+			);
+			$order->add_order_note( $order_note );
 			$order->save();
 			$order = wc_get_order( $order->get_id() );
+
+			// 紀錄 log
+			$log = new \WC_Logger();
+			ob_start();
+			var_dump($ipn_info);
+			$msg = ob_get_clean();
+			$log->info(
+				'綠界付款成功後 $ipn_info: ' . $msg,
+				[
+					'source' => 'woomp-ecpay',
+				]
+				);
+
 		}
 		return $order;
 	}
