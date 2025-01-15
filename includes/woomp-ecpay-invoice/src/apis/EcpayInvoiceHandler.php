@@ -109,29 +109,10 @@ class EcpayInvoiceHandler {
 				$items[ $key ]['ItemAmount']  = round( (float) $WC_Order_Item_Product->get_subtotal() + (float) $WC_Order_Item_Product->get_subtotal_tax(), 2 ); // 小計 ItemAmount
 				$items[ $key ]['ItemPrice']   = round( (float) $items[ $key ]['ItemAmount'] / (float) $items[ $key ]['ItemCount'], 2 ); // 單價 ItemPrice
 				$order_total_summed_by_items += (float) $items[ $key ]['ItemAmount']; // 將 items 總額加總起來
-
-				// 手動修改價格，既不算費用，也不算優惠券，因此需要獨立判斷
-				// 不直接用 get_total 是因為 commit c13ca42158d8d836176876c5dbda8d4bb77ba7e6
-				$diff_price        = round( $WC_Order_Item_Product->get_total() - $WC_Order_Item_Product->get_subtotal(), 2 );
-				$has_manual_coupon = $diff_price < 0; // 最終價格 < 原價，表示有手動折扣
-				if ( $has_manual_coupon ) {
-					array_push(
-						$ecpay_invoice->Send['Items'],
-						[
-							'ItemName'    => '優惠券 - ' . $items[ $key ]['ItemName'],
-							'ItemCount'   => 1,
-							'ItemWord'    => '式',
-							'ItemPrice'   => $diff_price,
-							'ItemTaxType' => 1,
-							'ItemAmount'  => $diff_price,
-						]
-					);
-				}
 			}
 
 			// 組合商品
 			foreach ( $items as $key => $value ) {
-
 				array_push(
 					$ecpay_invoice->Send['Items'],
 					[
@@ -141,6 +122,24 @@ class EcpayInvoiceHandler {
 						'ItemPrice'   => round( (float) $value['ItemPrice'], 2 ),
 						'ItemTaxType' => 1,
 						'ItemAmount'  => round( (float) $value['ItemAmount'], 2 ),
+					]
+				);
+			}
+
+			// 手動修改價格，既不算費用，也不算優惠券，因此需要獨立判斷
+			// 不直接用 get_total 是因為 commit c13ca42158d8d836176876c5dbda8d4bb77ba7e6
+			$diff_price        = round( $order->get_total() - $order->get_subtotal(), 2 );
+			$has_manual_coupon = $diff_price < 0; // 最終價格 < 原價，表示有手動折扣
+			if ( $has_manual_coupon ) {
+				array_push(
+					$ecpay_invoice->Send['Items'],
+					[
+						'ItemName'    => '折扣',
+						'ItemCount'   => 1,
+						'ItemWord'    => '式',
+						'ItemPrice'   => $diff_price,
+						'ItemTaxType' => 1,
+						'ItemAmount'  => $diff_price,
 					]
 				);
 			}
