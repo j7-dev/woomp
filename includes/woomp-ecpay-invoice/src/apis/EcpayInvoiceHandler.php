@@ -118,7 +118,7 @@ class EcpayInvoiceHandler {
 					array_push(
 						$ecpay_invoice->Send['Items'],
 						[
-							'ItemName'    => '手動折扣 - ' . $items[ $key ]['ItemName'],
+							'ItemName'    => '優惠券 - ' . $items[ $key ]['ItemName'],
 							'ItemCount'   => 1,
 							'ItemWord'    => '式',
 							'ItemPrice'   => $diff_price,
@@ -146,21 +146,22 @@ class EcpayInvoiceHandler {
 			}
 
 			// 折價券
-			$coupons = $order->get_items('coupon');
-			foreach ($coupons as $coupon) {
-				$item_price = -1 * round( (float) $coupon->get_discount() + (float) $coupon->get_discount_tax(), 2 );
-				array_push(
-					$ecpay_invoice->Send['Items'],
-					[
-						'ItemName'    => '折價券 - ' . $coupon->get_name(),
-						'ItemCount'   => 1,
-						'ItemWord'    => '式',
-						'ItemPrice'   => round( $item_price / $coupon->get_quantity(), 2 ),
-						'ItemTaxType' => 1,
-						'ItemAmount'  => $item_price,
-					]
-				);
-			}
+			// 因為後台改金額，不會動態產生 coupon，只能用 total, subtotal 來判斷，就不獨立判斷 coupon 了
+			// $coupons = $order->get_items('coupon');
+			// foreach ($coupons as $coupon) {
+			// $item_price = -1 * round( (float) $coupon->get_discount() + (float) $coupon->get_discount_tax(), 2 );
+			// array_push(
+			// $ecpay_invoice->Send['Items'],
+			// [
+			// 'ItemName'    => '折價券 - ' . $coupon->get_name(),
+			// 'ItemCount'   => 1,
+			// 'ItemWord'    => '式',
+			// 'ItemPrice'   => round( $item_price / $coupon->get_quantity(), 2 ),
+			// 'ItemTaxType' => 1,
+			// 'ItemAmount'  => $item_price,
+			// ]
+			// );
+			// }
 
 			// 運費
 			$shipping_total = number_format( (float) $order->get_shipping_total() + (float) $order->get_shipping_tax(), wc_get_price_decimals(), '.', '' );
