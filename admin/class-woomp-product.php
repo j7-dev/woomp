@@ -424,16 +424,17 @@ if ( ! class_exists( 'WooMP_Product' ) ) {
 		 * 掛載商品頁切換好用版按鈕
 		 */
 		public static function add_active_woomp_ui_button() {
-			global $post, $pagenow, $typenow;
-			if ( 'product' === $typenow && ( 'post.php' === $pagenow || 'post-new.php' === $pagenow ) && self::is_active_woomp_ui() === 'no' ) {
+			global $pagenow, $typenow;
+
+			if ( 'product' === $typenow && ( 'post.php' === $pagenow || 'post-new.php' === $pagenow ) && self::is_active_woomp_ui() !== 'yes' ) {
 				?>
 				<script>
-					var $ = jQuery.noConflict();
-					$(document).ready(function($){
+					(function($){
+						$(document).ready(function($){
 						/**
 						 * Feature - 商品資料下拉選單右側增加切回新版的選項
 						 */
-						var toolbarHeader = $('#woocommerce-product-data .postbox-header h2 > span')
+						const toolbarHeader = $('#woocommerce-product-data .postbox-header h2 > span')
 						toolbarHeader.append(`
 						<form action="${window.location.href}" method="post" style="display: inline-block">
 							<input type="hidden" name="woomp_ui" value="yes">
@@ -441,6 +442,8 @@ if ( ! class_exists( 'WooMP_Product' ) ) {
 						</form>
 						`)
 					})
+					})(jQuery)
+
 				</script>
 				<?php
 			}
