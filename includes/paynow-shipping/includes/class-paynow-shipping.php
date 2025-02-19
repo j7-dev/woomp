@@ -240,10 +240,17 @@ class PayNow_Shipping {
 		$chosen_method_id        = strstr( $chosen_shipping_methods[0], ':', true );
 
 		$apicode = self::$apicode;
-		$iv      = utf8_encode( '12345678' );
-		$key     = utf8_encode( '123456789070828783123456' ); // key length = 24.
+		// 手動 Zero Padding
+		$block_size = 8;
+		$pad        = $block_size - ( strlen($apicode) % $block_size );
+		$apicode   .= str_repeat("\0", $pad);
 
-		$encrypt_apicode = openssl_encrypt( $apicode, 'DES-EDE3', $key, OPENSSL_ZERO_PADDING );
+		$iv  = utf8_encode( '12345678' );
+		$key = utf8_encode( '123456789070828783123456' ); // key length = 24.
+
+		// $encrypt_apicode = openssl_encrypt( $apicode, 'DES-EDE3', $key, OPENSSL_ZERO_PADDING );
+		$encrypt_apicode = openssl_encrypt( $apicode, 'DES-EDE3-ECB', $key, OPENSSL_RAW_DATA | OPENSSL_ZERO_PADDING);
+		$encrypt_apicode = str_replace(' ', '+', base64_encode($encrypt_apicode));
 
 		self::$js_data['shipping_data']['methods']            = $chosen_method_id;
 		self::$js_data['shipping_data']['Logistic_serviceID'] = PayNow_Shipping_Logistic_Service::get_service_id( $chosen_method_id );
