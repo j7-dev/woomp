@@ -50,5 +50,10 @@ class WOOMP_PayNow_Shipping_C2C_711_Frozen extends PayNow_Abstract_Shipping_Meth
 		$this->free_shipping_min_amount = $this->get_option( 'free_shipping_min_amount', 0 );
 		$this->type                     = $this->get_option( 'type', 'class' );
 		$this->max_amount               = 20000;
+		$this->supports                 = [
+			'shipping-zones',
+			'instance-settings',
+			'instance-settings-modal',
+		];
 	}
 }
