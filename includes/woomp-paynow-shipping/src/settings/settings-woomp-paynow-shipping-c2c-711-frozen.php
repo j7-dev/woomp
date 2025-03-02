@@ -34,24 +34,46 @@ $settings = [
 		'min'     => 0,
 		'step'    => 1,
 	],
-	'free_shipping_requires'   => [
-		'title'   => __( 'Free shipping requires', 'woomp' ),
+	'requires' => [
+		'title'   => __( 'Free shipping requires', 'woocommerce' ),
 		'type'    => 'select',
 		'class'   => 'wc-enhanced-select',
 		'default' => '',
 		'options' => [
-			''           => __( 'N/A', 'woomp' ),
-			'min_amount' => __( 'A minimum order amount', 'woomp' ),
+			''           => __( 'No requirement', 'woocommerce' ),
+			'coupon'     => __( 'A valid free shipping coupon', 'woocommerce' ),
+			'min_amount' => __( 'A minimum order amount', 'woocommerce' ),
+			'either'     => __( 'A minimum order amount OR coupon', 'woocommerce' ),
+			'both'       => __( 'A minimum order amount AND coupon', 'woocommerce' ),
 		],
 	],
-	'free_shipping_min_amount' => [
-		'title'       => __( 'Minimum order amount for free shipping', 'woomp' ),
+	'min_amount' => [
+		'title'       => __( 'Minimum order amount', 'ry-woocommerce-tools' ),
 		'type'        => 'price',
 		'default'     => 0,
 		'placeholder' => wc_format_localized_price( 0 ),
-		'description' => __( 'Users will need to spend this amount to get free shipping.', 'woomp' ),
+		'description' => __( 'Users will need to spend this amount to get free shipping (if enabled above).', 'woocommerce' ),
 		'desc_tip'    => true,
 	],
+	// 共用API使用的是'requires'
+	// 'free_shipping_requires'   => [
+	// 	'title'   => __( 'Free shipping requires', 'woomp' ),
+	// 	'type'    => 'select',
+	// 	'class'   => 'wc-enhanced-select',
+	// 	'default' => '',
+	// 	'options' => [
+	// 		''           => __( 'N/A', 'woomp' ),
+	// 		'min_amount' => __( 'A minimum order amount', 'woomp' ),
+	// 	],
+	// ],
+	// 'free_shipping_min_amount' => [
+	// 	'title'       => __( 'Minimum order amount for free shipping', 'woomp' ),
+	// 	'type'        => 'price',
+	// 	'default'     => 0,
+	// 	'placeholder' => wc_format_localized_price( 0 ),
+	// 	'description' => __( 'Users will need to spend this amount to get free shipping.', 'woomp' ),
+	// 	'desc_tip'    => true,
+	// ],
 
 ];
 
