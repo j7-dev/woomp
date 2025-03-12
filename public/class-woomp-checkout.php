@@ -340,6 +340,7 @@ if ( ! class_exists( 'WooMP_Checkout' ) ) {
 			$text_color       = \get_option( 'wc_woomp_setting_free_shipping_text_color' ) ? \get_option( 'wc_woomp_setting_free_shipping_text_color' ) : '#ffffff';
 
 			$styles = [
+				'white-space'   => 'nowrap',
 				'width'         => 'auto',
 				'position'      => 'relative',
 				'top'           => $is_free_shipping ? 'unset' : '-1px',
