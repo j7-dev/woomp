@@ -3,6 +3,7 @@ class RY_ECPay_Gateway_Response extends RY_ECPay_Gateway_Api {
 
 	public static function init() {
 		add_action( 'woocommerce_api_request', [ __CLASS__, 'set_do_die' ] );
+		add_action('woocommerce_api_ry_ecpay_gateway_return', [ __CLASS__, 'gateway_return' ]);
 		add_action( 'woocommerce_api_ry_ecpay_callback', [ __CLASS__, 'check_callback' ] );
 		add_action( 'valid_ecpay_gateway_request', [ __CLASS__, 'doing_callback' ] );
 
@@ -160,5 +161,21 @@ class RY_ECPay_Gateway_Response extends RY_ECPay_Gateway_Api {
 				self::get_status_msg( $ipn_info )
 			)
 		);
+	}
+
+	public static function gateway_return() {
+		$order_key = wp_unslash($_GET['key'] ?? '');
+		$order_ID  = (int) wp_unslash($_GET['id'] ?? 0);
+		$order     = wc_get_order($order_ID);
+		if ($order && hash_equals($order->get_order_key(), $order_key)) {
+			$return_url = $order->get_checkout_order_received_url();
+		} else {
+			$return_url = wc_get_endpoint_url('order-received', '', wc_get_checkout_url());
+		}
+
+		$return_url = apply_filters('woocommerce_get_return_url', $return_url, $order);
+		wp_redirect($return_url);
+
+		exit();
 	}
 }

@@ -4,6 +4,16 @@ if ( ! class_exists( 'RY_ECPay' ) ) {
 
 		protected static $do_die = false;
 
+		protected static function get_3rd_return_url( $order = null ) {
+			$return_url = WC()->api_request_url('ry_ecpay_gateway_return');
+			if ($order) {
+				$return_url = add_query_arg('id', $order->get_id(), $return_url);
+				$return_url = add_query_arg('key', $order->get_order_key(), $return_url);
+			}
+
+			return $return_url;
+		}
+
 		protected static function generate_trade_no( $order_id, $order_prefix = '' ) {
 			$trade_no = $order_prefix . $order_id . 'TS' . rand( 0, 9 ) . strrev( (string) time() );
 			$trade_no = substr( $trade_no, 0, 20 );
