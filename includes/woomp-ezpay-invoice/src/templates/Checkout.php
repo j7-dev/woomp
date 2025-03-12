@@ -39,7 +39,7 @@ class Checkout {
 
 		// 個人發票選項
 		if ( ! get_option( 'wc_woomp_ezpay_invoice_carrier_type' ) ) {
-			update_option( 'wc_woomp_ezpay_invoice_carrier_type', [ '手機條碼', '自然人憑證', 'ezPay 電子發票載具' ] );
+			update_option( 'wc_woomp_ezpay_invoice_carrier_type', [ '手機條碼', '自然人憑證', 'ezPay 電子發票載具', '雲端電子發票載具' ] );
 		}
 		$type_option = [];
 		foreach ( get_option( 'wc_woomp_ezpay_invoice_carrier_type' ) as $value ) {
@@ -231,11 +231,9 @@ class Checkout {
 		}
 		// phpcs:enable
 
-		if('ezPay 電子發票載具' === $invoice_data['_ezpay_invoice_individual']) {
+		if ( in_array( $invoice_data['_ezpay_invoice_individual'], [ 'ezPay 電子發票載具', '雲端電子發票載具' ] ) ) {
 			unset($invoice_data['_ezpay_invoice_carrier']);
 		}
-
-
 
 		if ( count( $invoice_data ) > 0 ) {
 			$order->update_meta_data( '_ezpay_invoice_data', $invoice_data );

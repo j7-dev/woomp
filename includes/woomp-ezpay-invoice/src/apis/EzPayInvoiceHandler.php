@@ -66,6 +66,7 @@ class EzPayInvoiceHandler {
 				$invoice_individual = 1;
 				break;
 			case 'ezPay 電子發票載具':
+			case '雲端電子發票載具':
 				$invoice_individual = 2;
 				break;
 			default:
