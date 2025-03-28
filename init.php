@@ -344,12 +344,15 @@ require_once WOOMP_PLUGIN_DIR . 'includes/payuni/payuni.php';
 \add_action( 'woocommerce_credit_card_form_start', 'add_payment_description', 10 );
 
 function add_payment_description( string $payment_method_id ): void {
-	$selected_payment_method = WC()->payment_gateways()->payment_gateways()[ $payment_method_id ] ?? null;
+	$payment_gateways        = \WC()->payment_gateways()->payment_gateways();
+	$selected_payment_method = $payment_gateways[ $payment_method_id ] ?? null;
 
-	$description = $selected_payment_method?->get_description();
+	if (method_exists($selected_payment_method, 'get_description')) {
+		$description = $selected_payment_method?->get_description();
 
-	if ( $description ) {
-		echo \wpautop( \wptexturize( $description ) );
+		if ( $description ) {
+			echo \wpautop( \wptexturize( $description ) );
+		}
 	}
 }
 
