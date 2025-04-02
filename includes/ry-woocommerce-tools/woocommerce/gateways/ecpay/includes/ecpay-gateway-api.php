@@ -16,7 +16,14 @@ class RY_ECPay_Gateway_Api extends RY_ECPay {
 		RY_ECPay_Gateway::log( 'Generating payment form by ' . $gateway->id . ' for #' . $order->get_order_number() );
 
 		$notify_url = WC()->api_request_url( 'ry_ecpay_callback', true );
-		$return_url = self::get_3rd_return_url($order);
+		// 取得訂單的付款方式
+		$payment_type = $order->get_payment_method();
+
+		if ('ry_ecpay_barcode' === $payment_type) {
+			$return_url = self::get_3rd_return_url($order);
+		} else {
+			$return_url = $gateway->get_return_url( $order );
+		}
 
 		list($MerchantID, $HashKey, $HashIV) = RY_ECPay_Gateway::get_ecpay_api_info();
 
