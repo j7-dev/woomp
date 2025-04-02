@@ -16,12 +16,14 @@ class RY_ECPay_Gateway_Response extends RY_ECPay_Gateway_Api {
 	public static function check_callback() {
 		if ( ! empty( $_POST ) ) {
 			$ipn_info = wp_unslash( $_POST );
+			RY_ECPay_Gateway::log( 'check_callback IPN info: ' . var_export( $ipn_info, true ) );
 			if ( self::ipn_request_is_valid( $ipn_info ) ) {
 				do_action( 'valid_ecpay_gateway_request', $ipn_info );
 			} else {
 				self::die_error();
 			}
 		}
+		RY_ECPay_Gateway::log( 'check_callback $_POST is empty' );
 	}
 
 	protected static function ipn_request_is_valid( $ipn_info ) {
