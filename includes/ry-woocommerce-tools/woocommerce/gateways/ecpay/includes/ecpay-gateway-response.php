@@ -140,7 +140,7 @@ class RY_ECPay_Gateway_Response extends RY_ECPay_Gateway_Api {
 
 	public static function payment_complete( $ipn_info, $order ) {
 		if ( ! $order->is_paid() ) {
-			$order = self::set_transaction_info( $order, $ipn_info );
+			// $order = self::set_transaction_info( $order, $ipn_info );
 			$order->add_order_note( __( 'Payment completed', 'ry-woocommerce-tools' ) );
 			$order->payment_complete();
 		}
