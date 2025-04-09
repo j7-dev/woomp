@@ -67,15 +67,46 @@ class RY_ECPay_Gateway_Response extends RY_ECPay_Gateway_Api {
 			$order->set_transaction_id( self::get_transaction_id( $ipn_info ) );
 			$order->update_meta_data( '_ecpay_payment_type', $payment_type );
 			$order->update_meta_data( '_ecpay_payment_subtype', $payment_subtype );
-			$order_note = sprintf(
-			/*html*/'綠界付款成功: <br/>
-			_ecpay_payment_type: %1$s <br/>
-			_ecpay_payment_subtype: %2$s <br/>
+
+			if ('ATM' === $payment_type) {
+				$expireDate = $order->get_meta('_ecpay_atm_ExpireDate');
+				// 如果 $expireDate 字串滿足 ISO 8601 格式，用 regex 驗證
+				if (preg_match('/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\+\d{2}:\d{2}$/', $expireDate)) {
+					$timestamp  = strtotime($expireDate);
+					$expireDate = date('Y-m-d H:i:s', $timestamp); // phpcs:ignore
+				}
+
+				$order_note = sprintf(
+				/*html*/'
+			<strong>綠界金流交易紀錄</strong><br>
+			狀態碼：%1$s<br>
+			交易訊息：%2$s<br>
+			交易編號：%3$s<br>
+			轉帳銀行：%4$s<br>
+			轉帳帳號：%5$s<br>
+			轉帳期限：%6$s
 			',
-			$payment_type,
-			$payment_subtype
-			);
-			$order->add_order_note( $order_note );
+				$ipn_info['RtnCode'] === '1' ? '1 (成功)' : $ipn_info['RtnCode'] . ' (尚未付款)',
+				$ipn_info['RtnMsg'],
+				$ipn_info['TradeNo'],
+				$order->get_meta('_ecpay_atm_BankCode'),
+				$order->get_meta('_ecpay_atm_vAccount'),
+				$expireDate,
+				);
+				$order->add_order_note($order_note, true );
+			} else {
+				$order_note = sprintf(
+				/*html*/'綠界付款%1$s: <br/>
+				_ecpay_payment_type: %2$s <br/>
+				_ecpay_payment_subtype: %3$s <br/>
+				',
+				$ipn_info['RtnCode'] === '1' ? '成功' : '',
+				$payment_type,
+				$payment_subtype
+				);
+				$order->add_order_note( $order_note );
+			}
+
 			$order->save();
 			$order = wc_get_order( $order->get_id() );
 
@@ -85,7 +116,7 @@ class RY_ECPay_Gateway_Response extends RY_ECPay_Gateway_Api {
 			var_dump($ipn_info);
 			$msg = ob_get_clean();
 			$log->info(
-				'綠界付款成功後 $ipn_info: ' . $msg,
+				'set_transaction_info $ipn_info: ' . $msg,
 				[
 					'source' => 'woomp-ecpay',
 				]
