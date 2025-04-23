@@ -466,11 +466,11 @@ class WC_Gateway_LINEPay extends WC_Payment_Gateway {
 						$order_detail = $detail_info[0];
 						$pay_status   = $order_detail->payStatus;
 					}
-					$order->update_status( 'on-hold', 'LINE Pay 執行 Confirm API 失敗，查詢 LINE Pay 付款狀態為：' . $pay_status );
+					$order->update_status( 'pending', 'LINE Pay 執行 Confirm API 失敗，查詢 LINE Pay 付款狀態為：' . $pay_status );
 					$order->set_transaction_id( $reserved_transaction_id );
 				}
 			} else {
-				$order->update_status( 'on-hold', $detail_info->get_error_message() );
+				$order->update_status( 'pendinginfo->get_error_message() );
 			}
 
 			// FIXME:  not sure purpose.
