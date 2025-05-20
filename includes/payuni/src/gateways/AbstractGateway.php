@@ -336,7 +336,7 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 			$fields = [];
 
 			$cvc_field = '<p class="form-row form-row-last">
-			<label for="' . esc_attr( $this->id ) . '-card-cvc">' . esc_html__( 'Card code', 'woocommerce' ) . '&nbsp;<span class="required">*</span></label>
+			<label for="' . esc_attr( $this->id ) . '-card-cvc">' . esc_html__( 'Card code', 'woomp' ) . '&nbsp;<span class="required">*</span></label>
 			<input id="' . esc_attr( $this->id ) . '-card-cvc" name="' . esc_attr( $this->id ) . '-card-cvc" class="input-text wc-credit-card-form-card-cvc" inputmode="numeric" autocomplete="off" autocorrect="no" autocapitalize="no" spellcheck="no" type="tel" maxlength="3" placeholder="' . esc_attr__( 'CVC', 'woocommerce' ) . '" ' . $this->field_name( 'card-cvc' ) . ' style="width:100px;font-size:15px" />
 		</p>';
 
@@ -357,7 +357,6 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 
 			$fields = wp_parse_args( $fields, apply_filters( 'woocommerce_credit_card_form_fields', $default_fields, $this->id ) );
 			?>
-
 			<fieldset id="wc-<?php echo esc_attr( $this->id ); ?>-cc-form" class='wc-credit-card-form wc-payment-form'>
 			<?php do_action( 'woocommerce_credit_card_form_start', $this->id ); ?>
 			<?php
@@ -369,7 +368,6 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 				<div class="clear"></div>
 			</fieldset>
 			<?php
-
 			if ( $this->supports( 'credit_card_form_cvc_on_saved_method' ) ) {
 				echo '<fieldset>' . $cvc_field . '</fieldset>'; // phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped
 			}
@@ -677,6 +675,37 @@ if ( class_exists( 'WC_Payment_Gateway' ) ) {
 			);
 
 			return $display;
+		}
+
+
+		/**
+		 * 記住卡號 html
+		 *
+		 * @see https://github.com/j7-dev/woomp/issues/27
+		 */
+		public function save_payment_method_checkbox(): void {
+			$default_checked = \apply_filters( 'default_checked_save_payment_method', false );
+
+			$html = sprintf(
+				/*html*/'
+					<input id="wc-%1$s-new-payment-method" name="wc-%1$s-new-payment-method" type="checkbox" value="true" style="width:auto;" %2$s />
+					<div for="wc-%1$s-new-payment-method" style="display:inline-block;position: relative;">
+						<span class="change-save-card-label">儲存付款資訊，下次付款更方便</span>
+						<div class="change-save-card-tooltips">網站並不會儲存你的卡號，僅會儲存金流公司的hash，因此不會有卡號外泄問題</div>
+					</div>
+				',
+				\esc_attr( $this->id ),
+				\checked( $default_checked, true, false )
+			);
+			/**
+			 * Filter the saved payment method checkbox HTML
+			 *
+			 * @since 2.6.0
+			 * @param string $html Checkbox HTML.
+			 * @param WC_Payment_Gateway $this Payment gateway instance.
+			 * @return string
+			 */
+			echo apply_filters( 'woocommerce_payment_gateway_save_new_payment_method_option_html', $html, $this ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		}
 	}
 }

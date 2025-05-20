@@ -1,0 +1,1837 @@
+# Copyright (C) 2021 MorePower
+# This file is distributed under the same license as the 好用版擴充 MorePower Addon for WooCommerce plugin.
+msgid ""
+msgstr ""
+"Project-Id-Version: woomp\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/woomp\n"
+"POT-Creation-Date: 2023-06-29T03:40:43+00:00\n"
+"PO-Revision-Date: 2023-06-29 11:41+0800\n"
+"Last-Translator: \n"
+"Language-Team: morepower\n"
+"Language: zh_TW\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 3.2.2\n"
+"X-Domain: woomp\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-Flags-xgettext: --add-comments=translators:\n"
+"X-Poedit-WPHeader: woomp.php\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-SearchPath-0: woomp.pot\n"
+
+#. Plugin Name of the plugin
+msgid "好用版擴充 MorePower Addon for WooCommerce"
+msgstr "好用版擴充 MorePower Addon for WooCommerce"
+
+#. Plugin URI of the plugin
+msgid "https://morepower.club/morepower-addon/"
+msgstr "https://morepower.club/morepower-addon/"
+
+#. Description of the plugin
+msgid ""
+"WooCommerce 好用版擴充，改善結帳流程與可變商品等區塊，讓 WooCommerce 更符合亞"
+"洲人使用習慣。"
+msgstr ""
+"WooCommerce 好用版擴充，改善結帳流程與可變商品等區塊，讓 WooCommerce 更符合亞"
+"洲人使用習慣。"
+
+#. Author of the plugin
+msgid "MorePower"
+msgstr "MorePower"
+
+#. Author URI of the plugin
+msgid "https://morepower.club"
+msgstr "https://morepower.club"
+
+#: admin/class-woomp-admin.php:112
+msgid "完整地址"
+msgstr "完整地址"
+
+#: admin/class-woomp-admin.php:132
+msgid "運送地址"
+msgstr "運送地址"
+
+#: admin/class-woomp-admin.php:184
+msgid "payment"
+msgstr "金流"
+
+#: admin/class-woomp-admin.php:185
+msgid "shipping"
+msgstr "物流"
+
+#: admin/class-woomp-admin.php:186
+msgid "invoice"
+msgstr "電子發票"
+
+#: admin/class-woomp-order.php:189 admin/class-woomp-order.php:195
+msgid "Print ECPay shipping booking note (711)"
+msgstr "列印 7-ELEVEN 超商託運單（綠界）"
+
+#: admin/class-woomp-order.php:190
+msgid "Print ECPay shipping booking note (711 Freeze)"
+msgstr "列印 7-ELEVEN 超商託運單 冷凍（綠界）"
+
+#: admin/class-woomp-order.php:191 admin/class-woomp-order.php:196
+msgid "Print ECPay shipping booking note (family)"
+msgstr "列印全家超商託運單（綠界）"
+
+#: admin/class-woomp-order.php:192 admin/class-woomp-order.php:197
+msgid "Print ECPay shipping booking note (hilife)"
+msgstr "列印萊爾富超商託運單（綠界）"
+
+#: admin/class-woomp-order.php:198
+msgid "Print ECPay shipping booking note (okmart)"
+msgstr "列印OK超商託運單（綠界）"
+
+#: admin/class-woomp-order.php:202
+msgid "Print ECPay shipping booking note (tcat)"
+msgstr "列印黑貓託運單（綠界）"
+
+#: admin/class-woomp-order.php:203
+msgid "Print ECPay shipping booking note (tcat freeze)"
+msgstr "列印黑貓冷藏託運單（綠界）"
+
+#: admin/class-woomp-order.php:204
+msgid "Print ECPay shipping booking note (tcat frozen)"
+msgstr "列印黑貓冷凍託運單（綠界）"
+
+#: admin/class-woomp-order.php:205
+msgid "Print POST booking note"
+msgstr "列印中華郵政託運單"
+
+#: admin/class-woomp-order.php:207
+msgid "Print HCT shipping booking note"
+msgstr "匯出新竹物流報表"
+
+#: admin/class-woomp-order.php:285
+msgid "Update convenience store"
+msgstr "重新選擇超商"
+
+#: admin/class-woomp-order.php:286
+msgid "After choosing cvs, you need update the order to save changing."
+msgstr "重新選擇超商後記得要更新訂單資料才會被寫入。"
+
+#: admin/class-woomp-payment-cod-clone.php:30
+#: admin/class-woomp-payment-cod-clone.php:71
+msgid "貨到付款"
+msgstr "貨到付款"
+
+#: admin/class-woomp-payment-cod-clone.php:31
+#: admin/class-woomp-payment-cod-clone.php:79
+msgid "收到貨時以現金付款。"
+msgstr "收到貨時以現金付款。"
+
+#: admin/class-woomp-payment-cod-clone.php:61
+#: admin/class-woomp-payment-cvs.php:61
+msgid "啓用/停用"
+msgstr "啓用/停用"
+
+#: admin/class-woomp-payment-cod-clone.php:63
+msgid "啟用貨到付款"
+msgstr "啟用貨到付款"
+
+#: admin/class-woomp-payment-cod-clone.php:338
+#: admin/class-woomp-payment-cvs.php:337
+msgid "設定"
+msgstr "設定"
+
+#: admin/class-woomp-payment-cod-clone.php:346
+#: admin/class-woomp-payment-cvs.php:30 admin/class-woomp-payment-cvs.php:71
+msgid "超商取貨付款"
+msgstr "超商取貨付款"
+
+#: admin/class-woomp-payment-cvs.php:31 admin/class-woomp-payment-cvs.php:79
+#: admin/class-woomp-payment-cvs.php:87
+msgid "可將商品送到指定的超商門市，取貨時再進行付款。"
+msgstr "可將商品送到指定的超商門市，取貨時再進行付款。"
+
+#: admin/class-woomp-payment-cvs.php:63
+msgid "啟用超商取貨付款"
+msgstr "啟用超商取貨付款"
+
+#: admin/class-woomp-product.php:87
+msgid "商品屬性"
+msgstr "商品屬性"
+
+#: admin/class-woomp-product.php:120
+msgid "切換原版變化類型介面"
+msgstr "切換原版變化類型介面"
+
+#: admin/class-woomp-product.php:129
+msgid "請輸入變化類型規格，一次輸入一個"
+msgstr "請輸入變化類型規格，一次輸入一個"
+
+#: admin/class-woomp-product.php:221
+msgid "定價未填"
+msgstr "定價未填"
+
+#: admin/class-woomp-product.php:234
+msgid "商品屬性已更新，是否自動新增變化類型？"
+msgstr ""
+
+#: admin/class-woomp-product.php:336
+msgid "必填"
+msgstr "必填"
+
+#: admin/class-woomp-product.php:338
+msgid "須小於定價"
+msgstr "須小於定價"
+
+#: admin/class-woomp-product.php:438
+msgid "切換好用版 Woo 變化類型介面"
+msgstr "切換好用版 Woo 變化類型介面"
+
+#: admin/class-woomp-product.php:469
+msgid "設定前台變化類型介面:"
+msgstr "設定前台變化類型介面:"
+
+#: admin/class-woomp-product.php:472 admin/class-woomp-product.php:479
+msgid "標籤式選項"
+msgstr "標籤式選項"
+
+#: admin/class-woomp-product.php:474
+msgid "下拉選單"
+msgstr "下拉選單"
+
+#: admin/class-woomp-product.php:475
+msgid "單選方塊(不斷行)"
+msgstr "單選方塊(不斷行)"
+
+#: admin/class-woomp-product.php:476
+msgid "單選方塊(每行放1個選項)"
+msgstr "單選方塊(每行放1個選項)"
+
+#: admin/class-woomp-product.php:477
+msgid "單選方塊(每行放2個選項) "
+msgstr "單選方塊(每行放2個選項) "
+
+#: admin/settings/class-woomp-setting-gateway.php:12
+#: admin/settings/class-woomp-setting-gateway.php:37
+msgid "金流設定"
+msgstr "金流設定"
+
+#: admin/settings/class-woomp-setting-gateway.php:64
+msgid "統一金流 PAYUNi"
+msgstr ""
+
+#: admin/settings/class-woomp-setting-gateway.php:65
+#: admin/settings/class-woomp-setting-shipping.php:64
+msgid "綠界"
+msgstr "綠界"
+
+#: admin/settings/class-woomp-setting-gateway.php:66
+#: admin/settings/class-woomp-setting-shipping.php:65
+msgid "藍新"
+msgstr "藍新"
+
+#: admin/settings/class-woomp-setting-gateway.php:67
+#: admin/settings/class-woomp-setting-shipping.php:66
+msgid "速買配"
+msgstr "速買配"
+
+#: admin/settings/class-woomp-setting-gateway.php:68
+#: admin/settings/class-woomp-setting-invoice.php:67
+#: admin/settings/class-woomp-setting-shipping.php:67
+msgid "立吉富"
+msgstr "立吉富"
+
+#: admin/settings/class-woomp-setting-gateway.php:69
+msgid "LINE Pay"
+msgstr "LINE Pay"
+
+#: admin/settings/class-woomp-setting-gateway.php:71
+msgid "支付連"
+msgstr "支付連"
+
+#: admin/settings/class-woomp-setting-gateway.php:200
+msgid "LINE Pay 金流設定"
+msgstr "LINE Pay 金流設定"
+
+#: admin/settings/class-woomp-setting-gateway.php:345
+msgid "支付連金流設定"
+msgstr "支付連金流設定"
+
+#: admin/settings/class-woomp-setting-invoice.php:12
+#: admin/settings/class-woomp-setting-invoice.php:37
+msgid "電子發票設定"
+msgstr "電子發票設定"
+
+#: admin/settings/class-woomp-setting-invoice.php:65
+msgid "綠界(好用版)"
+msgstr "綠界(好用版)"
+
+#: admin/settings/class-woomp-setting-invoice.php:66
+msgid "藍新 ezPay"
+msgstr "藍新 ezPay"
+
+#: admin/settings/class-woomp-setting-invoice.php:96
+#: admin/settings/class-woomp-setting-invoice.php:242
+msgid "Order number prefix"
+msgstr "訂單號前綴"
+
+#: admin/settings/class-woomp-setting-invoice.php:99
+#: admin/settings/class-woomp-setting-invoice.php:245
+msgid "The prefix string of order number. Only letters and numbers allowed."
+msgstr "訂單前綴字，僅限英數。"
+
+#: admin/settings/class-woomp-setting-invoice.php:108
+#: admin/settings/class-woomp-setting-invoice.php:254
+msgid "Invoice options"
+msgstr "電子發票設定"
+
+#: admin/settings/class-woomp-setting-invoice.php:120
+#: admin/settings/class-woomp-setting-invoice.php:266
+msgid "Issue Manual"
+msgstr "手動開立"
+
+#: admin/settings/class-woomp-setting-invoice.php:121
+#: admin/settings/class-woomp-setting-invoice.php:267
+msgid "Issue automatic"
+msgstr "自動開立"
+
+#: admin/settings/class-woomp-setting-invoice.php:126
+#: admin/settings/class-woomp-setting-invoice.php:272
+msgid "Allowed Order Status for issue"
+msgstr "自動開立的訂單狀態"
+
+#: admin/settings/class-woomp-setting-invoice.php:135
+#: admin/settings/class-woomp-setting-invoice.php:281
+msgid "Invalid mode"
+msgstr "作廢模式"
+
+#: admin/settings/class-woomp-setting-invoice.php:142
+#: admin/settings/class-woomp-setting-invoice.php:288
+msgid "Invalid manual"
+msgstr "手動作廢"
+
+#: admin/settings/class-woomp-setting-invoice.php:143
+#: admin/settings/class-woomp-setting-invoice.php:289
+msgid "Invalid automatic"
+msgstr "自動作廢"
+
+#: admin/settings/class-woomp-setting-invoice.php:148
+#: admin/settings/class-woomp-setting-invoice.php:294
+msgid "Allowed Order Status for invalid"
+msgstr "自動作廢的訂單狀態"
+
+#: admin/settings/class-woomp-setting-invoice.php:161
+#: admin/settings/class-woomp-setting-invoice.php:307
+msgid "Allowed invoice carrier type"
+msgstr "允許的載具類型"
+
+#: admin/settings/class-woomp-setting-invoice.php:166
+msgid "Cloud Invoice"
+msgstr "雲端發票"
+
+#: admin/settings/class-woomp-setting-invoice.php:169
+msgid "Paper Invoice"
+msgstr "紙本發票"
+
+#: admin/settings/class-woomp-setting-invoice.php:312
+msgid "ezPay 電子發票載具"
+msgstr "ezPay 電子發票載具"
+
+#: admin/settings/class-woomp-setting-shipping.php:12
+#: admin/settings/class-woomp-setting-shipping.php:37
+msgid "物流設定"
+msgstr "物流設定"
+
+#: admin/settings/class-woomp-setting-shipping.php:68
+msgid "PAYUNi"
+msgstr "PAYUNi"
+
+#: admin/settings/class-woomp-setting.php:26
+msgid "好用版擴充"
+msgstr "好用版擴充"
+
+#: admin/settings/class-woomp-setting.php:65
+msgid ""
+"<a target=\"_blank\" href=\"https://cloud.luke.cafe/docs/woomp/\">好用版擴充 "
+"教學文件</a>"
+msgstr ""
+"<a target=\"_blank\" href=\"https://cloud.luke.cafe/docs/woomp/\">好用版擴充 "
+"教學文件</a>"
+
+#: admin/settings/class-woomp-setting.php:68
+#: includes/payuni/settings/gateway.php:7
+msgid "統一金流 PAYUNi 設定"
+msgstr ""
+
+#: admin/settings/class-woomp-setting.php:73
+msgid "啟用 PAYUNi 金流"
+msgstr ""
+
+#: admin/settings/class-woomp-setting.php:75
+msgid "啟用 PAYUNi 金流模組"
+msgstr ""
+
+#: admin/settings/class-woomp-setting.php:94
+msgid "綠界設定"
+msgstr "綠界設定"
+
+#: admin/settings/class-woomp-setting.php:99
+msgid "Enable ECPay gateway"
+msgstr "啟用綠界金流"
+
+#: admin/settings/class-woomp-setting.php:108
+msgid "Enable ECPay shipping"
+msgstr "啟用綠界物流"
+
+#: admin/settings/class-woomp-setting.php:110
+msgid ""
+"Enable ECPay shipping method. The POST method doesn't support goods' weight "
+"rule. You should notice that your goods can not over 20kg by yourself."
+msgstr ""
+"啟用 綠界物流 模組 - 中華郵政物流有重量 20 KG 的限制，要使用該物流方式前請確"
+"保商品重量未超重。"
+
+#: admin/settings/class-woomp-setting.php:126
+msgid "啟用綠界電子發票(好用版)"
+msgstr "啟用綠界電子發票(好用版)"
+
+#: admin/settings/class-woomp-setting.php:138
+msgid "藍新設定"
+msgstr "藍新設定"
+
+#: admin/settings/class-woomp-setting.php:143
+msgid "啟用藍新金流"
+msgstr "啟用藍新金流"
+
+#: admin/settings/class-woomp-setting.php:152
+msgid "啟用藍新物流"
+msgstr "啟用藍新物流"
+
+#: admin/settings/class-woomp-setting.php:161
+msgid "啟用藍新電子發票"
+msgstr "啟用藍新電子發票"
+
+#: admin/settings/class-woomp-setting.php:163
+msgid "啟用 ezPay 藍新電子發票模組"
+msgstr "啟用 ezPay 藍新電子發票模組"
+
+#: admin/settings/class-woomp-setting.php:173
+msgid "速買配設定"
+msgstr "速買配設定"
+
+#: admin/settings/class-woomp-setting.php:178
+msgid "啟用速買配金流"
+msgstr "啟用速買配金流"
+
+#: admin/settings/class-woomp-setting.php:187
+msgid "啟用速買配物流"
+msgstr "啟用速買配物流"
+
+#: admin/settings/class-woomp-setting.php:199
+msgid "立吉富設定"
+msgstr "立吉富設定"
+
+#: admin/settings/class-woomp-setting.php:204
+msgid "啟用立吉富金流"
+msgstr "啟用立吉富金流"
+
+#: admin/settings/class-woomp-setting.php:206
+msgid "啟用 立吉富金流 模組"
+msgstr "啟用 立吉富金流 模組"
+
+#: admin/settings/class-woomp-setting.php:213
+msgid "啟用立吉富物流"
+msgstr "啟用立吉富物流"
+
+#: admin/settings/class-woomp-setting.php:215
+msgid "啟用 立吉富物流 模組"
+msgstr "啟用 立吉富物流 模組"
+
+#: admin/settings/class-woomp-setting.php:222
+msgid "啟用立吉富電子發票"
+msgstr "啟用立吉富電子發票"
+
+#: admin/settings/class-woomp-setting.php:224
+msgid "啟用 立吉富電子發票 模組"
+msgstr "啟用 立吉富電子發票 模組"
+
+#: admin/settings/class-woomp-setting.php:234
+msgid "LINE Pay 設定"
+msgstr "LINE Pay 設定"
+
+#: admin/settings/class-woomp-setting.php:239
+msgid "啟用 LINE Pay 金流"
+msgstr "啟用 LINE Pay 金流"
+
+#: admin/settings/class-woomp-setting.php:251
+msgid "支付連設定"
+msgstr "支付連設定"
+
+#: admin/settings/class-woomp-setting.php:256
+msgid "啟用支付連金流"
+msgstr "啟用支付連金流"
+
+#: admin/settings/class-woomp-setting.php:268
+msgid "結帳相關設定"
+msgstr "結帳相關設定"
+
+#: admin/settings/class-woomp-setting.php:283
+msgid "結帳流程設定"
+msgstr "結帳流程設定"
+
+#: admin/settings/class-woomp-setting.php:285
+msgid ""
+"將原本兩段式結帳改成一頁式或兩頁式結帳，並改變結帳順序為 「選物流 -> 選金流 -"
+"> 填��帳欄位」，以適應超商取貨等物流模式"
+msgstr ""
+"將原本兩段式結帳改成一頁式結帳，並改變結帳順序為 「選物流 -> 選金流 -> 填結帳"
+"欄位」，以適應超商取貨等物流模式"
+
+#: admin/settings/class-woomp-setting.php:297
+msgid "兩頁式結帳返回購物車文字"
+msgstr "兩頁式結帳返回購物車文字"
+
+#: admin/settings/class-woomp-setting.php:299
+msgid "啟用兩頁式結帳後顯示於結帳頁最上方的返回購物車說明文字"
+msgstr "啟用兩頁式結帳後顯示於結帳頁最上方的返回購物車說明文字"
+
+#: admin/settings/class-woomp-setting.php:305
+msgid "結帳頁國家欄位置頂"
+msgstr "結帳頁國家欄位置頂"
+
+#: admin/settings/class-woomp-setting.php:307
+msgid "若需運送至多個國家，建議開啟此選項，將國家欄位移至物流選項之前"
+msgstr "若需運送至多個國家，建議開啟此選項，將國家欄位移至物流選項之前"
+
+#: admin/settings/class-woomp-setting.php:315
+msgid "縣市/鄉鎮市下拉式選單"
+msgstr "縣市/鄉鎮市下拉式選單"
+
+#: admin/settings/class-woomp-setting.php:317
+msgid "開啟此選項套用結帳中的台灣地址下拉選單"
+msgstr "開啟此選項套用結帳中的台灣地址下拉選單"
+
+#: admin/settings/class-woomp-setting.php:325
+msgid "訂單地址欄位整併"
+msgstr "訂單地址欄位整併"
+
+#: admin/settings/class-woomp-setting.php:327
+msgid "開啟此選項套用後台訂單管理地址欄位整合為一行"
+msgstr "開啟此選項套用後台訂單管理地址欄位整合為一行"
+
+#: admin/settings/class-woomp-setting.php:335
+msgid "顯示訂單電話資訊"
+msgstr "顯示訂單電話資訊"
+
+#: admin/settings/class-woomp-setting.php:337
+msgid "開啟此選項套用後台訂單管理列表顯示帳單電話與運送電話"
+msgstr "開啟此選項套用後台訂單管理列表顯示帳單電話與運送電話"
+
+#: admin/settings/class-woomp-setting.php:345
+msgid "Validate the length of name and phone"
+msgstr "結帳頁姓名與電話欄位長度驗證"
+
+#: admin/settings/class-woomp-setting.php:347
+msgid "Check the box to set the validate rule of name and phone."
+msgstr "開啟此選項將會驗證結帳時的姓名與電話長度須符合台灣的規範。"
+
+#: admin/settings/class-woomp-setting.php:355
+msgid "虛擬商品隱藏地址欄位"
+msgstr "虛擬商品隱藏地址欄位"
+
+#: admin/settings/class-woomp-setting.php:357
+msgid "開啟此選項套用結帳虛擬商品時隱藏地址欄位"
+msgstr "開啟此選項套用結帳虛擬商品時隱藏地址欄位"
+
+#: admin/settings/class-woomp-setting.php:365
+msgid "新增取代貨到付款方式"
+msgstr "新增取代貨到付款方式"
+
+#: admin/settings/class-woomp-setting.php:367
+msgid "開啟此選項以取代貨到付款方式"
+msgstr "開啟此選項以取代貨到付款方式"
+
+#: admin/settings/class-woomp-setting.php:402
+msgid "結帳按鈕文字設定"
+msgstr "結帳按鈕文字設定"
+
+#: admin/settings/class-woomp-setting.php:404
+msgid "設定結帳頁確定購買按鈕的文字內容"
+msgstr "設定結帳頁確定購買按鈕的文字內容"
+
+#: admin/settings/class-woomp-setting.php:415
+msgid "商品相關設定"
+msgstr "商品相關設定"
+
+#: admin/settings/class-woomp-setting.php:420
+#, fuzzy
+#| msgid "變化商品編輯介面"
+msgid "可變商品編輯介面"
+msgstr "變化商品編輯介面"
+
+#: admin/settings/class-woomp-setting.php:422
+#, fuzzy
+#| msgid "開啟此選項以套用好用版變化商品操作介面"
+msgid "開啟此選項以套用好用版可變商品操作介面"
+msgstr "開啟此選項以套用好用版變化商品操作介面"
+
+#: admin/settings/class-woomp-setting.php:430
+#, fuzzy
+#| msgid "變化商品前台顯示介面"
+msgid "可變商品前台顯示介面"
+msgstr "變化商品前台顯示介面"
+
+#: admin/settings/class-woomp-setting.php:432
+#, fuzzy
+#| msgid "開啟此選項以套用好用版變化商品前台顯示介面"
+msgid "開啟此選項以套用好用版可變商品前台顯示介面"
+msgstr "開啟此選項以套用好用版變化商品前台顯示介面"
+
+#: admin/settings/class-woomp-setting.php:440
+msgid "可變商品規格預設為標籤式"
+msgstr ""
+
+#: admin/settings/class-woomp-setting.php:442
+#, fuzzy
+#| msgid "開啟此選項以套用好用版變化商品操作介面"
+msgid "開啟此選項以套用好用版可變商品規格預設為標籤式"
+msgstr "開啟此選項以套用好用版變化商品操作介面"
+
+#: admin/settings/class-woomp-setting.php:450
+msgid "可變商品規格標籤背景顏色"
+msgstr ""
+
+#: admin/settings/class-woomp-setting.php:452
+msgid "設定標籤式可變商品規格的背景顏色"
+msgstr ""
+
+#: admin/settings/class-woomp-setting.php:458
+msgid "可變商品規格標籤文字顏色"
+msgstr ""
+
+#: admin/settings/class-woomp-setting.php:460
+msgid "設定標籤式可變商品規格的文字顏色"
+msgstr ""
+
+#: admin/settings/class-woomp-setting.php:466
+msgid "虛擬商品自動完成訂單"
+msgstr ""
+
+#: admin/settings/class-woomp-setting.php:467
+msgid "開啟此選項虛擬商品完成結帳後自動完成訂單"
+msgstr ""
+
+#: admin/settings/class-woomp-setting.php:511
+msgid "Free shipping hint"
+msgstr "免費運送提示"
+
+#: admin/settings/class-woomp-setting.php:512
+msgid "Show free shipping condition on checkout page"
+msgstr "在結帳頁中顯示免運費門檻"
+
+#: admin/settings/class-woomp-setting.php:520
+msgid "Free shipping hint condition text"
+msgstr "免運剩餘金額提示文字 ex.「差 {{price}} 即可免運」"
+
+#: admin/settings/class-woomp-setting.php:521
+msgid "Use {{price}} to display amount"
+msgstr "使用 {{price}} 來帶入還差多少免運的金額"
+
+#: admin/settings/class-woomp-setting.php:524
+msgid "Free shipping left amount"
+msgstr "還差多少金額免運"
+
+#: admin/settings/class-woomp-setting.php:529
+msgid "Achive free shipping text, ex:free"
+msgstr "達到免運提示文字 ex.「免運」"
+
+#: admin/settings/class-woomp-setting.php:530
+msgid "Set Achive free shipping text"
+msgstr "設定免運提示文字"
+
+#: admin/settings/class-woomp-setting.php:533
+msgid "Free"
+msgstr "免運"
+
+#: admin/settings/class-woomp-setting.php:538
+msgid "Free shipping hint background color"
+msgstr "免費提示背景顏色"
+
+#: admin/settings/class-woomp-setting.php:539
+msgid "Set hint background"
+msgstr "設定免費運送門檻提示文字的背景顏色"
+
+#: admin/settings/class-woomp-setting.php:546
+msgid "Free shipping hint text color"
+msgstr "免運費提示文字顏色"
+
+#: admin/settings/class-woomp-setting.php:547
+msgid "Set hint text color"
+msgstr "設定免費運送文字顏色"
+
+#: includes/line-pay-for-woo/includes/class-wc-gateway-linepay.php:58
+msgid "Pay with LINE Pay"
+msgstr "使用 LINE Pay 付款"
+
+#: includes/line-pay-for-woo/includes/class-wc-gateway-linepay.php:59
+msgid "LINE Pay Gateway"
+msgstr "LINE Pay 支付"
+
+#: includes/line-pay-for-woo/includes/class-wc-gateway-linepay.php:60
+msgid ""
+"Payments are received through the LINE Pay gateway, which supports USD, JPY, "
+"TWD, and THB. In order to use LINE Pay, you must have a Channel ID and "
+"Channel SecretKey."
+msgstr ""
+"透過 LINE Pay 進行付款。要使用LINE Pay 您必須擁有Channel ID 和Channel "
+"SecretKey。"
+
+#: includes/paynow-shipping/includes/settings/settings-paynow-shipping-c2c-711.php:63
+#: includes/paynow-shipping/includes/settings/settings-paynow-shipping-c2c-family.php:63
+#: includes/paynow-shipping/includes/settings/settings-paynow-shipping-c2c-hilife.php:63
+#: includes/paynow-shipping/includes/settings/settings-paynow-shipping-hd-tcat.php:61
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-711-frozen.php:64
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-family-frozen.php:73
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-frozen.php:64
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-refrigerated.php:63
+msgid "Shipping available"
+msgstr "運送類別費用"
+
+#. translators: %s: shipping class setting url
+#: includes/paynow-shipping/includes/settings/settings-paynow-shipping-c2c-711.php:67
+#: includes/paynow-shipping/includes/settings/settings-paynow-shipping-c2c-family.php:67
+#: includes/paynow-shipping/includes/settings/settings-paynow-shipping-c2c-hilife.php:67
+#: includes/paynow-shipping/includes/settings/settings-paynow-shipping-hd-tcat.php:65
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-711-frozen.php:68
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-family-frozen.php:77
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-frozen.php:68
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-refrigerated.php:67
+msgid ""
+"These shipping available based on the <a href=\"%s\">product shipping class</"
+"a>."
+msgstr ""
+"設定 <a href=\"%s\"> 商品運送類別</a>是否可使用，並可以根據商品運送類別加收費"
+"用。"
+
+#. translators: %s: shipping class name
+#: includes/paynow-shipping/includes/settings/settings-paynow-shipping-c2c-711.php:75
+#: includes/paynow-shipping/includes/settings/settings-paynow-shipping-c2c-family.php:75
+#: includes/paynow-shipping/includes/settings/settings-paynow-shipping-c2c-hilife.php:75
+#: includes/paynow-shipping/includes/settings/settings-paynow-shipping-hd-tcat.php:73
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-711-frozen.php:76
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-family-frozen.php:85
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-frozen.php:76
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-refrigerated.php:75
+msgid "\"%s\" available"
+msgstr "\"%s\" 運送類別可運送"
+
+#. translators: %s: Path of log file
+#: includes/payuni/settings/gateway.php:25
+msgid "Log PAYUNi payemnt events/message, inside %s"
+msgstr "將統一金流日誌記錄在 %s"
+
+#: includes/payuni/settings/gateway.php:48
+msgid "3D Authorization"
+msgstr "3D 驗證"
+
+#: includes/payuni/settings/gateway.php:51
+msgid "Enable 3D Authorization"
+msgstr "啟用 3D 驗證"
+
+#: includes/payuni/settings/gateway.php:59
+msgid "API Settings Test"
+msgstr "API 測試環境設定"
+
+#: includes/payuni/settings/gateway.php:61
+msgid "Enter your payuni testing API credentials"
+msgstr "輸入您的測試 API 憑證"
+
+#: includes/payuni/settings/gateway.php:65
+msgid "Sandbox"
+msgstr "測試模式"
+
+#: includes/payuni/settings/gateway.php:68
+msgid "Check this box if you want to use test/sandbox mode."
+msgstr "啟用金流測試環境。"
+
+#: includes/payuni/settings/gateway.php:72
+msgid "MerchantID test"
+msgstr "測試商店代號"
+
+#: includes/payuni/settings/gateway.php:74
+#: includes/payuni/settings/gateway.php:105
+msgid "This is the Merchant ID when you apply PAYUNi API"
+msgstr "輸入統一金流商店代號"
+
+#: includes/payuni/settings/gateway.php:79
+msgid "Hash Key test"
+msgstr "測試 Hash Key"
+
+#: includes/payuni/settings/gateway.php:81
+#: includes/payuni/settings/gateway.php:112
+msgid "This is the Hash Key when you apply PAYUNi API"
+msgstr "輸入統一金流 Hash Key"
+
+#: includes/payuni/settings/gateway.php:86
+msgid "Hash IV test"
+msgstr "測試 Hash IV"
+
+#: includes/payuni/settings/gateway.php:88
+#: includes/payuni/settings/gateway.php:119
+msgid "This is the Hash IV when you apply PAYUNi API"
+msgstr "輸入統一金流 Hash IV"
+
+#: includes/payuni/settings/gateway.php:97
+msgid "API Settings"
+msgstr "API 設定"
+
+#: includes/payuni/settings/gateway.php:99
+msgid "Enter your payuni API credentials"
+msgstr "輸入您的 API 憑證"
+
+#: includes/payuni/settings/gateway.php:103
+#: includes/payuni/settings/shipping.php:111
+msgid "MerchantID"
+msgstr "商店代號"
+
+#: includes/payuni/settings/gateway.php:110
+msgid "Hash Key"
+msgstr "Hash Key"
+
+#: includes/payuni/settings/gateway.php:117
+msgid "Hash IV"
+msgstr "Hash IV"
+
+#: includes/payuni/settings/shipping.php:4
+msgid "PAYUNi Shipping Setting"
+msgstr "統一物流設定"
+
+#. translators: %s: Path of log file
+#: includes/payuni/settings/shipping.php:17
+msgid "Log PAYUNi shipping events/message, inside %s"
+msgstr "將統一物流日誌記錄在 %s"
+
+#: includes/payuni/settings/shipping.php:27
+msgid "Shipping note options"
+msgstr "統一物流設定"
+
+#: includes/payuni/settings/shipping.php:32
+msgid "Order no prefix"
+msgstr "訂單號前綴"
+
+#: includes/payuni/settings/shipping.php:35
+msgid ""
+"The prefix string of order no. Only letters and numbers allowed allowed."
+msgstr "訂單前綴字，僅限英數。"
+
+#: includes/payuni/settings/shipping.php:56
+msgid "Sender name"
+msgstr "寄件人名稱"
+
+#: includes/payuni/settings/shipping.php:59
+msgid "Name length between 1 to 10 letter"
+msgstr "姓名長度在 1 到 10 個字中間"
+
+#: includes/payuni/settings/shipping.php:63
+msgid "Sender phone"
+msgstr "寄件人電話"
+
+#: includes/payuni/settings/shipping.php:66
+msgid "Phone format (0x)xxxxxxx#xx"
+msgstr "電話格式 (0x)xxxxxxx#xx"
+
+#: includes/payuni/settings/shipping.php:74
+msgid "Sender cellphone"
+msgstr "寄件人手機"
+
+#: includes/payuni/settings/shipping.php:77
+msgid "Cellphone format 09xxxxxxxx"
+msgstr "手機格式  09xxxxxxxx"
+
+#: includes/payuni/settings/shipping.php:85
+msgid "Sender zipcode"
+msgstr "寄件人郵政編碼"
+
+#: includes/payuni/settings/shipping.php:90
+msgid "Sender address"
+msgstr "寄件人地址"
+
+#: includes/payuni/settings/shipping.php:99
+msgid "API credentials"
+msgstr "API 憑證"
+
+#: includes/payuni/settings/shipping.php:104
+msgid "payuni shipping sandbox"
+msgstr "啟用測試模式"
+
+#: includes/payuni/settings/shipping.php:108
+msgid "Enable payuni shipping sandbox"
+msgstr "啟用統一物流測試模式"
+
+#: includes/payuni/settings/shipping.php:117
+msgid "HashKey"
+msgstr "Hash Key"
+
+#: includes/payuni/settings/shipping.php:123
+msgid "HashIV"
+msgstr "Hash IV"
+
+#: includes/payuni/src/gateways/AbstractGateway.php:163
+msgid "PAYUNi Payment Gateway"
+msgstr "統一金流設定"
+
+#: includes/payuni/src/gateways/Atm.php:30
+#, fuzzy
+#| msgid "PAYUNi ATM"
+msgid "統一金流 PAYUNi ATM"
+msgstr "統一金流 ATM"
+
+#: includes/payuni/src/gateways/Atm.php:31
+msgid "透過統一金流 PAYUNi ATM 進行付款"
+msgstr ""
+
+#. translators: %s: Gateway method title
+#: includes/payuni/src/gateways/Atm.php:58
+#: includes/payuni/src/gateways/Credit.php:56
+#: includes/payuni/src/gateways/CreditInstallment.php:56
+#: includes/payuni/src/gateways/CreditSubscription.php:68
+#: includes/payuni/src/gateways/Cvs.php:55
+msgid "Enable %s"
+msgstr "啟用 %s"
+
+#: includes/payuni/src/gateways/Credit.php:30
+msgid "統一金流 PAYUNi 信用卡"
+msgstr ""
+
+#: includes/payuni/src/gateways/Credit.php:31
+msgid "透過統一金流 PAYUNi 信用卡進行站內付款"
+msgstr ""
+
+#: includes/payuni/src/gateways/Credit.php:93
+#: includes/payuni/src/gateways/CreditInstallment.php:135
+#: includes/payuni/src/gateways/CreditSubscription.php:105
+msgid "Credit card number is required"
+msgstr "請填寫信用卡卡號"
+
+#: includes/payuni/src/gateways/Credit.php:97
+#: includes/payuni/src/gateways/CreditInstallment.php:139
+#: includes/payuni/src/gateways/CreditSubscription.php:109
+msgid "Credit card expired date is required"
+msgstr "請填寫信用卡到期日"
+
+#: includes/payuni/src/gateways/Credit.php:101
+#: includes/payuni/src/gateways/CreditInstallment.php:143
+#: includes/payuni/src/gateways/CreditSubscription.php:113
+msgid "Credit card security code is required"
+msgstr "請填寫信用卡安全碼"
+
+#: includes/payuni/src/gateways/CreditInstallment.php:29
+msgid "統一金流 PAYUNi 信用卡分期"
+msgstr ""
+
+#: includes/payuni/src/gateways/CreditInstallment.php:30
+msgid "透過統一金流 PAYUNi 信用卡分期進行站內付款"
+msgstr ""
+
+#: includes/payuni/src/gateways/CreditInstallment.php:75
+msgid "Enable number of periods"
+msgstr "允許分期的期數"
+
+#. translators: %d number of periods
+#: includes/payuni/src/gateways/CreditInstallment.php:83
+#: includes/payuni/src/gateways/CreditInstallment.php:85
+#: includes/payuni/src/gateways/CreditInstallment.php:87
+#: includes/payuni/src/gateways/CreditInstallment.php:89
+#: includes/payuni/src/gateways/CreditInstallment.php:91
+#: includes/payuni/src/gateways/CreditInstallment.php:93
+#: includes/payuni/src/gateways/CreditInstallment.php:95
+msgid "%d periods"
+msgstr "%d 期"
+
+#: includes/payuni/src/gateways/CreditInstallment.php:99
+msgctxt "Gateway setting"
+msgid "Number of periods"
+msgstr "分期期數"
+
+#: includes/payuni/src/gateways/CreditInstallment.php:148
+msgid "Credit card installment period is required"
+msgstr "使用統一金流信用卡分期付款"
+
+#: includes/payuni/src/gateways/CreditSubscription.php:30
+#, fuzzy
+#| msgid "PAYUNi ATM"
+msgid "統一金流 PAYUNi 信用卡定期定額"
+msgstr "統一金流 ATM"
+
+#: includes/payuni/src/gateways/CreditSubscription.php:31
+msgid "透過統一金流 PAYUNi 信用卡定期定額付款"
+msgstr ""
+
+#: includes/payuni/src/gateways/Cvs.php:27
+msgid "PAYUNi CVS"
+msgstr "統一金流超商代碼"
+
+#: includes/payuni/src/gateways/Cvs.php:30
+msgid "PAYUNi CVS Payment"
+msgstr "統一金流超商代碼付款"
+
+#: includes/payuni/src/gateways/Cvs.php:31
+msgid "Pay with PAYUNi CVS"
+msgstr "使用統一金流超商代碼付款"
+
+#: includes/payuni/src/posts/ShopOrder/Metabox.php:44
+msgid "統一金流定期定額"
+msgstr ""
+
+#: includes/ry-woocommerce-tools/woocommerce/admin/meta-boxes/ecpay-shipping-meta-box.php:62
+msgid "Shipping status last change time"
+msgstr "更新時間"
+
+#: includes/ry-woocommerce-tools/woocommerce/admin/meta-boxes/ecpay-shipping-meta-box.php:65
+msgid "Shipping create time"
+msgstr "建立時間"
+
+#: includes/ry-woocommerce-tools/woocommerce/admin/meta-boxes/ecpay-shipping-meta-box.php:68
+msgid "Shipping booking note"
+msgstr "託運單"
+
+#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/ecpay-shipping-cvs-711-freeze.php:11
+msgid "ECPay shipping CVS 7-11 Freeze"
+msgstr "綠界物流 超商取貨 7-ELEVEN 冷凍"
+
+#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/ecpay-shipping-cvs-okmart.php:11
+msgid "ECPay shipping CVS OKMart"
+msgstr "綠界物流 超商取貨 OK超商"
+
+#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/ecpay-shipping-home-post.php:11
+msgid "ECPay shipping home Post"
+msgstr "綠界物流 宅配 中華郵政"
+
+#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/ecpay-shipping-home-tcat-freeze.php:11
+msgid "ECPay shipping home Tcat Freeze"
+msgstr "綠界物流 宅配 黑貓 冷藏"
+
+#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/ecpay-shipping-home-tcat-frozen.php:11
+msgid "ECPay shipping home Tcat Frozen"
+msgstr "綠界物流 宅配 黑貓 冷凍"
+
+#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/includes/settings-ecpay-shipping-base.php:66
+msgid ""
+"Use <code>[qty]</code> for the number of items, <br/><code>[cost]</code> for "
+"the total cost of items, and <code>[fee percent=\"10\" min_fee=\"20\" "
+"max_fee=\"\"]</code> for percentage based fees. Also there is only one "
+"shipping class in the cart allowed. You can't add the products of different "
+"shipping classes."
+msgstr ""
+"<code>[qty]</code> 設定商品數量，<code>[cost]</code> 代表商品總金額，用 "
+"<code>[fee percent=“10” min_fee=“20” max_fee=“”]</code> 以百分比的方式來設定"
+"運費。另外購物車中只能有一個商品類別的商品，例如限定購物車只能有「冷藏運送」"
+"的商品，不允許「冷凍運送」的商品合併在同一個購物車。"
+
+#. translators: %s: shipping class name
+#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/includes/settings-ecpay-shipping-base.php:88
+msgid "\"%s\" shipping class limits"
+msgstr "“%s”  限定單一運送類別"
+
+#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/includes/settings-ecpay-shipping-base.php:92
+msgid "No, by the calculation type"
+msgstr "不限定，依照下方計算方式計算"
+
+#: includes/ry-woocommerce-tools/woocommerce/shipping/ecpay/includes/settings-ecpay-shipping-base.php:93
+msgid ""
+"Yes, adding to cart is not allowed if there are different shipping classes "
+"in it"
+msgstr "限定，當購物車有此運送類別的商品時，不允許加入其他運送類別的商品"
+
+#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:207
+msgid "<b>Invoice issue result</b>"
+msgstr "<b>發票開立結果</b>"
+
+#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:207
+msgid "<b>Invoice issue faild</b>"
+msgstr "<b>發票開立失敗</b>"
+
+#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:209
+msgid "<br>Generate Time: "
+msgstr "<br>產生時間: "
+
+#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:210
+#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:292
+msgid "<br>Invoice Number: "
+msgstr "<br>發票號碼: "
+
+#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:211
+#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:292
+msgid "<br>Invoice Message: "
+msgstr "<br>回傳訊息: "
+
+#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:228
+msgid "Generate Ecpay invoice issue finish!"
+msgstr "電子發票開立作業完成！"
+
+#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:292
+msgid "<b>Ecpay invalid invoice result</b>"
+msgstr "<b>發票作廢結果</b>"
+
+#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:318
+msgid "Invalid Ecpay invoice successful!"
+msgstr "電子發票作廢成功！"
+
+#: includes/woomp-ecpay-invoice/src/apis/EcpayInvoiceHandler.php:320
+msgid "Invalid Ecpay invoice error!"
+msgstr "作廢發票發生錯誤！"
+
+#: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Admin.php:51
+#: includes/woomp-ecpay-invoice/src/templates/MyAccount.php:25
+#: includes/woomp-ezpay-invoice/src/posts/ShopOrder/Admin.php:49
+#: includes/woomp-ezpay-invoice/src/templates/MyAccount.php:25
+msgid "Invoice number"
+msgstr "發票號碼"
+
+#: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Admin.php:62
+#: includes/woomp-ezpay-invoice/src/posts/ShopOrder/Admin.php:60
+msgid "Invalid invoice"
+msgstr "作廢發票"
+
+#: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Admin.php:64
+#: includes/woomp-ezpay-invoice/src/posts/ShopOrder/Admin.php:62
+msgid "Generate invoice"
+msgstr "開立發票"
+
+#: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Ajax.php:29
+#: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Ajax.php:51
+#: includes/woomp-ezpay-invoice/src/posts/ShopOrder/Ajax.php:29
+#: includes/woomp-ezpay-invoice/src/posts/ShopOrder/Ajax.php:49
+msgid "發生錯誤，不合法的請求來源！"
+msgstr "發生錯誤，不合法的請求來源！"
+
+#: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Metabox.php:53
+msgid "綠界電子發票(好用版)"
+msgstr "綠界電子發票(好用版)"
+
+#: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Metabox.php:72
+#: includes/woomp-ecpay-invoice/src/templates/Checkout.php:29
+#: includes/woomp-ezpay-invoice/src/posts/ShopOrder/Metabox.php:72
+#: includes/woomp-ezpay-invoice/src/templates/Checkout.php:29
+msgid "Invoice Type"
+msgstr "電子發票類型"
+
+#: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Metabox.php:75
+#: includes/woomp-ecpay-invoice/src/templates/Checkout.php:33
+#: includes/woomp-ezpay-invoice/src/posts/ShopOrder/Metabox.php:75
+#: includes/woomp-ezpay-invoice/src/templates/Checkout.php:33
+msgid "individual"
+msgstr "個人"
+
+#: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Metabox.php:76
+#: includes/woomp-ecpay-invoice/src/templates/Checkout.php:34
+#: includes/woomp-ezpay-invoice/src/posts/ShopOrder/Metabox.php:76
+#: includes/woomp-ezpay-invoice/src/templates/Checkout.php:34
+msgid "company"
+msgstr "公司"
+
+#: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Metabox.php:77
+#: includes/woomp-ecpay-invoice/src/templates/Checkout.php:35
+#: includes/woomp-ezpay-invoice/src/posts/ShopOrder/Metabox.php:77
+#: includes/woomp-ezpay-invoice/src/templates/Checkout.php:35
+msgid "donate"
+msgstr "捐贈"
+
+#: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Metabox.php:83
+#: includes/woomp-ecpay-invoice/src/templates/Checkout.php:51
+#: includes/woomp-ezpay-invoice/src/posts/ShopOrder/Metabox.php:83
+#: includes/woomp-ezpay-invoice/src/templates/Checkout.php:51
+msgid "Individual Invoice Type"
+msgstr "個人發票類型"
+
+#: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Metabox.php:96
+#: includes/woomp-ecpay-invoice/src/templates/Checkout.php:61
+#: includes/woomp-ezpay-invoice/src/posts/ShopOrder/Metabox.php:96
+#: includes/woomp-ezpay-invoice/src/templates/Checkout.php:61
+msgid "Carrier Number"
+msgstr "載具"
+
+#: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Metabox.php:100
+#: includes/woomp-ecpay-invoice/src/templates/Checkout.php:71
+#: includes/woomp-ezpay-invoice/src/posts/ShopOrder/Metabox.php:100
+#: includes/woomp-ezpay-invoice/src/templates/Checkout.php:80
+msgid "Company Name"
+msgstr "公司名稱"
+
+#: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Metabox.php:104
+#: includes/woomp-ecpay-invoice/src/templates/Checkout.php:80
+#: includes/woomp-ezpay-invoice/src/posts/ShopOrder/Metabox.php:104
+#: includes/woomp-ezpay-invoice/src/templates/Checkout.php:70
+msgid "TaxID"
+msgstr "統一編號"
+
+#: includes/woomp-ecpay-invoice/src/posts/ShopOrder/Metabox.php:108
+#: includes/woomp-ecpay-invoice/src/templates/Checkout.php:90
+#: includes/woomp-ezpay-invoice/src/posts/ShopOrder/Metabox.php:108
+#: includes/woomp-ezpay-invoice/src/templates/Checkout.php:90
+msgid "Donate Number"
+msgstr "捐贈碼"
+
+#: includes/woomp-ezpay-invoice/src/posts/ShopOrder/Metabox.php:53
+msgid "藍新 ezPay 電子發票"
+msgstr "藍新 ezPay 電子發票"
+
+#: includes/woomp-paynow-shipping/src/class-woomp-paynow-shipping.php:166
+msgid "Reserved No"
+msgstr ""
+
+#: includes/woomp-paynow-shipping/src/class-woomp-paynow-shipping.php:167
+msgid "Ship Date"
+msgstr ""
+
+#: includes/woomp-paynow-shipping/src/class-woomp-paynow-shipping.php:221
+msgid "TCat Shipping Settings"
+msgstr "黑貓物流設定"
+
+#: includes/woomp-paynow-shipping/src/class-woomp-paynow-shipping.php:226
+msgid "Estimate shipping date deadline(days)"
+msgstr ""
+
+#: includes/woomp-paynow-shipping/src/class-woomp-paynow-shipping.php:229
+msgid ""
+"When will the estimate shipping date end. Default is 1, which means the "
+"estimate shipping end date is 1 day after the date of order get logistic "
+"number."
+msgstr ""
+
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-711-frozen.php:18
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-family-frozen.php:18
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-frozen.php:18
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-refrigerated.php:18
+msgid "Title"
+msgstr "標題"
+
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-711-frozen.php:20
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-family-frozen.php:20
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-frozen.php:20
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-refrigerated.php:20
+msgid "This controls the title which the user sees during checkout."
+msgstr ""
+
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-711-frozen.php:21
+msgid "PayNow Shipping C2C 7-11 Frozen"
+msgstr ""
+
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-711-frozen.php:25
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-family-frozen.php:25
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-frozen.php:25
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-refrigerated.php:25
+msgid "Description"
+msgstr "說明"
+
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-711-frozen.php:27
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-family-frozen.php:27
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-frozen.php:27
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-refrigerated.php:27
+msgid "This controls the description which the user sees during checkout."
+msgstr ""
+
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-711-frozen.php:31
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-family-frozen.php:41
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-frozen.php:31
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-refrigerated.php:31
+msgid "Shipping Cost"
+msgstr "運送費用"
+
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-711-frozen.php:38
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-family-frozen.php:48
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-frozen.php:38
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-refrigerated.php:38
+msgid "Free shipping requires"
+msgstr "免費運送需要條件"
+
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-711-frozen.php:43
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-family-frozen.php:53
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-frozen.php:43
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-refrigerated.php:43
+msgid "N/A"
+msgstr ""
+
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-711-frozen.php:44
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-family-frozen.php:54
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-frozen.php:44
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-refrigerated.php:44
+msgid "A minimum order amount"
+msgstr "一個最低訂單金額"
+
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-711-frozen.php:48
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-family-frozen.php:58
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-frozen.php:48
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-refrigerated.php:48
+msgid "Minimum order amount for free shipping"
+msgstr "免費運送最低訂單金額"
+
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-711-frozen.php:52
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-family-frozen.php:62
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-frozen.php:52
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-refrigerated.php:52
+msgid "Users will need to spend this amount to get free shipping."
+msgstr ""
+
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-family-frozen.php:21
+#: includes/woomp-paynow-shipping/src/shippings/class-woomp-paynow-shipping-c2c-family-frozen.php:28
+msgid "PayNow Shipping C2C Family Frozen"
+msgstr "PayNow 全家冷凍超取"
+
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-family-frozen.php:31
+msgid "Shipping Measurement"
+msgstr "運送材積尺寸"
+
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-family-frozen.php:36
+msgid "s60"
+msgstr ""
+
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-c2c-family-frozen.php:37
+msgid "s105"
+msgstr ""
+
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-frozen.php:21
+#: includes/woomp-paynow-shipping/src/shippings/class-woomp-paynow-shipping-hd-tcat-frozen.php:28
+msgid "PayNow Shipping TCat Frozen"
+msgstr "PayNow 黑貓冷凍"
+
+#: includes/woomp-paynow-shipping/src/settings/settings-woomp-paynow-shipping-hd-tcat-refrigerated.php:21
+#: includes/woomp-paynow-shipping/src/shippings/class-woomp-paynow-shipping-hd-tcat-refrigerated.php:32
+msgid "PayNow Shipping TCat Refrigerated"
+msgstr "PayNow 黑貓冷藏"
+
+#: includes/woomp-paynow-shipping/src/shippings/class-woomp-paynow-shipping-c2c-711-frozen.php:28
+msgid "PayNow Shipping C2C 711 Frozen"
+msgstr "PayNow 7-11 冷凍超取"
+
+#: public/class-woomp-checkout.php:400 public/class-woomp-checkout.php:405
+msgid "No shipping class"
+msgstr "無運送類別"
+
+#. translators: %1$s: Cart shipping class, %2$s: Product shipping class.
+#: public/class-woomp-checkout.php:409
+msgid ""
+"<b>Cart error occured.</b>The cart can't be added the products with "
+"different shipping classes.<br>Cart shipping class: <b>%1$s</b><br>Product "
+"shipping class: <b>%2$s</b>"
+msgstr ""
+"<b>購物車發生錯誤！</b>不同運送類別的商品，請分開下單，感謝您的配合<br>購物車"
+"內的運送類別：<b>%1$s</b><br>新加入商品的運送類別：<b>%2$s</b>"
+
+#: public/class-woomp-order.php:38
+msgid "Ecpay Shipping details"
+msgstr "綠界物流資訊"
+
+#: public/class-woomp-order.php:45 public/class-woomp-order.php:75
+msgid "Shipping payment no"
+msgstr "物流單號"
+
+#: public/class-woomp-order.php:68
+msgid "Shipping details"
+msgstr "物流資訊"
+
+#~ msgid "變化類型已更新"
+#~ msgstr "變化類型已更新"
+
+#~ msgid "Payuni setting"
+#~ msgstr "統一設定"
+
+#~ msgid "Enable Payuni gateway"
+#~ msgstr "啟用統一金流"
+
+#~ msgid "Enable Payuni gateway method"
+#~ msgstr "啟用統一金流模組"
+
+#~ msgid "Enable payuni shipping"
+#~ msgstr "啟用統一物流"
+
+#~ msgid "Enable payuni shipping method"
+#~ msgstr "啟用統一物流模組"
+
+#~ msgid "PAYUNi Gateway Setting"
+#~ msgstr "統一金流設定"
+
+#~ msgid "PAYUNi ATM Payment"
+#~ msgstr "統一金流 ATM"
+
+#~ msgid "Pay with PAYUNi ATM"
+#~ msgstr "使用統一金流 ATM 付款"
+
+#~ msgid "PAYUNi Credit Card"
+#~ msgstr "統一金流信用卡"
+
+#~ msgid "PAYUNi Credit Card Payment"
+#~ msgstr "統一金流信用卡"
+
+#~ msgid "Pay with PAYUNi Credit Card"
+#~ msgstr "使用統一金流信用卡付款"
+
+#~ msgid "PAYUNi Credit Card Installment"
+#~ msgstr "統一金流信用卡分期"
+
+#~ msgid "PAYUNi Credit Card Installment Payment"
+#~ msgstr "統一金流信用卡分期付款"
+
+#~ msgid "Pay with PAYUNi Credit Card Installment"
+#~ msgstr "使用統一金流信用卡分期付款"
+
+#~ msgid "There is only one shipping class in the cart."
+#~ msgstr "當購物車有此運送類別的商品時，不可加入其他運送類別的商品。"
+
+#~ msgid "Free shipping left amount 差 {{price}} 即可免運"
+#~ msgstr "差 {{price}} 即可免運"
+
+#~ msgid "Set Achive free shipping text 設定達到免運門檻後的顯示文字"
+#~ msgstr "設定達到免運門檻後的顯示文字"
+
+#~ msgid "Free 免運"
+#~ msgstr "免運"
+
+#~ msgid "Set hint background 設定免費運送門檻提示文字的背景顏色"
+#~ msgstr "設定免費運送門檻提示文字的背景顏色"
+
+#~ msgid "Free shipping hint text color免運提示文字顏色"
+#~ msgstr "免運提示文字顏色"
+
+#~ msgid "Set hint text color 設定免費運送門檻提示文字顏色"
+#~ msgstr "設定免費運送門檻提示文字顏色"
+
+#~ msgid ""
+#~ "Use {{price}} to display amount 設定免費運送門檻提示文字，使用 {{price}} "
+#~ "來帶入免運金額"
+#~ msgstr "設定免費運送門檻提示文字，使用 {{price}} 來帶入免運金額"
+
+#~ msgid "啟用綠界金流"
+#~ msgstr "啟用綠界金流"
+
+#~ msgid "啟用綠界物流"
+#~ msgstr "啟用綠界物流"
+
+#~ msgid "Print ECPay shipping booking note (ecan)"
+#~ msgstr "列印宅配通託運單（綠界）"
+
+#, fuzzy
+#~| msgid "Shipping payment no"
+#~ msgid "Select shipping methods"
+#~ msgstr "物流單號"
+
+#~ msgid "Free shipping requires..."
+#~ msgstr "如果要免運費的話需要.."
+
+#, fuzzy
+#~| msgid "金流設定"
+#~ msgid "立吉富金流設定"
+#~ msgstr "金流設定"
+
+#, fuzzy
+#~| msgid "payment"
+#~ msgid "Payment Type"
+#~ msgstr "金流"
+
+#, fuzzy
+#~| msgid "Generate invoice"
+#~ msgid "General Logo Size"
+#~ msgstr "開立發票"
+
+#, fuzzy
+#~| msgid "Issue Manual"
+#~ msgid "Issue Mode"
+#~ msgstr "手動開立"
+
+#~ msgid "Failed"
+#~ msgstr "失敗"
+
+#, fuzzy
+#~| msgid "Carrier Number"
+#~ msgid "Carrier Type"
+#~ msgstr "載具"
+
+#, fuzzy
+#~| msgid "mobile-barcode"
+#~ msgid "Mobile Code"
+#~ msgstr "手機條碼"
+
+#, fuzzy
+#~| msgid "電子發票設定"
+#~ msgid "立吉富電子發票設定"
+#~ msgstr "電子發票設定"
+
+#, fuzzy
+#~| msgid "Issue automatic"
+#~ msgid "Automatic"
+#~ msgstr "自動開立"
+
+#, fuzzy
+#~| msgid "Issue Manual"
+#~ msgid "Manual"
+#~ msgstr "手動開立"
+
+#, fuzzy
+#~| msgid "Allowed Order Status for issue"
+#~ msgid "Allowed Order Status"
+#~ msgstr "自動開立的訂單狀態"
+
+#, fuzzy
+#~| msgid "Ecpay Shipping details"
+#~ msgid "General Shipping Settings"
+#~ msgstr "綠界物流資訊"
+
+#, fuzzy
+#~| msgid "settings"
+#~ msgid "Store Settings"
+#~ msgstr "設定"
+
+#, fuzzy
+#~| msgid "Shipping details"
+#~ msgid "Shipping Order Status Settings"
+#~ msgstr "物流資訊"
+
+#, fuzzy
+#~| msgid "Invalid Ecpay invoice error!"
+#~ msgid "Enable ECPay invoice method"
+#~ msgstr "作廢發票發生錯誤！"
+
+#, fuzzy
+#~| msgid "商品相關設定"
+#~ msgid "運送相關設定"
+#~ msgstr "商品相關設定"
+
+#, fuzzy
+#~| msgid "LINE Pay"
+#~ msgid "Line Pay"
+#~ msgstr "LINE Pay"
+
+#, fuzzy
+#~| msgid "<b>Invoice issue result</b>"
+#~ msgid "E-Invoice issued successfully."
+#~ msgstr "<b>發票開立結果</b>"
+
+#, fuzzy
+#~| msgid "<b>Invoice issue faild</b>"
+#~ msgid "E-Invoice issued failed."
+#~ msgstr "<b>發票開立失敗</b>"
+
+#, fuzzy
+#~| msgid "<b>Invoice issue faild</b>"
+#~ msgid "E-Invoice issued failed"
+#~ msgstr "<b>發票開立失敗</b>"
+
+#, fuzzy
+#~| msgid "<b>Invoice issue result</b>"
+#~ msgid "E-Invoice issued successfully:"
+#~ msgstr "<b>發票開立結果</b>"
+
+#, fuzzy
+#~| msgid "<b>Invoice issue faild</b>"
+#~ msgid "E-Invoice issued failed:"
+#~ msgstr "<b>發票開立失敗</b>"
+
+#, fuzzy
+#~| msgid "Invalid Ecpay invoice successful!"
+#~ msgid "Cancel E-Invoice Successfully:"
+#~ msgstr "電子發票作廢成功！"
+
+#, fuzzy
+#~| msgid "Paper Invoice"
+#~ msgid "PayNow E-Invoice"
+#~ msgstr "紙本發票"
+
+#, fuzzy
+#~| msgid "Invoice Type"
+#~ msgid "E-Invoice NO"
+#~ msgstr "電子發票類型"
+
+#, fuzzy
+#~| msgid "Paper Invoice"
+#~ msgid "Cancel E-Invoice"
+#~ msgstr "紙本發票"
+
+#, fuzzy
+#~| msgid "Paper Invoice"
+#~ msgid "Issue E-Invoice"
+#~ msgstr "紙本發票"
+
+#, fuzzy
+#~| msgid "Invoice Type"
+#~ msgctxt "checkout"
+#~ msgid "Issue Type"
+#~ msgstr "電子發票類型"
+
+#, fuzzy
+#~| msgid "Issue automatic"
+#~ msgid "Issue S\btatus"
+#~ msgstr "自動開立"
+
+#, fuzzy
+#~| msgid "Invoice Type"
+#~ msgctxt "checkout"
+#~ msgid "I\bssue Type"
+#~ msgstr "電子發票類型"
+
+#, fuzzy
+#~| msgid "Paper Invoice"
+#~ msgid "Personal E-Invoice"
+#~ msgstr "紙本發票"
+
+#, fuzzy
+#~| msgid "Cloud Invoice"
+#~ msgid "Company E-Invoice"
+#~ msgstr "雲端發票"
+
+#, fuzzy
+#~| msgid "donate"
+#~ msgid "Donate"
+#~ msgstr "捐贈"
+
+#, fuzzy
+#~| msgid "Carrier Number"
+#~ msgid "Please input the Carrier Number"
+#~ msgstr "載具"
+
+#, fuzzy
+#~| msgid "Invoice options"
+#~ msgid "E-Invoice Settings"
+#~ msgstr "電子發票設定"
+
+#, fuzzy
+#~| msgid "Shipping details"
+#~ msgid "Shipping Phone"
+#~ msgstr "物流資訊"
+
+#, fuzzy
+#~| msgid "payment"
+#~ msgid "Payment NO"
+#~ msgstr "金流"
+
+#, fuzzy
+#~| msgid "Shipping details"
+#~ msgid "Shipping order cancel failed."
+#~ msgstr "物流資訊"
+
+#, fuzzy
+#~| msgid "Ecpay Shipping details"
+#~ msgid "PayNow Shipping Detail"
+#~ msgstr "綠界物流資訊"
+
+#, fuzzy
+#~| msgid "Print HCT shipping booking note"
+#~ msgid "Print Shipping Label"
+#~ msgstr "匯出新竹物流報表"
+
+#, fuzzy
+#~| msgid "Ecpay Shipping details"
+#~ msgid "PayNow Shipping C2C Family"
+#~ msgstr "綠界物流資訊"
+
+#, fuzzy
+#~| msgid "Ecpay Shipping details"
+#~ msgid "PayNow Shipping TCat"
+#~ msgstr "綠界物流資訊"
+
+#, fuzzy
+#~| msgid "Show invoice number"
+#~ msgid "No logistic number"
+#~ msgstr "顯示發票號碼"
+
+#, fuzzy
+#~| msgid "Update convenience store"
+#~ msgid "Convenience store"
+#~ msgstr "重新選擇超商"
+
+#, fuzzy
+#~| msgid "Update convenience store"
+#~ msgid "Choose convenience Store"
+#~ msgstr "重新選擇超商"
+
+#, fuzzy
+#~| msgid "Update convenience store"
+#~ msgid "Choose convenience store"
+#~ msgstr "重新選擇超商"
+
+#, fuzzy
+#~| msgid "Update convenience store"
+#~ msgid "Convenience store:"
+#~ msgstr "重新選擇超商"
+
+#, fuzzy
+#~| msgid "Ecpay Shipping details"
+#~ msgid "ECPay shipping info"
+#~ msgstr "綠界物流資訊"
+
+#, fuzzy
+#~| msgid "Shipping details"
+#~ msgid "Shipping Type"
+#~ msgstr "物流資訊"
+
+#, fuzzy
+#~| msgid "shipping"
+#~ msgid "Shipping no"
+#~ msgstr "物流"
+
+#, fuzzy
+#~| msgid "Shipping details"
+#~ msgid "Shipping status"
+#~ msgstr "物流資訊"
+
+#, fuzzy
+#~| msgid "超商取貨付款"
+#~ msgid "超商取貨到期"
+#~ msgstr "超商取貨付款"
+
+#, fuzzy
+#~| msgid "超商取貨付款"
+#~ msgid "超商取貨逾期提醒"
+#~ msgstr "超商取貨付款"
+
+#, fuzzy
+#~| msgid "超商取貨付款"
+#~ msgid "超商取貨提醒"
+#~ msgstr "超商取貨付款"
+
+#, fuzzy
+#~| msgid ""
+#~| "The prefix string of order number. Only letters and numbers allowed."
+#~ msgid "Order no prefix only letters and numbers allowed allowed"
+#~ msgstr "訂單前綴字，僅限英數。"
+
+#, fuzzy
+#~| msgid "金流設定"
+#~ msgid "綠界金流設定"
+#~ msgstr "金流設定"
+
+#, fuzzy
+#~| msgid "金流設定"
+#~ msgid "藍新金流設定"
+#~ msgstr "金流設定"
+
+#, fuzzy
+#~| msgid "金流設定"
+#~ msgid "速買配金流設定"
+#~ msgstr "金流設定"
+
+#, fuzzy
+#~| msgid "Invoice options"
+#~ msgid "Gateway options"
+#~ msgstr "電子發票設定"
+
+#, fuzzy
+#~| msgid "Invoice options"
+#~ msgid "Base options"
+#~ msgstr "電子發票設定"
+
+#, fuzzy
+#~| msgid "Shipping payment no"
+#~ msgid "Shipping method"
+#~ msgstr "物流單號"
+
+#, fuzzy
+#~| msgid "Invoice options"
+#~ msgid "General options"
+#~ msgstr "電子發票設定"
+
+#, fuzzy
+#~| msgid "Invoice options"
+#~ msgid "Address options"
+#~ msgstr "電子發票設定"
+
+#, fuzzy
+#~| msgid "Print ECPay shipping booking note (hilife)"
+#~ msgid "ECPay shipping CVS Hilife"
+#~ msgstr "列印萊爾富超商託運單（綠界）"
+
+#, fuzzy
+#~| msgid "Print ECPay shipping booking note (ecan)"
+#~ msgid "ECPay shipping home Ecan"
+#~ msgstr "列印宅配通託運單（綠界）"
+
+#, fuzzy
+#~| msgid "Ecpay Shipping details"
+#~ msgid "ECPay shipping options"
+#~ msgstr "綠界物流資訊"
+
+#, fuzzy
+#~| msgid "certification"
+#~ msgid "Verification failed!"
+#~ msgstr "自然人憑證"
+
+#, fuzzy
+#~| msgid "物流設定"
+#~ msgid "綠界物流設定"
+#~ msgstr "物流設定"
+
+#, fuzzy
+#~| msgid "Shipping payment no"
+#~ msgid "Auto get shipping payment no"
+#~ msgstr "物流單號"
+
+#, fuzzy
+#~| msgid "shipping"
+#~ msgid "shipping item name"
+#~ msgstr "物流"
+
+#, fuzzy
+#~| msgid "shipping"
+#~ msgid "Cvs shipping type"
+#~ msgstr "物流"
+
+#, fuzzy
+#~| msgid "物流設定"
+#~ msgid "藍新物流設定"
+#~ msgstr "物流設定"
+
+#, fuzzy
+#~| msgid "物流設定"
+#~ msgid "速買配物流設定"
+#~ msgstr "物流設定"
+
+#, fuzzy
+#~| msgid "Print HCT shipping booking note"
+#~ msgid "Print 7-11 shipping Label"
+#~ msgstr "匯出新竹物流報表"
+
+#, fuzzy
+#~| msgid "Print HCT shipping booking note"
+#~ msgid "Print Family shipping Label"
+#~ msgstr "匯出新竹物流報表"
+
+#, fuzzy
+#~| msgid "Print HCT shipping booking note"
+#~ msgid "Print HiLfe shipping Label"
+#~ msgstr "匯出新竹物流報表"
+
+#, fuzzy
+#~| msgid "Print HCT shipping booking note"
+#~ msgid "Print TCat shipping Label"
+#~ msgstr "匯出新竹物流報表"
+
+#, fuzzy
+#~| msgid "Shipping details"
+#~ msgid "View details"
+#~ msgstr "物流資訊"
+
+#~ msgid "Zero total fee without invoice"
+#~ msgstr "零元訂單不開立發票"
+
+#~ msgid "Ecpay invoice result"
+#~ msgstr "電子發票開立結果"
+
+#~ msgid "cloud-invoice"
+#~ msgstr "雲端發票"
+
+#~ msgid "Show invoice number in Frontend order list"
+#~ msgstr "在前台訂單查詢畫面顯示發票號碼"
+
+#~ msgid "support paper type"
+#~ msgstr "支援紙本發票"
+
+#~ msgid "You need print invoice and seed to orderer."
+#~ msgstr "列印紙本發票."
+
+#~ msgid "Success"
+#~ msgstr "成功"
+
+#~ msgid "Move billing company"
+#~ msgstr "調整公司欄位"
+
+#~ msgid "Move billing company to invoice area"
+#~ msgstr "將結帳頁的公司欄位移動到發票區塊中"
+
+#~ msgid "一頁結帳模式"
+#~ msgstr "一頁結帳模式"
