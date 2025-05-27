@@ -255,6 +255,7 @@ final class RY_ECPay_Shipping_admin {
 								}
 								break;
 							case 'HILIFE':
+							case 'HILIFEC2C':
 								if ( $print_type == 'cvs_hilife' ) {
 									$print_list[] = $info;
 								}
