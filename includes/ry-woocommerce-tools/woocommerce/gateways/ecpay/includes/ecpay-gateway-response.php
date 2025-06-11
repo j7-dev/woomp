@@ -67,17 +67,19 @@ class RY_ECPay_Gateway_Response extends RY_ECPay_Gateway_Api {
 			$order->set_transaction_id( self::get_transaction_id( $ipn_info ) );
 			$order->update_meta_data( '_ecpay_payment_type', $payment_type );
 			$order->update_meta_data( '_ecpay_payment_subtype', $payment_subtype );
+			$account = $order->get_meta('_ecpay_atm_vAccount');
 
 			if ('ATM' === $payment_type) {
-				$expireDate = $order->get_meta('_ecpay_atm_ExpireDate');
-				// 如果 $expireDate 字串滿足 ISO 8601 格式，用 regex 驗證
-				if (preg_match('/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\+\d{2}:\d{2}$/', $expireDate)) {
-					$timestamp  = strtotime($expireDate);
+				if ($account) {
+					$expireDate = $order->get_meta('_ecpay_atm_ExpireDate');
+					// 如果 $expireDate 字串滿足 ISO 8601 格式，用 regex 驗證
+					if (preg_match('/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\+\d{2}:\d{2}$/', $expireDate)) {
+						$timestamp = strtotime($expireDate);
 					$expireDate = date('Y-m-d H:i:s', $timestamp); // phpcs:ignore
-				}
+					}
 
-				$order_note = sprintf(
-				/*html*/'
+					$order_note = sprintf(
+					/*html*/'
 			<strong>綠界金流交易紀錄</strong><br>
 			狀態碼：%1$s<br>
 			交易訊息：%2$s<br>
@@ -86,14 +88,15 @@ class RY_ECPay_Gateway_Response extends RY_ECPay_Gateway_Api {
 			轉帳帳號：%5$s<br>
 			轉帳期限：%6$s
 			',
-				$ipn_info['RtnCode'] === '1' ? '1 (成功)' : $ipn_info['RtnCode'] . ' (尚未付款)',
-				$ipn_info['RtnMsg'],
-				$ipn_info['TradeNo'],
-				$order->get_meta('_ecpay_atm_BankCode'),
-				$order->get_meta('_ecpay_atm_vAccount'),
-				$expireDate,
-				);
-				$order->add_order_note($order_note, true );
+					$ipn_info['RtnCode'] === '1' ? '1 (成功)' : $ipn_info['RtnCode'] . ' (尚未付款)',
+					$ipn_info['RtnMsg'],
+					$ipn_info['TradeNo'],
+					$order->get_meta('_ecpay_atm_BankCode'),
+					$account,
+					$expireDate,
+					);
+					$order->add_order_note($order_note, true );
+				}
 			} else {
 				$order_note = sprintf(
 				/*html*/'綠界付款%1$s: <br/>
