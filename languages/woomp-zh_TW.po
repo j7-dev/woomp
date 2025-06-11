@@ -1093,7 +1093,7 @@ msgstr ""
 #, fuzzy
 #| msgid "PAYUNi ATM"
 msgid "統一金流 PAYUNi 信用卡定期定額"
-msgstr "統一金流 ATM"
+msgstr ""
 
 #: admin/settings/class-woomp-setting.php:63
 #: includes/payuni/settings/gateway.php:7
