@@ -473,7 +473,7 @@ if ( ! empty( get_option( ' wc_woomp_setting_place_order_text' ) ) ) {
 	add_filter( 'woocommerce_order_button_text', [ $checkout, 'custom_button_text' ], 99, 1 );
 }
 
-if ( \wc_string_to_bool( \get_option( ' wc_woomp_setting_free_shipping_hint' ) ) ) {
+if ( 'yes' === \get_option( ' wc_woomp_setting_free_shipping_hint' ) ) {
 	\add_action( 'woocommerce_after_shipping_rate', [ $checkout, 'display_free_shipping_hint' ], 99, 2 );
 }
 
