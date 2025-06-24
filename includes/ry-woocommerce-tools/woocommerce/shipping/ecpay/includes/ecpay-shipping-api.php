@@ -150,7 +150,7 @@ class RY_ECPay_Shipping_Api extends RY_ECPay {
 			if (count($shipping_list) == 0) {
 				if ($order->get_payment_method() == 'cod') {
 					$args['IsCollection']     = 'Y';
-					$args['CollectionAmount'] = $order->get_total();
+					$args['CollectionAmount'] = (int) $total;
 				} else {
 					$args['IsCollection']     = 'N';
 					$args['CollectionAmount'] = 0;
@@ -158,7 +158,7 @@ class RY_ECPay_Shipping_Api extends RY_ECPay {
 			}
 			if ($collection == true) {
 				$args['IsCollection']     = 'Y';
-				$args['CollectionAmount'] = $order->get_total();
+				$args['CollectionAmount'] = (int) $total;
 			}
 
 			if ($method_class::$LogisticsType == 'CVS') {
