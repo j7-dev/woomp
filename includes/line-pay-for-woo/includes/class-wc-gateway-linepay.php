@@ -470,7 +470,7 @@ class WC_Gateway_LINEPay extends WC_Payment_Gateway {
 					$order->set_transaction_id( $reserved_transaction_id );
 				}
 			} else {
-				$order->update_status( 'pending', $detail_info->get_error_message() );
+				$order->update_status( 'on-hold', $detail_info->get_error_message() );
 			}
 
 			// FIXME:  not sure purpose.
