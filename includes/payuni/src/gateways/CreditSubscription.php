@@ -30,12 +30,11 @@ class CreditSubscription extends AbstractGateway {
 		// $this->order_button_text = __( '統一金流 PAYUNi 信用卡', 'woomp' );
 
 		$this->id                 = 'payuni-credit-subscription';
-		$this->method_title       = __( '統一金流 PAYUNi 信用卡定期定額', 'woomp' );
+		$this->method_title       = '統一金流 PAYUNi 信用卡定期定額';
 		$this->method_description = __( '透過統一金流 PAYUNi 信用卡定期定額付款', 'woomp' );
 
 		$this->init_form_fields();
 		$this->init_settings();
-
 		$this->title            = $this->get_option( 'title' );
 		$this->description      = $this->get_option( 'description' );
 		$this->supports         = [
