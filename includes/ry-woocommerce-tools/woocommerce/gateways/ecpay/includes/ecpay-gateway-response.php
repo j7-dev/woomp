@@ -104,7 +104,7 @@ class RY_ECPay_Gateway_Response extends RY_ECPay_Gateway_Api {
 				$payment_type,
 				$payment_subtype
 				);
-				$order->add_order_note( $order_note );
+				// $order->add_order_note( $order_note );
 			}
 
 			$order->save();
