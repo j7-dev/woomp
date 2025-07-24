@@ -345,9 +345,9 @@ final class RY_ECPay_Shipping_admin {
 	 * @return array 更新後的批次處理選項
 	 */
 	public static function bulk_action( $actions ) {
-		$actions['get_new_ecpay_no']     = __( 'Get new Ecpay shipping no', 'ry-woocommerce-tools' );
-		$actions['get_new_ecpay_no_cod'] = __( 'Get new Ecpay shipping no with cod', 'ry-woocommerce-tools' );
-		$actions['print_ecpay_post_shipping_label'] = __( 'Print ECPay post shipping label', 'ry-woocommerce-tools' );
+		$actions['get_new_ecpay_no']                = __( 'Get new Ecpay shipping no', 'ry-woocommerce-tools' );
+		$actions['get_new_ecpay_no_cod']            = __( 'Get new Ecpay shipping no with cod', 'ry-woocommerce-tools' );
+		$actions['print_ecpay_post_shipping_label'] = '列印中華郵政宅配單(綠界)';
 		return $actions;
 	}
 
@@ -370,15 +370,15 @@ final class RY_ECPay_Shipping_admin {
 			}
 
 			$order_ids_string = implode( ',', $post_ids );
-			$print_url        = add_query_arg(
+			$print_url        = \add_query_arg(
 				[
 					'page'    => 'ry_print_ecpay_shipping',
 					'orderid' => $order_ids_string,
 					'type'    => 'home_post',
 				],
-				admin_url( 'admin.php' )
+				\admin_url( 'admin.php' )
 			);
-			wp_redirect( $print_url );
+			\wp_redirect( $print_url );
 			exit;
 		}
 
