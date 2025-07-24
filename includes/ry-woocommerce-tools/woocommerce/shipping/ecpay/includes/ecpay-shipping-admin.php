@@ -362,6 +362,13 @@ final class RY_ECPay_Shipping_admin {
 	 */
 	public static function handle_bulk_order_status_update( $redirect_to, $action, $post_ids ) {
 		if ( $action === 'print_ecpay_post_shipping_label' ) {
+			foreach ( $post_ids as $post_id ) {
+				$order = wc_get_order( $post_id );
+				if ( $order && ! $order->get_meta( '_ecpay_shipping_info', true ) ) {
+					RY_ECPay_Shipping_Api::get_code( $post_id );
+				}
+			}
+
 			$order_ids_string = implode( ',', $post_ids );
 			$print_url        = add_query_arg(
 				[
