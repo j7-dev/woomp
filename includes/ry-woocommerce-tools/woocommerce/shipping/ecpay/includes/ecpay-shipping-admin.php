@@ -347,6 +347,7 @@ final class RY_ECPay_Shipping_admin {
 	public static function bulk_action( $actions ) {
 		$actions['get_new_ecpay_no']     = __( 'Get new Ecpay shipping no', 'ry-woocommerce-tools' );
 		$actions['get_new_ecpay_no_cod'] = __( 'Get new Ecpay shipping no with cod', 'ry-woocommerce-tools' );
+		$actions['print_ecpay_post_shipping_label'] = __( 'Print ECPay post shipping label', 'ry-woocommerce-tools' );
 		return $actions;
 	}
 
@@ -360,12 +361,26 @@ final class RY_ECPay_Shipping_admin {
 	 * @return string
 	 */
 	public static function handle_bulk_order_status_update( $redirect_to, $action, $post_ids ) {
+		if ( $action === 'print_ecpay_post_shipping_label' ) {
+			$order_ids_string = implode( ',', $post_ids );
+			$print_url        = add_query_arg(
+				[
+					'page'    => 'ry_print_ecpay_shipping',
+					'orderid' => $order_ids_string,
+					'type'    => 'home_post',
+				],
+				admin_url( 'admin.php' )
+			);
+			wp_redirect( $print_url );
+			exit;
+		}
+
 		if ( ! in_array( $action, [ 'get_new_ecpay_no', 'get_new_ecpay_no_cod' ] ) ) {
 			return $redirect_to;
 		}
 
 		foreach ( $post_ids as $post_id ) {
-			RY_ECPay_Shipping_Api::get_code( $post_id, 'get_new_ecpay_no_cod' === $action  );
+			RY_ECPay_Shipping_Api::get_code( $post_id, 'get_new_ecpay_no_cod' === $action );
 		}
 
 		$order_list_url = admin_url( 'edit.php?post_type=shop_order' );
