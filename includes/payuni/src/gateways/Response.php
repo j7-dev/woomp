@@ -325,7 +325,7 @@ final class Response {
 		}
 
 		// 3D 驗證走以下判斷，會 redirect 到 $data['URL'] 去做 3D 驗證
-		if ( $is_3d_auth ) {
+		if ( $is_3d_auth && isset( $data['URL'] ) ) {
 			return [
 				'result'     => 'success',
 				'redirect'   => $data['URL'],
