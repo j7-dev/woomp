@@ -379,13 +379,14 @@ final class RY_ECPay_Shipping {
 	}
 
 	public static function get_order_support_shipping( $items ) {
+		$found_method = false;
 		foreach ( self::$support_methods as $method => $method_class ) {
 			if ( strpos( $items->get_method_id(), $method ) === 0 ) {
-				return $method;
+				$found_method = $method;
 			}
 		}
 
-		return false;
+		return $found_method;
 	}
 
 	public static function get_code( $order_id, $order ) {
