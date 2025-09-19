@@ -2,7 +2,7 @@
 class RY_ECPay_Shipping_Home_Tcat_Frozen extends RY_ECPay_Shipping_Base {
 
 	public static $LogisticsType    = 'Home';
-	public static $LogisticsSubType = 'TCATFROZEN';
+	public static $LogisticsSubType = 'TCAT';
 
 	public function __construct( $instance_id = 0 ) {
 		$this->id           = 'ry_ecpay_shipping_home_tcat_frozen';

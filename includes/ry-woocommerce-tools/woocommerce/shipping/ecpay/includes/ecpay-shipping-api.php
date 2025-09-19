@@ -119,7 +119,7 @@ class RY_ECPay_Shipping_Api extends RY_ECPay {
 
 			$args = [
 				'MerchantID'           => $MerchantID,
-				'LogisticsType'        => $method_class::$LogisticsType,
+				'LogisticsType'        => \strtoupper($method_class::$LogisticsType),
 				'LogisticsSubType'     => $method_class::$LogisticsSubType,
 				'GoodsAmount'          => (int) $total,
 				'GoodsName'            => $item_names,
