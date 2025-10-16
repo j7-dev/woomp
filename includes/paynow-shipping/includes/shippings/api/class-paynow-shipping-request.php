@@ -365,8 +365,12 @@ class PayNow_Shipping_Request {
 			$api_url = PayNow_Shipping::$api_url . '/Member/Order/PrintFamiB2CLabel';
 		} elseif ( PayNow_Shipping_Logistic_Service::SEVENFROZEN === $service ) {
 			$api_url = PayNow_Shipping::$api_url . '/Member/Order/Print711FreezingB2CLabel';
+		}  elseif ( PayNow_Shipping_Logistic_Service::SEVENFROZEN_C2C === $service ) {
+			$api_url = PayNow_Shipping::$api_url . '/Member/Order/Print711FreezingC2CLabel';
 		} elseif ( PayNow_Shipping_Logistic_Service::FAMIFROZEN === $service ) {
 			$api_url = PayNow_Shipping::$api_url . '/Member/Order/PrintFamiFreezingB2CLabel';
+		} elseif ( PayNow_Shipping_Logistic_Service::FAMIFROZEN_C2C === $service ) {
+			$api_url = PayNow_Shipping::$api_url . '/Member/Order/PrintFamiFreezingC2CLabel';
 		} else {
 			esc_html_e( 'Unsupported shipping service.', 'paynow-shipping' );
 			wp_die();
@@ -375,7 +379,7 @@ class PayNow_Shipping_Request {
 		PayNow_Shipping::log( 'Print shipping label. api_url: ' . $api_url );
 
 		if ( PayNow_Shipping_Logistic_Service::TCAT !== $service && PayNow_Shipping_Logistic_Service::SEVENBULK !== $service && PayNow_Shipping_Logistic_Service::FAMIBULK !== $service &&
-		PayNow_Shipping_Logistic_Service::FAMIFROZEN !== $service && PayNow_Shipping_Logistic_Service::SEVENFROZEN !== $service ) {
+		PayNow_Shipping_Logistic_Service::FAMIFROZEN !== $service && PayNow_Shipping_Logistic_Service::SEVENFROZEN !== $service && PayNow_Shipping_Logistic_Service::SEVENFROZEN_C2C !== $service && PayNow_Shipping_Logistic_Service::FAMIFROZEN_C2C !== $service ) {
 			$response = wp_remote_get( $api_url );
 			PayNow_Shipping::log( 'label:' . wc_print_r( $response, true ) );
 			if ( is_wp_error( $response ) ) {
