@@ -77,8 +77,13 @@ if ( ! class_exists( 'WooMP_Checkout' ) ) {
 		 * 設定取消必填欄位
 		 *
 		 * @param array $fields Fields.
+		 * @return array $fields
 		 */
 		public function set_shipping_field( $fields ) {
+			if (!\function_exists('wc_get_chosen_shipping_method_ids')) {
+				return $fields;
+			}
+
 			$shipping_method = [
 				'ry_ecpay_shipping_cvs_711',
 				'ry_ecpay_shipping_cvs_711_freeze',
