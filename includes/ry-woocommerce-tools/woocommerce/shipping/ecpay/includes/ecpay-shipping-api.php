@@ -55,6 +55,16 @@ class RY_ECPay_Shipping_Api extends RY_ECPay {
 	}
 
 	/**
+	 * 取得代收貨款物流代碼
+	 *
+	 * @param int $order_id 訂單 ID
+	 * @return array|false 物流代碼或 false
+	 */
+	public static function get_code_cod( $order_id ) {
+		self::get_code($order_id, true);
+	}
+
+	/**
 	 * 取得物流代碼
 	 *
 	 * 根據訂單 ID 和設定的前綴字取得物流代碼
@@ -111,11 +121,7 @@ class RY_ECPay_Shipping_Api extends RY_ECPay {
 
 			RY_ECPay_Shipping::log('Generating shipping for order #' . $order->get_order_number() . ' with ' . $get_count . ' times');
 
-			if (version_compare(WC_VERSION, '5.6.0', '>=')) {
-				$shipping_phone = preg_replace('/[^0-9.]+/', '', $order->get_shipping_phone());
-			} else {
-				$shipping_phone = preg_replace('/[^0-9.]+/', '', $order->get_meta('_shipping_phone'));
-			}
+			$shipping_phone = self::normalize_taiwan_mobile( (string) $order->get_shipping_phone());
 
 			$args = [
 				'MerchantID'           => $MerchantID,
@@ -286,14 +292,27 @@ class RY_ECPay_Shipping_Api extends RY_ECPay {
 		}
 	}
 
-	/**
-	 * 取得代收貨款物流代碼
-	 *
-	 * @param int $order_id 訂單 ID
-	 * @return array|false 物流代碼或 false
-	 */
-	public static function get_code_cod( $order_id ) {
-		self::get_code($order_id, true);
+	private static function normalize_taiwan_mobile( string $phone ): string {
+		// 移除所有非數字字元
+		$cleaned = preg_replace('/\D+/', '', $phone);
+
+		// 如果是以 "886" 開頭，去掉 "886"
+		if (strpos($cleaned, '886') === 0) {
+			$cleaned = substr($cleaned, 3);
+		}
+
+		// 如果是以 "09" 開頭，直接回傳
+		if (strpos($cleaned, '09') === 0) {
+			return $cleaned;
+		}
+
+		// 如果是以 "9" 開頭，補上 "0"
+		if (strpos($cleaned, '9') === 0) {
+			return '0' . $cleaned;
+		}
+
+		// 其他情況回傳原始清理後的字串
+		return $cleaned;
 	}
 
 	/**

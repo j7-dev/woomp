@@ -12,7 +12,8 @@ $settings = [
 		'title' => '',
 		'id'    => 'payuni_payment_doc',
 		'type'  => 'title',
-		'desc'  => '<p>預設信用卡金流手續費為2.8%，欲申請優惠費率2.4%，請 <a target="_blank" href="https://www.newpay.com.tw/index.php/payment">點此填表</a></p>',
+		'desc'  => '',
+		// 'desc'  => '<p>預設信用卡金流手續費為2.8%，欲申請優惠費率2.4%，請 <a target="_blank" href="https://www.newpay.com.tw/index.php/payment">點此填表</a></p>',
 	],
 	[
 		'title'   => __( 'Debug log', 'woocommerce' ),
