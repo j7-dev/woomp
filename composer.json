@@ -1,9 +1,43 @@
 {
-  "require": {
-    "oberonlai/wp-metabox": "^1.0",
-    "a7/autoload": "^2.1",
-    "dennykuo/invoice-porter": "^0.2.2",
-    "guzzlehttp/guzzle": "^6.5.8",
-    "yahnis-elsts/plugin-update-checker": "^5.3"
-  }
+	"require": {
+		"oberonlai/wp-metabox": "^1.0",
+		"a7/autoload": "^2.1",
+		"dennykuo/invoice-porter": "^0.2.2",
+		"guzzlehttp/guzzle": "^6.5.8",
+		"yahnis-elsts/plugin-update-checker": "^5.3"
+	},
+	"extra": {
+		"strauss": {
+			"target_directory": "vendor-prefixed",
+			"namespace_prefix": "MyNS\\",
+			"classmap_prefix": "MyNS_",
+			"constant_prefix": "MyNS_",
+			"include_modified_date": false,
+			"delete_vendor_packages": false,
+			"exclude_from_prefix": {
+				"packages": [
+					"yahnis-elsts/plugin-update-checker"
+				]
+			},
+			"exclude_from_copy": {
+				"file_patterns": [
+					"/examples/"
+				]
+			}
+		}
+	},
+	"scripts": {
+		"strauss:clean": "php bin/strauss-clean.php",
+		"strauss:run": "php bin/strauss-wrapper.php",
+		"strauss": [
+			"@strauss:clean",
+			"@strauss:run"
+		],
+		"post-install-cmd": [
+			"@strauss"
+		],
+		"post-update-cmd": [
+			"@strauss"
+		]
+	}
 }
