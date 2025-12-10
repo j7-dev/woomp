@@ -9,9 +9,9 @@
 	"extra": {
 		"strauss": {
 			"target_directory": "vendor-prefixed",
-			"namespace_prefix": "MyNS\\",
-			"classmap_prefix": "MyNS_",
-			"constant_prefix": "MyNS_",
+			"namespace_prefix": "Woomp\\",
+			"classmap_prefix": "Woomp_",
+			"constant_prefix": "Woomp_",
 			"include_modified_date": false,
 			"delete_vendor_packages": false,
 			"exclude_from_prefix": {

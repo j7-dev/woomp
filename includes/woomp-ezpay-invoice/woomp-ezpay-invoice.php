@@ -10,5 +10,5 @@ define( 'EZPAYINVOICE_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
  * Autoload
  */
 if ( wc_string_to_bool( get_option( 'wc_woomp_enabled_ezpay_invoice' ) ) ) {
-	\A7\autoload( WOOMP_PLUGIN_DIR . 'includes/woomp-ezpay-invoice/src' );
+	\Woomp\A7\autoload( WOOMP_PLUGIN_DIR . 'includes/woomp-ezpay-invoice/src' );
 }

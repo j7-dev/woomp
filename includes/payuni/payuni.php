@@ -12,7 +12,7 @@ add_action(
 	'plugins_loaded',
 	function () {
 		if ( wc_string_to_bool( get_option( 'wc_woomp_enabled_payuni_gateway' ) ) || wc_string_to_bool( get_option( 'wc_woomp_enabled_payuni_shipping' ) ) ) {
-			\A7\autoload( WOOMP_PLUGIN_DIR . 'includes/payuni/src' );
+			\Woomp\A7\autoload( WOOMP_PLUGIN_DIR . 'includes/payuni/src' );
 
 			if ( ! class_exists( 'WC_Payment_Gateway' ) ) {
 				wp_die( 'WC_Payment_Gateway not found' );

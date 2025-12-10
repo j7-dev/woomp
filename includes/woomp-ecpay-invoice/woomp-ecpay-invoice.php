@@ -12,5 +12,5 @@ define( 'ECPAYINVOICE_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 
 
 if ( wc_string_to_bool( get_option( 'wc_woomp_enabled_ecpay_invoice' ) ) ) {
-	\A7\autoload( WOOMP_PLUGIN_DIR . 'includes/woomp-ecpay-invoice/src' );
+	\Woomp\A7\autoload( WOOMP_PLUGIN_DIR . 'includes/woomp-ecpay-invoice/src' );
 }

@@ -2,7 +2,7 @@
 
 namespace WOOMPEZPAYINVOICE\APIs;
 
-use InvoicePorter\EzpayInvoice;
+use Woomp\InvoicePorter\EzpayInvoice;
 
 defined( 'ABSPATH' ) || exit;
 

@@ -4,7 +4,7 @@ namespace PAYUNI\Posts\ShopOrder;
 
 defined( 'ABSPATH' ) || exit;
 
-use ODS\Metabox as ODSMetabox;
+use Woomp\ODS\Metabox as ODSMetabox;
 
 class Metabox {
 

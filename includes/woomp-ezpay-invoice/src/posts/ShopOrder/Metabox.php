@@ -2,7 +2,7 @@
 
 namespace WOOMPEZPAYINVOICE\ShopOrder;
 
-use ODS\Metabox;
+use Woomp\ODS\Metabox;
 
 defined( 'ABSPATH' ) || exit;
 

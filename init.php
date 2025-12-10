@@ -43,7 +43,7 @@ if ( ! in_array(
 	return;
 }
 
-require WOOMP_PLUGIN_DIR . 'vendor/autoload.php';
+require WOOMP_PLUGIN_DIR . 'vendor-prefixed/autoload.php';
 
 
 /**
