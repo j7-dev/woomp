@@ -74,7 +74,7 @@ class RY_ECPay_Shipping_Base extends WC_Shipping_Method {
 
 		$has_coupon                = $this->check_has_coupon( $this->requires, [ 'coupon', 'either', 'both' ] );
 		$has_min_amount            = $this->check_has_min_amount( $this->requires, [ 'min_amount', 'either', 'both' ] );
-		$method                    = new \WC_Shipping_Rate( $rate );
+		$method                    = new \WC_Shipping_Rate( $rate['id'], $rate['label'], $rate['cost'], [], $this->id );
 		$rate['meta_data']['diff'] = \WooMP_Checkout::get_diff_amount_by_settings(
 			[
 				'cost_requires'    => $this->requires,
