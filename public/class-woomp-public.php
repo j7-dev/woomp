@@ -143,36 +143,39 @@ class Woomp_Public {
 	 * 虛擬商品自動完成訂單
 	 */
 	public function auto_complete_virtual( $order_id, $status_from, $status_to ) {
-		if ( ! $order_id ) {
+		$enable_autocomplete = \wc_string_to_bool( \get_option( 'wc_woomp_setting_virtual_product_order_auto_complete' ) );
+
+		if (!$enable_autocomplete || 'processing' !== $status_to || ! $order_id) {
 			return;
 		}
 
-		$order               = wc_get_order( $order_id );
-		$enable_autocomplete = wc_string_to_bool( get_option( 'wc_woomp_setting_virtual_product_order_auto_complete' ) );
+		$order = \wc_get_order( $order_id );
+		if (!$order instanceof \WC_Order) {
+			return;
+		}
 
-		if ( $enable_autocomplete && 'processing' === $status_to ) {
-			$virtual_order = null;
+		$virtual_order = true;
+		/** @var WC_Order_Item_Product[] $line_items */
+		$line_items = $order->get_items();
+		if (!$line_items) {
+			return;
+		}
 
-			if ( count( $order->get_items() ) > 0 ) {
-				foreach ( $order->get_items() as $item ) {
-					if ( 'line_item' === $item['type'] ) {
-						$_product = $item->get_product();
-						if ( ! $_product ) {
-							continue;
-						}
-						if ( ! $_product->is_virtual() ) {
-							$virtual_order = false;
-							break;
-						} else {
-							$virtual_order = true;
-						}
-					}
-				}
+		foreach ( $line_items as $item ) {
+			/** @var WC_Order_Item_Product $item */
+			$product = $item->get_product();
+			if ( ! $product instanceof \WC_Product ) {
+				continue;
 			}
 
-			if ( $virtual_order ) {
-				$order->update_status( 'completed' );
+			if ( ! $product->is_virtual() ) {
+				$virtual_order = false;
+				break;
 			}
+		}
+
+		if ( $virtual_order ) {
+			$order->update_status( 'completed' );
 		}
 	}
 }
