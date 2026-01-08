@@ -1,5 +1,7 @@
 <?php
 
+use J7\Payuni\Bootstrap;
+
 defined( 'ABSPATH' ) || exit;
 define( 'PAYUNI_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'PAYUNI_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
@@ -19,6 +21,8 @@ add_action(
 			}
 			\PAYUNI\APIs\Payment::init();
 		}
+        
+        Bootstrap::register_hooks();
 	}
 );
 

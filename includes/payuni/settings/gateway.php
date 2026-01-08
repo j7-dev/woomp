@@ -34,6 +34,12 @@ $settings = [
 		// 'desc'    => __( '啟用 3D 驗證<br>相關設定請參考<a target="_blank" href="https://cloud.luke.cafe/docs/payuni-3d">說明文件</a>', 'woomp' ),
 		'id'      => 'payuni_3d_auth',
 	],
+    [
+        'title'   => '使用免跳轉支付元件(UNi Embed)',
+        'type'    => 'checkbox',
+        'default' => 'yes',
+        'id'      => 'payuni_enable_v3',
+    ],
 	[
 		'type' => 'sectionend',
 		'id'   => 'payment_general_setting',
