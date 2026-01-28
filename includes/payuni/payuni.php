@@ -22,6 +22,7 @@ add_action(
 			\PAYUNI\APIs\Payment::init();
 		}
         
+        // 註冊統一金流 v3 入口
         Bootstrap::register_hooks();
 	}
 );

@@ -16,13 +16,4 @@ enum EMode:string {
             self::PROD => "https://api.payuni.com.tw/api",
         };
     }
-    
-    /** 取得 Merchant id */
-    public function merchant_id(  ):string {
-        return match($this) {
-            self::TEST => (string) \get_option( 'payuni_payment_merchant_no_test' ),
-            self::PROD => (string) \get_option( 'payuni_payment_merchant_no' ),
-        };
-        
-    }
 }
