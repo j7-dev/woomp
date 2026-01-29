@@ -35,6 +35,8 @@ class CreditV3 extends AbstractGateway {
         $this->api_endpoint_url = 'api/credit';
         
         \add_action( "woocommerce_update_options_payment_gateways_{$this->id}", [ $this, 'process_admin_options', ] );
+
+//        \add_action( 'woocommerce_before_checkout_form', [ $this, 'form' ] );
     }
     
     /** @return void 設定後台 form fields */
@@ -66,6 +68,10 @@ class CreditV3 extends AbstractGateway {
         ];
     }
     
+    public function validate_fields(): bool {
+        return true;
+    }
+    
     
     /**
      * 處理付款
@@ -81,8 +87,7 @@ class CreditV3 extends AbstractGateway {
     public function process_payment( $order_id ): array {
         //TODO
         return [
-            'result'   => 'success',
-            'redirect' => $this->get_return_url( $order_id ),
+            'result' => 'failure'
         ];
     }
     

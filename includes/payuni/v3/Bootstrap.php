@@ -7,6 +7,7 @@ namespace J7\Payuni;
 use J7\Payuni\Contracts\DTOs\SdkDTO;
 use J7\Payuni\Contracts\DTOs\SettingDTO;
 use J7\Payuni\Infrastructure\Http\HttpClient;
+use J7\Payuni\Shared\Enums\EMode;
 
 final class Bootstrap {
     
@@ -14,24 +15,9 @@ final class Bootstrap {
     
     /** Register hooks */
     public static function register_hooks(): void {
-        
-        // TEST ----- ▼ 測試特定 hook 記得刪除 ----- //
-        \add_action( 'init', function() {
-            if( isset( $_GET['test'] ) ) {
-                $token = ( new HttpClient() )->get_sdk_token();
-                $sdk = SdkDTO::from( $token );
-                
-                echo '<pre>';
-                \var_dump( $sdk );
-                echo '</pre>';
-            }
-            
-        } );
-        // TEST ---------- END ---------- //
-        
-        
         \add_action( 'woomp_payuni_log', [ __CLASS__, 'log_handler' ], 10, 3 );
         \add_action( 'wp_enqueue_scripts', [ __CLASS__, 'enqueue_checkout_scripts' ] );
+        \add_filter( 'script_loader_tag', [ __CLASS__, 'modify_script_type' ], 10, 3 );
 //        \add_action( 'send_headers', [ __CLASS__, 'add_csp_header' ] );
     }
     
@@ -77,6 +63,25 @@ final class Bootstrap {
             'uni-payment-checkout', WOOMP_PLUGIN_URL . 'includes/payuni/v3/Applications/assets/js/checkout.js',
             [ 'uni-payment', 'jquery' ], WOOMP_VERSION, true // 放在 footer
         );
+        
+        $setting = SettingDTO::instance();
+        $token = ( new HttpClient() )->get_sdk_token();
+        $sdk = SdkDTO::from( $token );
+        \wp_localize_script(
+            'uni-payment-checkout', 'payuni_payment_v3_checkout_params', [
+                                      'ENV'       => $setting->mode === EMode::PROD ? 'P' : 'S',
+                                      'SDK_TOKEN' => $sdk->Token
+                                  ]
+        );
+    }
+    
+    /** 將特定的 script 設定為 type="module" */
+    public static function modify_script_type( $tag, $handle, $src ): string {
+        if( 'uni-payment-checkout' !== $handle ) {
+            return $tag;
+        }
+        // 重新輸出帶有 type="module" 的 script 標籤
+        return '<script type="module" src="' . \esc_url( $src ) . '"></script>' . "\n";
     }
     
     public static function add_csp_header(): void {

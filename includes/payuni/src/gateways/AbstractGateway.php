@@ -400,7 +400,7 @@ if( class_exists( 'WC_Payment_Gateway' ) ) {
         /**
          * Validate payment fields
          *
-         * @return void|bool
+         * @return bool
          */
         public function validate_fields(): bool {
             $gateway_id = $this->id;
