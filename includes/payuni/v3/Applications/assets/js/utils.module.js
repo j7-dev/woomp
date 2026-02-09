@@ -1,4 +1,4 @@
-import {$} from "./env.module";
+import {$} from "./env.module.js";
 
 
 /**

@@ -33,7 +33,20 @@ final class SdkDTO {
         }
     }
     
-    /** 從 API 的結果實例化 */
+    /**
+     * 從 API 的結果實例化
+     *
+     * @param array{
+     * Status: string,
+     * MerID: string,
+     * Version: string,
+     * EncryptInfo:string,
+     * HashInfo:string,
+     * } $result Get Token 的 API 加密回應
+     *
+     * @return self
+     *
+     */
     public static function from( array $result ): self {
         $EncryptInfo = $result['EncryptInfo'] ?? null;
         if( !$EncryptInfo ) {

@@ -7,6 +7,8 @@
 
 namespace PAYUNI\Gateways;
 
+use J7\Payuni\Contracts\DTOs\TradeReqDTO;
+
 \defined( 'ABSPATH' ) || exit;
 
 /**
@@ -85,10 +87,16 @@ class CreditV3 extends AbstractGateway {
      * @return array{result:string, redirect?:string} 'success'|'failure'
      */
     public function process_payment( $order_id ): array {
-        //TODO
-        return [
-            'result' => 'failure'
+        $order = \wc_get_order( $order_id );
+        /** @var \WC_Order $order */
+        $default = [
+            'result'   => 'success',
+            'redirect' => '',
+            'order_id' => $order_id,
         ];
+        $params = TradeReqDTO::of( $order )->to_array();
+        
+        return \array_merge( $default, $params );
     }
     
     /**
