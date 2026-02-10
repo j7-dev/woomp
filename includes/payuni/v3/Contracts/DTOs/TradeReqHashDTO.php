@@ -74,10 +74,9 @@ final class TradeReqHashDTO {
             'TradeAmt'   => (int) $order->get_total(),
             'Timestamp'  => \time(),
             'ReturnURL'  => $order->get_checkout_order_received_url(),
-            'NotifyURL'  => \site_url(),
+            'NotifyURL'  => \home_url( '/wc-api/payuni_notify' ), // WooCommerce API 回調網址
             'UsrMail'    => $order->get_billing_email(),
             'ProdDesc'   => self::get_product_desc( $order ),
-            'BuyerHash'  => $setting_dto->enable_3d_auth ? 1 : 0,
         ];
         
         if( $setting_dto->enable_3d_auth ) {

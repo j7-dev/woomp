@@ -18,7 +18,7 @@ final class OrderUtils {
     public static function update_tmp_data( \WC_Order $order, array $posted_data ): void {
         $card_hash_tmp = $posted_data['card_hash_tmp'] ?? '';
         $sdk_token_tmp = $posted_data['sdk_token_tmp'] ?? '';
-        if( !$card_hash_tmp || !$sdk_token_tmp ) {
+        if( !$card_hash_tmp && !$sdk_token_tmp ) {
             return;
         }
         $order->update_meta_data( 'card_hash_tmp', $card_hash_tmp );

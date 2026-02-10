@@ -74,6 +74,39 @@ class CreditV3 extends AbstractGateway {
         return true;
     }
     
+    /**
+     * 輸出付款表單欄位
+     *
+     * @description 在結帳頁面輸出信用卡輸入框的容器，供 PayUni SDK iframe 渲染
+     * @return void
+     */
+    public function payment_fields(): void {
+        // 輸出付款方式描述
+        if( $this->description ) {
+            echo \wpautop( \wptexturize( $this->description ) );
+        }
+        
+        // 輸出信用卡輸入框容器
+        $html = <<<HTML
+            <div class="payuni-credit-v3-form">
+                <div class="payuni-form-group">
+                    <label for="put_card_no">信用卡號碼</label>
+                    <div id="put_card_no"></div>
+                </div>
+                <div class="payuni-form-group">
+                    <label for="put_card_exp">有效期限</label>
+                    <div id="put_card_exp"></div>
+                </div>
+                <div class="payuni-form-group">
+                    <label for="put_card_cvc">安全碼</label>
+                    <div id="put_card_cvc"></div>
+                </div>
+            </div>
+        HTML;
+        
+        echo $html;
+    }
+    
     
     /**
      * 處理付款
@@ -91,7 +124,7 @@ class CreditV3 extends AbstractGateway {
         /** @var \WC_Order $order */
         $default = [
             'result'   => 'success',
-            'redirect' => '',
+            'redirect' => $order->get_checkout_order_received_url(),
             'order_id' => $order_id,
         ];
         $params = TradeReqDTO::of( $order )->to_array();
@@ -154,25 +187,5 @@ class CreditV3 extends AbstractGateway {
      *
      * @return void
      */
-    public function form(): void {
-        $html = <<<HTML
-            <div class="payment-form">
-                <div class="form-group">
-                    <label>信用卡號碼</label>
-                    <div id="put_card_no"></div>
-                </div>
-                <div class="form-group">
-                    <label>有效期限</label>
-                        <div id="put_card_exp"></div>
-                </div>
-                <div class="form-group">
-                    <label>安全碼</label>
-                    <div id="put_card_cvc"></div>
-                </div>
-            </div>
-        HTML;
-        
-        echo $html;
-        
-    }
+    public function form(): void {}
 }
