@@ -70,7 +70,11 @@ final class Response {
 	public static function card_response( $resp = null ): void {
 		global $woocommerce;
 
-		$encrypt_info = ( $resp ) ? $resp->EncryptInfo : $_REQUEST['EncryptInfo'];
+		$encrypt_info = ( $resp ) ? $resp->EncryptInfo : $_REQUEST['EncryptInfo'] ?? null;
+
+		if(!$encrypt_info){
+			throw new \Exception("接收不到 payuni 回傳的資料， encrypt_info 為 null");
+		}
 
 		$data = Payment::decrypt( $encrypt_info );
 
