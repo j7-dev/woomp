@@ -154,7 +154,14 @@ class EcpayRefundTest extends WP_UnitTestCase {
 			if ( is_array( $parsed_args['body'] ) ) {
 				$body = $parsed_args['body'];
 			} elseif ( is_string( $parsed_args['body'] ) ) {
-				parse_str( $parsed_args['body'], $body );
+				// 不用 parse_str()：送出的 body 同樣未編碼，解碼會改掉含 + 的值。
+				foreach ( explode( '&', $parsed_args['body'] ) as $pair ) {
+					if ( '' === $pair ) {
+						continue;
+					}
+					$kv           = explode( '=', $pair, 2 );
+					$body[ $kv[0] ] = $kv[1] ?? '';
+				}
 			}
 		}
 
@@ -295,6 +302,11 @@ class EcpayRefundTest extends WP_UnitTestCase {
 	 * 依綠界官方規格（2885.md）「不含」CheckMacValue，故以 $include_check_mac=false
 	 * 產生符合真實契約的回應，避免測試以不存在的欄位掩蓋正式站行為。
 	 *
+	 * body 以「未 URL encode 的原文」輸出，對齊綠界真實行為：實測
+	 * `QueryTradeInfo/V5` 回的是 `ItemName=AI 繪圖夢工廠 + 社群玩家特典`（中文、
+	 * 空白、字面 + 全未編碼）。若改用 `http_build_query()` 產生已編碼的 body，
+	 * 會讓 `parse_str()` 實作在測試裡驗章成功、在正式站却 100% 失敗（issue #131）。
+	 *
 	 * @param array $params            回應欄位（不含 CheckMacValue）。
 	 * @param bool  $include_check_mac 是否補上 CheckMacValue（QueryTradeInfo 為 true；DoAction 為 false）。
 	 * @return array WP_Http 風格回應陣列，可直接作為 pre_http_request 短路回傳值。
@@ -304,9 +316,14 @@ class EcpayRefundTest extends WP_UnitTestCase {
 			$params['CheckMacValue'] = $this->generate_ecpay_check_mac_value( $params );
 		}
 
+		$pairs = [];
+		foreach ( $params as $key => $value ) {
+			$pairs[] = $key . '=' . $value;
+		}
+
 		return [
 			'headers'  => [],
-			'body'     => http_build_query( $params, '', '&' ),
+			'body'     => implode( '&', $pairs ),
 			'response' => [
 				'code'    => 200,
 				'message' => 'OK',
@@ -656,7 +673,7 @@ class EcpayRefundTest extends WP_UnitTestCase {
 	// ------------------------------------------------------------------
 
 	/**
-	 * @testdox 案例8：DoAction 回傳非未關帳的失敗 RtnCode 時應回傳含 RtnMsg 的 WP_Error
+	 * @testdox 案例8：R／N／E 三個 Action 全被綠界拒絕時應回傳含三段 RtnMsg 的 WP_Error
 	 * @group error
 	 */
 	public function test_case_08_do_action_non_settlement_failure_returns_wp_error_with_rtn_msg() {
@@ -671,21 +688,24 @@ class EcpayRefundTest extends WP_UnitTestCase {
 				'TradeAmt'        => '1000',
 			]
 		);
-		$this->queue_doaction_response(
-			[
-				'MerchantTradeNo' => $order->get_meta( '_ecpay_MerchantTradeNo' ),
-				'TradeNo'         => $order->get_transaction_id(),
-				'RtnCode'         => '10100050',
-				'RtnMsg'          => $rtn_msg,
-			]
-		);
+		// 盲試序列會依序送出 R → N → E，三條都被拒才算失敗。
+		foreach ( [ $rtn_msg, '更新失敗.(error_status_N)', '更新失敗.(error_status_E)' ] as $msg ) {
+			$this->queue_doaction_response(
+				[
+					'MerchantTradeNo' => $order->get_meta( '_ecpay_MerchantTradeNo' ),
+					'TradeNo'         => $order->get_transaction_id(),
+					'RtnCode'         => '10100050',
+					'RtnMsg'          => $msg,
+				]
+			);
+		}
 
 		$result = $gateway->process_refund( $order->get_id(), 1000, '顧客申請全額退款' );
 
 		$this->assertInstanceOf(
 			WP_Error::class,
 			$result,
-			'DoAction 回傳非未關帳的失敗代碼時應回傳 WP_Error'
+			'R／N／E 三個 Action 全失敗時應回傳 WP_Error'
 		);
 		$this->assertStringContainsString(
 			$rtn_msg,
@@ -693,9 +713,9 @@ class EcpayRefundTest extends WP_UnitTestCase {
 			'WP_Error 訊息應包含綠界回傳的 RtnMsg 內容'
 		);
 		$this->assertCount(
-			1,
+			3,
 			$this->get_sent_doaction_requests(),
-			'非未關帳的失敗不應觸發 Action=N 降級重試'
+			'全額退款失敗時應依序盲試 R、N、E 三個 Action'
 		);
 	}
 
@@ -847,6 +867,145 @@ class EcpayRefundTest extends WP_UnitTestCase {
 			WP_Error::class,
 			$result,
 			'DoAction 回應的 MerchantTradeNo 與本訂單不符時應回傳 WP_Error'
+		);
+	}
+
+	// ------------------------------------------------------------------
+	// 案例 13：品名含字面 + 的退款（issue #131 迴歸防護）
+	// ------------------------------------------------------------------
+
+	/**
+	 * @testdox 案例13：QueryTradeInfo 回應的 ItemName 含字面 + 時仍應驗章成功並完成退款
+	 * @group happy
+	 */
+	public function test_case_13_query_response_with_literal_plus_in_item_name_still_verifies() {
+		$gateway = new RY_ECPay_Gateway_Credit();
+		$order   = $this->create_ecpay_order( $gateway->id, 1460, 'EC' . wp_rand( 100000, 999999 ) );
+
+		// 綠界回應未做 URL encode，字面 + 會被 parse_str() 吃成空白，
+		// 造成重算的 CheckMacValue 永遠對不上——此案例鎖住該行為。
+		$this->queue_query_response(
+			[
+				'MerchantTradeNo' => $order->get_meta( '_ecpay_MerchantTradeNo' ),
+				'TradeNo'         => $order->get_transaction_id(),
+				'TradeAmt'        => '1460',
+				'ItemName'        => 'AI 繪圖夢工廠 + 社群玩家特典：Midjourney、Stable Diffusion',
+			]
+		);
+		$this->queue_doaction_response(
+			[
+				'MerchantTradeNo' => $order->get_meta( '_ecpay_MerchantTradeNo' ),
+				'TradeNo'         => $order->get_transaction_id(),
+				'RtnCode'         => '1',
+				'RtnMsg'          => 'Succeeded',
+			]
+		);
+
+		$result = $gateway->process_refund( $order->get_id(), 1460, '顧客申請全額退款' );
+
+		$this->assertTrue(
+			$result,
+			'品名含字面 + 的訂單應能正常退款（不得因 parse_str() 解碼而驗章失敗）'
+		);
+		$this->assertNotEmpty(
+			$this->get_sent_doaction_requests(),
+			'驗章通過後應繼續送出 CreditDetail/DoAction'
+		);
+	}
+
+	// ------------------------------------------------------------------
+	// 案例 14：降級序列第三段 E→N（已請款待關帳）
+	// ------------------------------------------------------------------
+
+	/**
+	 * @testdox 案例14：R 與 N 皆失敗時應降級送出 E 取消關帳並接續 N 放棄授權
+	 * @group happy
+	 */
+	public function test_case_14_falls_back_to_cancel_settlement_then_void() {
+		$gateway = new RY_ECPay_Gateway_Credit();
+		$order   = $this->create_ecpay_order( $gateway->id, 1000, 'EC' . wp_rand( 100000, 999999 ) );
+
+		$this->queue_query_response(
+			[
+				'MerchantTradeNo' => $order->get_meta( '_ecpay_MerchantTradeNo' ),
+				'TradeNo'         => $order->get_transaction_id(),
+				'TradeAmt'        => '1000',
+			]
+		);
+		// R 失敗 → N 失敗 → E 成功 → N 成功。
+		$sequence = [
+			[ '10100050', '更新失敗.(error_amount_R)' ],
+			[ '10100050', '更新失敗.(error_status_N)' ],
+			[ '1', 'Succeeded' ],
+			[ '1', 'Succeeded' ],
+		];
+		foreach ( $sequence as list( $code, $msg ) ) {
+			$this->queue_doaction_response(
+				[
+					'MerchantTradeNo' => $order->get_meta( '_ecpay_MerchantTradeNo' ),
+					'TradeNo'         => $order->get_transaction_id(),
+					'RtnCode'         => $code,
+					'RtnMsg'          => $msg,
+				]
+			);
+		}
+
+		$result = $gateway->process_refund( $order->get_id(), 1000, '顧客申請全額退款' );
+
+		$this->assertTrue( $result, 'E 取消關帳後接續 N 放棄授權成功時應回傳 true' );
+
+		$actions = array_map(
+			static function ( $request ) {
+				return $request['body']['Action'] ?? '';
+			},
+			$this->get_sent_doaction_requests()
+		);
+		$this->assertSame(
+			[ 'R', 'N', 'E', 'N' ],
+			$actions,
+			'盲試序列送出的 Action 順序應為 R → N → E → N'
+		);
+	}
+
+	// ------------------------------------------------------------------
+	// 案例 15：部分退款不進入降級序列
+	// ------------------------------------------------------------------
+
+	/**
+	 * @testdox 案例15：部分退款於 R 失敗時應直接回傳 WP_Error，不嘗試 N／E
+	 * @group error
+	 */
+	public function test_case_15_partial_refund_does_not_fall_back_to_void_actions() {
+		$gateway = new RY_ECPay_Gateway_Credit();
+		$order   = $this->create_ecpay_order( $gateway->id, 1000, 'EC' . wp_rand( 100000, 999999 ) );
+
+		$this->queue_query_response(
+			[
+				'MerchantTradeNo' => $order->get_meta( '_ecpay_MerchantTradeNo' ),
+				'TradeNo'         => $order->get_transaction_id(),
+				'TradeAmt'        => '1000',
+			]
+		);
+		$this->queue_doaction_response(
+			[
+				'MerchantTradeNo' => $order->get_meta( '_ecpay_MerchantTradeNo' ),
+				'TradeNo'         => $order->get_transaction_id(),
+				'RtnCode'         => '10100050',
+				'RtnMsg'          => '更新失敗.(error_amount_R)',
+			]
+		);
+
+		$result = $gateway->process_refund( $order->get_id(), 300, '顧客申請部分退款' );
+
+		$this->assertInstanceOf(
+			WP_Error::class,
+			$result,
+			'部分退款於 R 失敗時應回傳 WP_Error'
+		);
+		$this->assertCount(
+			1,
+			$this->get_sent_doaction_requests(),
+			'部分退款不得降級為 N／E（兩者皆為全額語意，會誤退全額）'
 		);
 	}
 }

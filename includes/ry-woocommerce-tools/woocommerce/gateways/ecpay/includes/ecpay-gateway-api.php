@@ -183,8 +183,8 @@ $("#ry-ecpay-form").submit();'
 	 * 流程：
 	 * 1. 前置檢查綠界交易編號（TradeNo）存在、分期強制全額退款。
 	 * 2. QueryTradeInfo 前置驗證訂單付款狀態，失敗即中止（不送出 DoAction）。
-	 * 3. 送出 DoAction Action=R 退刷；RtnCode=1 即成功。
-	 * 4. 若綠界回覆「尚未關帳」且為全額退款，降級送出 Action=N 取消授權。
+	 * 3. 全額退款依序盲試 Action：R（已關帳退刷）→ N（已授權未關帳放棄）→ E→N（已請款待關帳）。
+	 * 4. 部分退款只有 R 可用（N／E 皆為全額語意），R 失敗即中止。
 	 * 5. 其他失敗一律回 WP_Error（fail-closed，不標記已退款）。
 	 *
 	 * @param WC_Order           $order   訂單物件。
@@ -254,43 +254,97 @@ $("#ry-ecpay-form").submit();'
 			return true;
 		}
 
-		// 綠界回覆尚未關帳且為全額退款 → 降級 Action=N 取消授權。
-		$rtn_msg = (string) ( $result['RtnMsg'] ?? '' );
-		if ( false !== strpos( $rtn_msg, '未關帳' ) && $is_full ) {
-			$result_n = self::do_credit_action( $order, 'N', $refund_amount );
-			if ( is_wp_error( $result_n ) ) {
-				return $result_n;
-			}
+		$rtn_msg_r = (string) ( $result['RtnMsg'] ?? '' );
 
-			if ( '1' === (string) ( $result_n['RtnCode'] ?? '' ) ) {
-				$order->add_order_note(
-					sprintf(
-						/* translators: 1: 退款金額 2: 綠界回應訊息 */
-						__( '綠界退款成功（尚未關帳，改以放棄授權 N，金額 %1$s）：%2$s', 'ry-woocommerce-tools' ),
-						$refund_amount,
-						$result_n['RtnMsg'] ?? ''
-					)
-				);
-				RY_ECPay_Gateway::log( 'Refund(N) success for #' . $order->get_order_number() . ' amount=' . $refund_amount );
-				return true;
-			}
-
+		// 部分退款只有 R 可用（N／E 皆為全額語意），R 失敗即中止。
+		if ( ! $is_full ) {
 			return new WP_Error(
-				'ry_ecpay_refund_action_n_failed',
+				'ry_ecpay_refund_doaction_rejected',
 				sprintf(
 					/* translators: %s 綠界回應訊息 */
-					__( '綠界退款失敗（放棄授權 N）：%s', 'ry-woocommerce-tools' ),
-					$result_n['RtnMsg'] ?? ''
+					__( '綠界退款失敗：%s', 'ry-woocommerce-tools' ),
+					$rtn_msg_r
 				)
 			);
 		}
 
+		// 降級 1：Action=N 放棄授權（已授權、尚未關帳的交易走這條）。
+		//
+		// 此處刻意不以 RtnMsg 字串判斷交易階段：綠界未公開 DoAction 的錯誤碼／錯誤訊息
+		// 對照表，舊實作的 `strpos( $rtn_msg, '未關帳' )` 在正式站實測回的是
+		// 「更新失敗.(error_amount_R)」，比對不到就不降級、直接 fail。而官方（p=2885）
+		// 已載明各交易狀態對應的 Action，且這些 Action 互斥——狀態不符時只會回失敗，
+		// 不會產生副作用，故改為「依序盲試」：比「先查詢再決策」可靠，且對存量訂單立即生效。
+		$result_n = self::do_credit_action( $order, 'N', $refund_amount );
+		if ( is_wp_error( $result_n ) ) {
+			return $result_n;
+		}
+
+		if ( '1' === (string) ( $result_n['RtnCode'] ?? '' ) ) {
+			$order->add_order_note(
+				sprintf(
+					/* translators: 1: 退款金額 2: 綠界回應訊息 */
+					__( '綠界退款成功（尚未關帳，改以放棄授權 N，金額 %1$s）：%2$s', 'ry-woocommerce-tools' ),
+					$refund_amount,
+					$result_n['RtnMsg'] ?? ''
+				)
+			);
+			RY_ECPay_Gateway::log( 'Refund(N) success for #' . $order->get_order_number() . ' amount=' . $refund_amount );
+			return true;
+		}
+
+		// 降級 2：Action=E 取消關帳 → 再送 N 放棄授權（已請款待關帳的交易走這條）。
+		$result_e = self::do_credit_action( $order, 'E', $refund_amount );
+		if ( is_wp_error( $result_e ) ) {
+			return $result_e;
+		}
+
+		if ( '1' === (string) ( $result_e['RtnCode'] ?? '' ) ) {
+			$result_en = self::do_credit_action( $order, 'N', $refund_amount );
+
+			if ( ! is_wp_error( $result_en ) && '1' === (string) ( $result_en['RtnCode'] ?? '' ) ) {
+				$order->add_order_note(
+					sprintf(
+						/* translators: 1: 退款金額 2: 綠界回應訊息 */
+						__( '綠界退款成功（已取消關帳 E 後放棄授權 N，金額 %1$s）：%2$s', 'ry-woocommerce-tools' ),
+						$refund_amount,
+						$result_en['RtnMsg'] ?? ''
+					)
+				);
+				RY_ECPay_Gateway::log( 'Refund(E->N) success for #' . $order->get_order_number() . ' amount=' . $refund_amount );
+				return true;
+			}
+
+			// E 已成功但 N 失敗：交易停在「已授權未關帳」的中間狀態，必須讓商家知道並人工收尾。
+			$en_msg = is_wp_error( $result_en ) ? $result_en->get_error_message() : (string) ( $result_en['RtnMsg'] ?? '' );
+			$order->add_order_note(
+				sprintf(
+					/* translators: %s 綠界回應訊息 */
+					__( '綠界退款未完成：已取消關帳（E）但放棄授權（N）失敗，交易目前停在「已授權未關帳」狀態，請登入綠界廠商後台人工完成。綠界回應：%s', 'ry-woocommerce-tools' ),
+					$en_msg
+				)
+			);
+			RY_ECPay_Gateway::log( 'Refund(E ok, N failed) for #' . $order->get_order_number() . ': ' . $en_msg, 'error' );
+
+			return new WP_Error(
+				'ry_ecpay_refund_action_en_incomplete',
+				sprintf(
+					/* translators: %s 綠界回應訊息 */
+					__( '綠界退款未完成：已取消關帳但放棄授權失敗（%s），交易停在「已授權未關帳」，請至綠界廠商後台人工完成。', 'ry-woocommerce-tools' ),
+					$en_msg
+				)
+			);
+		}
+
+		// R、N、E 三條都被綠界拒絕：一併回報三次的 RtnMsg，便於判斷交易實際狀態。
 		return new WP_Error(
 			'ry_ecpay_refund_doaction_rejected',
 			sprintf(
-				/* translators: %s 綠界回應訊息 */
-				__( '綠界退款失敗：%s', 'ry-woocommerce-tools' ),
-				$rtn_msg
+				/* translators: 1: 退刷 R 訊息 2: 放棄授權 N 訊息 3: 取消關帳 E 訊息 */
+				__( '綠界退款失敗（退刷 R：%1$s；放棄授權 N：%2$s；取消關帳 E：%3$s）。請登入綠界廠商後台確認交易狀態。', 'ry-woocommerce-tools' ),
+				$rtn_msg_r,
+				$result_n['RtnMsg'] ?? '',
+				$result_e['RtnMsg'] ?? ''
 			)
 		);
 	}
@@ -304,9 +358,17 @@ $("#ry-ecpay-form").submit();'
 	protected static function query_trade_info( $order ) {
 		list( $merchant_id, $hash_key, $hash_iv ) = RY_ECPay_Gateway::get_ecpay_api_info();
 
+		$merchant_trade_no = $order->get_meta( '_ecpay_MerchantTradeNo' );
+		if ( empty( $merchant_trade_no ) ) {
+			return new WP_Error(
+				'ry_ecpay_refund_no_merchant_trade_no',
+				__( '訂單缺少綠界特店交易編號（MerchantTradeNo），無法查詢交易狀態。請登入綠界廠商後台處理退款。', 'ry-woocommerce-tools' )
+			);
+		}
+
 		$args = [
 			'MerchantID'      => $merchant_id,
-			'MerchantTradeNo' => $order->get_meta( '_ecpay_MerchantTradeNo' ),
+			'MerchantTradeNo' => $merchant_trade_no,
 			'TimeStamp'       => time(),
 		];
 		$args = self::add_check_value( $args, $hash_key, $hash_iv, 'sha256' );
@@ -319,11 +381,37 @@ $("#ry-ecpay-form").submit();'
 			);
 		}
 
-		parse_str( wp_remote_retrieve_body( $response ), $result );
+		$body = trim( (string) wp_remote_retrieve_body( $response ) );
+		RY_ECPay_Gateway::log( 'QueryTradeInfo response for #' . $order->get_order_number() . ': ' . $body );
 
-		if ( ! self::verify_response_check_value( $result, $hash_key, $hash_iv ) ) {
-			return new WP_Error( 'ry_ecpay_refund_query_checkmac_failed', __( '綠界查詢回應驗證失敗（CheckMacValue 不符），退款已中止。', 'ry-woocommerce-tools' ) );
+		$raw = self::parse_response_body( $body );
+
+		// 綠界 QueryTradeInfo 回應「不」對值做 URL encode（中文、空白、字面 + 全是原文輸出），
+		// 而 CheckMacValue 是用這些原始值簽的。若改用 parse_str() 解析，它會依
+		// x-www-form-urlencoded 語意把字面 + 解成空白、把 %xx 解碼，值被改掉後重算的
+		// 章永遠對不上（例：品名「AI 繪圖夢工廠 + 社群玩家特典」的訂單退款 100% 失敗）。
+		// 故優先以未解碼的原始字串驗章；為相容綠界日後改為編碼輸出，再以 parse_str() 退而驗一次。
+		if ( self::verify_response_check_value( $raw, $hash_key, $hash_iv ) ) {
+			$result = $raw;
+		} else {
+			parse_str( $body, $decoded );
+			if ( self::verify_response_check_value( $decoded, $hash_key, $hash_iv ) ) {
+				$result = $decoded;
+			} elseif ( ! isset( $raw['CheckMacValue'] ) ) {
+				return new WP_Error(
+					'ry_ecpay_refund_query_bad_response',
+					sprintf(
+						/* translators: %s 綠界原始回應內容 */
+						__( '綠界查詢交易狀態失敗，綠界回應：%s', 'ry-woocommerce-tools' ),
+						mb_substr( wp_strip_all_tags( $body ), 0, 200 )
+					)
+				);
+			} else {
+				return new WP_Error( 'ry_ecpay_refund_query_checkmac_failed', __( '綠界查詢回應驗證失敗（CheckMacValue 不符），退款已中止。', 'ry-woocommerce-tools' ) );
+			}
 		}
+
+		// TradeStatus 非 1 時可能是綠界錯誤碼（例：10200047 交易不存在），一律視為未完成付款。
 
 		if ( '1' !== (string) ( $result['TradeStatus'] ?? '' ) ) {
 			return new WP_Error( 'ry_ecpay_refund_trade_not_paid', __( '訂單尚未完成付款，無法退款。', 'ry-woocommerce-tools' ) );
@@ -363,7 +451,11 @@ $("#ry-ecpay-form").submit();'
 			);
 		}
 
-		parse_str( wp_remote_retrieve_body( $response ), $result );
+		$body = trim( (string) wp_remote_retrieve_body( $response ) );
+		RY_ECPay_Gateway::log( 'DoAction(' . $action . ') response for #' . $order->get_order_number() . ': ' . $body );
+
+		// 同樣不能用 parse_str()：綠界回應未編碼，RtnMsg 含中文或 + 時會被改掉。
+		$result = self::parse_response_body( $body );
 
 		// 綠界 CreditDetail/DoAction 回應僅含 MerchantID／MerchantTradeNo／TradeNo／RtnCode／RtnMsg，
 		// 不含 CheckMacValue（與 QueryTradeInfo 不同，故此路徑「不」驗章）。改以「回應綁定原請求」防偽：
@@ -378,6 +470,28 @@ $("#ry-ecpay-form").submit();'
 			return new WP_Error( 'ry_ecpay_refund_doaction_mismatch', __( '綠界退款回應與本訂單不符，退款已中止。', 'ry-woocommerce-tools' ) );
 		}
 
+		return $result;
+	}
+
+	/**
+	 * 解析綠界回應的 form-urlencoded body（不做 URL 解碼）
+	 *
+	 * 綠界回應是以原文輸出的（中文不編碼、空白不轉 +、字面 + 也不轉 %2B），
+	 * 且 CheckMacValue 是用這些原始值簽的。若用 PHP `parse_str()` 會把字面 + 解成空白、
+	 * 把 %xx 解碼、並把 key 中的 `.` 與空白換成 `_`，造成驗章必定失敗。
+	 *
+	 * @param string $body 回應原始內容。
+	 * @return array 解析結果（key/value 皆保留原始字串）。
+	 */
+	protected static function parse_response_body( $body ) {
+		$result = [];
+		foreach ( explode( '&', (string) $body ) as $pair ) {
+			if ( '' === $pair ) {
+				continue;
+			}
+			$kv               = explode( '=', $pair, 2 );
+			$result[ $kv[0] ] = $kv[1] ?? '';
+		}
 		return $result;
 	}
 

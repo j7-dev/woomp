@@ -76,7 +76,11 @@ woomp/
 ### 金流閘道模式
 所有金流閘道繼承 `WC_Payment_Gateway`（或 `WC_Payment_Gateway_CC`）。PayUni v1 使用 `PAYUNI\Gateways\AbstractGateway`。PayUni v3 使用 PSR-4 命名空間 `J7\Payuni\`，搭配 DTO/Infrastructure 分層架構。
 
-ECPay（綠界）閘道基底 `RY_ECPay_Gateway_Base` 已實作後台退款（`supports[] = 'refunds'` + `process_refund()`）：信用卡類（`payment_type = Credit`）退款會同步呼叫綠界 `CreditDetail/DoAction` API 退刷（前置以 `QueryTradeInfo` 驗證交易狀態，未關帳且全額退款時降級為放棄授權 `Action=N`）；非信用卡（ATM／超商代碼／超商條碼／WebATM）無線上退款 API，回傳 `WP_Error` 引導商家至綠界後台人工退款。
+ECPay（綠界）閘道基底 `RY_ECPay_Gateway_Base` 已實作後台退款（`supports[] = 'refunds'` + `process_refund()`）：信用卡類（`payment_type = Credit`）退款會同步呼叫綠界 `CreditDetail/DoAction` API，前置以 `QueryTradeInfo` 驗證交易狀態；非信用卡（ATM／超商代碼／超商條碼／WebATM）無線上退款 API，回傳 `WP_Error` 引導商家至綠界後台人工退款。
+
+**退款 Action 採盲試降級序列**：綠界未公開 `DoAction` 的錯誤碼／錯誤訊息對照表，`QueryTradeInfo` 也不回關帳狀態，無法事先判斷交易階段（正式站實測失敗訊息為 `更新失敗.(error_amount_R)`，不含「未關帳」字樣）。官方已載明各狀態對應的 Action 且彼此互斥、狀態不符時只回失敗不產生副作用，故全額退款依序盲試 `R`（已關帳退刷）→ `N`（已授權未關帳放棄）→ `E`→`N`（已請款待關帳）；部分退款只有 `R` 可用（`N`／`E` 皆為全額語意）。`E` 成功但 `N` 失敗時交易停在「已授權未關帳」，會寫入 order note 要求商家至綠界後台人工收尾。
+
+**綠界回應不可用 `parse_str()` 解析**：`QueryTradeInfo/V5` 回應的值完全不做 URL encode（中文、空白、字面 `+` 皆為原文），而 CheckMacValue 是用這些原始值簽的。`parse_str()` 會把字面 `+` 解成空白、把 `%xx` 解碼、把 key 的 `.`／空白換成 `_`，導致重算的驗章必定失敗（品名含 `+` 的訂單退款 100% 失效）。一律改用 `RY_ECPay_Gateway_Api::parse_response_body()`（`explode` 且不 urldecode）。測試中的綠界假回應同理**不可**用 `http_build_query()` 產生，否則測試全綠、正式站全滅。
 
 ### HPOS 相容性
 
