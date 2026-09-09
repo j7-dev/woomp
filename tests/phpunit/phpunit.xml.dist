@@ -40,6 +40,7 @@
 			<file>integration/GatewayRegistrationTest.php</file>
 			<file>integration/PayuniEncryptionTest.php</file>
 			<file>integration/PayuniWebhookTest.php</file>
+			<file>integration/PayuniMerTradeNoTest.php</file>
 			<file>integration/EcpayCallbackTest.php</file>
 			<file>integration/PaynowCallbackTest.php</file>
 			<file>integration/OrderMetaTest.php</file>

@@ -128,13 +128,7 @@ final class Response {
 		$status_failed  = ( 'WC_Subscription' === get_class( $order ) ) ? 'on-hold' : 'failed';
 
 		if ( 'SUCCESS' !== $status ) {
-			$note = '';
-
-			foreach ($formatted_decrypted_data as $key => $value) {
-				$note .= "<strong>{$key}</strong>: {$value}<br>";
-			}
-
-			$order->add_order_note($note);
+			$order->add_order_note( self::format_failure_note( $formatted_decrypted_data ) );
 			$order->update_status( $status_failed );
 			$order->save();
 			\wp_safe_redirect( $order->get_checkout_order_received_url() );
@@ -143,7 +137,10 @@ final class Response {
 
 		$order->payment_complete();
 
-		$order->update_meta_data( '_payuni_order_suffix', (int) $order->get_meta( '_payuni_order_suffix' ) + 1 );
+		// _payuni_order_suffix 不在這裡遞增。
+		// 商店訂單編號是「送出即用掉」，付款成功與否都不能再重複使用，
+		// 因此遞增已移到送出當下（Request::burn_order_suffix()）。
+		// 在這裡再加一次會讓序號每筆成功交易跳兩號，日後以尾碼推導 MerTradeNo 反查交易時會對不上。
 		$order->update_meta_data( '_payuni_resp_status', $status );
 		$order->update_meta_data( '_payuni_resp_message', $message );
 		$order->update_meta_data( '_payuni_resp_trade_no', $trade_no );
@@ -193,6 +190,31 @@ final class Response {
 			\wp_safe_redirect( $order->get_checkout_order_received_url() );
 			exit;
 		}
+	}
+
+	/**
+	 * 組裝交易失敗的訂單備註。
+	 *
+	 * 由 API 階段（Request::build_request()）與授權階段（self::card_response()）共用，
+	 * 兩個階段的失敗備註格式因此一致。
+	 *
+	 * card_hash 會被排除：那是統一金流回傳的 CreditHash，可直接拿來續扣，
+	 * 屬於憑證而非診斷資訊，不應留在後台任何人都看得到的訂單備註裡。
+	 *
+	 * @param array $formatted_decrypted_data self::get_formatted_decrypted_data() 的輸出。
+	 *
+	 * @return string
+	 */
+	public static function format_failure_note( array $formatted_decrypted_data ): string {
+		unset( $formatted_decrypted_data['card_hash'] );
+
+		$note = '<strong>統一金流交易失敗</strong><br>';
+
+		foreach ( $formatted_decrypted_data as $key => $value ) {
+			$note .= "<strong>{$key}</strong>: {$value}<br>";
+		}
+
+		return $note;
 	}
 
 	/**
