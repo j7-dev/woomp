@@ -81,6 +81,8 @@ final class Request {
 		["URL"]=> "https://api.payuni.com.tw/api/credit/api_3d/1711111054055003344"
 		*/
 
+		$formatted_decrypted_data = Response::get_formatted_decrypted_data( $data );
+
 		[
 				'status'            => $status,
 				'card_4no'          => $card_4no,
@@ -88,12 +90,17 @@ final class Request {
 				'card_expiry_month' => $card_expiry_month,
 				'card_expiry_year'  => $card_expiry_year,
 				'is_3d_auth'        => $is_3d_auth,
-			] = Response::get_formatted_decrypted_data( $data );
+			] = $formatted_decrypted_data;
 
 		Payment::log( $data );
 
 		// 結帳頁顯示錯誤訊息.
 		if ( 'SUCCESS' !== $status ) {
+			// 統一金流在 API 階段就同步回錯誤時不會進到 Response::card_response()，這裡是唯一拿得到回應內容的地方。
+			// 不留存的話後台只剩一張沒有任何線索的待付款單，錯誤碼、發卡行、卡號末四碼全部遺失，
+			// 事後追查只能回頭問顧客。備註格式與 Response::card_response() 的失敗備註共用同一個組裝函式。
+			$order->add_order_note( Response::format_failure_note( $formatted_decrypted_data ) );
+
 			if ( \is_checkout() && ! \in_array( $data['Status'], [ 'CREDIT04001', 'ATM04001' ] ) ) {
 				// "已存在相同商店訂單編號" 已經用新建訂單解決，不用顯示錯誤
 				\wc_add_notice( $data['Message'], 'error' );
@@ -132,6 +139,36 @@ final class Request {
 	}
 
 	/**
+	 * 取用一組沒被用過的 MerTradeNo 尾碼，取完立即遞增並存檔。
+	 *
+	 * 統一金流的商店訂單編號「10 分鐘內不可重複」（官方 UPP v2 規格，長度上限 25、
+	 * 字元限 [A-Za-z0-9_-]）。授權失敗、逾時、或顧客在 3D 驗證頁中斷，都已經把該編號用掉，
+	 * 沿用同一組重送會被回 CREDIT04001「已存在相同商店訂單編號」，
+	 * 顧客在結帳頁重按送出、或從「再次嘗試付款」重試同一張訂單就永遠付不了。
+	 *
+	 * 原本 _payuni_order_suffix 只在付款成功後才 +1（Response::card_response()），
+	 * 也就是只在「不再需要它」的時候才遞增，在「需要它」的失敗情境永遠不動，等於從未生效。
+	 * 改為送出即取號：不論後續成功或失敗，這組編號都不會再被用第二次。
+	 *
+	 * 第一次仍是裸編號（例如 34916），第二次才變 34916-1，統一金流後台既有的編號格式不受影響；
+	 * 回呼端本來就以 explode('-')[0] 還原訂單 ID，故加尾碼不影響對帳。
+	 *
+	 * @see Response::get_formatted_decrypted_data()
+	 *
+	 * @param \WC_Order $order The order object.
+	 *
+	 * @return string 空字串或 '-{n}'。
+	 */
+	private static function burn_order_suffix( WC_Order $order ): string {
+		$suffix_seq = (int) $order->get_meta( '_payuni_order_suffix' );
+
+		$order->update_meta_data( '_payuni_order_suffix', $suffix_seq + 1 );
+		$order->save();
+
+		return $suffix_seq ? '-' . $suffix_seq : '';
+	}
+
+	/**
 	 * Build transaction args.
 	 *
 	 * @see https://www.payuni.com.tw/docs/web/#/7/35
@@ -142,7 +179,7 @@ final class Request {
 	 * @return array{MerID:string, Version:string, EncryptInfo:string, HashInfo:string}
 	 */
 	public function get_transaction_args( WC_Order $order, ?array $card_data ): array {
-		$order_suffix = ( $order->get_meta( '_payuni_order_suffix' ) ) ? '-' . $order->get_meta( '_payuni_order_suffix' ) : '';
+		$order_suffix = self::burn_order_suffix( $order );
 
 		$args = [
 			'MerID'      => $this->gateway->get_mer_id(),
@@ -263,7 +300,7 @@ final class Request {
 	 * @param \WC_Order $order The subscription order object.
 	 */
 	public function build_subscription_request( float|int $amount, WC_Order $order ): void {
-		$order_suffix = ( $order->get_meta( '_payuni_order_suffix' ) ) ? '-' . $order->get_meta( '_payuni_order_suffix' ) : '';
+		$order_suffix = self::burn_order_suffix( $order );
 
 		$args = [
 			'MerID'       => $this->gateway->get_mer_id(),
